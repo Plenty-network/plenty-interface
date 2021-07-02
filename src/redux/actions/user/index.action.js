@@ -1,4 +1,4 @@
-import { SAVE_USER_DETAILS } from "../constants/index";
+import { SAVE_USER_DETAILS } from "./user.constants";
 
 export const saveUserDetails = (userData) => {
   return async (dispatch) => {

@@ -1,11 +1,11 @@
 import React from "react";
 import { Provider } from "react-redux";
 import Routes from "./routes";
-import configureStore from "../store/index";
+//import configureStore from "../store/index";
 
-const WarppaedRoute = () => {
+const WarppaedRoute = (props) => {
   return (
-    <Provider store={configureStore}>
+    <Provider store={props.store}>
       <Routes />
     </Provider>
   );

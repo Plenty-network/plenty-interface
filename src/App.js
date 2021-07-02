@@ -1,14 +1,11 @@
-import { useDispatch, useSelector } from "react-redux";
 import React from "react";
-import { useState } from "react";
-import Routes from "./routes/routeWrapper";
+import WarppaedRoute from "./routes/routeWrapper";
+import configureStore from "./redux/store/store";
 
-//Redux Actions
-import { saveUserDetails } from "./store/actions/user.actions";
 function App() {
   return (
     <div>
-      <Routes />
+      <WarppaedRoute store={configureStore()} />
     </div>
   );
 }

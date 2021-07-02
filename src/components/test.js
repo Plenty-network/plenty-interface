@@ -1,73 +1,95 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { saveUserDetails } from "../store/actions/user.actions";
+import { saveUserDetails } from "../redux/actions/user/index.action";
 
 export default function Test() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [userState, setUserState] = useState({
-    name: "",
-    lastName: "",
-    mobileNumber: "",
-    address: "",
+    liquidity: 0,
+    tvl: 0,
+    tvlUser: 0,
+    homePageTokenBalance: 0,
+    homePageTokenPrice: 0,
   });
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(userState);
     dispatch(saveUserDetails(userState));
   };
   return (
     <React.Fragment>
-      <div style={{ textAlign: "center" }}>
-        <h2>Name : {user.name}</h2>
-        <h2>Lastname : {user.lastName}</h2>
-        <h2>Mobile Number : {user.mobileNumber}</h2>
-        <h2>Addess : {user.address}</h2>
-      </div>
+      {user && (
+        <div style={{ textAlign: "center" }}>
+          <h2>Liquidity : {user.liquidity}</h2>
+          <h2>tvl : {user.tvl}</h2>
+          <h2>tvlUser : {user.tvlUser}</h2>
+          <h2>homePageTokenBalance : {user.homePageTokenBalance}</h2>
+          <h2>homePageTokenPrice : {user.homePageTokenPrice}</h2>
+        </div>
+      )}
       <div style={{ textAlign: "left" }}>
         <form onSubmit={handleSubmit}>
           <label>
-            Name:
+            Liquidity:
             <input
               type='text'
-              value={userState.name}
+              value={userState.liquidity}
               onChange={(e) =>
-                setUserState({ ...userState, name: e.target.value })
+                setUserState({ ...userState, liquidity: e.target.value })
               }
             />
           </label>
           <br />
           <label>
-            Lastname:
+            tvl:
             <input
               type='text'
-              value={userState.lastName}
+              value={userState.tvl}
               onChange={(e) =>
-                setUserState({ ...userState, lastName: e.target.value })
+                setUserState({ ...userState, tvl: e.target.value })
               }
             />
           </label>
           <br />
           <label>
-            Mobile Number:
+            tvlUser:
             <input
               type='text'
-              value={userState.mobileNumber}
+              value={userState.tvlUser}
               onChange={(e) =>
-                setUserState({ ...userState, mobileNumber: e.target.value })
+                setUserState({ ...userState, tvlUser: e.target.value })
               }
             />
           </label>
           <br />
           <label>
-            Address:
+            homePageTokenBalance:
             <input
               type='text'
-              value={userState.address}
+              value={userState.homePageTokenBalance}
               onChange={(e) =>
-                setUserState({ ...userState, address: e.target.value })
+                setUserState({
+                  ...userState,
+                  homePageTokenBalance: e.target.value,
+                })
               }
             />
           </label>
           <br />
+          <label>
+            homePageTokenPrice:
+            <input
+              type='text'
+              value={userState.homePageTokenPrice}
+              onChange={(e) =>
+                setUserState({
+                  ...userState,
+                  homePageTokenPrice: e.target.value,
+                })
+              }
+            />
+          </label>
           <input type='submit' value='Submit' />
         </form>
       </div>
