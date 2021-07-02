@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Test from "../components/test";
-import Header from "../components/Header/Header";
+import Test from "../Components/test";
+import Header from "../Components/Header/Header";
 import { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme, GlobalStyles } from "../themes";
 import { useState } from "react";
