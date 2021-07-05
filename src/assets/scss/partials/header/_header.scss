@@ -4,6 +4,9 @@
   align-items: center;
   padding-top: 30px;
   padding-bottom: 30px;
+  > * {
+    flex: 33.33%;
+  }
 }
 .header-col-center {
   margin: 0 auto;
@@ -19,11 +22,8 @@
   align-items: center;
   padding: 0;
   margin: 0;
-}
-.nav-menu-item {
-  margin-right: 30px;
   &:last-child {
-    margin-right: 0;
+    justify-content: flex-end;
   }
 }
 .nav-menu-item-link {
@@ -33,6 +33,9 @@
   font-weight: 500;
   font-size: 16px;
   line-height: 29px;
+  padding: 0 15px;
+  text-align: center;
+  text-transform: capitalize;
   &:hover {
     text-decoration: none;
     color: #2d323d;

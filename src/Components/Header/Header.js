@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -11,7 +12,7 @@ import logo from '../../assets/images/logo.png';
 
 const Header = (props) => {
   const menus = {
-    navigation: ['Swap', 'Farms', 'Pools', 'Ponds'],
+    navigation: ['swap', 'farms', 'pools', 'ponds'],
   };
   const CustomToggle = React.forwardRef(({ onClick }, ref) => (
     <a
@@ -31,8 +32,8 @@ const Header = (props) => {
       <Row>
         <Col sm={12} md={11} className="header-col-center">
           <Navbar className="menu-wrapper">
-            <div className="logo-section">
-              <Navbar.Brand href="/">
+            <div>
+              <Navbar.Brand href="/" className="logo-section">
                 <Image src={logo} fluid />
               </Navbar.Brand>
             </div>
@@ -40,9 +41,9 @@ const Header = (props) => {
               {menus.navigation.map((menu, index) => {
                 return (
                   <li className="nav-menu-item" key={index}>
-                    <a href="#" className="nav-menu-item-link">
+                    <Link to={`/${menu}`} className="nav-menu-item-link">
                       {menu}
-                    </a>
+                    </Link>
                   </li>
                 );
               })}
