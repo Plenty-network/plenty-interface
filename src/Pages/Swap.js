@@ -1,17 +1,27 @@
 import React from 'react';
 
+import TransactionSettings from '../Components/TransactionSettings/TransactionSettings';
+import SwapModal from '../Components/SwapModal/SwapModal';
+
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Dropdown from 'react-bootstrap/Dropdown';
+
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-
-import TransactionSettings from '../Components/TransactionSettings/TransactionSettings';
 
 import logo from '../assets/images/logo_small.png';
 import kalam from '../assets/images/kalam.png';
 
+import { useState } from 'react';
+
 const Swap = () => {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
     <Container fluid>
       <Row>
@@ -21,7 +31,7 @@ const Swap = () => {
               <Tab eventKey="swap" title="Swap">
                 <div className="swap-content-box">
                   <div className="swap-token-select-box">
-                    <button className="token-selector">
+                    <button className="token-selector" onClick={handleShow}>
                       <img src={logo} className="button-logo" />
                       Plenty
                     </button>
@@ -30,7 +40,7 @@ const Swap = () => {
 
                 <div className="swap-content-box">
                   <div className="swap-token-select-box">
-                    <button className="token-selector">
+                    <button className="token-selector" onClick={handleShow}>
                       <img src={kalam} className="button-logo" />
                       Kalam
                     </button>
@@ -57,6 +67,13 @@ const Swap = () => {
           </div>
         </Col>
       </Row>
+      <SwapModal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+        animation={false}
+      />
     </Container>
   );
 };
