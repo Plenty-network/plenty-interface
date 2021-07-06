@@ -1,4 +1,5 @@
 .swap-content-container {
+  position: relative;
   max-width: 522px;
   padding: 40px;
   background-color: #fff;
@@ -50,4 +51,27 @@
 }
 .button-logo {
   margin-right: 10px;
+}
+.transaction-setting {
+  position: absolute;
+  top: 42px;
+  right: 22px;
+}
+.transaction-settings-dropdown {
+  min-width: 320px;
+  left: -280px !important;
+  top: 6px !important;
+  background-color: #edeef2;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  box-shadow: 0px 30px 60px rgba(153, 161, 200, 0.34);
+  padding: 24px;
+  border-radius: 15px;
+}
+.transaction-setting-menu-label {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 28px;
+  color: #4e5d78;
 }

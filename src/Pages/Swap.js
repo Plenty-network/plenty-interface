@@ -1,10 +1,12 @@
+import React from 'react';
+
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Dropdown from 'react-bootstrap/Dropdown';
-
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+
+import TransactionSettings from '../Components/TransactionSettings/TransactionSettings';
 
 import logo from '../assets/images/logo_small.png';
 import kalam from '../assets/images/kalam.png';
@@ -50,6 +52,8 @@ const Swap = () => {
                 Auto LP
               </Tab>
             </Tabs>
+
+            <TransactionSettings />
           </div>
         </Col>
       </Row>
