@@ -70,6 +70,7 @@
 }
 .swap-modal {
   .modal-content {
+    max-width: 402px;
     background-color: #fff;
     padding: 24px 30px;
     border-radius: 15px;
@@ -187,4 +188,11 @@
   border: 0;
   background-color: transparent;
   margin: 0;
+}
+.transaction-setting-menu-label {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 17.9523px;
+  line-height: 28px;
+  color: #4e5d78;
 }
