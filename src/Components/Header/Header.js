@@ -7,12 +7,11 @@ import Navbar from 'react-bootstrap/Navbar';
 import Image from 'react-bootstrap/Image';
 import Dropdown from 'react-bootstrap/Dropdown';
 
+import { ExternalMenu, NavigationMenu } from './Menu';
+
 import logo from '../../assets/images/logo.png';
 
 const Header = (props) => {
-  const menus = {
-    navigation: ['Swap', 'Farms', 'Pools', 'Ponds'],
-  };
   const CustomToggle = React.forwardRef(({ onClick }, ref) => (
     <a
       href=""
@@ -37,15 +36,7 @@ const Header = (props) => {
               </Navbar.Brand>
             </div>
             <ul className="nav-menu-wrapper">
-              {menus.navigation.map((menu, index) => {
-                return (
-                  <li className="nav-menu-item" key={index}>
-                    <a href="#" className="nav-menu-item-link">
-                      {menu}
-                    </a>
-                  </li>
-                );
-              })}
+              <NavigationMenu />
             </ul>
             <ul className="nav-menu-wrapper">
               <li className="nav-menu-item">
@@ -74,30 +65,7 @@ const Header = (props) => {
                   ></Dropdown.Toggle>
 
                   <Dropdown.Menu className="menu-dropdown">
-                    <Dropdown.Item
-                      href="https://www.notion.so/Plenty-Docs-082b61c1859e4c4f86d01c3daa0db9ed"
-                      target="_blank"
-                    >
-                      Docs
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      href="https://medium.com/plenty-defi"
-                      target="_blank"
-                    >
-                      Blog
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      href="https://github.com/Plenty-DeFi"
-                      target="_blank"
-                    >
-                      Github
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      href="https://www.notion.so/Roadmap-3d24ab4912c04d48859c332059c665ca"
-                      target="_blank"
-                    >
-                      Roadmap
-                    </Dropdown.Item>
+                    <ExternalMenu />
                   </Dropdown.Menu>
                 </Dropdown>
               </li>
