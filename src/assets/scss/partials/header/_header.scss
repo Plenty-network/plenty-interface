@@ -26,6 +26,23 @@
     justify-content: flex-end;
   }
 }
+.menu-active {
+  position: relative;
+  > .nav-menu-item-link {
+    color: #2d323d;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: #7d00ff;
+    border-radius: 100%;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+}
 .nav-menu-item-link {
   display: block;
   color: #8a94a6;

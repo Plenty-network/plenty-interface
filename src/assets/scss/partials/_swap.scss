@@ -54,7 +54,7 @@
   box-shadow: 0px 10px 30px rgba(138, 149, 158, 0.09);
   font-style: normal;
   font-weight: 500;
-  font-size: 15px;
+  font-size: 12px;
   line-height: 18px;
   color: #4e5d78;
   border-radius: 12px;
@@ -62,6 +62,7 @@
   cursor: pointer;
   border: 0;
   > span {
+    font-size: 16px;
     vertical-align: middle;
   }
 }
@@ -242,16 +243,16 @@
   text-align: right;
   font-style: normal;
   font-weight: 500;
-  font-size: 19.7453px;
+  font-size: 14px;
   line-height: 24px;
-  color: #b0b7c3;
+  color: #4e5d78;
   border: 0;
   background-color: transparent;
   outline: none;
   &::placeholder {
     font-style: normal;
     font-weight: 500;
-    font-size: 19.7453px;
+    font-size: 14px;
     line-height: 24px;
     color: #b0b7c3;
   }
@@ -262,7 +263,7 @@
   border-radius: 8px;
   font-style: normal;
   font-weight: bold;
-  font-size: 12.9295px;
+  font-size: 14px;
   line-height: 17px;
   letter-spacing: 0.0923534px;
   color: #fafafb;
@@ -311,6 +312,7 @@
     font-size: 10px;
     line-height: 11px;
     color: #4e5d78;
+    padding: 14px;
     border: 0;
     border-radius: 0;
     &.active {

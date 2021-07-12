@@ -72,7 +72,7 @@ const SwapTab = (props) => {
         </div>
       </div>
       {props.walletConnected ? (
-        <p style={{ margin: 0, textAlign: 'right' }}>
+        <p style={{ margin: 0, textAlign: 'right', fontSize: '10px' }}>
           1 PLENTY = 1.524251 KALAM
         </p>
       ) : null}
