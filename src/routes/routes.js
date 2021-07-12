@@ -23,7 +23,9 @@ const Routes = () => {
         <Header toggleTheme={toggleTheme} theme={theme} />
         <Switch>
           <Route path="/" exact component={Test} />
-          <Route path="/swap" exact component={Swap} />
+          <Route path="/swap" exact>
+            <Swap walletConnected={true} />
+          </Route>
           <Route path="/farms" component={Farms} />
           <Route path="/pools" component={Pools} />
           <Route path="/ponds" component={Ponds} />

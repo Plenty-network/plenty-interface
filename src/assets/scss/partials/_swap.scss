@@ -1,7 +1,10 @@
+.swap-content-section {
+  margin: 0 auto;
+}
 .swap-content-container {
   position: relative;
-  max-width: 522px;
-  padding: 40px;
+  max-width: 338px;
+  padding: 26px;
   background-color: #fff;
   box-shadow: 0px 23px 44px rgba(176, 183, 195, 0.14);
   border-radius: 15px;
@@ -11,11 +14,11 @@
   > a {
     font-style: normal;
     font-weight: bold;
-    font-size: 22px;
+    font-size: 14px;
     line-height: 23px;
+    padding-bottom: 20px;
     color: #4e5d78;
     border: 0 !important;
-
     & .active {
       border-bottom: 2px solid #5603ad !important;
     }
@@ -24,17 +27,27 @@
     border-bottom: 2px solid #5603ad !important;
   }
 }
+.swap-content-box-wrapper {
+  position: relative;
+  margin-top: 20px;
+}
 .swap-content-box {
-  margin: 40px 0;
+  margin: 4px 0;
+  &:last-child {
+    margin-bottom: 20px;
+  }
 }
 .swap-token-select-box {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
   background-color: #f9fafa;
   mix-blend-mode: normal;
-  padding: 30px 24px;
+  padding: 12px;
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-sizing: border-box;
   border-radius: 15px;
-  margin-bottom: 12px;
 }
 .token-selector {
   background-color: #ffffff;
@@ -44,10 +57,13 @@
   font-size: 15px;
   line-height: 18px;
   color: #4e5d78;
-  border-radius: 15px;
-  padding: 14px;
+  border-radius: 12px;
+  padding: 8px 6px;
   cursor: pointer;
   border: 0;
+  > span {
+    vertical-align: middle;
+  }
 }
 .button-logo {
   margin-right: 10px;
@@ -195,4 +211,106 @@
   font-size: 17.9523px;
   line-height: 28px;
   color: #4e5d78;
+}
+.swap-arrow-center {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  transform: translateY(-50%);
+  background-color: #fff;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  padding: 6px;
+  border: 1px solid rgba(112, 112, 112, 0.27);
+  border-radius: 100%;
+  cursor: pointer;
+  > span {
+    font-size: 16px;
+    font-weight: bold;
+    color: rgba(112, 112, 112, 0.27);
+  }
+}
+.token-user-input {
+  max-width: 100px;
+  text-align: right;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 19.7453px;
+  line-height: 24px;
+  color: #b0b7c3;
+  border: 0;
+  background-color: transparent;
+  outline: none;
+  &::placeholder {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 19.7453px;
+    line-height: 24px;
+    color: #b0b7c3;
+  }
+}
+.swap-content-btn {
+  width: 100%;
+  background-color: #5603ad;
+  border-radius: 8px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12.9295px;
+  line-height: 17px;
+  letter-spacing: 0.0923534px;
+  color: #fafafb;
+  padding: 12px;
+  margin-top: 20px;
+  border: 0;
+  &.enter-amount {
+    background-color: #8a94a6;
+    cursor: not-allowed;
+  }
+  > span {
+    vertical-align: middle;
+    font-size: 20px;
+  }
+}
+.wallet-token-balance {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 14px;
+  color: rgba(78, 93, 120, 0.52);
+  margin: 0;
+  margin-top: 4px;
+}
+.add-liquidity-tip {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 14px;
+  color: #4e5d78;
+  margin-bottom: 10px;
+}
+.liquidity-container-tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
+  &.nav-tabs {
+    border: 0;
+  }
+  > .nav-link {
+    flex: 0 0 50%;
+    text-align: center;
+    background-color: #f9fafa;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 11px;
+    color: #4e5d78;
+    border: 0;
+    border-radius: 0;
+    &.active {
+      background-color: #f2f2f2;
+      border-radius: 6px;
+    }
+  }
 }

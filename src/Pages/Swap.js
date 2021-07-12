@@ -2,64 +2,45 @@ import React from 'react';
 
 import TransactionSettings from '../Components/TransactionSettings/TransactionSettings';
 import SwapModal from '../Components/SwapModal/SwapModal';
+import SwapTab from '../Components/SwapTabsContent/SwapTab';
+import LiquidityTab from '../Components/SwapTabsContent/LiquidityTab';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Dropdown from 'react-bootstrap/Dropdown';
-
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
-import logo from '../assets/images/logo_small.png';
-import kalam from '../assets/images/kalam.png';
-
 import { useState } from 'react';
 
-const Swap = () => {
+const Swap = (props) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const [firstToken, setFirstToken] = useState(0);
+
   return (
     <Container fluid>
       <Row>
-        <Col sm={12} md={12}>
+        <Col sm={8} md={4} className="swap-content-section">
           <div className="swap-content-container">
             <Tabs defaultActiveKey="swap" className="swap-container-tab">
               <Tab eventKey="swap" title="Swap">
-                <div className="swap-content-box">
-                  <div className="swap-token-select-box">
-                    <button className="token-selector" onClick={handleShow}>
-                      <img src={logo} className="button-logo" />
-                      Plenty
-                    </button>
-                  </div>
-                </div>
-
-                <div className="swap-content-box">
-                  <div className="swap-token-select-box">
-                    <button className="token-selector" onClick={handleShow}>
-                      <img src={kalam} className="button-logo" />
-                      Kalam
-                    </button>
-                  </div>
-                </div>
+                <SwapTab
+                  handleShow={handleShow}
+                  walletConnected={props.walletConnected}
+                  setFirstToken={setFirstToken}
+                  firstToken={firstToken}
+                />
               </Tab>
-              <Tab
-                eventKey="liquidity"
-                title="Liquidity"
-                className="swap-container-tab"
-              >
-                Liquidity
-              </Tab>
-              <Tab
-                eventKey="auto"
-                title="Auto LP"
-                className="swap-container-tab"
-              >
-                Auto LP
+              <Tab eventKey="liquidity" title="Liquidity">
+                <LiquidityTab
+                  walletConnected={props.walletConnected}
+                  setFirstToken={setFirstToken}
+                  firstToken={firstToken}
+                />
               </Tab>
             </Tabs>
 
