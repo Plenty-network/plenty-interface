@@ -70,8 +70,13 @@
 }
 .transaction-setting {
   position: absolute;
-  top: 42px;
+  top: 32px;
   right: 22px;
+  > .nav-menu-item-link {
+    > span {
+      font-size: 16px;
+    }
+  }
 }
 .transaction-settings-dropdown {
   min-width: 320px;
@@ -220,14 +225,14 @@
   transform: translateY(-50%);
   background-color: #fff;
   text-align: center;
-  width: 30px;
-  height: 30px;
-  padding: 6px;
+  width: 24px;
+  height: 24px;
+  padding: 2px;
   border: 1px solid rgba(112, 112, 112, 0.27);
   border-radius: 100%;
   cursor: pointer;
   > span {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     color: rgba(112, 112, 112, 0.27);
   }
@@ -312,5 +317,32 @@
       background-color: #f2f2f2;
       border-radius: 6px;
     }
+  }
+}
+.swap-detail-wrapper {
+  background-color: #f9fafa;
+  mix-blend-mode: normal;
+  padding: 14px 20px;
+  border-radius: 15px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.swap-detail-amt-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.swap-detail-amt-details {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 13px;
+  color: #505e79;
+  margin: 0;
+  > span {
+    vertical-align: middle;
+    font-size: 12px;
+    cursor: pointer;
   }
 }

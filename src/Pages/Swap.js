@@ -33,6 +33,7 @@ const Swap = (props) => {
                   walletConnected={props.walletConnected}
                   setFirstToken={setFirstToken}
                   firstToken={firstToken}
+                  setWalletConnected={props.setWalletConnected}
                 />
               </Tab>
               <Tab eventKey="liquidity" title="Liquidity">
@@ -40,6 +41,7 @@ const Swap = (props) => {
                   walletConnected={props.walletConnected}
                   setFirstToken={setFirstToken}
                   firstToken={firstToken}
+                  setWalletConnected={props.setWalletConnected}
                 />
               </Tab>
             </Tabs>

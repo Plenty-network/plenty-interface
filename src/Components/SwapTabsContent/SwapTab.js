@@ -1,9 +1,11 @@
 import logo from '../../assets/images/logo_small.png';
 import kalam from '../../assets/images/kalam.png';
 
+import SwapDetails from '../SwapDetails';
+
 const SwapTab = (props) => {
   let swapContentButton = (
-    <button className="swap-content-btn">
+    <button className="swap-content-btn" onClick={props.setWalletConnected}>
       <span className="material-icons-outlined">add</span> Connect Wallet
     </button>
   );
@@ -75,6 +77,7 @@ const SwapTab = (props) => {
         </p>
       ) : null}
       {swapContentButton}
+      {props.walletConnected && props.firstToken ? <SwapDetails /> : null}
     </div>
   );
 };
