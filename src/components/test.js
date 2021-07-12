@@ -14,7 +14,6 @@ export default function Test() {
   });
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(userState);
     dispatch(saveUserDetails(userState));
   };
   return (
