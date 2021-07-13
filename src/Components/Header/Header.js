@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 
+import { useSelector, useDispatch } from 'react-redux';
+import truncateMiddle from 'truncate-middle';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -11,7 +13,48 @@ import { ExternalMenu, NavigationMenu } from './Menu';
 
 import logo from '../../assets/images/logo.png';
 
+//Redux Actions
+import {
+  connectWallet,
+  disconnectWallet,
+  getWalletAddress,
+} from '../../redux/actions/wallet/wallet.action';
+
 const Header = (props) => {
+  const dispatch = useDispatch();
+  const WalletFromStore = useSelector((state) => state.wallet);
+
+  const fetchWallet = async () => {
+    if (WalletFromStore === null) {
+      await dispatch(connectWallet());
+    }
+  };
+
+  let connectWalletButton = () => {
+    if (WalletFromStore === null) {
+      return (
+        <button
+          className="connect-wallet-btn"
+          onClick={() => {
+            fetchWallet();
+          }}
+        >
+          <span className="material-icons-outlined">add</span>
+          Connect Wallet
+        </button>
+      );
+    }
+
+    return (
+      <button
+        className="disconnect-wallet-btn"
+        onClick={() => dispatch(disconnectWallet())}
+      >
+        {truncateMiddle(WalletFromStore, 4, 4, '...')}
+      </button>
+    );
+  };
+
   const CustomToggle = React.forwardRef(({ onClick }, ref) => (
     <a
       href=""
@@ -28,13 +71,16 @@ const Header = (props) => {
   return (
     <Container fluid>
       <Row>
-        <Col sm={12} md={11} className="header-col-center">
+        <Col sm={12} md={12} className="header-col-center">
           <Navbar className="menu-wrapper">
             <div>
-              <Navbar.Brand href="/" className="logo-section">
-                <Image src={logo} fluid />
-              </Navbar.Brand>
+              <div className="logo-section">
+                <Navbar.Brand href="/">
+                  <Image src={logo} fluid />
+                </Navbar.Brand>
+              </div>
             </div>
+
             <ul className="nav-menu-wrapper">
               <NavigationMenu />
             </ul>
@@ -51,15 +97,8 @@ const Header = (props) => {
                   <span className="material-icons-outlined">light_mode</span>
                 </a>
               </li>
-              <li className="nav-menu-item">
-                <button
-                  className="connect-wallet-btn"
-                  onClick={props.setWalletConnected}
-                >
-                  <span className="material-icons-outlined">add</span> Connect
-                  Wallet
-                </button>
-              </li>
+
+              <li className="nav-menu-item">{connectWalletButton()}</li>
               <li className="nav-menu-item">
                 <Dropdown>
                   <Dropdown.Toggle

@@ -14,7 +14,6 @@ const initialState = {
 };
 
 export default function userReducer(state = initialState, action) {
-  console.log(action.payload);
   switch (action.type) {
     case SAVE_USER_DETAILS:
       return {
