@@ -75,13 +75,16 @@ const Header = (props) => {
   return (
     <Container fluid>
       <Row>
-        <Col sm={12} md={11} className='header-col-center'>
+        <Col sm={12} md={12} className='header-col-center'>
           <Navbar className='menu-wrapper'>
-            <div className='logo-section'>
-              <Navbar.Brand href='/'>
-                <Image src={logo} fluid />
-              </Navbar.Brand>
+            <div>
+              <div className='logo-section'>
+                <Navbar.Brand href='/'>
+                  <Image src={logo} fluid />
+                </Navbar.Brand>
+              </div>
             </div>
+
             <ul className='nav-menu-wrapper'>
               <NavigationMenu />
             </ul>
@@ -98,6 +101,7 @@ const Header = (props) => {
                   <span className='material-icons-outlined'>light_mode</span>
                 </a>
               </li>
+
               <li className='nav-menu-item'>{connectWalletButton()}</li>
               <li className='nav-menu-item'>
                 <Dropdown>

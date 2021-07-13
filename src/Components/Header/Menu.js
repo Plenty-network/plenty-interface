@@ -1,4 +1,5 @@
 import Dropdown from 'react-bootstrap/Dropdown';
+import { Link, useLocation } from 'react-router-dom';
 
 export const ExternalMenu = () => {
   const menu = [
@@ -33,15 +34,26 @@ export const ExternalMenu = () => {
 };
 
 export const NavigationMenu = () => {
-  const menu = ['Swap', 'Farms', 'Pools', 'Ponds'];
+  const menu = ['swap', 'farms', 'pools', 'ponds'];
+  const location = useLocation();
+  const { pathname } = location;
+  const splitLocation = pathname.split('/');
+
   return (
     <>
       {menu.map((menu, index) => {
         return (
-          <li className="nav-menu-item" key={index}>
-            <a href="#" className="nav-menu-item-link">
+          <li
+            className={
+              splitLocation[1] === menu
+                ? 'nav-menu-item menu-active'
+                : 'nav-menu-item'
+            }
+            key={index}
+          >
+            <Link to={menu} className="nav-menu-item-link">
               {menu}
-            </a>
+            </Link>
           </li>
         );
       })}
