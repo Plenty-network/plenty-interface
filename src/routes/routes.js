@@ -8,19 +8,39 @@ import Ponds from '../Pages/Ponds';
 import Pools from '../Pages/Pools';
 import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme, GlobalStyles } from '../themes';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  connectWallet,
+  disconnectWallet,
+  getWalletAddress,
+} from '../redux/actions/wallet/wallet.action';
 
 const Routes = () => {
+  const dispatch = useDispatch();
+  const walletAddress = useSelector((state) => state.wallet);
   const [theme, setTheme] = useState('light');
-  const [walletConnected, setWalletConnected] = useState(false);
 
   const toggleTheme = () => {
     theme === 'light' ? setTheme('dark') : setTheme('light');
   };
 
-  const handleWalletConnect = () => {
-    setWalletConnected(true);
+  const connecthWallet = async () => {
+    if (walletAddress === null) {
+      return dispatch(connectWallet());
+    }
   };
+
+  const disconnectUserWallet = async () => {
+    if (walletAddress) {
+      return dispatch(disconnectWallet());
+    }
+  };
+
+  useEffect(() => {
+    return dispatch(getWalletAddress());
+  }, []);
+
   return (
     <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
       <GlobalStyles />
@@ -28,14 +48,16 @@ const Routes = () => {
         <Header
           toggleTheme={toggleTheme}
           theme={theme}
-          setWalletConnected={handleWalletConnect}
+          connecthWallet={connecthWallet}
+          disconnectWallet={disconnectUserWallet}
+          walletAddress={walletAddress}
         />
         <Switch>
           <Route path="/" exact component={Test} />
           <Route path="/swap" exact>
             <Swap
-              walletConnected={walletConnected}
-              setWalletConnected={handleWalletConnect}
+              walletAddress={walletAddress}
+              connecthWallet={connecthWallet}
             />
           </Route>
           <Route path="/farms" component={Farms} />

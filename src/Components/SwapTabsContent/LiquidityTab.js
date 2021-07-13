@@ -17,7 +17,7 @@ const LiquidityTab = (props) => {
           <Tab eventKey="add" title="Add">
             <AddLiquidity
               setFirstToken={props.setFirstToken}
-              walletConnected={props.walletConnected}
+              walletAddress={props.walletAddress}
               firstToken={props.firstToken}
               setWalletConnected={props.setWalletConnected}
             />
@@ -25,7 +25,7 @@ const LiquidityTab = (props) => {
           <Tab eventKey="remove" title="Remove">
             <RemoveLiquidity
               setFirstToken={props.setFirstToken}
-              walletConnected={props.walletConnected}
+              walletAddress={props.walletAddress}
               firstToken={props.firstToken}
             />
           </Tab>

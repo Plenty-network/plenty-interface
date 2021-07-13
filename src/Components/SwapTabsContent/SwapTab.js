@@ -5,17 +5,17 @@ import SwapDetails from '../SwapDetails';
 
 const SwapTab = (props) => {
   let swapContentButton = (
-    <button className="swap-content-btn" onClick={props.setWalletConnected}>
+    <button className="swap-content-btn" onClick={props.connecthWallet}>
       <span className="material-icons-outlined">add</span> Connect Wallet
     </button>
   );
 
-  if (props.walletConnected) {
+  if (props.walletAddress) {
     swapContentButton = (
       <button className="swap-content-btn enter-amount">Enter an amount</button>
     );
   }
-  if (props.walletConnected && props.firstToken) {
+  if (props.walletAddress && props.firstToken) {
     swapContentButton = <button className="swap-content-btn">Swap</button>;
   }
   return (
@@ -38,7 +38,7 @@ const SwapTab = (props) => {
               onChange={(e) => props.setFirstToken(e.target.value)}
             />
           </div>
-          {props.walletConnected ? (
+          {props.walletAddress ? (
             <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
               <p className="wallet-token-balance">Balance: 0 Plenty</p>
               <p className="wallet-token-balance">~$99.00</p>
@@ -63,7 +63,7 @@ const SwapTab = (props) => {
           <div className="token-user-input-wrapper">
             <input type="text" className="token-user-input" placeholder="0.0" />
           </div>
-          {props.walletConnected ? (
+          {props.walletAddress ? (
             <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
               <p className="wallet-token-balance">Balance: 0 Kalam</p>
               <p className="wallet-token-balance">~$99.00</p>
@@ -71,13 +71,13 @@ const SwapTab = (props) => {
           ) : null}
         </div>
       </div>
-      {props.walletConnected ? (
+      {props.walletAddress ? (
         <p style={{ margin: 0, textAlign: 'right', fontSize: '10px' }}>
           1 PLENTY = 1.524251 KALAM
         </p>
       ) : null}
       {swapContentButton}
-      {props.walletConnected && props.firstToken ? <SwapDetails /> : null}
+      {props.walletAddress && props.firstToken ? <SwapDetails /> : null}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import TransactionSettings from '../Components/TransactionSettings/TransactionSettings';
 import SwapModal from '../Components/SwapModal/SwapModal';
@@ -30,18 +30,18 @@ const Swap = (props) => {
               <Tab eventKey="swap" title="Swap">
                 <SwapTab
                   handleShow={handleShow}
-                  walletConnected={props.walletConnected}
+                  walletAddress={props.walletAddress}
                   setFirstToken={setFirstToken}
                   firstToken={firstToken}
-                  setWalletConnected={props.setWalletConnected}
+                  connecthWallet={props.connecthWallet}
                 />
               </Tab>
               <Tab eventKey="liquidity" title="Liquidity">
                 <LiquidityTab
-                  walletConnected={props.walletConnected}
+                  walletAddress={props.walletAddress}
                   setFirstToken={setFirstToken}
                   firstToken={firstToken}
-                  setWalletConnected={props.setWalletConnected}
+                  connecthWallet={props.connecthWallet}
                 />
               </Tab>
             </Tabs>
