@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import truncateMiddle from "truncate-middle";
@@ -24,9 +24,13 @@ const Header = (props) => {
   const dispatch = useDispatch();
   const WalletFromStore = useSelector((state) => state.wallet);
 
+  useEffect(() => {
+    return dispatch(getWalletAddress());
+  }, []);
+
   const fetchWallet = async () => {
     if (WalletFromStore === null) {
-      await dispatch(connectWallet());
+      return dispatch(connectWallet());
     }
   };
 
