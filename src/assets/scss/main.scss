@@ -2,10 +2,23 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
 @import './partials/header/header';
 @import './partials/swap';
+@import './partials/farms';
 
 .flex {
   display: flex;
 }
 .justify-between {
   justify-content: space-between;
+}
+.align-center {
+  align-items: center;
+}
+.p-90 {
+  padding: 0 90px;
+}
+.p-26 {
+  padding: 0 26px;
+}
+.pb-20 {
+  padding-bottom: 20px;
 }
