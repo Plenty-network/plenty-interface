@@ -60,7 +60,9 @@ const Routes = () => {
               connecthWallet={connecthWallet}
             />
           </Route>
-          <Route path="/farms" component={Farms} />
+          <Route path="/farms">
+            <Farms walletAddress={walletAddress} />
+          </Route>
           <Route path="/pools" component={Pools} />
           <Route path="/ponds" component={Ponds} />
         </Switch>
