@@ -3,17 +3,17 @@ import kalam from '../../../assets/images/kalam.png';
 
 const AddLiquidity = (props) => {
   let swapContentButton = (
-    <button className="swap-content-btn" onClick={props.setWalletConnected}>
+    <button className="swap-content-btn" onClick={props.connecthWallet}>
       <span className="material-icons-outlined">add</span> Connect Wallet
     </button>
   );
 
-  if (props.walletConnected) {
+  if (props.walletAddress) {
     swapContentButton = (
       <button className="swap-content-btn enter-amount">Enter an amount</button>
     );
   }
-  if (props.walletConnected && props.firstToken) {
+  if (props.walletAddress && props.firstToken) {
     swapContentButton = (
       <button className="swap-content-btn">Add Liquidity</button>
     );
@@ -38,7 +38,7 @@ const AddLiquidity = (props) => {
               onChange={(e) => props.setFirstToken(e.target.value)}
             />
           </div>
-          {props.walletConnected ? (
+          {props.walletAddress ? (
             <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
               <p className="wallet-token-balance">Balance: 0 Plenty</p>
             </div>
@@ -67,7 +67,7 @@ const AddLiquidity = (props) => {
               onChange={(e) => props.setSecondToken(e.target.value)}
             />
           </div>
-          {props.walletConnected ? (
+          {props.walletAddress ? (
             <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
               <p className="wallet-token-balance">Balance: 0 Kalam</p>
             </div>

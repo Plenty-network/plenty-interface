@@ -3,7 +3,7 @@ import kalam from '../../../assets/images/kalam.png';
 
 const RemoveLiquidity = (props) => {
   let swapContentButton = (
-    <button className="swap-content-btn">
+    <button className="swap-content-btn" onClick={props.connecthWallet}>
       <span className="material-icons-outlined">add</span> Connect Wallet
     </button>
   );
