@@ -1,6 +1,3 @@
-import logo from '../../assets/images/logo_small.png';
-import kalam from '../../assets/images/kalam.png';
-
 import SwapDetails from '../SwapDetails';
 
 const SwapTab = (props) => {
@@ -23,9 +20,12 @@ const SwapTab = (props) => {
       <div className="swap-content-box">
         <div className="swap-token-select-box">
           <div className="token-selector-balance-wrapper">
-            <button className="token-selector" onClick={props.handleShow}>
-              <img src={logo} className="button-logo" />
-              Plenty{' '}
+            <button
+              className="token-selector"
+              onClick={() => props.handleTokenType('tokenIn')}
+            >
+              <img src={props.tokenIn.image} className="button-logo" />
+              {props.tokenIn.name}{' '}
               <span className="material-icons-outlined">expand_more</span>
             </button>
           </div>
@@ -54,9 +54,13 @@ const SwapTab = (props) => {
       <div className="swap-content-box">
         <div className="swap-token-select-box">
           <div className="token-selector-balance-wrapper">
-            <button className="token-selector" onClick={props.handleShow}>
-              <img src={kalam} className="button-logo" />
-              Kalam <span className="material-icons-outlined">expand_more</span>
+            <button
+              className="token-selector"
+              onClick={() => props.handleTokenType('tokenOut')}
+            >
+              <img src={props.tokenOut.image} className="button-logo" />
+              {props.tokenOut.name}{' '}
+              <span className="material-icons-outlined">expand_more</span>
             </button>
           </div>
 

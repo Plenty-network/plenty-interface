@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 
 import TransactionSettings from '../Components/TransactionSettings/TransactionSettings';
 import SwapModal from '../Components/SwapModal/SwapModal';
@@ -11,15 +11,65 @@ import Col from 'react-bootstrap/Col';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
-import { useState } from 'react';
+import plenty from '../assets/images/logo_small.png';
+import kalam from '../assets/images/kalam.png';
+import wrap from '../assets/images/wrap.png';
+import wdai from '../assets/images/wdai.png';
 
 const Swap = (props) => {
+  const tokens = [
+    {
+      name: 'PLENTY',
+      image: plenty,
+    },
+    {
+      name: 'KALAM',
+      image: kalam,
+    },
+    {
+      name: 'WRAP',
+      image: wrap,
+    },
+    {
+      name: 'wDAI',
+      image: wdai,
+    },
+  ];
+
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
+  const [tokenType, setTokenType] = useState('tokenIn');
+
+  const [tokenIn, setTokenIn] = useState({
+    name: 'PLENTY',
+    image: plenty,
+  });
+  const [tokenOut, setTokenOut] = useState({
+    name: 'PLENTY',
+    image: plenty,
+  });
   const [firstToken, setFirstToken] = useState(0);
+
+  const selectToken = (token) => {
+    if (tokenType === 'tokenIn') {
+      setTokenIn({
+        name: token.name,
+        image: token.image,
+      });
+    } else {
+      setTokenOut({
+        name: token.name,
+        image: token.image,
+      });
+    }
+    handleClose();
+  };
+
+  const handleTokenType = (type) => {
+    setShow(true);
+    setTokenType(type);
+  };
 
   return (
     <Container fluid>
@@ -29,11 +79,13 @@ const Swap = (props) => {
             <Tabs defaultActiveKey="swap" className="swap-container-tab">
               <Tab eventKey="swap" title="Swap">
                 <SwapTab
-                  handleShow={handleShow}
                   walletAddress={props.walletAddress}
                   setFirstToken={setFirstToken}
                   firstToken={firstToken}
                   connecthWallet={props.connecthWallet}
+                  tokenIn={tokenIn}
+                  tokenOut={tokenOut}
+                  handleTokenType={handleTokenType}
                 />
               </Tab>
               <Tab eventKey="liquidity" title="Liquidity">
@@ -53,10 +105,9 @@ const Swap = (props) => {
       <SwapModal
         show={show}
         onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-        animation={false}
-      />
+        selectToken={selectToken}
+        tokens={tokens}
+      ></SwapModal>
     </Container>
   );
 };
