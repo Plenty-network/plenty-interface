@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { loadSwapData, computeTokenOutput } from '../apis/swap/swap';
 
 import TransactionSettings from '../Components/TransactionSettings/TransactionSettings';
 import SwapModal from '../Components/SwapModal/SwapModal';
@@ -49,7 +50,9 @@ const Swap = (props) => {
     name: 'PLENTY',
     image: plenty,
   });
-  const [firstToken, setFirstToken] = useState(0);
+  const [firstTokenAmount, setFirstTokenAmount] = useState(0);
+  const [swapData, setSwapData] = useState({});
+  const [computedOutDetails, setComputedOutDetails] = useState({});
 
   const selectToken = (token) => {
     if (tokenType === 'tokenIn') {
@@ -57,18 +60,48 @@ const Swap = (props) => {
         name: token.name,
         image: token.image,
       });
+      loadSwapData(token.name, tokenOut.name).then((data) => {
+        if (data.success) {
+          setSwapData(data);
+        }
+      });
     } else {
       setTokenOut({
         name: token.name,
         image: token.image,
       });
+      loadSwapData(tokenIn.name, token.name).then((data) => {
+        if (data.success) {
+          setSwapData(data);
+        }
+      });
     }
+
     handleClose();
   };
 
   const handleTokenType = (type) => {
     setShow(true);
     setTokenType(type);
+  };
+
+  const handleTokenInput = (input) => {
+    setFirstTokenAmount(parseFloat(input));
+    if (input === '' || isNaN(input)) {
+      setComputedOutDetails({
+        tokenOut_amount: 0,
+        fees: 0,
+      });
+      return;
+    } else {
+      const conputedData = computeTokenOutput(
+        parseFloat(input),
+        swapData.tokenIn_supply,
+        swapData.tokenOut_supply,
+        swapData.exchangeFee
+      );
+      setComputedOutDetails(conputedData);
+    }
   };
 
   return (
@@ -80,19 +113,21 @@ const Swap = (props) => {
               <Tab eventKey="swap" title="Swap">
                 <SwapTab
                   walletAddress={props.walletAddress}
-                  setFirstToken={setFirstToken}
-                  firstToken={firstToken}
+                  setFirstTokenAmount={handleTokenInput}
+                  firstTokenAmount={firstTokenAmount}
                   connecthWallet={props.connecthWallet}
                   tokenIn={tokenIn}
                   tokenOut={tokenOut}
                   handleTokenType={handleTokenType}
+                  swapData={swapData}
+                  computedOutDetails={computedOutDetails}
                 />
               </Tab>
               <Tab eventKey="liquidity" title="Liquidity">
                 <LiquidityTab
                   walletAddress={props.walletAddress}
-                  setFirstToken={setFirstToken}
-                  firstToken={firstToken}
+                  firstTokenAmount={firstTokenAmount}
+                  setFirstTokenAmount={handleTokenInput}
                   connecthWallet={props.connecthWallet}
                 />
               </Tab>

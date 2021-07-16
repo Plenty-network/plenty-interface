@@ -1,6 +1,17 @@
 import SwapDetails from '../SwapDetails';
+import { swapTokens } from '../../apis/swap/swap';
 
 const SwapTab = (props) => {
+  const callSwapToken = () => {
+    swapTokens(
+      props.tokenIn.name,
+      props.tokenOut.name,
+      0,
+      props.walletAddress,
+      props.firstTokenAmount,
+      props.walletAddress
+    );
+  };
   let swapContentButton = (
     <button className="swap-content-btn" onClick={props.connecthWallet}>
       <span className="material-icons-outlined">add</span> Connect Wallet
@@ -12,8 +23,12 @@ const SwapTab = (props) => {
       <button className="swap-content-btn enter-amount">Enter an amount</button>
     );
   }
-  if (props.walletAddress && props.firstToken) {
-    swapContentButton = <button className="swap-content-btn">Swap</button>;
+  if (props.walletAddress && props.firstTokenAmount) {
+    swapContentButton = (
+      <button className="swap-content-btn" onClick={callSwapToken}>
+        Swap
+      </button>
+    );
   }
   return (
     <div className="swap-content-box-wrapper">
@@ -35,7 +50,7 @@ const SwapTab = (props) => {
               type="text"
               className="token-user-input"
               placeholder="0.0"
-              onChange={(e) => props.setFirstToken(e.target.value)}
+              onChange={(e) => props.setFirstTokenAmount(e.target.value)}
             />
           </div>
           {props.walletAddress ? (
@@ -65,7 +80,12 @@ const SwapTab = (props) => {
           </div>
 
           <div className="token-user-input-wrapper">
-            <input type="text" className="token-user-input" placeholder="0.0" />
+            <input
+              type="text"
+              className="token-user-input"
+              value={props.computedOutDetails.tokenOut_amount}
+              placeholder="0.0"
+            />
           </div>
           {props.walletAddress ? (
             <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
@@ -75,13 +95,19 @@ const SwapTab = (props) => {
           ) : null}
         </div>
       </div>
-      {props.walletAddress ? (
+      {props.walletAddress && props.swapData.success ? (
         <p style={{ margin: 0, textAlign: 'right', fontSize: '10px' }}>
-          1 PLENTY = 1.524251 KALAM
+          1 {props.tokenIn.name} = {props.swapData.tokenOutPerTokenIn}{' '}
+          {props.tokenOut.name}
         </p>
       ) : null}
       {swapContentButton}
-      {props.walletAddress && props.firstToken ? <SwapDetails /> : null}
+      {props.walletAddress && props.firstTokenAmount ? (
+        <SwapDetails
+          computedOutDetails={props.computedOutDetails}
+          tokenIn={props.tokenIn}
+        />
+      ) : null}
     </div>
   );
 };

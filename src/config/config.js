@@ -1,4 +1,5 @@
 module.exports = {
+  NAME: 'Plenty Defi',
   API: {
     url: 'https://api.coingecko.com/api/v3/coins/tezos?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false',
     API_KEY: '4824FE50-DB6E-4316-B099-72283C964891',

@@ -22,7 +22,9 @@ const SwapDetails = (props) => {
           Liquidity Provider Fee{' '}
           <span className="material-icons-outlined">help_outline</span>
         </p>
-        <p className="swap-detail-amt-details">0.003 PLENTY</p>
+        <p className="swap-detail-amt-details">
+          {props.computedOutDetails.fees.length} {props.tokenIn.name}
+        </p>
       </div>
     </div>
   );
