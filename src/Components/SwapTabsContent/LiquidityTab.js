@@ -15,19 +15,10 @@ const LiquidityTab = (props) => {
         </div>
         <Tabs defaultActiveKey="add" className="liquidity-container-tab">
           <Tab eventKey="add" title="Add">
-            <AddLiquidity
-              setFirstToken={props.setFirstToken}
-              walletAddress={props.walletAddress}
-              firstToken={props.firstToken}
-              setWalletConnected={props.setWalletConnected}
-            />
+            <AddLiquidity {...props} />
           </Tab>
           <Tab eventKey="remove" title="Remove">
-            <RemoveLiquidity
-              setFirstToken={props.setFirstToken}
-              walletAddress={props.walletAddress}
-              firstToken={props.firstToken}
-            />
+            <RemoveLiquidity {...props} />
           </Tab>
         </Tabs>
       </div>

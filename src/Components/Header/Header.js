@@ -60,7 +60,7 @@ const Header = (props) => {
               <NavigationMenu />
             </ul>
             <ul className="nav-menu-wrapper">
-              <li className="nav-menu-item">
+              {/* <li className="nav-menu-item">
                 <a
                   href="#"
                   className="nav-menu-item-link"
@@ -71,7 +71,7 @@ const Header = (props) => {
                 >
                   <span className="material-icons-outlined">light_mode</span>
                 </a>
-              </li>
+              </li> */}
 
               <li className="nav-menu-item">{connectWalletButton()}</li>
               <li className="nav-menu-item">

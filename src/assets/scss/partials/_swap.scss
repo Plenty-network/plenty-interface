@@ -57,10 +57,14 @@
   font-size: 12px;
   line-height: 18px;
   color: #4e5d78;
-  border-radius: 12px;
+  border-radius: 6px;
   padding: 8px 6px;
   cursor: pointer;
   border: 0;
+  &.not-selected {
+    background-color: rgba(86, 3, 173, 0.17);
+    color: #5603ad;
+  }
   > span {
     font-size: 16px;
     vertical-align: middle;
@@ -81,15 +85,16 @@
   }
 }
 .transaction-settings-dropdown {
-  min-width: 320px;
-  left: -280px !important;
-  top: 6px !important;
+  width: 290px;
+  left: -246px !important;
+  top: 12px !important;
   background-color: #edeef2;
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-sizing: border-box;
   box-shadow: 0px 30px 60px rgba(153, 161, 200, 0.34);
-  padding: 24px;
+  padding: 20px 32px;
   border-radius: 15px;
+  transform: translate(0px, 31px) !important;
 }
 .swap-modal {
   .modal-content {
@@ -219,6 +224,7 @@
   font-size: 17.9523px;
   line-height: 28px;
   color: #4e5d78;
+  margin-bottom: 4px;
 }
 .swap-arrow-center {
   position: absolute;
@@ -261,7 +267,7 @@
 }
 .swap-content-btn {
   width: 100%;
-  background-color: #5603ad;
+  background: linear-gradient(90deg, #7028e4 0%, #e5b2ca 100%);
   border-radius: 8px;
   font-style: normal;
   font-weight: bold;
@@ -273,7 +279,7 @@
   margin-top: 20px;
   border: 0;
   &.enter-amount {
-    background-color: #8a94a6;
+    background: #8a94a6;
     cursor: not-allowed;
   }
   > span {
@@ -348,5 +354,138 @@
     vertical-align: middle;
     font-size: 12px;
     cursor: pointer;
+  }
+}
+.remove-liquidity-token-info {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #4e5d78;
+  margin: 0;
+}
+.remove-liquidity-pair-wrapper {
+  > .token-selector {
+    &:not(:last-child) {
+      margin-right: 6px;
+    }
+    .remove-liquidity-token-name {
+      text-align: right;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 7px;
+      line-height: 5px;
+      display: block;
+      color: rgba(78, 93, 120, 0.6);
+    }
+  }
+}
+.transaction-setting-sub-label {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 23px;
+  color: #4e5d78;
+  margin-bottom: 4px;
+  > span {
+    vertical-align: middle;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 23px;
+    color: #4e5d78;
+  }
+}
+.slipping-tolerance-detail-wrapper {
+  position: relative;
+  margin-bottom: 20px;
+}
+.slipping-tolerance-btn {
+  background: linear-gradient(90deg, #7028e4 0%, #e5b2ca 100%);
+  border-radius: 7.34783px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 29px;
+  color: #f6f8fc;
+  padding: 8px 26px;
+  box-shadow: none;
+  border: 0;
+}
+.slipping-tolerance-input {
+  width: 125px;
+  background-color: #f4f4f6;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  padding: 8px 26px;
+  border-radius: 10.9259px;
+  justify-self: flex-end;
+  text-align: right;
+  outline: none;
+  &.full-width {
+    width: 100%;
+  }
+}
+.percentage-icon {
+  position: absolute;
+  right: 10px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 29px;
+  color: #4e5d78;
+}
+.interface-setting-wrapper {
+  padding-top: 15px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.toggleWrapper {
+  position: relative;
+  overflow: hidden;
+  input {
+    position: absolute;
+    left: -2000px;
+  }
+}
+.toggle {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  width: 24px;
+  height: 14px;
+
+  background-color: #c1c7d0;
+  border-radius: 90px - 6;
+  transition: background-color 200ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  margin: 0;
+  margin-left: 30px;
+}
+.toggle__handler {
+  display: inline-block;
+  position: absolute;
+  z-index: 1;
+  top: 3px;
+  left: 2px;
+  width: 8px;
+  height: 8px;
+  background-color: #fff;
+  border-radius: 50px;
+  transition: all 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+input:checked {
+  + .toggle {
+    background-color: #5603ad;
+    &:before {
+      color: #000;
+    }
+    &:after {
+      color: #000;
+    }
+    .toggle__handler {
+      background-color: #fff;
+      transform: translate3d(12px, 0, 0) rotate(0);
+      .crater {
+        opacity: 1;
+      }
+    }
   }
 }

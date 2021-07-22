@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
-import { loadSwapData, computeTokenOutput } from '../apis/swap/swap';
+import React, { useState, useEffect } from 'react';
+import {
+  loadSwapData,
+  computeTokenOutput,
+  fetchAllWalletBalance,
+  getTokenPrices,
+} from '../apis/swap/swap';
 
 import TransactionSettings from '../Components/TransactionSettings/TransactionSettings';
 import SwapModal from '../Components/SwapModal/SwapModal';
 import SwapTab from '../Components/SwapTabsContent/SwapTab';
 import LiquidityTab from '../Components/SwapTabsContent/LiquidityTab';
-
+import Loader from '../Components/loader';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -24,10 +29,6 @@ const Swap = (props) => {
       image: plenty,
     },
     {
-      name: 'KALAM',
-      image: kalam,
-    },
-    {
       name: 'WRAP',
       image: wrap,
     },
@@ -39,22 +40,24 @@ const Swap = (props) => {
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-
+  const [slippage, setSlippage] = useState(0.05);
+  const [recepient, setRecepient] = useState('');
   const [tokenType, setTokenType] = useState('tokenIn');
-
+  const [tokenOut, setTokenOut] = useState({});
+  const [firstTokenAmount, setFirstTokenAmount] = useState(0);
+  const [swapData, setSwapData] = useState({});
+  const [computedOutDetails, setComputedOutDetails] = useState({});
+  const [getTokenPrice, setGetTokenPrice] = useState({});
+  const [userBalances, setUserBalances] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [loaderMessage, setLoaderMessage] = useState({});
   const [tokenIn, setTokenIn] = useState({
     name: 'PLENTY',
     image: plenty,
   });
-  const [tokenOut, setTokenOut] = useState({
-    name: 'PLENTY',
-    image: plenty,
-  });
-  const [firstTokenAmount, setFirstTokenAmount] = useState(0);
-  const [swapData, setSwapData] = useState({});
-  const [computedOutDetails, setComputedOutDetails] = useState({});
 
   const selectToken = (token) => {
+    setLoading(true);
     if (tokenType === 'tokenIn') {
       setTokenIn({
         name: token.name,
@@ -63,6 +66,7 @@ const Swap = (props) => {
       loadSwapData(token.name, tokenOut.name).then((data) => {
         if (data.success) {
           setSwapData(data);
+          setLoading(false);
         }
       });
     } else {
@@ -73,16 +77,17 @@ const Swap = (props) => {
       loadSwapData(tokenIn.name, token.name).then((data) => {
         if (data.success) {
           setSwapData(data);
+          setLoading(false);
         }
       });
     }
-
     handleClose();
   };
 
   const handleTokenType = (type) => {
     setShow(true);
     setTokenType(type);
+    setLoading(false);
   };
 
   const handleTokenInput = (input) => {
@@ -98,10 +103,57 @@ const Swap = (props) => {
         parseFloat(input),
         swapData.tokenIn_supply,
         swapData.tokenOut_supply,
-        swapData.exchangeFee
+        swapData.exchangeFee,
+        slippage
       );
       setComputedOutDetails(conputedData);
+      setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    if (!props.walletAddress) {
+      return;
+    }
+    fetchAllWalletBalance(props.walletAddress).then((resp) => {
+      setUserBalances(resp.userBalances);
+      setLoading(false);
+    });
+  }, [props.walletAddress]);
+
+  useEffect(() => {
+    setLoading(true);
+    getTokenPrices().then((tokenPrice) => {
+      setGetTokenPrice(tokenPrice);
+      setLoading(false);
+    });
+  }, []);
+
+  const handleLoaderMessage = (type, message) => {
+    setLoaderMessage({
+      type: type,
+      message: message,
+    });
+    setLoading(false);
+  };
+
+  const resetAllValues = () => {
+    setSlippage(0.05);
+    setRecepient('');
+    setTokenType('tokenIn');
+    setTokenOut({});
+    setFirstTokenAmount(0);
+    setSwapData({});
+    setComputedOutDetails({});
+    setGetTokenPrice({});
+    setUserBalances({});
+    setLoading(false);
+    setLoaderMessage({});
+    setTokenIn({
+      name: 'PLENTY',
+      image: plenty,
+    });
   };
 
   return (
@@ -121,19 +173,50 @@ const Swap = (props) => {
                   handleTokenType={handleTokenType}
                   swapData={swapData}
                   computedOutDetails={computedOutDetails}
+                  userBalances={userBalances}
+                  getTokenPrice={getTokenPrice}
+                  setSlippage={setSlippage}
+                  setRecepient={setRecepient}
+                  recepient={recepient}
+                  slippage={slippage}
+                  loading={loading}
+                  setLoading={setLoading}
+                  handleLoaderMessage={handleLoaderMessage}
+                  loaderMessage={loaderMessage}
                 />
               </Tab>
               <Tab eventKey="liquidity" title="Liquidity">
                 <LiquidityTab
                   walletAddress={props.walletAddress}
-                  firstTokenAmount={firstTokenAmount}
                   setFirstTokenAmount={handleTokenInput}
+                  firstTokenAmount={firstTokenAmount}
                   connecthWallet={props.connecthWallet}
+                  tokenIn={tokenIn}
+                  tokenOut={tokenOut}
+                  handleTokenType={handleTokenType}
+                  swapData={swapData}
+                  computedOutDetails={computedOutDetails}
+                  userBalances={userBalances}
+                  getTokenPrice={getTokenPrice}
+                  setSlippage={setSlippage}
+                  setRecepient={setRecepient}
+                  recepient={recepient}
+                  slippage={slippage}
+                  loading={loading}
+                  setLoading={setLoading}
+                  handleLoaderMessage={handleLoaderMessage}
+                  loaderMessage={loaderMessage}
                 />
               </Tab>
             </Tabs>
 
-            <TransactionSettings />
+            <TransactionSettings
+              recepient={recepient}
+              slippage={slippage}
+              setSlippage={setSlippage}
+              setRecepient={setRecepient}
+              walletAddress={props.walletAddress}
+            />
           </div>
         </Col>
       </Row>
@@ -142,7 +225,10 @@ const Swap = (props) => {
         onHide={handleClose}
         selectToken={selectToken}
         tokens={tokens}
+        tokenIn={tokenIn}
+        tokenOut={tokenOut}
       ></SwapModal>
+      <Loader loading={loading} loaderMessage={loaderMessage} />
     </Container>
   );
 };

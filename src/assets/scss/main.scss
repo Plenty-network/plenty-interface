@@ -22,3 +22,31 @@
 .pb-20 {
   padding-bottom: 20px;
 }
+.loading-data-wrapper {
+  position: fixed;
+  bottom: 60px;
+  right: 72px;
+}
+.loader-message-wrapper {
+  @extend .loading-data-wrapper;
+  bottom: 24px;
+  right: 24px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: -0.4px;
+  padding: 16px 24px;
+  border-radius: 7.34783px;
+  &.success {
+    background-color: rgba(35, 193, 89, 0.14);
+    color: #23c159;
+  }
+  &.error {
+    background-color: rgba(193, 35, 35, 0.14);
+    color: #c12323;
+  }
+  > span {
+    vertical-align: middle;
+  }
+}

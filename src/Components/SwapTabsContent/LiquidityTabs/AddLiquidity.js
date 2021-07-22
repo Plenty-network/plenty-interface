@@ -1,7 +1,35 @@
-import logo from '../../../assets/images/logo_small.png';
-import kalam from '../../../assets/images/kalam.png';
+import { estimateOtherToken, addLiquidity } from '../../../apis/swap/swap';
+import { useState } from 'react';
 
 const AddLiquidity = (props) => {
+  const [estimatedTokenAmout, setEstimatedTokenAmout] = useState(0);
+  const handleLiquidityInput = (input) => {
+    const estimatedTokenAmout = estimateOtherToken(
+      input,
+      props.swapData.tokenIn_supply,
+      props.swapData.tokenOut_supply
+    );
+    setEstimatedTokenAmout(estimatedTokenAmout);
+  };
+  const confirmAddLiquidity = () => {
+    props.setLoading(true);
+    addLiquidity(
+      props.tokenIn.name,
+      props.tokenOut.name,
+      props.firstTokenAmount,
+      estimatedTokenAmout.otherTokenAmount,
+      props.walletAddress
+    ).then((data) => {
+      if (data.success) {
+        props.setLoading(false);
+        props.handleLoaderMessage('success', 'Transaction confirmed');
+      } else {
+        props.setLoading(false);
+        props.handleLoaderMessage('error', 'Transaction failed');
+      }
+    });
+  };
+
   let swapContentButton = (
     <button className="swap-content-btn" onClick={props.connecthWallet}>
       <span className="material-icons-outlined">add</span> Connect Wallet
@@ -9,23 +37,37 @@ const AddLiquidity = (props) => {
   );
 
   if (props.walletAddress) {
-    swapContentButton = (
-      <button className="swap-content-btn enter-amount">Enter an amount</button>
-    );
-  }
-  if (props.walletAddress && props.firstToken) {
-    swapContentButton = (
-      <button className="swap-content-btn">Add Liquidity</button>
-    );
+    if (props.tokenOut.name && props.firstTokenAmount) {
+      swapContentButton = (
+        <button className="swap-content-btn" onClick={confirmAddLiquidity}>
+          Add Liquidity
+        </button>
+      );
+    } else if (props.firstTokenAmount && !props.tokenOut.name) {
+      swapContentButton = (
+        <button className="swap-content-btn enter-amount">
+          Select a token to add
+        </button>
+      );
+    } else {
+      swapContentButton = (
+        <button className="swap-content-btn enter-amount">
+          Enter an amount
+        </button>
+      );
+    }
   }
   return (
     <>
       <div className="swap-content-box">
         <div className="swap-token-select-box">
           <div className="token-selector-balance-wrapper">
-            <button className="token-selector" onClick={props.handleShow}>
-              <img src={logo} className="button-logo" />
-              Plenty{' '}
+            <button
+              className="token-selector"
+              onClick={() => props.handleTokenType('tokenIn')}
+            >
+              <img src={props.tokenIn.image} className="button-logo" />
+              {props.tokenIn.name}{' '}
               <span className="material-icons-outlined">expand_more</span>
             </button>
           </div>
@@ -35,12 +77,26 @@ const AddLiquidity = (props) => {
               type="text"
               className="token-user-input"
               placeholder="0.0"
-              onChange={(e) => props.setFirstToken(e.target.value)}
+              onChange={(e) => {
+                props.setFirstTokenAmount(e.target.value);
+                handleLiquidityInput(e.target.value);
+              }}
             />
           </div>
           {props.walletAddress ? (
             <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
-              <p className="wallet-token-balance">Balance: 0 Plenty</p>
+              <p className="wallet-token-balance">
+                Balance: {props.userBalances[props.tokenIn.name]}
+              </p>
+              <p className="wallet-token-balance">
+                ~$
+                {props.getTokenPrice.success && props.firstTokenAmount
+                  ? (
+                      props.firstTokenAmount *
+                      props.getTokenPrice.tokenPrice[props.tokenIn.name]
+                    ).toFixed(5)
+                  : '0.00'}
+              </p>
             </div>
           ) : null}
         </div>
@@ -53,10 +109,24 @@ const AddLiquidity = (props) => {
       <div className="swap-content-box">
         <div className="swap-token-select-box">
           <div className="token-selector-balance-wrapper">
-            <button className="token-selector" onClick={props.handleShow}>
-              <img src={kalam} className="button-logo" />
-              Kalam <span className="material-icons-outlined">expand_more</span>
-            </button>
+            {props.tokenOut.name ? (
+              <button
+                className="token-selector"
+                onClick={() => props.handleTokenType('tokenOut')}
+              >
+                <img src={props.tokenOut.image} className="button-logo" />
+                {props.tokenOut.name}{' '}
+                <span className="material-icons-outlined">expand_more</span>
+              </button>
+            ) : (
+              <button
+                className="token-selector not-selected"
+                onClick={() => props.handleTokenType('tokenOut')}
+              >
+                Select a token{' '}
+                <span className="material-icons-outlined">expand_more</span>
+              </button>
+            )}
           </div>
 
           <div className="token-user-input-wrapper">
@@ -64,12 +134,24 @@ const AddLiquidity = (props) => {
               type="text"
               className="token-user-input"
               placeholder="0.0"
-              onChange={(e) => props.setSecondToken(e.target.value)}
+              value={estimatedTokenAmout.otherTokenAmount}
             />
           </div>
-          {props.walletAddress ? (
+          {props.walletAddress && props.tokenOut.name ? (
             <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
-              <p className="wallet-token-balance">Balance: 0 Kalam</p>
+              <p className="wallet-token-balance">
+                Balance: {props.userBalances[props.tokenOut.name]}
+              </p>
+              <p className="wallet-token-balance">
+                ~$
+                {props.getTokenPrice.success &&
+                estimatedTokenAmout.otherTokenAmount
+                  ? (
+                      estimatedTokenAmout.otherTokenAmount *
+                      props.getTokenPrice.tokenPrice[props.tokenOut.name]
+                    ).toFixed(5)
+                  : '0.00'}
+              </p>
             </div>
           ) : null}
         </div>
