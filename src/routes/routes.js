@@ -4,7 +4,6 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
-import Test from '../Components/test';
 //Components
 import Header from '../Components/Header/Header';
 import Swap from '../Pages/Swap';
