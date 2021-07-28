@@ -96,7 +96,8 @@
   border-radius: 15px;
   transform: translate(0px, 31px) !important;
 }
-.swap-modal {
+.swap-modal,
+.confirm-swap-modal {
   .modal-content {
     max-width: 402px;
     background-color: #fff;
@@ -137,6 +138,48 @@
     justify-content: center;
     border-top: 1px solid #f1f1f1;
     padding-bottom: 0;
+  }
+}
+.confirm-swap-modal {
+  .modal-content {
+    max-width: 338px;
+    padding: 24px 6px 6px;
+  }
+  .modal-header {
+    padding: 0 18px;
+  }
+  .modal-body {
+    padding: 0;
+  }
+  .swap-content-box-wrapper {
+    padding: 18px;
+    padding-bottom: 0;
+    margin: 0;
+    .swap-token-select-box {
+      background-color: #fff;
+    }
+    .token-selector {
+      position: relative;
+      padding: 6px 28px;
+      .button-logo {
+        margin: 0;
+        &:nth-child(2) {
+          margin-left: -5px;
+        }
+      }
+    }
+  }
+  .token-user-input-wrapper {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    color: #4e5d78;
+  }
+  &.confirm-add-liquidity-modal {
+    .swap-token-select-box {
+      border: 0;
+    }
   }
 }
 .search-coin-wrapper {
@@ -488,4 +531,17 @@ input:checked {
       }
     }
   }
+}
+.lp-token-info-desc {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  color: #4e5d78;
+  margin: 0;
+}
+.swap-detail-rates-wrapper {
+  padding: 22px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  margin-bottom: 16px;
 }

@@ -1,8 +1,16 @@
-import { estimateOtherToken, addLiquidity } from '../../../apis/swap/swap';
+import {
+  estimateOtherToken,
+  addLiquidity,
+  lpTokenOutput,
+} from '../../../apis/swap/swap';
 import { useState } from 'react';
+
+import ConfirmAddLiquidity from './ConfirmAddLiquidity';
 
 const AddLiquidity = (props) => {
   const [estimatedTokenAmout, setEstimatedTokenAmout] = useState(0);
+  const [lpTokenAmount, setLpTokenAmount] = useState({});
+
   const handleLiquidityInput = (input) => {
     const estimatedTokenAmout = estimateOtherToken(
       input,
@@ -13,6 +21,18 @@ const AddLiquidity = (props) => {
   };
   const confirmAddLiquidity = () => {
     props.setLoading(true);
+    props.setShowConfirmAddSupply(true);
+    const lpTokenAmount = lpTokenOutput(
+      props.firstTokenAmount,
+      props.computedOutDetails.tokenOut_amount,
+      props.swapData.tokenIn_supply,
+      props.swapData.tokenOut_supply,
+      props.swapData.lpTokenSupply
+    );
+    setLpTokenAmount(lpTokenAmount);
+  };
+
+  const CallConfirmAddLiquidity = () => {
     addLiquidity(
       props.tokenIn.name,
       props.tokenOut.name,
@@ -157,6 +177,11 @@ const AddLiquidity = (props) => {
         </div>
       </div>
       {swapContentButton}
+      <ConfirmAddLiquidity
+        {...props}
+        CallConfirmAddLiquidity={CallConfirmAddLiquidity}
+        lpTokenAmount={lpTokenAmount}
+      />
     </>
   );
 };

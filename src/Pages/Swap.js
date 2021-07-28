@@ -39,7 +39,13 @@ const Swap = (props) => {
   ];
 
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const [showConfirmSwap, setShowConfirmSwap] = useState(false);
+  const [showConfirmAddSupply, setShowConfirmAddSupply] = useState(false);
+  const handleClose = () => {
+    setShow(false);
+    setShowConfirmSwap(false);
+    setShowConfirmAddSupply(false);
+  };
   const [slippage, setSlippage] = useState(0.05);
   const [recepient, setRecepient] = useState('');
   const [tokenType, setTokenType] = useState('tokenIn');
@@ -183,6 +189,9 @@ const Swap = (props) => {
                   setLoading={setLoading}
                   handleLoaderMessage={handleLoaderMessage}
                   loaderMessage={loaderMessage}
+                  setShowConfirmSwap={setShowConfirmSwap}
+                  showConfirmSwap={showConfirmSwap}
+                  handleClose={handleClose}
                 />
               </Tab>
               <Tab eventKey="liquidity" title="Liquidity">
@@ -206,6 +215,9 @@ const Swap = (props) => {
                   setLoading={setLoading}
                   handleLoaderMessage={handleLoaderMessage}
                   loaderMessage={loaderMessage}
+                  handleClose={handleClose}
+                  showConfirmAddSupply={showConfirmAddSupply}
+                  setShowConfirmAddSupply={setShowConfirmAddSupply}
                 />
               </Tab>
             </Tabs>
@@ -228,6 +240,7 @@ const Swap = (props) => {
         tokenIn={tokenIn}
         tokenOut={tokenOut}
       ></SwapModal>
+
       <Loader loading={loading} loaderMessage={loaderMessage} />
     </Container>
   );

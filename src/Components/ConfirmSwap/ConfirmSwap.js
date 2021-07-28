@@ -24,9 +24,7 @@ const ConfirmSwap = (props) => {
                   </button>
                 </div>
 
-                <div className="token-user-input-wrapper">
-                  {props.firstTokenAmount}
-                </div>
+                <div className="token-user-input-wrapper">1.00</div>
               </div>
             </div>
 
@@ -38,14 +36,12 @@ const ConfirmSwap = (props) => {
               <div className="swap-token-select-box">
                 <div className="token-selector-balance-wrapper">
                   <button className="token-selector">
-                    <img src={props.tokenOut.image} className="button-logo" />
-                    {props.tokenOut.name}{' '}
+                    <img src={props.tokenIn.image} className="button-logo" />
+                    {props.tokenIn.name}{' '}
                   </button>
                 </div>
 
-                <div className="token-user-input-wrapper">
-                  {props.computedOutDetails.tokenOut_amount}
-                </div>
+                <div className="token-user-input-wrapper">1.00</div>
               </div>
             </div>
           </div>
@@ -56,12 +52,7 @@ const ConfirmSwap = (props) => {
                 Minimum received{' '}
                 <span className="material-icons-outlined">help_outline</span>
               </p>
-              <p className="swap-detail-amt-details">
-                {props.computedOutDetails.minimum_Out
-                  ? props.computedOutDetails.minimum_Out.toFixed(8)
-                  : '0.00'}{' '}
-                {props.tokenOut.name}
-              </p>
+              <p className="swap-detail-amt-details">1 kalam</p>
             </div>
 
             <div className="swap-detail-amt-wrapper">
@@ -69,12 +60,7 @@ const ConfirmSwap = (props) => {
                 Price Impact{' '}
                 <span className="material-icons-outlined">help_outline</span>
               </p>
-              <p className="swap-detail-amt-details">
-                {props.computedOutDetails.priceImpact
-                  ? props.computedOutDetails.priceImpact
-                  : '0.00'}{' '}
-                %
-              </p>
+              <p className="swap-detail-amt-details">0%</p>
             </div>
 
             <div className="swap-detail-amt-wrapper">
@@ -82,9 +68,7 @@ const ConfirmSwap = (props) => {
                 Liquidity Provider Fee{' '}
                 <span className="material-icons-outlined">help_outline</span>
               </p>
-              <p className="swap-detail-amt-details">
-                {props.computedOutDetails.fees / 2} {props.tokenIn.name}
-              </p>
+              <p className="swap-detail-amt-details">0.16plenty</p>
             </div>
 
             <div className="swap-detail-amt-wrapper">
@@ -92,9 +76,7 @@ const ConfirmSwap = (props) => {
                 xPlenty Fee{' '}
                 <span className="material-icons-outlined">help_outline</span>
               </p>
-              <p className="swap-detail-amt-details">
-                {props.computedOutDetails.fees / 2} {props.tokenIn.name}
-              </p>
+              <p className="swap-detail-amt-details">0.16 plenty</p>
             </div>
 
             <div className="swap-detail-amt-wrapper">
@@ -102,14 +84,9 @@ const ConfirmSwap = (props) => {
                 Slippage tolerance Fee{' '}
                 <span className="material-icons-outlined">help_outline</span>
               </p>
-              <p className="swap-detail-amt-details">{props.slippage} %</p>
+              <p className="swap-detail-amt-details">0.50%</p>
             </div>
-            <button
-              className="swap-content-btn"
-              onClick={props.confirmSwapToken}
-            >
-              Confirm Swap
-            </button>
+            <button className="swap-content-btn">Confirm Swap</button>
           </div>
         </>
       </Modal.Body>
