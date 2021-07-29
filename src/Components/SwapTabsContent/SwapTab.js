@@ -12,15 +12,6 @@ const SwapTab = (props) => {
     let recepientAddress = props.recepient
       ? props.recepient
       : props.walletAddress;
-
-    console.log(
-      props.tokenIn.name,
-      props.tokenOut.name,
-      props.computedOutDetails.minimum_Out,
-      recepientAddress,
-      props.firstTokenAmount,
-      props.walletAddress
-    );
     swapTokens(
       props.tokenIn.name,
       props.tokenOut.name,

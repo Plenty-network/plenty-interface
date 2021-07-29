@@ -41,10 +41,12 @@ const Swap = (props) => {
   const [show, setShow] = useState(false);
   const [showConfirmSwap, setShowConfirmSwap] = useState(false);
   const [showConfirmAddSupply, setShowConfirmAddSupply] = useState(false);
+  const [showConfirmRemoveSupply, setShowConfirmRemoveSupply] = useState(false);
   const handleClose = () => {
     setShow(false);
     setShowConfirmSwap(false);
     setShowConfirmAddSupply(false);
+    setShowConfirmRemoveSupply(false);
   };
   const [slippage, setSlippage] = useState(0.05);
   const [recepient, setRecepient] = useState('');
@@ -218,6 +220,8 @@ const Swap = (props) => {
                   handleClose={handleClose}
                   showConfirmAddSupply={showConfirmAddSupply}
                   setShowConfirmAddSupply={setShowConfirmAddSupply}
+                  showConfirmRemoveSupply={showConfirmRemoveSupply}
+                  setShowConfirmRemoveSupply={setShowConfirmRemoveSupply}
                 />
               </Tab>
             </Tabs>

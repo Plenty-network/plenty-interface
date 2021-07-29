@@ -44,7 +44,7 @@ const Header = (props) => {
     </a>
   ));
   return (
-    <Container fluid className="p-90">
+    <Container fluid>
       <Row>
         <Col sm={12} md={12} className="header-col-center">
           <Navbar className="menu-wrapper">

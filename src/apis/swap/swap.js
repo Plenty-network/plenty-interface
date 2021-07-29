@@ -216,14 +216,27 @@ export const computeTokenOutput = (
     let fees = tokenIn_amount * exchangeFee;
     let minimum_Out;
     minimum_Out = tokenOut_amount - (slippage * tokenOut_amount) / 100;
+    // let priceImpact =
+    //   Math.abs(
+    //     tokenIn_amount / tokenOut_amount - tokenIn_supply / tokenOut_supply
+    //   ) /
+    //   tokenIn_supply /
+    //   tokenOut_supply;
+    // priceImpact = priceImpact * 100;
+    // priceImpact = Math.max(priceImpact, 0.01);
+
+    let updated_TokenIn_Supply = tokenIn_supply - tokenIn_amount;
+    let updated_TokenOut_Supply = tokenOut_supply - tokenOut_amount;
+    let next_tokenOut_Amount =
+      (1 - exchangeFee) * updated_TokenOut_Supply * tokenIn_amount;
+    next_tokenOut_Amount /=
+      updated_TokenIn_Supply + (1 - exchangeFee) * tokenIn_amount;
     let priceImpact =
-      Math.abs(
-        tokenIn_amount / tokenOut_amount - tokenIn_supply / tokenOut_supply
-      ) /
-      tokenIn_supply /
-      tokenOut_supply;
+      (tokenOut_amount - next_tokenOut_Amount) / tokenOut_amount;
     priceImpact = priceImpact * 100;
-    priceImpact = Math.max(priceImpact, 0.01);
+    priceImpact = priceImpact.toFixed(5);
+    priceImpact = Math.abs(priceImpact);
+
     return {
       tokenOut_amount,
       fees,

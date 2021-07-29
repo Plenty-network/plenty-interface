@@ -1,11 +1,11 @@
 import { Modal } from 'react-bootstrap';
 
 const ConfirmAddLiquidity = (props) => {
-  console.log('props=', props);
   return (
     <Modal
       show={props.showConfirmAddSupply}
       animation={false}
+      onHide={props.onHide}
       className="confirm-swap-modal confirm-add-liquidity-modal"
       centered
     >

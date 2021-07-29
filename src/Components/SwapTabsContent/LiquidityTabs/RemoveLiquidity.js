@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { computeRemoveTokens, removeLiquidity } from '../../../apis/swap/swap';
 
+import ConfirmRemoveLiquidity from './ConfirmRemoveLiquidity';
+
 const RemoveLiquidity = (props) => {
   const [removableTokens, setRemovableTokens] = useState({});
 
@@ -26,6 +28,9 @@ const RemoveLiquidity = (props) => {
 
   const handleRemoveLiquidity = () => {
     props.setLoading(true);
+    props.setShowConfirmRemoveSupply(true);
+  };
+  const confirmRemoveLiquidity = () => {
     removeLiquidity(
       props.tokenIn.name,
       props.tokenOut.name,
@@ -132,6 +137,12 @@ const RemoveLiquidity = (props) => {
         </div>
       </div>
       {swapContentButton}
+      <ConfirmRemoveLiquidity
+        {...props}
+        removableTokens={removableTokens}
+        confirmRemoveLiquidity={confirmRemoveLiquidity}
+        onHide={props.handleClose}
+      />
     </>
   );
 };

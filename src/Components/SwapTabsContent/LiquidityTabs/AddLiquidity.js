@@ -24,7 +24,7 @@ const AddLiquidity = (props) => {
     props.setShowConfirmAddSupply(true);
     const lpTokenAmount = lpTokenOutput(
       props.firstTokenAmount,
-      props.computedOutDetails.tokenOut_amount,
+      estimatedTokenAmout.otherTokenAmount,
       props.swapData.tokenIn_supply,
       props.swapData.tokenOut_supply,
       props.swapData.lpTokenSupply
@@ -181,6 +181,7 @@ const AddLiquidity = (props) => {
         {...props}
         CallConfirmAddLiquidity={CallConfirmAddLiquidity}
         lpTokenAmount={lpTokenAmount}
+        onHide={props.handleClose}
       />
     </>
   );
