@@ -7,7 +7,6 @@ const SwapModal = (props) => {
       onHide={props.onHide}
       animation={false}
       className="swap-modal"
-      centered
     >
       <Modal.Header closeButton>
         <Modal.Title>Select a token</Modal.Title>

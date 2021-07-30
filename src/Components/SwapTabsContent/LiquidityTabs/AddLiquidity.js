@@ -20,8 +20,8 @@ const AddLiquidity = (props) => {
     setEstimatedTokenAmout(estimatedTokenAmout);
   };
   const confirmAddLiquidity = () => {
-    props.setLoading(true);
     props.setShowConfirmAddSupply(true);
+    props.setHideContent('content-hide');
     const lpTokenAmount = lpTokenOutput(
       props.firstTokenAmount,
       estimatedTokenAmout.otherTokenAmount,
@@ -33,6 +33,7 @@ const AddLiquidity = (props) => {
   };
 
   const CallConfirmAddLiquidity = () => {
+    props.setLoading(true);
     addLiquidity(
       props.tokenIn.name,
       props.tokenOut.name,
@@ -43,9 +44,19 @@ const AddLiquidity = (props) => {
       if (data.success) {
         props.setLoading(false);
         props.handleLoaderMessage('success', 'Transaction confirmed');
+        props.setShowConfirmAddSupply(false);
+        props.setHideContent('');
+        setTimeout(() => {
+          props.setLoaderMessage({});
+        }, 5000);
       } else {
         props.setLoading(false);
         props.handleLoaderMessage('error', 'Transaction failed');
+        props.setShowConfirmAddSupply(false);
+        props.setHideContent('');
+        setTimeout(() => {
+          props.setLoaderMessage({});
+        }, 5000);
       }
     });
   };

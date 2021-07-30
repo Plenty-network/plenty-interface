@@ -1,4 +1,5 @@
 import { Modal } from 'react-bootstrap';
+import PuffLoader from 'react-spinners/PuffLoader';
 
 const ConfirmSwap = (props) => {
   return (
@@ -7,9 +8,8 @@ const ConfirmSwap = (props) => {
       onHide={props.onHide}
       animation={false}
       className="confirm-swap-modal"
-      centered
     >
-      <Modal.Header>
+      <Modal.Header closeButton>
         <Modal.Title>Confirm Swap</Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -24,7 +24,10 @@ const ConfirmSwap = (props) => {
                   </button>
                 </div>
 
-                <div className="token-user-input-wrapper">
+                <div
+                  className="token-user-input-wrapper"
+                  style={{ textAlign: 'right' }}
+                >
                   {props.firstTokenAmount}
                 </div>
               </div>
@@ -43,7 +46,10 @@ const ConfirmSwap = (props) => {
                   </button>
                 </div>
 
-                <div className="token-user-input-wrapper">
+                <div
+                  className="token-user-input-wrapper"
+                  style={{ textAlign: 'right' }}
+                >
                   {props.computedOutDetails.tokenOut_amount}
                 </div>
               </div>
@@ -104,12 +110,18 @@ const ConfirmSwap = (props) => {
               </p>
               <p className="swap-detail-amt-details">{props.slippage} %</p>
             </div>
-            <button
-              className="swap-content-btn"
-              onClick={props.confirmSwapToken}
-            >
-              Confirm Swap
-            </button>
+            {props.loading ? (
+              <button className="swap-content-btn loader-btn">
+                <PuffLoader color={'#fff'} size={16} />
+              </button>
+            ) : (
+              <button
+                className="swap-content-btn"
+                onClick={props.confirmSwapToken}
+              >
+                Confirm Swap
+              </button>
+            )}
           </div>
         </>
       </Modal.Body>

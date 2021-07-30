@@ -50,3 +50,14 @@
     vertical-align: middle;
   }
 }
+.content-hide {
+  display: none;
+}
+.modal-backdrop {
+  background-color: rgba(242, 242, 242, 0.52);
+}
+.loader-btn {
+  > span {
+    display: inline-block;
+  }
+}

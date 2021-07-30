@@ -27,10 +27,11 @@ const RemoveLiquidity = (props) => {
   };
 
   const handleRemoveLiquidity = () => {
-    props.setLoading(true);
     props.setShowConfirmRemoveSupply(true);
+    props.setHideContent('content-hide');
   };
   const confirmRemoveLiquidity = () => {
+    props.setLoading(true);
     removeLiquidity(
       props.tokenIn.name,
       props.tokenOut.name,
@@ -42,9 +43,19 @@ const RemoveLiquidity = (props) => {
       if (data.success) {
         props.setLoading(false);
         props.handleLoaderMessage('success', 'Transaction confirmed');
+        props.setShowConfirmRemoveSupply(false);
+        props.setHideContent('');
+        setTimeout(() => {
+          props.setLoaderMessage({});
+        }, 5000);
       } else {
         props.setLoading(false);
         props.handleLoaderMessage('error', 'Transaction failed');
+        props.setShowConfirmRemoveSupply(false);
+        props.setHideContent('');
+        setTimeout(() => {
+          props.setLoaderMessage({});
+        }, 5000);
       }
     });
   };

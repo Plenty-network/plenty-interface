@@ -1,14 +1,16 @@
 import SwapDetails from '../SwapDetails';
 import ConfirmSwap from './ConfirmSwap';
 import { swapTokens } from '../../apis/swap/swap';
+import PuffLoader from 'react-spinners/PuffLoader';
 
 const SwapTab = (props) => {
   const callSwapToken = () => {
-    props.setLoading(true);
     props.setShowConfirmSwap(true);
+    props.setHideContent('content-hide');
   };
 
   const confirmSwapToken = () => {
+    props.setLoading(true);
     let recepientAddress = props.recepient
       ? props.recepient
       : props.walletAddress;
@@ -23,9 +25,19 @@ const SwapTab = (props) => {
       if (swapResp.success) {
         props.setLoading(false);
         props.handleLoaderMessage('success', 'Transaction confirmed');
+        props.setShowConfirmSwap(false);
+        props.setHideContent('');
+        setTimeout(() => {
+          props.setLoaderMessage({});
+        }, 5000);
       } else {
         props.setLoading(false);
         props.handleLoaderMessage('error', 'Transaction failed');
+        props.setShowConfirmSwap(false);
+        props.setHideContent('');
+        setTimeout(() => {
+          props.setLoaderMessage({});
+        }, 5000);
       }
     });
   };
@@ -73,12 +85,22 @@ const SwapTab = (props) => {
             </div>
 
             <div className="token-user-input-wrapper">
-              <input
-                type="text"
-                className="token-user-input"
-                placeholder="0.0"
-                onChange={(e) => props.setFirstTokenAmount(e.target.value)}
-              />
+              {props.swapData.tokenOutPerTokenIn ? (
+                <input
+                  type="text"
+                  className="token-user-input"
+                  placeholder="0.0"
+                  value={props.firstTokenAmount}
+                  onChange={(e) => props.setFirstTokenAmount(e.target.value)}
+                />
+              ) : (
+                <input
+                  type="text"
+                  className="token-user-input"
+                  placeholder="0.0"
+                  disabled
+                />
+              )}
             </div>
             {props.walletAddress ? (
               <div
@@ -130,16 +152,25 @@ const SwapTab = (props) => {
             </div>
 
             <div className="token-user-input-wrapper">
-              <input
-                type="text"
-                className="token-user-input"
-                value={
-                  props.tokenOut.name
-                    ? props.computedOutDetails.tokenOut_amount
-                    : '0.00'
-                }
-                placeholder="0.0"
-              />
+              {props.swapData.tokenOutPerTokenIn ? (
+                <input
+                  type="text"
+                  className="token-user-input"
+                  value={
+                    props.tokenOut.name
+                      ? props.computedOutDetails.tokenOut_amount
+                      : '0.00'
+                  }
+                  placeholder="0.0"
+                />
+              ) : (
+                <input
+                  type="text"
+                  className="token-user-input"
+                  disabled
+                  placeholder="0.0"
+                />
+              )}
             </div>
             {props.walletAddress && props.tokenOut.name ? (
               <div
@@ -190,6 +221,7 @@ const SwapTab = (props) => {
         slippage={props.slippage}
         confirmSwapToken={confirmSwapToken}
         onHide={props.handleClose}
+        {...props}
       />
     </>
   );

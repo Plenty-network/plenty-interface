@@ -42,11 +42,15 @@ const Swap = (props) => {
   const [showConfirmSwap, setShowConfirmSwap] = useState(false);
   const [showConfirmAddSupply, setShowConfirmAddSupply] = useState(false);
   const [showConfirmRemoveSupply, setShowConfirmRemoveSupply] = useState(false);
+  const [hideContent, setHideContent] = useState('');
+
   const handleClose = () => {
     setShow(false);
     setShowConfirmSwap(false);
     setShowConfirmAddSupply(false);
     setShowConfirmRemoveSupply(false);
+    setHideContent('');
+    setLoading(false);
   };
   const [slippage, setSlippage] = useState(0.05);
   const [recepient, setRecepient] = useState('');
@@ -93,14 +97,17 @@ const Swap = (props) => {
   };
 
   const handleTokenType = (type) => {
+    //setHideContent('content-hide');
     setShow(true);
     setTokenType(type);
+
     setLoading(false);
   };
 
   const handleTokenInput = (input) => {
     setFirstTokenAmount(parseFloat(input));
     if (input === '' || isNaN(input)) {
+      setFirstTokenAmount(0);
       setComputedOutDetails({
         tokenOut_amount: 0,
         fees: 0,
@@ -167,8 +174,8 @@ const Swap = (props) => {
   return (
     <Container fluid>
       <Row>
-        <Col sm={8} md={4} className="swap-content-section">
-          <div className="swap-content-container">
+        <Col sm={8} md={6} className="swap-content-section">
+          <div className={`swap-content-container ${hideContent}`}>
             <Tabs defaultActiveKey="swap" className="swap-container-tab">
               <Tab eventKey="swap" title="Swap">
                 <SwapTab
@@ -194,6 +201,9 @@ const Swap = (props) => {
                   setShowConfirmSwap={setShowConfirmSwap}
                   showConfirmSwap={showConfirmSwap}
                   handleClose={handleClose}
+                  setHideContent={setHideContent}
+                  setLoaderMessage={setLoaderMessage}
+                  resetAllValues={resetAllValues}
                 />
               </Tab>
               <Tab eventKey="liquidity" title="Liquidity">
@@ -222,6 +232,9 @@ const Swap = (props) => {
                   setShowConfirmAddSupply={setShowConfirmAddSupply}
                   showConfirmRemoveSupply={showConfirmRemoveSupply}
                   setShowConfirmRemoveSupply={setShowConfirmRemoveSupply}
+                  setHideContent={setHideContent}
+                  setLoaderMessage={setLoaderMessage}
+                  resetAllValues={resetAllValues}
                 />
               </Tab>
             </Tabs>
