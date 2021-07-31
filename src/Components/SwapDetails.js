@@ -4,7 +4,7 @@ const SwapDetails = (props) => {
       <div className="swap-detail-amt-wrapper">
         <p className="swap-detail-amt-details">
           Minimum received{' '}
-          <span className="material-icons-outlined">help_outline</span>
+          <span className="material-icons-round">help_outline</span>
         </p>
         <p className="swap-detail-amt-details">
           {props.computedOutDetails.minimum_Out
@@ -17,7 +17,7 @@ const SwapDetails = (props) => {
       <div className="swap-detail-amt-wrapper">
         <p className="swap-detail-amt-details">
           Price Impact{' '}
-          <span className="material-icons-outlined">help_outline</span>
+          <span className="material-icons-round">help_outline</span>
         </p>
         <p className="swap-detail-amt-details">
           {props.computedOutDetails.priceImpact
@@ -30,7 +30,7 @@ const SwapDetails = (props) => {
       <div className="swap-detail-amt-wrapper">
         <p className="swap-detail-amt-details">
           Liquidity Provider Fee{' '}
-          <span className="material-icons-outlined">help_outline</span>
+          <span className="material-icons-round">help_outline</span>
         </p>
         <p className="swap-detail-amt-details">
           {props.computedOutDetails.fees} {props.tokenIn.name}

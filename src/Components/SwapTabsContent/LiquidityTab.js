@@ -9,9 +9,9 @@ const LiquidityTab = (props) => {
     <>
       <div className="swap-content-box-wrapper">
         <div className="add-liquidity-tip">
-          Tip: When you add liquidity, you will receive pool tokens representing
-          your position. These tokens automatically earn fees proportional to
-          your share of the pool, and can be redeemed at any time.
+          When you add liquidity, you will receive pool tokens representing your
+          position. These tokens automatically earn fees proportional to your
+          share of the pool, and can be redeemed at any time.
         </div>
         <Tabs defaultActiveKey="add" className="liquidity-container-tab">
           <Tab eventKey="add" title="Add">

@@ -63,7 +63,7 @@ const AddLiquidity = (props) => {
 
   let swapContentButton = (
     <button className="swap-content-btn" onClick={props.connecthWallet}>
-      <span className="material-icons-outlined">add</span> Connect Wallet
+      <span className="material-icons-round">add</span> Connect Wallet
     </button>
   );
 
@@ -99,7 +99,7 @@ const AddLiquidity = (props) => {
             >
               <img src={props.tokenIn.image} className="button-logo" />
               {props.tokenIn.name}{' '}
-              <span className="material-icons-outlined">expand_more</span>
+              <span className="material-icons-round">expand_more</span>
             </button>
           </div>
 
@@ -134,7 +134,7 @@ const AddLiquidity = (props) => {
       </div>
 
       <div className="swap-arrow-center">
-        <span className="material-icons-outlined">add</span>
+        <span className="material-icons-round">add</span>
       </div>
 
       <div className="swap-content-box">
@@ -147,7 +147,7 @@ const AddLiquidity = (props) => {
               >
                 <img src={props.tokenOut.image} className="button-logo" />
                 {props.tokenOut.name}{' '}
-                <span className="material-icons-outlined">expand_more</span>
+                <span className="material-icons-round">expand_more</span>
               </button>
             ) : (
               <button
@@ -155,7 +155,7 @@ const AddLiquidity = (props) => {
                 onClick={() => props.handleTokenType('tokenOut')}
               >
                 Select a token{' '}
-                <span className="material-icons-outlined">expand_more</span>
+                <span className="material-icons-round">expand_more</span>
               </button>
             )}
           </div>

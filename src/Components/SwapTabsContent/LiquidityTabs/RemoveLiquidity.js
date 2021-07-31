@@ -61,7 +61,7 @@ const RemoveLiquidity = (props) => {
   };
   let swapContentButton = (
     <button className="swap-content-btn" onClick={props.connecthWallet}>
-      <span className="material-icons-outlined">add</span> Connect Wallet
+      <span className="material-icons-round">add</span> Connect Wallet
     </button>
   );
 
@@ -93,9 +93,7 @@ const RemoveLiquidity = (props) => {
               onChange={(e) => removeLiquidityInput(parseFloat(e.target.value))}
               style={{ paddingRight: '14px' }}
             />
-            <div className="percentage-icon" style={{ top: '11px' }}>
-              %
-            </div>
+            <div className="percentage-icon">%</div>
           </div>
           {props.walletConnected ? (
             <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
@@ -106,13 +104,13 @@ const RemoveLiquidity = (props) => {
       </div>
 
       <div className="swap-arrow-center">
-        <span className="material-icons-outlined">south</span>
+        <span className="material-icons-round">south</span>
       </div>
 
       <div className="swap-content-box">
         <div className="swap-token-select-box">
           <div className="token-selector-balance-wrapper">
-            <p className="remove-liquidity-token-info">You will recieve</p>
+            <p className="remove-liquidity-token-info">You will receive</p>
           </div>
 
           <div className="token-user-input-wrapper remove-liquidity-pair-wrapper flex">

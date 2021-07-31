@@ -97,7 +97,7 @@ const Swap = (props) => {
   };
 
   const handleTokenType = (type) => {
-    //setHideContent('content-hide');
+    setHideContent('content-hide');
     setShow(true);
     setTokenType(type);
 

@@ -15,7 +15,7 @@ const FarmCard = (props) => {
     swapContentButton = (
       <div className="plenty-card-wallet-btn-wrapper">
         <button className="swap-content-btn" onClick={props.connecthWallet}>
-          <span className="material-icons-outlined">add</span> Connect Wallet
+          <span className="material-icons-round">add</span> Connect Wallet
         </button>
       </div>
     );

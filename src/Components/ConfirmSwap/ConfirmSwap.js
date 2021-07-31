@@ -29,7 +29,7 @@ const ConfirmSwap = (props) => {
             </div>
 
             <div className="swap-arrow-center">
-              <span className="material-icons-outlined">south</span>
+              <span className="material-icons-round">south</span>
             </div>
 
             <div className="swap-content-box">
@@ -50,7 +50,7 @@ const ConfirmSwap = (props) => {
             <div className="swap-detail-amt-wrapper">
               <p className="swap-detail-amt-details">
                 Minimum received{' '}
-                <span className="material-icons-outlined">help_outline</span>
+                <span className="material-icons-round">help_outline</span>
               </p>
               <p className="swap-detail-amt-details">1 kalam</p>
             </div>
@@ -58,7 +58,7 @@ const ConfirmSwap = (props) => {
             <div className="swap-detail-amt-wrapper">
               <p className="swap-detail-amt-details">
                 Price Impact{' '}
-                <span className="material-icons-outlined">help_outline</span>
+                <span className="material-icons-round">help_outline</span>
               </p>
               <p className="swap-detail-amt-details">0%</p>
             </div>
@@ -66,7 +66,7 @@ const ConfirmSwap = (props) => {
             <div className="swap-detail-amt-wrapper">
               <p className="swap-detail-amt-details">
                 Liquidity Provider Fee{' '}
-                <span className="material-icons-outlined">help_outline</span>
+                <span className="material-icons-round">help_outline</span>
               </p>
               <p className="swap-detail-amt-details">0.16plenty</p>
             </div>
@@ -74,7 +74,7 @@ const ConfirmSwap = (props) => {
             <div className="swap-detail-amt-wrapper">
               <p className="swap-detail-amt-details">
                 xPlenty Fee{' '}
-                <span className="material-icons-outlined">help_outline</span>
+                <span className="material-icons-round">help_outline</span>
               </p>
               <p className="swap-detail-amt-details">0.16 plenty</p>
             </div>
@@ -82,7 +82,7 @@ const ConfirmSwap = (props) => {
             <div className="swap-detail-amt-wrapper">
               <p className="swap-detail-amt-details">
                 Slippage tolerance Fee{' '}
-                <span className="material-icons-outlined">help_outline</span>
+                <span className="material-icons-round">help_outline</span>
               </p>
               <p className="swap-detail-amt-details">0.50%</p>
             </div>

@@ -33,7 +33,7 @@ const ConfirmRemoveLiquidity = (props) => {
             </div>
 
             <div className="swap-arrow-center">
-              <span className="material-icons-outlined">add</span>
+              <span className="material-icons-round">add</span>
             </div>
 
             <div className="swap-content-box">
@@ -83,7 +83,7 @@ const ConfirmRemoveLiquidity = (props) => {
 
             {props.loading ? (
               <button className="swap-content-btn loader-btn">
-                <PuffLoader color={'#fff'} size={16} />
+                <PuffLoader color={'#fff'} size={28} />
               </button>
             ) : (
               <button

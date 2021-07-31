@@ -40,14 +40,21 @@ const ConfirmAddLiquidity = (props) => {
             <div className="swap-detail-rates-wrapper flex justify-between">
               <p className="swap-detail-amt-details">Rates</p>
               <div className="token-user-input-wrapper">
-                <p className="swap-detail-amt-details">
-                  1 {props.tokenIn.name} = {props.swapData.tokenOutPerTokenIn}{' '}
-                  {props.tokenOut.name}
-                </p>
-                <p className="swap-detail-amt-details">
-                  1 {props.tokenOut.name} ={' '}
-                  {1 / props.swapData.tokenOutPerTokenIn} {props.tokenIn.name}
-                </p>
+                {props.swapData.tokenOutPerTokenIn ? (
+                  <p className="swap-detail-amt-details">
+                    1 {props.tokenIn.name} ={' '}
+                    {props.swapData.tokenOutPerTokenIn.toFixed(10)}{' '}
+                    {props.tokenOut.name}
+                  </p>
+                ) : null}
+
+                {props.swapData.tokenOutPerTokenIn ? (
+                  <p className="swap-detail-amt-details">
+                    1 {props.tokenOut.name} ={' '}
+                    {(1 / props.swapData.tokenOutPerTokenIn).toFixed(10)}{' '}
+                    {props.tokenIn.name}
+                  </p>
+                ) : null}
               </div>
             </div>
 
@@ -72,17 +79,19 @@ const ConfirmAddLiquidity = (props) => {
             <div className="swap-detail-amt-wrapper">
               <p className="swap-detail-amt-details">Share of Pool </p>
               <p className="swap-detail-amt-details">
-                {(props.lpTokenAmount.estimatedLpOutput /
-                  (props.swapData.lpTokenSupply +
-                    props.lpTokenAmount.estimatedLpOutput)) *
-                  100}{' '}
+                {(
+                  (props.lpTokenAmount.estimatedLpOutput /
+                    (props.swapData.lpTokenSupply +
+                      props.lpTokenAmount.estimatedLpOutput)) *
+                  100
+                ).toFixed(5)}{' '}
                 %
               </p>
             </div>
 
             {props.loading ? (
               <button className="swap-content-btn loader-btn">
-                <PuffLoader color={'#fff'} size={16} />
+                <PuffLoader color={'#fff'} size={28} />
               </button>
             ) : (
               <button

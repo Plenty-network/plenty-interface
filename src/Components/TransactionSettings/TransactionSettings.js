@@ -12,7 +12,7 @@ const TransactionSettings = (props) => {
         onClick(e);
       }}
     >
-      <span className="material-icons-outlined">settings</span>
+      <span className="material-icons-round">tune</span>
     </a>
   ));
 
@@ -33,7 +33,7 @@ const TransactionSettings = (props) => {
         <p className="transaction-setting-menu-label">Transaction Settings</p>
         <p className="transaction-setting-sub-label">
           Slippage tolerance{' '}
-          <span className="material-icons-outlined">help_outline</span>
+          <span className="material-icons-round">help_outline</span>
         </p>
 
         <div className="slipping-tolerance-detail-wrapper flex justify-between align-center">
@@ -53,7 +53,7 @@ const TransactionSettings = (props) => {
           <div className="flex align-center">
             <p className="transaction-setting-sub-label">
               Add Recepient{' '}
-              <span className="material-icons-outlined">help_outline</span>
+              <span className="material-icons-round">help_outline</span>
             </p>
             <div className="toggleWrapper">
               <input

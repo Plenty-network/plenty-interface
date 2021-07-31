@@ -54,7 +54,8 @@
   display: none;
 }
 .modal-backdrop {
-  background-color: rgba(242, 242, 242, 0.52);
+  background: rgba(245, 245, 245, 0.6);
+  filter: blur(8px);
 }
 .loader-btn {
   > span {

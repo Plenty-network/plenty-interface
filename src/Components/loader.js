@@ -5,12 +5,12 @@ const Loader = (props) => {
       <div className={`loader-message-wrapper ${props.loaderMessage.type}`}>
         {props.loaderMessage.type == 'success' ? (
           <>
-            <span className="material-icons-outlined">check_circle</span>
+            <span className="material-icons-round">check_circle</span>
             {loaderMessage}
           </>
         ) : (
           <>
-            <span className="material-icons-outlined">cancel</span>
+            <span className="material-icons-round">cancel</span>
             {loaderMessage}
           </>
         )}

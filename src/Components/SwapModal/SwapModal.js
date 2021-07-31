@@ -12,17 +12,6 @@ const SwapModal = (props) => {
         <Modal.Title>Select a token</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div className="search-coin-wrapper">
-          <span className="material-icons-outlined search-coin-icon">
-            search
-          </span>
-          <input
-            type="text"
-            className="search-coin-input"
-            placeholder="Search"
-          />
-        </div>
-
         <div className="coin-selection-table">
           {props.tokens.map((token, index) => {
             return (
@@ -42,9 +31,6 @@ const SwapModal = (props) => {
           })}
         </div>
       </Modal.Body>
-      <Modal.Footer>
-        <button className="swap-modal-manage-btn">Manage</button>
-      </Modal.Footer>
     </Modal>
   );
 };

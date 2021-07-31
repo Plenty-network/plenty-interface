@@ -23,7 +23,7 @@ const Header = (props) => {
     } else {
       return (
         <button className="connect-wallet-btn" onClick={props.connecthWallet}>
-          <span className="material-icons-outlined">add</span>
+          <span className="material-icons-round">add</span>
           Connect Wallet
         </button>
       );
@@ -40,7 +40,7 @@ const Header = (props) => {
         onClick(e);
       }}
     >
-      <span className="material-icons-outlined">more_vert</span>
+      <span className="material-icons-round">more_vert</span>
     </a>
   ));
   return (
@@ -69,7 +69,7 @@ const Header = (props) => {
                     props.toggleTheme();
                   }}
                 >
-                  <span className="material-icons-outlined">light_mode</span>
+                  <span className="material-icons-round">light_mode</span>
                 </a>
               </li> */}
 
