@@ -39,7 +39,10 @@ const AddLiquidity = (props) => {
       props.tokenOut.name,
       props.firstTokenAmount,
       estimatedTokenAmout.otherTokenAmount,
-      props.walletAddress
+      props.tokenContractInstances[props.tokenIn.name],
+      props.tokenContractInstances[props.tokenOut.name],
+      props.walletAddress,
+      props.swapData.dexContractInstance
     ).then((data) => {
       if (data.success) {
         props.setLoading(false);

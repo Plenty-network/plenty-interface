@@ -63,6 +63,7 @@ const Swap = (props) => {
   const [userBalances, setUserBalances] = useState({});
   const [loading, setLoading] = useState(false);
   const [loaderMessage, setLoaderMessage] = useState({});
+  const [tokenContractInstances, setTokenContractInstances] = useState({});
   const [tokenIn, setTokenIn] = useState({
     name: 'PLENTY',
     image: plenty,
@@ -133,6 +134,7 @@ const Swap = (props) => {
     }
     fetchAllWalletBalance(props.walletAddress).then((resp) => {
       setUserBalances(resp.userBalances);
+      setTokenContractInstances(resp.contractInstances);
       setLoading(false);
     });
   }, [props.walletAddress]);
@@ -163,6 +165,7 @@ const Swap = (props) => {
     setComputedOutDetails({});
     setGetTokenPrice({});
     setUserBalances({});
+    setTokenContractInstances({});
     setLoading(false);
     setLoaderMessage({});
     setTokenIn({
@@ -189,6 +192,7 @@ const Swap = (props) => {
                   swapData={swapData}
                   computedOutDetails={computedOutDetails}
                   userBalances={userBalances}
+                  tokenContractInstances={tokenContractInstances}
                   getTokenPrice={getTokenPrice}
                   setSlippage={setSlippage}
                   setRecepient={setRecepient}
@@ -218,6 +222,7 @@ const Swap = (props) => {
                   swapData={swapData}
                   computedOutDetails={computedOutDetails}
                   userBalances={userBalances}
+                  tokenContractInstances = {tokenContractInstances}
                   getTokenPrice={getTokenPrice}
                   setSlippage={setSlippage}
                   setRecepient={setRecepient}
