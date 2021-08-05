@@ -893,11 +893,25 @@ export const getTokenPrices = async () => {
     );
     let tokenPrice = {};
     tokenPriceResponse = tokenPriceResponse.data;
-    const tokens = ['PLENTY', 'KALAM', 'wDAI', 'WRAP'];
+    const tokens = ['PLENTY', 'wDAI', 'WRAP'];
+    const tokenAddress = {
+      PLENTY:{
+        contractAddress : 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      },
+      WRAP:{
+        contractAddress : 'KT1LRboPna9yQY9BrjtQYDS1DVxhKESK4VVd',
+      },
+      wDAI : {
+        contractAddress : 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ'
+      }
+    };
     for (let i in tokenPriceResponse.contracts) {
       if (tokens.includes(tokenPriceResponse.contracts[i].symbol)) {
-        tokenPrice[tokenPriceResponse.contracts[i].symbol] =
-          tokenPriceResponse.contracts[i].usdValue;
+        if(tokenAddress[tokenPriceResponse.contracts[i].symbol].contractAddress === tokenPriceResponse.contracts[i].tokenAddress)
+        {
+          tokenPrice[tokenPriceResponse.contracts[i].symbol] =
+            tokenPriceResponse.contracts[i].usdValue;
+        }
       }
     }
     return {
