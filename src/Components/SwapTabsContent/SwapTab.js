@@ -20,7 +20,9 @@ const SwapTab = (props) => {
       props.computedOutDetails.minimum_Out,
       recepientAddress,
       props.firstTokenAmount,
-      props.walletAddress
+      props.walletAddress,
+      props.tokenContractInstances[props.tokenIn.name],
+      props.swapData.dexContractInstance
     ).then((swapResp) => {
       if (swapResp.success) {
         props.setLoading(false);
