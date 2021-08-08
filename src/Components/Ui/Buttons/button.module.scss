@@ -6,6 +6,16 @@
   border-radius: 7.35px;
 }
 
+.iconBtn {
+  height: 24px;
+  width: 24px;
+  min-width: 24px;
+  border-radius: 50%;
+  background: #F4F4F6;
+  border: 0;
+  padding: 0;
+}
+
 .primary {
   color: white;
   background: const.$bgGradient;

@@ -52,7 +52,7 @@ const FarmCardBottom = (props) => {
           </>
         )
       }
-      <div className="expand-more-btn-wrapper">
+      <div className="d-flex justify-content-center">
         <Button
           onClick={() => toggleExpand(!isExpanded)}
           isIconBtn={true}
