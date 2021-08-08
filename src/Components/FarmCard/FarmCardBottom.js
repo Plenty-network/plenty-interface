@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 
 import styles from "../../assets/scss/partials/_farms.module.scss"
 import clsx from "clsx";
+import Input from "../Ui/Input/Input";
 
 const FarmCardBottom = (props) => {
   const [ isExpanded, toggleExpand ] = useState(false);
@@ -17,15 +18,15 @@ const FarmCardBottom = (props) => {
           <>
             <div className={clsx(styles.plentyCardContent, styles.topBorder, styles.bottomBorder)}>
               <div className="d-flex">
-                <input />
+                <Input className="mr-2 w-100" />
 
                 <Button onClick={() => null} color={"default"}>Harvest</Button>
               </div>
 
-              <div><p>{ props.title }</p></div>
+              <div className="mt-3 mb-2">{ props.title }</div>
 
               <div className="d-flex">
-                <input />
+                <Input className="mr-2 w-100" />
 
                 <Button onClick={() => null} color={"default"}>Stake</Button>
               </div>

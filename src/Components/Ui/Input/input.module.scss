@@ -1,0 +1,13 @@
+.inputWrapper {
+  display: flex;
+  background: #F4F4F6;
+  border-radius: 6px;
+
+  & input {
+    margin: auto 12px;
+    outline: none;
+    background: transparent;
+    border: 0;
+    text-align: right;
+  }
+}

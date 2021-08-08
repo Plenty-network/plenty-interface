@@ -48,11 +48,16 @@ const FarmCard = (props) => {
             <p className={styles.plentyCardContentTag}>{props.rewards}</p>
           </div>
 
+          <div className={clsx(styles.plentyCardTvlInfo, "flex justify-between align-center mb-4")}>
+            <p className={styles.plentyCardContentTag}>TVL:</p>
+            <p className={styles.plentyCardContentTag}>${props.liquidity}</p>
+          </div>
+
           <Button onClick={() => null} color={"primary"} className="w-100">Stake</Button>
         </div>
         {/* * Content */}
 
-        <FarmCardBottom  title={props.title}/>
+        <FarmCardBottom title={props.title}/>
       </Card>
     </Col>
   )
