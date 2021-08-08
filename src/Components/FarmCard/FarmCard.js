@@ -5,6 +5,8 @@ import Card from "react-bootstrap/Card";
 import styles from "../../assets/scss/partials/_farms.module.scss"
 import Image from "react-bootstrap/Image";
 import clsx from "clsx";
+import FarmCardBottom from "./FarmCardBottom";
+import Button from "../Ui/Buttons/Button";
 
 const FarmCard = (props) => {
 
@@ -45,9 +47,17 @@ const FarmCard = (props) => {
             <p className={styles.plentyCardContentTag}>Rewards:</p>
             <p className={styles.plentyCardContentTag}>{props.rewards}</p>
           </div>
+
+          <div className={clsx(styles.plentyCardTvlInfo, "flex justify-between align-center mb-4")}>
+            <p className={styles.plentyCardContentTag}>TVL:</p>
+            <p className={styles.plentyCardContentTag}>${props.liquidity}</p>
+          </div>
+
+          <Button onClick={() => null} color={"primary"} className="w-100">Stake</Button>
         </div>
         {/* * Content */}
 
+        <FarmCardBottom title={props.title}/>
       </Card>
     </Col>
   )
