@@ -1,7 +1,20 @@
-.primary {
+@use "../../../assets/scss/constants" as const;
 
+.btn {
+  min-width: 113px;
+  height: 50px;
+  border-radius: 7.35px;
+}
+
+.primary {
+  color: white;
+  background: const.$bgGradient;
+  border: 0;
+  font-weight: bold;
 }
 
 .default {
-
+  color: #5c0fae;
+  border: solid 1px #5c0fae;
+  background: transparent;
 }

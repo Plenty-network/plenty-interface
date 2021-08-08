@@ -48,7 +48,19 @@
 
 .plentyCardContent {
   padding: 20px 26px;
-  border-bottom: 1px solid #f1f1f1;
+  // border-bottom: 1px solid #f1f1f1;
+
+  &.topBorder {
+    border-top: 1px solid #f1f1f1;
+  }
+
+  &.bottomBorder {
+    border-bottom: 1px solid #f1f1f1;
+  }
+
+  .rightBorder {
+    border-right: 1px solid #f1f1f1;
+  }
 
   & > div {
 
