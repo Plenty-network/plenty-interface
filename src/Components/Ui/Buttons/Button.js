@@ -16,7 +16,8 @@ const Button = props => {
       )}
       onClick={props.onClick}
     >
-      {props.startIcon && <span className="material-icons-round">{props.startIcon}</span>} {!isIconBtn && props.children}
+      {props.startIcon && <span className="material-icons-round">{props.startIcon}</span>}
+      {!isIconBtn && <span>{props.children}</span>}
     </button>
   )
 }
