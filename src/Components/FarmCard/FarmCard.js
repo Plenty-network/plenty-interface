@@ -53,7 +53,16 @@ const FarmCard = (props) => {
             <p className={styles.plentyCardContentTag}>${props.liquidity}</p>
           </div>
 
-          <Button onClick={() => null} color={"primary"} className="w-100">Stake</Button>
+          {
+            props.walletAddress
+              ? <Button onClick={() => null} color={"primary"} className="w-100">Stake</Button>
+              : <Button
+                  onClick={props.connecthWallet}
+                  color={"primary"}
+                  className="w-100"
+                  startIcon="add"
+                >Connect Wallet</Button>
+          }
         </div>
         {/* * Content */}
 
