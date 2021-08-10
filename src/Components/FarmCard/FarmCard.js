@@ -34,7 +34,7 @@ const FarmCard = (props) => {
         {/* * Header */}
 
         {/* * Content */}
-        <div className={styles.plentyCardContent}>
+        <div className={clsx(styles.plentyCardContent, { "pb-0": props.harvested })}> {/* TODO add proper variable */}
           <div className={clsx(styles.plentyCardContentInfo, "flex justify-between")}>
             <p className={styles.plentyCardContentTag}>APY:</p>
             <p className={styles.plentyCardContentTag}>{props.apy}%</p>
@@ -53,11 +53,20 @@ const FarmCard = (props) => {
             <p className={styles.plentyCardContentTag}>${props.liquidity}</p>
           </div>
 
-          <Button onClick={() => null} color={"primary"} className="w-100">Stake</Button>
+          {
+            props.walletAddress
+              ? !props.harvested && <Button onClick={() => null} color={"primary"} className="w-100">Stake</Button>
+              : <Button
+                  onClick={props.connecthWallet}
+                  color={"primary"}
+                  className="w-100"
+                  startIcon="add"
+                >Connect Wallet</Button>
+          }
         </div>
         {/* * Content */}
 
-        <FarmCardBottom title={props.title}/>
+        <FarmCardBottom title={props.title} />
       </Card>
     </Col>
   )
