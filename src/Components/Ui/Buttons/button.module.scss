@@ -1,9 +1,25 @@
 @use "../../../assets/scss/constants" as const;
 
 .btn {
-  min-width: 113px;
+  min-width: 112px;
   height: 50px;
   border-radius: 7.35px;
+  display: flex;
+  justify-content: center;
+
+  & > span {
+    margin: auto 0;
+  }
+
+  &:active {
+    transform: scale(0.98);
+    transform-origin: 50% 50%;
+  }
+}
+
+.quantityBtn {
+  @extend .btn;
+  min-width: 50px;
 }
 
 .iconBtn {
