@@ -13,16 +13,10 @@ import Pools from '../Pages/Pools';
 import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme, GlobalStyles } from '../themes';
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  connectWallet,
-  disconnectWallet,
-  getWalletAddress,
-} from '../redux/actions/wallet/wallet.action';
+import { connect } from 'react-redux';
+import * as walletActions from '../redux/actions/wallet/wallet.action';
 
-const Routes = () => {
-  const dispatch = useDispatch();
-  const walletAddress = useSelector((state) => state.wallet);
+const Routes = (props) => {
   const [theme, setTheme] = useState('light');
 
   const toggleTheme = () => {
@@ -30,19 +24,19 @@ const Routes = () => {
   };
 
   const connecthWallet = async () => {
-    if (walletAddress === null) {
-      return dispatch(connectWallet());
+    if (props.userAddress === null) {
+      return props.connectWallet();
     }
   };
 
   const disconnectUserWallet = async () => {
-    if (walletAddress) {
-      return dispatch(disconnectWallet());
+    if (props.userAddress) {
+      return props.disconnectWallet();
     }
   };
 
   useEffect(() => {
-    return dispatch(getWalletAddress());
+    return props.fetchWalletAddress();
   }, []);
 
   return (
@@ -54,7 +48,7 @@ const Routes = () => {
           theme={theme}
           connecthWallet={connecthWallet}
           disconnectWallet={disconnectUserWallet}
-          walletAddress={walletAddress}
+          walletAddress={props.userAddress}
         />
         <Switch>
           <Route path="/" exact>
@@ -63,12 +57,12 @@ const Routes = () => {
 
           <Route path="/swap" exact>
             <Swap
-              walletAddress={walletAddress}
+              walletAddress={props.userAddress}
               connecthWallet={connecthWallet}
             />
           </Route>
           <Route path="/farms">
-            <Farms walletAddress={walletAddress} />
+            <Farms walletAddress={props.userAddress} />
           </Route>
           <Route path="/pools">
             <Pools walletAddress={walletAddress} />
@@ -82,4 +76,20 @@ const Routes = () => {
   );
 };
 
-export default Routes;
+const mapStateToProps = state => {
+  return {
+    userAddress : state.wallet.address,
+    
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    connectWallet : () => (dispatch(walletActions.connectWallet())),
+    disconnectWallet :() => (dispatch(walletActions.disconnectWallet())),
+    fetchWalletAddress : () => (dispatch(walletActions.fetchWalletAddress())),
+    
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Routes);
