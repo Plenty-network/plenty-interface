@@ -12,7 +12,7 @@ const FarmCard = (props) => {
 
   return (
     <Col sm={12} md={4}>
-      <Card className={styles.plentyCard}>
+      <div className={styles.plentyCard}>
 
         {/* * Header */}
         <div className={clsx(styles.plentyCardHeader, "flex justify-between align-center p-26 pb-20")}>
@@ -67,12 +67,12 @@ const FarmCard = (props) => {
         {/* * Content */}
 
         <FarmCardBottom title={props.title} />
-      </Card>
+      </div>
     </Col>
   )
 }
 
-FarmCard.propsTypes = {
+FarmCard.propTypes = {
   image: PropTypes.number,
   multi: PropTypes.string,
   title: PropTypes.string,

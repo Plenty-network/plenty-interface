@@ -5,8 +5,9 @@ import Row from 'react-bootstrap/Row';
 import FarmCard from '../Components/FarmCard/FarmCard';
 
 import plentyXtz from '../assets/images/farms/plenty-xtz.png';
+import PropTypes from "prop-types";
 
-const Farms = (props) => {
+const Farms = ({ walletAddress }) => {
   const farmsList = [
     {
       image: plentyXtz,
@@ -70,11 +71,15 @@ const Farms = (props) => {
     <Container fluid className="page-layout-container">
       <Row>
         {farmsList.map((farm, index) => {
-          return <FarmCard key={index} {...farm} {...props} />;
+          return <FarmCard key={index} {...farm} walletAddress={walletAddress} />;
         })}
       </Row>
     </Container>
   );
 };
+
+Farms.propTypes = {
+  walletAddress: PropTypes.string.isRequired
+}
 
 export default Farms;
