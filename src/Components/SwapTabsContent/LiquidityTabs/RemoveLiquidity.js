@@ -38,7 +38,8 @@ const RemoveLiquidity = (props) => {
       removableTokens.tokenFirst_Out,
       removableTokens.tokenSecond_Out,
       removableTokens.removeAmount,
-      props.walletAddress
+      props.walletAddress,
+      props.swapData.dexContractInstance
     ).then((data) => {
       if (data.success) {
         props.setLoading(false);
