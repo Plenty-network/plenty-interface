@@ -15,9 +15,7 @@ const Farms = (props) => {
   
 
   useEffect(() => {
-    console.log(props.isActiveOpen);
     renderFarms();
-    //console.log({farmsToRender})
     props.getFarmsData(props.isActiveOpen)
   },[])
   const farmsCardTypeList = {
@@ -103,10 +101,8 @@ const Farms = (props) => {
     let farmsToBeRendered = []
     for(let key in CONFIG.FARMS[CONFIG.NETWORK])
     {
-      console.log(key);
       for(let farms in CONFIG.FARMS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'])
       {
-        console.log(CONFIG.FARMS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][farms]);
         farmsToBeRendered.push({
           farmData : CONFIG.FARMS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][farms],
           properties : farmsCardTypeList[CONFIG.FARMS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][farms].CARD_TYPE],
@@ -125,7 +121,6 @@ const Farms = (props) => {
     <Container fluid className="page-layout-container">
       <Row>
         {props.farmsToRender.map((farm, index) => {
-          console.log({index});
           return <FarmCard 
           handleStakeOfFarmInputValue = {props.handleStakeOfFarmInputValue}
           harvestOnFarm = {props.harvestOnFarm}

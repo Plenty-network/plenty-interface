@@ -6,8 +6,8 @@ const CONFIG = require('../../../config/config');
 
 const fetchStorageOfStakingContract = async (identifier, address, priceOfStakeTokenInUsd, priceOfPlentyInUSD) => {
   try {
-      console.log({priceOfStakeTokenInUsd, priceOfPlentyInUSD});
-      //const url = `https://tezos-prod.cryptonomic-infra.tech/chains/main/blocks/head/context/contracts/${address}/storage`;
+      
+      
       const url = `${CONFIG.RPC_NODES[CONFIG.NETWORK]}chains/main/blocks/head/context/contracts/${address}/storage`;
       const response = await axios.get(url);
       
@@ -59,14 +59,12 @@ const fetchStorageOfStakingContract = async (identifier, address, priceOfStakeTo
 }
 
 const getLpPriceFromDex = async (identifier , dexAddress) => {
-  console.log(identifier)
+  
   try {
-      //const response = await axios.get(`https://tezos-prod.cryptonomic-infra.tech/chains/main/blocks/head/context/contracts/${dexAddress}/storage`)
       const response = await axios.get(`${CONFIG.RPC_NODES[CONFIG.NETWORK]}chains/main/blocks/head/context/contracts/${dexAddress}/storage`)
-      //let token_pool = response.data.args[1].args[0].args[3];
-      console.log(response.data);
+      
       let tez_pool = parseInt(response.data.args[1].args[0].args[1].args[2].int);
-      console.log({tez_pool});
+      
       let total_Supply = null;
       if(identifier === 'PLENTY - XTZ')
       {
@@ -76,8 +74,6 @@ const getLpPriceFromDex = async (identifier , dexAddress) => {
       {
           total_Supply = parseInt(response.data.args[1].args[1].args[0].args[0].int);
       }
-      //let total_Supply = parseInt(response.data.args[1].args[1].args[0].args[0].int);
-      console.log({total_Supply});
       let lpPriceInXtz = (tez_pool*2)/total_Supply;
       return {
           success : true,
@@ -116,8 +112,6 @@ export const getFarmsData = async (isActive) => {
             priceOfPlenty = tokenPricesData[i].usdValue
         }
     }
-    console.log({priceOfPlenty});
-    console.log({xtzPriceInUsd});
     for(let key in CONFIG.FARMS[CONFIG.NETWORK])
     {
         for(let i in CONFIG.FARMS[CONFIG.NETWORK][key][isActive === true ? 'active' : 'inactive']) {            
@@ -125,18 +119,16 @@ export const getFarmsData = async (isActive) => {
         }
     }
     const response = await Promise.all(dexPromises);
-    console.log(response);
     let lpPricesInUsd = {};
     for(let i in response)
     {
         lpPricesInUsd[response[i].identifier] = response[i].lpPriceInXtz * xtzPriceInUsd;
     }
-    console.log({lpPricesInUsd})
-
+    
     for(let key in CONFIG.FARMS[CONFIG.NETWORK])
     {
         for(let i in CONFIG.FARMS[CONFIG.NETWORK][key][isActive === true ? 'active' : 'inactive']) {            
-            console.log(lpPricesInUsd[key] , priceOfPlenty);
+            
             promises.push(fetchStorageOfStakingContract(key, CONFIG.FARMS[CONFIG.NETWORK][key][isActive === true ? 'active' : 'inactive'][i].CONTRACT,lpPricesInUsd[key] , priceOfPlenty));
         }
     }
@@ -151,7 +143,6 @@ export const getFarmsData = async (isActive) => {
         totalSupply : farmResponse[i].totalSupply,
         rewardRate : farmResponse[i].rewardRate}
     }
-    console.log({farmsData});
     return {
       success : true,
       response : farmsData,
@@ -165,29 +156,6 @@ export const getFarmsData = async (isActive) => {
       response : {}
     }
   }
-    // try {
-    //     let url = null;
-    //     if(isActive)
-    //     {
-    //         url = CONFIG.SERVERLESS_BASE_URL + CONFIG.SERVERLESS_REQUEST.mainnet['FARMS-ACTIVE'];
-    //     }
-    //     else
-    //     {
-    //         url = CONFIG.SERVERLESS_BASE_URL + CONFIG.SERVERLESS_REQUEST.mainnet['FARMS-INACTIVE'];
-    //     }
-    //     const response = axios.get(url);
-    //     return {
-    //         success : true,
-    //         response : response.data
-    //     }
-    // }
-    // catch(error)
-    // {
-    //     return {
-    //         success : false,
-    //         response : {}
-    //     }
-    // }
     
 }
 
@@ -216,7 +184,7 @@ const CheckIfWalletConnected = async (wallet, somenet) => {
 
 export const stakeFarm = async (amount, farmIdentifier , isActive, position) => {
     try {
-      console.log(amount);
+      
       const network = {
         type: CONFIG.WALLET_NETWORK,
       };
@@ -232,8 +200,7 @@ export const stakeFarm = async (amount, farmIdentifier , isActive, position) => 
         const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork]);
         Tezos.setRpcProvider(CONFIG.RPC_NODES[connectedNetwork]);
         Tezos.setWalletProvider(wallet);
-        console.log(farmIdentifier);
-        console.log(CONFIG.FARMS[connectedNetwork]);
+        
         const farmContractInstance = await Tezos.wallet.at(
           //CONFIG.CONTRACT[connectedNetwork].FARMS[farmIdentifier].CONTRACT
           
@@ -367,7 +334,7 @@ export const stakeFarm = async (amount, farmIdentifier , isActive, position) => 
   export const harvest = async (farmIdentifier, isActive, position) => {
 
     try {
-      console.log({farmIdentifier, isActive, position});
+      
       const options = {
         name: CONFIG.NAME,
       };
