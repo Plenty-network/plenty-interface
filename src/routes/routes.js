@@ -70,8 +70,12 @@ const Routes = () => {
           <Route path="/farms">
             <Farms walletAddress={walletAddress} />
           </Route>
-          <Route path="/pools" component={Pools} />
-          <Route path="/ponds" component={Ponds} />
+          <Route path="/pools">
+            <Pools walletAddress={walletAddress} />
+          </Route>
+          <Route path="/ponds">
+            <Ponds walletAddress={walletAddress} />
+          </Route>
         </Switch>
       </Router>
     </ThemeProvider>
