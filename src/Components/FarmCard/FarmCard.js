@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import Col from "react-bootstrap/Col";
-import Card from "react-bootstrap/Card";
 
 import styles from "../../assets/scss/partials/_farms.module.scss"
 import Image from "react-bootstrap/Image";

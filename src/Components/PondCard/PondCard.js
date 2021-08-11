@@ -79,7 +79,6 @@ PondCard.propsTypes = {
   userBalance: PropTypes.number,
   URL: PropTypes.string,
   active: PropTypes.bool,
-  source: PropTypes.string,
   rewards: PropTypes.string,
   walletAddress: PropTypes.string,
 }
