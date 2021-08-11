@@ -74,7 +74,7 @@ const FarmCard = (props) => {
         {/* * Content */}
 
         <FarmCardBottom {...props} />
-      </Card>
+      </div>
     </Col>
   )
 }

@@ -1,4 +1,4 @@
-import React , {useEffect , useState} from 'react';
+import React , {useEffect} from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 
@@ -8,17 +8,17 @@ import plentyXtz from '../assets/images/farms/plenty-xtz.png';
 import { connect } from 'react-redux';
 import * as farmsActions from '../redux/actions/farms/farms.actions'
 
-const CONFIG = require('../config/config');
+import CONFIG from '../config/config';
+
 import PropTypes from "prop-types";
 
 const Farms = (props) => {
-
-  
 
   useEffect(() => {
     renderFarms();
     props.getFarmsData(props.isActiveOpen)
   },[])
+
   const farmsCardTypeList = {
     'PLENTY / XTZ LP' :{
       image: plentyXtz,

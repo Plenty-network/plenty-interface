@@ -65,10 +65,10 @@ const Routes = (props) => {
             <Farms walletAddress={props.userAddress} />
           </Route>
           <Route path="/pools">
-            <Pools walletAddress={walletAddress} />
+            <Pools walletAddress={props.userAddress} />
           </Route>
           <Route path="/ponds">
-            <Ponds walletAddress={walletAddress} />
+            <Ponds walletAddress={props.userAddress} />
           </Route>
         </Switch>
       </Router>
