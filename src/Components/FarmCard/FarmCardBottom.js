@@ -34,8 +34,9 @@ const FarmCardBottom = (props) => {
 
         {(props.harvested || isExpanded) && ( // TODO add proper variable
           <div className="d-flex">
-            <Input className="mr-2 w-100"/>
-
+            <div className={clsx(styles.harvestStakeAmt, "mr-2")}>
+              <span>{5.523435}</span>
+            </div>
 
             <Button
               onClick={() => {
@@ -58,12 +59,15 @@ const FarmCardBottom = (props) => {
 
             <div className="d-flex">
 
-              <Input
-                onChange={(event) => {
-                  props.handleStakeOfFarmInputValue(props.CONTRACT , parseFloat(event.target.value))
-                }}
-                className="mr-2 w-100"
-              />
+              <div className={clsx(styles.harvestStakeAmt, "mr-2")}>
+                <span>{5.523435}</span>
+              </div>
+              {/*<Input*/}
+              {/*  onChange={(event) => {*/}
+              {/*    props.handleStakeOfFarmInputValue(props.CONTRACT , parseFloat(event.target.value))*/}
+              {/*  }}*/}
+              {/*  className="mr-2 w-100"*/}
+              {/*/>*/}
               {
                 props.staked // TODO add proper variable
                   ? <QuantityButton onAdd={() => null} onRemove={() => null}/>
