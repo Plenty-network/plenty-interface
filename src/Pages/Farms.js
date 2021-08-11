@@ -1,4 +1,4 @@
-import React , {useEffect , useState} from 'react';
+import React , {useEffect} from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 
@@ -8,16 +8,17 @@ import plentyXtz from '../assets/images/farms/plenty-xtz.png';
 import { connect } from 'react-redux';
 import * as farmsActions from '../redux/actions/farms/farms.actions'
 
-const CONFIG = require('../config/config');
+import CONFIG from '../config/config';
+
+import PropTypes from "prop-types";
 
 const Farms = (props) => {
-
-  
 
   useEffect(() => {
     renderFarms();
     props.getFarmsData(props.isActiveOpen)
   },[])
+
   const farmsCardTypeList = {
     'PLENTY / XTZ LP' :{
       image: plentyXtz,
@@ -120,26 +121,33 @@ const Farms = (props) => {
     <div>
     <Container fluid className="page-layout-container">
       <Row>
-        {props.farmsToRender.map((farm, index) => {
-          return <FarmCard 
-          handleStakeOfFarmInputValue = {props.handleStakeOfFarmInputValue}
-          harvestOnFarm = {props.harvestOnFarm}
-          stakeInputValues={props.stakeInputValues} 
-          stakeOnFarm = {props.stakeOnFarm}
-          isActiveOpen = {props.isActiveOpen}
-          activeFarmData = {props.activeFarmData}
-          key={index} 
-          {...farm.properties} 
-          {...farm.farmData} 
-          identifier={farm.identifier} 
-          position={farm.location} 
-          {...props} />;
+        {
+          props.farmsToRender.map((farm, index) => {
+            return <FarmCard 
+              handleStakeOfFarmInputValue = {props.handleStakeOfFarmInputValue}
+              harvestOnFarm = {props.harvestOnFarm}
+              stakeInputValues={props.stakeInputValues} 
+              stakeOnFarm = {props.stakeOnFarm}
+              isActiveOpen = {props.isActiveOpen}
+              activeFarmData = {props.activeFarmData}
+              key={index} 
+              {...farm.properties} 
+              {...farm.farmData} 
+              identifier={farm.identifier} 
+              position={farm.location} 
+              {...props}
+            />;
         })}
       </Row>
     </Container>
     </div>
   );
 };
+
+
+Farms.propTypes = {
+  walletAddress: PropTypes.string.isRequired
+}
 
 const mapStateToProps = state => {
   return {
@@ -154,7 +162,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    
     toggleFarmsType : () => (dispatch(farmsActions.toggleFarmsType)),
     stakeOnFarm : (amount, farmIdentifier , isActive, position) => dispatch(farmsActions.stakeOnFarm(amount, farmIdentifier , isActive, position)),
     harvestOnFarm : (farmIdentifier, isActive, position) => dispatch(farmsActions.harvestOnFarm(farmIdentifier, isActive, position)),
@@ -164,4 +171,6 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
+
 export default connect(mapStateToProps,mapDispatchToProps)(Farms);
+
