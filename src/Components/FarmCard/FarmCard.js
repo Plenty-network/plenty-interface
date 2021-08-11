@@ -10,6 +10,14 @@ import Button from "../Ui/Buttons/Button";
 
 const FarmCard = (props) => {
 
+  const apyCalculate = (apr) => {
+    const apy = (
+        (Math.pow(1 + apr / 100 / 365, 365) - 1) *
+        100
+    ).toFixed(0);
+    return apy;
+};
+
   return (
     <Col sm={12} md={4}>
       <Card className={styles.plentyCard}>
@@ -37,25 +45,25 @@ const FarmCard = (props) => {
         <div className={clsx(styles.plentyCardContent, { "pb-0": props.harvested })}> {/* TODO add proper variable */}
           <div className={clsx(styles.plentyCardContentInfo, "flex justify-between")}>
             <p className={styles.plentyCardContentTag}>APY:</p>
-            <p className={styles.plentyCardContentTag}>{props.apy}%</p>
+            <p className={styles.plentyCardContentTag}>{props.activeFarmData.isPresent === true ?  apyCalculate(props.activeFarmData.data.response[props.CONTRACT].APR.toFixed(2)) : 0}%</p>
           </div>
           <div className={clsx(styles.plentyCardContentInfo, "flex justify-between")}>
             <p className={styles.plentyCardContentTag}>APR:</p>
-            <p className={styles.plentyCardContentTag}>{props.apr}%</p>
+            <p className={styles.plentyCardContentTag}>{props.activeFarmData.isPresent === true ? props.activeFarmData.data.response[props.CONTRACT].APR.toFixed(0) : 0}%</p>
           </div>
           <div className={clsx(styles.plentyCardContentInfo, "flex justify-between")}>
             <p className={styles.plentyCardContentTag}>Rewards:</p>
-            <p className={styles.plentyCardContentTag}>{props.rewards}</p>
+            <p className={styles.plentyCardContentTag}>{props.activeFarmData.isPresent === true ? props.activeFarmData.data.response[props.CONTRACT].rewardRate * 2880 : 0}</p>
           </div>
 
           <div className={clsx(styles.plentyCardTvlInfo, "flex justify-between align-center mb-4")}>
             <p className={styles.plentyCardContentTag}>TVL:</p>
-            <p className={styles.plentyCardContentTag}>${props.liquidity}</p>
+            <p className={styles.plentyCardContentTag}>${props.activeFarmData.isPresent === true ? props.activeFarmData.data.response[props.CONTRACT].totalLiquidty.toFixed(0) : 0}</p>
           </div>
 
           {
             props.walletAddress
-              ? !props.harvested && <Button onClick={() => null} color={"primary"} className="w-100">Stake</Button>
+              ? !props.harvested && <Button onClick={() => props.stakeOnFarm(1,props.identifier,true,props.position)} color={"primary"} className="w-100">Stake</Button>
               : <Button
                   onClick={props.connecthWallet}
                   color={"primary"}
@@ -66,7 +74,7 @@ const FarmCard = (props) => {
         </div>
         {/* * Content */}
 
-        <FarmCardBottom title={props.title} />
+        <FarmCardBottom {...props} />
       </Card>
     </Col>
   )

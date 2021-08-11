@@ -36,7 +36,8 @@ const FarmCardBottom = (props) => {
           <div className="d-flex">
             <Input className="mr-2 w-100"/>
 
-            <Button onClick={() => null} color={props.harvested ? "primary" : "default"}> {/* TODO add proper variable */}
+            <Button onClick={() => {props.harvestOnFarm(props.identifier,props.isActiveOpen
+              ,props.position)}} color={props.harvested ? "primary" : "default"}> {/* TODO add proper variable */}
               Harvest
             </Button>
           </div>
@@ -47,11 +48,11 @@ const FarmCardBottom = (props) => {
             <div className="mt-3 mb-2">{props.title}</div>
 
             <div className="d-flex">
-              <Input className="mr-2 w-100"/>
+              <Input onChange={(event) => {props.handleStakeOfFarmInputValue(props.CONTRACT , parseFloat(event.target.value))}}className="mr-2 w-100"/>
               {
                 props.staked // TODO add proper variable
                   ? <QuantityButton onAdd={() => null} onRemove={() => null}/>
-                  : <Button onClick={() => null} color={"default"}>Stake</Button>
+                  : <Button onClick={() => props.stakeOnFarm(props.stakeInputValues[props.CONTRACT],props.identifier,true,props.position)} color={"default"}>Stake</Button>
               }
             </div>
           </>
