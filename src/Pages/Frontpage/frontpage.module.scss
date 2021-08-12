@@ -1,51 +1,26 @@
 @use "../../assets/scss/constants" as const;
 
 .rectangle {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-
-  background: linear-gradient(178.62deg, #7028E4 16.71%, #E5B2CA 217.99%);
-  //background: const.$bgGradient;
-  border-radius: 5px;
-}
-
-.rec {
   background: linear-gradient(178.62deg, #7028E4 16.71%, #E5B2CA 217.99%);
   //background: const.$bgGradient;
   border-radius: 5px;
 }
 
 .tvlValue {
-  display: block;
   font-family: DM Sans, serif;
   font-style: normal;
   font-weight: bold;
   font-size: 6em;
   line-height: 139%;
-  /* or 120px */
-
   letter-spacing: -0.04em;
-  text-align: center;
-  //margin-top: 5%;
-  //line-height: 139%;
   color: #FFFFFF;
 }
 
 .tvlText {
-  text-align: center;
-  width: 100%;
-  display: block;
-  //font-family: Mulish;
   font-family: 'DM Sans', sans-serif;;
   font-style: normal;
   font-weight: 300;
-  //font-size: 32.3617px;
-  //line-height: 58px;
-  /* identical to box height, or 178% */
-
   color: #FFFFFF;
-
 }
 
 .plentyOnTezos {
@@ -58,22 +33,11 @@
 .button {
   padding-left: 35px;
   padding-right: 35px;
-  display: block;
-  margin: 1% auto 5%;
 }
 
 .info {
-  text-align: center;
-  width: 60%;
-  margin: auto;
-  display: block;
   font-family: 'DM Sans', sans-serif;
   font-style: normal;
   font-weight: normal;
-  //font-size: 22px;
-  //line-height: 32px;
-  /* or 145% */
-
   color: #FFFFFF;
-
 }

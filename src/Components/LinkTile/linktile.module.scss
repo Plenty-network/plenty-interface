@@ -7,7 +7,15 @@
   height: 50px;
 }
 
-.iconText {
+.header {
+  min-height: 28px;
+}
+
+.text {
+  min-height: 10em;
+}
+
+.headerIcon {
   margin-left: -36px;
 }
 

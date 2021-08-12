@@ -23,7 +23,7 @@ const Button = props => {
 }
 
 Button.propTypes = {
-  color: PropTypes.oneOf(['primary', 'default', 'mute']),
+  color: PropTypes.oneOf(['primary', 'secondary', 'default', 'mute']),
   className: PropTypes.string,
   isIconBtn: PropTypes.bool,
   startIcon: PropTypes.string,
