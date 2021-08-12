@@ -1,6 +1,6 @@
 
 import {  TezosParameterFormat, TezosMessageUtils } from 'conseiljs'
-const CONFIG = require('../../../CONFIG/config');
+const CONFIG = require('../../../config/config');
 const TezosToolkit = require('@taquito/taquito').TezosToolkit;
 const axios = require('axios');
 const STAKING_CONFIG = {
@@ -188,18 +188,29 @@ const getPackedKey = (tokenId,address,type) => {
   
 }
 
-const getStakedAmount = async (mapId,packedKey,identifier,decimal) => {
+const getStakedAmount = async (mapId,packedKey,identifier,decimal,address) => {
   try {
-      const url = `https://mainnet.tezster.tech/chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
+      const url = `${CONFIG.RPC_NODES[CONFIG.NETWORK]}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
       const response = await axios.get(url);
       let balance = response.data.args[0].args[1].int;
       balance = parseInt(balance);
       balance =  balance / Math.pow(10,decimal);
+      let singularStakes = []
+      for(let i=0;i<response.data.args[0].args[0].length;i++)
+      {
+        singularStakes.push({
+          amount : response.data.args[0].args[0][i].args[1].args[0].int,
+          block : response.data.args[0].args[0][i].args[1].args[1].int
+        })
+        console.log(identifier,response.data.args[0].args[0][i].args[1].args[0].int,response.data.args[0].args[0][i].args[1].args[1].int)
+      }
 
       return {
           success : true,
           balance,
-          identifier
+          identifier,
+          address,
+          singularStakes
       }
   }
   catch(error)
@@ -208,7 +219,8 @@ const getStakedAmount = async (mapId,packedKey,identifier,decimal) => {
       return {
           success : false,
           balance : 0,
-          identifier
+          identifier,
+          singularStakes : []
       }
   }
 }
@@ -255,15 +267,15 @@ export const getBalanceAmountForAllContracts = async (address) => {
     let packedKey;
     let promises = [];
     console.log({address});
-    for(let key in STAKING_CONFIG.BALANCE_CONTRACTS)
+    for(let key in CONFIG.TOKEN_CONTRACTS[CONFIG.NETWORK])
     {
-      if(STAKING_CONFIG.BALANCE_CONTRACTS[key].type === 'FA1.2') {
+      if(CONFIG.TOKEN_CONTRACTS[CONFIG.NETWORK][key].type === 'FA1.2') {
         packedKey = getPackedKey(0,address,'FA1.2');
       }
       else {
-        packedKey = getPackedKey(STAKING_CONFIG.BALANCE_CONTRACTS[key].tokenId,address,'FA2');
+        packedKey = getPackedKey(CONFIG.TOKEN_CONTRACTS[CONFIG.NETWORK][key].tokenId,address,'FA2');
       }
-      promises.push(getBalanceAmount(STAKING_CONFIG.BALANCE_CONTRACTS[key].mapId , packedKey , key, STAKING_CONFIG.BALANCE_CONTRACTS[key].decimal));
+      promises.push(getBalanceAmount(CONFIG.TOKEN_CONTRACTS[CONFIG.NETWORK][key].mapId , packedKey , key, CONFIG.TOKEN_CONTRACTS[CONFIG.NETWORK][key].decimal));
 
     }
     const response = await Promise.all(promises);
@@ -283,24 +295,41 @@ export const getBalanceAmountForAllContracts = async (address) => {
 
 }
 
-export const getStakedAmountForAllContracts = async (address) => {
+export const getStakedAmountForAllContracts = async (address , type , isActive) => {
   try {
     console.log({address});
     let packedKey = getPackedKey(0,address,'FA1.2');
     
     let promises = [];
 
-    for(let key in STAKING_CONFIG.STAKING_CONTRACTS)
-    {
+    // for(let key in CONFIG.STAKING_CONTRACTS[type][isActive === true ? 'active' : 'inactive'])
+    // {
        
-        promises.push(getStakedAmount(STAKING_CONFIG.STAKING_CONTRACTS[key].mapId , packedKey , key, STAKING_CONFIG.STAKING_CONTRACTS[key].decimal));
+    //     promises.push(getStakedAmount(CONFIG.STAKING_CONTRACTS[type][isActive === true ? 'active' : 'inactive'][key].mapId , packedKey , key, STAKING_CONFIG.STAKING_CONTRACTS[key].decimal));
 
+    // }
+
+    for(let identifier in CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK])
+    {
+      console.log(identifier);
+      //console.log(CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK]);
+      for(let i in CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][isActive === true ? 'active' : 'inactive'])
+      {
+        console.log(i);
+        promises.push(getStakedAmount(CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][isActive === true ? 'active' : 'inactive'][i].mapId , packedKey , identifier, CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][isActive === true ? 'active' : 'inactive'][i].decimal, CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][isActive === true ? 'active' : 'inactive'][i].address));
+      }
     }
     const response = await Promise.all(promises);
-    console.log({response});
+    let stakedAmountResponse = {};
+    for(let i in  response)
+    {
+      stakedAmountResponse[response[i].address] = {stakedAmount : response[i].balance , identifier : response[i].identifier , singularStakes : response[i].singularStakes }
+
+    }
+    console.log({response , stakedAmountResponse});
     return {
       success : true,
-      response,
+      response : stakedAmountResponse,
     }
   }
   catch(error)

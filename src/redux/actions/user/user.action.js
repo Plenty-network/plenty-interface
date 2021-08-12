@@ -52,7 +52,7 @@ const userStakesFetchStart = () => {
   }
 }
 
-const userStakesFetchSuccessfull = (data) => {
+const userStakesFetchSuccessfull = (data , type , isActive) => {
   return {
     type : actions.USER_STAKES_FETCH_SUCCESSFULL,
     data
@@ -71,10 +71,10 @@ export const userStakesClear = () => {
   }
 }
 
-export const getUserStakes = (addressOfUser) => {
+export const getUserStakes = (addressOfUser, type , isActive) => {
   return dispatch => {
     dispatch(userStakesFetchStart());
-    userApis.getStakedAmountForAllContracts(addressOfUser)
+    userApis.getStakedAmountForAllContracts(addressOfUser, type , isActive)
       .then(response => {
         console.log({response});
         dispatch(userStakesFetchSuccessfull(response.response))

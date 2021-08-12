@@ -7,17 +7,23 @@ import FarmCard from '../Components/FarmCard/FarmCard';
 import plentyXtz from '../assets/images/farms/plenty-xtz.png';
 import { connect } from 'react-redux';
 import * as farmsActions from '../redux/actions/farms/farms.actions'
-
+import * as userActions from '../redux/actions/user/user.action'
 import CONFIG from '../config/config';
 
 import PropTypes from "prop-types";
 
 const Farms = (props) => {
-
   useEffect(() => {
     renderFarms();
+    console.log(props.userAddress);
     props.getFarmsData(props.isActiveOpen)
+    
   },[])
+
+  useEffect(() => {
+    props.getUserStakes(props.userAddress,'FARMS',props.isActiveOpen)
+  },[props.userAddress])
+
 
   const farmsCardTypeList = {
     'PLENTY / XTZ LP' :{
@@ -130,6 +136,7 @@ const Farms = (props) => {
               stakeOnFarm = {props.stakeOnFarm}
               isActiveOpen = {props.isActiveOpen}
               activeFarmData = {props.activeFarmData}
+              userStakes = {props.userStakes}
               key={index} 
               {...farm.properties} 
               {...farm.farmData} 
@@ -155,7 +162,9 @@ const mapStateToProps = state => {
     isActiveOpen : state.farms.isActiveOpen,
     stakeInputValues : state.farms.stakeInputValues,
     activeFarmData : state.farms.active,
-    farmsToRender : state.farms.farmsToRender
+    farmsToRender : state.farms.farmsToRender,
+    userStakes : state.user.stakes
+
 
   }
 }
@@ -168,6 +177,7 @@ const mapDispatchToProps = dispatch => {
     handleStakeOfFarmInputValue : (address,value) => dispatch(farmsActions.handleStakeOfFarmInputValue(address,value)),
     getFarmsData : (isActive) => (dispatch(farmsActions.getFarmsData(isActive))),
     setFarmsToRender  : (farmsToBeRender) => (dispatch(farmsActions.setFarmsToRender(farmsToBeRender))),
+    getUserStakes : (address , type , isActive) => (dispatch(userActions.getUserStakes(address , type , isActive)))
   }
 }
 
