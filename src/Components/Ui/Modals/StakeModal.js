@@ -3,8 +3,16 @@ import SimpleModal from "./SimpleModal";
 import { useState } from "react";
 import Button from "../Buttons/Button";
 
+const BUTTON_TEXT = {
+  ENTER_AMT: 'Enter an amount',
+  STAKE: 'Confirm Stake',
+  INSUFF_AMT: 'Insufficient balance'
+}
+
 const StakeModal = props => {
   const [stakeAmt, setStakeAmt] = useState()
+  const [btnText, setBtnTxt] = useState(BUTTON_TEXT.ENTER_AMT)
+
   return (
     <SimpleModal
       open={props.open}
@@ -25,7 +33,7 @@ const StakeModal = props => {
         </div>
       </div>
 
-      <Button onClick={() => null} color="primary" className="w-100">Stake</Button>
+      <Button onClick={() => null} color="primary" className="w-100">{btnText}</Button>
     </SimpleModal>
   )
 }
