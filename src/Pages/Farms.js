@@ -1,4 +1,4 @@
-import React , {useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 
@@ -11,8 +11,11 @@ import * as farmsActions from '../redux/actions/farms/farms.actions'
 import CONFIG from '../config/config';
 
 import PropTypes from "prop-types";
+import StakeModal from "../Components/Ui/Modals/StakeModal";
 
 const Farms = (props) => {
+  // TODO add redux state prop here
+  const [stakeModal, toggleStakeModal] = useState(false)
 
   useEffect(() => {
     renderFarms();
@@ -118,29 +121,35 @@ const Farms = (props) => {
   }
 
   return (
-    <div>
-    <Container fluid className="page-layout-container">
-      <Row>
-        {
-          props.farmsToRender.map((farm, index) => {
-            return <FarmCard 
-              handleStakeOfFarmInputValue = {props.handleStakeOfFarmInputValue}
-              harvestOnFarm = {props.harvestOnFarm}
-              stakeInputValues={props.stakeInputValues} 
-              stakeOnFarm = {props.stakeOnFarm}
-              isActiveOpen = {props.isActiveOpen}
-              activeFarmData = {props.activeFarmData}
-              key={index} 
-              {...farm.properties} 
-              {...farm.farmData} 
-              identifier={farm.identifier} 
-              position={farm.location} 
-              {...props}
-            />;
-        })}
-      </Row>
-    </Container>
-    </div>
+    <>
+      <div>
+        <button onClick={() => toggleModal(true)}>Show</button>
+        <Container fluid className="page-layout-container">
+          <Row>
+            {
+              props.farmsToRender.map((farm, index) => {
+                return <FarmCard
+                  handleStakeOfFarmInputValue = {props.handleStakeOfFarmInputValue}
+                  harvestOnFarm = {props.harvestOnFarm}
+                  stakeInputValues={props.stakeInputValues}
+                  stakeOnFarm = {props.stakeOnFarm}
+                  isActiveOpen = {props.isActiveOpen}
+                  activeFarmData = {props.activeFarmData}
+                  key={index}
+                  {...farm.properties}
+                  {...farm.farmData}
+                  identifier={farm.identifier}
+                  position={farm.location}
+                  onStake={() => setTokenToStake(farm)}
+                  {...props}
+                />;
+            })}
+          </Row>
+        </Container>
+      </div>
+
+      <StakeModal open={stakeModal} onClose={() => toggleStakeModal(false)} tokenData={{title: "hDAO / PLENTY LP"}} />
+    </>
   );
 };
 
