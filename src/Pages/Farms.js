@@ -123,7 +123,6 @@ const Farms = (props) => {
   return (
     <>
       <div>
-        <button onClick={() => toggleModal(true)}>Show</button>
         <Container fluid className="page-layout-container">
           <Row>
             {
@@ -140,7 +139,6 @@ const Farms = (props) => {
                   {...farm.farmData}
                   identifier={farm.identifier}
                   position={farm.location}
-                  onStake={() => setTokenToStake(farm)}
                   {...props}
                 />;
             })}
