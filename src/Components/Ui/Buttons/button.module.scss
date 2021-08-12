@@ -39,6 +39,19 @@
   font-weight: bold;
 }
 
+.secondary {
+  background: const.$primary-color-1-light;
+  color: const.$primary-color-1;
+  border: 0;
+}
+
+.smallBtn {
+  height: 26px;
+  min-width: inherit;
+  border-radius: 12px;
+  padding: 0 16px;
+}
+
 .default {
   color: #5c0fae;
   border: solid 1px #5c0fae;
