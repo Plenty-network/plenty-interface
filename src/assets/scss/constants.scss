@@ -1,7 +1,9 @@
-$gradientStart: #7028e4;
-$gradientEnd: #e5b2ca;
+$primary-color-1: #7028e4;
+$primary-color-1-light: #843FE029;
 
-$bgGradient: linear-gradient(90deg, #7028e4 0%, #e5b2ca 100%);
+$primary-color-2: #e5b2ca;
+
+$bgGradient: linear-gradient(90deg, $primary-color-1 0%, $primary-color-2 100%);
 
 $border-color: #f1f1f1;
 
