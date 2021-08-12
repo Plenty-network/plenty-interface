@@ -40,6 +40,19 @@
 }
 
 .secondary {
+  background: const.$primary-color-1-light;
+  color: const.$primary-color-1;
+  border: 0;
+}
+
+.smallBtn {
+  height: 26px;
+  min-width: inherit;
+  border-radius: 12px;
+  padding: 0 16px;
+}
+
+.tertiary {
   color: #823DE0;
   background-color: #FFFFFF;
   border: 0;

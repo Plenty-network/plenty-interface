@@ -34,8 +34,7 @@ export const ExternalMenu = () => {
 };
 
 export const NavigationMenu = () => {
-  //const menu = ['swap', 'farms', 'pools', 'ponds'];
-  const menu = ['swap', 'farms'];
+  const menu = ['swap', 'farms', 'pools', 'ponds'];
   const location = useLocation();
   const { pathname } = location;
   const splitLocation = pathname.split('/');

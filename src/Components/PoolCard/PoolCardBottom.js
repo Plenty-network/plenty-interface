@@ -8,7 +8,7 @@ import clsx from "clsx";
 import Input from "../Ui/Input/Input";
 import QuantityButton from "../Ui/Buttons/QuantityButton";
 
-const FarmCardBottom = (props) => {
+const PoolCardBottom = (props) => {
   const [ isExpanded, toggleExpand ] = useState(false);
 
   const renderHarvest = () => (
@@ -34,20 +34,9 @@ const FarmCardBottom = (props) => {
 
         {(props.harvested || isExpanded) && ( // TODO add proper variable
           <div className="d-flex">
-            <div className={clsx(styles.harvestStakeAmt, "mr-2")}>
-              <span>{5.523435}</span>
-            </div>
+            <Input className="mr-2 w-100"/>
 
-            <Button
-              onClick={() => {
-                props.harvestOnFarm(
-                  props.identifier,
-                  props.isActiveOpen,
-                  props.position
-                )
-              }}
-              color={props.harvested ? "primary" : "default"}
-            >
+            <Button onClick={() => null} color={props.harvested ? "primary" : "default"}> {/* TODO add proper variable */}
               Harvest
             </Button>
           </div>
@@ -58,20 +47,11 @@ const FarmCardBottom = (props) => {
             <div className="mt-3 mb-2">{props.title}</div>
 
             <div className="d-flex">
-
-              <div className={clsx(styles.harvestStakeAmt, "mr-2")}>
-                <span>{5.523435}</span>
-              </div>
-              {/*<Input*/}
-              {/*  onChange={(event) => {*/}
-              {/*    props.handleStakeOfFarmInputValue(props.CONTRACT , parseFloat(event.target.value))*/}
-              {/*  }}*/}
-              {/*  className="mr-2 w-100"*/}
-              {/*/>*/}
+              <Input className="mr-2 w-100"/>
               {
                 props.staked // TODO add proper variable
                   ? <QuantityButton onAdd={() => null} onRemove={() => null}/>
-                  : <Button onClick={() => props.stakeOnFarm(props.stakeInputValues[props.CONTRACT],props.identifier,true,props.position)} color={"default"}>Stake</Button>
+                  : <Button onClick={() => null} color={"default"}>Stake</Button>
               }
             </div>
           </>
@@ -115,8 +95,8 @@ const FarmCardBottom = (props) => {
   )
 };
 
-FarmCardBottom.propTypes = {
+PoolCardBottom.propTypes = {
   title: PropTypes.string.isRequired
 }
 
-export default FarmCardBottom;
+export default PoolCardBottom;

@@ -5,7 +5,7 @@
 .plentyCard {
   padding: 18px 6px;
   border: 0;
-  box-shadow: 0 44px 65px rgba(176, 183, 195, 0.19);
+  box-shadow: 0 0 44px 20px rgba(176, 183, 195, 0.19);
   border-radius: 15px;
 }
 
@@ -99,5 +99,17 @@
   padding: 20px 26px 0;
   .swap-content-btn {
     margin: 0;
+  }
+}
+
+.harvestStakeAmt {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  background: #F4F4F6;
+  border-radius: 6px;
+
+  & > span {
+    margin: auto 12px;
   }
 }

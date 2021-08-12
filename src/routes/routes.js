@@ -1,8 +1,8 @@
 import {
-    BrowserRouter as Router,
-    Route,
-    Switch,
-    Redirect,
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
 } from 'react-router-dom';
 //Components
 import Header from '../Components/Header/Header';
@@ -10,83 +10,86 @@ import Swap from '../Pages/Swap';
 import Farms from '../Pages/Farms';
 import Ponds from '../Pages/Ponds';
 import Pools from '../Pages/Pools';
-import Frontpage from '../Pages/Frontpage/Frontpage';
-import {ThemeProvider} from 'styled-components';
-import {lightTheme, darkTheme, GlobalStyles} from '../themes';
-import {useState, useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {
-    connectWallet,
-    disconnectWallet,
-    getWalletAddress,
-} from '../redux/actions/wallet/wallet.action';
+import { ThemeProvider } from 'styled-components';
+import { lightTheme, darkTheme, GlobalStyles } from '../themes';
+import { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import * as walletActions from '../redux/actions/wallet/wallet.action';
 
-const Routes = () => {
-    const dispatch = useDispatch();
-    const walletAddress = useSelector((state) => state.wallet);
-    const [theme, setTheme] = useState('light');
+const Routes = (props) => {
+  const [theme, setTheme] = useState('light');
 
-    const toggleTheme = () => {
-        theme === 'light' ? setTheme('dark') : setTheme('light');
-    };
+  const toggleTheme = () => {
+    theme === 'light' ? setTheme('dark') : setTheme('light');
+  };
 
-    const connecthWallet = async () => {
-        if (walletAddress === null) {
-            return dispatch(connectWallet());
-        }
-    };
+  const connecthWallet = async () => {
+    if (props.userAddress === null) {
+      return props.connectWallet();
+    }
+  };
 
-    const disconnectUserWallet = async () => {
-        if (walletAddress) {
-            return dispatch(disconnectWallet());
-        }
-    };
+  const disconnectUserWallet = async () => {
+    if (props.userAddress) {
+      return props.disconnectWallet();
+    }
+  };
 
-    useEffect(() => {
-        return dispatch(getWalletAddress());
-    }, []);
+  useEffect(() => {
+    return props.fetchWalletAddress();
+  }, []);
 
-    return (
-        <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
-            <GlobalStyles/>
-            <Router>
+  return (
+    <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+      <GlobalStyles />
+      <Router>
+        <Header
+          toggleTheme={toggleTheme}
+          theme={theme}
+          connecthWallet={connecthWallet}
+          disconnectWallet={disconnectUserWallet}
+          walletAddress={props.userAddress}
+        />
+        <Switch>
+          <Route path="/" exact>
+            <Redirect to="/swap" />
+          </Route>
 
-                <Switch>
-                    <Route path="/" exact>
-                        <Header
-                            toggleTheme={toggleTheme}
-                            theme={theme}
-                            connecthWallet={connecthWallet}
-                            disconnectWallet={disconnectUserWallet}
-                            walletAddress={walletAddress}
-                        />
-                        <Frontpage/>
-                    </Route>
-                    <div>
-                        <Header
-                            toggleTheme={toggleTheme}
-                            theme={theme}
-                            connecthWallet={connecthWallet}
-                            disconnectWallet={disconnectUserWallet}
-                            walletAddress={walletAddress}
-                        />
-                        <Route path="/swap" exact>
-                            <Swap
-                                walletAddress={walletAddress}
-                                connecthWallet={connecthWallet}
-                            />
-                        </Route>
-                        <Route path="/farms">
-                            <Farms walletAddress={walletAddress}/>
-                        </Route>
-                        <Route path="/pools" component={Pools}/>
-                        <Route path="/ponds" component={Ponds}/>
-                    </div>
-
-                </Switch>
-            </Router>
-        </ThemeProvider>
-    );
+          <Route path="/swap" exact>
+            <Swap
+              walletAddress={props.userAddress}
+              connecthWallet={connecthWallet}
+            />
+          </Route>
+          <Route path="/farms">
+            <Farms walletAddress={props.userAddress} />
+          </Route>
+          <Route path="/pools">
+            <Pools walletAddress={props.userAddress} />
+          </Route>
+          <Route path="/ponds">
+            <Ponds walletAddress={props.userAddress} />
+          </Route>
+        </Switch>
+      </Router>
+    </ThemeProvider>
+  );
 };
 
-export default Routes;
+const mapStateToProps = state => {
+  return {
+    userAddress : state.wallet.address,
+    
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    connectWallet : () => (dispatch(walletActions.connectWallet())),
+    disconnectWallet :() => (dispatch(walletActions.disconnectWallet())),
+    fetchWalletAddress : () => (dispatch(walletActions.fetchWalletAddress())),
+    
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Routes);
