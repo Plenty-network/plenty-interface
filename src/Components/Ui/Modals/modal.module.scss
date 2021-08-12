@@ -1,0 +1,32 @@
+@use "../../../assets/scss/constants" as const;
+
+.simpleModal {
+
+  & > :global(.modal-content) {
+    background: #FFFFFF;
+    box-shadow: 0 16.9px 32.3304px rgba(176, 183, 195, 0.14);
+    border-radius: 12px;
+    border: 0;
+    padding: 12px;
+  }
+
+  .header {
+    padding: 14px 14px 26px;
+    border-bottom: 1px solid const.$border-color;
+  }
+
+  .title {
+    font-weight: bold;
+    text-align: center;
+    font-size: 18px;
+  }
+  
+  .closeBtn {
+    cursor: pointer;
+    color: #8F92A166;
+  }
+
+  .content {
+    padding: 26px 14px 14px;
+  }
+}
