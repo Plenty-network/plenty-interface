@@ -1,5 +1,5 @@
 import { BeaconWallet } from '@taquito/beacon-wallet';
-const CONFIG =require('../../../config/config');
+const CONFIG =require('../../../CONFIG/config');
 
 export const ConnectWalletAPI = async () => {
     try {
