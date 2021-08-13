@@ -1,4 +1,4 @@
-import * as actions from '../Actions/index.action';
+import * as actions from '../actions/index.action';
 
 const initialState = {
     swapData : {
