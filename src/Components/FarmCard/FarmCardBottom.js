@@ -35,7 +35,7 @@ const FarmCardBottom = (props) => {
         {(props.harvested || isExpanded) && ( // TODO add proper variable
           <div className="d-flex">
             <div className={clsx(styles.harvestStakeAmt, "mr-2")}>
-              <span>{0}</span>
+              <span>{props.harvestValueOnFarms[props.isActiveOpen][props.CONTRACT].totalRewards.toFixed(6)}</span>
             </div>
 
             <Button

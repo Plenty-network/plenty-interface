@@ -343,108 +343,90 @@ export const getStakedAmountForAllContracts = async (address , type , isActive) 
 
 }
 
-const fetchWalletBalance = async (
-  addressOfUser,
-  tokenContractAddress,
-  icon,
-  type,
-  token_id,
-  token_decimal
-) => {
-  try {
-    const connectedNetwork = CONFIG.NETWORK;
-    const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork]);
-    Tezos.setProvider(CONFIG.RPC_NODES[connectedNetwork]);
-    const contract = await Tezos.contract.at(tokenContractAddress);
-    const storage = await contract.storage();
-    let userBalance = 0;
-    if (type === 'FA1.2') {
-      if (icon === 'WRAP') {
-        const userDetails = await storage.assets.ledger.get(addressOfUser);
-        let userBalance = userDetails;
-        userBalance =
-          userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
-        userBalance = parseFloat(userBalance);
-        return {
-          success: true,
-          balance: userBalance,
-          symbol: icon,
-        };
-      } else if (icon === 'KALAM') {
-        const userDetails = await storage.ledger.get(addressOfUser);
-        let userBalance = userDetails;
-        userBalance =
-          userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
-        userBalance = parseFloat(userBalance);
-        return {
-          success: true,
-          balance: userBalance,
-          symbol: icon,
-        };
-      } else {
-        const userDetails = await storage.balances.get(addressOfUser);
-
-        let userBalance = userDetails.balance;
-        userBalance =
-          userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
-        userBalance = parseFloat(userBalance);
-        return {
-          success: true,
-          balance: userBalance,
-          symbol: icon,
-        };
+const calculateHarvestValue = async (stakingContractAddress , DECIMAL , currentBlockLevel , mapId, packedAddress) => { 
+  console.log({stakingContractAddress , DECIMAL , currentBlockLevel , mapId, packedAddress});
+  try
+  {
+          let url = `${CONFIG.RPC_NODES[CONFIG.NETWORK]}chains/main/blocks/head/context/contracts/${stakingContractAddress}/storage`; 
+          const smartContractResponse = await axios.get(url);
+          // Setting parameters 
+          let periodFinish = smartContractResponse.data.args[1].args[0].args[0].int; 
+          let lastUpdateTime = smartContractResponse.data.args[0].args[2].int;
+          let rewardRate = smartContractResponse.data.args[1].args[1].int ;
+          let totalSupply = smartContractResponse.data.args[3].int;
+          let rewardPerTokenStored = smartContractResponse.data.args[1].args[0].args[1].int;
+          if (totalSupply == 0){
+              throw "No One Staked"
+          }
+          let rewardPerToken =  Math.min(currentBlockLevel, parseInt(periodFinish));
+          rewardPerToken = rewardPerToken - parseInt(lastUpdateTime);
+          rewardPerToken *= parseInt(rewardRate) * Math.pow(10,DECIMAL);
+          rewardPerToken = rewardPerToken / totalSupply + parseInt(rewardPerTokenStored);
+          url = `${CONFIG.RPC_NODES[CONFIG.NETWORK]}chains/main/blocks/head/context/big_maps/${mapId}/${packedAddress}`; 
+          let bigMapResponse = await axios.get(url); 
+          console.log(bigMapResponse.data);
+          let userBalance = bigMapResponse.data.args[0].args[1].int; 
+          let userRewardPaid = bigMapResponse.data.args[3].int; 
+          let rewards = bigMapResponse.data.args[2].int; 
+          let totalRewards = parseInt(userBalance) * (rewardPerToken - parseInt(userRewardPaid));
+          totalRewards = totalRewards / Math.pow(10, DECIMAL) + parseInt(rewards);
+          totalRewards = totalRewards / Math.pow(10, DECIMAL); 
+          console.log(totalRewards)
+          if(totalRewards <0)
+          {
+            totalRewards = 0;
+          }
+          return {
+            success : true,
+            totalRewards,
+            address : stakingContractAddress
+          }; 
       }
-    } else {
-      const userDetails = await storage.assets.ledger.get({
-        0: addressOfUser,
-        1: token_id,
-      });
-      userBalance = (
-        userDetails.toNumber() / Math.pow(10, token_decimal)
-      ).toFixed(3);
-
-      userBalance = parseFloat(userBalance);
-      return {
-        success: true,
-        balance: userBalance,
-        symbol: icon,
-      };
-    }
-  } catch (e) {
-    return {
-      success: false,
-      balance: 0,
-      symbol: icon,
-      error: e,
-    };
+      catch (error){
+          console.log(error);
+          return {
+            success : false,
+            totalRewards : 0,
+            address : stakingContractAddress
+          }
+      }
   }
-};
-
-export const fetchAllWalletBalance = async (addressOfUser) => {
-  try {
-    const network = CONFIG.NETWORK;
-    let promises = [];
-    for (let identifier in CONFIG.AMM[network]) {
-      promises.push(
-        fetchWalletBalance(
-          addressOfUser,
-          CONFIG.AMM[network][identifier].TOKEN_CONTRACT,
-          identifier,
-          CONFIG.AMM[network][identifier].READ_TYPE,
-          CONFIG.AMM[network][identifier].TOKEN_ID,
-          CONFIG.AMM[network][identifier].TOKEN_DECIMAL
-        )
+  export const getHarvestValue = async (address , type , isActive) => {
+    try {
+      
+      let packedKey = getPackedKey(0,address,'FA1.2');
+      let blockData = await axios.get(
+        `${CONFIG.TZKT_NODES[CONFIG.NETWORK]}/v1/blocks/count`
       );
+      let promises = [];
+      let harvestResponse = {};
+      for(let identifier in CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK])
+      {
+        
+        for(let i in CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][isActive === true ? 'active' : 'inactive'])
+        {
+          promises.push(calculateHarvestValue(CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][isActive === true ? 'active' : 'inactive'][i].address, CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][isActive === true ? 'active' : 'inactive'][i].decimal , blockData.data, CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][isActive === true ? 'active' : 'inactive'][i].mapId, packedKey));
+        }
+      }
+      const response = await Promise.all(promises);
+      
+      for(let i in response)
+      {
+        harvestResponse[response[i].address] = {totalRewards : response[i].totalRewards}
+      }
+      console.log({harvestResponse});
+      return {
+        success : true,
+        response : harvestResponse,
+      }
     }
-    let response = await Promise.all(promises);
-    return {
-      success: true,
-      response,
-    };
-  } catch (error) {
-    return {
-      success: false,
-      response: {},
-    };
+    catch(error)
+    {
+      console.log(error);
+      return {
+        success : false,
+        response : {}
+      }
+    }
+  
   }
-};

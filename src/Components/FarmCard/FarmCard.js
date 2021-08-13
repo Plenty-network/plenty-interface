@@ -66,7 +66,7 @@ const FarmCard = (props) => {
                 props.activeFarmData.isPresent === true
                   ? props.activeFarmData.data.response[props.CONTRACT].rewardRate * 2880
                   : 0
-              }
+              } / PER DAY
             </p>
           </div>
 

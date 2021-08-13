@@ -52,7 +52,7 @@ const userStakesFetchStart = () => {
   }
 }
 
-const userStakesFetchSuccessfull = (data , type , isActive) => {
+const userStakesFetchSuccessfull = (data) => {
   return {
     type : actions.USER_STAKES_FETCH_SUCCESSFULL,
     data
@@ -83,5 +83,75 @@ export const getUserStakes = (addressOfUser, type , isActive) => {
         console.log(error)
         dispatch(userStakesFetchFailed())
       })
+  }
+}
+
+const harvestValueFetchStart = () => {
+  return {
+    type : actions.HARVEST_VALUE_FETCH_START
+  }
+}
+
+const harvestValueFetchSuccessfull = (data , type, isActive) => {
+  console.log({data , type, isActive})
+  if(type === 'FARMS')
+  {
+    console.log('FARMS IS PINGED')
+    return {
+      type : actions.HARVEST_VALUE_FARMS_FETCH_SUCCESSFULL,
+      data : {
+        data,
+        isActive
+      }
+    }
+  }
+  else if(type === 'POOLS')
+  {
+    return {
+      type : actions.HARVEST_VALUE_POOLS_FETCH_SUCCESSFULL,
+      data : {
+        data,
+        isActive
+      }
+    }
+  }
+  else if(type === 'PONDS')
+  {
+    return {
+      type : actions.HARVEST_VALUE_PONDS_FETCH_SUCCESSFULL,
+      data : {
+        data,
+        isActive
+      }
+    }
+  }
+}
+
+const harvestValueFetchFailed = () => {
+  return {
+    type : actions.HARVEST_VALUE_FETCH_FAILED
+  }
+}
+
+export const getHarvestValues = (addressOfUser, type , isActive) => {
+  return dispatch => {
+    dispatch(harvestValueFetchStart());
+    userApis.getHarvestValue(addressOfUser, type , isActive)
+      .then(response => {
+        console.log({response});
+        dispatch(harvestValueFetchSuccessfull(response.response ,type , isActive))
+      })
+      .catch(error => {
+        console.log(error)
+        dispatch(harvestValueFetchFailed())
+      })
+  }
+}
+
+export const harvestValuesClear = () => {
+  return dispatch => {
+    dispatch({
+      type : actions.HARVEST_VALUE_CLEAR
+    })
   }
 }

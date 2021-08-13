@@ -22,6 +22,7 @@ const Farms = (props) => {
 
   useEffect(() => {
     props.getUserStakes(props.userAddress,'FARMS',props.isActiveOpen)
+    props.getHarvestValues(props.userAddress,'FARMS',props.isActiveOpen)
   },[props.userAddress])
 
 
@@ -137,6 +138,7 @@ const Farms = (props) => {
               isActiveOpen = {props.isActiveOpen}
               activeFarmData = {props.activeFarmData}
               userStakes = {props.userStakes}
+              harvestValueOnFarms = {props.harvestValueOnFarms}
               key={index} 
               {...farm.properties} 
               {...farm.farmData} 
@@ -163,7 +165,8 @@ const mapStateToProps = state => {
     stakeInputValues : state.farms.stakeInputValues,
     activeFarmData : state.farms.active,
     farmsToRender : state.farms.farmsToRender,
-    userStakes : state.user.stakes
+    userStakes : state.user.stakes,
+    harvestValueOnFarms : state.user.harvestValueOnFarms
 
 
   }
@@ -177,7 +180,9 @@ const mapDispatchToProps = dispatch => {
     handleStakeOfFarmInputValue : (address,value) => dispatch(farmsActions.handleStakeOfFarmInputValue(address,value)),
     getFarmsData : (isActive) => (dispatch(farmsActions.getFarmsData(isActive))),
     setFarmsToRender  : (farmsToBeRender) => (dispatch(farmsActions.setFarmsToRender(farmsToBeRender))),
-    getUserStakes : (address , type , isActive) => (dispatch(userActions.getUserStakes(address , type , isActive)))
+    getUserStakes : (address , type , isActive) => (dispatch(userActions.getUserStakes(address , type , isActive))),
+    getHarvestValues : (address , type , isActive) => (dispatch(userActions.getHarvestValues(address , type , isActive)))
+    
   }
 }
 
