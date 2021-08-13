@@ -56,13 +56,16 @@ const SwapTab = props => {
 					Swap
 				</button>
 			)
-		} else if (props.firstTokenAmount && !props.tokenOut.name) {
+		} else if (props.tokenOut.name === undefined) {
+			console.log("I am here")
 			swapContentButton = (
 				<button className="swap-content-btn enter-amount">
 					Select a token to swap
 				</button>
 			)
 		} else {
+			console.log(props.firstTokenAmount, "firstTokenAmount")
+			console.log(props.tokenOut.name)
 			swapContentButton = (
 				<button className="swap-content-btn enter-amount">
 					Enter an amount
@@ -119,13 +122,17 @@ const SwapTab = props => {
 									style={{ cursor: "pointer" }}
 									onClick={() => {
 										console.log("Balance 120")
-										props.setFirstTokenAmount(
-											props.userBalances[props.tokenIn.name]
-										)
-										props.handleTokenInput({
-											input: props.userBalances[props.tokenIn.name].toString(),
-											type: props.tokenInputType.top,
-										})
+										if (props.tokenOut.name !== undefined) {
+											console.log(props.tokenOut.name, "line 126 swapTab")
+											props.setFirstTokenAmount(
+												props.userBalances[props.tokenIn.name]
+											)
+											props.handleTokenInput({
+												input:
+													props.userBalances[props.tokenIn.name].toString(),
+												type: props.tokenInputType.top,
+											})
+										}
 									}}>
 									Balance: {props.userBalances[props.tokenIn.name]}
 								</p>

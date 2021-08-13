@@ -38,14 +38,14 @@ const Swap = props => {
 		},
 	]
 
-	const [show, setShow] = useState(false)
+	const [show, setShow] = useState(null)
 	const [showConfirmSwap, setShowConfirmSwap] = useState(false)
 	const [showConfirmAddSupply, setShowConfirmAddSupply] = useState(false)
 	const [showConfirmRemoveSupply, setShowConfirmRemoveSupply] = useState(false)
 	const [hideContent, setHideContent] = useState("")
 
 	const handleClose = () => {
-		setShow(false)
+		setShow(null)
 		setShowConfirmSwap(false)
 		setShowConfirmAddSupply(false)
 		setShowConfirmRemoveSupply(false)
@@ -175,10 +175,15 @@ const Swap = props => {
 	}
 
 	const handleTokenType = type => {
+		console.log("Clicked on handleTokenType", type)
 		setHideContent("content-hide")
-		setShow(true)
+		if (type === "tokenIn") {
+			setShow(type)
+		} else {
+			setShow(type)
+		}
+		// setShow(true)
 		setTokenType(type)
-
 		setLoading(false)
 	}
 
@@ -266,13 +271,14 @@ const Swap = props => {
 	}
 
 	const handleStateSwap = async () => {
-		console.log(tokenIn, "Token In line 278")
-		console.log(tokenOut, "Token Out line 279")
-		console.log(firstTokenAmount, "firstTokenAmount line 282")
-		console.log(secondTokenAmount, "secondTokenAmount line 283")
+		// console.log("Switching")
+		// console.log(tokenIn, "Token In line 278")
+		// console.log(tokenOut, "Token Out line 279")
+		// console.log(firstTokenAmount, "firstTokenAmount line 282")
+		// console.log(secondTokenAmount, "secondTokenAmount line 283")
 		setLoading(true)
-		const tokenDetailsOne = computedOutDetails
-		const tokenDetailsTwo = computedInDetails
+		// const tokenDetailsOne = computedOutDetails
+		// const tokenDetailsTwo = computedInDetails
 		// setComputedInDetails(tokenDetailsOne)
 		// setComputedOutDetails(tokenDetailsTwo)
 		// selectTokenOut(tokenOne)
@@ -403,11 +409,10 @@ const Swap = props => {
 			</Row>
 			<SwapModal
 				show={show}
+				handleStateSwap={handleStateSwap}
 				onHide={handleClose}
 				selectToken={selectToken}
-				tokens={tokens.filter(
-					token => token.name !== tokenIn.name && token.name !== tokenOut.name
-				)}
+				tokens={tokens}
 				tokenIn={tokenIn}
 				tokenOut={tokenOut}></SwapModal>
 
