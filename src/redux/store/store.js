@@ -1,12 +1,13 @@
 import {createStore,applyMiddleware , compose , combineReducers} from 'redux';
 import thunk from 'redux-thunk';
 
-import userReducer from '../Reducers/user.reducer';
-import walletReducer from '../Reducers/wallet.reducer';
-import swapReducer from '../Reducers/swap.reducer';
-import farmsReducer from '../Reducers/farms.reducer';
-import pondsReducer from '../Reducers/ponds.reducer';
-import poolsReducer from '../Reducers/pools.reducer';
+import userReducer from '../reducers/user.reducer';
+import walletReducer from '../reducers/wallet.reducer';
+import swapReducer from '../reducers/swap.reducer';
+import farmsReducer from '../reducers/farms.reducer';
+import pondsReducer from '../reducers/ponds.reducer';
+import poolsReducer from '../reducers/pools.reducer';
+import priceReducer from '../reducers/price.reducer';
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   swap : swapReducer,
   farms : farmsReducer,
   pools : poolsReducer,
-  ponds : pondsReducer
+  ponds : pondsReducer,
+  price : priceReducer
 })
 
 //const store = createStore(rootReducer);
