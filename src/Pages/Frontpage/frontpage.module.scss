@@ -1,0 +1,51 @@
+@use "../../assets/scss/constants" as const;
+
+.rectangle {
+  background: linear-gradient(178.62deg, #7028E4 16.71%, #E5B2CA 217.99%);
+  //background: const.$bgGradient;
+  border-radius: 5px;
+}
+
+.link {
+  text-decoration: none !important;
+}
+
+.tvlValue {
+  font-family: DM Sans, serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 6em;
+  line-height: 139%;
+  letter-spacing: -0.04em;
+  color: #FFFFFF;
+}
+
+.tvlText {
+  font-family: 'DM Sans', sans-serif;;
+  font-style: normal;
+  font-weight: 300;
+  color: #FFFFFF;
+}
+
+.plentyOnTezos {
+  font-weight: bold;
+  font-size: 5em;
+  font-family: 'DM Sans', sans-serif;
+  color: #4E5D78;
+}
+
+.button {
+  height: 50px;
+  min-height: 3em;
+  color: #823DE0;
+  background-color: #FFFFFF;
+  border: 0;
+  font-weight: bold;
+}
+
+.info {
+  font-family: 'DM Sans', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  color: #FFFFFF;
+}
