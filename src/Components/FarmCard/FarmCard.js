@@ -82,14 +82,14 @@ const FarmCard = (props) => {
           </div>
 
           {
-            props.walletAddress
-              ? !props.harvested && (
+            props.userAddress
+              ? !(props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount >0) ? (
                 <Button
                   onClick={() => props.openFarmsStakeModal()}
                   color={"primary"}
                   className="w-100"
                 >Stake</Button>
-              )
+              ) : null
               : <Button
                   onClick={props.connectWallet}
                   color={"primary"}

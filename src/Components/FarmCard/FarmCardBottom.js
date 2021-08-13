@@ -32,7 +32,7 @@ const FarmCardBottom = (props) => {
         }
       )}>
 
-        {(props.harvested || isExpanded) && ( // TODO add proper variable
+        {((props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount >0)|| isExpanded) && ( // TODO add proper variable
           <div className="d-flex">
             <div className={clsx(styles.harvestStakeAmt, "mr-2")}>
               <span>{( props.userAddress !== null && props.harvestValueOnFarms[props.isActiveOpen].hasOwnProperty(props.CONTRACT) && props.harvestValueOnFarms[props.isActiveOpen][props.CONTRACT].totalRewards > 0) ? props.harvestValueOnFarms[props.isActiveOpen][props.CONTRACT].totalRewards.toFixed(6) : 0}</span>
