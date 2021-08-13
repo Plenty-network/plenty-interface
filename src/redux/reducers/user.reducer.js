@@ -4,7 +4,11 @@ const initialState = {
   balances : {},
   balancesLoading : false, 
   stakes : {},
-  stakesLoading : false 
+  stakesLoading : false ,
+  harvestValueOnFarms : {},
+  harvestValueOnPools : {},
+  harvestValueOnPonds : {},
+  harvestValuesLoading : false
 }
 
 const userReducer = (state = initialState , action) => {
@@ -55,6 +59,50 @@ const userReducer = (state = initialState , action) => {
         ...state,
         stakesLoading : false,
         stakes : {}
+      }
+    case actions.HARVEST_VALUE_FETCH_START:
+      return {
+        ...state,
+        harvestValuesLoading : true
+      }
+    case actions.HARVEST_VALUE_FARMS_FETCH_SUCCESSFULL:
+      console.log(action);
+      let duplicateDataFarms = state.harvestValueOnFarms
+      duplicateDataFarms[action.data.isActive] = action.data.data
+      return {
+        ...state,
+        harvestValuesLoading : false,
+        harvestValueOnFarms : duplicateDataFarms
+      }
+    case actions.HARVEST_VALUE_POOLS_FETCH_SUCCESSFULL:
+      let duplicateDataPools = state.harvestValueOnPools
+      duplicateDataPools[action.data.isActive] = action.data.data
+      return {
+        ...state,
+        harvestValuesLoading : false,
+        harvestValueOnPools : duplicateDataPools
+      }
+    case actions.HARVEST_VALUE_PONDS_FETCH_SUCCESSFULL:
+      let duplicateDataPonds = state.harvestValueOnPonds
+      duplicateDataPonds[action.data.isActive] = action.data.data
+      return {
+        ...state,
+        harvestValuesLoading : false,
+        harvestValueOnPonds : duplicateDataPonds
+      }
+    case actions.HARVEST_VALUE_FETCH_FAILED:
+      return {
+        ...state,
+        harvestValuesLoading : false
+      }
+    case actions.HARVEST_VALUE_CLEAR:
+      return {
+        ...state,
+        harvestValuesLoading : false,
+        harvestValueOnFarms : {},
+        harvestValueOnPools : {},
+        harvestValueOnPonds : {}
+
       }
     default:
       return {

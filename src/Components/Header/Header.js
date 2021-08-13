@@ -8,6 +8,7 @@ import Image from 'react-bootstrap/Image';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { ExternalMenu, NavigationMenu } from './Menu';
 import logo from '../../assets/images/logo.png';
+import {Link} from "react-router-dom";
 
 const Header = (props) => {
   let connectWalletButton = () => {
@@ -50,9 +51,11 @@ const Header = (props) => {
           <Navbar className="menu-wrapper">
             <div>
               <div className="logo-section">
-                <Navbar.Brand href="/">
-                  <Image src={logo} fluid />
-                </Navbar.Brand>
+                <Link to={"/"}>
+                  <Navbar.Brand>
+                    <Image src={logo} fluid />
+                  </Navbar.Brand>
+                </Link>
               </div>
             </div>
 
@@ -80,7 +83,6 @@ const Header = (props) => {
                     as={CustomToggle}
                     id="dropdown-basic"
                   ></Dropdown.Toggle>
-
                   <Dropdown.Menu className="menu-dropdown">
                     <ExternalMenu />
                   </Dropdown.Menu>

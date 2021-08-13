@@ -260,3 +260,19 @@ export const clearRenderedFarms = () => {
         })
     }
 }
+
+export const openFarmsStakeModal = ()  => {
+    return dispatch => {
+        dispatch({
+            type : actions.OPEN_FARMS_STAKE_MODAL
+        })
+    }
+}
+
+export const closeFarmsStakeModal = () => {
+    return dispatch => {
+        dispatch({
+            type : actions.CLOSE_FARMS_STAKE_MODAL
+        })
+    }
+}

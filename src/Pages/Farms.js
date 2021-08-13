@@ -7,21 +7,27 @@ import FarmCard from '../Components/FarmCard/FarmCard';
 import plentyXtz from '../assets/images/farms/plenty-xtz.png';
 import { connect } from 'react-redux';
 import * as farmsActions from '../redux/actions/farms/farms.actions'
-
+import * as userActions from '../redux/actions/user/user.action'
 import CONFIG from '../config/config';
-
 import PropTypes from "prop-types";
-import StakeModal from "../Components/Ui/Modals/StakeModal";
-import UnstakeModal from "../Components/Ui/Modals/UnstakeModal";
+import * as walletActions from '../redux/actions/wallet/wallet.action';
 
 const Farms = (props) => {
   // TODO add redux state prop here
-  const [stakeModal, toggleStakeModal] = useState(false)
-
   useEffect(() => {
     renderFarms();
+    console.log(props.userAddress);
     props.getFarmsData(props.isActiveOpen)
+    
   },[])
+
+  useEffect(() => {
+    
+      props.getUserStakes(props.userAddress,'FARMS',props.isActiveOpen)
+      props.getHarvestValues(props.userAddress,'FARMS',props.isActiveOpen)
+    
+  },[props.userAddress])
+
 
   const farmsCardTypeList = {
     'PLENTY / XTZ LP' :{
@@ -113,7 +119,7 @@ const Farms = (props) => {
           properties : farmsCardTypeList[CONFIG.FARMS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][farms].CARD_TYPE],
           identifier : key,
           location : farms,
-          
+          title : CONFIG.FARMS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][farms].CARD_TYPE
         })
       }
     }
@@ -123,32 +129,38 @@ const Farms = (props) => {
 
   return (
     <>
-      <div>
-        <Container fluid className="page-layout-container">
-          <Row>
-            {
-              props.farmsToRender.map((farm, index) => {
-                return <FarmCard
-                  handleStakeOfFarmInputValue = {props.handleStakeOfFarmInputValue}
-                  harvestOnFarm = {props.harvestOnFarm}
-                  stakeInputValues={props.stakeInputValues}
-                  stakeOnFarm = {props.stakeOnFarm}
-                  isActiveOpen = {props.isActiveOpen}
-                  activeFarmData = {props.activeFarmData}
-                  key={index}
-                  {...farm.properties}
-                  {...farm.farmData}
-                  identifier={farm.identifier}
-                  position={farm.location}
-                  {...props}
-                />;
-            })}
-          </Row>
-        </Container>
-      </div>
+    <div>
+    <Container fluid className="page-layout-container">
+      <Row>
+        {
+          props.farmsToRender.map((farm, index) => {
+            return <FarmCard 
+              handleStakeOfFarmInputValue = {props.handleStakeOfFarmInputValue}
+              harvestOnFarm = {props.harvestOnFarm}
+              stakeInputValues={props.stakeInputValues} 
+              stakeOnFarm = {props.stakeOnFarm}
+              openFarmsStakeModal = {props.openFarmsStakeModal}
+              closeFarmsStakeModal={props.closeFarmsStakeModal}
+              connectWallet={props.connectWallet}
 
-      <StakeModal open={stakeModal} onClose={() => toggleStakeModal(false)} tokenData={{title: "hDAO / PLENTY LP"}} />
-      <UnstakeModal open={stakeModal} onClose={() => toggleStakeModal(false)} tokenData={{title: "hDAO / PLENTY LP"}} />
+              isActiveOpen = {props.isActiveOpen}
+              activeFarmData = {props.activeFarmData}
+              userStakes = {props.userStakes}
+              harvestValueOnFarms = {props.harvestValueOnFarms}
+              isStakeModalOpen={props.isStakeModalOpen}
+              userAddress={props.userAddress}
+              
+              key={index} 
+              {...farm.properties} 
+              {...farm.farmData} 
+              identifier={farm.identifier} 
+              position={farm.location} 
+              {...props}
+            />;
+        })}
+      </Row>
+    </Container>
+    </div>
     </>
   );
 };
@@ -164,19 +176,27 @@ const mapStateToProps = state => {
     isActiveOpen : state.farms.isActiveOpen,
     stakeInputValues : state.farms.stakeInputValues,
     activeFarmData : state.farms.active,
-    farmsToRender : state.farms.farmsToRender
+    farmsToRender : state.farms.farmsToRender,
+    userStakes : state.user.stakes,
+    harvestValueOnFarms : state.user.harvestValueOnFarms,
+    isStakeModalOpen : state.farms.isStakeModalOpen
 
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
+    connectWallet : () => (dispatch(walletActions.connectWallet())),
     toggleFarmsType : () => (dispatch(farmsActions.toggleFarmsType)),
     stakeOnFarm : (amount, farmIdentifier , isActive, position) => dispatch(farmsActions.stakeOnFarm(amount, farmIdentifier , isActive, position)),
     harvestOnFarm : (farmIdentifier, isActive, position) => dispatch(farmsActions.harvestOnFarm(farmIdentifier, isActive, position)),
     handleStakeOfFarmInputValue : (address,value) => dispatch(farmsActions.handleStakeOfFarmInputValue(address,value)),
     getFarmsData : (isActive) => (dispatch(farmsActions.getFarmsData(isActive))),
     setFarmsToRender  : (farmsToBeRender) => (dispatch(farmsActions.setFarmsToRender(farmsToBeRender))),
+    getUserStakes : (address , type , isActive) => (dispatch(userActions.getUserStakes(address , type , isActive))),
+    getHarvestValues : (address , type , isActive) => (dispatch(userActions.getHarvestValues(address , type , isActive))),
+    openFarmsStakeModal : () => (dispatch(farmsActions.openFarmsStakeModal())),
+    closeFarmsStakeModal : () => (dispatch(farmsActions.closeFarmsStakeModal())) 
   }
 }
 
