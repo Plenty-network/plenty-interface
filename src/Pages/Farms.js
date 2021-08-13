@@ -9,9 +9,8 @@ import { connect } from 'react-redux';
 import * as farmsActions from '../redux/actions/farms/farms.actions'
 import * as userActions from '../redux/actions/user/user.action'
 import CONFIG from '../config/config';
-
 import PropTypes from "prop-types";
-
+import * as walletActions from '../redux/actions/wallet/wallet.action';
 
 const Farms = (props) => {
   // TODO add redux state prop here
@@ -23,8 +22,10 @@ const Farms = (props) => {
   },[])
 
   useEffect(() => {
-    props.getUserStakes(props.userAddress,'FARMS',props.isActiveOpen)
-    props.getHarvestValues(props.userAddress,'FARMS',props.isActiveOpen)
+    
+      props.getUserStakes(props.userAddress,'FARMS',props.isActiveOpen)
+      props.getHarvestValues(props.userAddress,'FARMS',props.isActiveOpen)
+    
   },[props.userAddress])
 
 
@@ -140,13 +141,15 @@ const Farms = (props) => {
               stakeOnFarm = {props.stakeOnFarm}
               openFarmsStakeModal = {props.openFarmsStakeModal}
               closeFarmsStakeModal={props.closeFarmsStakeModal}
+              connectWallet={props.connectWallet}
 
               isActiveOpen = {props.isActiveOpen}
               activeFarmData = {props.activeFarmData}
               userStakes = {props.userStakes}
               harvestValueOnFarms = {props.harvestValueOnFarms}
               isStakeModalOpen={props.isStakeModalOpen}
-
+              userAddress={props.userAddress}
+              
               key={index} 
               {...farm.properties} 
               {...farm.farmData} 
@@ -183,6 +186,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    connectWallet : () => (dispatch(walletActions.connectWallet())),
     toggleFarmsType : () => (dispatch(farmsActions.toggleFarmsType)),
     stakeOnFarm : (amount, farmIdentifier , isActive, position) => dispatch(farmsActions.stakeOnFarm(amount, farmIdentifier , isActive, position)),
     harvestOnFarm : (farmIdentifier, isActive, position) => dispatch(farmsActions.harvestOnFarm(farmIdentifier, isActive, position)),

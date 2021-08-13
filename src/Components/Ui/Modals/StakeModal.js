@@ -10,9 +10,6 @@ const BUTTON_TEXT = {
 }
 
 const StakeModal = props => {
-  const [stakeAmt, setStakeAmt] = useState()
-  const [btnText, setBtnTxt] = useState(BUTTON_TEXT.ENTER_AMT)
-
   return (
     <SimpleModal
       open={props.open}
@@ -20,7 +17,7 @@ const StakeModal = props => {
       title={`Stake ${props.tokenData.title} tokens`}
     >
       <div className="input-wrapper d-flex">
-        <input value={stakeAmt} onChange={ev => setStakeAmt(ev.target.value)} />
+        <input onChange={(event) => props.handleInput(props.CONTRACT , parseFloat(event.target.value))} />
 
         <span className="mr-2 ml-2">{props.tokenData.title}</span>
 
@@ -29,11 +26,11 @@ const StakeModal = props => {
 
       <div className="d-flex flex-row-reverse">
         <div className="mb-3 mr-3">
-          <span>Balance: {5.1224 /* TODO add proper prop */}</span>
+          <span>Balance: {0 /* TODO add proper prop */}</span>
         </div>
       </div>
 
-      <Button onClick={() => null} color="primary" className="w-100">{btnText}</Button>
+      <Button onClick={() => props.stakeOnFarm(props.stakeInputValues[props.CONTRACT],props.identifier,true,props.position)} color="primary" className="w-100">{BUTTON_TEXT.STAKE}</Button>
     </SimpleModal>
   )
 }
