@@ -62,3 +62,18 @@
     display: inline-block;
   }
 }
+
+.input-wrapper {
+  background: #F4F4F6;
+  border-radius: 6px;
+  padding: 16px;
+
+  & input {
+    background: transparent;
+    border: 0;
+    outline: none;
+    width: inherit;
+    flex-grow: 1;
+  }
+}
+

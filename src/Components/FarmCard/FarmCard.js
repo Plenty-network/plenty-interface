@@ -1,20 +1,21 @@
 import PropTypes from 'prop-types'
 import Col from "react-bootstrap/Col";
-
+import { useState } from 'react';
 import styles from "../../assets/scss/partials/_farms.module.scss"
 import Image from "react-bootstrap/Image";
 import clsx from "clsx";
 import FarmCardBottom from "./FarmCardBottom";
 import Button from "../Ui/Buttons/Button";
-
+import StakeModal from "../Ui/Modals/StakeModal";
 const FarmCard = (props) => {
-
+  const [stakeModal, toggleStakeModal] = useState(true)
   const apyCalculate = (apr) => (
       (Math.pow(1 + apr / 100 / 365, 365) - 1) *
       100
     ).toFixed(0);
 
   return (
+    <>
     <Col sm={12} md={4}>
       <div className={styles.plentyCard}>
 
@@ -85,7 +86,7 @@ const FarmCard = (props) => {
             props.walletAddress
               ? !props.harvested && (
                 <Button
-                  onClick={() => props.stakeOnFarm(1, props.identifier, true, props.position)}
+                  onClick={() => props.openFarmsStakeModal()}
                   color={"primary"}
                   className="w-100"
                 >Stake</Button>
@@ -103,6 +104,9 @@ const FarmCard = (props) => {
         <FarmCardBottom {...props} />
       </div>
     </Col>
+    <StakeModal open={props.isStakeModalOpen} onClose={() => props.closeFarmsStakeModal()} tokenData={{title: props.title}} />
+    </>
+
   )
 }
 
