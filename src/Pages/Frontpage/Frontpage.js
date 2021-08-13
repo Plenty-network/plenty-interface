@@ -3,7 +3,8 @@ import styles from './frontpage.module.scss';
 import Button from '../../Components/Ui/Buttons/Button';
 import Label from '../../Components/Ui/Label/Label';
 import Container from 'react-bootstrap/Container';
-import {Col, Row} from 'react-bootstrap';
+import {Col, Image, Row} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 import clsx from "clsx";
 import dollar from '../../assets/images/frontpage/dollar.png';
 import marketCap from '../../assets/images/frontpage/marketcap.png';
@@ -14,6 +15,7 @@ import plentyBlock from '../../assets/images/frontpage/plentyblock.png';
 import plentyBig from '../../assets/images/frontpage/plentybig.png';
 import LinkTile from "../../Components/LinkTile/LinkTile";
 import Accordion from "../../Components/Ui/Accordion/Accordion";
+import Stats from "../../Components/Stats/Stats";
 
 const Frontpage = (props) => {
 
@@ -26,20 +28,12 @@ const Frontpage = (props) => {
         plentyPerBlock: 60
     }
 
-    function onClickButton() {
-        return function (e) {
-            console.log(e);
-        };
-    }
-
-    const walletConnected = true;
+    const walletConnected = false;
 
     return (
         <Container fluid>
             <div className={styles.rectangle}>
-                <Row className={clsx(
-
-                )}>
+                <Row>
                     <Col className={clsx(
                         walletConnected ? ["col-lg-6", "col-sm-12"]
                             : "col-sm-12"
@@ -52,18 +46,23 @@ const Frontpage = (props) => {
                                             <span className={styles.tvlValue}>$ 1,212,125,125</span>
                                             <h6 className={styles.info}>Trade tokens and earn interest by staking. There is
                                                 plenty of DeFi to explore on Tezos.</h6>
-                                            <Button className={styles.button} color={'secondary'} onClick={onClickButton()}>Enter
-                                                App</Button>
+                                            <Link to={"swap"}>
+                                                <Button className={styles.button} color={'tertiary'} onClick={null}>Enter
+                                                    App</Button>
+                                            </Link>
+
                                         </div>
                                     )
                                     : (
                                         <div className="align-items-center d-flex flex-column">
-                                            <span className={styles.tvlValue}>$ 1,212,125,125</span>
+                                            <h1 className={styles.tvlValue}>$ 1,212,125,125</h1>
                                             <h4 className={styles.tvlText}>Total Value Locked</h4>
                                             <h6 className={styles.info}>Trade tokens and earn interest by staking. There is
                                                 plenty of DeFi to explore on Tezos.</h6>
-                                            <Button className={styles.button} color={'secondary'} onClick={onClickButton()}>Enter
-                                                App</Button>
+                                            <Link to={"swap"} className={styles.link}>
+                                                <Button className={styles.button} color={'tertiary'} onClick={null}>Enter
+                                                    App</Button>
+                                            </Link>
                                         </div>
                                     )
                             }
@@ -71,9 +70,9 @@ const Frontpage = (props) => {
                     </Col>
                     {
                         walletConnected && (
-                            <Col className="col-lg-6 col-sm-12">
-                                <div className="p-3 p-lg-5">
-
+                            <Col className="py-lg-5 col-lg-6 col-sm-12 d-lg-flex">
+                                <div className="col-lg-9 m-lg-auto">
+                                    <Stats valueLocked={15021} plentyEarned={251_532} plentyInWallet={12.48192} plentyToHarvest={0.999715}/>
                                 </div>
                             </Col>
                         )
@@ -142,9 +141,9 @@ const Frontpage = (props) => {
                 <Col lg={6} xs={12}>
                     <div className="px-lg-5">
                         <span className={styles.plentyOnTezos}>About Plenty</span>
-                        <h6>we do a deep dive into the portfolio. We identify core strengths and look for
+                        <h6><p>we do a deep dive into the portfolio. We identify core strengths and look for
                             brand work in specific industries. Quality of work and documentation are
-                            assessed as well.
+                            assessed as well.</p>
                         </h6>
                         <span className="material-icons-round">
                             discord
@@ -159,7 +158,7 @@ const Frontpage = (props) => {
                 </Col>
                 <Col lg={6} className="d-none d-lg-block">
                     <div className="px-lg-5">
-                        <img src={plentyBig}/>
+                        <Image src={plentyBig}/>
                     </div>
                 </Col>
             </Row>

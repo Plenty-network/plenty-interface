@@ -9,16 +9,18 @@ const Label = props => {
     return (
         <div className="d-flex">
             {props.icon &&
-            <div className="mr-2">
+            <div className={clsx("mr-2", "m-0",
+                props.iconClass && props.iconClass)}>
                 <Image src={props.icon}/>
             </div>
             }
             <div>
-                <div className="font-weight-bold">{props.text}</div>
+                <p className={clsx("font-weight-bold", "m-0",
+                )}>{props.text}</p>
                 {props.subText &&
-                <div className={styles.subText}>
+                <p className={styles.subText}>
                     {props.subText}
-                </div>}
+                </p>}
             </div>
         </div>
     )
@@ -28,6 +30,7 @@ Label.propTypes = {
     text: PropTypes.string.isRequired || PropTypes.number.isRequired,
     subText: PropTypes.string,
     icon: PropTypes.string,
+    iconClass: PropTypes.string,
 }
 
 export default Label;

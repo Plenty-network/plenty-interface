@@ -6,6 +6,10 @@
   border-radius: 5px;
 }
 
+.link {
+  text-decoration: none !important;
+}
+
 .tvlValue {
   font-family: DM Sans, serif;
   font-style: normal;
@@ -31,8 +35,12 @@
 }
 
 .button {
-  padding-left: 35px;
-  padding-right: 35px;
+  height: 50px;
+  min-height: 3em;
+  color: #823DE0;
+  background-color: #FFFFFF;
+  border: 0;
+  font-weight: bold;
 }
 
 .info {
