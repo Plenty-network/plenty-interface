@@ -12,6 +12,7 @@ import CONFIG from '../config/config';
 
 import PropTypes from "prop-types";
 import StakeModal from "../Components/Ui/Modals/StakeModal";
+import UnstakeModal from "../Components/Ui/Modals/UnstakeModal";
 
 const Farms = (props) => {
   // TODO add redux state prop here
@@ -147,6 +148,7 @@ const Farms = (props) => {
       </div>
 
       <StakeModal open={stakeModal} onClose={() => toggleStakeModal(false)} tokenData={{title: "hDAO / PLENTY LP"}} />
+      <UnstakeModal open={stakeModal} onClose={() => toggleStakeModal(false)} tokenData={{title: "hDAO / PLENTY LP"}} />
     </>
   );
 };
