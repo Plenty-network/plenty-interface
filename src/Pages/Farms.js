@@ -11,8 +11,11 @@ import * as userActions from '../redux/actions/user/user.action'
 import CONFIG from '../config/config';
 import PropTypes from "prop-types";
 import * as walletActions from '../redux/actions/wallet/wallet.action';
+import Switch from "../Components/Ui/Switch/Switch";
 
 const Farms = (props) => {
+  const [showActiveToken, setShowActiveToken] = useState(false)
+
   // TODO add redux state prop here
   useEffect(() => {
     renderFarms();
@@ -131,6 +134,15 @@ const Farms = (props) => {
     <>
     <div>
     <Container fluid className="page-layout-container">
+      <Row className="mb-4 justify-content-center">
+        <Switch
+          value={showActiveToken}
+          onChange={() => setShowActiveToken(!showActiveToken)}
+          trueLabel={'Active'}
+          falseLabel={'Inactive'}
+          inverted={true}
+        />
+      </Row>
       <Row>
         {
           props.farmsToRender.map((farm, index) => {
