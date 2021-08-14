@@ -1,0 +1,21 @@
+.infoTable {
+  display: table;
+  background: linear-gradient(180deg, rgba(112, 40, 228, 0.07) 0%, rgba(229, 178, 202, 0.07) 100%);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: #505E79;
+  border-collapse: separate;
+  border-spacing: 10px;
+
+  & > div {
+    display: table-row;
+
+    & > div {
+      display: table-cell;
+    }
+  }
+}
+
+.caption {
+  font-size: 12px;
+}
