@@ -62,12 +62,6 @@ const FarmCardBottom = (props) => {
               <div className={clsx(styles.harvestStakeAmt, "mr-2")}>
                 <span>{props.userStakes.hasOwnProperty(props.CONTRACT) ? props.userStakes[props.CONTRACT].stakedAmount : 0}</span>
               </div>
-              {/*<Input*/}
-              {/*  onChange={(event) => {*/}
-              {/*    props.handleStakeOfFarmInputValue(props.CONTRACT , parseFloat(event.target.value))*/}
-              {/*  }}*/}
-              {/*  className="mr-2 w-100"*/}
-              {/*/>*/}
               {
                  (props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0 ) // TODO add proper variable
                   ? <QuantityButton onAdd={() => props.openFarmsStakeModal()} onRemove={() => null}/> 
@@ -86,12 +80,26 @@ const FarmCardBottom = (props) => {
             <div className={clsx(styles.plentyCardContent, styles.bottomBorder, "d-flex")}>
               <div className={clsx(styles.rightBorder, "w-50 text-center")}>
                 <div>Deposit Fee</div>
-                <div>0%</div>
+                <Button
+                  size="small"
+                  color="mute"
+                  startIcon="help_outline"
+                  className="mt-1 ml-auto mr-auto"
+                  rounded={false}
+                  onClick={() => null}
+                >0%</Button>
               </div>
 
               <div className={"w-50 text-center"}>
                 <div>Withdrawal Fee</div>
-                <div>0%</div>
+                <Button
+                  size="small"
+                  color="mute"
+                  startIcon="help_outline"
+                  className="mt-1 ml-auto mr-auto"
+                  rounded={false}
+                  onClick={() => null}
+                >Variable</Button>
               </div>
             </div>
 

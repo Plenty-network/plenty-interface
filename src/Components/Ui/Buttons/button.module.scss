@@ -48,8 +48,18 @@
 .smallBtn {
   height: 26px;
   min-width: inherit;
-  border-radius: 12px;
+  border-radius: 6px;
   padding: 0 16px;
+  font-size: 14px;
+
+  & :global(.material-icons-round) {
+    font-size: 16px;
+  }
+}
+
+.mute {
+  border: 0;
+  background: #F5F5F5;
 }
 
 .default {
