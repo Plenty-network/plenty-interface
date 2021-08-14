@@ -1,20 +1,23 @@
 import PropTypes from 'prop-types'
 import Col from "react-bootstrap/Col";
-
+import { useState } from 'react';
 import styles from "../../assets/scss/partials/_farms.module.scss"
 import Image from "react-bootstrap/Image";
 import clsx from "clsx";
 import FarmCardBottom from "./FarmCardBottom";
 import Button from "../Ui/Buttons/Button";
+import StakeModal from "../Ui/Modals/StakeModal";
+
+import CalculatorSvg from '../../assets/images/icons/calculator.svg';
 
 const FarmCard = (props) => {
-
   const apyCalculate = (apr) => (
       (Math.pow(1 + apr / 100 / 365, 365) - 1) *
       100
     ).toFixed(0);
 
   return (
+    <>
     <Col sm={12} md={4}>
       <div className={styles.plentyCard}>
 
@@ -52,6 +55,13 @@ const FarmCard = (props) => {
           <div className={clsx(styles.plentyCardContentInfo, "flex justify-between")}>
             <p className={styles.plentyCardContentTag}>APR:</p>
             <p className={styles.plentyCardContentTag}>
+
+              <img
+                src={CalculatorSvg}
+                alt={'Check ROI'}
+                className={styles.roiInfoImg}
+                onClick={() => null}
+              />
               {
                 props.activeFarmData.isPresent === true
                   ? props.activeFarmData.data.response[props.CONTRACT].APR.toFixed(0)
@@ -66,7 +76,7 @@ const FarmCard = (props) => {
                 props.activeFarmData.isPresent === true
                   ? props.activeFarmData.data.response[props.CONTRACT].rewardRate * 2880
                   : 0
-              }
+              } / PER DAY
             </p>
           </div>
 
@@ -82,16 +92,16 @@ const FarmCard = (props) => {
           </div>
 
           {
-            props.walletAddress
-              ? !props.harvested && (
+            props.userAddress
+              ? !(props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount >0) ? (
                 <Button
-                  onClick={() => props.stakeOnFarm(1, props.identifier, true, props.position)}
+                  onClick={() => props.openFarmsStakeModal()}
                   color={"primary"}
                   className="w-100"
                 >Stake</Button>
-              )
+              ) : null
               : <Button
-                  onClick={props.connecthWallet}
+                  onClick={props.connectWallet}
                   color={"primary"}
                   className="w-100"
                   startIcon="add"
@@ -103,6 +113,9 @@ const FarmCard = (props) => {
         <FarmCardBottom {...props} />
       </div>
     </Col>
+    {/* <StakeModal open={props.isStakeModalOpen} onClose={() => props.closeFarmsStakeModal()} tokenData={{title: props.title}} /> */}
+    </>
+
   )
 }
 

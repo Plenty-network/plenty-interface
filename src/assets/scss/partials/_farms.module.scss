@@ -67,6 +67,22 @@
   }
 }
 
+.roiInfoImg {
+  margin: -4px 0 0;
+  width: 16px;
+  height: 12px;
+  cursor: pointer;
+  transition: transform 100ms ease-in;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
 .plentyCardContentInfo {
   &:last-child {
     .plentyCardContentTag {
