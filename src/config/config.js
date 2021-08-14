@@ -8,10 +8,251 @@ module.exports = {
 	RPC_NODES: {
 		testnet: "https://testnet.tezster.tech/",
 		mainnet: "https://mainnet.smartpy.io/",
+		//mainnet: 'https://cres2hr8uxm6.midl.dev/',
 	},
 	TZKT_NODES: {
 		mainnet: "https://api.tzkt.io",
 		testnet: "https://api.florencenet.tzkt.io",
+	},
+	STAKING_CONTRACTS: {
+		POOLS: {
+			mainnet: {
+				PLENTY: {
+					active: [
+						{
+							address: "KT1QqjR4Fj9YegB37PQEqXUPHmFbhz6VJtwE",
+							mapId: 4494,
+							decimal: 18,
+						},
+					],
+					inactive: [
+						{
+							address: "KT1UDe1YP963CQSb5xN7cQ1X8NJ2pUyjGw5T",
+							mapId: 3949,
+							decimal: 18,
+						},
+					],
+				},
+				USDtz: {
+					active: [
+						{
+							address: "KT1MBqc3GHpApBXaBZyvY63LF6eoFyTWtySn",
+							mapId: 4490,
+							decimal: 18,
+						},
+					],
+					inactive: [
+						{
+							address: "KT1K5cgrw1A8WTiizZ5b6TxNdFnBq9AtyQ7X",
+							mapId: 3953,
+							decimal: 18,
+						},
+					],
+				},
+				ETHtz: {
+					active: [
+						{
+							address: "KT19asUVzBNidHgTHp8MP31YSphooMb3piWR",
+							mapId: 4491,
+							decimal: 18,
+						},
+					],
+					inactive: [
+						{
+							address: "KT1J7v85udA8GnaBupacgY9mMvrb8zQdYb3E",
+							mapId: 3950,
+							decimal: 18,
+						},
+					],
+				},
+				hDAO: {
+					active: [
+						{
+							address: "KT1Ga15wxGR5oWK1vBG2GXbjYM6WqPgpfRSP",
+							mapId: 4496,
+							decimal: 18,
+						},
+					],
+					inactive: [
+						{
+							address: "KT1Vs8gqh7YskPnUQMfmjogZh3A5ZLpqQGcg",
+							mapId: 3952,
+							decimal: 18,
+						},
+					],
+				},
+				wLINK: {
+					active: [
+						{
+							address: "KT1KyxPitU1xNbTriondmAFtPEcFhjSLV1hz",
+							mapId: 4492,
+							decimal: 18,
+						},
+					],
+					inactive: [
+						{
+							address: "KT1JCkdS3x5hTWdrTQdzK6vEkeAdQzsm2wzf",
+							mapId: 3948,
+							decimal: 18,
+						},
+					],
+				},
+				wMATIC: {
+					active: [
+						{
+							address: "KT1XherecVvrE6X4PV5RTwdEKNzA294ZE9T9",
+							mapId: 4493,
+							decimal: 18,
+						},
+					],
+					inactive: [
+						{
+							address: "KT1TNzH1KiVsWh9kpFrWACrDNnfK4ihvGAZs",
+							mapId: 3947,
+							decimal: 18,
+						},
+					],
+				},
+				WRAP: {
+					active: [],
+					inactive: [
+						{
+							address: "KT18oB3x8SLxMJq2o9hKNupbZZ5ZMsgr2aho",
+							mapId: 7988,
+							decimal: 18,
+						},
+					],
+				},
+			},
+		},
+		FARMS: {
+			mainnet: {
+				"PLENTY-XTZ": {
+					active: [
+						{
+							address: "KT1JQAZqShNMakSNXc2cgTzdAWZFemGcU6n1",
+							mapId: 4503,
+							decimal: 18,
+						},
+					],
+					inactive: [
+						{
+							address: "KT1BfQLAsQNX8BjSBzgjTLx3GTd3qhwLoWNz",
+							mapId: 3962,
+							decimal: 18,
+						},
+					],
+				},
+				"KALAM-XTZ": {
+					active: [],
+					inactive: [
+						{
+							address: "KT1DjDZio7k2GJwCJCXwK82ing3n51AE55DW",
+							mapId: 4488,
+							decimal: 18,
+						},
+					],
+				},
+			},
+		},
+		PONDS: {
+			mainnet: {
+				WRAP: {
+					active: [],
+					inactive: [
+						{
+							address: "KT1GotpjdBaxt2GiMFcQExLEk9GTfYo4UoTa",
+							mapId: 7985,
+							decimal: 8,
+						},
+					],
+				},
+				KALAM: {
+					active: [],
+					inactive: [
+						{
+							address: "KT1WfLprabHVTnNhWFigmopAduUpxG5HKvNf",
+							mapId: 5137,
+							decimal: 10,
+						},
+					],
+				},
+			},
+		},
+	},
+	TOKEN_CONTRACTS: {
+		mainnet: {
+			PLENTY: {
+				address: "KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b",
+				mapId: 3943,
+				decimal: 18,
+				type: "FA1.2",
+				tokenId: 0,
+			},
+			wMATIC: {
+				address: "KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ",
+				mapId: 1772,
+				decimal: 18,
+				type: "FA2",
+				tokenId: 11,
+			},
+			wLINK: {
+				address: "KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ",
+				mapId: 1772,
+				decimal: 18,
+				type: "FA2",
+				tokenId: 10,
+			},
+			USDtz: {
+				address: "KT1LN4LPSqTMS7Sd2CJw4bbDGRkMv2t68Fy9",
+				mapId: 36,
+				decimal: 6,
+				type: "FA1.2",
+				tokenId: 0,
+			},
+			ETHtz: {
+				address: "KT19at7rQUvyjxnZ2fBv7D9zc8rkyG7gAoU8",
+				mapId: 199,
+				decimal: 18,
+				type: "FA1.2",
+				tokenId: 0,
+			},
+			hDAO: {
+				address: "KT1AFA2mwNUMNd4SsujE1YYp29vd8BZejyKW",
+				mapId: 515,
+				decimal: 6,
+				type: "FA2",
+				tokenId: 0,
+			},
+			WRAP: {
+				address: "KT1LRboPna9yQY9BrjtQYDS1DVxhKESK4VVd",
+				mapId: 1777,
+				decimal: 8,
+				type: "FA1.2",
+				tokenId: 0,
+			},
+			KALAM: {
+				address: "KT1A5P4ejnLix13jtadsfV9GCnXLMNnab8UT",
+				mapId: 4178,
+				decimal: 10,
+				type: "FA1.2",
+				tokenId: 0,
+			},
+			"PLENTY-XTZ": {
+				address: "KT1X1LgNkQShpF9nRLYw3Dgdy4qp38MX617z",
+				mapId: 3956,
+				decimal: 6,
+				type: "FA1.2",
+				tokenId: 0,
+			},
+			"KALAM-XTZ": {
+				address: "KT1J3wTYb4xk5BsSBkg6ML55bX1xq7desS34",
+				mapId: 4353,
+				decimal: 6,
+				type: "FA1.2",
+				tokenId: 0,
+			},
+		},
 	},
 	SERVERLESS_BASE_URL: {
 		mainnet: "https://mf29fdthuf.execute-api.us-east-2.amazonaws.com/v1",
@@ -214,6 +455,30 @@ module.exports = {
 					},
 				],
 			},
+			hDAO: {
+				active: [
+					{
+						TOKEN: "KT1AFA2mwNUMNd4SsujE1YYp29vd8BZejyKW",
+						CONTRACT: "KT1Ga15wxGR5oWK1vBG2GXbjYM6WqPgpfRSP",
+						DEX: "KT1QxLqukyfohPV5kPkw97Rs6cw1DDDvYgbB",
+						TYPE: "FA2",
+						TOKEN_DECIMAL: 6,
+						TOKEN_ID: 0,
+						DECIMAL: 18,
+					},
+				],
+				inactive: [
+					{
+						TOKEN: "KT1AFA2mwNUMNd4SsujE1YYp29vd8BZejyKW",
+						CONTRACT: "KT1Vs8gqh7YskPnUQMfmjogZh3A5ZLpqQGcg",
+						DEX: "KT1QxLqukyfohPV5kPkw97Rs6cw1DDDvYgbB",
+						TYPE: "FA2",
+						TOKEN_DECIMAL: 6,
+						TOKEN_ID: 0,
+						DECIMAL: 18,
+					},
+				],
+			},
 			USDtz: {
 				active: [
 					{
@@ -238,25 +503,15 @@ module.exports = {
 					},
 				],
 			},
-			PLENTY: {
-				active: [
-					{
-						TOKEN: "KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b",
-						CONTRACT: "KT1QqjR4Fj9YegB37PQEqXUPHmFbhz6VJtwE",
-						DEX: "KT1X1LgNkQShpF9nRLYw3Dgdy4qp38MX617z",
-						TYPE: "FA1.2",
-						TOKEN_DECIMAL: 18,
-						TOKEN_ID: 0,
-						DECIMAL: 18,
-					},
-				],
+			WRAP: {
+				active: [],
 				inactive: [
 					{
-						TOKEN: "KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b",
-						CONTRACT: "KT1UDe1YP963CQSb5xN7cQ1X8NJ2pUyjGw5T",
-						DEX: "KT1X1LgNkQShpF9nRLYw3Dgdy4qp38MX617z",
-						TYPE: "FA1.2",
-						TOKEN_DECIMAL: 18,
+						TOKEN: "KT1LRboPna9yQY9BrjtQYDS1DVxhKESK4VVd",
+						CONTRACT: "KT18oB3x8SLxMJq2o9hKNupbZZ5ZMsgr2aho",
+						DEX: "KT1FG63hhFtMEEEtmBSX2vuFmP87t9E7Ab4t",
+						TYPE: "FA2",
+						TOKEN_DECIMAL: 8,
 						TOKEN_ID: 0,
 						DECIMAL: 18,
 					},
@@ -365,8 +620,8 @@ module.exports = {
 			{ block: 12288, rate: 0 },
 		],
 	},
-	NETWORK: "testnet",
-	WALLET_NETWORK: "florencenet",
+	NETWORK: "mainnet",
+	WALLET_NETWORK: "mainnet",
 	ADMIN_ADDRESS: "KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW",
 	BURNER: "tz1ZnK6zYJrC9PfKCPryg9tPW6LrERisTGtg",
 }
