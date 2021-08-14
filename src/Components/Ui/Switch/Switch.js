@@ -1,12 +1,8 @@
 import PropTypes from "prop-types";
 import styles from './switch.module.scss';
 import clsx from "clsx";
-import { useEffect } from "react";
 
 const Switch = props => {
-  useEffect(() => {
-    console.log(props.value)
-  }, [props.value])
   const getValue = () => {
     return props.inverted ? !props.value : props.value;
   }
