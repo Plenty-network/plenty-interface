@@ -198,8 +198,12 @@ const getStakedAmount = async (mapId,packedKey,identifier,decimal,address) => {
       let singularStakes = []
       for(let i=0;i<response.data.args[0].args[0].length;i++)
       {
+        //console.log(response.data.args[0].args[0][i].args[1].args[0].int , response.data.args[0].args[0][i].args[1].args[1].int);
+        let amount = parseInt(response.data.args[0].args[0][i].args[1].args[0].int)
+        amount = parseFloat(response.data.args[0].args[0][i].args[1].args[0].int / Math.pow(10,6));
         singularStakes.push({
-          amount : response.data.args[0].args[0][i].args[1].args[0].int,
+          mapId : response.data.args[0].args[0][i].args[0].int,
+          amount : amount,
           block : response.data.args[0].args[0][i].args[1].args[1].int
         })
         console.log(identifier,response.data.args[0].args[0][i].args[1].args[0].int,response.data.args[0].args[0][i].args[1].args[1].int)
@@ -301,7 +305,9 @@ export const getStakedAmountForAllContracts = async (address , type , isActive) 
     let packedKey = getPackedKey(0,address,'FA1.2');
     
     let promises = [];
-
+    let blockData = await axios.get(
+      `${CONFIG.TZKT_NODES[CONFIG.NETWORK]}/v1/blocks/count`)
+      
     // for(let key in CONFIG.STAKING_CONTRACTS[type][isActive === true ? 'active' : 'inactive'])
     // {
        
@@ -330,6 +336,7 @@ export const getStakedAmountForAllContracts = async (address , type , isActive) 
     return {
       success : true,
       response : stakedAmountResponse,
+      currentBlock : blockData.data
     }
   }
   catch(error)
@@ -337,7 +344,8 @@ export const getStakedAmountForAllContracts = async (address , type , isActive) 
     console.log(error);
     return {
       success : false,
-      response : {}
+      response : {},
+      currentBlock : 0
     }
   }
 

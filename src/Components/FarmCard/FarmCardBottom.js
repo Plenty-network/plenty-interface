@@ -8,6 +8,7 @@ import clsx from "clsx";
 import Input from "../Ui/Input/Input";
 import QuantityButton from "../Ui/Buttons/QuantityButton";
 import StakeModal from "../Ui/Modals/StakeModal";
+import UnstakeModal from "../Ui/Modals/UnstakeModal";
 const FarmCardBottom = (props) => {
   const [ isExpanded, toggleExpand ] = useState(false);
   console.log({props});
@@ -70,7 +71,7 @@ const FarmCardBottom = (props) => {
               {/*/>*/}
               {
                  (props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0 ) // TODO add proper variable
-                  ? <QuantityButton onAdd={() => props.openFarmsStakeModal()} onRemove={() => null}/> 
+                  ? <QuantityButton onAdd={() => props.openFarmsStakeModal()} onRemove={() => props.openFarmsUnstakeModal()}/> 
                   : <Button onClick={() => props.stakeOnFarm(props.stakeInputValues[props.CONTRACT],props.identifier,true,props.position) } color={"default"}>Stake</Button>
               }
             </div>
@@ -112,6 +113,8 @@ const FarmCardBottom = (props) => {
         />
       </div>
       <StakeModal open={props.isStakeModalOpen} onClose={() => props.closeFarmsStakeModal()} tokenData={{title: props.title}} handleInput = {props.handleStakeOfFarmInputValue} CONTRACT = {props.CONTRACT} stakeInputValues={props.stakeInputValues} stakeOnFarm={props.stakeOnFarm} identifier={props.identifier} position={props.position}/>
+      {props.userStakes.hasOwnProperty(props.CONTRACT) ?
+      <UnstakeModal currentBlock={props.currentBlock} withdrawalFeeStructure={props.withdrawalFeeStructure} open={props.isUnstakeModalOpen && props.userStakes.hasOwnProperty(props.CONTRACT)} onClose={() => {props.closeFarmsUnstakeModal()}} tokenData={{title: props.title}} userStakes={props.userStakes} CONTRACT={props.CONTRACT} />: null}
     </>
   )
 };

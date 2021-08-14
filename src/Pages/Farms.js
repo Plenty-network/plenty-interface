@@ -11,7 +11,6 @@ import * as userActions from '../redux/actions/user/user.action'
 import CONFIG from '../config/config';
 import PropTypes from "prop-types";
 import * as walletActions from '../redux/actions/wallet/wallet.action';
-
 const Farms = (props) => {
   // TODO add redux state prop here
   useEffect(() => {
@@ -119,6 +118,7 @@ const Farms = (props) => {
           properties : farmsCardTypeList[CONFIG.FARMS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][farms].CARD_TYPE],
           identifier : key,
           location : farms,
+          withdrawalFeeStructure : CONFIG.withdrawalFeeDistribution[CONFIG.FARMS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][farms].withdrawalFeeType],
           title : CONFIG.FARMS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][farms].CARD_TYPE
         })
       }
@@ -141,6 +141,8 @@ const Farms = (props) => {
               stakeOnFarm = {props.stakeOnFarm}
               openFarmsStakeModal = {props.openFarmsStakeModal}
               closeFarmsStakeModal={props.closeFarmsStakeModal}
+              openFarmsUnstakeModal={props.openFarmsUnstakeModal}
+              closeFarmsUnstakeModal={props.closeFarmsUnstakeModal}
               connectWallet={props.connectWallet}
 
               isActiveOpen = {props.isActiveOpen}
@@ -149,6 +151,8 @@ const Farms = (props) => {
               harvestValueOnFarms = {props.harvestValueOnFarms}
               isStakeModalOpen={props.isStakeModalOpen}
               userAddress={props.userAddress}
+              isUnstakeModalOpen={props.isUnstakeModalOpen}
+              currentBlock={props.currentBlock}
               
               key={index} 
               {...farm.properties} 
@@ -161,6 +165,7 @@ const Farms = (props) => {
       </Row>
     </Container>
     </div>
+    
     </>
   );
 };
@@ -179,7 +184,9 @@ const mapStateToProps = state => {
     farmsToRender : state.farms.farmsToRender,
     userStakes : state.user.stakes,
     harvestValueOnFarms : state.user.harvestValueOnFarms,
-    isStakeModalOpen : state.farms.isStakeModalOpen
+    isStakeModalOpen : state.farms.isStakeModalOpen,
+    isUnstakeModalOpen : state.farms.isUnstakeModalOpen,
+    currentBlock : state.user.currentBlock
 
   }
 }
@@ -196,7 +203,9 @@ const mapDispatchToProps = dispatch => {
     getUserStakes : (address , type , isActive) => (dispatch(userActions.getUserStakes(address , type , isActive))),
     getHarvestValues : (address , type , isActive) => (dispatch(userActions.getHarvestValues(address , type , isActive))),
     openFarmsStakeModal : () => (dispatch(farmsActions.openFarmsStakeModal())),
-    closeFarmsStakeModal : () => (dispatch(farmsActions.closeFarmsStakeModal())) 
+    closeFarmsStakeModal : () => (dispatch(farmsActions.closeFarmsStakeModal())),
+    openFarmsUnstakeModal : () => (dispatch(farmsActions.openFarmsUnstakeModal())),
+    closeFarmsUnstakeModal : () => (dispatch(farmsActions.closeFarmsUnstakeModal()))
   }
 }
 

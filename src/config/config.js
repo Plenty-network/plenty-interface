@@ -537,6 +537,7 @@ module.exports = {
                       LP_DECIMAL: 18,
                       TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
                       DECIMAL: 18,
+                      withdrawalFeeType : 'type2'
                   }
               ],
               inactive : [

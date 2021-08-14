@@ -52,10 +52,11 @@ const userStakesFetchStart = () => {
   }
 }
 
-const userStakesFetchSuccessfull = (data) => {
+const userStakesFetchSuccessfull = (data,block) => {
   return {
     type : actions.USER_STAKES_FETCH_SUCCESSFULL,
-    data
+    data,
+    block
   }
 }
 
@@ -77,7 +78,7 @@ export const getUserStakes = (addressOfUser, type , isActive) => {
     userApis.getStakedAmountForAllContracts(addressOfUser, type , isActive)
       .then(response => {
         console.log({response});
-        dispatch(userStakesFetchSuccessfull(response.response))
+        dispatch(userStakesFetchSuccessfull(response.response , response.currentBlock))
       })
       .catch(error => {
         console.log(error)

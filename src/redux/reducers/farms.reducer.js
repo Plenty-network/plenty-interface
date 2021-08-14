@@ -32,7 +32,8 @@ const initialState = {
     isActiveOpen : true,
     stakeInputValues : {},
     farmsToRender : [],
-    isStakeModalOpen : false
+    isStakeModalOpen : false,
+    isUnstakeModalOpen : false
 }
 
 const farmsReducer = (state = initialState , action) => {
@@ -269,6 +270,16 @@ const farmsReducer = (state = initialState , action) => {
             return {
                 ...state,
                 isStakeModalOpen : false
+            }
+        case actions.OPEN_FARMS_UNSTAKE_MODAL:
+            return {
+                ...state,
+                isUnstakeModalOpen : true
+            }
+        case actions.CLOSE_FARMS_UNSTAKE_MODAL:
+            return {
+                ...state,
+                isUnstakeModalOpen : false
             }
         default:
             return {

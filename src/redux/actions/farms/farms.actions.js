@@ -276,3 +276,19 @@ export const closeFarmsStakeModal = () => {
         })
     }
 }
+
+export const openFarmsUnstakeModal = ()  => {
+    return dispatch => {
+        dispatch({
+            type : actions.OPEN_FARMS_UNSTAKE_MODAL
+        })
+    }
+}
+
+export const closeFarmsUnstakeModal = () => {
+    return dispatch => {
+        dispatch({
+            type : actions.CLOSE_FARMS_UNSTAKE_MODAL
+        })
+    }
+}
