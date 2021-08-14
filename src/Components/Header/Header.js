@@ -4,10 +4,12 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Navbar from 'react-bootstrap/Navbar';
+import clsx from "clsx";
 import Image from 'react-bootstrap/Image';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { ExternalMenu, NavigationMenu } from './Menu';
 import logo from '../../assets/images/logo.png';
+import { ReactComponent as LogoNew } from '../../assets/images/logo_new.svg';
 import {Link} from "react-router-dom";
 
 const Header = (props) => {
@@ -47,13 +49,15 @@ const Header = (props) => {
   return (
     <Container fluid>
       <Row>
-        <Col sm={12} md={12} className="header-col-center">
+        <Col sm={12} md={12} className={clsx(
+            props.isFrontPage ? "header-col-center-frontpage"
+            : "header-col-center")}>
           <Navbar className="menu-wrapper">
             <div>
               <div className="logo-section">
                 <Link to={"/"}>
                   <Navbar.Brand>
-                    <Image src={logo} fluid />
+                    <LogoNew className="logo"/>
                   </Navbar.Brand>
                 </Link>
               </div>
@@ -83,6 +87,7 @@ const Header = (props) => {
                     as={CustomToggle}
                     id="dropdown-basic"
                   ></Dropdown.Toggle>
+                  <button onClick={props.toggleTheme}>tog</button>
                   <Dropdown.Menu className="menu-dropdown">
                     <ExternalMenu />
                   </Dropdown.Menu>

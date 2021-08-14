@@ -6,6 +6,8 @@ import Label from "../Ui/Label/Label";
 import greenBullet from '../../assets/images/stats/greenbullet.png';
 import dollar from '../../assets/images/stats/dollar.png';
 import plentyEarned from '../../assets/images/stats/plentyearned.png';
+import plentyInWallet from '../../assets/images/stats/plentyinwallet.svg';
+import plentyToHarvest from '../../assets/images/stats/plentytoharvest.svg';
 import { StyledDiv } from '../../themes';
 import styles from "./stats.module.scss";
 import Button from "../Ui/Buttons/Button";
@@ -36,11 +38,11 @@ const Stats = (props) => {
             </Row>
             <hr/>
             <Row className="p-3">
-                <Col>
-                    <Label text={`$${props.plentyInWallet.toLocaleString(undefined, {maximumFractionDigits: 20})}`} subText={"PLENTY in wallet"} iconClass={"mt-1"}/>
+                <Col sm={6}>
+                    <Label text={`$${props.plentyInWallet.toLocaleString(undefined, {maximumFractionDigits: 20})}`} subText={"PLENTY in wallet"} icon={plentyInWallet} iconClass={"mt-1"}/>
                 </Col>
-                <Col>
-                    <Label text={`$${props.plentyToHarvest.toLocaleString(undefined, {maximumFractionDigits: 20})}`} subText={"PLENTY to harvest"} iconClass={"mt-0"}/>
+                <Col sm={6}>
+                    <Label text={`$${props.plentyToHarvest.toLocaleString(undefined, {maximumFractionDigits: 20})}`} subText={"PLENTY to harvest"} icon={plentyToHarvest} iconClass={"mt-1"}/>
                 </Col>
             </Row>
             <Row className="p-3 mt-1">

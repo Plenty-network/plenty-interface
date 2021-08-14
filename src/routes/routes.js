@@ -46,13 +46,6 @@ const Routes = (props) => {
             <Router>
                 <Switch>
                     <Route path="/" exact>
-                        <Header
-                            toggleTheme={toggleTheme}
-                            theme={theme}
-                            connecthWallet={connecthWallet}
-                            disconnectWallet={disconnectUserWallet}
-                            walletAddress={props.userAddress}
-                        />
                         <Frontpage/>
                     </Route>
                     <div>

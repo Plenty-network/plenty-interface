@@ -4,7 +4,7 @@ import Button from '../../Components/Ui/Buttons/Button';
 import Label from '../../Components/Ui/Label/Label';
 import Container from 'react-bootstrap/Container';
 import {Col, Image, Row} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
+import {Link, Route} from 'react-router-dom';
 import clsx from "clsx";
 import dollar from '../../assets/images/frontpage/dollar.png';
 import marketCap from '../../assets/images/frontpage/marketcap.png';
@@ -13,9 +13,13 @@ import totalBurned from '../../assets/images/frontpage/totalburned.png';
 import circulatingSupply from '../../assets/images/frontpage/circulatingsupply.png';
 import plentyBlock from '../../assets/images/frontpage/plentyblock.png';
 import plentyBig from '../../assets/images/frontpage/plentybig.png';
+import discord from '../../assets/images/frontpage/discord.svg';
+import telegram from '../../assets/images/frontpage/telegram.svg';
+import twitter from '../../assets/images/frontpage/twitter.svg';
 import LinkTile from "../../Components/LinkTile/LinkTile";
 import Accordion from "../../Components/Ui/Accordion/Accordion";
 import Stats from "../../Components/Stats/Stats";
+import Header from "../../Components/Header/Header";
 
 const Frontpage = (props) => {
 
@@ -28,11 +32,19 @@ const Frontpage = (props) => {
         plentyPerBlock: 60
     }
 
-    const walletConnected = false;
+    const walletConnected = true;
 
     return (
-        <Container fluid>
+        <Container fluid className="p-0">
             <div className={styles.rectangle}>
+                <Header
+                    toggleTheme={null}
+                    theme={'light'}
+                    connecthWallet={null}
+                    disconnectWallet={null}
+                    walletAddress={null}
+                    isFrontPage={true}
+                />
                 <Row>
                     <Col className={clsx(
                         walletConnected ? ["col-lg-6", "col-sm-12"]
@@ -42,10 +54,10 @@ const Frontpage = (props) => {
                             {
                                 walletConnected ? (
                                         <div className="align-items-lg-start align-items-center d-flex flex-column">
-                                            <h4 className={styles.tvlText}>Total Value Locked</h4>
-                                            <span className={styles.tvlValue}>$ 1,212,125,125</span>
-                                            <h6 className={styles.info}>Trade tokens and earn interest by staking. There is
-                                                plenty of DeFi to explore on Tezos.</h6>
+                                            <h3 className={styles.tvlText}>Total Value Locked</h3>
+                                            <h1 className={styles.tvlValue}>$ 1,212,125,125</h1>
+                                            <h4 className={styles.info}>Trade tokens and earn interest by staking. There is
+                                                plenty of DeFi to explore on Tezos.</h4>
                                             <Link to={"swap"}>
                                                 <Button className={styles.button} color={'tertiary'} onClick={null}>Enter
                                                     App</Button>
@@ -70,9 +82,10 @@ const Frontpage = (props) => {
                     </Col>
                     {
                         walletConnected && (
-                            <Col className="py-lg-5 col-lg-6 col-sm-12 d-lg-flex">
+                            <Col className="py-3 py-lg-5 col-lg-6 col-sm-12 d-lg-flex">
                                 <div className="col-lg-9 m-lg-auto">
-                                    <Stats valueLocked={15021} plentyEarned={251_532} plentyInWallet={12.48192} plentyToHarvest={0.999715}/>
+                                    <Stats valueLocked={15021} plentyEarned={251_532} plentyInWallet={12.48192}
+                                           plentyToHarvest={0.999715}/>
                                 </div>
                             </Col>
                         )
@@ -145,15 +158,15 @@ const Frontpage = (props) => {
                             brand work in specific industries. Quality of work and documentation are
                             assessed as well.</p>
                         </h6>
-                        <span className="material-icons-round">
-                            discord
-                        </span>
-                        <span className="material-icons-round">
-                            telegram
-                        </span>
-                        <span className="material-icons-round">
-                            twitter
-                        </span>
+                        <a href={"https://discord.gg/9wZ4CuvkuJ"} target="_blank" rel="noreferrer">
+                            <Image src={discord} className="mr-2"/>
+                        </a>
+                        <a href={"https://t.me/PlentyDeFi"} target="_blank" rel="noreferrer">
+                            <Image src={telegram} className="mr-2"/>
+                        </a>
+                        <a href={"https://twitter.com/PlentyDeFi"} target="_blank" rel="noreferrer">
+                            <Image src={twitter}/>
+                        </a>
                     </div>
                 </Col>
                 <Col lg={6} className="d-none d-lg-block">

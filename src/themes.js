@@ -3,11 +3,15 @@ import styled from 'styled-components';
 
 export const lightTheme = {
   body: '#F9FAFA',
-  p: '#4e5d78'
+  p: '#4e5d78',
+  hr: '#d2d2d2',
+  logo: '#5603AD'
 };
 export const darkTheme = {
   body: '#202231',
-  p: '#4e5d78'
+  p: '#4e5d78',
+  hr: '#d2d2d2',
+  logo: '#FFFFFF'
 };
 
 export const StyledDiv = styled.div`
@@ -21,5 +25,13 @@ export const GlobalStyles = createGlobalStyle`
   
   p {
     color: ${(props) => props.theme.p};
+  }
+  
+  hr {
+    border-top: 1px solid ${(props) => props.theme.hr}
+  }
+  
+  .logo {
+    fill: ${(props) => props.theme.logo}
   }
 `;
