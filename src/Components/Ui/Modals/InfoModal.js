@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import styles from './modal.module.scss'
 
-import TransacionSuccessImg from '../../../assets/images/icons/transaction-success.svg'
+import TransactionSuccessImg from '../../../assets/images/icons/transaction-success.svg'
 import clsx from "clsx";
 
 const InfoModal = props => {
@@ -11,7 +11,7 @@ const InfoModal = props => {
     <SimpleModal open={props.open} onClose={props.onClose}>
       <div className={styles.infoModal}>
 
-        <img className={clsx(styles.image, "mb-4")} src={TransacionSuccessImg} alt={props.message} />
+        <img className={clsx(styles.image, "mb-4")} src={TransactionSuccessImg} alt={props.message} />
 
         <div className={clsx(styles.message, "mb-3")}>
           {props.message}
