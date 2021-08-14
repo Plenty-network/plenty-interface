@@ -21,7 +21,7 @@ const StakeModal = props => {
 
         <span className="mr-2 ml-2">{props.tokenData.title}</span>
 
-        <Button onClick={() => null} size="small" color="secondary">max</Button>
+        <Button onClick={() => null} size="small" color="secondary" className="rounded-pill">max</Button>
       </div>
 
       <div className="d-flex flex-row-reverse">

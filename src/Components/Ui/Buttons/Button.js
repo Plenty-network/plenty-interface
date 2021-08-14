@@ -12,12 +12,15 @@ const Button = props => {
       className={clsx(
         isIconBtn ? styles.iconBtn : styles.btn,
         styles[color],
-        { [styles.smallBtn]: size === 'small' },
+        {
+          [styles.smallBtn]: size === 'small',
+          // [styles.eclipsed]: props.eclipsed,
+        },
         props.className,
       )}
       onClick={props.onClick}
     >
-      {props.startIcon && <span className="material-icons-round">{props.startIcon}</span>}
+      {props.startIcon && <span className="material-icons-round mr-1">{props.startIcon}</span>}
       {!isIconBtn && <span>{props.children}</span>}
     </button>
   )

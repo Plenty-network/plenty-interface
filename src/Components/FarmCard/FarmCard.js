@@ -7,6 +7,9 @@ import clsx from "clsx";
 import FarmCardBottom from "./FarmCardBottom";
 import Button from "../Ui/Buttons/Button";
 import StakeModal from "../Ui/Modals/StakeModal";
+
+import CalculatorSvg from '../../assets/images/icons/calculator.svg';
+
 const FarmCard = (props) => {
   const apyCalculate = (apr) => (
       (Math.pow(1 + apr / 100 / 365, 365) - 1) *
@@ -52,6 +55,13 @@ const FarmCard = (props) => {
           <div className={clsx(styles.plentyCardContentInfo, "flex justify-between")}>
             <p className={styles.plentyCardContentTag}>APR:</p>
             <p className={styles.plentyCardContentTag}>
+
+              <img
+                src={CalculatorSvg}
+                alt={'Check ROI'}
+                className={styles.roiInfoImg}
+                onClick={() => null}
+              />
               {
                 props.activeFarmData.isPresent === true
                   ? props.activeFarmData.data.response[props.CONTRACT].APR.toFixed(0)
