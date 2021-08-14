@@ -22,6 +22,7 @@ const SwapModal = props => {
 									key={index}
 									onClick={() => {
 										if (token.name === props.tokenOut.name) {
+											props.onHide()
 											props.handleStateSwap()
 										} else {
 											props.selectToken(token)
@@ -46,6 +47,7 @@ const SwapModal = props => {
 									key={index}
 									onClick={() => {
 										if (token.name === props.tokenIn.name) {
+											props.onHide()
 											props.handleStateSwap()
 										} else {
 											props.selectToken(token)
