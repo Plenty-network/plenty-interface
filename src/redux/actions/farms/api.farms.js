@@ -184,7 +184,7 @@ const CheckIfWalletConnected = async (wallet, somenet) => {
 
 export const stakeFarm = async (amount, farmIdentifier , isActive, position) => {
     try {
-      
+      console.log({amount, farmIdentifier , isActive, position});
       const network = {
         type: CONFIG.WALLET_NETWORK,
       };

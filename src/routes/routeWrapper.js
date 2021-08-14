@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import Routes from "./routes";
 //import configureStore from "../store/index";
 
-const WarppaedRoute = (props) => {
+const WrappedRoute = (props) => {
   return (
     <Provider store={props.store}>
       <Routes />
@@ -11,4 +11,4 @@ const WarppaedRoute = (props) => {
   );
 };
 
-export default WarppaedRoute;
+export default WrappedRoute;
