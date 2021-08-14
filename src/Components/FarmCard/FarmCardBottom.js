@@ -7,10 +7,10 @@ import styles from "../../assets/scss/partials/_farms.module.scss"
 import clsx from "clsx";
 import Input from "../Ui/Input/Input";
 import QuantityButton from "../Ui/Buttons/QuantityButton";
-
+import StakeModal from "../Ui/Modals/StakeModal";
 const FarmCardBottom = (props) => {
   const [ isExpanded, toggleExpand ] = useState(false);
-
+  console.log({props});
   const renderHarvest = () => (
     <div className="d-flex">
       <Input className="mr-2 w-100"/>
@@ -32,11 +32,22 @@ const FarmCardBottom = (props) => {
         }
       )}>
 
-        {(props.harvested || isExpanded) && ( // TODO add proper variable
+        {((props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount >0)|| isExpanded) && ( // TODO add proper variable
           <div className="d-flex">
-            <Input className="mr-2 w-100"/>
+            <div className={clsx(styles.harvestStakeAmt, "mr-2")}>
+              <span>{( props.userAddress !== null && props.harvestValueOnFarms[props.isActiveOpen].hasOwnProperty(props.CONTRACT) && props.harvestValueOnFarms[props.isActiveOpen][props.CONTRACT].totalRewards > 0) ? props.harvestValueOnFarms[props.isActiveOpen][props.CONTRACT].totalRewards.toFixed(6) : 0}</span>
+            </div>
 
-            <Button onClick={() => null} color={props.harvested ? "primary" : "default"}> {/* TODO add proper variable */}
+            <Button
+              onClick={() => {
+                props.harvestOnFarm(
+                  props.identifier,
+                  props.isActiveOpen,
+                  props.position
+                )
+              }}
+              color={props.harvested ? "primary" : "default"}
+            >
               Harvest
             </Button>
           </div>
@@ -47,11 +58,20 @@ const FarmCardBottom = (props) => {
             <div className="mt-3 mb-2">{props.title}</div>
 
             <div className="d-flex">
-              <Input className="mr-2 w-100"/>
+
+              <div className={clsx(styles.harvestStakeAmt, "mr-2")}>
+                <span>{props.userStakes.hasOwnProperty(props.CONTRACT) ? props.userStakes[props.CONTRACT].stakedAmount : 0}</span>
+              </div>
+              {/*<Input*/}
+              {/*  onChange={(event) => {*/}
+              {/*    props.handleStakeOfFarmInputValue(props.CONTRACT , parseFloat(event.target.value))*/}
+              {/*  }}*/}
+              {/*  className="mr-2 w-100"*/}
+              {/*/>*/}
               {
-                props.staked // TODO add proper variable
-                  ? <QuantityButton onAdd={() => null} onRemove={() => null}/>
-                  : <Button onClick={() => null} color={"default"}>Stake</Button>
+                 (props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0 ) // TODO add proper variable
+                  ? <QuantityButton onAdd={() => props.openFarmsStakeModal()} onRemove={() => null}/> 
+                  : <Button onClick={() => props.stakeOnFarm(props.stakeInputValues[props.CONTRACT],props.identifier,true,props.position) } color={"default"}>Stake</Button>
               }
             </div>
           </>
@@ -91,6 +111,7 @@ const FarmCardBottom = (props) => {
           color={"mute"}
         />
       </div>
+      <StakeModal open={props.isStakeModalOpen} onClose={() => props.closeFarmsStakeModal()} tokenData={{title: props.title}} handleInput = {props.handleStakeOfFarmInputValue} CONTRACT = {props.CONTRACT} stakeInputValues={props.stakeInputValues} stakeOnFarm={props.stakeOnFarm} identifier={props.identifier} position={props.position}/>
     </>
   )
 };

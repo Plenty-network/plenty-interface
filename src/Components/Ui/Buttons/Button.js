@@ -5,13 +5,14 @@ import styles from './button.module.scss'
 
 const Button = props => {
   // ? Destructing and setting default props if any
-  const { color = 'default', isIconBtn = false } = props
+  const { color = 'default', size = 'default', isIconBtn = false } = props
 
   return (
     <button
       className={clsx(
         isIconBtn ? styles.iconBtn : styles.btn,
         styles[color],
+        { [styles.smallBtn]: size === 'small' },
         props.className,
       )}
       onClick={props.onClick}
@@ -23,7 +24,8 @@ const Button = props => {
 }
 
 Button.propTypes = {
-  color: PropTypes.oneOf(['primary', 'default', 'mute']),
+  color: PropTypes.oneOf(['primary', 'secondary', 'default', 'mute']),
+  size: PropTypes.oneOf(['small', 'default']),
   className: PropTypes.string,
   isIconBtn: PropTypes.bool,
   startIcon: PropTypes.string,

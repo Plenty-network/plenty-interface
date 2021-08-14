@@ -1,18 +1,22 @@
 import PropTypes from 'prop-types'
 import Col from "react-bootstrap/Col";
-import Card from "react-bootstrap/Card";
-
+import { useState } from 'react';
 import styles from "../../assets/scss/partials/_farms.module.scss"
 import Image from "react-bootstrap/Image";
 import clsx from "clsx";
 import FarmCardBottom from "./FarmCardBottom";
 import Button from "../Ui/Buttons/Button";
-
+import StakeModal from "../Ui/Modals/StakeModal";
 const FarmCard = (props) => {
+  const apyCalculate = (apr) => (
+      (Math.pow(1 + apr / 100 / 365, 365) - 1) *
+      100
+    ).toFixed(0);
 
   return (
+    <>
     <Col sm={12} md={4}>
-      <Card className={styles.plentyCard}>
+      <div className={styles.plentyCard}>
 
         {/* * Header */}
         <div className={clsx(styles.plentyCardHeader, "flex justify-between align-center p-26 pb-20")}>
@@ -37,27 +41,57 @@ const FarmCard = (props) => {
         <div className={clsx(styles.plentyCardContent, { "pb-0": props.harvested })}> {/* TODO add proper variable */}
           <div className={clsx(styles.plentyCardContentInfo, "flex justify-between")}>
             <p className={styles.plentyCardContentTag}>APY:</p>
-            <p className={styles.plentyCardContentTag}>{props.apy}%</p>
+            <p className={styles.plentyCardContentTag}>
+              {
+                props.activeFarmData.isPresent === true
+                  ?  apyCalculate(props.activeFarmData.data.response[props.CONTRACT].APR.toFixed(2))
+                  : 0
+              }%
+            </p>
           </div>
           <div className={clsx(styles.plentyCardContentInfo, "flex justify-between")}>
             <p className={styles.plentyCardContentTag}>APR:</p>
-            <p className={styles.plentyCardContentTag}>{props.apr}%</p>
+            <p className={styles.plentyCardContentTag}>
+              {
+                props.activeFarmData.isPresent === true
+                  ? props.activeFarmData.data.response[props.CONTRACT].APR.toFixed(0)
+                  : 0
+              }%
+            </p>
           </div>
           <div className={clsx(styles.plentyCardContentInfo, "flex justify-between")}>
             <p className={styles.plentyCardContentTag}>Rewards:</p>
-            <p className={styles.plentyCardContentTag}>{props.rewards}</p>
+            <p className={styles.plentyCardContentTag}>
+              {
+                props.activeFarmData.isPresent === true
+                  ? props.activeFarmData.data.response[props.CONTRACT].rewardRate * 2880
+                  : 0
+              } / PER DAY
+            </p>
           </div>
 
           <div className={clsx(styles.plentyCardTvlInfo, "flex justify-between align-center mb-4")}>
             <p className={styles.plentyCardContentTag}>TVL:</p>
-            <p className={styles.plentyCardContentTag}>${props.liquidity}</p>
+            <p className={styles.plentyCardContentTag}>
+              ${
+                props.activeFarmData.isPresent === true
+                  ? props.activeFarmData.data.response[props.CONTRACT].totalLiquidty.toFixed(0)
+                  : 0
+              }
+            </p>
           </div>
 
           {
-            props.walletAddress
-              ? !props.harvested && <Button onClick={() => null} color={"primary"} className="w-100">Stake</Button>
+            props.userAddress
+              ? !(props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount >0) ? (
+                <Button
+                  onClick={() => props.openFarmsStakeModal()}
+                  color={"primary"}
+                  className="w-100"
+                >Stake</Button>
+              ) : null
               : <Button
-                  onClick={props.connecthWallet}
+                  onClick={props.connectWallet}
                   color={"primary"}
                   className="w-100"
                   startIcon="add"
@@ -66,13 +100,16 @@ const FarmCard = (props) => {
         </div>
         {/* * Content */}
 
-        <FarmCardBottom title={props.title} />
-      </Card>
+        <FarmCardBottom {...props} />
+      </div>
     </Col>
+    {/* <StakeModal open={props.isStakeModalOpen} onClose={() => props.closeFarmsStakeModal()} tokenData={{title: props.title}} /> */}
+    </>
+
   )
 }
 
-FarmCard.propsTypes = {
+FarmCard.propTypes = {
   image: PropTypes.number,
   multi: PropTypes.string,
   title: PropTypes.string,
