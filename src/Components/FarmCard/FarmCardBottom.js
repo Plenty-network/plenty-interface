@@ -8,6 +8,7 @@ import clsx from "clsx";
 import Input from "../Ui/Input/Input";
 import QuantityButton from "../Ui/Buttons/QuantityButton";
 import StakeModal from "../Ui/Modals/StakeModal";
+import { Image } from "react-bootstrap";
 const FarmCardBottom = (props) => {
   const [ isExpanded, toggleExpand ] = useState(false);
   console.log({props});
@@ -34,8 +35,19 @@ const FarmCardBottom = (props) => {
 
         {((props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount >0)|| isExpanded) && ( // TODO add proper variable
           <div className="d-flex">
-            <div className={clsx(styles.harvestStakeAmt, "mr-2")}>
-              <span>{( props.userAddress !== null && props.harvestValueOnFarms[props.isActiveOpen].hasOwnProperty(props.CONTRACT) && props.harvestValueOnFarms[props.isActiveOpen][props.CONTRACT].totalRewards > 0) ? props.harvestValueOnFarms[props.isActiveOpen][props.CONTRACT].totalRewards.toFixed(6) : 0}</span>
+            <div className={clsx(styles.harvestStakeAmt, "mr-2 justify-content-between")}>
+              <Image height={31} src={props.harvestImg} fuild className="mt-auto mb-auto ml-2" />
+              <span>
+                {
+                  (
+                    props.userAddress !== null &&
+                    props.harvestValueOnFarms[props.isActiveOpen].hasOwnProperty(props.CONTRACT)&&
+                    props.harvestValueOnFarms[props.isActiveOpen][props.CONTRACT].totalRewards > 0
+                  )
+                    ? props.harvestValueOnFarms[props.isActiveOpen][props.CONTRACT].totalRewards.toFixed(6)
+                    : 0
+                }
+              </span>
             </div>
 
             <Button
@@ -59,9 +71,10 @@ const FarmCardBottom = (props) => {
 
             <div className="d-flex">
 
-              <div className={clsx(styles.harvestStakeAmt, "mr-2")}>
+              <div className={clsx(styles.harvestStakeAmt, "mr-2 justify-content-end")}>
                 <span>{props.userStakes.hasOwnProperty(props.CONTRACT) ? props.userStakes[props.CONTRACT].stakedAmount : 0}</span>
               </div>
+              <span />
               {
                  (props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0 ) // TODO add proper variable
                   ? <QuantityButton onAdd={() => props.openFarmsStakeModal()} onRemove={() => null}/> 
