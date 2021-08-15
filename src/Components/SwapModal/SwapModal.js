@@ -1,7 +1,6 @@
 import { Modal } from "react-bootstrap"
 
 const SwapModal = props => {
-	console.log(props.tokenIn, props.tokenOut, "Token values in swap modal")
 	return (
 		<Modal
 			show={!!props.show}

@@ -121,6 +121,7 @@ const Swap = props => {
 				image: token.image,
 			})
 			loadSwapData(token.name, tokenOut.name).then(data => {
+				console.log(data, "TOP")
 				if (data.success) {
 					setSwapData(data)
 					setLoading(false)
@@ -133,6 +134,7 @@ const Swap = props => {
 			})
 			loadSwapData(tokenIn.name, token.name).then(data => {
 				if (data.success) {
+					console.log(data, "BOTTOM")
 					setSwapData(data)
 					setLoading(false)
 				}
@@ -188,14 +190,12 @@ const Swap = props => {
 	}
 
 	const handleTokenInput = ({ input, type }) => {
-		console.log("I am running")
 		const lengthOfInput = input.length
 		if (input.charAt(lengthOfInput - 1) == ".") {
 			return
 		}
 		const parsedString = parseFloat(input)
 		if (type === "top-token") {
-			console.log("top-token")
 			setFirstTokenAmount(parsedString)
 			if (input === "" || isNaN(input)) {
 				setFirstTokenAmount(0)
@@ -212,12 +212,12 @@ const Swap = props => {
 					swapData.exchangeFee,
 					slippage
 				)
+				console.log(conputedData, "TOP")
 				setComputedOutDetails(conputedData)
 				setSecondTokenAmount(conputedData.tokenOut_amount)
 				setLoading(false)
 			}
 		} else {
-			console.log("bottom-token")
 			setSecondTokenAmount(parsedString)
 			if (input === "" || isNaN(input)) {
 				setSecondTokenAmount(0)
@@ -234,11 +234,21 @@ const Swap = props => {
 					swapData.exchangeFee,
 					slippage
 				)
-				setComputedInDetails(computedData)
 				setFirstTokenAmount(computedData.tokenOut_amount)
+				console.log(computedData, "BOTTOM")
+				const computedData2 = computeTokenOutput(
+					parseFloat(computedData.tokenOut_amount),
+					swapData.tokenIn_supply,
+					swapData.tokenOut_supply,
+					swapData.exchangeFee,
+					slippage
+				)
+				// setComputedInDetails(computedData)
+				setComputedOutDetails(computedData2)
+
 				setLoading(false)
 			}
-			console.log(input, type)
+			// console.log(input, type)
 		}
 	}
 

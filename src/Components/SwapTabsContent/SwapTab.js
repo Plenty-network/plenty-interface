@@ -57,16 +57,12 @@ const SwapTab = props => {
 				</button>
 			)
 		} else if (props.tokenOut.name === undefined) {
-			console.log("I am here")
 			swapContentButton = (
 				<button className="swap-content-btn enter-amount">
 					Select a token
 				</button>
 			)
 		} else {
-			console.log(props.firstTokenAmount, "firstTokenAmount")
-			console.log(props.tokenOut.name)
-			console.log(props.loading)
 			swapContentButton = props.loading ? (
 				<button className="swap-content-btn loader-btn enter-amount">
 					<PuffLoader color={"#fff"} size={28} />
