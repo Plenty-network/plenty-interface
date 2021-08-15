@@ -1,3 +1,4 @@
+import React from 'react';
 import SwapDetails from '../SwapDetails';
 import ConfirmSwap from './ConfirmSwap';
 import { swapTokens } from '../../apis/swap/swap';
@@ -74,15 +75,15 @@ const SwapTab = (props) => {
     <>
       <div className="swap-content-box-wrapper">
         <div className="swap-content-box">
-          <div className="swap-token-select-box">
+          <div className="swap-token-select-box bg-themed-light">
             <div className="token-selector-balance-wrapper">
               <button
-                className="token-selector"
+                className="token-selector dropdown-themed"
                 onClick={() => props.handleTokenType('tokenIn')}
               >
                 <img src={props.tokenIn.image} className="button-logo" />
-                {props.tokenIn.name}{' '}
-                <span className="material-icons-round">expand_more</span>
+                <span className="span-themed">{props.tokenIn.name}{' '}</span>
+                <span className="span-themed material-icons-round">expand_more</span>
               </button>
             </div>
 
@@ -126,21 +127,21 @@ const SwapTab = (props) => {
           </div>
         </div>
 
-        <div className="swap-arrow-center">
-          <span className="material-icons-round">south</span>
+        <div className="swap-arrow-center bg-themed">
+          <span className="span-themed material-icons-round">south</span>
         </div>
 
         <div className="swap-content-box">
-          <div className="swap-token-select-box">
+          <div className="swap-token-select-box bg-themed-light">
             <div className="token-selector-balance-wrapper">
               {props.tokenOut.name ? (
                 <button
-                  className="token-selector"
+                  className="token-selector dropdown-themed"
                   onClick={() => props.handleTokenType('tokenOut')}
                 >
                   <img src={props.tokenOut.image} className="button-logo" />
-                  {props.tokenOut.name}{' '}
-                  <span className="material-icons-round">expand_more</span>
+                  <span className="span-themed">{props.tokenOut.name}{' '}</span>
+                  <span className="span-themed material-icons-round">expand_more</span>
                 </button>
               ) : (
                 <button

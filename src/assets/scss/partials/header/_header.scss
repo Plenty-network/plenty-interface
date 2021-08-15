@@ -15,11 +15,10 @@
   fill: #5603AD;
 }
 .header-col-center-frontpage {
-  border-bottom: none !important;
+  margin: 0 auto;
 }
 .header-col-center {
   margin: 0 auto;
-  border-bottom: 1px solid #f3f3f3;
 }
 .logo-section {
   width: 90px;
@@ -38,8 +37,11 @@
 .menu-active {
   position: relative;
   > .nav-menu-item-link {
-    color: #2d323d;
+    > p {
+      color: #2d323d;
+    }
   }
+
   &::after {
     content: '';
     position: absolute;
@@ -54,7 +56,6 @@
 }
 .nav-menu-item-link {
   display: block;
-  color: #8a94a6;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -62,9 +63,16 @@
   padding: 0 15px;
   text-align: center;
   text-transform: capitalize;
+
+  > p {
+    &:hover {
+      text-decoration: none;
+      color: #2d323d !important;
+    }
+  }
   &:hover {
     text-decoration: none;
-    color: #2d323d;
+    color: #2d323d !important;
   }
   > span {
     vertical-align: middle;

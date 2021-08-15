@@ -16,13 +16,12 @@ import plentyBig from '../../assets/images/frontpage/plentybig.png';
 import discord from '../../assets/images/frontpage/discord.svg';
 import telegram from '../../assets/images/frontpage/telegram.svg';
 import twitter from '../../assets/images/frontpage/twitter.svg';
-import vector from "../../assets/images/frontpage/vector.svg";
-import {ReactComponent as PlentyMedium} from '../../assets/images/frontpage/plentymedium.svg';
+import plentyMedium from '../../assets/images/frontpage/plentymedium.png';
 import LinkTile from "../../Components/LinkTile/LinkTile";
 import Accordion from "../../Components/Ui/Accordion/Accordion";
 import Stats from "../../Components/Stats/Stats";
 import Header from "../../Components/Header/Header";
-import styled from 'styled-components';
+import {FrontPageGradientDiv} from "../../themes";
 
 const Frontpage = (props) => {
 
@@ -34,23 +33,19 @@ const Frontpage = (props) => {
         circulatingSupply: 21_234_567,
         plentyPerBlock: 60
     }
-    //
-    // const VectorDiv = styled.div`
-    //     background-image: url(${vector});
-    // `
 
     const walletConnected = true;
 
     return (
         <Container fluid>
             <div>
-                <Row className={styles.rectangle}>
+                <FrontPageGradientDiv className={`row ${styles.rectangle}`}>
                     <Header
-                        toggleTheme={null}
-                        theme={'light'}
-                        connecthWallet={null}
-                        disconnectWallet={null}
-                        walletAddress={null}
+                        toggleTheme={props.toggleTheme}
+                        theme={props.theme}
+                        connecthWallet={props.connecthWallet}
+                        disconnectWallet={props.disconnectWallet}
+                        walletAddress={props.walletAddress}
                         isFrontPage={true}
                     />
                     <Col className={clsx(
@@ -67,8 +62,8 @@ const Frontpage = (props) => {
                             <h1 className="mb-3 text-white">$ 1,212,125,125</h1>
                             <h6 className="mb-4 text-white">Trade tokens and earn interest by staking. There is
                                 plenty of DeFi to explore on Tezos.</h6>
-                            <Link to={"swap"}>
-                                <Button className={styles.button} color={'tertiary'} onClick={null}>Enter
+                            <Link to={"swap"} className="text-decoration-none">
+                                <Button className={`px-lg-3 btn-frontPage ${styles.button}`} color={'tertiary'} onClick={null}>Enter
                                     App</Button>
                             </Link>
                         </div>
@@ -84,9 +79,9 @@ const Frontpage = (props) => {
                             </Col>
                         )
                     }
-                </Row>
+                </FrontPageGradientDiv>
             </div>
-            <Row>
+            <Row className="row bg-themed border-bottom-themed-dark-none">
                 <Col sm={6} md={4} xl={2} className="px-5 py-4 m-sm-auto">
                     <Label text={`$${dummyValues.currentPrice.toLocaleString(undefined, {maximumFractionDigits: 20})}`}
                            icon={dollar}
@@ -115,11 +110,11 @@ const Frontpage = (props) => {
                            icon={plentyBlock}/>
                 </Col>
             </Row>
-            <hr className="mt-0"/>
             <Row>
                 <Col xs={12} className="text-center my-5">
-                    <h2 className={`${styles.plentyOnTezos} mb-3`}>Trade tokens and earn interest by staking.</h2>
-                    <h2 className={styles.plentyOnTezos}>There is plenty of DeFi to explore on Tezos.</h2>
+                    <h2 className={`${styles.plentyOnTezos} mb-3`}><p>Trade tokens and earn interest by staking.</p>
+                    </h2>
+                    <h2 className={styles.plentyOnTezos}><p>There is plenty of DeFi to explore on Tezos.</p></h2>
                 </Col>
             </Row>
             <Row className="px-lg-5 mb-5">
@@ -145,15 +140,15 @@ const Frontpage = (props) => {
                         linkTo={"/ponds"} linkText={"Enter Ponds"} headerText={"Ponds"}/>
                 </Col>
             </Row>
-            <Row className="mb-5">
+            <Row className="mb-5 bg-themed-alt">
                 <Col lg={6} xs={12}>
                     <div className="col-10 col-lg-9 col-xl-7 m-auto py-lg-5 px-0 text-center
                                     align-items-center align-items-lg-start text-lg-left">
 
-                        <h2 className={`mb-4 ${styles.plentyOnTezos}`}>About Plenty</h2>
-                        <div className={"mb-3"}><span>Plenty is expanding DeFi use cases on Tezos towards a full scale decentralized financial
+                        <h2 className={`mb-1 ${styles.plentyOnTezos}`}><p>About Plenty</p></h2>
+                        <div className={"mb-3"}><span><p>Plenty is expanding DeFi use cases on Tezos towards a full scale decentralized financial
                             ecosystem. Empowering traders, liquidity providers & developers to participate in an open
-                            financial marketplace.</span>
+                            financial marketplace.</p></span>
                         </div>
                         <a href={"https://discord.gg/9wZ4CuvkuJ"} target="_blank" rel="noreferrer">
                             <Image src={discord} className="mr-2"/>
@@ -167,12 +162,12 @@ const Frontpage = (props) => {
                     </div>
                 </Col>
                 <Col lg={6} className="d-none d-lg-block">
-                    <div className="px-lg-5">
+                    <div className="p-lg-5">
                         <Image src={plentyBig}/>
                     </div>
                 </Col>
             </Row>
-            <Row className={clsx(
+            <FrontPageGradientDiv className={clsx(
                 styles.rectangle
             )}>
                 <Col className="py-5">
@@ -237,8 +232,8 @@ const Frontpage = (props) => {
                                             This means that XTZ trading is not supported. However, trading with a
                                             tokenized version of XTZ called&nbsp;
                                             <a href={"https://forum.tezosagora.org/t/ctez-a-synthetic-tez-backed-by-tez-for-better-composability-as-an-alternative-to-the-virtual-baker/2612"}
-                                               target="_blank" rel="noreferrer">CTEZ</a>&nbsp;
-                                            will be supported in the near future.
+                                               target="_blank" rel="noreferrer">CTEZ</a>&nbsp;will be supported in the
+                                            near future.
                                             CTEZ solves the issue of using XTZ inside DeFi contracts without worrying
                                             about the governance matter of "who should be the baker" and without the
                                             opportunity cost of not delegating.
@@ -264,8 +259,8 @@ const Frontpage = (props) => {
                                                rel="noreferrer">Binance</a>.
                                             Do you hold XTZ? Go to&nbsp;
                                             <a href={"https://quipuswap.com/swap?from=tez&to=KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b"}
-                                               target="_blank" rel="noreferrer">Quipuswap</a>&nbsp;
-                                            to swap it for PLENTY! Each transaction on Tezos comes with a
+                                               target="_blank" rel="noreferrer">Quipuswap</a>&nbsp;to swap it for
+                                            PLENTY! Each transaction on Tezos comes with a
                                             small gas fee, paid in XTZ, which is a fee for the bakers to keep the Proof
                                             of Stake network running.
                                         </p>
@@ -273,9 +268,9 @@ const Frontpage = (props) => {
                                             If you are a DeFi user from another blockchain, you can wrap your assets
                                             using the&nbsp;
                                             <a href={"https://www.benderlabs.io/wrap"}
-                                               target="_blank" rel="noreferrer">Wrap Protocol</a>.&nbsp;
-                                            Wrap tokens like USDC, BUSD, LINK, MATIC, or WBTC,
-                                            and use them on Plenty to trade and earn yield.
+                                               target="_blank" rel="noreferrer">Wrap Protocol</a>.&nbsp;Wrap tokens like
+                                            USDC, BUSD, LINK, MATIC, or WBTC, and use them on Plenty to trade and earn
+                                            yield.
                                         </p>
                                     </div>
                                 </Accordion>
@@ -310,12 +305,12 @@ const Frontpage = (props) => {
                                         </p>
                                     </div>
                                 </Accordion>
-                                <PlentyMedium className="mt-4"/>
+                                <Image className={"mt-4"} src={plentyMedium}/>
                             </div>
                         </Col>
                     </Row>
                 </Col>
-            </Row>
+            </FrontPageGradientDiv>
         </Container>
     )
 };

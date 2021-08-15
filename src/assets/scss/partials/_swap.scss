@@ -5,10 +5,8 @@
   position: relative;
   max-width: 400px;
   padding: 26px 22px;
-  background-color: #fff;
-  box-shadow: 0px 23px 44px rgba(176, 183, 195, 0.14);
   border-radius: 15px;
-  margin: 100px auto 0;
+  margin: 100px auto;
 }
 .swap-container-tab {
   > a {
@@ -19,6 +17,7 @@
     padding-bottom: 20px;
     color: #4e5d78;
     border: 0 !important;
+    background-color: transparent !important;
     & .active {
       border-bottom: 2px solid #5603ad !important;
     }
@@ -85,7 +84,7 @@
   width: 290px;
   left: -246px !important;
   top: 12px !important;
-  background-color: #edeef2;
+  //background-color: #edeef2;
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-sizing: border-box;
   box-shadow: 0px 30px 60px rgba(153, 161, 200, 0.34);
@@ -101,7 +100,6 @@
   }
   .modal-content {
     max-width: 402px;
-    background-color: #fff;
     padding: 24px 30px;
     border-radius: 15px;
     border: 0;
@@ -109,7 +107,6 @@
   .modal-header {
     padding: 0;
     padding-bottom: 16px;
-    border-bottom: 1px solid #f1f1f1;
     .close {
       vertical-align: middle;
       font-family: 'Material Icons Round';
@@ -131,7 +128,6 @@
       font-weight: bold;
       font-size: 16px;
       line-height: 28px;
-      color: #4e5d78;
     }
   }
   .modal-body {
@@ -243,10 +239,9 @@
   font-weight: normal;
   font-size: 14px;
   line-height: 17px;
-  color: #4e5d78;
   padding: 10px;
   &:hover {
-    background-color: #f6f8fc;
+    background-color: rgba(103, 128, 159, 0.1)
   }
 }
 .select-token-img {
@@ -268,7 +263,6 @@
   font-weight: bold;
   font-size: 17.9523px;
   line-height: 28px;
-  color: #4e5d78;
   margin-bottom: 4px;
 }
 .swap-arrow-center {
@@ -436,14 +430,12 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 23px;
-  color: #4e5d78;
   margin-bottom: 4px;
   > span {
     vertical-align: middle;
     font-weight: 500;
     font-size: 14px;
     line-height: 23px;
-    color: #4e5d78;
   }
 }
 .slipping-tolerance-detail-wrapper {
@@ -464,7 +456,7 @@
 }
 .slipping-tolerance-input {
   width: 125px;
-  background-color: #f4f4f6;
+  //background-color: #f4f4f6;
   border: 1px solid rgba(0, 0, 0, 0.07);
   padding: 8px 26px;
   border-radius: 10.9259px;

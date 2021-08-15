@@ -178,8 +178,8 @@ const Swap = (props) => {
     <Container fluid>
       <Row>
         <Col sm={8} md={6} className="swap-content-section">
-          <div className={`swap-content-container ${hideContent}`}>
-            <Tabs defaultActiveKey="swap" className="swap-container-tab">
+          <div className={`bg-themed swap-content-container ${hideContent}`}>
+            <Tabs defaultActiveKey="swap" className="swap-container-tab bg-themed border-bottom-themed">
               <Tab eventKey="swap" title="Swap">
                 <SwapTab
                   walletAddress={props.walletAddress}

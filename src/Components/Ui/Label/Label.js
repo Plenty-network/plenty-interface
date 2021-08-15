@@ -14,7 +14,7 @@ const Label = props => {
                 <Image src={props.icon}/>
             </div>
             }
-            <div>
+            <div className="text-left">
                 <p className={clsx("font-weight-bold", "m-0",
                 )}>{props.text}</p>
                 {props.subText &&

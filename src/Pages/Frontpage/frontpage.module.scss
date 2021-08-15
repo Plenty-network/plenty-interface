@@ -1,7 +1,6 @@
 @use '../../assets/scss/constants' as const;
 
 .rectangle {
-  background: linear-gradient(178.62deg, #7028E4 16.71%, #E5B2CA 217.99%);
   //background: const.$bgGradient;
   border-radius: 5px;
 }
@@ -35,13 +34,12 @@
   font-weight: bold;
   //font-size: 5em;
   font-family: 'DM Sans', sans-serif;
-  color: #4E5D78;
+  //color: #4E5D78;
 }
 
 .button {
   height: 50px;
   min-height: 3em;
-  color: #823DE0;
   background-color: #FFFFFF;
   border: 0;
   font-weight: bold;

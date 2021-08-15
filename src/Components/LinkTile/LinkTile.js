@@ -12,7 +12,7 @@ const LinkTile = (props) => {
     return (
         <div className={clsx(
             styles.tile,
-            "px-4", "py-3", "d-flex", "flex-column"
+            "border-themed-dark-none", "bg-themed", "px-4", "py-3", "d-flex", "flex-column"
         )}>
             <div className={clsx(
                 styles.header,
