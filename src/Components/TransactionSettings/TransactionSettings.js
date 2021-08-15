@@ -47,7 +47,7 @@ const TransactionSettings = (props) => {
                         value={props.slippage}
                         onChange={(e) => props.setSlippage(parseFloat(e.target.value))}
                     />
-                    <div className="percentage-icon">%</div>
+                    <div className="percentage-icon"><span className="span-themed">%</span></div>
                 </div>
 
                 <div className="interface-setting-wrapper">

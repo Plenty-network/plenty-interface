@@ -42,7 +42,7 @@ const Header = (props) => {
         onClick(e);
       }}
     >
-      <span className="material-icons-round">more_vert</span>
+      <span className="span-themed material-icons-round">more_vert</span>
     </a>
   ));
   return (
@@ -87,7 +87,7 @@ const Header = (props) => {
                     as={CustomToggle}
                     id="dropdown-basic"
                   ></Dropdown.Toggle>
-                  {/*<button onClick={props.toggleTheme}>tog</button>*/}
+                  <button onClick={props.toggleTheme}>tog</button>
                   <Dropdown.Menu className="menu-dropdown">
                     <ExternalMenu />
                   </Dropdown.Menu>
