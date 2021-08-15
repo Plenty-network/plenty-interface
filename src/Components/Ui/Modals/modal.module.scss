@@ -14,6 +14,11 @@
   .header {
     padding: 14px 14px 26px;
     border-bottom: 1px solid const.$border-color;
+
+    &.noTitle {
+      padding: 14px 14px 0;
+      border-bottom: 0;
+    }
   }
 
   .title {
@@ -28,6 +33,38 @@
 
   .content {
     padding: 26px 14px 14px;
+
+    &.noTopPadding {
+      padding: 0 14px 14px;
+    }
+  }
+}
+
+.infoModal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .image {
+    width: 76px;
+    height: 76px;
+  }
+
+  .message {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 20px;
+  }
+
+  .button {
+    color: const.$primary-color-1;
+    cursor: pointer;
+    user-select: none;
+
+    &:active {
+      transform: scale(0.98);
+      transform-origin: 50% 50%;
+    }
   }
 }
 

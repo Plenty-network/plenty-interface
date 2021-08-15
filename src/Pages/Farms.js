@@ -5,13 +5,21 @@ import Row from 'react-bootstrap/Row';
 import FarmCard from '../Components/FarmCard/FarmCard';
 
 import plentyXtz from '../assets/images/farms/plenty-xtz.png';
+import plentyToken from '../assets/images/logo_small.png';
 import { connect } from 'react-redux';
 import * as farmsActions from '../redux/actions/farms/farms.actions'
 import * as userActions from '../redux/actions/user/user.action'
 import CONFIG from '../config/config';
 import PropTypes from "prop-types";
 import * as walletActions from '../redux/actions/wallet/wallet.action';
+<<<<<<< HEAD
+=======
+import Switch from "../Components/Ui/Switch/Switch";
+
+>>>>>>> 25ba828f8c5ef439d495ea0f94d149bc1c8fbf34
 const Farms = (props) => {
+  const [showActiveToken, setShowActiveToken] = useState(false)
+
   // TODO add redux state prop here
   useEffect(() => {
     renderFarms();
@@ -31,6 +39,7 @@ const Farms = (props) => {
   const farmsCardTypeList = {
     'PLENTY / XTZ LP' :{
       image: plentyXtz,
+      harvestImg: plentyToken,
       multi: '100',
       title: 'PLENTY / XTZ LP',
       apr: 0,
@@ -50,6 +59,7 @@ const Farms = (props) => {
     },
     'KALAM / XTZ LP' :{
       image: plentyXtz,
+      harvestImg: plentyToken,
       multi: '100',
       title: 'KALAM / XTZ LP',
       apr: 3,
@@ -88,6 +98,7 @@ const Farms = (props) => {
     },
     'KALAM / PLENTY LP' : {
       image: plentyXtz,
+      harvestImg: plentyToken,
       multi: '100',
       title: 'KALAM / PLENTY LP',
       apr: 0,
@@ -131,6 +142,15 @@ const Farms = (props) => {
     <>
     <div>
     <Container fluid className="page-layout-container">
+      <Row className="mb-4 justify-content-center">
+        <Switch
+          value={showActiveToken}
+          onChange={() => setShowActiveToken(!showActiveToken)}
+          trueLabel={'Active'}
+          falseLabel={'Inactive'}
+          inverted={true}
+        />
+      </Row>
       <Row>
         {
           props.farmsToRender.map((farm, index) => {

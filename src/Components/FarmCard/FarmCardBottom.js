@@ -9,6 +9,7 @@ import Input from "../Ui/Input/Input";
 import QuantityButton from "../Ui/Buttons/QuantityButton";
 import StakeModal from "../Ui/Modals/StakeModal";
 import UnstakeModal from "../Ui/Modals/UnstakeModal";
+import { Image } from "react-bootstrap";
 const FarmCardBottom = (props) => {
   const [ isExpanded, toggleExpand ] = useState(false);
   console.log({props});
@@ -35,8 +36,19 @@ const FarmCardBottom = (props) => {
 
         {((props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount >0)|| isExpanded) && ( // TODO add proper variable
           <div className="d-flex">
-            <div className={clsx(styles.harvestStakeAmt, "mr-2")}>
-              <span>{( props.userAddress !== null && props.harvestValueOnFarms[props.isActiveOpen].hasOwnProperty(props.CONTRACT) && props.harvestValueOnFarms[props.isActiveOpen][props.CONTRACT].totalRewards > 0) ? props.harvestValueOnFarms[props.isActiveOpen][props.CONTRACT].totalRewards.toFixed(6) : 0}</span>
+            <div className={clsx(styles.harvestStakeAmt, "mr-2 justify-content-between")}>
+              <Image height={31} src={props.harvestImg} fuild className="mt-auto mb-auto ml-2" />
+              <span>
+                {
+                  (
+                    props.userAddress !== null &&
+                    props.harvestValueOnFarms[props.isActiveOpen].hasOwnProperty(props.CONTRACT)&&
+                    props.harvestValueOnFarms[props.isActiveOpen][props.CONTRACT].totalRewards > 0
+                  )
+                    ? props.harvestValueOnFarms[props.isActiveOpen][props.CONTRACT].totalRewards.toFixed(6)
+                    : 0
+                }
+              </span>
             </div>
 
             <Button
@@ -60,15 +72,10 @@ const FarmCardBottom = (props) => {
 
             <div className="d-flex">
 
-              <div className={clsx(styles.harvestStakeAmt, "mr-2")}>
+              <div className={clsx(styles.harvestStakeAmt, "mr-2 justify-content-end")}>
                 <span>{props.userStakes.hasOwnProperty(props.CONTRACT) ? props.userStakes[props.CONTRACT].stakedAmount : 0}</span>
               </div>
-              {/*<Input*/}
-              {/*  onChange={(event) => {*/}
-              {/*    props.handleStakeOfFarmInputValue(props.CONTRACT , parseFloat(event.target.value))*/}
-              {/*  }}*/}
-              {/*  className="mr-2 w-100"*/}
-              {/*/>*/}
+              <span />
               {
                  (props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0 ) // TODO add proper variable
                   ? <QuantityButton onAdd={() => props.openFarmsStakeModal()} onRemove={() => props.openFarmsUnstakeModal()}/> 
@@ -87,12 +94,26 @@ const FarmCardBottom = (props) => {
             <div className={clsx(styles.plentyCardContent, styles.bottomBorder, "d-flex")}>
               <div className={clsx(styles.rightBorder, "w-50 text-center")}>
                 <div>Deposit Fee</div>
-                <div>0%</div>
+                <Button
+                  size="small"
+                  color="mute"
+                  startIcon="help_outline"
+                  className="mt-1 ml-auto mr-auto"
+                  rounded={false}
+                  onClick={() => null}
+                >0%</Button>
               </div>
 
               <div className={"w-50 text-center"}>
                 <div>Withdrawal Fee</div>
-                <div>0%</div>
+                <Button
+                  size="small"
+                  color="mute"
+                  startIcon="help_outline"
+                  className="mt-1 ml-auto mr-auto"
+                  rounded={false}
+                  onClick={() => null}
+                >Variable</Button>
               </div>
             </div>
 
