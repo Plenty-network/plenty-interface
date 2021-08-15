@@ -16,7 +16,7 @@ return (
     centered={true}
   >
     {/* * Header */}
-    <div className={clsx(styles.header, "d-flex")}>
+    <div className={clsx(styles.header, "d-flex", { [styles.noTitle]: !props.title })}>
       <div className={clsx(styles.title, "flex-grow-1")}>{props.title}</div>
 
       <div className={styles.closeBtn} onClick={props.onClose}>
@@ -26,7 +26,7 @@ return (
     {/* * Header */}
 
     {/* * Body */}
-    <div className={styles.content}>
+    <div className={clsx(styles.content, { [styles.noTopPadding]: !props.title })}>
       {props.children}
     </div>
     {/* * Body */}

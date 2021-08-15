@@ -14,7 +14,6 @@ const Button = props => {
         styles[color],
         {
           [styles.smallBtn]: size === 'small',
-          // [styles.eclipsed]: props.eclipsed,
         },
         props.className,
       )}
