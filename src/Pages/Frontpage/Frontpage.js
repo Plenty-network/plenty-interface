@@ -16,10 +16,13 @@ import plentyBig from '../../assets/images/frontpage/plentybig.png';
 import discord from '../../assets/images/frontpage/discord.svg';
 import telegram from '../../assets/images/frontpage/telegram.svg';
 import twitter from '../../assets/images/frontpage/twitter.svg';
+import vector from "../../assets/images/frontpage/vector.svg";
+import {ReactComponent as PlentyMedium} from '../../assets/images/frontpage/plentymedium.svg';
 import LinkTile from "../../Components/LinkTile/LinkTile";
 import Accordion from "../../Components/Ui/Accordion/Accordion";
 import Stats from "../../Components/Stats/Stats";
 import Header from "../../Components/Header/Header";
+import styled from 'styled-components';
 
 const Frontpage = (props) => {
 
@@ -31,59 +34,50 @@ const Frontpage = (props) => {
         circulatingSupply: 21_234_567,
         plentyPerBlock: 60
     }
+    //
+    // const VectorDiv = styled.div`
+    //     background-image: url(${vector});
+    // `
 
     const walletConnected = true;
 
     return (
-        <Container fluid className="p-0">
-            <div className={styles.rectangle}>
-                <Header
-                    toggleTheme={null}
-                    theme={'light'}
-                    connecthWallet={null}
-                    disconnectWallet={null}
-                    walletAddress={null}
-                    isFrontPage={true}
-                />
-                <Row>
+        <Container fluid>
+            <div>
+                <Row className={styles.rectangle}>
+                    <Header
+                        toggleTheme={null}
+                        theme={'light'}
+                        connecthWallet={null}
+                        disconnectWallet={null}
+                        walletAddress={null}
+                        isFrontPage={true}
+                    />
                     <Col className={clsx(
+                        "py-5",
                         walletConnected ? ["col-lg-6", "col-sm-12"]
                             : "col-sm-12"
                     )}>
-                        <div className="p-3 p-lg-5">
-                            {
-                                walletConnected ? (
-                                        <div className="align-items-lg-start align-items-center d-flex flex-column">
-                                            <h3 className={styles.tvlText}>Total Value Locked</h3>
-                                            <h1 className={styles.tvlValue}>$ 1,212,125,125</h1>
-                                            <h4 className={styles.info}>Trade tokens and earn interest by staking. There is
-                                                plenty of DeFi to explore on Tezos.</h4>
-                                            <Link to={"swap"}>
-                                                <Button className={styles.button} color={'tertiary'} onClick={null}>Enter
-                                                    App</Button>
-                                            </Link>
-
-                                        </div>
-                                    )
-                                    : (
-                                        <div className="align-items-center d-flex flex-column">
-                                            <h1 className={styles.tvlValue}>$ 1,212,125,125</h1>
-                                            <h4 className={styles.tvlText}>Total Value Locked</h4>
-                                            <h6 className={styles.info}>Trade tokens and earn interest by staking. There is
-                                                plenty of DeFi to explore on Tezos.</h6>
-                                            <Link to={"swap"} className={styles.link}>
-                                                <Button className={styles.button} color={'tertiary'} onClick={null}>Enter
-                                                    App</Button>
-                                            </Link>
-                                        </div>
-                                    )
-                            }
+                        <div className={clsx(
+                            walletConnected ? ["d-flex", "flex-column", "col-10", "col-xl-9", "m-auto", "py-lg-5", "text-center",
+                                    "align-items-center", "ml-lg-auto", "mr-lg-0", "align-items-lg-start", "text-lg-left"]
+                                : ["col-10", "col-lg-7", "m-auto", "d-flex", "align-items-center", "text-center", "flex-column", "py-lg-5"]
+                        )}>
+                            <h6 className="mb-3 text-white">Total Value Locked</h6>
+                            <h1 className="mb-3 text-white">$ 1,212,125,125</h1>
+                            <h6 className="mb-4 text-white">Trade tokens and earn interest by staking. There is
+                                plenty of DeFi to explore on Tezos.</h6>
+                            <Link to={"swap"}>
+                                <Button className={styles.button} color={'tertiary'} onClick={null}>Enter
+                                    App</Button>
+                            </Link>
                         </div>
                     </Col>
                     {
                         walletConnected && (
-                            <Col className="py-3 py-lg-5 col-lg-6 col-sm-12 d-lg-flex">
-                                <div className="col-lg-9 m-lg-auto">
+                            <Col className="py-3 pb-lg-5 col-lg-6 col   -sm-12">
+                                <div className="col-lg-9 col-xl-7 m-auto py-lg-5 px-0 text-center
+                                    align-items-center align-items-lg-start text-lg-left">
                                     <Stats valueLocked={15021} plentyEarned={251_532} plentyInWallet={12.48192}
                                            plentyToHarvest={0.999715}/>
                                 </div>
@@ -123,41 +117,44 @@ const Frontpage = (props) => {
             </Row>
             <hr className="mt-0"/>
             <Row>
-                <Col xs={12} className="text-center my-4">
-                    <span className={styles.plentyOnTezos}>Plenty of DeFi on Tezos</span>
+                <Col xs={12} className="text-center my-5">
+                    <h2 className={`${styles.plentyOnTezos} mb-3`}>Trade tokens and earn interest by staking.</h2>
+                    <h2 className={styles.plentyOnTezos}>There is plenty of DeFi to explore on Tezos.</h2>
                 </Col>
             </Row>
             <Row className="px-lg-5 mb-5">
                 <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
                     <LinkTile
-                        text={"The first token-to-token AMM on Tezos. Swap tokens and add liquidity."}
+                        text={"Swap tokens and add liquidity on the first token-to-token Automated Market Maker on Tezos."}
                         linkTo={"/swap"} linkText={"Enter Exchange"} headerIcon={circulatingSupply}
                         headerText={"AMM"}/>
                 </Col>
                 <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
                     <LinkTile
-                        text={"The most competitive rates for DeFi bluechips anywhere. Switch to other chains in one click."}
+                        text={"Earn extra rewards besides trading fees by locking Plenty Liquidity Provider (PLP) tokens into a farm."}
                         linkTo={"/farms"} linkText={"Enter Farms"} headerIcon={farms} headerText={"Farms"}/>
                 </Col>
                 <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
                     <LinkTile
-                        text={"The most competitive rates for DeFi bluechips anywhere. Switch to other chains in one click."}
+                        text={"Pools are made for single asset staking and yield PLENTY. Pools are being phased out, except for PLENTY staking."}
                         linkTo={"/pools"} linkText={"Enter Pools"} headerText={"Pools"}/>
                 </Col>
                 <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
                     <LinkTile
-                        text={"The most competitive rates for DeFi bluechips anywhere. Switch to other chains in one click."}
+                        text={"Earn different Tezos tokens in Ponds by staking PLENTY."}
                         linkTo={"/ponds"} linkText={"Enter Ponds"} headerText={"Ponds"}/>
                 </Col>
             </Row>
             <Row className="mb-5">
                 <Col lg={6} xs={12}>
-                    <div className="px-lg-5">
-                        <span className={styles.plentyOnTezos}>About Plenty</span>
-                        <h6><p>we do a deep dive into the portfolio. We identify core strengths and look for
-                            brand work in specific industries. Quality of work and documentation are
-                            assessed as well.</p>
-                        </h6>
+                    <div className="col-10 col-lg-9 col-xl-7 m-auto py-lg-5 px-0 text-center
+                                    align-items-center align-items-lg-start text-lg-left">
+
+                        <h2 className={`mb-4 ${styles.plentyOnTezos}`}>About Plenty</h2>
+                        <div className={"mb-3"}><span>Plenty is expanding DeFi use cases on Tezos towards a full scale decentralized financial
+                            ecosystem. Empowering traders, liquidity providers & developers to participate in an open
+                            financial marketplace.</span>
+                        </div>
                         <a href={"https://discord.gg/9wZ4CuvkuJ"} target="_blank" rel="noreferrer">
                             <Image src={discord} className="mr-2"/>
                         </a>
@@ -175,31 +172,150 @@ const Frontpage = (props) => {
                     </div>
                 </Col>
             </Row>
-            <div className={clsx(
-                styles.rectangle,
-                "p-5"
+            <Row className={clsx(
+                styles.rectangle
             )}>
-                <Row>
-                    <Col sm={6}>
-                        <h2 className="text-white p-lg-5">Frequently asked questions</h2>
-                    </Col>
-                    <Col sm={6}>
-                        <h5 className={"text-white p-lg-5"}>Leverage agile frameworks to provide a robust synopsis for
-                            high
-                            level overviews. Iterative approaches to corporate strategy foster collaborative thinking to
-                            further</h5>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col sm={6}>
-                        <div className="p-lg-5">
-                            <Accordion text={"What I will learn after completing this course?"}
-                                       accordionText={"Completely synergize resource taxing relationships via premier niche markets. Professionally cultivate one-to-one customer service with robust ideas. Dynamically innovate resource-leveling customer service for state of the art customer service."}/>
-                        </div>
-
-                    </Col>
-                </Row>
-            </div>
+                <Col className="py-5">
+                    <Row>
+                        <Col xs={12} md={6}>
+                            <div className="col-10 col-lg-9 col-xl-7 m-auto pb-5 py-lg-3 px-0
+                                    align-items-start text-left">
+                                <h2 className="text-white">Frequently asked questions</h2>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs={12} md={6}>
+                            <div className="col-10 col-lg-9 col-xl-7 m-auto py-lg-5 px-0
+                                    align-items-start text-left">
+                                <Accordion text={"What is Plenty?"} className={styles.divider}>
+                                    <div>
+                                        <p className="text-white">Plenty is a platform for creating liquidity and
+                                            trading FA 1.2 and FA 2
+                                            tokens on
+                                            Tezos.</p>
+                                        <p className="text-white">You can only swap tokens on Plenty if there is enough
+                                            liquidity for those
+                                            tokens.
+                                            Providing liquidity will get you Plenty Liquidity Provider (PLP) tokens,
+                                            which
+                                            will
+                                            generate rewards in the form of trading fees for making sure there's always
+                                            liquidity for the exchange to use.</p>
+                                        <p className="text-white">Yield farming lets users that are providing liquidity
+                                            earn PLENTY rewards by
+                                            locking
+                                            their PLP tokens into a farm.</p>
+                                    </div>
+                                </Accordion>
+                                <Accordion text={"How does Plenty work?"} className={styles.divider}>
+                                    <div>
+                                        <p className="text-white">
+                                            Plenty is a collection of smart contracts to make liquidity pools and
+                                            corresponding markets that are compatible with each other. The architecture
+                                            is based on&nbsp;
+                                            <a href={"https://docs.uniswap.org/protocol/V2/concepts/protocol-overview/how-uniswap-works"}
+                                               target="_blank" rel="noreferrer">Uniswap V2</a>.
+                                        </p>
+                                        <p className="text-white">
+                                            Each pool is defined by a smart contract that includes a few functions to
+                                            enable
+                                            swapping tokens, adding liquidity and more. At its core each pool uses the
+                                            function x*y=k to maintain a curve along which trades can happen. The pools
+                                            keep
+                                            track of reserves (liquidity) and update those reserves every single time
+                                            someone trades. Because the reserves are automatically rebalanced, a Plenty
+                                            liquidity pool can always be used to buy or sell a token without requiring a
+                                            counterparty on the other side of a trade.
+                                        </p>
+                                    </div>
+                                </Accordion>
+                                <Accordion text={"Why can’t I trade XTZ?"} className={styles.divider}>
+                                    <div>
+                                        <p className="text-white">
+                                            Plenty is the first token-to-token Automated Market Maker (AMM) on Tezos.
+                                            This means that XTZ trading is not supported. However, trading with a
+                                            tokenized version of XTZ called&nbsp;
+                                            <a href={"https://forum.tezosagora.org/t/ctez-a-synthetic-tez-backed-by-tez-for-better-composability-as-an-alternative-to-the-virtual-baker/2612"}
+                                               target="_blank" rel="noreferrer">CTEZ</a>&nbsp;
+                                            will be supported in the near future.
+                                            CTEZ solves the issue of using XTZ inside DeFi contracts without worrying
+                                            about the governance matter of "who should be the baker" and without the
+                                            opportunity cost of not delegating.
+                                        </p>
+                                    </div>
+                                </Accordion>
+                            </div>
+                        </Col>
+                        <Col xs={12} md={6}>
+                            <div className="col-10 col-lg-9 col-xl-7 m-auto py-lg-5 px-0
+                                    align-items-start text-left">
+                                <Accordion text={"How do I use Plenty?"} className={styles.divider}>
+                                    <div>
+                                        <p className="text-white">
+                                            First you’ll need a Tezos wallet and some XTZ. XTZ is available at all big
+                                            crypto exchanges like&nbsp;
+                                            <a href={"https://www.coinbase.com/"} target="_blank"
+                                               rel="noreferrer">Coinbase</a>,&nbsp;
+                                            <a href={"https://www.kraken.com/"} target="_blank"
+                                               rel="noreferrer">Kraken</a>&nbsp;
+                                            and&nbsp;
+                                            <a href={"https://www.binance.com/"} target="_blank"
+                                               rel="noreferrer">Binance</a>.
+                                            Do you hold XTZ? Go to&nbsp;
+                                            <a href={"https://quipuswap.com/swap?from=tez&to=KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b"}
+                                               target="_blank" rel="noreferrer">Quipuswap</a>&nbsp;
+                                            to swap it for PLENTY! Each transaction on Tezos comes with a
+                                            small gas fee, paid in XTZ, which is a fee for the bakers to keep the Proof
+                                            of Stake network running.
+                                        </p>
+                                        <p className="text-white">
+                                            If you are a DeFi user from another blockchain, you can wrap your assets
+                                            using the&nbsp;
+                                            <a href={"https://www.benderlabs.io/wrap"}
+                                               target="_blank" rel="noreferrer">Wrap Protocol</a>.&nbsp;
+                                            Wrap tokens like USDC, BUSD, LINK, MATIC, or WBTC,
+                                            and use them on Plenty to trade and earn yield.
+                                        </p>
+                                    </div>
+                                </Accordion>
+                                <Accordion text={"How are prices determined?"} className={styles.divider} s>
+                                    <div>
+                                        <p className="text-white">
+                                            Prices are determined by the amount of each token in a pool. The smart
+                                            contract maintains a constant using the following function: x*y=k. For
+                                            example, x = tokenABC, y = tokenXYZ, and k = constant. During each trade, a
+                                            certain amount of one token is removed from the pool for an amount of the
+                                            other token. To maintain k, the balances held by the smart contract are
+                                            adjusted during the execution of the trade, thereby changing the price.
+                                        </p>
+                                    </div>
+                                </Accordion>
+                                <Accordion text={"Are there risks?"} className={styles.divider}>
+                                    <div>
+                                        <p className="text-white">
+                                            Using smart contracts always brings risk. To reduce this risk, external
+                                            audits are underway. The first audit of the AMM smart contracts is due next
+                                            week. The staking smart contracts&nbsp;
+                                            <a href={"https://github.com/Plenty-DeFi/security-audit/blob/main/PLENTYDEFI_SECURITY_AUDIT_APRIORIT.pdf"}
+                                               target="_blank" rel="noreferrer">were audited</a>
+                                            &nbsp;successfully before.
+                                        </p>
+                                        <p className="text-white">
+                                            For liquidity providers there is the risk of Impermanent loss. This is a
+                                            price difference that can occur when holding tokens in an AMM liquidity pool
+                                            instead of holding them in your wallet. It occurs when the price of tokens
+                                            inside an AMM diverge in any direction. The more divergence, the greater the
+                                            impermanent loss.
+                                        </p>
+                                    </div>
+                                </Accordion>
+                                <PlentyMedium className="mt-4"/>
+                            </div>
+                        </Col>
+                    </Row>
+                </Col>
+            </Row>
         </Container>
     )
 };

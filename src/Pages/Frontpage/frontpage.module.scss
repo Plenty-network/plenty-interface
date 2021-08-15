@@ -1,4 +1,4 @@
-@use "../../assets/scss/constants" as const;
+@use '../../assets/scss/constants' as const;
 
 .rectangle {
   background: linear-gradient(178.62deg, #7028E4 16.71%, #E5B2CA 217.99%);
@@ -25,6 +25,10 @@
   font-style: normal;
   font-weight: 300;
   color: #FFFFFF;
+}
+
+.divider {
+  border-bottom: 1px solid #F1F1F1;
 }
 
 .plentyOnTezos {

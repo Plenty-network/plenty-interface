@@ -9,18 +9,20 @@ const Accordion = props => {
     const toggle = () => setIsOpen(!isOpen);
 
     return (
-        <div>
-            <span role="button" onClick={toggle} className="d-flex flex-row mb-3 ">
-                <div className="text-light font-weight-bold">{props.text}</div>
-                <div className="ml-auto align-self-center">
+        <div className={
+            props.className && props.className
+        }>
+            <div role="button" onClick={toggle} className="d-flex flex-row py-3">
+                <h6 className="text-white font-weight-bold">{props.text}</h6>
+                <div className="ml-auto">
                     {isOpen ? <span className="material-icons-round text-white">expand_less</span>
                         : <span className="material-icons-round text-white">expand_more</span>
                     }
                 </div>
-            </span>
+            </div>
 
             <Collapse in={isOpen}>
-                <p className="text-white">{props.accordionText}</p>
+                {props.children}
             </Collapse>
         </div>
     )
@@ -29,6 +31,8 @@ const Accordion = props => {
 Accordion.propTypes = {
     text: PropTypes.string,
     accordionText: PropTypes.string,
+    children: PropTypes.instanceOf(HTMLElement),
+    className: PropTypes.string,
 }
 
 export default Accordion;

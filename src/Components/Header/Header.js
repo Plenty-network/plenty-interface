@@ -57,7 +57,8 @@ const Header = (props) => {
               <div className="logo-section">
                 <Link to={"/"}>
                   <Navbar.Brand>
-                    <LogoNew className="logo"/>
+                    <LogoNew className={clsx(
+                        props.isFrontPage ? "logoFrontPage" : "logo")}/>
                   </Navbar.Brand>
                 </Link>
               </div>

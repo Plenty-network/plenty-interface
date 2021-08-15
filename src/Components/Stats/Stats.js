@@ -22,13 +22,12 @@ const Stats = (props) => {
 
     return (
         <StyledDiv className={clsx("p-3", styles.container)}>
-            <Row className="p-3">
+            <Row className={`p-3 ${styles.divider}`}>
                 <Col>
                     <p className="font-weight-bold m-0">Your Stats<Image className="ml-2" src={greenBullet}/></p>
                 </Col>
             </Row>
-            <hr/>
-            <Row className="p-3">
+            <Row className={`p-3 ${styles.divider}`}>
                 <Col>
                     <Label text={`$${props.valueLocked.toLocaleString(undefined, {maximumFractionDigits: 20})}`} subText={"Total value locked"} icon={dollar} iconClass={"mt-1"}/>
                 </Col>
@@ -36,18 +35,17 @@ const Stats = (props) => {
                     <Label text={props.plentyEarned.toLocaleString(undefined, {maximumFractionDigits: 20})} subText={"Total PLENTY earned"} icon={plentyEarned} iconClass={"mt-1"}/>
                 </Col>
             </Row>
-            <hr/>
             <Row className="p-3">
-                <Col sm={6}>
+                <Col>
                     <Label text={`$${props.plentyInWallet.toLocaleString(undefined, {maximumFractionDigits: 20})}`} subText={"PLENTY in wallet"} icon={plentyInWallet} iconClass={"mt-1"}/>
                 </Col>
-                <Col sm={6}>
+                <Col>
                     <Label text={`$${props.plentyToHarvest.toLocaleString(undefined, {maximumFractionDigits: 20})}`} subText={"PLENTY to harvest"} icon={plentyToHarvest} iconClass={"mt-1"}/>
                 </Col>
             </Row>
             <Row className="p-3 mt-1">
                 <Col>
-                    <Button onClick={harvestAll} color={"primary"} className={"w-100"}>Havest all</Button>
+                    <Button onClick={harvestAll} color={"primary"} className={"w-100"}>Harvest all</Button>
                 </Col>
             </Row>
         </StyledDiv>
