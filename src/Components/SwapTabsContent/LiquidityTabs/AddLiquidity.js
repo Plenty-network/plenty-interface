@@ -4,6 +4,7 @@ import {
   lpTokenOutput,
 } from '../../../apis/swap/swap';
 import { useState } from 'react';
+import PuffLoader from "react-spinners/PuffLoader"
 
 import ConfirmAddLiquidity from './ConfirmAddLiquidity';
 
@@ -77,18 +78,24 @@ const AddLiquidity = (props) => {
           Add Liquidity
         </button>
       );
-    } else if (props.firstTokenAmount && !props.tokenOut.name) {
+    } else if (props.tokenOut.name===undefined) {
       swapContentButton = (
         <button className="swap-content-btn enter-amount">
-          Select a token to add
+          Select a token
         </button>
       );
     } else {
-      swapContentButton = (
-        <button className="swap-content-btn enter-amount">
-          Enter an amount
-        </button>
-      );
+      console.log(props.firstTokenAmount)
+      console.log(props.tokenOut.name);
+      swapContentButton = props.loading ? (
+				<button className="swap-content-btn loader-btn enter-amount">
+					<PuffLoader color={"#fff"} size={28} />
+				</button>
+			) : (
+				<button className="swap-content-btn enter-amount">
+					Enter an amount
+				</button>
+			)
     }
   }
   return (

@@ -17,7 +17,7 @@ const LiquidityTab = (props) => {
           <Tab eventKey="add" title="Add">
             <AddLiquidity {...props} />
           </Tab>
-          <Tab eventKey="remove" title="Remove">
+          <Tab eventKey="remove" title="Remove" disabled={props.tokenOut.name ===undefined}>
             <RemoveLiquidity {...props} />
           </Tab>
         </Tabs>
