@@ -31,7 +31,7 @@ const Accordion = props => {
 Accordion.propTypes = {
     text: PropTypes.string,
     accordionText: PropTypes.string,
-    children: PropTypes.instanceOf(HTMLElement),
+    children: PropTypes.node,
     className: PropTypes.string,
 }
 

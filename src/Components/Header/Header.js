@@ -8,7 +8,7 @@ import clsx from "clsx";
 import Dropdown from 'react-bootstrap/Dropdown';
 import { ExternalMenu, NavigationMenu } from './Menu';
 import logo from '../../assets/images/logo.png';
-import { ReactComponent as LogoNew } from '../../assets/images/logo_new.svg';
+import { ReactComponent as Logo } from '../../assets/images/logo.svg';
 import {Link} from "react-router-dom";
 
 const Header = (props) => {
@@ -56,7 +56,7 @@ const Header = (props) => {
               <div className="logo-section">
                 <Link to={"/"}>
                   <Navbar.Brand>
-                    <LogoNew className={clsx(
+                    <Logo className={clsx(
                         props.isFrontPage ? "logo-frontPage" : "logo")}/>
                   </Navbar.Brand>
                 </Link>
