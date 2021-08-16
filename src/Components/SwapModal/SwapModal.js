@@ -1,3 +1,4 @@
+import React from 'react';
 import { Modal } from "react-bootstrap"
 
 const SwapModal = props => {
@@ -6,9 +7,9 @@ const SwapModal = props => {
 			show={!!props.show}
 			onHide={props.onHide}
 			animation={false}
-			className="swap-modal">
-			<Modal.Header closeButton>
-				<Modal.Title>Select a token</Modal.Title>
+			className="swap-modal modal-themed">
+			<Modal.Header closeButton className="border-bottom-themed">
+				<Modal.Title><span className="span-themed">Select a token</span></Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
 				<div className="coin-selection-table">
@@ -33,7 +34,7 @@ const SwapModal = props => {
 										className="select-token-img"
 										alt={token.name}
 									/>
-									{token.name}
+									<span className="span-themed">{token.name}</span>
 								</button>
 							)
 						})}
@@ -58,7 +59,7 @@ const SwapModal = props => {
 										className="select-token-img"
 										alt={token.name}
 									/>
-									{token.name}
+									<span className="span-themed">{token.name}</span>
 								</button>
 							)
             })}
@@ -74,7 +75,7 @@ const SwapModal = props => {
                     className="select-token-img"
                     alt={token.name}
                   />
-                  {token.name}
+                  <span className="span-themed">{token.name}</span>
                 </button>
               );
             })}

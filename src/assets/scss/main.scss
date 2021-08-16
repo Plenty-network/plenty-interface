@@ -7,26 +7,33 @@
 .flex {
   display: flex;
 }
+
 .justify-between {
   justify-content: space-between;
 }
+
 .align-center {
   align-items: center;
 }
+
 .p-90 {
   padding: 0 90px;
 }
+
 .p-26 {
   padding: 0 26px;
 }
+
 .pb-20 {
   padding-bottom: 20px;
 }
+
 .loading-data-wrapper {
   position: fixed;
   bottom: 60px;
   right: 72px;
 }
+
 .loader-message-wrapper {
   @extend .loading-data-wrapper;
   bottom: 24px;
@@ -38,25 +45,31 @@
   letter-spacing: -0.4px;
   padding: 16px 24px;
   border-radius: 7.34783px;
+
   &.success {
     background-color: rgba(35, 193, 89, 0.14);
     color: #23c159;
   }
+
   &.error {
     background-color: rgba(193, 35, 35, 0.14);
     color: #c12323;
   }
+
   > span {
     vertical-align: middle;
   }
 }
+
 .content-hide {
   display: none;
 }
+
 .modal-backdrop {
   background: rgba(245, 245, 245, 0.6);
   filter: blur(8px);
 }
+
 .loader-btn {
   > span {
     display: inline-block;
@@ -76,4 +89,36 @@
     flex-grow: 1;
   }
 }
+
+$h1-font-sizes: (
+        null : 36px,
+        480px : 42px,
+        640px : 48px,
+        1024px: 56px
+);
+
+$h3-font-sizes: (
+        null : 30px,
+        480px : 36px,
+        640px : 42px,
+        1024px: 48px
+);
+
+@mixin font-size($fs-map) {
+  @each $fs-breakpoint, $fs-font-size in $fs-map {
+    @if $fs-breakpoint == null {
+      font-size: $fs-font-size;
+    } @else {
+      @media screen and (min-width: $fs-breakpoint) {
+        font-size: $fs-font-size;
+      }
+    }
+  }
+}
+
+//h1 {
+//  @include font-size($h1-font-sizes);
+//}
+
+
 

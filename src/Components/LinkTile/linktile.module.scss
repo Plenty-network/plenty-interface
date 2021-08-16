@@ -1,0 +1,35 @@
+@use "../../assets/scss/constants" as const;
+
+.btn {
+  border-radius: 7.35px;
+  border: none;
+  min-width: 113px;
+  height: 50px;
+}
+
+.header {
+  min-height: 28px;
+}
+
+.text {
+  min-height: 10em;
+}
+
+.headerIcon {
+  margin-left: -36px;
+}
+
+.tile {
+  border-radius: 1em;
+  //border: 1px solid #d2d2d2;
+
+  &:hover {
+    border: none;
+    box-shadow: 1em 1em 0.5em -0.5em #c4c4c4;
+  }
+}
+
+.default {
+  color: #FFFFFF;
+  background: const.$bgGradient;
+}

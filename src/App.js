@@ -1,5 +1,5 @@
 import React from "react";
-import WarppaedRoute from "./routes/routeWrapper";
+import WrappedRoute from "./routes/routeWrapper";
 import store from "./redux/store/store";
 
 import "./App.scss";
@@ -7,7 +7,7 @@ import "./App.scss";
 function App() {
   return (
     <>
-      <WarppaedRoute store={store} />
+      <WrappedRoute store={store} />
     </>
   );
 }
