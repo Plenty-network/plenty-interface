@@ -136,7 +136,7 @@ const FarmCardBottom = (props) => {
       </div>
       <StakeModal open={props.isStakeModalOpen} onClose={() => props.closeFarmsStakeModal()} tokenData={{title: props.title}} handleInput = {props.handleStakeOfFarmInputValue} CONTRACT = {props.CONTRACT} stakeInputValues={props.stakeInputValues} stakeOnFarm={props.stakeOnFarm} identifier={props.identifier} position={props.position}/>
       {props.userStakes.hasOwnProperty(props.CONTRACT) ?
-      <UnstakeModal currentBlock={props.currentBlock} withdrawalFeeStructure={props.withdrawalFeeStructure} open={props.isUnstakeModalOpen && props.userStakes.hasOwnProperty(props.CONTRACT)} onClose={() => {props.closeFarmsUnstakeModal()}} tokenData={{title: props.title}} userStakes={props.userStakes} CONTRACT={props.CONTRACT} />: null}
+      <UnstakeModal currentBlock={props.currentBlock} withdrawalFeeStructure={props.withdrawalFeeStructure} open={props.isUnstakeModalOpen && props.userStakes.hasOwnProperty(props.CONTRACT)} onClose={() => {props.closeFarmsUnstakeModal()}} tokenData={{title: props.title}} userStakes={props.userStakes} CONTRACT={props.CONTRACT} position={props.position} identifier={props.identifier} isActiveOpen={props.isActiveOpen} unstakeOnFarm={props.unstakeOnFarm} />: null}
     </>
   )
 };

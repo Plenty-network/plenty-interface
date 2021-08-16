@@ -1,5 +1,5 @@
 import { BeaconWallet } from '@taquito/beacon-wallet';
-import { TezosToolkit } from '@taquito/taquito';
+import { TezosToolkit , OpKind } from '@taquito/taquito';
 const axios = require('axios');
 const CONFIG = require('../../../config/config');
 
@@ -288,7 +288,9 @@ export const stakeFarm = async (amount, farmIdentifier , isActive, position) => 
     }
   };
 
-  export const unstake = async (amount, mapKey, farmIdentifier, isActive, position) => {
+
+  export const unstake = async (stakesToUnstake, farmIdentifier, isActive, position) => {
+    
     try {
       const network = {
         type: CONFIG.WALLET_NETWORK,
@@ -308,15 +310,33 @@ export const stakeFarm = async (amount, farmIdentifier , isActive, position) => 
           //CONFIG.CONTRACT[connectedNetwork].PLENTY_FARM_CONTRACT
           CONFIG.FARMS[connectedNetwork][farmIdentifier][isActive === true ? 'active' : 'inactive'][position].CONTRACT
         );
-        let tokenAmount = amount * Math.pow(10, CONFIG.FARMS[connectedNetwork][farmIdentifier][isActive === true ? 'active' : 'inactive'][position].DECIMAL);
-        const operation = await contractInstance.methods
-          .unstake(tokenAmount, mapKey)
-          .send();
-        await operation.confirmation().then(() => operation.opHash);
+        let unstakeBatch = [];
+        let amount ;
+        stakesToUnstake.map(stake => {
+          amount = stake.amount * Math.pow(10, CONFIG.FARMS[connectedNetwork][farmIdentifier][isActive === true ? 'active' : 'inactive'][position].TOKEN_DECIMAL)
+          unstakeBatch.push(
+            {
+              kind : OpKind.TRANSACTION,
+              ...contractInstance.methods.unstake(amount, stake.mapId).toTransferParams()
+            }
+          )
+        })
+        let batch  = await Tezos.wallet.batch(unstakeBatch);
+        let batchOperation = await batch.send();
+        await batchOperation.confirmation().then(() => batchOperation.hash) 
         return {
-          success: true,
-          operationId: operation.opHash,
-        };
+          success : true,
+          operationId : batchOperation.opHash
+        }
+        // let tokenAmount = amount * Math.pow(10, CONFIG.FARMS[connectedNetwork][farmIdentifier][isActive === true ? 'active' : 'inactive'][position].DECIMAL);
+        // const operation = await contractInstance.methods
+        //   .unstake(tokenAmount, mapKey)
+        //   .send();
+        // await operation.confirmation().then(() => operation.opHash);
+        // return {
+        //   success: true,
+        //   operationId: operation.opHash,
+        // };
       } else {
         return {
           success: false,

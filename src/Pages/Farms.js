@@ -5,6 +5,9 @@ import Row from 'react-bootstrap/Row';
 import FarmCard from '../Components/FarmCard/FarmCard';
 
 import plentyXtz from '../assets/images/farms/plenty-xtz.png';
+import plentyWBUSD from '../assets/images/farms/PLENTY-wBUSD.png'
+import plentyWUSDC from '../assets/images/farms/PLENTY-wUSDC.png'
+
 import plentyToken from '../assets/images/logo_small.png';
 import { connect } from 'react-redux';
 import * as farmsActions from '../redux/actions/farms/farms.actions'
@@ -15,25 +18,6 @@ import * as walletActions from '../redux/actions/wallet/wallet.action';
 import Switch from "../Components/Ui/Switch/Switch";
 
 const Farms = (props) => {
-  const [showActiveToken, setShowActiveToken] = useState(false)
-
-  // TODO add redux state prop here
-  // useEffect(() => {
-    // renderFarms();
-    // console.log(props.userAddress);
-    // props.getFarmsData(props.isActiveOpen)
-    // props.getUserStakes(props.userAddress,'FARMS',props.isActiveOpen)
-    // props.getHarvestValues(props.userAddress,'FARMS',props.isActiveOpen)
-    
-  // },[props.isActiveOpen])
-
-
-  // useEffect(() => {
-    
-  //     props.getUserStakes(props.userAddress,'FARMS',props.isActiveOpen)
-  //     props.getHarvestValues(props.userAddress,'FARMS',props.isActiveOpen)
-    
-  // },[props.userAddress])
 
   useEffect(() => {
     renderFarms();
@@ -124,6 +108,46 @@ const Farms = (props) => {
       source: 'Plenty',
       rewards: '1000 PLENTY / DAY',
     },
+    'PLENTY / wUSDC LP' : {
+      image: plentyWUSDC,
+      harvestImg: plentyToken,
+      multi: '100',
+      title: 'PLENTY / wUSDC LP',
+      apr: 0,
+      apy: '2621',
+      earn: 'PLENTY',
+      fee: '0%',
+      earned: 0,
+      deposit: 'PLENTY / wUSDC LP',
+      liquidity: '5000',
+      withdrawalFee: '0%',
+      balance: 0,
+      userBalance: 0,
+      URL: '',
+      active: true,
+      source: 'Plenty',
+      rewards: '1000 PLENTY / DAY',
+    },
+    'PLENTY / wBUSD LP' : {
+      image: plentyWBUSD,
+      harvestImg: plentyToken,
+      multi: '100',
+      title: 'PLENTY / wBUSD LP',
+      apr: 0,
+      apy: '2621',
+      earn: 'PLENTY',
+      fee: '0%',
+      earned: 0,
+      deposit: 'PLENTY / wBUSD LP',
+      liquidity: '5000',
+      withdrawalFee: '0%',
+      balance: 0,
+      userBalance: 0,
+      URL: '',
+      active: true,
+      source: 'Plenty',
+      rewards: '1000 PLENTY / DAY',
+    },
   };
 
   const renderFarms = () => {
@@ -174,6 +198,7 @@ const Farms = (props) => {
               openFarmsUnstakeModal={props.openFarmsUnstakeModal}
               closeFarmsUnstakeModal={props.closeFarmsUnstakeModal}
               connectWallet={props.connectWallet}
+              unstakeOnFarm={props.unstakeOnFarm}
 
               isActiveOpen = {props.isActiveOpen}
               activeFarmData = {props.activeFarmData}
@@ -238,7 +263,8 @@ const mapDispatchToProps = dispatch => {
     openFarmsStakeModal : () => (dispatch(farmsActions.openFarmsStakeModal())),
     closeFarmsStakeModal : () => (dispatch(farmsActions.closeFarmsStakeModal())),
     openFarmsUnstakeModal : () => (dispatch(farmsActions.openFarmsUnstakeModal())),
-    closeFarmsUnstakeModal : () => (dispatch(farmsActions.closeFarmsUnstakeModal()))
+    closeFarmsUnstakeModal : () => (dispatch(farmsActions.closeFarmsUnstakeModal())),
+    unstakeOnFarm : (stakesToUnstake, farmIdentifier, isActive, position) => (dispatch(farmsActions.unstakeOnFarm(stakesToUnstake, farmIdentifier, isActive, position)))
   }
 }
 

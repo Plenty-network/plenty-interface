@@ -10,6 +10,7 @@ const BUTTON_TEXT = {
 }
 
 const StakeModal = props => {
+  console.log({'stakemodal' : props});
   return (
     <SimpleModal
       open={props.open}

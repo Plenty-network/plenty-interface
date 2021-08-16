@@ -148,10 +148,10 @@ const unstakingOnFarmFailed = () => {
     }
 }
 
-export const unstakeOnFarm = (amount, mapKey, farmIdentifier, isActive, position) => {
+export const unstakeOnFarm = (stakesToUnstake, farmIdentifier, isActive, position) => {
     return dispatch => {
         dispatch(initiateUnstakingOperationOnFarm())
-        farmApis.unstake(amount, mapKey, farmIdentifier, isActive, position)
+        farmApis.unstake(stakesToUnstake, farmIdentifier, isActive, position)
             .then(response => {
                 dispatch(unstakingOnFarmSuccessFull(response))
             })

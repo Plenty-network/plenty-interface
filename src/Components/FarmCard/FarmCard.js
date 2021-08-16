@@ -11,7 +11,7 @@ import StakeModal from "../Ui/Modals/StakeModal";
 import CalculatorSvg from '../../assets/images/icons/calculator.svg';
 
 const FarmCard = (props) => {
-  console.log(props.withdrawalFeeStructure);
+  console.log({props});
   const apyCalculate = (apr) => (
       (Math.pow(1 + apr / 100 / 365, 365) - 1) *
       100
@@ -49,6 +49,42 @@ const getAPY = (props) => {
     if(props.activeFarmData.isPresent == true)
     {
       return apyCalculate(props.activeFarmData.data.response[props.CONTRACT].APR.toFixed(2));
+    }
+    else
+    {
+      return 0;
+    }
+  }
+  else
+  {
+    return 0;
+  }
+}
+
+const getReward = () => {
+  if(props.isActiveOpen === true)
+  {
+    if(props.activeFarmData.isPresent == true)
+    {
+      return props.activeFarmData.data.response[props.CONTRACT].rewardRate * 2880;
+    }
+    else
+    {
+      return 0;
+    }
+  }
+  else
+  {
+    return 0;
+  }
+}
+
+const getTotalLiquidity = () => {
+  if(props.isActiveOpen === true)
+  {
+    if(props.activeFarmData.isPresent == true)
+    {
+      return props.activeFarmData.data.response[props.CONTRACT].totalLiquidty.toFixed(0);
     }
     else
     {
@@ -113,22 +149,16 @@ const getAPY = (props) => {
           <div className={clsx(styles.plentyCardContentInfo, "flex justify-between")}>
             <p className={styles.plentyCardContentTag}>Rewards:</p>
             <p className={styles.plentyCardContentTag}>
-              {/* {
-                props.activeFarmData.isPresent === true
-                  ? props.activeFarmData.data.response[props.CONTRACT].rewardRate * 2880
-                  : 0
-              } / PER DAY */}0
+              {getReward()}
             </p>
           </div>
 
           <div className={clsx(styles.plentyCardTvlInfo, "flex justify-between align-center mb-4")}>
             <p className={styles.plentyCardContentTag}>TVL:</p>
             <p className={styles.plentyCardContentTag}>
-              {/* ${
-                props.activeFarmData.isPresent === true
-                  ? props.activeFarmData.data.response[props.CONTRACT].totalLiquidty.toFixed(0)
-                  : 0
-              } */}0
+              ${
+                getTotalLiquidity()
+              }
             </p>
           </div>
 

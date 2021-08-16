@@ -16,23 +16,43 @@ const BUTTON_TEXT = {
 
 const UnstakeModal = props => {
 
-  
-
-  console.log(props);
   const [open, setOpen] = useState(false);
   const [buttonText, setButtonText] = useState(BUTTON_TEXT.CONFIRM)
   const [selected, setSelected] = useState([]);
-  const [withdrawalFee , setWithdrawalFee] = useState(0);
-  const [withdrawDetails,setWithdrawDetails] = useState([]);
 
-  useEffect(() => {
-    console.log('by useEffecrt - >',selected);
-  },[selected])
+  const calculateFee = (difference ,obj) => {
+    let feeObj = {mapId : obj.mapId}
+    let fee = -1;
+      for (let i = 0; i < props.withdrawalFeeStructure.length; i++) {
+        if (difference < props.withdrawalFeeStructure[i].block) {
+          fee = ((obj.amount * props.withdrawalFeeStructure[i].rate) / 100).toFixed(10);
+          fee = parseFloat(fee);
+          feeObj['rate'] = props.withdrawalFeeStructure[i].rate;
+          feeObj['fee'] = fee;
+          feeObj['amount']=obj.amount
+          break;
+        }
+      }
+      if (fee === -1) {
+        fee = (
+          (obj.amount * props.withdrawalFeeStructure[props.withdrawalFeeStructure.length - 1].rate) /
+          100
+        ).toFixed(10);
+        fee = parseFloat(fee);
+        feeObj['rate'] = props.withdrawalFeeStructure[props.withdrawalFeeStructure.length - 1].rate;
+        feeObj['fee'] = fee;
+        feeObj['amount']=obj.amount
+      }
+      return feeObj;
+  }
+
   const onStakeSelect = (obj) => {
-    if(!selected.includes(obj.mapId)) {
-      setSelected([ ...selected, obj.mapId ])
+    if(selected.findIndex(sel => sel.mapId === obj.mapId) === -1) {
+      let difference = props.currentBlock - parseInt(obj.block);
+      let calculatedFee = calculateFee(difference,obj);
+      setSelected([ ...selected, calculatedFee ])
     } else {
-      setSelected(selected.filter(x => x !== obj.mapId));
+      setSelected(selected.filter(x => x.mapId !== obj.mapId));
     }
 }
 
@@ -74,7 +94,7 @@ const UnstakeModal = props => {
                     <input
                       type="checkbox"
                       className="ml-2"
-                      checked={selected.includes(x.mapId)===true}
+                      checked={selected.findIndex(sel => sel.mapId === x.mapId) >= 0}
                       onChange={() => onStakeSelect(x, props)}
                     />
                   </label>
@@ -97,11 +117,11 @@ const UnstakeModal = props => {
               <div className={styles.feeBreakdownWrapper}>
                 <div className={clsx(styles.feeBreakdownTable, "pb-2")}>
                   {
-                    withdrawDetails.map(token => (
+                    selected.map(x => (
                       <div>
-                        <div>{props.tokenData.title}</div>
-                        <div>{withdrawDetails.fee}</div>
-                        <div>{withdrawDetails.selectedFee}</div>
+                        <div>{'Stake ' + x.mapId}</div>
+                        <div>{x.rate+'%'}</div>
+                        <div>{x.fee}</div>
                       </div>
                     ))
                   }
@@ -109,14 +129,14 @@ const UnstakeModal = props => {
                 <div className={clsx(styles.totalRow, "pt-2")}>
                   <div>Total</div>
                   <div />
-                  <div>{withdrawalFee}</div>
+                  <div>{selected.reduce((acc, cur) => acc + cur.fee, 0)}</div>
                 </div>
               </div>
             </>
           )
         }
 
-        <Button onClick={() => null} color="primary" className="w-100 mt-4">{buttonText}</Button>
+        <Button onClick={() => props.unstakeOnFarm(selected,props.identifier,props.isActiveOpen,props.position)} color="primary" className="w-100 mt-4">{buttonText}</Button>
       </div>
     </SimpleModal>
   )

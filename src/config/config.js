@@ -134,14 +134,16 @@ module.exports = {
             {
               address : 'KT1JQAZqShNMakSNXc2cgTzdAWZFemGcU6n1',
               mapId : 4503,
-              decimal : 18
+              decimal : 18,
+              tokenDecimal : 6
             }
           ],
           inactive : [
             {
               address : 'KT1BfQLAsQNX8BjSBzgjTLx3GTd3qhwLoWNz',
               mapId : 3962,
-              decimal : 18
+              decimal : 18,
+              tokenDecimal : 6
             }
           ]
         },
@@ -572,7 +574,41 @@ module.exports = {
                       DECIMAL: 18,
                   }
               ]
-          }
+          },
+          // "PLENTY - wBUSD": {
+          //   active: [
+          //     {
+          //       LP_TOKEN: "KT1UC3vcVZ4K9b39uQxaMNA2N1RuJXKLCnoA",
+          //       CONTRACT: "KT1KJhxkCpZNwAFQURDoJ79hGqQgSC9UaWpG",
+          //       DEX: "KT1XXAavg3tTj12W1ADvd3EEnm1pu6XTmiEF",
+          //       TOKEN_ADDRESS: "KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b",
+          //       CARD_TYPE: "PLENTY / wBUSD LP",
+          //       TOKEN_DECIMAL: 12,
+          //       TYPE: "FA1.2",
+          //       LP_DECIMAL: 18,
+          //       TEMP_ADDRESS: "KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b",
+          //       DECIMAL: 18,
+          //     },
+          //   ],
+          //   inactive: [],
+          // },
+          // "PLENTY - wUSDC": {
+          //   active: [
+          //     {
+          //       LP_TOKEN: "KT1Gz1mx1jm7JHqU7GuMVWF6soB9RjsfLN3o",
+          //       CONTRACT: "KT1VV1ZG2phFCWjPGkqZ9DQ9JXJJGK7P54Fs",
+          //       DEX: "KT1PuPNtDFLR6U7e7vDuxunDoKasVT6kMSkz",
+          //       TOKEN_ADDRESS: "KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b",
+          //       CARD_TYPE: "PLENTY / wUSDC LP",
+          //       TOKEN_DECIMAL: 12,
+          //       TYPE: "FA1.2",
+          //       LP_DECIMAL: 12,
+          //       TEMP_ADDRESS: "KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b",
+          //       DECIMAL: 18,
+          //     },
+          //   ],
+          //   inactive: [],
+          // },
       },
       testnet : {}
   },
