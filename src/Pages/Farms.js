@@ -12,28 +12,36 @@ import * as userActions from '../redux/actions/user/user.action'
 import CONFIG from '../config/config';
 import PropTypes from "prop-types";
 import * as walletActions from '../redux/actions/wallet/wallet.action';
-<<<<<<< HEAD
-=======
 import Switch from "../Components/Ui/Switch/Switch";
 
->>>>>>> 25ba828f8c5ef439d495ea0f94d149bc1c8fbf34
 const Farms = (props) => {
   const [showActiveToken, setShowActiveToken] = useState(false)
 
   // TODO add redux state prop here
+  // useEffect(() => {
+    // renderFarms();
+    // console.log(props.userAddress);
+    // props.getFarmsData(props.isActiveOpen)
+    // props.getUserStakes(props.userAddress,'FARMS',props.isActiveOpen)
+    // props.getHarvestValues(props.userAddress,'FARMS',props.isActiveOpen)
+    
+  // },[props.isActiveOpen])
+
+
+  // useEffect(() => {
+    
+  //     props.getUserStakes(props.userAddress,'FARMS',props.isActiveOpen)
+  //     props.getHarvestValues(props.userAddress,'FARMS',props.isActiveOpen)
+    
+  // },[props.userAddress])
+
   useEffect(() => {
     renderFarms();
     console.log(props.userAddress);
     props.getFarmsData(props.isActiveOpen)
-    
-  },[])
-
-  useEffect(() => {
-    
-      props.getUserStakes(props.userAddress,'FARMS',props.isActiveOpen)
-      props.getHarvestValues(props.userAddress,'FARMS',props.isActiveOpen)
-    
-  },[props.userAddress])
+    props.getUserStakes(props.userAddress,'FARMS',props.isActiveOpen)
+    props.getHarvestValues(props.userAddress,'FARMS',props.isActiveOpen)
+  },[props.isActiveOpen , props.userAddress ])
 
 
   const farmsCardTypeList = {
@@ -124,6 +132,8 @@ const Farms = (props) => {
     {
       for(let farms in CONFIG.FARMS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'])
       {
+        console.log(CONFIG.FARMS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][farms].withdrawalFeeType);
+        console.log(CONFIG.withdrawalFeeDistribution[CONFIG.FARMS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][farms].withdrawalFeeType]);
         farmsToBeRendered.push({
           farmData : CONFIG.FARMS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][farms],
           properties : farmsCardTypeList[CONFIG.FARMS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][farms].CARD_TYPE],
@@ -144,8 +154,8 @@ const Farms = (props) => {
     <Container fluid className="page-layout-container">
       <Row className="mb-4 justify-content-center">
         <Switch
-          value={showActiveToken}
-          onChange={() => setShowActiveToken(!showActiveToken)}
+          value={props.isActiveOpen}
+          onChange={() => props.toggleFarmsType(!props.isActiveOpen)}
           trueLabel={'Active'}
           falseLabel={'Inactive'}
           inverted={true}
@@ -167,6 +177,7 @@ const Farms = (props) => {
 
               isActiveOpen = {props.isActiveOpen}
               activeFarmData = {props.activeFarmData}
+              inactiveFarmData = {props.inactiveFarmData}
               userStakes = {props.userStakes}
               harvestValueOnFarms = {props.harvestValueOnFarms}
               isStakeModalOpen={props.isStakeModalOpen}
@@ -178,7 +189,8 @@ const Farms = (props) => {
               {...farm.properties} 
               {...farm.farmData} 
               identifier={farm.identifier} 
-              position={farm.location} 
+              position={farm.location}
+              withdrawalFeeStructure={farm.withdrawalFeeStructure}
               {...props}
             />;
         })}
@@ -201,6 +213,7 @@ const mapStateToProps = state => {
     isActiveOpen : state.farms.isActiveOpen,
     stakeInputValues : state.farms.stakeInputValues,
     activeFarmData : state.farms.active,
+    inactiveFarmsData : state.farms.inactive,
     farmsToRender : state.farms.farmsToRender,
     userStakes : state.user.stakes,
     harvestValueOnFarms : state.user.harvestValueOnFarms,
@@ -214,7 +227,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     connectWallet : () => (dispatch(walletActions.connectWallet())),
-    toggleFarmsType : () => (dispatch(farmsActions.toggleFarmsType)),
+    toggleFarmsType : (isActive) => (dispatch(farmsActions.toggleFarmsType(isActive))),
     stakeOnFarm : (amount, farmIdentifier , isActive, position) => dispatch(farmsActions.stakeOnFarm(amount, farmIdentifier , isActive, position)),
     harvestOnFarm : (farmIdentifier, isActive, position) => dispatch(farmsActions.harvestOnFarm(farmIdentifier, isActive, position)),
     handleStakeOfFarmInputValue : (address,value) => dispatch(farmsActions.handleStakeOfFarmInputValue(address,value)),

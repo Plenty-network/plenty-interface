@@ -11,11 +11,55 @@ import StakeModal from "../Ui/Modals/StakeModal";
 import CalculatorSvg from '../../assets/images/icons/calculator.svg';
 
 const FarmCard = (props) => {
+  console.log(props.withdrawalFeeStructure);
   const apyCalculate = (apr) => (
       (Math.pow(1 + apr / 100 / 365, 365) - 1) *
       100
     ).toFixed(0);
 
+
+const getAPR = (props) => {
+  try {
+    if(props.isActiveOpen === true)
+    {
+      if(props.activeFarmData.isPresent == true)
+      {
+        return props.activeFarmData.data.response[props.CONTRACT].APR.toFixed(2);
+      }
+      else
+      {
+        return 0;
+      }
+    }
+    else
+    {
+      return 0;
+    }
+  }
+  catch(e)
+  {
+    return 0;
+  }
+}
+
+const getAPY = (props) => {
+  
+  if(props.isActiveOpen === true)
+  {
+    if(props.activeFarmData.isPresent == true)
+    {
+      return apyCalculate(props.activeFarmData.data.response[props.CONTRACT].APR.toFixed(2));
+    }
+    else
+    {
+      return 0;
+    }
+  }
+  else
+  {
+    return 0;
+  }
+}
   return (
     <>
     <Col sm={12} md={4}>
@@ -46,9 +90,8 @@ const FarmCard = (props) => {
             <p className={styles.plentyCardContentTag}>APY:</p>
             <p className={styles.plentyCardContentTag}>
               {
-                props.activeFarmData.isPresent === true
-                  ?  apyCalculate(props.activeFarmData.data.response[props.CONTRACT].APR.toFixed(2))
-                  : 0
+                getAPY(props)
+                
               }%
             </p>
           </div>
@@ -63,31 +106,29 @@ const FarmCard = (props) => {
                 onClick={() => null}
               />
               {
-                props.activeFarmData.isPresent === true
-                  ? props.activeFarmData.data.response[props.CONTRACT].APR.toFixed(0)
-                  : 0
+                getAPR(props)
               }%
             </p>
           </div>
           <div className={clsx(styles.plentyCardContentInfo, "flex justify-between")}>
             <p className={styles.plentyCardContentTag}>Rewards:</p>
             <p className={styles.plentyCardContentTag}>
-              {
+              {/* {
                 props.activeFarmData.isPresent === true
                   ? props.activeFarmData.data.response[props.CONTRACT].rewardRate * 2880
                   : 0
-              } / PER DAY
+              } / PER DAY */}0
             </p>
           </div>
 
           <div className={clsx(styles.plentyCardTvlInfo, "flex justify-between align-center mb-4")}>
             <p className={styles.plentyCardContentTag}>TVL:</p>
             <p className={styles.plentyCardContentTag}>
-              ${
+              {/* ${
                 props.activeFarmData.isPresent === true
                   ? props.activeFarmData.data.response[props.CONTRACT].totalLiquidty.toFixed(0)
                   : 0
-              }
+              } */}0
             </p>
           </div>
 
@@ -119,25 +160,5 @@ const FarmCard = (props) => {
   )
 }
 
-FarmCard.propTypes = {
-  image: PropTypes.number,
-  multi: PropTypes.string,
-  title: PropTypes.string,
-  apr: PropTypes.number,
-  apy: PropTypes.string,
-  earn: PropTypes.string,
-  fee: PropTypes.string,
-  earned: PropTypes.number,
-  deposit: PropTypes.string,
-  liquidity: PropTypes.string,
-  withdrawalFee: PropTypes.string,
-  balance: PropTypes.number,
-  userBalance: PropTypes.number,
-  URL: PropTypes.string,
-  active: PropTypes.bool,
-  source: PropTypes.string,
-  rewards: PropTypes.string,
-  walletAddress: PropTypes.string,
-}
 
 export default FarmCard

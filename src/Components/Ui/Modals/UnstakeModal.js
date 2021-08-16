@@ -15,13 +15,15 @@ const BUTTON_TEXT = {
 
 
 const UnstakeModal = props => {
+  console.log(props);
   const [open, setOpen] = useState(false);
   const [buttonText, setButtonText] = useState(BUTTON_TEXT.CONFIRM)
   const [selected, setSelected] = useState([]);
   const [withdrawalFee , setWithdrawalFee] = useState(0);
-  const [withdrawDetails,setWithdrawDetails] = useState({});
+  const [withdrawDetails,setWithdrawDetails] = useState([]);
 
-  const onStakeSelect = (obj) => {
+  const onStakeSelect = (obj,props) => {
+    console.log(props);
     if(!selected.includes(obj.mapId))
     {   
         let updatedSelected = selected
@@ -30,22 +32,26 @@ const UnstakeModal = props => {
         setSelected(updatedSelected)
 
         let difference = props.currentBlock - obj.block;
+        let balance = obj.amount
         let fee = -1;
+        console.log(difference,balance);
 
-        // for (let i = 0; i < props.withdrawalFeeStructure.length; i++) {
-        //     if (difference < props.withdrawalFeeStructure[i].block) {
-        //       fee = ((balance * props.withdrawalFeeStructure[i].rate) / 100).toFixed(2);
-        //       fee = parseFloat(fee);
-        //       break;
-        //     }
-        //   }
-        //   if (fee === -1) {
-        //     fee = (
-        //       (balance * props.withdrawalFeeStructure[feeStructure.length - 1].rate) /
-        //       100
-        //     ).PrecisionMaker(2);
-        //     fee = parseFloat(fee);
-        //   }
+        for (let i = 0; i < props.withdrawalFeeStructure.length; i++) {
+            if (difference < props.withdrawalFeeStructure[i].block) {
+              fee = ((balance * props.withdrawalFeeStructure[i].rate) / 100).toFixed(10);
+              fee = parseFloat(fee);
+              console.log('caught in loop',fee);
+              break;
+            }
+          }
+          if (fee === -1) {
+            fee = (
+              (balance * props.withdrawalFeeStructure[props.withdrawalFeeStructure.length - 1].rate) /
+              100
+            ).toFixed(10);
+            fee = parseFloat(fee);
+          }
+        console.log(fee);
     }
 }
 
@@ -79,7 +85,7 @@ const UnstakeModal = props => {
             <div className={styles.collapsedContent}>
               {
                 props.userStakes[props.CONTRACT].singularStakes.map((x,index) => (
-                  <div key={x.mapId} className={styles.stakedItem} onClick={() => onStakeSelect(x)}>
+                  <div key={x.mapId} className={styles.stakedItem} onClick={() => onStakeSelect(x,props)}>
                     <div className="d-flex justify-content-between flex-grow-1">
                       <span>{'Stake ' + x.mapId}</span>
                       <span>{x.amount}</span>

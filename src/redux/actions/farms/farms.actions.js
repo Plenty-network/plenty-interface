@@ -216,6 +216,7 @@ export const clearHarvestFarmResponse = () => {
 
 
 export const toggleFarmsType = (isActive) => {
+    console.log({isActive})
     return dispatch => {
         if(isActive)
         {

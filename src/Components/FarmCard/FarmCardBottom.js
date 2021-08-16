@@ -42,6 +42,7 @@ const FarmCardBottom = (props) => {
                 {
                   (
                     props.userAddress !== null &&
+                    props.harvestValueOnFarms.hasOwnProperty(props.isActiveOpen) &&
                     props.harvestValueOnFarms[props.isActiveOpen].hasOwnProperty(props.CONTRACT)&&
                     props.harvestValueOnFarms[props.isActiveOpen][props.CONTRACT].totalRewards > 0
                   )
