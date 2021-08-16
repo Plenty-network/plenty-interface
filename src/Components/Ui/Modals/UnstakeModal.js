@@ -28,22 +28,11 @@ const UnstakeModal = props => {
   useEffect(() => {
     console.log('by useEffecrt - >',selected);
   },[selected])
-  const onStakeSelect = (obj,props) => {
-    console.log(obj);
-    if(!selected.includes(obj.mapId))
-    {   
-        // let updatedSelected = selected
-        // updatedSelected.push(obj.mapId)
-        // console.log(updatedSelected);
-        setSelected([ ...selected, obj.mapId ])
-        //setSelected(updatedSelected)
-
-    }
-    else
-    {
-      let index = selected.indexOf(obj.mapId);
-      let updated = selected.splice(index);
-      setSelected(updated);
+  const onStakeSelect = (obj) => {
+    if(!selected.includes(obj.mapId)) {
+      setSelected([ ...selected, obj.mapId ])
+    } else {
+      setSelected(selected.filter(x => x !== obj.mapId));
     }
 }
 
@@ -77,7 +66,7 @@ const UnstakeModal = props => {
             <div className={styles.collapsedContent}>
               {
                 props.userStakes[props.CONTRACT].singularStakes.map((x,index) => (
-                  <div key={x.mapId} className={styles.stakedItem} onClick={() => onStakeSelect(x,props)}>
+                  <label key={x.mapId} className={styles.stakedItem}>
                     <div className="d-flex justify-content-between flex-grow-1">
                       <span>{'Stake ' + x.mapId}</span>
                       <span>{x.amount}</span>
@@ -86,9 +75,9 @@ const UnstakeModal = props => {
                       type="checkbox"
                       className="ml-2"
                       checked={selected.includes(x.mapId)===true}
-                      onClick={ev => ev.preventDefault()}
+                      onChange={() => onStakeSelect(x, props)}
                     />
-                  </div>
+                  </label>
                 ))
               }
             </div>
