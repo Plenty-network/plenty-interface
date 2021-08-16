@@ -4,7 +4,7 @@ import Button from "../Buttons/Button";
 
 import styles from './modal.module.scss'
 import clsx from "clsx";
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import { Collapse } from "react-bootstrap";
 
 // ! TEMP variable
@@ -15,6 +15,9 @@ const BUTTON_TEXT = {
 
 
 const UnstakeModal = props => {
+
+  
+
   console.log(props);
   const [open, setOpen] = useState(false);
   const [buttonText, setButtonText] = useState(BUTTON_TEXT.CONFIRM)
@@ -22,36 +25,25 @@ const UnstakeModal = props => {
   const [withdrawalFee , setWithdrawalFee] = useState(0);
   const [withdrawDetails,setWithdrawDetails] = useState([]);
 
+  useEffect(() => {
+    console.log('by useEffecrt - >',selected);
+  },[selected])
   const onStakeSelect = (obj,props) => {
-    console.log(props);
+    console.log(obj);
     if(!selected.includes(obj.mapId))
     {   
-        let updatedSelected = selected
-        updatedSelected.push(obj.mapId)
-        console.log(updatedSelected);
-        setSelected(updatedSelected)
+        // let updatedSelected = selected
+        // updatedSelected.push(obj.mapId)
+        // console.log(updatedSelected);
+        setSelected([ ...selected, obj.mapId ])
+        //setSelected(updatedSelected)
 
-        let difference = props.currentBlock - obj.block;
-        let balance = obj.amount
-        let fee = -1;
-        console.log(difference,balance);
-
-        for (let i = 0; i < props.withdrawalFeeStructure.length; i++) {
-            if (difference < props.withdrawalFeeStructure[i].block) {
-              fee = ((balance * props.withdrawalFeeStructure[i].rate) / 100).toFixed(10);
-              fee = parseFloat(fee);
-              console.log('caught in loop',fee);
-              break;
-            }
-          }
-          if (fee === -1) {
-            fee = (
-              (balance * props.withdrawalFeeStructure[props.withdrawalFeeStructure.length - 1].rate) /
-              100
-            ).toFixed(10);
-            fee = parseFloat(fee);
-          }
-        console.log(fee);
+    }
+    else
+    {
+      let index = selected.indexOf(obj.mapId);
+      let updated = selected.splice(index);
+      setSelected(updated);
     }
 }
 
@@ -116,11 +108,11 @@ const UnstakeModal = props => {
               <div className={styles.feeBreakdownWrapper}>
                 <div className={clsx(styles.feeBreakdownTable, "pb-2")}>
                   {
-                    selected.map(token => (
+                    withdrawDetails.map(token => (
                       <div>
-                        <div>{token}</div>
-                        <div>4%</div>
-                        <div>{token}</div>
+                        <div>{props.tokenData.title}</div>
+                        <div>{withdrawDetails.fee}</div>
+                        <div>{withdrawDetails.selectedFee}</div>
                       </div>
                     ))
                   }
@@ -128,7 +120,7 @@ const UnstakeModal = props => {
                 <div className={clsx(styles.totalRow, "pt-2")}>
                   <div>Total</div>
                   <div />
-                  <div>{0}</div>
+                  <div>{withdrawalFee}</div>
                 </div>
               </div>
             </>
