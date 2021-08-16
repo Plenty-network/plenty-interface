@@ -3,6 +3,7 @@
 @import './partials/header/header';
 @import './partials/swap';
 @import './partials/farms';
+@import './partials/poolCard';
 
 .flex {
   display: flex;
@@ -77,7 +78,7 @@
 }
 
 .input-wrapper {
-  background: #F4F4F6;
+  background: #f4f4f6;
   border-radius: 6px;
   padding: 16px;
 
@@ -91,17 +92,17 @@
 }
 
 $h1-font-sizes: (
-        null : 36px,
-        480px : 42px,
-        640px : 48px,
-        1024px: 56px
+  null: 36px,
+  480px: 42px,
+  640px: 48px,
+  1024px: 56px,
 );
 
 $h3-font-sizes: (
-        null : 30px,
-        480px : 36px,
-        640px : 42px,
-        1024px: 48px
+  null: 30px,
+  480px: 36px,
+  640px: 42px,
+  1024px: 48px,
 );
 
 @mixin font-size($fs-map) {
@@ -119,6 +120,3 @@ $h3-font-sizes: (
 //h1 {
 //  @include font-size($h1-font-sizes);
 //}
-
-
-

@@ -1,21 +1,32 @@
-import PropTypes from 'prop-types'
-import Col from "react-bootstrap/Col";
+import PropTypes from 'prop-types';
+import Col from 'react-bootstrap/Col';
 
-import styles from "../../assets/scss/partials/_farms.module.scss"
-import Image from "react-bootstrap/Image";
-import clsx from "clsx";
-import PoolCardBottom from "./PoolCardBottom";
-import Button from "../Ui/Buttons/Button";
+import styles from '../../assets/scss/partials/_farms.module.scss';
+import Image from 'react-bootstrap/Image';
+import clsx from 'clsx';
+import PoolCardBottom from './PoolCardBottom';
+import Button from '../Ui/Buttons/Button';
 
 const PoolCard = (props) => {
-
   return (
     <Col sm={12} md={4}>
-      <div className={styles.plentyCard}>
+      <div
+        className={styles.plentyCard}
+        style={{ paddingTop: 0, paddingLeft: 0, paddingRight: 0 }}
+      >
+        <div className="pool-card-top-banner">
+          <p className="pool-card-top-banner-text">Reward end August 20</p>
+        </div>
 
         {/* * Header */}
-        <div className={clsx(styles.plentyCardHeader, "flex justify-content-center align-center p-26 pb-20")}>
-          <div className={styles.imageWrapper}>
+        <div
+          className={clsx(
+            styles.plentyCardHeader,
+            'flex justify-content-center align-center p-26 pb-20'
+          )}
+          style={{ paddingTop: '20px' }}
+        >
+          <div className="pool-card-img-wrapper">
             <Image src={props.image} fluid />
           </div>
           <div>
@@ -25,43 +36,73 @@ const PoolCard = (props) => {
         {/* * Header */}
 
         {/* * Content */}
-        <div className={clsx(styles.plentyCardContent, { "pb-0": props.harvested })}> {/* TODO add proper variable */}
-          <div className={clsx(styles.plentyCardContentInfo, "flex justify-between")}>
+        <div
+          className={clsx(styles.plentyCardContent, {
+            'pb-0': props.harvested,
+          })}
+        >
+          {' '}
+          {/* TODO add proper variable */}
+          <div
+            className={clsx(
+              styles.plentyCardContentInfo,
+              'flex justify-between'
+            )}
+          >
             <p className={styles.plentyCardContentTag}>APY:</p>
             <p className={styles.plentyCardContentTag}>{props.apy}%</p>
           </div>
-          <div className={clsx(styles.plentyCardContentInfo, "flex justify-between")}>
+          <div
+            className={clsx(
+              styles.plentyCardContentInfo,
+              'flex justify-between'
+            )}
+          >
             <p className={styles.plentyCardContentTag}>APR:</p>
             <p className={styles.plentyCardContentTag}>{props.apr}%</p>
           </div>
-          <div className={clsx(styles.plentyCardContentInfo, "flex justify-between")}>
+          <div
+            className={clsx(
+              styles.plentyCardContentInfo,
+              'flex justify-between'
+            )}
+          >
             <p className={styles.plentyCardContentTag}>Rewards:</p>
             <p className={styles.plentyCardContentTag}>{props.rewards}</p>
           </div>
-
-          <div className={clsx(styles.plentyCardTvlInfo, "flex justify-between align-center mb-4")}>
+          <div
+            className={clsx(
+              styles.plentyCardTvlInfo,
+              'flex justify-between align-center mb-4'
+            )}
+          >
             <p className={styles.plentyCardContentTag}>TVL:</p>
             <p className={styles.plentyCardContentTag}>${props.liquidity}</p>
           </div>
-
-          {
-            props.walletAddress
-              ? !props.harvested && <Button onClick={() => null} color={"primary"} className="w-100">Stake</Button>
-              : <Button
-                  onClick={props.connecthWallet}
-                  color={"primary"}
-                  className="w-100"
-                  startIcon="add"
-                >Connect Wallet</Button>
-          }
+          {props.walletAddress ? (
+            !props.harvested && (
+              <Button onClick={() => null} color={'primary'} className="w-100">
+                Stake
+              </Button>
+            )
+          ) : (
+            <Button
+              onClick={props.connecthWallet}
+              color={'primary'}
+              className="w-100"
+              startIcon="add"
+            >
+              Connect Wallet
+            </Button>
+          )}
         </div>
         {/* * Content */}
 
-        <PoolCardBottom title={props.title} />
+        <PoolCardBottom {...props} />
       </div>
     </Col>
-  )
-}
+  );
+};
 
 PoolCard.propsTypes = {
   image: PropTypes.number,
@@ -81,6 +122,6 @@ PoolCard.propsTypes = {
   active: PropTypes.bool,
   rewards: PropTypes.string,
   walletAddress: PropTypes.string,
-}
+};
 
-export default PoolCard
+export default PoolCard;
