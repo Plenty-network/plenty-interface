@@ -63,11 +63,6 @@ export const GlobalStyles = createGlobalStyle`
     color: ${(props) => props.theme.p};
   }
   
-  hr {
-    border-top: 1px solid ${(props) => props.theme.hr};
-    opacity: 0.1;
-  }
-  
   .start-color {
     stop-color: ${(props) => props.theme.iconBgStartColor};
   }
