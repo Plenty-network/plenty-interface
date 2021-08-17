@@ -180,7 +180,7 @@ const Farms = (props) => {
   return (
     <>
     <div>
-    <Container fluid className="page-layout-container">
+    <div>
       <Row className="mb-4 justify-content-center">
         <Switch
           value={props.isActiveOpen}
@@ -226,7 +226,7 @@ const Farms = (props) => {
             />;
         })}
       </div>
-    </Container>
+    </div>
     </div>
     <StakeModal walletBalances={props.walletBalances} isActiveOpen={props.isActiveOpen} stakeModalContractAddress={props.stakeModalContractAddress} stakeModalFarmPosition={props.stakeModalFarmPosition} stakeModalTitle={props.stakeModalTitle} stakeModalIdentifier={props.stakeModalIdentifier} open={props.isStakeModalOpen} onClose={() => props.closeFarmsStakeModal()}  handleInput = {props.handleStakeOfFarmInputValue} CONTRACT = {props.CONTRACT} stakeInputValues={props.stakeInputValues} stakeOnFarm={props.stakeOnFarm} />
     {props.isUnstakeModalOpen ?
