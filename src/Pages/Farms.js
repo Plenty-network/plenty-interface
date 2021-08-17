@@ -26,6 +26,7 @@ const Farms = (props) => {
     props.getFarmsData(props.isActiveOpen)
     props.getUserStakes(props.userAddress,'FARMS',props.isActiveOpen)
     props.getHarvestValues(props.userAddress,'FARMS',props.isActiveOpen)
+    props.fetchUserBalances(props.userAddress)
   },[props.isActiveOpen , props.userAddress ])
 
 
@@ -211,6 +212,7 @@ const Farms = (props) => {
               isUnstakeModalOpen={props.isUnstakeModalOpen}
               currentBlock={props.currentBlock}
               
+              
               key={index} 
               {...farm.properties} 
               {...farm.farmData} 
@@ -223,7 +225,7 @@ const Farms = (props) => {
       </Row>
     </Container>
     </div>
-    <StakeModal isActiveOpen={props.isActiveOpen} stakeModalContractAddress={props.stakeModalContractAddress} stakeModalFarmPosition={props.stakeModalFarmPosition} stakeModalTitle={props.stakeModalTitle} stakeModalIdentifier={props.stakeModalIdentifier} open={props.isStakeModalOpen} onClose={() => props.closeFarmsStakeModal()}  handleInput = {props.handleStakeOfFarmInputValue} CONTRACT = {props.CONTRACT} stakeInputValues={props.stakeInputValues} stakeOnFarm={props.stakeOnFarm} />
+    <StakeModal walletBalances={props.walletBalances} isActiveOpen={props.isActiveOpen} stakeModalContractAddress={props.stakeModalContractAddress} stakeModalFarmPosition={props.stakeModalFarmPosition} stakeModalTitle={props.stakeModalTitle} stakeModalIdentifier={props.stakeModalIdentifier} open={props.isStakeModalOpen} onClose={() => props.closeFarmsStakeModal()}  handleInput = {props.handleStakeOfFarmInputValue} CONTRACT = {props.CONTRACT} stakeInputValues={props.stakeInputValues} stakeOnFarm={props.stakeOnFarm} />
     </>
   );
 };
@@ -249,7 +251,8 @@ const mapStateToProps = state => {
     stakeModalFarmPosition : state.farms.stakeModalFarmPosition,
     stakeModalContractAddress : state.farms.stakeModalContractAddress,
     isUnstakeModalOpen : state.farms.isUnstakeModalOpen,
-    currentBlock : state.user.currentBlock
+    currentBlock : state.user.currentBlock,
+    walletBalances : state.user.balances
 
   }
 }
@@ -269,7 +272,8 @@ const mapDispatchToProps = dispatch => {
     closeFarmsStakeModal : () => (dispatch(farmsActions.closeFarmsStakeModal())),
     openFarmsUnstakeModal : () => (dispatch(farmsActions.openFarmsUnstakeModal())),
     closeFarmsUnstakeModal : () => (dispatch(farmsActions.closeFarmsUnstakeModal())),
-    unstakeOnFarm : (stakesToUnstake, farmIdentifier, isActive, position) => (dispatch(farmsActions.unstakeOnFarm(stakesToUnstake, farmIdentifier, isActive, position)))
+    unstakeOnFarm : (stakesToUnstake, farmIdentifier, isActive, position) => (dispatch(farmsActions.unstakeOnFarm(stakesToUnstake, farmIdentifier, isActive, position))),
+    fetchUserBalances : (address) => (dispatch(userActions.fetchUserBalances(address)))
   }
 }
 

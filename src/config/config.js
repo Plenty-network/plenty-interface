@@ -160,15 +160,28 @@ module.exports = {
             }
           ]
         },
-        'KALAM-XTZ' : {
-          active : [],
-          inactive : [
+        'PLENTY - wBUSD' : {
+          active : [
             {
-            address : 'KT1DjDZio7k2GJwCJCXwK82ing3n51AE55DW',
-            mapId : 4488,
-            decimal : 18,
-            tokenDecimal : 6
+              address : 'KT1KJhxkCpZNwAFQURDoJ79hGqQgSC9UaWpG',
+              mapId : 10768,
+              decimal : 18,
+              tokenDecimal : 18
             }
+          ],
+          inactive : [
+          ]
+        },
+        'PLENTY - wUSDC' : {
+          active : [
+            {
+              address : 'KT1VV1ZG2phFCWjPGkqZ9DQ9JXJJGK7P54Fs',
+              mapId : 10770,
+              decimal : 12,
+              tokenDecimal : 6
+            }
+          ],
+          inactive : [
           ]
         }
       }
@@ -258,19 +271,33 @@ module.exports = {
           type: 'FA1.2',
           tokenId: 0
       },
-      'PLENTY-XTZ' : {
+      'PLENTY - XTZ' : {
           address : 'KT1X1LgNkQShpF9nRLYw3Dgdy4qp38MX617z',
           mapId : 3956,
           decimal : 6,
           type: 'FA1.2',
           tokenId: 0,
       },
-      'KALAM-XTZ' : {
+      'KALAM - XTZ' : {
           address : 'KT1J3wTYb4xk5BsSBkg6ML55bX1xq7desS34',
           mapId : 4353,
           decimal : 6,
           type: 'FA1.2',
           tokenId: 0,
+      },
+      'PLENTY - wBUSD' : {
+        address : 'KT1UC3vcVZ4K9b39uQxaMNA2N1RuJXKLCnoA',
+        mapId : 10749,
+        decimal : 18,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+      'PLENTY - wUSDC' : {
+        address : 'KT1Gz1mx1jm7JHqU7GuMVWF6soB9RjsfLN3o',
+        mapId : 10755,
+        decimal : 12,
+        type: 'FA1.2',
+        tokenId: 0,
       }
     }
   },
@@ -599,11 +626,12 @@ module.exports = {
                 DEX: "KT1XXAavg3tTj12W1ADvd3EEnm1pu6XTmiEF",
                 TOKEN_ADDRESS: "KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b",
                 CARD_TYPE: "PLENTY / wBUSD LP",
-                TOKEN_DECIMAL: 12,
+                TOKEN_DECIMAL: 18,
                 TYPE: "FA1.2",
                 LP_DECIMAL: 18,
                 TEMP_ADDRESS: "KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b",
                 DECIMAL: 18,
+                withdrawalFeeType : 'type2'
               },
             ],
             inactive: [],
@@ -621,6 +649,7 @@ module.exports = {
                 LP_DECIMAL: 12,
                 TEMP_ADDRESS: "KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b",
                 DECIMAL: 18,
+                withdrawalFeeType : 'type2'
               },
             ],
             inactive: [],

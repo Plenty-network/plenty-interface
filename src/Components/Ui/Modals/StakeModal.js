@@ -27,7 +27,7 @@ const StakeModal = props => {
 
       <div className="d-flex flex-row-reverse">
         <div className="mb-3 mr-3">
-          <span>Balance: {0 /* TODO add proper prop */}</span>
+          <span>Balance: {props.walletBalances[props.stakeModalIdentifier]}</span>
         </div>
       </div>
 

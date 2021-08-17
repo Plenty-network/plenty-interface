@@ -66,7 +66,7 @@ const getStakedAmount = async (mapId,packedKey,identifier,decimal,address,tokenD
 const getBalanceAmount = async (mapId,packedKey,identifier,decimal) => {
   try {
       let balance;
-      const url = `https://mainnet.smartpy.io/chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
+      const url = `${CONFIG.RPC_NODES[CONFIG.NETWORK]}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
       const response = await axios.get(url);
 
       if(mapId === 3956 || mapId === 4353) {
@@ -77,6 +77,8 @@ const getBalanceAmount = async (mapId,packedKey,identifier,decimal) => {
         balance = response.data.args[0].int;
       } else if (mapId === 1777 || mapId === 1772 || mapId === 515 || mapId === 4178) {
         balance = response.data.int;
+      } else if(mapId = 10749) {
+        balance = response.data.args[1].int
       }
       
 
@@ -117,10 +119,14 @@ export const getBalanceAmountForAllContracts = async (address) => {
 
     }
     const response = await Promise.all(promises);
-    console.log({response});
+    let balancesResponse = {};
+    for(let i in response)
+    {
+      balancesResponse[response[i].identifier] = response[i].balance
+    }
     return {
       success : true,
-      response,
+      response : balancesResponse,
     }
   }
   catch(error)

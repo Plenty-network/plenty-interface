@@ -79,7 +79,7 @@ const FarmCardBottom = (props) => {
               <span />
               {
                  (props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0 ) // TODO add proper variable
-                  ? <QuantityButton onAdd={() => props.openFarmsStakeModal(props.identifier,props.tokenData.title,props.position,props.CONTRACT)} onRemove={() => props.openFarmsUnstakeModal()}/> 
+                  ? <QuantityButton onAdd={() => props.openFarmsStakeModal(props.identifier,props.title,props.position,props.CONTRACT)} onRemove={() => props.openFarmsUnstakeModal()}/> 
                   : <Button onClick={() => props.stakeOnFarm(props.stakeInputValues[props.CONTRACT],props.identifier,true,props.position) } color={"default"}>Stake</Button>
               }
             </div>
