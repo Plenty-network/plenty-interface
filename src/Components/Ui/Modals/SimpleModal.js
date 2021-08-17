@@ -12,7 +12,7 @@ return (
     onHide={props.onClose}
     backdrop="static"
     keyboard={false}
-    dialogClassName={styles.simpleModal}
+    dialogClassName={clsx(styles.simpleModal, props.className)}
     centered={true}
   >
     {/* * Header */}
@@ -37,7 +37,8 @@ return (
 SimpleModal.propTypes = {
   title: PropTypes.string,
   open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
+  className: PropTypes.string,
 }
 
 export default SimpleModal

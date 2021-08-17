@@ -19,6 +19,8 @@ import Switch from "../Components/Ui/Switch/Switch";
 import StakeModal from '../Components/Ui/Modals/StakeModal';
 import UnstakeModal from '../Components/Ui/Modals/UnstakeModal';
 
+import styles from '../assets/scss/partials/_farms.module.scss';
+
 const Farms = (props) => {
 
   useEffect(() => {
@@ -188,9 +190,9 @@ const Farms = (props) => {
           inverted={true}
         />
       </Row>
-      <Row>
+      <div className={styles.cardsContainer}>
         {
-          props.farmsToRender.map((farm, index) => {
+          props.farmsToRender?.map((farm, index) => {
             return <FarmCard 
               handleStakeOfFarmInputValue = {props.handleStakeOfFarmInputValue}
               harvestOnFarm = {props.harvestOnFarm}
@@ -223,7 +225,7 @@ const Farms = (props) => {
               {...props}
             />;
         })}
-      </Row>
+      </div>
     </Container>
     </div>
     <StakeModal walletBalances={props.walletBalances} isActiveOpen={props.isActiveOpen} stakeModalContractAddress={props.stakeModalContractAddress} stakeModalFarmPosition={props.stakeModalFarmPosition} stakeModalTitle={props.stakeModalTitle} stakeModalIdentifier={props.stakeModalIdentifier} open={props.isStakeModalOpen} onClose={() => props.closeFarmsStakeModal()}  handleInput = {props.handleStakeOfFarmInputValue} CONTRACT = {props.CONTRACT} stakeInputValues={props.stakeInputValues} stakeOnFarm={props.stakeOnFarm} />

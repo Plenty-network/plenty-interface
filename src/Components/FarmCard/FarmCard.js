@@ -6,6 +6,7 @@ import FarmCardBottom from "./FarmCardBottom";
 import Button from "../Ui/Buttons/Button";
 
 import CalculatorSvg from '../../assets/images/icons/calculator.svg';
+import { numberWithCommas } from "../../utils/formatNumbers";
 
 const FarmCard = (props) => {
   console.log({props});
@@ -21,7 +22,7 @@ const getAPR = (props) => {
     {
       if(props.activeFarmData.isPresent == true)
       {
-        return props.activeFarmData.data.response[props.CONTRACT].APR.toFixed(2);
+        return props.activeFarmData.data.response[props.CONTRACT]?.APR.toFixed(2) ?? 0;
       }
       else
       {
@@ -45,7 +46,7 @@ const getAPY = (props) => {
   {
     if(props.activeFarmData.isPresent == true)
     {
-      return apyCalculate(props.activeFarmData.data.response[props.CONTRACT].APR.toFixed(2));
+      return apyCalculate(props.activeFarmData.data.response[props.CONTRACT]?.APR.toFixed(2) ?? 0);
     }
     else
     {
@@ -63,7 +64,7 @@ const getReward = () => {
   {
     if(props.activeFarmData.isPresent == true)
     {
-      return props.activeFarmData.data.response[props.CONTRACT].rewardRate * 2880;
+      return (props.activeFarmData.data.response[props.CONTRACT]?.rewardRate ?? 0) * 2880;
     }
     else
     {
@@ -77,29 +78,24 @@ const getReward = () => {
 }
 
 const getTotalLiquidity = () => {
-  if(props.isActiveOpen === true)
-  {
-    if(props.activeFarmData.isPresent == true)
-    {
-      return props.activeFarmData.data.response[props.CONTRACT].totalLiquidty.toFixed(0);
-    }
-    else
-    {
+  if (props.isActiveOpen === true) {
+    if (props.activeFarmData.isPresent === true) {
+      return numberWithCommas(props.activeFarmData.data.response[props.CONTRACT]?.totalLiquidty.toFixed(0) ?? 0);
+    } else {
       return 0;
     }
   }
-  else
-  {
+  else {
     return 0;
   }
 }
 
   const hasStakedAmount = () => {
-    return props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0;
+    return props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT]?.stakedAmount > 0;
   }
   return (
     <>
-    <Col sm={12} md={4}>
+    <div>
       <div className={styles.plentyCard}>
 
         {/* * Header */}
@@ -150,7 +146,7 @@ const getTotalLiquidity = () => {
           <div className={clsx(styles.plentyCardContentInfo, "flex justify-between")}>
             <p className={styles.plentyCardContentTag}>Rewards:</p>
             <p className={styles.plentyCardContentTag}>
-              {getReward()}
+              {getReward()} PLENTY / DAY
             </p>
           </div>
 
@@ -184,7 +180,7 @@ const getTotalLiquidity = () => {
 
         <FarmCardBottom {...props} />
       </div>
-    </Col>
+    </div>
     {/* <StakeModal open={props.isStakeModalOpen} onClose={() => props.closeFarmsStakeModal()} tokenData={{title: props.title}} /> */}
     </>
 

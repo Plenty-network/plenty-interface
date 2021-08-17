@@ -5,7 +5,7 @@ import styles from "./first-time-disclaimer.module.scss";
 import clsx from "clsx";
 import { Image } from "react-bootstrap";
 
-import PlentyLogo from "../../assets/images/logo.png"
+import PlentyLogo from "../../assets/images/plenty-beta-logo.svg"
 import { FIRST_TIME_DISCLAIMER } from "../../constants/localStorage";
 
 const FirstTimeDisclaimer = () => {

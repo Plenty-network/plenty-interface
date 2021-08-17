@@ -3,6 +3,9 @@ import SimpleModal from "./SimpleModal";
 import { useState } from "react";
 import Button from "../Buttons/Button";
 
+import styles from "./modal.module.scss";
+import clsx from "clsx";
+
 const BUTTON_TEXT = {
   ENTER_AMT: 'Enter an amount',
   STAKE: 'Confirm Stake',
@@ -28,11 +31,12 @@ const StakeModal = props => {
       open={props.open}
       onClose={props.onClose}
       title={`Stake ${props.stakeModalTitle} tokens`}
+      className={styles.stakeModal}
     >
-      <div className="input-wrapper d-flex">
-        <input onChange={(event) => props.handleInput(parseFloat(event.target.value))} />
+      <div className={clsx(styles.inputWrapper, "d-flex")}>
+        <input onChange={(event) => props.handleInput(parseFloat(event.target.value))} placeholder={"0.0"} />
 
-        <span className="mr-2 ml-2">{props.stakeModalTitle}</span>
+        <span className="mr-2 ml-2 mt-auto mb-auto">{props.stakeModalTitle}</span>
 
         <Button onClick={() => null} size="small" color="secondary" className="rounded-pill">max</Button>
       </div>
