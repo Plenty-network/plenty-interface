@@ -7,11 +7,11 @@ import { FIRST_TIME_DISCLAIMER } from "../constants/localStorage";
 
 
 const WrappedRoute = (props) => {
-  const [isDisclaimerAccepted, setDisclaimerAccepted] = useState(false)
+  const [isDisclaimerAccepted, setDisclaimerAccepted] = useState(true)
 
   useEffect(() => {
-    if (localStorage.getItem(FIRST_TIME_DISCLAIMER) === "true") {
-      setDisclaimerAccepted(true)
+    if (localStorage.getItem(FIRST_TIME_DISCLAIMER) !== "true") {
+      setDisclaimerAccepted(false)
     }
   }, [])
 
