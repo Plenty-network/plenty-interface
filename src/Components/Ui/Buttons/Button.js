@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import clsx from "clsx";
 
 import styles from './button.module.scss'
+import PuffLoader from "react-spinners/PuffLoader";
 
 const Button = props => {
   // ? Destructing and setting default props if any
@@ -18,10 +19,11 @@ const Button = props => {
         },
         props.className,
       )}
-      onClick={props.onClick}
+      onClick={!props.loading ? props.onClick : undefined}
     >
-      {props.startIcon && <span className="material-icons-round mr-1">{props.startIcon}</span>}
-      {!isIconBtn && <span>{props.children}</span>}
+      {props.loading && <PuffLoader color={"#fff"} size={28} />}
+      {!props.loading && props.startIcon && <span className="material-icons-round mr-1">{props.startIcon}</span>}
+      {!props.loading && !isIconBtn && <span>{props.children}</span>}
     </button>
   )
 }
@@ -31,6 +33,7 @@ Button.propTypes = {
   size: PropTypes.oneOf(['small', 'default']),
   className: PropTypes.string,
   isIconBtn: PropTypes.bool,
+  loading: PropTypes.bool,
   startIcon: PropTypes.string,
   onClick: PropTypes.func,
   children: PropTypes.string,

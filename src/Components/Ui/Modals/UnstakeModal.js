@@ -19,6 +19,7 @@ const UnstakeModal = props => {
   const [open, setOpen] = useState(false);
   const [buttonText, setButtonText] = useState(BUTTON_TEXT.CONFIRM)
   const [selected, setSelected] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const calculateFee = (difference ,obj) => {
     let feeObj = {mapId : obj.mapId}
@@ -54,7 +55,17 @@ const UnstakeModal = props => {
     } else {
       setSelected(selected.filter(x => x.mapId !== obj.mapId));
     }
-}
+  }
+
+  const onUnstake = () => {
+    setLoading(true);
+    props.unstakeOnFarm(
+      selected,
+      props.unstakeModalIdentifier,
+      props.isActiveOpen,
+      props.unstakeModalFarmPosition
+    )
+  }
 
   return (
     <SimpleModal
@@ -136,7 +147,12 @@ const UnstakeModal = props => {
           )
         }
 
-        <Button onClick={() => props.unstakeOnFarm(selected,props.unstakeModalIdentifier,props.isActiveOpen,props.unstakeModalFarmPosition)} color="primary" className="w-100 mt-4">{buttonText}</Button>
+        <Button
+          onClick={onUnstake}
+          color="primary"
+          className="w-100 mt-4"
+          loading={loading}
+        >{buttonText}</Button>
       </div>
     </SimpleModal>
   )

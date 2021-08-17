@@ -1,12 +1,9 @@
-import PropTypes from 'prop-types'
 import Col from "react-bootstrap/Col";
-import { useState } from 'react';
 import styles from "../../assets/scss/partials/_farms.module.scss"
 import Image from "react-bootstrap/Image";
 import clsx from "clsx";
 import FarmCardBottom from "./FarmCardBottom";
 import Button from "../Ui/Buttons/Button";
-import StakeModal from "../Ui/Modals/StakeModal";
 
 import CalculatorSvg from '../../assets/images/icons/calculator.svg';
 
@@ -96,6 +93,10 @@ const getTotalLiquidity = () => {
     return 0;
   }
 }
+
+  const hasStakedAmount = () => {
+    return props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0;
+  }
   return (
     <>
     <Col sm={12} md={4}>
@@ -121,7 +122,7 @@ const getTotalLiquidity = () => {
         {/* * Header */}
 
         {/* * Content */}
-        <div className={clsx(styles.plentyCardContent, { "pb-0": props.harvested })}> {/* TODO add proper variable */}
+        <div className={clsx(styles.plentyCardContent, "pb-0")}>
           <div className={clsx(styles.plentyCardContentInfo, "flex justify-between")}>
             <p className={styles.plentyCardContentTag}>APY:</p>
             <p className={styles.plentyCardContentTag}>
@@ -164,7 +165,7 @@ const getTotalLiquidity = () => {
 
           {
             props.userAddress
-              ? !(props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount >0) ? (
+              ? !hasStakedAmount() ? (
                 <Button
                   onClick={() => props.openFarmsStakeModal(props.identifier,props.title,props.position,props.CONTRACT)}
                   color={"primary"}

@@ -5,22 +5,16 @@ import PropTypes from 'prop-types'
 
 import styles from "../../assets/scss/partials/_farms.module.scss"
 import clsx from "clsx";
-import Input from "../Ui/Input/Input";
 import QuantityButton from "../Ui/Buttons/QuantityButton";
-import StakeModal from "../Ui/Modals/StakeModal";
 import UnstakeModal from "../Ui/Modals/UnstakeModal";
 import { Image } from "react-bootstrap";
+
 const FarmCardBottom = (props) => {
   const [ isExpanded, toggleExpand ] = useState(false);
-  console.log({props});
-  const renderHarvest = () => (
-    <div className="d-flex">
-      <Input className="mr-2 w-100"/>
 
-      <Button onClick={() => null} color={"default"}>Harvest</Button>
-    </div>
-  );
-
+  const hasStakedAmount = () => {
+    return props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0;
+  }
 
   return (
     <>
@@ -28,13 +22,14 @@ const FarmCardBottom = (props) => {
       <div className={clsx(
         styles.plentyCardContent,
         {
+          "mt-4": isExpanded,
           "pt-0": !isExpanded,
           [styles.topBorder]: isExpanded,
           [styles.bottomBorder]: isExpanded
         }
       )}>
 
-        {((props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount >0)|| isExpanded) && ( // TODO add proper variable
+        {(hasStakedAmount() || isExpanded) && (
           <div className="d-flex">
             <div className={clsx(styles.harvestStakeAmt, "mr-2 justify-content-between")}>
               <Image height={31} src={props.harvestImg} fuild className="mt-auto mb-auto ml-2" />
@@ -60,7 +55,7 @@ const FarmCardBottom = (props) => {
                   props.position
                 )
               }}
-              color={props.harvested ? "primary" : "default"}
+              color={hasStakedAmount() ? "primary" : "default"}
             >
               Harvest
             </Button>
