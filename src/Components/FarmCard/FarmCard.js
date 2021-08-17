@@ -22,7 +22,7 @@ const getAPR = (props) => {
     {
       if(props.activeFarmData.isPresent == true)
       {
-        return props.activeFarmData.data.response[props.CONTRACT].APR.toFixed(2);
+        return props.activeFarmData.data.response[props.CONTRACT]?.APR.toFixed(2) ?? 0;
       }
       else
       {
@@ -46,7 +46,7 @@ const getAPY = (props) => {
   {
     if(props.activeFarmData.isPresent == true)
     {
-      return apyCalculate(props.activeFarmData.data.response[props.CONTRACT].APR.toFixed(2));
+      return apyCalculate(props.activeFarmData.data.response[props.CONTRACT]?.APR.toFixed(2) ?? 0);
     }
     else
     {
@@ -64,7 +64,7 @@ const getReward = () => {
   {
     if(props.activeFarmData.isPresent == true)
     {
-      return props.activeFarmData.data.response[props.CONTRACT].rewardRate * 2880;
+      return (props.activeFarmData.data.response[props.CONTRACT]?.rewardRate ?? 0) * 2880;
     }
     else
     {
@@ -80,7 +80,7 @@ const getReward = () => {
 const getTotalLiquidity = () => {
   if (props.isActiveOpen === true) {
     if (props.activeFarmData.isPresent === true) {
-      return numberWithCommas(props.activeFarmData.data.response[props.CONTRACT].totalLiquidty.toFixed(0));
+      return numberWithCommas(props.activeFarmData.data.response[props.CONTRACT]?.totalLiquidty.toFixed(0) ?? 0);
     } else {
       return 0;
     }
@@ -91,7 +91,7 @@ const getTotalLiquidity = () => {
 }
 
   const hasStakedAmount = () => {
-    return props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0;
+    return props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT]?.stakedAmount > 0;
   }
   return (
     <>
@@ -146,7 +146,7 @@ const getTotalLiquidity = () => {
           <div className={clsx(styles.plentyCardContentInfo, "flex justify-between")}>
             <p className={styles.plentyCardContentTag}>Rewards:</p>
             <p className={styles.plentyCardContentTag}>
-              {getReward()}
+              {getReward()} PLENTY / DAY
             </p>
           </div>
 

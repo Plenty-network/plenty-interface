@@ -190,7 +190,7 @@ const Farms = (props) => {
       </Row>
       <Row>
         {
-          props.farmsToRender.map((farm, index) => {
+          props.farmsToRender?.map((farm, index) => {
             return <FarmCard 
               handleStakeOfFarmInputValue = {props.handleStakeOfFarmInputValue}
               harvestOnFarm = {props.harvestOnFarm}
