@@ -10,7 +10,19 @@ const BUTTON_TEXT = {
 }
 
 const StakeModal = props => {
-  console.log({'stakemodal' : props});
+  const [loading, setLoading] = useState(false);
+
+  const onStake = () => {
+    setLoading(true)
+    props.stakeOnFarm(
+      props.stakeInputValues,
+      props.stakeModalIdentifier,
+      props.isActiveOpen,
+      props.stakeModalFarmPosition
+    )
+  }
+
+
   return (
     <SimpleModal
       open={props.open}
@@ -31,7 +43,12 @@ const StakeModal = props => {
         </div>
       </div>
 
-      <Button onClick={() => props.stakeOnFarm(props.stakeInputValues,props.stakeModalIdentifier,props.isActiveOpen,props.stakeModalFarmPosition)} color="primary" className="w-100">{BUTTON_TEXT.STAKE}</Button>
+      <Button
+        onClick={onStake}
+        color="primary"
+        className="w-100"
+        loading={loading}
+      >{BUTTON_TEXT.STAKE}</Button>
     </SimpleModal>
   )
 }
