@@ -78,20 +78,6 @@
   }
 }
 
-.input-wrapper {
-  background: #f4f4f6;
-  border-radius: 6px;
-  padding: 16px;
-
-  & input {
-    background: transparent;
-    border: 0;
-    outline: none;
-    width: inherit;
-    flex-grow: 1;
-  }
-}
-
 $h1-font-sizes: (
   null: 38px,
   480px: 40px,
