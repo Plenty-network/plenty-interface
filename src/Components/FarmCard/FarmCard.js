@@ -6,6 +6,7 @@ import FarmCardBottom from "./FarmCardBottom";
 import Button from "../Ui/Buttons/Button";
 
 import CalculatorSvg from '../../assets/images/icons/calculator.svg';
+import { numberWithCommas } from "../../utils/formatNumbers";
 
 const FarmCard = (props) => {
   console.log({props});
@@ -77,19 +78,14 @@ const getReward = () => {
 }
 
 const getTotalLiquidity = () => {
-  if(props.isActiveOpen === true)
-  {
-    if(props.activeFarmData.isPresent == true)
-    {
-      return props.activeFarmData.data.response[props.CONTRACT].totalLiquidty.toFixed(0);
-    }
-    else
-    {
+  if (props.isActiveOpen === true) {
+    if (props.activeFarmData.isPresent === true) {
+      return numberWithCommas(props.activeFarmData.data.response[props.CONTRACT].totalLiquidty.toFixed(0));
+    } else {
       return 0;
     }
   }
-  else
-  {
+  else {
     return 0;
   }
 }
