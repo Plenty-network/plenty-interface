@@ -1,4 +1,4 @@
-import { act } from 'react-dom/cjs/react-dom-test-utils.production.min';
+
 import * as actions from '../index.action';
 import * as farmApis from './api.farms';
 
@@ -262,10 +262,17 @@ export const clearRenderedFarms = () => {
     }
 }
 
-export const openFarmsStakeModal = ()  => {
+export const openFarmsStakeModal = (identifier,title,position,contractAddress)  => {
+    console.log(identifier,title,position,contractAddress);
     return dispatch => {
         dispatch({
-            type : actions.OPEN_FARMS_STAKE_MODAL
+            type : actions.OPEN_FARMS_STAKE_MODAL,
+            data : {
+                identifier,
+                title,
+                position,
+                contractAddress
+            }
         })
     }
 }

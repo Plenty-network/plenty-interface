@@ -166,7 +166,7 @@ const getTotalLiquidity = () => {
             props.userAddress
               ? !(props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount >0) ? (
                 <Button
-                  onClick={() => props.openFarmsStakeModal()}
+                  onClick={() => props.openFarmsStakeModal(props.identifier,props.title,props.position,props.CONTRACT)}
                   color={"primary"}
                   className="w-100"
                 >Stake</Button>

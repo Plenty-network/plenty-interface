@@ -15,12 +15,12 @@ const StakeModal = props => {
     <SimpleModal
       open={props.open}
       onClose={props.onClose}
-      title={`Stake ${props.tokenData.title} tokens`}
+      title={`Stake ${props.stakeModalTitle} tokens`}
     >
       <div className="input-wrapper d-flex">
-        <input onChange={(event) => props.handleInput(props.CONTRACT , parseFloat(event.target.value))} />
+        <input onChange={(event) => props.handleInput(props.stakeModalContractAddress , parseFloat(event.target.value))} />
 
-        <span className="mr-2 ml-2">{props.tokenData.title}</span>
+        <span className="mr-2 ml-2">{props.stakeModalTitle}</span>
 
         <Button onClick={() => null} size="small" color="secondary" className="rounded-pill">max</Button>
       </div>
@@ -31,7 +31,7 @@ const StakeModal = props => {
         </div>
       </div>
 
-      <Button onClick={() => props.stakeOnFarm(props.stakeInputValues[props.CONTRACT],props.identifier,true,props.position)} color="primary" className="w-100">{BUTTON_TEXT.STAKE}</Button>
+      <Button onClick={() => props.stakeOnFarm(props.stakeInputValues[props.stakeModalContractAddress],props.stakeModalIdentifier,props.isActiveOpen,props.stakeModalFarmPosition)} color="primary" className="w-100">{BUTTON_TEXT.STAKE}</Button>
     </SimpleModal>
   )
 }

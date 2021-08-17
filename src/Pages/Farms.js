@@ -16,6 +16,7 @@ import CONFIG from '../config/config';
 import PropTypes from "prop-types";
 import * as walletActions from '../redux/actions/wallet/wallet.action';
 import Switch from "../Components/Ui/Switch/Switch";
+import StakeModal from '../Components/Ui/Modals/StakeModal';
 
 const Farms = (props) => {
 
@@ -222,7 +223,7 @@ const Farms = (props) => {
       </Row>
     </Container>
     </div>
-    
+    <StakeModal isActiveOpen={props.isActiveOpen} stakeModalContractAddress={props.stakeModalContractAddress} stakeModalFarmPosition={props.stakeModalFarmPosition} stakeModalTitle={props.stakeModalTitle} stakeModalIdentifier={props.stakeModalIdentifier} open={props.isStakeModalOpen} onClose={() => props.closeFarmsStakeModal()}  handleInput = {props.handleStakeOfFarmInputValue} CONTRACT = {props.CONTRACT} stakeInputValues={props.stakeInputValues} stakeOnFarm={props.stakeOnFarm} />
     </>
   );
 };
@@ -243,6 +244,10 @@ const mapStateToProps = state => {
     userStakes : state.user.stakes,
     harvestValueOnFarms : state.user.harvestValueOnFarms,
     isStakeModalOpen : state.farms.isStakeModalOpen,
+    stakeModalIdentifier :state.farms.stakeModalIdentifier,
+    stakeModalTitle : state.farms.stakeModalTitle,
+    stakeModalFarmPosition : state.farms.stakeModalFarmPosition,
+    stakeModalContractAddress : state.farms.stakeModalContractAddress,
     isUnstakeModalOpen : state.farms.isUnstakeModalOpen,
     currentBlock : state.user.currentBlock
 
@@ -260,7 +265,7 @@ const mapDispatchToProps = dispatch => {
     setFarmsToRender  : (farmsToBeRender) => (dispatch(farmsActions.setFarmsToRender(farmsToBeRender))),
     getUserStakes : (address , type , isActive) => (dispatch(userActions.getUserStakes(address , type , isActive))),
     getHarvestValues : (address , type , isActive) => (dispatch(userActions.getHarvestValues(address , type , isActive))),
-    openFarmsStakeModal : () => (dispatch(farmsActions.openFarmsStakeModal())),
+    openFarmsStakeModal : (identifier,title,position,contractAddress) => (dispatch(farmsActions.openFarmsStakeModal(identifier,title,position,contractAddress))),
     closeFarmsStakeModal : () => (dispatch(farmsActions.closeFarmsStakeModal())),
     openFarmsUnstakeModal : () => (dispatch(farmsActions.openFarmsUnstakeModal())),
     closeFarmsUnstakeModal : () => (dispatch(farmsActions.closeFarmsUnstakeModal())),
