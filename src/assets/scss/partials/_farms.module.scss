@@ -61,10 +61,6 @@
   .rightBorder {
     border-right: 1px solid #f1f1f1;
   }
-
-  & > div {
-
-  }
 }
 
 .roiInfoImg {
@@ -104,7 +100,7 @@
   border-bottom: 1px solid #f1f1f1;
 }
 .plentyCardTvlInfo {
-  background: #f4f4f6;
+  background: linear-gradient(90deg, rgba(112, 40, 228, 0.07) 0%, rgba(229, 178, 202, 0.07) 100%);
   padding: 22px 16px;
   border-radius: 6px;
   .plentyCardContentTag {
