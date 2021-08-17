@@ -1,4 +1,4 @@
-import { act } from 'react-dom/cjs/react-dom-test-utils.production.min';
+
 import * as actions from '../index.action';
 import * as farmApis from './api.farms';
 
@@ -148,10 +148,10 @@ const unstakingOnFarmFailed = () => {
     }
 }
 
-export const unstakeOnFarm = (amount, mapKey, farmIdentifier, isActive, position) => {
+export const unstakeOnFarm = (stakesToUnstake, farmIdentifier, isActive, position) => {
     return dispatch => {
         dispatch(initiateUnstakingOperationOnFarm())
-        farmApis.unstake(amount, mapKey, farmIdentifier, isActive, position)
+        farmApis.unstake(stakesToUnstake, farmIdentifier, isActive, position)
             .then(response => {
                 dispatch(unstakingOnFarmSuccessFull(response))
             })
@@ -216,6 +216,7 @@ export const clearHarvestFarmResponse = () => {
 
 
 export const toggleFarmsType = (isActive) => {
+    console.log({isActive})
     return dispatch => {
         if(isActive)
         {
@@ -232,12 +233,11 @@ export const toggleFarmsType = (isActive) => {
     }
 }
 
-export const handleStakeOfFarmInputValue = (address , value) => {
+export const handleStakeOfFarmInputValue = (value) => {
     return dispatch => {
         dispatch({
             type : actions.HANDLE_STAKE_ON_FARMS_INPUT_VALUE,
             data : {
-                address,
                 value
             }
         })
@@ -261,10 +261,17 @@ export const clearRenderedFarms = () => {
     }
 }
 
-export const openFarmsStakeModal = ()  => {
+export const openFarmsStakeModal = (identifier,title,position,contractAddress)  => {
+    console.log(identifier,title,position,contractAddress);
     return dispatch => {
         dispatch({
-            type : actions.OPEN_FARMS_STAKE_MODAL
+            type : actions.OPEN_FARMS_STAKE_MODAL,
+            data : {
+                identifier,
+                title,
+                position,
+                contractAddress
+            }
         })
     }
 }
@@ -273,6 +280,22 @@ export const closeFarmsStakeModal = () => {
     return dispatch => {
         dispatch({
             type : actions.CLOSE_FARMS_STAKE_MODAL
+        })
+    }
+}
+
+export const openFarmsUnstakeModal = ()  => {
+    return dispatch => {
+        dispatch({
+            type : actions.OPEN_FARMS_UNSTAKE_MODAL
+        })
+    }
+}
+
+export const closeFarmsUnstakeModal = () => {
+    return dispatch => {
+        dispatch({
+            type : actions.CLOSE_FARMS_UNSTAKE_MODAL
         })
     }
 }

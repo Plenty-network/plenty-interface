@@ -1,3 +1,4 @@
+  
 @use "../../../assets/scss/constants" as const;
 
 .simpleModal {
@@ -64,5 +65,71 @@
       transform: scale(0.98);
       transform-origin: 50% 50%;
     }
+  }
+}
+
+.unStakeModal {
+  .unstakeSelectWrapper {
+    background: #f6f6f4;
+    border-radius: 6px;
+  }
+
+  .unstakeSelect {
+    padding: 16px 14px;
+
+    &.active {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
+  }
+
+  .collapseBtn {
+    transition: 300ms ease-in;
+
+    &.active {
+      transform: rotate(180deg);
+    }
+  }
+
+  .collapsedContent {
+    height: 165px;
+    overflow: auto;
+    margin: 16px;
+    padding-right: 16px;
+  }
+
+  .stakedItem {
+    display: flex;
+    align-items: center;
+    height: 36px;
+    cursor: pointer;
+  }
+
+  .feeBreakdownWrapper {
+    background: #F9FAFA;
+    border-radius: 15px;
+    padding: 12px 16px;
+  }
+
+  .feeBreakdownTable {
+    display: table;
+    width: 100%;
+    border-bottom: 1px solid const.$border-color;
+
+    & > div {
+      display: table-row;
+
+      & > div {
+        display: table-cell;
+
+        &:last-child {
+          text-align: right;
+        }
+      }
+    }
+  }
+
+  .totalRow {
+    display: flex;
+    justify-content: space-between;
   }
 }

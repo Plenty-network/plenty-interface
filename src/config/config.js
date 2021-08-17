@@ -7,8 +7,8 @@ module.exports = {
   },
   RPC_NODES: {
     testnet: 'https://testnet.tezster.tech/',
-    mainnet: 'https://mainnet.smartpy.io/',
-    //mainnet: 'https://cres2hr8uxm6.midl.dev/',
+    //mainnet: 'https://mainnet.smartpy.io/',
+    mainnet: 'https://cres2hr8uxm6.midl.dev/',
   },
   TZKT_NODES: {
     mainnet: 'https://api.tzkt.io',
@@ -22,14 +22,16 @@ module.exports = {
             {
               address : 'KT1QqjR4Fj9YegB37PQEqXUPHmFbhz6VJtwE',
               mapId : 4494,
-              decimal : 18
+              decimal : 18,
+              tokenDecimal : 18
             }
           ],
           inactive : [
             {
               address : 'KT1UDe1YP963CQSb5xN7cQ1X8NJ2pUyjGw5T',
               mapId : 3949,
-              decimal : 18
+              decimal : 18,
+              tokenDecimal : 18
             }
           ],
         },
@@ -38,14 +40,16 @@ module.exports = {
             {
               address : 'KT1MBqc3GHpApBXaBZyvY63LF6eoFyTWtySn',
               mapId : 4490,
-              decimal : 18
+              decimal : 18,
+              tokenDecimal : 6
             }
           ],
           inactive : [
             {
               address : 'KT1K5cgrw1A8WTiizZ5b6TxNdFnBq9AtyQ7X',
               mapId : 3953,
-              decimal : 18
+              decimal : 18,
+              tokenDecimal : 6
             }
           ],
         },
@@ -54,14 +58,16 @@ module.exports = {
             {
               address : 'KT19asUVzBNidHgTHp8MP31YSphooMb3piWR',
               mapId : 4491,
-              decimal : 18
+              decimal : 18,
+              tokenDecimal : 18
             }
           ],
           inactive : [
             {
               address : 'KT1J7v85udA8GnaBupacgY9mMvrb8zQdYb3E',
               mapId : 3950,
-              decimal : 18
+              decimal : 18,
+              tokenDecimal : 18
             }
           ],
         },
@@ -70,14 +76,16 @@ module.exports = {
             {
               address : 'KT1Ga15wxGR5oWK1vBG2GXbjYM6WqPgpfRSP',
               mapId : 4496,
-              decimal : 18
+              decimal : 18,
+              tokenDecimal : 6
             }
           ],
           inactive : [
             {
               address : 'KT1Vs8gqh7YskPnUQMfmjogZh3A5ZLpqQGcg',
               mapId : 3952,
-              decimal : 18
+              decimal : 18,
+              tokenDecimal : 6
             }
           ],
         },
@@ -86,14 +94,16 @@ module.exports = {
             {
               address : 'KT1KyxPitU1xNbTriondmAFtPEcFhjSLV1hz',
               mapId : 4492,
-              decimal : 18
+              decimal : 18,
+              tokenDecimal : 18
             }
           ],
           inactive : [
             {
               address : 'KT1JCkdS3x5hTWdrTQdzK6vEkeAdQzsm2wzf',
               mapId : 3948,
-              decimal : 18
+              decimal : 18,
+              tokenDecimal : 18
             }
           ],
         },
@@ -102,14 +112,16 @@ module.exports = {
             {
               address : 'KT1XherecVvrE6X4PV5RTwdEKNzA294ZE9T9',
               mapId : 4493,
-              decimal : 18
+              decimal : 18,
+              tokenDecimal : 18
             }
           ],
           inactive : [
             {
               address : 'KT1TNzH1KiVsWh9kpFrWACrDNnfK4ihvGAZs',
               mapId : 3947,
-              decimal : 18
+              decimal : 18,
+              tokenDecimal : 18
             }
           ],
         },
@@ -119,7 +131,8 @@ module.exports = {
             {
               address : 'KT18oB3x8SLxMJq2o9hKNupbZZ5ZMsgr2aho',
               mapId : 7988,
-              decimal : 18
+              decimal : 18,
+              tokenDecimal : 18
             }
           ],
         },
@@ -134,25 +147,41 @@ module.exports = {
             {
               address : 'KT1JQAZqShNMakSNXc2cgTzdAWZFemGcU6n1',
               mapId : 4503,
-              decimal : 18
+              decimal : 18,
+              tokenDecimal : 6
             }
           ],
           inactive : [
             {
               address : 'KT1BfQLAsQNX8BjSBzgjTLx3GTd3qhwLoWNz',
               mapId : 3962,
-              decimal : 18
+              decimal : 18,
+              tokenDecimal : 6
             }
           ]
         },
-        'KALAM-XTZ' : {
-          active : [],
-          inactive : [
+        'PLENTY - wBUSD' : {
+          active : [
             {
-            address : 'KT1DjDZio7k2GJwCJCXwK82ing3n51AE55DW',
-            mapId : 4488,
-            decimal : 18
+              address : 'KT1KJhxkCpZNwAFQURDoJ79hGqQgSC9UaWpG',
+              mapId : 10768,
+              decimal : 18,
+              tokenDecimal : 18
             }
+          ],
+          inactive : [
+          ]
+        },
+        'PLENTY - wUSDC' : {
+          active : [
+            {
+              address : 'KT1VV1ZG2phFCWjPGkqZ9DQ9JXJJGK7P54Fs',
+              mapId : 10770,
+              decimal : 12,
+              tokenDecimal : 6
+            }
+          ],
+          inactive : [
           ]
         }
       }
@@ -165,7 +194,8 @@ module.exports = {
             {
               address : 'KT1GotpjdBaxt2GiMFcQExLEk9GTfYo4UoTa',
               mapId : 7985,
-              decimal : 8
+              decimal : 8,
+              tokenDecimal : 18
             }
           ]
         },
@@ -175,7 +205,8 @@ module.exports = {
             {
               address : 'KT1WfLprabHVTnNhWFigmopAduUpxG5HKvNf',
               mapId : 5137,
-              decimal : 10
+              decimal : 10,
+              tokenDecimal : 18
             }
           ]
         }
@@ -240,19 +271,33 @@ module.exports = {
           type: 'FA1.2',
           tokenId: 0
       },
-      'PLENTY-XTZ' : {
+      'PLENTY - XTZ' : {
           address : 'KT1X1LgNkQShpF9nRLYw3Dgdy4qp38MX617z',
           mapId : 3956,
           decimal : 6,
           type: 'FA1.2',
           tokenId: 0,
       },
-      'KALAM-XTZ' : {
+      'KALAM - XTZ' : {
           address : 'KT1J3wTYb4xk5BsSBkg6ML55bX1xq7desS34',
           mapId : 4353,
           decimal : 6,
           type: 'FA1.2',
           tokenId: 0,
+      },
+      'PLENTY - wBUSD' : {
+        address : 'KT1UC3vcVZ4K9b39uQxaMNA2N1RuJXKLCnoA',
+        mapId : 10749,
+        decimal : 18,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+      'PLENTY - wUSDC' : {
+        address : 'KT1Gz1mx1jm7JHqU7GuMVWF6soB9RjsfLN3o',
+        mapId : 10755,
+        decimal : 12,
+        type: 'FA1.2',
+        tokenId: 0,
       }
     }
   },
@@ -537,6 +582,7 @@ module.exports = {
                       LP_DECIMAL: 18,
                       TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
                       DECIMAL: 18,
+                      withdrawalFeeType : 'type2'
                   }
               ],
               inactive : [
@@ -571,7 +617,43 @@ module.exports = {
                       DECIMAL: 18,
                   }
               ]
-          }
+          },
+          "PLENTY - wBUSD": {
+            active: [
+              {
+                LP_TOKEN: "KT1UC3vcVZ4K9b39uQxaMNA2N1RuJXKLCnoA",
+                CONTRACT: "KT1KJhxkCpZNwAFQURDoJ79hGqQgSC9UaWpG",
+                DEX: "KT1XXAavg3tTj12W1ADvd3EEnm1pu6XTmiEF",
+                TOKEN_ADDRESS: "KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b",
+                CARD_TYPE: "PLENTY / wBUSD LP",
+                TOKEN_DECIMAL: 18,
+                TYPE: "FA1.2",
+                LP_DECIMAL: 18,
+                TEMP_ADDRESS: "KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b",
+                DECIMAL: 18,
+                withdrawalFeeType : 'type2'
+              },
+            ],
+            inactive: [],
+          },
+          "PLENTY - wUSDC": {
+            active: [
+              {
+                LP_TOKEN: "KT1Gz1mx1jm7JHqU7GuMVWF6soB9RjsfLN3o",
+                CONTRACT: "KT1VV1ZG2phFCWjPGkqZ9DQ9JXJJGK7P54Fs",
+                DEX: "KT1PuPNtDFLR6U7e7vDuxunDoKasVT6kMSkz",
+                TOKEN_ADDRESS: "KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b",
+                CARD_TYPE: "PLENTY / wUSDC LP",
+                TOKEN_DECIMAL: 12,
+                TYPE: "FA1.2",
+                LP_DECIMAL: 12,
+                TEMP_ADDRESS: "KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b",
+                DECIMAL: 18,
+                withdrawalFeeType : 'type2'
+              },
+            ],
+            inactive: [],
+          },
       },
       testnet : {}
   },

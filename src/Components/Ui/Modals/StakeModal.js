@@ -10,27 +10,28 @@ const BUTTON_TEXT = {
 }
 
 const StakeModal = props => {
+  console.log({'stakemodal' : props});
   return (
     <SimpleModal
       open={props.open}
       onClose={props.onClose}
-      title={`Stake ${props.tokenData.title} tokens`}
+      title={`Stake ${props.stakeModalTitle} tokens`}
     >
       <div className="input-wrapper d-flex">
-        <input onChange={(event) => props.handleInput(props.CONTRACT , parseFloat(event.target.value))} />
+        <input onChange={(event) => props.handleInput(parseFloat(event.target.value))} />
 
-        <span className="mr-2 ml-2">{props.tokenData.title}</span>
+        <span className="mr-2 ml-2">{props.stakeModalTitle}</span>
 
         <Button onClick={() => null} size="small" color="secondary" className="rounded-pill">max</Button>
       </div>
 
       <div className="d-flex flex-row-reverse">
         <div className="mb-3 mr-3">
-          <span>Balance: {0 /* TODO add proper prop */}</span>
+          <span>Balance: {props.walletBalances[props.stakeModalIdentifier]}</span>
         </div>
       </div>
 
-      <Button onClick={() => props.stakeOnFarm(props.stakeInputValues[props.CONTRACT],props.identifier,true,props.position)} color="primary" className="w-100">{BUTTON_TEXT.STAKE}</Button>
+      <Button onClick={() => props.stakeOnFarm(props.stakeInputValues,props.stakeModalIdentifier,props.isActiveOpen,props.stakeModalFarmPosition)} color="primary" className="w-100">{BUTTON_TEXT.STAKE}</Button>
     </SimpleModal>
   )
 }

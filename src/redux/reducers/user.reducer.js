@@ -8,7 +8,8 @@ const initialState = {
   harvestValueOnFarms : {},
   harvestValueOnPools : {},
   harvestValueOnPonds : {},
-  harvestValuesLoading : false
+  harvestValuesLoading : false,
+  currentBlock : 0
 }
 
 const userReducer = (state = initialState , action) => {
@@ -46,19 +47,22 @@ const userReducer = (state = initialState , action) => {
       return {
         ...state,
         stakesLoading : false,
-        stakes : action.data
+        stakes : action.data,
+        currentBlock : action.block
       }
     case actions.USER_STAKES_FETCH_FAILED:
       return {
         ...state,
         stakesLoading : false,
-        stakes : {}
+        stakes : {},
+        currentBlock : 0
       }
     case actions.USER_STAKES_CLEAR:
       return {
         ...state,
         stakesLoading : false,
-        stakes : {}
+        stakes : {},
+        currentBlock : 0
       }
     case actions.HARVEST_VALUE_FETCH_START:
       return {

@@ -30,9 +30,14 @@ const initialState = {
         operationHash : null
     },
     isActiveOpen : true,
-    stakeInputValues : {},
+    stakeInputValue : 0,
     farmsToRender : [],
-    isStakeModalOpen : false
+    isStakeModalOpen : false,
+    stakeModalIdentifier :'',
+    stakeModalTitle : '',
+    stakeModalFarmPosition : -1,
+    stakeModalContractAddress : '',
+    isUnstakeModalOpen : false
 }
 
 const farmsReducer = (state = initialState , action) => {
@@ -244,11 +249,11 @@ const farmsReducer = (state = initialState , action) => {
                 isActiveOpen : false
             }
         case actions.HANDLE_STAKE_ON_FARMS_INPUT_VALUE:
-            let stakeInputValuesCopy = state.stakeInputValues
-            stakeInputValuesCopy[action.data.address] = action.data.value
+            // let stakeInputValuesCopy = state.stakeInputValues
+            // stakeInputValuesCopy[action.data.address] = action.data.value
             return {
                 ...state,
-                stakeInputValues : stakeInputValuesCopy
+                stakeInputValues : action.data.value
             }
         case actions.SET_FARMS_TO_RENDER:
             return {
@@ -263,12 +268,32 @@ const farmsReducer = (state = initialState , action) => {
         case actions.OPEN_FARMS_STAKE_MODAL:
             return {
                 ...state,
-                isStakeModalOpen : true
+                isStakeModalOpen : true,
+                stakeModalIdentifier : action.data.identifier,
+                stakeModalTitle : action.data.title,
+                stakeModalFarmPosition : action.data.position,
+                stakeModalContractAddress : action.data.contractAddress
             }
         case actions.CLOSE_FARMS_STAKE_MODAL:
             return {
                 ...state,
-                isStakeModalOpen : false
+                isStakeModalOpen : false,
+                stakeModalIdentifier : '',
+                stakeModalTitle : '',
+                stakeModalFarmPosition : -1,
+                stakeModalContractAddress : '',
+                stakeInputValue : 0
+            }
+        case actions.OPEN_FARMS_UNSTAKE_MODAL:
+            return {
+                ...state,
+                isUnstakeModalOpen : true,
+                
+            }
+        case actions.CLOSE_FARMS_UNSTAKE_MODAL:
+            return {
+                ...state,
+                isUnstakeModalOpen : false,
             }
         default:
             return {
