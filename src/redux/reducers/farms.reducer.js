@@ -37,7 +37,12 @@ const initialState = {
     stakeModalTitle : '',
     stakeModalFarmPosition : -1,
     stakeModalContractAddress : '',
-    isUnstakeModalOpen : false
+    isUnstakeModalOpen : false,
+    unstakeModalIdentifier : '',
+    unstakeModalContractAddress : '',
+    unstakeModalFarmPosition : -1,
+    unstakeModalTitle : '',
+    unstakeModalwithdrawalFeeStructure : []
 }
 
 const farmsReducer = (state = initialState , action) => {
@@ -288,12 +293,22 @@ const farmsReducer = (state = initialState , action) => {
             return {
                 ...state,
                 isUnstakeModalOpen : true,
+                unstakeModalIdentifier : action.data.identifier,
+                unstakeModalContractAddress : action.data.contractAddress,
+                unstakeModalFarmPosition : action.data.position,
+                unstakeModalTitle : action.data.title,
+                unstakeModalwithdrawalFeeStructure : action.data.withdrawalFeeStructure
                 
             }
         case actions.CLOSE_FARMS_UNSTAKE_MODAL:
             return {
                 ...state,
                 isUnstakeModalOpen : false,
+                unstakeModalIdentifier : '',
+                unstakeModalContractAddress : '',
+                unstakeModalFarmPosition : -1,
+                unstakeModalTitle : '',
+                unstakeModalwithdrawalFeeStructure : []
             }
         default:
             return {

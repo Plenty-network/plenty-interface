@@ -17,6 +17,7 @@ import PropTypes from "prop-types";
 import * as walletActions from '../redux/actions/wallet/wallet.action';
 import Switch from "../Components/Ui/Switch/Switch";
 import StakeModal from '../Components/Ui/Modals/StakeModal';
+import UnstakeModal from '../Components/Ui/Modals/UnstakeModal';
 
 const Farms = (props) => {
 
@@ -226,6 +227,13 @@ const Farms = (props) => {
     </Container>
     </div>
     <StakeModal walletBalances={props.walletBalances} isActiveOpen={props.isActiveOpen} stakeModalContractAddress={props.stakeModalContractAddress} stakeModalFarmPosition={props.stakeModalFarmPosition} stakeModalTitle={props.stakeModalTitle} stakeModalIdentifier={props.stakeModalIdentifier} open={props.isStakeModalOpen} onClose={() => props.closeFarmsStakeModal()}  handleInput = {props.handleStakeOfFarmInputValue} CONTRACT = {props.CONTRACT} stakeInputValues={props.stakeInputValues} stakeOnFarm={props.stakeOnFarm} />
+    {props.isUnstakeModalOpen ?
+    <UnstakeModal unstakeModalwithdrawalFeeStructure={props.unstakeModalwithdrawalFeeStructure} unstakeModalTitle={props.unstakeModalTitle} unstakeModalFarmPosition={props.unstakeModalFarmPosition} unstakeModalContractAddress={props.unstakeModalContractAddress} unstakeModalIdentifier={props.unstakeModalIdentifier} currentBlock={props.currentBlock}  open={props.isUnstakeModalOpen} onClose={() => {props.closeFarmsUnstakeModal()}}  userStakes={props.userStakes} isActiveOpen={props.isActiveOpen} unstakeOnFarm={props.unstakeOnFarm} />   : null }
+    {/* identifier={props.identifier} */}
+    {/* withdrawalFeeStructure={props.withdrawalFeeStructure} */}
+    {/* tokenData={{title: props.title}} */}
+    {/* CONTRACT={props.CONTRACT} position={props.position} identifier={props.identifier} */}
+    
     </>
   );
 };
@@ -251,8 +259,14 @@ const mapStateToProps = state => {
     stakeModalFarmPosition : state.farms.stakeModalFarmPosition,
     stakeModalContractAddress : state.farms.stakeModalContractAddress,
     isUnstakeModalOpen : state.farms.isUnstakeModalOpen,
+    unstakeModalIdentifier : state.farms.unstakeModalIdentifier,
+    unstakeModalContractAddress : state.farms.unstakeModalContractAddress,
+    unstakeModalFarmPosition : state.farms.unstakeModalFarmPosition,
+    unstakeModalTitle : state.farms.unstakeModalTitle,
+    unstakeModalwithdrawalFeeStructure : state.farms.unstakeModalwithdrawalFeeStructure,
     currentBlock : state.user.currentBlock,
-    walletBalances : state.user.balances
+    walletBalances : state.user.balances,
+
 
   }
 }
@@ -270,7 +284,7 @@ const mapDispatchToProps = dispatch => {
     getHarvestValues : (address , type , isActive) => (dispatch(userActions.getHarvestValues(address , type , isActive))),
     openFarmsStakeModal : (identifier,title,position,contractAddress) => (dispatch(farmsActions.openFarmsStakeModal(identifier,title,position,contractAddress))),
     closeFarmsStakeModal : () => (dispatch(farmsActions.closeFarmsStakeModal())),
-    openFarmsUnstakeModal : () => (dispatch(farmsActions.openFarmsUnstakeModal())),
+    openFarmsUnstakeModal : (identifier,contractAddress,title,withdrawalFeeStructure, postion) => (dispatch(farmsActions.openFarmsUnstakeModal(identifier,contractAddress,title,withdrawalFeeStructure, postion))),
     closeFarmsUnstakeModal : () => (dispatch(farmsActions.closeFarmsUnstakeModal())),
     unstakeOnFarm : (stakesToUnstake, farmIdentifier, isActive, position) => (dispatch(farmsActions.unstakeOnFarm(stakesToUnstake, farmIdentifier, isActive, position))),
     fetchUserBalances : (address) => (dispatch(userActions.fetchUserBalances(address)))
