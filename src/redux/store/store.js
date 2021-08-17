@@ -8,6 +8,7 @@ import farmsReducer from '../reducers/farms.reducer';
 import pondsReducer from '../reducers/ponds.reducer';
 import poolsReducer from '../reducers/pools.reducer';
 import priceReducer from '../reducers/price.reducer';
+import homeReducer from "../reducers/home.reducers"
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   farms : farmsReducer,
   pools : poolsReducer,
   ponds : pondsReducer,
-  price : priceReducer
+  price: priceReducer,
+  home : homeReducer,
 })
 
 //const store = createStore(rootReducer);
