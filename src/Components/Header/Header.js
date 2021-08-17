@@ -67,18 +67,14 @@ const Header = (props) => {
               <NavigationMenu isFrontPage={props.isFrontPage}/>
             </ul>
             <ul className="nav-menu-wrapper">
-              {/* <li className="nav-menu-item">
+              <li className="nav-menu-item">
                 <a
-                  href="#"
                   className="nav-menu-item-link"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    props.toggleTheme();
-                  }}
+                  onClick={props.toggleTheme}
                 >
                   <span className="material-icons-round">light_mode</span>
                 </a>
-              </li> */}
+              </li>
 
               <li className="nav-menu-item">{connectWalletButton()}</li>
               <li className="nav-menu-item">
@@ -87,7 +83,6 @@ const Header = (props) => {
                     as={CustomToggle}
                     id="dropdown-basic"
                   ></Dropdown.Toggle>
-                  <button onClick={props.toggleTheme}>tog</button>
                   <Dropdown.Menu className="menu-dropdown">
                     <ExternalMenu />
                   </Dropdown.Menu>
