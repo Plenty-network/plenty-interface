@@ -21,6 +21,8 @@ import plenty from '../assets/images/logo_small.png';
 import kalam from '../assets/images/kalam.png';
 import wrap from '../assets/images/wrap.png';
 import wdai from '../assets/images/wdai.png';
+import wusdc from '../assets/images/wusdc.png';
+import wbusd from '../assets/images/wbusd.png';
 
 const Swap = (props) => {
   const tokens = [
@@ -29,12 +31,12 @@ const Swap = (props) => {
       image: plenty,
     },
     {
-      name: 'WRAP',
-      image: wrap,
+      name: 'wUSDC',
+      image: wusdc,
     },
     {
-      name: 'wDAI',
-      image: wdai,
+      name: 'wBUSD',
+      image: wbusd,
     },
   ];
 
@@ -68,6 +70,32 @@ const Swap = (props) => {
     name: 'PLENTY',
     image: plenty,
   });
+
+  const changeTokenLocation = () => {
+    const tempTokenIn = tokenIn.name;
+    const tempTokenOut = tokenOut.name;
+    if (tokenOut.name) {
+      setTokenIn({
+        name: tokenOut.name,
+        image: tokenOut.image,
+      });
+      setTokenOut({
+        name: tokenIn.name,
+        image: tokenIn.image,
+      });
+      setSwapData({});
+      setComputedOutDetails({
+        tokenOut_amount: 0,
+      });
+      setFirstTokenAmount(0);
+
+      loadSwapData(tempTokenOut, tempTokenIn).then((data) => {
+        if (data.success) {
+          setSwapData(data);
+        }
+      });
+    }
+  };
 
   const selectToken = (token) => {
     setLoading(true);
@@ -115,14 +143,14 @@ const Swap = (props) => {
       });
       return;
     } else {
-      const conputedData = computeTokenOutput(
+      const computedData = computeTokenOutput(
         parseFloat(input),
         swapData.tokenIn_supply,
         swapData.tokenOut_supply,
         swapData.exchangeFee,
         slippage
       );
-      setComputedOutDetails(conputedData);
+      setComputedOutDetails(computedData);
       setLoading(false);
     }
   };
@@ -208,6 +236,7 @@ const Swap = (props) => {
                   setHideContent={setHideContent}
                   setLoaderMessage={setLoaderMessage}
                   resetAllValues={resetAllValues}
+                  changeTokenLocation={changeTokenLocation}
                 />
               </Tab>
               <Tab eventKey="liquidity" title="Liquidity">
@@ -222,7 +251,7 @@ const Swap = (props) => {
                   swapData={swapData}
                   computedOutDetails={computedOutDetails}
                   userBalances={userBalances}
-                  tokenContractInstances = {tokenContractInstances}
+                  tokenContractInstances={tokenContractInstances}
                   getTokenPrice={getTokenPrice}
                   setSlippage={setSlippage}
                   setRecepient={setRecepient}

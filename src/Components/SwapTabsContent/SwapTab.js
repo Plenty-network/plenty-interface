@@ -92,7 +92,6 @@ const SwapTab = (props) => {
                   type="text"
                   className="token-user-input"
                   placeholder="0.0"
-                  value={props.firstTokenAmount}
                   onChange={(e) => props.setFirstTokenAmount(e.target.value)}
                 />
               ) : (
@@ -126,7 +125,7 @@ const SwapTab = (props) => {
           </div>
         </div>
 
-        <div className="swap-arrow-center">
+        <div className="swap-arrow-center" onClick={props.changeTokenLocation}>
           <span className="material-icons-round">south</span>
         </div>
 
@@ -164,12 +163,18 @@ const SwapTab = (props) => {
                       : '0.00'
                   }
                   placeholder="0.0"
+                  disabled
                 />
               ) : (
                 <input
                   type="text"
                   className="token-user-input"
                   disabled
+                  value={
+                    props.tokenOut.name
+                      ? props.computedOutDetails.tokenOut_amount
+                      : '0.00'
+                  }
                   placeholder="0.0"
                 />
               )}

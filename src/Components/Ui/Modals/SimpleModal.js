@@ -1,43 +1,50 @@
-import PropTypes from "prop-types";
-import { Modal } from "react-bootstrap";
+import PropTypes from 'prop-types';
+import { Modal } from 'react-bootstrap';
 
-import styles from "./modal.module.scss"
-import clsx from "clsx";
+import styles from './modal.module.scss';
+import clsx from 'clsx';
 
 const SimpleModal = (props) => {
-return (
+  return (
+    <Modal
+      show={props.open}
+      onHide={props.onClose}
+      backdrop="static"
+      keyboard={false}
+      dialogClassName={styles.simpleModal}
+      centered={true}
+    >
+      {/* * Header */}
+      <div
+        className={clsx(styles.header, 'd-flex', {
+          [styles.noTitle]: !props.title,
+        })}
+      >
+        <div className={clsx(styles.title, 'flex-grow-1')}>{props.title}</div>
 
-  <Modal
-    show={props.open}
-    onHide={props.onClose}
-    backdrop="static"
-    keyboard={false}
-    dialogClassName={styles.simpleModal}
-    centered={true}
-  >
-    {/* * Header */}
-    <div className={clsx(styles.header, "d-flex", { [styles.noTitle]: !props.title })}>
-      <div className={clsx(styles.title, "flex-grow-1")}>{props.title}</div>
-
-      <div className={styles.closeBtn} onClick={props.onClose}>
-        <span className="material-icons-round">close</span>
+        <div className={styles.closeBtn} onClick={props.onClose}>
+          <span className="material-icons-round">close</span>
+        </div>
       </div>
-    </div>
-    {/* * Header */}
+      {/* * Header */}
 
-    {/* * Body */}
-    <div className={clsx(styles.content, { [styles.noTopPadding]: !props.title })}>
-      {props.children}
-    </div>
-    {/* * Body */}
-  </Modal>
-)
-}
+      {/* * Body */}
+      <div
+        className={clsx(styles.content, {
+          [styles.noTopPadding]: !props.title,
+        })}
+      >
+        {props.children}
+      </div>
+      {/* * Body */}
+    </Modal>
+  );
+};
 
 SimpleModal.propTypes = {
   title: PropTypes.string,
   open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired
-}
+  onClose: PropTypes.func.isRequired,
+};
 
-export default SimpleModal
+export default SimpleModal;
