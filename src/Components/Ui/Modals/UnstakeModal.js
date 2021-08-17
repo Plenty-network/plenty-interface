@@ -4,7 +4,7 @@ import Button from "../Buttons/Button";
 
 import styles from './modal.module.scss'
 import clsx from "clsx";
-import { useState , useEffect } from "react";
+import { useState } from "react";
 import { Collapse } from "react-bootstrap";
 
 // ! TEMP variable
@@ -23,11 +23,11 @@ const UnstakeModal = props => {
   const calculateFee = (difference ,obj) => {
     let feeObj = {mapId : obj.mapId}
     let fee = -1;
-      for (let i = 0; i < props.withdrawalFeeStructure.length; i++) {
-        if (difference < props.withdrawalFeeStructure[i].block) {
-          fee = ((obj.amount * props.withdrawalFeeStructure[i].rate) / 100).toFixed(10);
+      for (let i = 0; i < props.unstakeModalwithdrawalFeeStructure.length; i++) {
+        if (difference < props.unstakeModalwithdrawalFeeStructure[i].block) {
+          fee = ((obj.amount * props.unstakeModalwithdrawalFeeStructure[i].rate) / 100).toFixed(10);
           fee = parseFloat(fee);
-          feeObj['rate'] = props.withdrawalFeeStructure[i].rate;
+          feeObj['rate'] = props.unstakeModalwithdrawalFeeStructure[i].rate;
           feeObj['fee'] = fee;
           feeObj['amount']=obj.amount
           break;
@@ -35,11 +35,11 @@ const UnstakeModal = props => {
       }
       if (fee === -1) {
         fee = (
-          (obj.amount * props.withdrawalFeeStructure[props.withdrawalFeeStructure.length - 1].rate) /
+          (obj.amount * props.unstakeModalwithdrawalFeeStructure[props.unstakeModalwithdrawalFeeStructure.length - 1].rate) /
           100
         ).toFixed(10);
         fee = parseFloat(fee);
-        feeObj['rate'] = props.withdrawalFeeStructure[props.withdrawalFeeStructure.length - 1].rate;
+        feeObj['rate'] = props.unstakeModalwithdrawalFeeStructure[props.unstakeModalwithdrawalFeeStructure.length - 1].rate;
         feeObj['fee'] = fee;
         feeObj['amount']=obj.amount
       }
@@ -60,7 +60,7 @@ const UnstakeModal = props => {
     <SimpleModal
       open={props.open}
       onClose={props.onClose}
-      title={`Unstake ${props.tokenData.title} tokens`}
+      title={`Unstake ${props.unstakeModalTitle} tokens`}
     >
       <div className={styles.unStakeModal}>
 
@@ -85,7 +85,7 @@ const UnstakeModal = props => {
               
             <div className={styles.collapsedContent}>
               {
-                props.userStakes[props.CONTRACT].singularStakes.map((x,index) => (
+                props.userStakes[props.unstakeModalContractAddress].singularStakes.map((x,index) => (
                   <label key={x.mapId} className={styles.stakedItem}>
                     <div className="d-flex justify-content-between flex-grow-1">
                       <span>{'Stake ' + x.mapId}</span>
@@ -106,7 +106,7 @@ const UnstakeModal = props => {
         </div>
 
         <div className="d-flex justify-content-end mr-2 mb-2">
-          <div>Total staked balance: {props.userStakes[props.CONTRACT].stakedAmount}</div>
+          <div>Total staked balance: {props.userStakes[props.unstakeModalContractAddress].stakedAmount}</div>
         </div>
 
         {
@@ -136,7 +136,7 @@ const UnstakeModal = props => {
           )
         }
 
-        <Button onClick={() => props.unstakeOnFarm(selected,props.identifier,props.isActiveOpen,props.position)} color="primary" className="w-100 mt-4">{buttonText}</Button>
+        <Button onClick={() => props.unstakeOnFarm(selected,props.unstakeModalIdentifier,props.isActiveOpen,props.unstakeModalFarmPosition)} color="primary" className="w-100 mt-4">{buttonText}</Button>
       </div>
     </SimpleModal>
   )
