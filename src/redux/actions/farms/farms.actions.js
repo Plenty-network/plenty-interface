@@ -233,12 +233,11 @@ export const toggleFarmsType = (isActive) => {
     }
 }
 
-export const handleStakeOfFarmInputValue = (address , value) => {
+export const handleStakeOfFarmInputValue = (value) => {
     return dispatch => {
         dispatch({
             type : actions.HANDLE_STAKE_ON_FARMS_INPUT_VALUE,
             data : {
-                address,
                 value
             }
         })

@@ -260,7 +260,7 @@ const mapDispatchToProps = dispatch => {
     toggleFarmsType : (isActive) => (dispatch(farmsActions.toggleFarmsType(isActive))),
     stakeOnFarm : (amount, farmIdentifier , isActive, position) => dispatch(farmsActions.stakeOnFarm(amount, farmIdentifier , isActive, position)),
     harvestOnFarm : (farmIdentifier, isActive, position) => dispatch(farmsActions.harvestOnFarm(farmIdentifier, isActive, position)),
-    handleStakeOfFarmInputValue : (address,value) => dispatch(farmsActions.handleStakeOfFarmInputValue(address,value)),
+    handleStakeOfFarmInputValue : (value) => dispatch(farmsActions.handleStakeOfFarmInputValue(value)),
     getFarmsData : (isActive) => (dispatch(farmsActions.getFarmsData(isActive))),
     setFarmsToRender  : (farmsToBeRender) => (dispatch(farmsActions.setFarmsToRender(farmsToBeRender))),
     getUserStakes : (address , type , isActive) => (dispatch(userActions.getUserStakes(address , type , isActive))),

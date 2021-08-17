@@ -30,7 +30,7 @@ const initialState = {
         operationHash : null
     },
     isActiveOpen : true,
-    stakeInputValues : {},
+    stakeInputValue : 0,
     farmsToRender : [],
     isStakeModalOpen : false,
     stakeModalIdentifier :'',
@@ -249,11 +249,11 @@ const farmsReducer = (state = initialState , action) => {
                 isActiveOpen : false
             }
         case actions.HANDLE_STAKE_ON_FARMS_INPUT_VALUE:
-            let stakeInputValuesCopy = state.stakeInputValues
-            stakeInputValuesCopy[action.data.address] = action.data.value
+            // let stakeInputValuesCopy = state.stakeInputValues
+            // stakeInputValuesCopy[action.data.address] = action.data.value
             return {
                 ...state,
-                stakeInputValues : stakeInputValuesCopy
+                stakeInputValues : action.data.value
             }
         case actions.SET_FARMS_TO_RENDER:
             return {
@@ -281,7 +281,8 @@ const farmsReducer = (state = initialState , action) => {
                 stakeModalIdentifier : '',
                 stakeModalTitle : '',
                 stakeModalFarmPosition : -1,
-                stakeModalContractAddress : ''
+                stakeModalContractAddress : '',
+                stakeInputValue : 0
             }
         case actions.OPEN_FARMS_UNSTAKE_MODAL:
             return {

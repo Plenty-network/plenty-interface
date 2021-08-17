@@ -18,7 +18,7 @@ const StakeModal = props => {
       title={`Stake ${props.stakeModalTitle} tokens`}
     >
       <div className="input-wrapper d-flex">
-        <input onChange={(event) => props.handleInput(props.stakeModalContractAddress , parseFloat(event.target.value))} />
+        <input onChange={(event) => props.handleInput(parseFloat(event.target.value))} />
 
         <span className="mr-2 ml-2">{props.stakeModalTitle}</span>
 
@@ -31,7 +31,7 @@ const StakeModal = props => {
         </div>
       </div>
 
-      <Button onClick={() => props.stakeOnFarm(props.stakeInputValues[props.stakeModalContractAddress],props.stakeModalIdentifier,props.isActiveOpen,props.stakeModalFarmPosition)} color="primary" className="w-100">{BUTTON_TEXT.STAKE}</Button>
+      <Button onClick={() => props.stakeOnFarm(props.stakeInputValues,props.stakeModalIdentifier,props.isActiveOpen,props.stakeModalFarmPosition)} color="primary" className="w-100">{BUTTON_TEXT.STAKE}</Button>
     </SimpleModal>
   )
 }

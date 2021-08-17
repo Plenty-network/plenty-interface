@@ -616,7 +616,7 @@ module.exports = {
                 DEX: "KT1PuPNtDFLR6U7e7vDuxunDoKasVT6kMSkz",
                 TOKEN_ADDRESS: "KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b",
                 CARD_TYPE: "PLENTY / wUSDC LP",
-                TOKEN_DECIMAL: 18,
+                TOKEN_DECIMAL: 12,
                 TYPE: "FA1.2",
                 LP_DECIMAL: 12,
                 TEMP_ADDRESS: "KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b",
