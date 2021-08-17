@@ -1,5 +1,6 @@
 @import '~bootstrap/scss/bootstrap';
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;700&display=swap');
 @import './partials/header/header';
 @import './partials/swap';
 @import './partials/farms';
@@ -92,10 +93,10 @@
 }
 
 $h1-font-sizes: (
-  null: 36px,
-  480px: 42px,
-  640px: 48px,
-  1024px: 56px,
+  null: 38px,
+  480px: 40px,
+  640px: 42px,
+  1024px: 54px,
 );
 
 $h3-font-sizes: (
@@ -117,6 +118,6 @@ $h3-font-sizes: (
   }
 }
 
-//h1 {
-//  @include font-size($h1-font-sizes);
-//}
+h1 {
+  @include font-size($h1-font-sizes);
+}

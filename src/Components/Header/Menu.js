@@ -47,8 +47,7 @@ export const NavigationMenu = (props) => {
         return (
           <li
             className={
-              splitLocation[1] === menu
-                && 'menu-active'
+              splitLocation[1] === menu ? "menu-active" : undefined
             }
             key={index}
           >

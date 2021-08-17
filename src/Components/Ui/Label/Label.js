@@ -7,7 +7,9 @@ import styles from "../../Ui/Label/label.module.scss";
 const Label = props => {
 
     return (
-        <div className="d-flex">
+        <div className={clsx("d-flex",
+            props.className && props.className
+        )}>
             {props.icon &&
             <div className={clsx("mr-2", "m-0",
                 props.iconClass && props.iconClass)}>
@@ -31,6 +33,7 @@ Label.propTypes = {
     subText: PropTypes.string,
     icon: PropTypes.string,
     iconClass: PropTypes.string,
+    className: PropTypes.string,
 }
 
 export default Label;

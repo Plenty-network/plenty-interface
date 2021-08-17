@@ -13,7 +13,7 @@ const TransactionSettings = (props) => {
             }}
         >
             <span className="span-themed material-icons-outlined">
-                settings
+                tune
             </span>
         </a>
     ));

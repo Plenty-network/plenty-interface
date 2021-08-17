@@ -32,7 +32,7 @@ Button.propTypes = {
   className: PropTypes.string,
   isIconBtn: PropTypes.bool,
   startIcon: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   children: PropTypes.string,
 }
 

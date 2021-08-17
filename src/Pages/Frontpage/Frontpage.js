@@ -13,10 +13,11 @@ import totalBurned from '../../assets/images/frontpage/totalburned.png';
 import circulatingSupply from '../../assets/images/frontpage/circulatingsupply.png';
 import plentyBlock from '../../assets/images/frontpage/plentyblock.png';
 import plentyBig from '../../assets/images/frontpage/plentybig.png';
-import discord from '../../assets/images/frontpage/discord.svg';
-import telegram from '../../assets/images/frontpage/telegram.svg';
-import twitter from '../../assets/images/frontpage/twitter.svg';
-import plentyMedium from '../../assets/images/frontpage/plentymedium.png';
+import { ReactComponent as Medium } from '../../assets/images/frontpage/medium.svg';
+import { ReactComponent as Twitter } from '../../assets/images/frontpage/twitter.svg'
+import { ReactComponent as Discord } from '../../assets/images/frontpage/discord.svg'
+import { ReactComponent as Telegram } from '../../assets/images/frontpage/telegram.svg';
+import plentyMedium from '../../assets/images/frontpage/plentymedium.svg';
 import LinkTile from "../../Components/LinkTile/LinkTile";
 import Accordion from "../../Components/Ui/Accordion/Accordion";
 import Stats from "../../Components/Stats/Stats";
@@ -58,12 +59,13 @@ const Frontpage = (props) => {
                                     "align-items-center", "ml-lg-auto", "mr-lg-0", "align-items-lg-start", "text-lg-left"]
                                 : ["col-10", "col-lg-7", "m-auto", "d-flex", "align-items-center", "text-center", "flex-column", "py-lg-5"]
                         )}>
-                            <h6 className="mb-3 text-white">Total Value Locked</h6>
+                            <h5 className={`mb-3 text-white font-weight-light ${styles.textMulish}`}>Total Value Locked</h5>
                             <h1 className="mb-3 text-white">$ 1,212,125,125</h1>
-                            <h6 className="mb-4 text-white">Trade tokens and earn interest by staking. There is
-                                plenty of DeFi to explore on Tezos.</h6>
+                            <h5 className={`mb-4 text-white text-mulish font-weight-light ${styles.textMulish}`}>Trade tokens and earn interest by staking. There is
+                                plenty of DeFi to explore on Tezos.</h5>
                             <Link to={"swap"} className="text-decoration-none">
-                                <Button className={`px-lg-3 btn-frontPage ${styles.button}`} color={'tertiary'} onClick={null}>Enter
+                                <Button className={`px-lg-3 btn-frontPage ${styles.button}`} color={'tertiary'}
+                                        onClick={null}>Enter
                                     App</Button>
                             </Link>
                         </div>
@@ -82,63 +84,63 @@ const Frontpage = (props) => {
                 </FrontPageGradientDiv>
             </div>
             <Row className="row bg-themed border-bottom-themed-dark-none">
-                <Col sm={6} md={4} xl={2} className="px-5 py-4 m-sm-auto">
+                <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
                     <Label text={`$${dummyValues.currentPrice.toLocaleString(undefined, {maximumFractionDigits: 20})}`}
                            icon={dollar}
                            subText={'Price'}/>
                 </Col>
-                <Col sm={6} md={4} xl={2} className="px-5 py-4 m-sm-auto">
+                <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
 
                     <Label text={`$${dummyValues.marketCap.toLocaleString()}`} icon={marketCap}
                            subText={'Market Cap'}/>
 
                 </Col>
-                <Col sm={6} md={4} xl={2} className="px-5 py-4 m-sm-auto">
+                <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
                     <Label text={dummyValues.totalMinted.toLocaleString()} icon={farms}
                            subText={'Total minted'}/>
                 </Col>
-                <Col sm={6} md={4} xl={2} className="px-5 py-4 m-sm-auto">
+                <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
                     <Label text={dummyValues.totalBurned.toLocaleString()} icon={totalBurned}
                            subText={'Total burned'}/>
                 </Col>
-                <Col sm={6} md={4} xl={2} className="px-5 py-4 m-sm-auto">
+                <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
                     <Label text={dummyValues.circulatingSupply.toLocaleString()} icon={circulatingSupply}
                            subText={'Circulating Supply'}/>
                 </Col>
-                <Col sm={6} md={4} xl={2} className="px-5 py-4 m-sm-auto">
+                <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
                     <Label text={dummyValues.plentyPerBlock.toLocaleString()} subText={'New PLENTY/Block'}
                            icon={plentyBlock}/>
                 </Col>
             </Row>
             <Row>
                 <Col xs={12} className="text-center my-5">
-                    <h2 className={`${styles.plentyOnTezos} mb-3`}><p>Trade tokens and earn interest by staking.</p>
-                    </h2>
-                    <h2 className={styles.plentyOnTezos}><p>There is plenty of DeFi to explore on Tezos.</p></h2>
+                    <h2 className={styles.plentyOnTezos}><p>Plenty of DeFi on Tezos.</p></h2>
                 </Col>
             </Row>
-            <Row className="px-lg-5 mb-5">
-                <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
-                    <LinkTile
-                        text={"Swap tokens and add liquidity on the first token-to-token Automated Market Maker on Tezos."}
-                        linkTo={"/swap"} linkText={"Enter Exchange"} headerIcon={circulatingSupply}
-                        headerText={"AMM"}/>
-                </Col>
-                <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
-                    <LinkTile
-                        text={"Earn extra rewards besides trading fees by locking Plenty Liquidity Provider (PLP) tokens into a farm."}
-                        linkTo={"/farms"} linkText={"Enter Farms"} headerIcon={farms} headerText={"Farms"}/>
-                </Col>
-                <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
-                    <LinkTile
-                        text={"Pools are made for single asset staking and yield PLENTY. Pools are being phased out, except for PLENTY staking."}
-                        linkTo={"/pools"} linkText={"Enter Pools"} headerText={"Pools"}/>
-                </Col>
-                <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
-                    <LinkTile
-                        text={"Earn different Tezos tokens in Ponds by staking PLENTY."}
-                        linkTo={"/ponds"} linkText={"Enter Ponds"} headerText={"Ponds"}/>
-                </Col>
+            <Row className="mb-5 mx-lg-5">
+                <div className="col-xl-11 row m-auto">
+                    <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
+                        <LinkTile
+                            text={"Swap tokens and add liquidity on the first token-to-token Automated Market Maker on Tezos."}
+                            linkTo={"/swap"} linkText={"Enter Exchange"} headerIcon={circulatingSupply}
+                            headerText={"AMM"}/>
+                    </Col>
+                    <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
+                        <LinkTile
+                            text={"Earn extra rewards besides trading fees by locking Plenty Liquidity Provider (PLP) tokens into a farm."}
+                            linkTo={"/farms"} linkText={"Enter Farms"} headerIcon={farms} headerText={"Farms"}/>
+                    </Col>
+                    <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
+                        <LinkTile
+                            text={"Pools are made for single asset staking and yield PLENTY. Pools are being phased out, except for PLENTY staking."}
+                            linkTo={"/pools"} linkText={"Enter Pools"} headerText={"Pools"}/>
+                    </Col>
+                    <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
+                        <LinkTile
+                            text={"Earn different Tezos tokens in Ponds by staking PLENTY."}
+                            linkTo={"/ponds"} linkText={"Enter Ponds"} headerText={"Ponds"}/>
+                    </Col>
+                </div>
             </Row>
             <Row className="mb-5 bg-themed-alt">
                 <Col lg={6} xs={12}>
@@ -150,14 +152,17 @@ const Frontpage = (props) => {
                             ecosystem. Empowering traders, liquidity providers & developers to participate in an open
                             financial marketplace.</p></span>
                         </div>
+                        <a href={"/"} target="_blank" rel="noreferrer">
+                            <Medium className="mr-2 icon-themed"/>
+                        </a>
                         <a href={"https://discord.gg/9wZ4CuvkuJ"} target="_blank" rel="noreferrer">
-                            <Image src={discord} className="mr-2"/>
+                            <Discord className="mr-2 icon-themed"/>
                         </a>
                         <a href={"https://t.me/PlentyDeFi"} target="_blank" rel="noreferrer">
-                            <Image src={telegram} className="mr-2"/>
+                            <Telegram className="mr-2 icon-themed"/>
                         </a>
                         <a href={"https://twitter.com/PlentyDeFi"} target="_blank" rel="noreferrer">
-                            <Image src={twitter}/>
+                            <Twitter className="mr-2 icon-themed"/>
                         </a>
                     </div>
                 </Col>
@@ -168,12 +173,13 @@ const Frontpage = (props) => {
                 </Col>
             </Row>
             <FrontPageGradientDiv className={clsx(
-                styles.rectangle
+                styles.rectangle,
+                "row"
             )}>
                 <Col className="py-5">
                     <Row>
                         <Col xs={12} md={6}>
-                            <div className="col-10 col-lg-9 col-xl-7 m-auto pb-5 py-lg-3 px-0
+                            <div className="col-10 col-xl-8 m-auto pb-5 py-lg-3 px-0
                                     align-items-start text-left">
                                 <h2 className="text-white">Frequently asked questions</h2>
                             </div>
@@ -181,7 +187,7 @@ const Frontpage = (props) => {
                     </Row>
                     <Row>
                         <Col xs={12} md={6}>
-                            <div className="col-10 col-lg-9 col-xl-7 m-auto py-lg-5 px-0
+                            <div className="col-10 col-xl-8 m-auto py-lg-5 px-0
                                     align-items-start text-left">
                                 <Accordion text={"What is Plenty?"} className={styles.divider}>
                                     <div>
@@ -243,7 +249,7 @@ const Frontpage = (props) => {
                             </div>
                         </Col>
                         <Col xs={12} md={6}>
-                            <div className="col-10 col-lg-9 col-xl-7 m-auto py-lg-5 px-0
+                            <div className="col-10 col-xl-8 m-auto py-lg-5 px-0
                                     align-items-start text-left">
                                 <Accordion text={"How do I use Plenty?"} className={styles.divider}>
                                     <div>
