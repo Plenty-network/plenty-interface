@@ -149,6 +149,7 @@ const unstakingOnFarmFailed = () => {
 }
 
 export const unstakeOnFarm = (stakesToUnstake, farmIdentifier, isActive, position) => {
+    console.log(stakesToUnstake, farmIdentifier, isActive, position);
     return dispatch => {
         dispatch(initiateUnstakingOperationOnFarm())
         farmApis.unstake(stakesToUnstake, farmIdentifier, isActive, position)
@@ -284,10 +285,18 @@ export const closeFarmsStakeModal = () => {
     }
 }
 
-export const openFarmsUnstakeModal = ()  => {
+export const openFarmsUnstakeModal = (identifier,contractAddress,title,withdrawalFeeStructure, position)  => {
+
     return dispatch => {
         dispatch({
-            type : actions.OPEN_FARMS_UNSTAKE_MODAL
+            type : actions.OPEN_FARMS_UNSTAKE_MODAL,
+            data : {
+                identifier,
+                contractAddress,
+                title,
+                withdrawalFeeStructure,
+                position
+            }
         })
     }
 }
