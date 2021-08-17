@@ -95,7 +95,7 @@ const getTotalLiquidity = () => {
   }
   return (
     <>
-    <Col sm={12} md={4}>
+    <div>
       <div className={styles.plentyCard}>
 
         {/* * Header */}
@@ -180,7 +180,7 @@ const getTotalLiquidity = () => {
 
         <FarmCardBottom {...props} />
       </div>
-    </Col>
+    </div>
     {/* <StakeModal open={props.isStakeModalOpen} onClose={() => props.closeFarmsStakeModal()} tokenData={{title: props.title}} /> */}
     </>
 

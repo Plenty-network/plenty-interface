@@ -1,7 +1,17 @@
 .pageLayoutContainer {
   margin-top: 80px;
-  padding: 0 180px;
+  padding: 0 180px 40px;
 }
+
+.cardsContainer {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-gap: 20px;
+}
+
 .plentyCard {
   padding: 18px 6px;
   border: 0;
