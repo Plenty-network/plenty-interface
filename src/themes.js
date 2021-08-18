@@ -9,6 +9,7 @@ export const lightTheme = {
   logo: '#5603AD',
   logoFrontPage: '#FFFFFF',
   frontPageGradient: 'linear-gradient(178.62deg, #7028E4 16.71%, #E5B2CA 217.99%)',
+  frontPageBottomGradient: 'linear-gradient(94.97deg, #7028E4 4%, #E5B2CA 142.86%)',
   bg: '#FFFFFF',
   bgAlt: '#FFFFFF',
   backgroundLight: '#F9FAFA',
@@ -35,6 +36,7 @@ export const darkTheme = {
   logo: '#FFFFFF',
   logoFrontPage: '#FFFFFF',
   frontPageGradient: 'transparent',
+  frontPageBottomGradient: 'transparent',
   bg: '#2D3751',
   bgAlt: '#2C3645',
   backgroundLight: '#394460',
@@ -52,6 +54,10 @@ export const darkTheme = {
 
 export const FrontPageGradientDiv = styled.div`
   background: ${(props) => props.theme.frontPageGradient};
+`
+
+export const FrontPageBottomGradientDiv = styled.div`
+  background: ${(props) => props.theme.frontPageBottomGradient};
 `
 
 export const GlobalStyles = createGlobalStyle`

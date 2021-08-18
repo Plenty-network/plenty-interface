@@ -4,25 +4,29 @@ import Button from '../../Components/Ui/Buttons/Button';
 import Label from '../../Components/Ui/Label/Label';
 import Container from 'react-bootstrap/Container';
 import {Col, Image, Row} from 'react-bootstrap';
-import {Link, Route} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import clsx from "clsx";
-import dollar from '../../assets/images/frontpage/dollar.png';
-import marketCap from '../../assets/images/frontpage/marketcap.png';
-import farms from '../../assets/images/frontpage/farms.png';
-import totalBurned from '../../assets/images/frontpage/totalburned.png';
-import circulatingSupply from '../../assets/images/frontpage/circulatingsupply.png';
-import plentyBlock from '../../assets/images/frontpage/plentyblock.png';
-import plentyBig from '../../assets/images/frontpage/plentybig.png';
-import { ReactComponent as Medium } from '../../assets/images/frontpage/medium.svg';
-import { ReactComponent as Twitter } from '../../assets/images/frontpage/twitter.svg'
-import { ReactComponent as Discord } from '../../assets/images/frontpage/discord.svg'
-import { ReactComponent as Telegram } from '../../assets/images/frontpage/telegram.svg';
+import dollar from '../../assets/images/frontpage/dollar.svg';
+import marketCap from '../../assets/images/frontpage/marketcap.svg';
+import farms from '../../assets/images/frontpage/farms.svg';
+import totalBurned from '../../assets/images/frontpage/totalburned.svg';
+import circulatingSupply from '../../assets/images/frontpage/circulatingsupply.svg';
+import plentyBlock from '../../assets/images/frontpage/plentyblock.svg';
+import amm from '../../assets/images/frontpage/amm.svg';
+import pools from '../../assets/images/frontpage/pools.svg';
+import ponds from '../../assets/images/frontpage/ponds.svg';
+import plentyBig from '../../assets/images/frontpage/plentybig.svg';
+import {ReactComponent as Medium} from '../../assets/images/frontpage/medium.svg';
+import {ReactComponent as Twitter} from '../../assets/images/frontpage/twitter.svg'
+import {ReactComponent as Discord} from '../../assets/images/frontpage/discord.svg'
+import {ReactComponent as Telegram} from '../../assets/images/frontpage/telegram.svg';
 import plentyMedium from '../../assets/images/frontpage/plentymedium.svg';
 import LinkTile from "../../Components/LinkTile/LinkTile";
 import Accordion from "../../Components/Ui/Accordion/Accordion";
 import Stats from "../../Components/Stats/Stats";
 import Header from "../../Components/Header/Header";
-import {FrontPageGradientDiv} from "../../themes";
+import {FrontPageBottomGradientDiv, FrontPageGradientDiv} from "../../themes";
+import Footer from "../../Components/Footer/Footer";
 
 const Frontpage = (props) => {
 
@@ -35,12 +39,12 @@ const Frontpage = (props) => {
         plentyPerBlock: 60
     }
 
-    const walletConnected = true;
+    const walletConnected = false;
 
     return (
         <Container fluid>
-            <div>
-                <FrontPageGradientDiv className={`row ${styles.rectangle}`}>
+            <div className={`d-flex flex-column ${styles.fullScreen}`}>
+                <FrontPageGradientDiv className="row flex-grow-1">
                     <Header
                         toggleTheme={props.toggleTheme}
                         theme={props.theme}
@@ -59,9 +63,11 @@ const Frontpage = (props) => {
                                     "align-items-center", "ml-lg-auto", "mr-lg-0", "align-items-lg-start", "text-lg-left"]
                                 : ["col-10", "col-lg-7", "m-auto", "d-flex", "align-items-center", "text-center", "flex-column", "py-lg-5"]
                         )}>
-                            <h5 className={`mb-3 text-white font-weight-light ${styles.textMulish}`}>Total Value Locked</h5>
-                            <h1 className="mb-3 text-white">$ 1,212,125,125</h1>
-                            <h5 className={`mb-4 text-white text-mulish font-weight-light ${styles.textMulish}`}>Trade tokens and earn interest by staking. There is
+                            <h5 className={`mb-3 text-white font-weight-light ${styles.textMulish}`}>Total Value
+                                Locked</h5>
+                            <h1 className={`mb-3 text-white font-weight-bold ${styles.amount}`}>$ 1,212,125,125</h1>
+                            <h5 className={`mb-4 text-white text-mulish font-weight-light ${styles.textMulish}`}>Trade
+                                tokens and earn interest by staking. There is
                                 plenty of DeFi to explore on Tezos.</h5>
                             <Link to={"swap"} className="text-decoration-none">
                                 <Button className={`px-lg-3 btn-frontPage ${styles.button}`} color={'tertiary'}
@@ -72,7 +78,7 @@ const Frontpage = (props) => {
                     </Col>
                     {
                         walletConnected && (
-                            <Col className="py-3 pb-lg-5 col-lg-6 col   -sm-12">
+                            <Col className="py-3 pb-lg-5 col-lg-6 col-sm-12">
                                 <div className="col-lg-9 col-xl-7 m-auto py-lg-5 px-0 text-center
                                     align-items-center align-items-lg-start text-lg-left">
                                     <Stats valueLocked={15021} plentyEarned={251_532} plentyInWallet={12.48192}
@@ -82,47 +88,49 @@ const Frontpage = (props) => {
                         )
                     }
                 </FrontPageGradientDiv>
+                <Row className="row bg-themed border-bottom-themed-dark-none">
+                    <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
+                        <Label
+                            text={`$${dummyValues.currentPrice.toLocaleString(undefined, {maximumFractionDigits: 20})}`}
+                            icon={dollar}
+                            subText={'Price'}/>
+                    </Col>
+                    <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
+
+                        <Label text={`$${dummyValues.marketCap.toLocaleString()}`} icon={marketCap}
+                               subText={'Market Cap'}/>
+
+                    </Col>
+                    <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
+                        <Label text={dummyValues.totalMinted.toLocaleString()} icon={farms}
+                               subText={'Total minted'}/>
+                    </Col>
+                    <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
+                        <Label text={dummyValues.totalBurned.toLocaleString()} icon={totalBurned}
+                               subText={'Total burned'}/>
+                    </Col>
+                    <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
+                        <Label text={dummyValues.circulatingSupply.toLocaleString()} icon={circulatingSupply}
+                               subText={'Circulating Supply'}/>
+                    </Col>
+                    <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
+                        <Label text={dummyValues.plentyPerBlock.toLocaleString()} subText={'New PLENTY/Block'}
+                               icon={plentyBlock}/>
+                    </Col>
+                </Row>
             </div>
-            <Row className="row bg-themed border-bottom-themed-dark-none">
-                <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
-                    <Label text={`$${dummyValues.currentPrice.toLocaleString(undefined, {maximumFractionDigits: 20})}`}
-                           icon={dollar}
-                           subText={'Price'}/>
-                </Col>
-                <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
 
-                    <Label text={`$${dummyValues.marketCap.toLocaleString()}`} icon={marketCap}
-                           subText={'Market Cap'}/>
-
-                </Col>
-                <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
-                    <Label text={dummyValues.totalMinted.toLocaleString()} icon={farms}
-                           subText={'Total minted'}/>
-                </Col>
-                <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
-                    <Label text={dummyValues.totalBurned.toLocaleString()} icon={totalBurned}
-                           subText={'Total burned'}/>
-                </Col>
-                <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
-                    <Label text={dummyValues.circulatingSupply.toLocaleString()} icon={circulatingSupply}
-                           subText={'Circulating Supply'}/>
-                </Col>
-                <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
-                    <Label text={dummyValues.plentyPerBlock.toLocaleString()} subText={'New PLENTY/Block'}
-                           icon={plentyBlock}/>
-                </Col>
-            </Row>
             <Row>
                 <Col xs={12} className="text-center my-5">
-                    <h2 className={styles.plentyOnTezos}><p>Plenty of DeFi on Tezos.</p></h2>
+                    <h2 className="font-weight-bold"><p>Plenty of DeFi on Tezos</p></h2>
                 </Col>
             </Row>
-            <Row className="mb-5 mx-lg-5">
+            <Row className="mb-4 mx-lg-5">
                 <div className="col-xl-11 row m-auto">
                     <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
                         <LinkTile
                             text={"Swap tokens and add liquidity on the first token-to-token Automated Market Maker on Tezos."}
-                            linkTo={"/swap"} linkText={"Enter Exchange"} headerIcon={circulatingSupply}
+                            linkTo={"/swap"} linkText={"Enter Exchange"} headerIcon={amm}
                             headerText={"AMM"}/>
                     </Col>
                     <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
@@ -133,26 +141,26 @@ const Frontpage = (props) => {
                     <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
                         <LinkTile
                             text={"Pools are made for single asset staking and yield PLENTY. Pools are being phased out, except for PLENTY staking."}
-                            linkTo={"/pools"} linkText={"Enter Pools"} headerText={"Pools"}/>
+                            linkTo={"/pools"} linkText={"Enter Pools"} headerIcon={pools} headerText={"Pools"}/>
                     </Col>
                     <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
                         <LinkTile
                             text={"Earn different Tezos tokens in Ponds by staking PLENTY."}
-                            linkTo={"/ponds"} linkText={"Enter Ponds"} headerText={"Ponds"}/>
+                            linkTo={"/ponds"} linkText={"Enter Ponds"} headerIcon={ponds} headerText={"Ponds"}/>
                     </Col>
                 </div>
             </Row>
-            <Row className="mb-5 bg-themed-alt">
+            <Row className="py-5 bg-themed-alt">
                 <Col lg={6} xs={12}>
                     <div className="col-10 col-lg-9 col-xl-7 m-auto py-lg-5 px-0 text-center
                                     align-items-center align-items-lg-start text-lg-left">
 
-                        <h2 className={`mb-1 ${styles.plentyOnTezos}`}><p>About Plenty</p></h2>
-                        <div className={"mb-3"}><span><p>Plenty is expanding DeFi use cases on Tezos towards a full scale decentralized financial
+                        <h2 className={`mb-1 font-weight-bold ${styles.about}`}><p>About Plenty</p></h2>
+                        <div className={`mb-3 ${styles.aboutSubtext}`}><span><p>Plenty is expanding DeFi use cases on Tezos towards a full scale decentralized financial
                             ecosystem. Empowering traders, liquidity providers & developers to participate in an open
                             financial marketplace.</p></span>
                         </div>
-                        <a href={"/"} target="_blank" rel="noreferrer">
+                        <a href={"https://medium.com/plenty-defi"} target="_blank" rel="noreferrer">
                             <Medium className="mr-2 icon-themed"/>
                         </a>
                         <a href={"https://discord.gg/9wZ4CuvkuJ"} target="_blank" rel="noreferrer">
@@ -172,20 +180,17 @@ const Frontpage = (props) => {
                     </div>
                 </Col>
             </Row>
-            <FrontPageGradientDiv className={clsx(
-                styles.rectangle,
-                "row"
-            )}>
-                <Col className="py-5">
+            <FrontPageBottomGradientDiv className="row">
+                <Col className="pt-5">
                     <Row>
                         <Col xs={12} md={6}>
                             <div className="col-10 col-xl-8 m-auto pb-5 py-lg-3 px-0
                                     align-items-start text-left">
-                                <h2 className="text-white">Frequently asked questions</h2>
+                                <h2 className="text-white font-weight-bold">Frequently asked questions</h2>
                             </div>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row className="border-bottom-themed">
                         <Col xs={12} md={6}>
                             <div className="col-10 col-xl-8 m-auto py-lg-5 px-0
                                     align-items-start text-left">
@@ -311,12 +316,16 @@ const Frontpage = (props) => {
                                         </p>
                                     </div>
                                 </Accordion>
-                                <Image className={"mt-4"} src={plentyMedium}/>
+                                <Image className={"my-4"} src={plentyMedium}/>
                             </div>
                         </Col>
                     </Row>
+                    <Row className="justify-content-center mb-5 mt-4">
+                        <Footer/>
+                    </Row>
                 </Col>
-            </FrontPageGradientDiv>
+
+            </FrontPageBottomGradientDiv>
         </Container>
     )
 };

@@ -1,12 +1,15 @@
 @use '../../assets/scss/constants' as const;
 
-.rectangle {
-  //background: const.$bgGradient;
-  border-radius: 5px;
+.fullScreen {
+  min-height: 100vh;
 }
 
 .link {
   text-decoration: none !important;
+}
+
+.amount {
+  letter-spacing: -0.04em;
 }
 
 .tvlValue {
@@ -34,11 +37,12 @@
   font-family: 'Mulish', sans-serif !important;
 }
 
-.plentyOnTezos {
-  font-weight: bold;
-  //font-size: 5em;
-  font-family: 'DM Sans', sans-serif;
-  //color: #4E5D78;
+.about {
+  letter-spacing: -1.584px;
+}
+
+.aboutSubtext {
+  letter-spacing: -0.66px;
 }
 
 .button {
