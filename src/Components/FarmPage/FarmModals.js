@@ -28,7 +28,7 @@ const FarmModals = () => {
         return state.farms?.active.data?.response?.[modalData.contractAddress]?.roiTable ?? [];
       }
 
-      return state.farms?.inactive[modalData.contractAddress]?.roi ?? [];
+      return state.farms?.inactive.data?.response?.[modalData.contractAddress]?.roiTable ?? [];
     }
   )
 
