@@ -1,37 +1,37 @@
-import { TezosToolkit } from "@taquito/taquito"
-import axios from "axios"
-import * as actions from "../index.action"
-import CONFIG from "../../../config/config"
+import { TezosToolkit } from '@taquito/taquito';
+import axios from 'axios';
+import * as actions from '../index.action';
+import CONFIG from '../../../config/config';
 
 export const getHomeStatsData = () => {
-	return async dispatch => {
-		dispatch({ type: actions.HOME_STATS_FETCH })
-		const res = await axios.get(
-			"https://mf29fdthuf.execute-api.us-east-2.amazonaws.com/v1/homestats"
-		)
-		console.log(res.data.success)
-		if (res.data.success) {
-			dispatch({ type: actions.HOME_STATS_FETCH_SUCCESS, data: res.data.body })
-		} else {
-			dispatch({ type: actions.HOME_STATS_FETCH_FAILED })
-		}
-	}
-}
+  return async (dispatch) => {
+    dispatch({ type: actions.HOME_STATS_FETCH });
+    const res = await axios.get(
+      'https://mf29fdthuf.execute-api.us-east-2.amazonaws.com/v1/homestats'
+    );
+
+    if (res.data.success) {
+      dispatch({ type: actions.HOME_STATS_FETCH_SUCCESS, data: res.data.body });
+    } else {
+      dispatch({ type: actions.HOME_STATS_FETCH_FAILED });
+    }
+  };
+};
 
 export const getTVL = () => {
-	return async dispatch => {
-		dispatch({ type: actions.TVL_FETCH })
-		const res = await axios.get(
-			"https://mf29fdthuf.execute-api.us-east-2.amazonaws.com/v1/tvl"
-		)
-		console.log(res)
-		if (res.data.success) {
-			dispatch({ type: actions.TVL_FETCH_SUCCESS, data: res.data.body })
-		} else {
-			dispatch({ type: actions.TVL_FETCH_FAILED })
-		}
-	}
-}
+  return async (dispatch) => {
+    dispatch({ type: actions.TVL_FETCH });
+    const res = await axios.get(
+      'https://mf29fdthuf.execute-api.us-east-2.amazonaws.com/v1/tvl'
+    );
+
+    if (res.data.success) {
+      dispatch({ type: actions.TVL_FETCH_SUCCESS, data: res.data.body });
+    } else {
+      dispatch({ type: actions.TVL_FETCH_FAILED });
+    }
+  };
+};
 
 // export const fetchWalletBalance = async (
 // 	addressOfUser,
@@ -117,7 +117,7 @@ export const getTVL = () => {
 // 	const network = "testnet"
 // 	const identifier = "PLENTY"
 // 	const tokenContract = CONFIG.AMM[network][identifier].TOKEN_CONTRACT
-// 	console.log(CONFIG.AMM)
+//
 // 	const tokenId = CONFIG.AMM[network][identifier].TOKEN_ID
 // 	const tokenDecimal = CONFIG.AMM[network][identifier].TOKEN_DECIMAL
 // 	const readType = CONFIG.AMM[network][identifier].READ_TYPE
@@ -131,6 +131,6 @@ export const getTVL = () => {
 // 			tokenId,
 // 			tokenDecimal,
 // 		})
-// 		console.log(res)
+//
 // 	}
 // }
