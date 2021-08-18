@@ -310,3 +310,8 @@ export const closeFarmsUnstakeModal = () => {
     });
   };
 };
+
+export const openCloseFarmsModal = (payload) => ({
+  type: actions.OPEN_CLOSE_FARMS_MODAL,
+  payload,
+});

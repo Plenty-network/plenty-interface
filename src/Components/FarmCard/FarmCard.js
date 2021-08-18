@@ -1,4 +1,3 @@
-import Col from 'react-bootstrap/Col';
 import styles from '../../assets/scss/partials/_farms.module.scss';
 import Image from 'react-bootstrap/Image';
 import clsx from 'clsx';
@@ -7,26 +6,29 @@ import Button from '../Ui/Buttons/Button';
 
 import CalculatorSvg from '../../assets/images/icons/calculator.svg';
 import { numberWithCommas } from '../../utils/formatNumbers';
+import { useDispatch } from 'react-redux';
+import { openCloseFarmsModal } from '../../redux/actions/farms/farms.actions';
+import { FARM_PAGE_MODAL } from '../../constants/farmsPage';
 
 const FarmCard = (props) => {
+  const dispatch = useDispatch();
+
   const apyCalculate = (apr) =>
     ((Math.pow(1 + apr / 100 / 365, 365) - 1) * 100).toFixed(0);
 
   const getAPR = (props) => {
     try {
       if (props.isActiveOpen === true) {
-        if (props.activeFarmData.isPresent == true) {
-          return (
-            props.activeFarmData.data.response[props.CONTRACT]?.APR.toFixed(
-              2
-            ) ?? 0
-          );
-        } else {
-          return 0;
+        if (props.activeFarmData.isPresent === true) {
+          const apr =
+            props.activeFarmData.data.response[props.CONTRACT]?.APR ?? 0;
+          return Math.round(apr);
         }
-      } else {
+
         return 0;
       }
+
+      return 0;
     } catch (e) {
       return 0;
     }
@@ -34,22 +36,24 @@ const FarmCard = (props) => {
 
   const getAPY = (props) => {
     if (props.isActiveOpen === true) {
-      if (props.activeFarmData.isPresent == true) {
-        return apyCalculate(
-          props.activeFarmData.data.response[props.CONTRACT]?.APR.toFixed(2) ??
+      if (props.activeFarmData.isPresent === true) {
+        const apy = apyCalculate(
+          props.activeFarmData.data.response[props.CONTRACT]?.APR?.toFixed(2) ??
             0
         );
-      } else {
-        return 0;
+
+        return numberWithCommas(Math.round(apy));
       }
-    } else {
+
       return 0;
     }
+
+    return 0;
   };
 
   const getReward = () => {
     if (props.isActiveOpen === true) {
-      if (props.activeFarmData.isPresent == true) {
+      if (props.activeFarmData.isPresent === true) {
         return (
           (props.activeFarmData.data.response[props.CONTRACT]?.rewardRate ??
             0) * 2880
@@ -68,7 +72,7 @@ const FarmCard = (props) => {
         return numberWithCommas(
           props.activeFarmData.data.response[
             props.CONTRACT
-          ]?.totalLiquidty.toFixed(0) ?? 0
+          ]?.totalLiquidty?.toFixed(0) ?? 0
         );
       } else {
         return 0;
@@ -84,6 +88,16 @@ const FarmCard = (props) => {
       props.userStakes[props.CONTRACT]?.stakedAmount > 0
     );
   };
+
+  const onRoiClick = () => {
+    dispatch(
+      openCloseFarmsModal({
+        open: FARM_PAGE_MODAL.ROI,
+        contractAddress: props.CONTRACT,
+      })
+    );
+  };
+
   return (
     <>
       <div>
@@ -137,7 +151,7 @@ const FarmCard = (props) => {
                   src={CalculatorSvg}
                   alt={'Check ROI'}
                   className={styles.roiInfoImg}
-                  onClick={() => null}
+                  onClick={onRoiClick}
                 />
                 {getAPR(props)}%
               </p>

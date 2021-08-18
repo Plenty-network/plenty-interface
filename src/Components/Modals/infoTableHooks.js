@@ -5,14 +5,25 @@ const useInfoTableHooks = (props) => {
 
   useEffect(() => {
     const formatData = () => {
-      // TODO add formating here
-      return props.data
+      if (props.type === 'withdrawal') {
+        return props.data.map(datum => ({
+          col1: '0 Days', // !! Hard coded
+          col2: datum.block,
+          col3: datum.rate
+        }))
+      }
+      const roiDays = [ 1, 7, 30, 365 ];
+      return props.data.map((datum, i) => ({
+        col1: `${roiDays[i]} day${i ? 's' : ''}`,
+        col2: datum.roi?.toFixed(2),
+        col3: datum.PlentyPer1000dollar?.toFixed(2)
+      }))
     }
 
     if (props.type === 'withdrawal') {
       setValues({ ...infoTableData.withdrawal, formattedData: formatData()})
     } else {
-      setValues({ ...infoTableData.withdrawal, formattedData: formatData()})
+      setValues({ ...infoTableData.roi, formattedData: formatData()})
     }
   }, [props.type, props.data])
 

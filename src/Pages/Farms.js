@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import Container from 'react-bootstrap/Container';
+import React, { useEffect } from 'react';
 import Row from 'react-bootstrap/Row';
 
 import FarmCard from '../Components/FarmCard/FarmCard';
@@ -20,15 +19,22 @@ import StakeModal from '../Components/Ui/Modals/StakeModal';
 import UnstakeModal from '../Components/Ui/Modals/UnstakeModal';
 
 import styles from '../assets/scss/partials/_farms.module.scss';
+import FarmModals from '../Components/FarmPage/FarmModals';
+import { throttle } from 'lodash/function';
 
 const Farms = (props) => {
-  useEffect(() => {
+  const fetchData = () => {
     renderFarms();
-
     props.getFarmsData(props.isActiveOpen);
     props.getUserStakes(props.userAddress, 'FARMS', props.isActiveOpen);
     props.getHarvestValues(props.userAddress, 'FARMS', props.isActiveOpen);
     props.fetchUserBalances(props.userAddress);
+  };
+
+  useEffect(() => {
+    const backgroundRefresh = throttle(fetchData, 2000, { trailing: true });
+
+    backgroundRefresh();
   }, [props.isActiveOpen, props.userAddress]);
 
   const farmsCardTypeList = {
@@ -159,6 +165,19 @@ const Farms = (props) => {
       for (let farms in CONFIG.FARMS[CONFIG.NETWORK][key][
         props.isActiveOpen === true ? 'active' : 'inactive'
       ]) {
+        console.log(
+          'famrs',
+          CONFIG.FARMS[CONFIG.NETWORK][key][
+            props.isActiveOpen === true ? 'active' : 'inactive'
+          ][farms]
+        );
+        console.log(
+          CONFIG.withdrawalFeeDistribution[
+            CONFIG.FARMS[CONFIG.NETWORK][key][
+              props.isActiveOpen === true ? 'active' : 'inactive'
+            ][farms].withdrawalFeeType
+          ]
+        );
         farmsToBeRendered.push({
           farmData:
             CONFIG.FARMS[CONFIG.NETWORK][key][
@@ -192,8 +211,8 @@ const Farms = (props) => {
   return (
     <>
       <div>
-        <Container fluid className="page-layout-container">
-          <Row className="mb-4 justify-content-center">
+        <div>
+          <Row className="mt-5 justify-content-center">
             <Switch
               value={props.isActiveOpen}
               onChange={() => props.toggleFarmsType(!props.isActiveOpen)}
@@ -238,7 +257,7 @@ const Farms = (props) => {
               );
             })}
           </div>
-        </Container>
+        </div>
       </div>
       <StakeModal
         walletBalances={props.walletBalances}
@@ -277,6 +296,7 @@ const Farms = (props) => {
       {/* withdrawalFeeStructure={props.withdrawalFeeStructure} */}
       {/* tokenData={{title: props.title}} */}
       {/* CONTRACT={props.CONTRACT} position={props.position} identifier={props.identifier} */}
+      <FarmModals />
     </>
   );
 };
