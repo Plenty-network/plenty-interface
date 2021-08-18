@@ -5,17 +5,8 @@ import styles from './info-table-modal.module.scss';
 import clsx from "clsx";
 import useInfoTableHooks from "./infoTableHooks";
 
-// ! TEMP variable
-const tableData = [
-  { col1: 1, col2: 0.77, col3: 7.43 },
-  { col1: 7, col2: 5.45, col3: 52.01 },
-  { col1: 30, col2: 23.39, col3: 222.39 },
-  { col1: 365, col2: 283.65, col3: 2712.31 },
-]
-
 const InfoTableModal = props => {
-  const { headerRow, formattedData, disclaimer } = useInfoTableHooks({ type: props.type, data: tableData })
-  // const { headerRow, formatedData, disclaimer } = useInfoTableHooks({ type: props.type, data: props.tableData })
+  const { headerRow, formattedData, disclaimer } = useInfoTableHooks({ type: props.type, data: props.tableData })
 
   return (
     <SimpleModal

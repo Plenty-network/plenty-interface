@@ -1,24 +1,29 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Button from "../Ui/Buttons/Button";
 import PropTypes from 'prop-types'
 
 
 import styles from "../../assets/scss/partials/_farms.module.scss"
 import clsx from "clsx";
-import Input from "../Ui/Input/Input";
 import QuantityButton from "../Ui/Buttons/QuantityButton";
+import { Image, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { openCloseFarmsModal } from "../../redux/actions/farms/farms.actions";
+import { FARM_PAGE_MODAL } from "../../constants/farmsPage";
 
-const PondCardBottom = (props) => {
+const FarmCardBottom = (props) => {
   const [ isExpanded, toggleExpand ] = useState(false);
+  const target = useRef(null);
+  const dispatch = useDispatch()
 
-  const renderHarvest = () => (
-    <div className="d-flex">
-      <Input className="mr-2 w-100"/>
+  const hasStakedAmount = () => {
+    // return props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0;
+    return false
+  }
 
-      <Button onClick={() => null} color={"default"}>Harvest</Button>
-    </div>
-  );
-
+  const onWithdrawalFeeClick = () => {
+    dispatch(openCloseFarmsModal({ open: FARM_PAGE_MODAL.WITHDRAWAL, contractAddress: props.CONTRACT }))
+  }
 
   return (
     <>
@@ -26,17 +31,36 @@ const PondCardBottom = (props) => {
       <div className={clsx(
         styles.plentyCardContent,
         {
+          "mt-4": isExpanded,
           "pt-0": !isExpanded,
           [styles.topBorder]: isExpanded,
           [styles.bottomBorder]: isExpanded
         }
       )}>
 
-        {(props.harvested || isExpanded) && ( // TODO add proper variable
+        {(hasStakedAmount() || isExpanded) && (
           <div className="d-flex">
-            <Input className="mr-2 w-100"/>
+            <div className={clsx(styles.harvestStakeAmt, "mr-2 justify-content-between")}>
+              <Image height={31} src={props.harvestImg} fuild className="mt-auto mb-auto ml-2" />
+              <span>
+                {
+                  // (
+                  //   props.userAddress !== null &&
+                  //   props.harvestValueOnFarms.hasOwnProperty(props.isActiveOpen) &&
+                  //   props.harvestValueOnFarms[props.isActiveOpen].hasOwnProperty(props.CONTRACT)&&
+                  //   props.harvestValueOnFarms[props.isActiveOpen][props.CONTRACT].totalRewards > 0
+                  // )
+                  //   ? props.harvestValueOnFarms[props.isActiveOpen][props.CONTRACT].totalRewards.toFixed(6)
+                  //  : 0
+                  0
+                }
+              </span>
+            </div>
 
-            <Button onClick={() => null} color={props.harvested ? "primary" : "default"}> {/* TODO add proper variable */}
+            <Button
+              onClick={() => null}
+              color={hasStakedAmount() ? "primary" : "default"}
+            >
               Harvest
             </Button>
           </div>
@@ -47,9 +71,16 @@ const PondCardBottom = (props) => {
             <div className="mt-3 mb-2">{props.title}</div>
 
             <div className="d-flex">
-              <Input className="mr-2 w-100"/>
+
+              <div className={clsx(styles.harvestStakeAmt, "mr-2 justify-content-end")}>
+                <span>{
+                  // props.userStakes.hasOwnProperty(props.CONTRACT) ? props.userStakes[props.CONTRACT].stakedAmount : 0
+                  0
+                }</span>
+              </div>
+              <span />
               {
-                props.staked // TODO add proper variable
+                (props.stakedAmount > 0 ) // TODO add proper variable
                   ? <QuantityButton onAdd={() => null} onRemove={() => null}/>
                   : <Button onClick={() => null} color={"default"}>Stake</Button>
               }
@@ -66,12 +97,38 @@ const PondCardBottom = (props) => {
             <div className={clsx(styles.plentyCardContent, styles.bottomBorder, "d-flex")}>
               <div className={clsx(styles.rightBorder, "w-50 text-center")}>
                 <div>Deposit Fee</div>
-                <div>0%</div>
+                <OverlayTrigger
+                  key="top"
+                  placement="top"
+                  overlay={
+                    <Tooltip id={`deposit-fee-tooltip`} arrowProps={{ styles: {display: 'none'}}}>
+                      No deposit fee
+                    </Tooltip>
+                  }
+                >
+                  <Button
+                    id={`deposit-fee`}
+                    ref={target}
+                    size="small"
+                    color="mute"
+                    startIcon="help_outline"
+                    className="mt-1 ml-auto mr-auto"
+                    rounded={false}
+                    onClick={undefined}
+                  >0%</Button>
+                </OverlayTrigger>
               </div>
 
               <div className={"w-50 text-center"}>
                 <div>Withdrawal Fee</div>
-                <div>0%</div>
+                <Button
+                  size="small"
+                  color="mute"
+                  startIcon="help_outline"
+                  className="mt-1 ml-auto mr-auto"
+                  rounded={false}
+                  onClick={onWithdrawalFeeClick}
+                >Variable</Button>
               </div>
             </div>
 
@@ -95,8 +152,8 @@ const PondCardBottom = (props) => {
   )
 };
 
-PondCardBottom.propTypes = {
+FarmCardBottom.propTypes = {
   title: PropTypes.string.isRequired
 }
 
-export default PondCardBottom;
+export default FarmCardBottom;

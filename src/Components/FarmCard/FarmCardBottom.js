@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Button from "../Ui/Buttons/Button";
 import PropTypes from 'prop-types'
 
@@ -6,14 +6,22 @@ import PropTypes from 'prop-types'
 import styles from "../../assets/scss/partials/_farms.module.scss"
 import clsx from "clsx";
 import QuantityButton from "../Ui/Buttons/QuantityButton";
-import UnstakeModal from "../Ui/Modals/UnstakeModal";
-import { Image } from "react-bootstrap";
+import { Image, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { openCloseFarmsModal } from "../../redux/actions/farms/farms.actions";
+import { FARM_PAGE_MODAL } from "../../constants/farmsPage";
 
 const FarmCardBottom = (props) => {
   const [ isExpanded, toggleExpand ] = useState(false);
+  const target = useRef(null);
+  const dispatch = useDispatch()
 
   const hasStakedAmount = () => {
     return props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0;
+  }
+
+  const onWithdrawalFeeClick = () => {
+    dispatch(openCloseFarmsModal({ open: FARM_PAGE_MODAL.WITHDRAWAL, contractAddress: props.CONTRACT }))
   }
 
   return (
@@ -90,14 +98,26 @@ const FarmCardBottom = (props) => {
             <div className={clsx(styles.plentyCardContent, styles.bottomBorder, "d-flex")}>
               <div className={clsx(styles.rightBorder, "w-50 text-center")}>
                 <div>Deposit Fee</div>
-                <Button
-                  size="small"
-                  color="mute"
-                  startIcon="help_outline"
-                  className="mt-1 ml-auto mr-auto"
-                  rounded={false}
-                  onClick={() => null}
-                >0%</Button>
+                <OverlayTrigger
+                  key="top"
+                  placement="top"
+                  overlay={
+                    <Tooltip id={`deposit-fee-tooltip`} arrowProps={{ styles: {display: 'none'}}}>
+                      No deposit fee
+                    </Tooltip>
+                  }
+                >
+                  <Button
+                    id={`deposit-fee`}
+                    ref={target}
+                    size="small"
+                    color="mute"
+                    startIcon="help_outline"
+                    className="mt-1 ml-auto mr-auto"
+                    rounded={false}
+                    onClick={undefined}
+                  >0%</Button>
+                </OverlayTrigger>
               </div>
 
               <div className={"w-50 text-center"}>
@@ -108,7 +128,7 @@ const FarmCardBottom = (props) => {
                   startIcon="help_outline"
                   className="mt-1 ml-auto mr-auto"
                   rounded={false}
-                  onClick={() => null}
+                  onClick={onWithdrawalFeeClick}
                 >Variable</Button>
               </div>
             </div>
@@ -129,10 +149,6 @@ const FarmCardBottom = (props) => {
           color={"mute"}
         />
       </div>
-      {/* <StakeModal open={props.isStakeModalOpen} onClose={() => props.closeFarmsStakeModal()} tokenData={{title: props.title}} handleInput = {props.handleStakeOfFarmInputValue} CONTRACT = {props.CONTRACT} stakeInputValues={props.stakeInputValues} stakeOnFarm={props.stakeOnFarm} identifier={props.identifier} position={props.position}/> */}
-      {/* {props.userStakes.hasOwnProperty(props.CONTRACT) ?
-      <UnstakeModal currentBlock={props.currentBlock} withdrawalFeeStructure={props.withdrawalFeeStructure} open={props.isUnstakeModalOpen && props.userStakes.hasOwnProperty(props.CONTRACT)} onClose={() => {props.closeFarmsUnstakeModal()}} tokenData={{title: props.title}} userStakes={props.userStakes} CONTRACT={props.CONTRACT} position={props.position} identifier={props.identifier} isActiveOpen={props.isActiveOpen} unstakeOnFarm={props.unstakeOnFarm} />: null}
-    </> */}
     </>
   )
 };

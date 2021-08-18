@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@taquito/beacon-wallet": "^9.1.1",
+    "@taquito/taquito": "^10.1.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -11,6 +12,7 @@
     "bootstrap": "^4.6.0",
     "clsx": "^1.1.1",
     "conseiljs": "^5.0.8-3",
+    "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.1",
     "react-dom": "^17.0.2",

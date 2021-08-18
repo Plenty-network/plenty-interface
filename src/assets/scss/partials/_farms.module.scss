@@ -8,8 +8,9 @@
   margin: 40px auto;
   padding: 0 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, 345px);
   grid-gap: 20px;
+  justify-content: center;
 }
 
 .plentyCard {
@@ -24,6 +25,11 @@
 
   .imageWrapper {
     width: 76px;
+  }
+
+  .imageWrapperSingle {
+    height: 45px;
+    width: 45px;
   }
 
   .title {
