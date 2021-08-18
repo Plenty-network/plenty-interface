@@ -57,7 +57,7 @@ const FarmCard = (props) => {
 const getReward = () => {
   if(props.isActiveOpen === true)
   {
-    if(props.activeFarmData.isPresent == true)
+    if(props.activeFarmData.isPresent === true)
     {
       return (props.activeFarmData.data.response[props.CONTRACT]?.rewardRate ?? 0) * 2880;
     }
