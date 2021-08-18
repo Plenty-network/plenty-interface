@@ -20,53 +20,44 @@ const FarmCard = (props) => {
     ).toFixed(0);
 
 
-const getAPR = (props) => {
-  try {
-    if(props.isActiveOpen === true)
-    {
-      if(props.activeFarmData.isPresent == true)
-      {
-        return props.activeFarmData.data.response[props.CONTRACT]?.APR.toFixed(2) ?? 0;
-      }
-      else
-      {
+  const getAPR = (props) => {
+    try {
+      if (props.isActiveOpen === true) {
+        if (props.activeFarmData.isPresent === true) {
+          const apr = props.activeFarmData.data.response[props.CONTRACT]?.APR ?? 0;
+          return Math.round(apr);
+        }
+
         return 0;
       }
-    }
-    else
-    {
-      return 0;
-    }
-  }
-  catch(e)
-  {
-    return 0;
-  }
-}
 
-const getAPY = (props) => {
-  
-  if(props.isActiveOpen === true)
-  {
-    if(props.activeFarmData.isPresent == true)
-    {
-      return apyCalculate(props.activeFarmData.data.response[props.CONTRACT]?.APR.toFixed(2) ?? 0);
-    }
-    else
-    {
+      return 0;
+    } catch (e) {
       return 0;
     }
   }
-  else
-  {
+
+  const getAPY = (props) => {
+
+    if (props.isActiveOpen === true) {
+      if (props.activeFarmData.isPresent === true) {
+        const apy = apyCalculate(
+          props.activeFarmData.data.response[props.CONTRACT]?.APR?.toFixed(2) ?? 0
+        );
+
+        return numberWithCommas(Math.round(apy));
+      }
+
+      return 0;
+    }
+
     return 0;
   }
-}
 
 const getReward = () => {
   if(props.isActiveOpen === true)
   {
-    if(props.activeFarmData.isPresent == true)
+    if(props.activeFarmData.isPresent === true)
     {
       return (props.activeFarmData.data.response[props.CONTRACT]?.rewardRate ?? 0) * 2880;
     }
@@ -84,7 +75,7 @@ const getReward = () => {
 const getTotalLiquidity = () => {
   if (props.isActiveOpen === true) {
     if (props.activeFarmData.isPresent === true) {
-      return numberWithCommas(props.activeFarmData.data.response[props.CONTRACT]?.totalLiquidty.toFixed(0) ?? 0);
+      return numberWithCommas(props.activeFarmData.data.response[props.CONTRACT]?.totalLiquidty?.toFixed(0) ?? 0);
     } else {
       return 0;
     }
@@ -133,7 +124,6 @@ const getTotalLiquidity = () => {
             <p className={styles.plentyCardContentTag}>
               {
                 getAPY(props)
-                
               }%
             </p>
           </div>

@@ -20,16 +20,22 @@ import UnstakeModal from '../Components/Ui/Modals/UnstakeModal';
 
 import styles from '../assets/scss/partials/_farms.module.scss';
 import FarmModals from "../Components/FarmPage/FarmModals";
+import { throttle } from "lodash/function";
 
 const Farms = (props) => {
-
-  useEffect(() => {
+  const fetchData = () => {
     renderFarms();
     props.getFarmsData(props.isActiveOpen)
     props.getUserStakes(props.userAddress,'FARMS',props.isActiveOpen)
     props.getHarvestValues(props.userAddress,'FARMS',props.isActiveOpen)
     props.fetchUserBalances(props.userAddress)
-  },[props.isActiveOpen , props.userAddress ])
+  }
+
+  useEffect(() => {
+    const backgroundRefresh = throttle(fetchData, 2000, { trailing: true });
+
+    backgroundRefresh();
+  },[ props.isActiveOpen , props.userAddress ])
 
 
   const farmsCardTypeList = {
