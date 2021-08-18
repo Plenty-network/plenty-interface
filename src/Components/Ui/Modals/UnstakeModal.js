@@ -140,7 +140,7 @@ const UnstakeModal = props => {
                 <div className={clsx(styles.totalRow, "pt-2")}>
                   <div>Total</div>
                   <div />
-                  <div>{selected.reduce((acc, cur) => acc + cur.fee, 0)}</div>
+                  <div>{Number(selected.reduce((acc, cur) => acc + cur.fee, 0).toFixed(12))}</div>
                 </div>
               </div>
             </>
