@@ -5,6 +5,7 @@
   position: relative;
   max-width: 400px;
   padding: 26px 22px;
+  background-color: #fff;
   border-radius: 15px;
   margin: 100px auto;
 }
@@ -241,7 +242,7 @@
   line-height: 17px;
   padding: 10px;
   &:hover {
-    background-color: rgba(103, 128, 159, 0.1)
+    background-color: rgba(103, 128, 159, 0.1);
   }
 }
 .select-token-img {

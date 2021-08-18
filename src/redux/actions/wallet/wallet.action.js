@@ -1,93 +1,86 @@
-import {WALLET_CONNECT_START, WALLET_CONNECT_SUCCESSFULL, WALLET_CONNECT_FAIL, WALLET_DISCONNECT, WALLET_GET_ADDRESS} from '../index.action'
+import {
+  WALLET_CONNECT_START,
+  WALLET_CONNECT_SUCCESSFULL,
+  WALLET_CONNECT_FAIL,
+  WALLET_DISCONNECT,
+  WALLET_GET_ADDRESS,
+} from '../index.action';
 
 import {
   ConnectWalletAPI,
   DisconnectWalletAPI,
   FetchWalletAPI,
-} from "./api.wallet";
+} from './api.wallet';
 
 const walletConnectionStart = () => {
   return {
-    type : WALLET_CONNECT_START
-  }
-}
+    type: WALLET_CONNECT_START,
+  };
+};
 
 const walletConnectionSuccessfull = (address) => {
   return {
-    type : WALLET_CONNECT_SUCCESSFULL,
-    address
-  }
-}
+    type: WALLET_CONNECT_SUCCESSFULL,
+    address,
+  };
+};
 
 const walletConnectionFailed = () => {
   return {
-    type : WALLET_CONNECT_FAIL,
-
-  }
-}
+    type: WALLET_CONNECT_FAIL,
+  };
+};
 
 const walletDisconnection = () => {
   return {
-    type : WALLET_DISCONNECT
-  }
-}
+    type: WALLET_DISCONNECT,
+  };
+};
 
 const fetchWallet = (address) => {
   return {
-    type : WALLET_GET_ADDRESS,
-    address
-
-  }
-}
+    type: WALLET_GET_ADDRESS,
+    address,
+  };
+};
 
 export const connectWallet = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(walletConnectionStart());
     ConnectWalletAPI()
-      .then(resp => {
-        if(resp.success === true)
-        {
-          console.log(resp.wallet);
+      .then((resp) => {
+        if (resp.success === true) {
           dispatch(walletConnectionSuccessfull(resp.wallet));
-        }
-        else
-        {
-          dispatch(walletConnectionFailed()); 
+        } else {
+          dispatch(walletConnectionFailed());
         }
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch(walletConnectionFailed());
-      })
-
-  }
-}
+      });
+  };
+};
 
 export const disconnectWallet = () => {
-  return dispatch => {
+  return (dispatch) => {
     DisconnectWalletAPI()
-      .then(resp => {
-        if(resp.success === true)
-        {
+      .then((resp) => {
+        if (resp.success === true) {
           dispatch(walletDisconnection());
         }
       })
-      .catch(err => {
-        console.log(err);
-      })
-  }
-}
+      .catch((err) => {});
+  };
+};
 
 export const fetchWalletAddress = () => {
-  return dispatch => {
+  return (dispatch) => {
     FetchWalletAPI()
-      .then(resp => {
-        if(resp.success === true)
-        {
-          dispatch(fetchWallet(resp.wallet))
+      .then((resp) => {
+        if (resp.success === true) {
+          dispatch(fetchWallet(resp.wallet));
         }
       })
-      .catch(err => {
-        console.log(err);
-      })
-  }
-}
+      .catch((err) => {});
+  };
+};

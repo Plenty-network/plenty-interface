@@ -1,44 +1,51 @@
-import PropTypes from "prop-types";
-import { Modal } from "react-bootstrap";
+import PropTypes from 'prop-types';
+import { Modal } from 'react-bootstrap';
 
-import styles from "./modal.module.scss"
-import clsx from "clsx";
+import styles from './modal.module.scss';
+import clsx from 'clsx';
 
 const SimpleModal = (props) => {
-return (
+  return (
+    <Modal
+      show={props.open}
+      onHide={props.onClose}
+      backdrop="static"
+      keyboard={false}
+      dialogClassName={clsx(styles.simpleModal, props.className)}
+      centered={true}
+    >
+      {/* * Header */}
+      <div
+        className={clsx(styles.header, 'd-flex', {
+          [styles.noTitle]: !props.title,
+        })}
+      >
+        <div className={clsx(styles.title, 'flex-grow-1')}>{props.title}</div>
 
-  <Modal
-    show={props.open}
-    onHide={props.onClose}
-    backdrop="static"
-    keyboard={false}
-    dialogClassName={clsx(styles.simpleModal, props.className)}
-    centered={true}
-  >
-    {/* * Header */}
-    <div className={clsx(styles.header, "d-flex", { [styles.noTitle]: !props.title })}>
-      <div className={clsx(styles.title, "flex-grow-1")}>{props.title}</div>
+        <div className={styles.closeBtn} onClick={props.onClose}>
+          <span className="material-icons-round">close</span>
+        </div>
+        {/* * Header */}
 
-      <div className={styles.closeBtn} onClick={props.onClose}>
-        <span className="material-icons-round">close</span>
+        {/* * Body */}
+        <div
+          className={clsx(styles.content, {
+            [styles.noTopPadding]: !props.title,
+          })}
+        >
+          {props.children}
+        </div>
+        {/* * Body */}
       </div>
-    </div>
-    {/* * Header */}
-
-    {/* * Body */}
-    <div className={clsx(styles.content, { [styles.noTopPadding]: !props.title })}>
-      {props.children}
-    </div>
-    {/* * Body */}
-  </Modal>
-)
-}
+    </Modal>
+  );
+};
 
 SimpleModal.propTypes = {
   title: PropTypes.string,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   className: PropTypes.string,
-}
+};
 
-export default SimpleModal
+export default SimpleModal;
