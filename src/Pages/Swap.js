@@ -18,11 +18,9 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
 import plenty from '../assets/images/logo_small.png';
-import kalam from '../assets/images/kalam.png';
-import wrap from '../assets/images/wrap.png';
-import wdai from '../assets/images/wdai.png';
 import wusdc from '../assets/images/wusdc.png';
-import wbusd from '../assets/images/wbusd.png';
+import wbusd from '../assets/images/wBUSD.png';
+import wwbtc from '../assets/images/wwbtc.png';
 
 const Swap = (props) => {
   const tokens = [
@@ -37,6 +35,10 @@ const Swap = (props) => {
     {
       name: 'wBUSD',
       image: wbusd,
+    },
+    {
+      name: 'wWBTC',
+      image: wwbtc,
     },
   ];
 

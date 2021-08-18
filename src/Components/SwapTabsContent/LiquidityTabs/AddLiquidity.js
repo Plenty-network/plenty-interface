@@ -182,7 +182,7 @@ const AddLiquidity = (props) => {
                 estimatedTokenAmout.otherTokenAmount
                   ? (
                       estimatedTokenAmout.otherTokenAmount *
-                      props.getTokenPrice.tokenPrice[props.tokenOut.name]
+                      props.userBalances[props.tokenOut.name]
                     ).toFixed(5)
                   : '0.00'}
               </p>

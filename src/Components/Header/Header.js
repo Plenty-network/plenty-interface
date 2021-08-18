@@ -4,10 +4,12 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Navbar from 'react-bootstrap/Navbar';
-import Image from 'react-bootstrap/Image';
+import clsx from "clsx";
 import Dropdown from 'react-bootstrap/Dropdown';
 import { ExternalMenu, NavigationMenu } from './Menu';
 import logo from '../../assets/images/logo.png';
+import { ReactComponent as Logo } from '../../assets/images/logo.svg';
+import {Link} from "react-router-dom";
 
 const Header = (props) => {
   let connectWalletButton = () => {
@@ -40,38 +42,39 @@ const Header = (props) => {
         onClick(e);
       }}
     >
-      <span className="material-icons-round">more_vert</span>
+      <span className="span-themed material-icons-round">more_vert</span>
     </a>
   ));
   return (
     <Container fluid>
       <Row>
-        <Col sm={12} md={12} className="header-col-center">
+        <Col sm={12} md={12} className={clsx(
+            "header-col-center",
+            !props.isFrontPage && "border-bottom-themed")}>
           <Navbar className="menu-wrapper">
             <div>
               <div className="logo-section">
-                <Navbar.Brand href="/">
-                  <Image src={logo} fluid />
-                </Navbar.Brand>
+                <Link to={"/"}>
+                  <Navbar.Brand>
+                    <Logo className={clsx(
+                        props.isFrontPage ? "logo-frontPage" : "logo")}/>
+                  </Navbar.Brand>
+                </Link>
               </div>
             </div>
 
             <ul className="nav-menu-wrapper">
-              <NavigationMenu />
+              <NavigationMenu isFrontPage={props.isFrontPage}/>
             </ul>
             <ul className="nav-menu-wrapper">
-              {/* <li className="nav-menu-item">
+              <li className="nav-menu-item">
                 <a
-                  href="#"
                   className="nav-menu-item-link"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    props.toggleTheme();
-                  }}
+                  onClick={props.toggleTheme}
                 >
                   <span className="material-icons-round">light_mode</span>
                 </a>
-              </li> */}
+              </li>
 
               <li className="nav-menu-item">{connectWalletButton()}</li>
               <li className="nav-menu-item">
@@ -80,7 +83,6 @@ const Header = (props) => {
                     as={CustomToggle}
                     id="dropdown-basic"
                   ></Dropdown.Toggle>
-
                   <Dropdown.Menu className="menu-dropdown">
                     <ExternalMenu />
                   </Dropdown.Menu>

@@ -9,6 +9,7 @@
     border-radius: 12px;
     border: 0;
     padding: 12px;
+    width: 340px;
   }
 
   .header {
@@ -64,6 +65,26 @@
     &:active {
       transform: scale(0.98);
       transform-origin: 50% 50%;
+    }
+  }
+}
+
+.stakeModal {
+  .inputWrapper {
+    background: #f4f4f6;
+    border-radius: 6px;
+    padding: 16px;
+
+    & input {
+      background: transparent;
+      border: 0;
+      outline: none;
+      width: 50px;
+      flex-grow: 1;
+    }
+
+    & span {
+      font-size: 14px;
     }
   }
 }

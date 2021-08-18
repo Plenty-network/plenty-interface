@@ -36,9 +36,7 @@ export const swapTokens = async (
     let tokenInId = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_ID;
     let tokenOutAddress = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_CONTRACT;
     let tokenOutId = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_ID;
-    //let tokenInInstance = await Tezos.wallet.at(tokenInAddress);
-    //console.log('tokenInInstance', tokenInInstance);
-    //let dexContractInstance = await Tezos.wallet.at(dexContractAddress);
+
     tokenInAmount =
       tokenInAmount *
       Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
@@ -104,7 +102,6 @@ export const swapTokens = async (
       operationId: batchOperation.hash,
     };
   } catch (error) {
-    console.log('error=', error);
     return {
       success: false,
       error,
@@ -168,7 +165,6 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
       dexContractInstance,
     };
   } catch (error) {
-    console.log(error);
     return {
       success: true,
       tokenIn,
@@ -342,16 +338,11 @@ export const addLiquidity = async (
       CONFIG.AMM[connectedNetwork][tokenSecond].TOKEN_CONTRACT;
     let tokenFirstId = CONFIG.AMM[connectedNetwork][tokenFirst].TOKEN_ID;
     let tokenSecondId = CONFIG.AMM[connectedNetwork][tokenSecond].TOKEN_ID;
-    console.log({
-      dexContractAddress,
-      tokenFirstAddress,
-      tokenSecondAddress,
-      tokenFirst_Amount,
-      tokenSecond_Amount,
-    });
-    //let tokenFirstInstance = await Tezos.wallet.at(tokenFirstAddress);
-    //let tokenSecondInstance = await Tezos.wallet.at(tokenSecondAddress);
-    //let dexContractInstance = await Tezos.wallet.at(dexContractAddress);
+
+    tokenFirstInstance = await Tezos.contract.at(tokenFirstAddress);
+    tokenSecondInstance = await Tezos.contract.at(tokenSecondAddress);
+    dexContractInstance = await Tezos.contract.at(dexContractAddress);
+
     let batch = null;
     if (
       CONFIG.AMM[connectedNetwork][tokenFirst].CALL_TYPE === 'FA1.2' &&
@@ -378,6 +369,7 @@ export const addLiquidity = async (
         )
         .withContractCall(
           dexContractInstance.methods.AddLiquidity(
+            caller,
             tokenFirst_Amount,
             tokenSecond_Amount
           )
@@ -415,6 +407,7 @@ export const addLiquidity = async (
         )
         .withContractCall(
           dexContractInstance.methods.AddLiquidity(
+            caller,
             tokenFirst_Amount,
             tokenSecond_Amount
           )
@@ -460,6 +453,7 @@ export const addLiquidity = async (
         )
         .withContractCall(
           dexContractInstance.methods.AddLiquidity(
+            caller,
             tokenFirst_Amount,
             tokenSecond_Amount
           )
@@ -506,6 +500,7 @@ export const addLiquidity = async (
         )
         .withContractCall(
           dexContractInstance.methods.AddLiquidity(
+            caller,
             tokenFirst_Amount,
             tokenSecond_Amount
           )
@@ -628,7 +623,7 @@ export const computeRemoveTokens = (
 //       ].TOKEN_DECIMAL;
 //     lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
 //     let dexContractInstance = await Tezos.wallet.at(dexContractAddress);
-//     console.log('sdfjkghsjfgs=', {
+//
 //       lpToken_Amount,
 //     });
 //     let batch = Tezos.wallet
@@ -638,7 +633,7 @@ export const computeRemoveTokens = (
 //       );
 //     const batchOperation = await batch.send();
 //     await batchOperation.confirmation().then(() => batchOperation.opHash);
-//     console.log({ batchOperation });
+//
 //     return {
 //       success: true,
 //       operationId: batchOperation.hash,
@@ -718,21 +713,18 @@ export const removeLiquidity = async (
       ].TOKEN_DECIMAL;
     lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
     //let dexContractInstance = await Tezos.wallet.at(dexContractAddress);
-    console.log('sdfjkghsjfgs=', {
-      lpToken_Amount,
-    });
     let batch = Tezos.wallet
       .batch()
       .withContractCall(
         dexContractInstance.methods.RemoveLiquidity(
           lpToken_Amount,
+          caller,
           tokenFirst_Amount,
           tokenSecond_Amount
         )
       );
     const batchOperation = await batch.send();
     await batchOperation.confirmation().then(() => batchOperation.opHash);
-    console.log({ batchOperation });
     return {
       success: true,
       operationId: batchOperation.hash,
@@ -787,8 +779,8 @@ export const fetchWalletBalance = async (
       } else {
         const userDetails = await storage.balances.get(addressOfUser);
         let userBalance = userDetails.balance;
-        userBalance =
-          userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
+
+        userBalance = userBalance.toNumber() / Math.pow(10, token_decimal);
         userBalance = parseFloat(userBalance);
         return {
           success: true,
@@ -806,9 +798,7 @@ export const fetchWalletBalance = async (
         userDetails.toNumber() / Math.pow(10, token_decimal)
       ).toFixed(3);
       userBalance = parseFloat(userBalance);
-      console.log('userBalance=', userBalance);
-      console.log('icon=', icon);
-      console.log('userDetails=', userDetails);
+
       return {
         success: true,
         balance: userBalance,
@@ -849,7 +839,7 @@ export const fetchAllWalletBalance = async (addressOfUser) => {
       userBalances[response[i].symbol] = response[i].balance;
       contractInstances[response[i].symbol] = response[i].contractInstance;
     }
-    console.log({ userBalances, contractInstances });
+
     return {
       success: true,
       userBalances,
@@ -871,7 +861,7 @@ export const fetchAllWalletBalance = async (addressOfUser) => {
 //     tokenPriceResponse = tokenPriceResponse.data;
 //     const tokens = ['PLENTY', 'KALAM', 'wDAI', 'WRAP'];
 //     for (let i in tokenPriceResponse.contracts) {
-//       console.log(i);
+//
 //       if (tokens.includes(tokenPriceResponse.contracts[i].symbol)) {
 //         tokenPrice[tokenPriceResponse.contracts[i].symbol] =
 //           tokenPriceResponse.contracts[i].usdValue;
@@ -882,7 +872,7 @@ export const fetchAllWalletBalance = async (addressOfUser) => {
 //       tokenPrice,
 //     };
 //   } catch (error) {
-//     console.log(error);
+//
 //     return {
 //       success: false,
 //       tokenPrice: {},
@@ -924,7 +914,6 @@ export const getTokenPrices = async () => {
       tokenPrice,
     };
   } catch (error) {
-    console.log(error);
     return {
       success: false,
       tokenPrice: {},

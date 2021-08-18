@@ -56,14 +56,18 @@ const SwapTab = (props) => {
           Swap
         </button>
       );
-    } else if (props.firstTokenAmount && !props.tokenOut.name) {
+    } else if (props.tokenOut.name === undefined) {
       swapContentButton = (
         <button className="swap-content-btn enter-amount">
-          Select a token to swap
+          Select a token
         </button>
       );
     } else {
-      swapContentButton = (
+      swapContentButton = props.loading ? (
+        <button className="swap-content-btn loader-btn enter-amount">
+          <PuffLoader color={'#fff'} size={28} />
+        </button>
+      ) : (
         <button className="swap-content-btn enter-amount">
           Enter an amount
         </button>
@@ -74,15 +78,17 @@ const SwapTab = (props) => {
     <>
       <div className="swap-content-box-wrapper">
         <div className="swap-content-box">
-          <div className="swap-token-select-box">
+          <div className="swap-token-select-box bg-themed-light">
             <div className="token-selector-balance-wrapper">
               <button
-                className="token-selector"
+                className="token-selector dropdown-themed"
                 onClick={() => props.handleTokenType('tokenIn')}
               >
                 <img src={props.tokenIn.image} className="button-logo" />
-                {props.tokenIn.name}{' '}
-                <span className="material-icons-round">expand_more</span>
+                <span className="span-themed">{props.tokenIn.name} </span>
+                <span className="span-themed material-icons-round">
+                  expand_more
+                </span>
               </button>
             </div>
 
@@ -130,16 +136,18 @@ const SwapTab = (props) => {
         </div>
 
         <div className="swap-content-box">
-          <div className="swap-token-select-box">
+          <div className="swap-token-select-box bg-themed-light">
             <div className="token-selector-balance-wrapper">
               {props.tokenOut.name ? (
                 <button
-                  className="token-selector"
+                  className="token-selector dropdown-themed"
                   onClick={() => props.handleTokenType('tokenOut')}
                 >
                   <img src={props.tokenOut.image} className="button-logo" />
-                  {props.tokenOut.name}{' '}
-                  <span className="material-icons-round">expand_more</span>
+                  <span className="span-themed">{props.tokenOut.name} </span>
+                  <span className="span-themed material-icons-round">
+                    expand_more
+                  </span>
                 </button>
               ) : (
                 <button
@@ -193,7 +201,7 @@ const SwapTab = (props) => {
                   props.computedOutDetails.tokenOut_amount
                     ? (
                         props.computedOutDetails.tokenOut_amount *
-                        props.getTokenPrice.tokenPrice[props.tokenOut.name]
+                        props.userBalances[props.tokenOut.name]
                       ).toFixed(5)
                     : '0.00'}
                 </p>

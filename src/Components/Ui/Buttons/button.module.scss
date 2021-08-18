@@ -15,6 +15,11 @@
     transform: scale(0.98);
     transform-origin: 50% 50%;
   }
+
+  &[disabled] {
+    background: #8A94A6;
+    transform: none;
+  }
 }
 
 .quantityBtn {
@@ -60,6 +65,13 @@
 .mute {
   border: 0;
   background: #F5F5F5;
+}
+
+.tertiary {
+  color: #823DE0;
+  background-color: #FFFFFF;
+  border: 0;
+  font-weight: bold;
 }
 
 .default {

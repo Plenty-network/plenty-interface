@@ -3,6 +3,9 @@ import SimpleModal from "./SimpleModal";
 import { useState } from "react";
 import Button from "../Buttons/Button";
 
+import styles from "./modal.module.scss";
+import clsx from "clsx";
+
 const BUTTON_TEXT = {
   ENTER_AMT: 'Enter an amount',
   STAKE: 'Confirm Stake',
@@ -10,17 +13,30 @@ const BUTTON_TEXT = {
 }
 
 const StakeModal = props => {
-  console.log({'stakemodal' : props});
+  const [loading, setLoading] = useState(false);
+
+  const onStake = () => {
+    setLoading(true)
+    props.stakeOnFarm(
+      props.stakeInputValues,
+      props.stakeModalIdentifier,
+      props.isActiveOpen,
+      props.stakeModalFarmPosition
+    )
+  }
+
+
   return (
     <SimpleModal
       open={props.open}
       onClose={props.onClose}
       title={`Stake ${props.stakeModalTitle} tokens`}
+      className={styles.stakeModal}
     >
-      <div className="input-wrapper d-flex">
-        <input onChange={(event) => props.handleInput(parseFloat(event.target.value))} />
+      <div className={clsx(styles.inputWrapper, "d-flex")}>
+        <input onChange={(event) => props.handleInput(parseFloat(event.target.value))} placeholder={"0.0"} />
 
-        <span className="mr-2 ml-2">{props.stakeModalTitle}</span>
+        <span className="mr-2 ml-2 mt-auto mb-auto">{props.stakeModalTitle}</span>
 
         <Button onClick={() => null} size="small" color="secondary" className="rounded-pill">max</Button>
       </div>
@@ -31,7 +47,12 @@ const StakeModal = props => {
         </div>
       </div>
 
-      <Button onClick={() => props.stakeOnFarm(props.stakeInputValues,props.stakeModalIdentifier,props.isActiveOpen,props.stakeModalFarmPosition)} color="primary" className="w-100">{BUTTON_TEXT.STAKE}</Button>
+      <Button
+        onClick={onStake}
+        color="primary"
+        className="w-100"
+        loading={loading}
+      >{BUTTON_TEXT.STAKE}</Button>
     </SimpleModal>
   )
 }

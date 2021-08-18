@@ -11,7 +11,7 @@ const SimpleModal = (props) => {
       onHide={props.onClose}
       backdrop="static"
       keyboard={false}
-      dialogClassName={styles.simpleModal}
+      dialogClassName={clsx(styles.simpleModal, props.className)}
       centered={true}
     >
       {/* * Header */}
@@ -25,18 +25,18 @@ const SimpleModal = (props) => {
         <div className={styles.closeBtn} onClick={props.onClose}>
           <span className="material-icons-round">close</span>
         </div>
-      </div>
-      {/* * Header */}
+        {/* * Header */}
 
-      {/* * Body */}
-      <div
-        className={clsx(styles.content, {
-          [styles.noTopPadding]: !props.title,
-        })}
-      >
-        {props.children}
+        {/* * Body */}
+        <div
+          className={clsx(styles.content, {
+            [styles.noTopPadding]: !props.title,
+          })}
+        >
+          {props.children}
+        </div>
+        {/* * Body */}
       </div>
-      {/* * Body */}
     </Modal>
   );
 };
@@ -45,6 +45,7 @@ SimpleModal.propTypes = {
   title: PropTypes.string,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  className: PropTypes.string,
 };
 
 export default SimpleModal;

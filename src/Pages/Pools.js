@@ -1,22 +1,27 @@
-import React from "react";
-import wrapImg from "../assets/images/wrap.png";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import PropTypes from "prop-types";
-import PoolCard from "../Components/PoolCard/PoolCard";
+import React from 'react';
+import wrapImg from '../assets/images/wrap.png';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import PropTypes from 'prop-types';
+import PoolCard from '../Components/PoolCard/PoolCard';
+import plentyToken from '../assets/images/logo_small.png';
+import plentyPoolIcon from '../assets/images/logo-icon.png';
+import hdao from '../assets/images/hdao.png';
+import kalam from '../assets/images/kalam-pool.png';
 
 const Pools = ({ walletAddress }) => {
   // ! TEMP
   const poolsList = [
     {
-      image: wrapImg,
+      image: plentyPoolIcon,
       multi: '100',
+      harvestImg: plentyToken,
       title: 'PLENTY',
       apr: 0,
       apy: '2621',
       earn: 'PLENTY',
       fee: '0%',
-      earned: 0,
+      earned: 100,
       deposit: 'PLENTY - XTZ LP',
       liquidity: '100000',
       withdrawalFee: '0%',
@@ -28,10 +33,11 @@ const Pools = ({ walletAddress }) => {
       rewards: '1000 PLENTY / DAY',
     },
     {
-      image: wrapImg,
+      image: hdao,
       multi: '100',
       title: 'hDAO',
       apr: 0,
+      harvestImg: plentyToken,
       apy: '2621',
       earn: 'PLENTY',
       fee: '0%',
@@ -47,9 +53,10 @@ const Pools = ({ walletAddress }) => {
       rewards: '1000 PLENTY / DAY',
     },
     {
-      image: wrapImg,
+      image: kalam,
       multi: '100',
       title: 'KALAM',
+      harvestImg: plentyToken,
       apr: 0,
       apy: '2621',
       earn: 'PLENTY',
@@ -70,17 +77,22 @@ const Pools = ({ walletAddress }) => {
   return (
     <Container fluid className="page-layout-container">
       <Row>
-        {poolsList.map(pool => {
-          return <PoolCard key={pool.title} {...pool} walletAddress={walletAddress} />;
+        {poolsList.map((pool) => {
+          return (
+            <PoolCard
+              key={pool.title}
+              {...pool}
+              walletAddress={walletAddress}
+            />
+          );
         })}
       </Row>
     </Container>
   );
 };
 
-
 Pools.propTypes = {
-  walletAddress: PropTypes.string.isRequired
-}
+  walletAddress: PropTypes.string.isRequired,
+};
 
 export default Pools;
