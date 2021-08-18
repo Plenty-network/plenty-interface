@@ -19,6 +19,7 @@ import StakeModal from '../Components/Ui/Modals/StakeModal';
 import UnstakeModal from '../Components/Ui/Modals/UnstakeModal';
 
 import styles from '../assets/scss/partials/_farms.module.scss';
+import FarmModals from "../Components/FarmPage/FarmModals";
 
 const Farms = (props) => {
 
@@ -159,7 +160,7 @@ const Farms = (props) => {
     {
       for(let farms in CONFIG.FARMS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'])
       {
-        console.log(CONFIG.FARMS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][farms].withdrawalFeeType);
+        console.log('famrs', CONFIG.FARMS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][farms]);
         console.log(CONFIG.withdrawalFeeDistribution[CONFIG.FARMS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][farms].withdrawalFeeType]);
         farmsToBeRendered.push({
           farmData : CONFIG.FARMS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][farms],
@@ -167,7 +168,7 @@ const Farms = (props) => {
           identifier : key,
           location : farms,
           withdrawalFeeStructure : CONFIG.withdrawalFeeDistribution[CONFIG.FARMS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][farms].withdrawalFeeType],
-          title : CONFIG.FARMS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][farms].CARD_TYPE
+          title : CONFIG.FARMS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][farms].CARD_TYPE,
         })
       }
     }
@@ -233,7 +234,7 @@ const Farms = (props) => {
     {/* withdrawalFeeStructure={props.withdrawalFeeStructure} */}
     {/* tokenData={{title: props.title}} */}
     {/* CONTRACT={props.CONTRACT} position={props.position} identifier={props.identifier} */}
-    
+    <FarmModals />
     </>
   );
 };

@@ -6,14 +6,21 @@ import PropTypes from 'prop-types'
 import styles from "../../assets/scss/partials/_farms.module.scss"
 import clsx from "clsx";
 import QuantityButton from "../Ui/Buttons/QuantityButton";
-import UnstakeModal from "../Ui/Modals/UnstakeModal";
 import { Image } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { openCloseFarmsModal } from "../../redux/actions/farms/farms.actions";
+import { FARM_PAGE_MODAL } from "../../constants/farmsPage";
 
 const FarmCardBottom = (props) => {
   const [ isExpanded, toggleExpand ] = useState(false);
+  const dispatch = useDispatch()
 
   const hasStakedAmount = () => {
     return props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0;
+  }
+
+  const onWithdrawalFeeClick = () => {
+    dispatch(openCloseFarmsModal({ open: FARM_PAGE_MODAL.WITHDRAWAL, contractAddress: props.CONTRACT }))
   }
 
   return (
@@ -90,14 +97,9 @@ const FarmCardBottom = (props) => {
             <div className={clsx(styles.plentyCardContent, styles.bottomBorder, "d-flex")}>
               <div className={clsx(styles.rightBorder, "w-50 text-center")}>
                 <div>Deposit Fee</div>
-                <Button
-                  size="small"
-                  color="mute"
-                  startIcon="help_outline"
-                  className="mt-1 ml-auto mr-auto"
-                  rounded={false}
-                  onClick={() => null}
-                >0%</Button>
+                <span className="mt-1 ml-auto mr-auto">
+                  0%
+                </span>
               </div>
 
               <div className={"w-50 text-center"}>
@@ -108,7 +110,7 @@ const FarmCardBottom = (props) => {
                   startIcon="help_outline"
                   className="mt-1 ml-auto mr-auto"
                   rounded={false}
-                  onClick={() => null}
+                  onClick={onWithdrawalFeeClick}
                 >Variable</Button>
               </div>
             </div>

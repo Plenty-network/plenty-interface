@@ -5,8 +5,18 @@ const useInfoTableHooks = (props) => {
 
   useEffect(() => {
     const formatData = () => {
-      // TODO add formating here
-      return props.data
+      if (props.type === 'withdrawal') {
+        return props.data.map(datum => ({
+          col1: '1 Day', // !! Hard coded, check with someone
+          col2: datum.block,
+          col3: datum.rate
+        }))
+      }
+      return props.data.map(datum => ({
+        col1: '1 Day', // !! Hard coded, check with someone
+        col2: datum.roi?.toFixed(6),
+        col3: datum.PlentyPer1000dollar?.toFixed(6)
+      }))
     }
 
     if (props.type === 'withdrawal') {
