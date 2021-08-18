@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import Container from 'react-bootstrap/Container';
+import React, { useEffect } from 'react';
 import Row from 'react-bootstrap/Row';
 
 import FarmCard from '../Components/FarmCard/FarmCard';
@@ -25,7 +24,6 @@ const Farms = (props) => {
 
   useEffect(() => {
     renderFarms();
-    console.log(props.userAddress);
     props.getFarmsData(props.isActiveOpen)
     props.getUserStakes(props.userAddress,'FARMS',props.isActiveOpen)
     props.getHarvestValues(props.userAddress,'FARMS',props.isActiveOpen)
