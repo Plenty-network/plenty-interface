@@ -180,7 +180,7 @@ const Farms = (props) => {
     <>
     <div>
     <div>
-      <Row className="mb-4 justify-content-center">
+      <Row className="mt-5 justify-content-center">
         <Switch
           value={props.isActiveOpen}
           onChange={() => props.toggleFarmsType(!props.isActiveOpen)}
