@@ -25,9 +25,10 @@ const SimpleModal = (props) => {
         <div className={styles.closeBtn} onClick={props.onClose}>
           <span className="material-icons-round">close</span>
         </div>
-        {/* * Header */}
+      </div>
+      {/* * Header */}
 
-        {/* * Body */}
+      {/* * Body */}
         <div
           className={clsx(styles.content, {
             [styles.noTopPadding]: !props.title,
@@ -36,7 +37,7 @@ const SimpleModal = (props) => {
           {props.children}
         </div>
         {/* * Body */}
-      </div>
+
     </Modal>
   );
 };
