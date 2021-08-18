@@ -1,4 +1,5 @@
 import * as actions from '../actions/index.action';
+import { FARM_PAGE_MODAL } from "../../constants/farmsPage";
 
 const initialState = {
     active : {
@@ -28,6 +29,10 @@ const initialState = {
         completed : false,
         failed : false,
         operationHash : null
+    },
+    modals: {
+      open: FARM_PAGE_MODAL.NULL,
+      contractAddress: null,
     },
     isActiveOpen : true,
     stakeInputValue : 0,
@@ -310,6 +315,13 @@ const farmsReducer = (state = initialState , action) => {
                 unstakeModalTitle : '',
                 unstakeModalwithdrawalFeeStructure : []
             }
+
+        case actions.OPEN_CLOSE_FARMS_MODAL:
+            return {
+                ...state,
+                modals: action.payload
+            }
+
         default:
             return {
                 ...state

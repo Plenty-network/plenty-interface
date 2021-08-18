@@ -1,4 +1,3 @@
-import Col from "react-bootstrap/Col";
 import styles from "../../assets/scss/partials/_farms.module.scss"
 import Image from "react-bootstrap/Image";
 import clsx from "clsx";
@@ -7,9 +6,14 @@ import Button from "../Ui/Buttons/Button";
 
 import CalculatorSvg from '../../assets/images/icons/calculator.svg';
 import { numberWithCommas } from "../../utils/formatNumbers";
+import { useDispatch } from "react-redux";
+import { openCloseFarmsModal } from "../../redux/actions/farms/farms.actions";
+import { FARM_PAGE_MODAL } from "../../constants/farmsPage";
 
 const FarmCard = (props) => {
-  console.log({props});
+
+  const dispatch = useDispatch()
+
   const apyCalculate = (apr) => (
       (Math.pow(1 + apr / 100 / 365, 365) - 1) *
       100
@@ -93,6 +97,11 @@ const getTotalLiquidity = () => {
   const hasStakedAmount = () => {
     return props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT]?.stakedAmount > 0;
   }
+
+  const onRoiClick = () => {
+    dispatch(openCloseFarmsModal({ open: FARM_PAGE_MODAL.ROI, contractAddress: props.CONTRACT }))
+  }
+
   return (
     <>
     <div>
@@ -136,7 +145,7 @@ const getTotalLiquidity = () => {
                 src={CalculatorSvg}
                 alt={'Check ROI'}
                 className={styles.roiInfoImg}
-                onClick={() => null}
+                onClick={onRoiClick}
               />
               {
                 getAPR(props)
