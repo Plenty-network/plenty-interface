@@ -4,6 +4,8 @@ import wdaiImg from "../assets/images/wdai.png";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import PondCard from "../Components/PondCard/PondCard";
+import styles from "../assets/scss/partials/_farms.module.scss";
+import Switch from "../Components/Ui/Switch/Switch";
 
 const Ponds = ({ walletAddress }) => {
   // ! TEMP
@@ -68,13 +70,20 @@ const Ponds = ({ walletAddress }) => {
   ];
 
   return (
-    <Container fluid className="page-layout-container">
-      <Row>
+    <div>
+      <Row className="mt-5 justify-content-center">
+        <Switch
+          trueLabel={'Active'}
+          falseLabel={'Inactive'}
+          inverted={true}
+        />
+      </Row>
+      <div className={styles.cardsContainer}>
         {pondsList.map(pool => {
           return <PondCard key={pool.title} {...pool} walletAddress={walletAddress} />;
         })}
-      </Row>
-    </Container>
+      </div>
+    </div>
   );
 };
 

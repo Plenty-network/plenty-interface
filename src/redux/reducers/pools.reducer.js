@@ -1,4 +1,5 @@
 import * as actions from '../actions/index.action';
+import { POOL_PAGE_MODAL } from "../../constants/poolsPage";
 
 const initialState = {
     active : {
@@ -28,7 +29,11 @@ const initialState = {
         completed : false,
         failed : false,
         operationHash : null
-    }
+    },
+    modals: {
+        open: POOL_PAGE_MODAL.NULL,
+        contractAddress: null,
+    },
 }
 
 const poolsReducer = (state = initialState , action) => {

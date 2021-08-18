@@ -8,6 +8,8 @@ import plentyToken from '../assets/images/logo_small.png';
 import plentyPoolIcon from '../assets/images/logo-icon.png';
 import hdao from '../assets/images/hdao.png';
 import kalam from '../assets/images/kalam-pool.png';
+import Switch from "../Components/Ui/Switch/Switch";
+import styles from "../assets/scss/partials/_farms.module.scss";
 
 const Pools = ({ walletAddress }) => {
   // ! TEMP
@@ -75,8 +77,15 @@ const Pools = ({ walletAddress }) => {
   ];
 
   return (
-    <Container fluid className="page-layout-container">
-      <Row>
+    <div>
+      <Row className="mt-5 justify-content-center">
+        <Switch
+          trueLabel={'Active'}
+          falseLabel={'Inactive'}
+          inverted={true}
+        />
+      </Row>
+      <div className={styles.cardsContainer}>
         {poolsList.map((pool) => {
           return (
             <PoolCard
@@ -86,8 +95,8 @@ const Pools = ({ walletAddress }) => {
             />
           );
         })}
-      </Row>
-    </Container>
+      </div>
+    </div>
   );
 };
 

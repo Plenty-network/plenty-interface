@@ -1,5 +1,9 @@
-const axios = require('axios');
-const CONFIG = require('../../../CONFIG/config2');
+import { BeaconWallet } from '@taquito/beacon-wallet';
+import { TezosToolkit , OpKind } from '@taquito/taquito';
+import axios from 'axios';
+import CONFIG from '../../../config/config';
+import { CheckIfWalletConnected } from "../../../apis/wallet/wallet";
+
 export const getPoolsData = async (isActive) => {
     try {
         let url = null;
