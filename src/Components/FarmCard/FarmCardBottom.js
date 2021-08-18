@@ -6,14 +6,13 @@ import PropTypes from 'prop-types'
 import styles from "../../assets/scss/partials/_farms.module.scss"
 import clsx from "clsx";
 import QuantityButton from "../Ui/Buttons/QuantityButton";
-import { Image, Overlay, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Image, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { openCloseFarmsModal } from "../../redux/actions/farms/farms.actions";
 import { FARM_PAGE_MODAL } from "../../constants/farmsPage";
 
 const FarmCardBottom = (props) => {
   const [ isExpanded, toggleExpand ] = useState(false);
-  const [ depositFeeToolTip, toggleDepositFeeToolTip ] = useState(true);
   const target = useRef(null);
   const dispatch = useDispatch()
 
@@ -150,10 +149,6 @@ const FarmCardBottom = (props) => {
           color={"mute"}
         />
       </div>
-      {/* <StakeModal open={props.isStakeModalOpen} onClose={() => props.closeFarmsStakeModal()} tokenData={{title: props.title}} handleInput = {props.handleStakeOfFarmInputValue} CONTRACT = {props.CONTRACT} stakeInputValues={props.stakeInputValues} stakeOnFarm={props.stakeOnFarm} identifier={props.identifier} position={props.position}/> */}
-      {/* {props.userStakes.hasOwnProperty(props.CONTRACT) ?
-      <UnstakeModal currentBlock={props.currentBlock} withdrawalFeeStructure={props.withdrawalFeeStructure} open={props.isUnstakeModalOpen && props.userStakes.hasOwnProperty(props.CONTRACT)} onClose={() => {props.closeFarmsUnstakeModal()}} tokenData={{title: props.title}} userStakes={props.userStakes} CONTRACT={props.CONTRACT} position={props.position} identifier={props.identifier} isActiveOpen={props.isActiveOpen} unstakeOnFarm={props.unstakeOnFarm} />: null}
-    </> */}
     </>
   )
 };

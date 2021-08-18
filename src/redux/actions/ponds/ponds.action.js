@@ -212,3 +212,5 @@ export const clearHarvestPondResponse = () => {
         })
     }
 }
+
+export const openClosePondsModal = payload => ({ type: actions.OPEN_CLOSE_PONDS_MODAL, payload })

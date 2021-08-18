@@ -33,7 +33,6 @@ const FarmModals = () => {
   )
 
   const getTableData = useCallback(() => {
-    console.log({withDrawalFee, roi, modalData})
     if (modalData.open === FARM_PAGE_MODAL.WITHDRAWAL) {
       return withDrawalFee
     }

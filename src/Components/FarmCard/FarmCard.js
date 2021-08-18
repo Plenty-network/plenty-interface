@@ -101,7 +101,7 @@ const getTotalLiquidity = () => {
         {/* * Header */}
         <div className={clsx(styles.plentyCardHeader, "flex justify-between align-center p-26 pb-20")}>
           <div className={styles.imageWrapper}>
-            <Image src={props.image} fluid />
+            <Image height={45} src={props.image} fluid />
           </div>
           <div className="text-right">
             <p className={styles.title}>{props.title}</p>
