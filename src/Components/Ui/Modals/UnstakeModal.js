@@ -4,7 +4,7 @@ import Button from "../Buttons/Button";
 
 import styles from './modal.module.scss'
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { Collapse } from "react-bootstrap";
 
 const BUTTON_TEXT = {
@@ -12,20 +12,43 @@ const BUTTON_TEXT = {
   CONFIRM: 'Confirm unstake',
 }
 
+const SELECT_LABEL_TEXT = {
+  SELECT: 'Select stake',
+  UNSTAKE_AMT: 'Unstake amount',
+}
+
 const UnstakeModal = props => {
 
   const [open, setOpen] = useState(false);
-  const [buttonText, setButtonText] = useState(BUTTON_TEXT.CONFIRM)
   const [selected, setSelected] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  const buttonText = useMemo(() => {
     if (selected.length > 0) {
-      setButtonText(BUTTON_TEXT.CONFIRM)
-    } else {
-      setButtonText(BUTTON_TEXT.SELECT)
+      return BUTTON_TEXT.CONFIRM
     }
-  }, [selected])
+
+    return BUTTON_TEXT.SELECT
+  }, [selected.length])
+
+
+  const userStakes = useMemo(() => {
+    return props.userStakes?.[props.unstakeModalContractAddress]?.singularStakes ?? [];
+  }, [props.unstakeModalContractAddress, props.userStakes])
+
+  const selectLabelText = useMemo(() => {
+    if (selected.length > 0 && !open) {
+      return (
+        <div className="d-flex justify-content-between w-100 mr-4">
+          <span>{SELECT_LABEL_TEXT.UNSTAKE_AMT}</span>
+          <span>{selected.reduce((acc, cur) => acc + cur.amount, 0)}</span>
+        </div>
+      )
+    }
+
+    return <span>{SELECT_LABEL_TEXT.SELECT}</span>
+  }, [selected.length, open])
+
 
   const calculateFee = (difference ,obj) => {
     let feeObj = {mapId : obj.mapId}
@@ -86,9 +109,12 @@ const UnstakeModal = props => {
             className={clsx(
               styles.unstakeSelect,
               "d-flex justify-content-between",
-              {[styles.active]: open})}
+              {
+                [styles.active]: open,
+                [styles.selectedStakes]: !open && selected.length > 0
+              })}
           >
-            <span>Select stake</span>
+            {selectLabelText}
             <Button
               className={(clsx(styles.collapseBtn, { [styles.active]: open }))}
               isIconBtn={true}
@@ -102,7 +128,7 @@ const UnstakeModal = props => {
               
             <div className={styles.collapsedContent}>
               {
-                props.userStakes[props.unstakeModalContractAddress].singularStakes.map((x) => (
+                userStakes.map((x) => (
                   <label key={x.mapId} className={styles.stakedItem}>
                     <div className="d-flex justify-content-between flex-grow-1">
                       <span>{'Stake ' + x.mapId}</span>
