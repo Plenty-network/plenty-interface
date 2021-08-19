@@ -4,15 +4,13 @@ import Button from "../Buttons/Button";
 
 import styles from './modal.module.scss'
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Collapse } from "react-bootstrap";
 
-// ! TEMP variable
 const BUTTON_TEXT = {
   SELECT: 'Select stake',
   CONFIRM: 'Confirm unstake',
 }
-
 
 const UnstakeModal = props => {
 
@@ -20,6 +18,14 @@ const UnstakeModal = props => {
   const [buttonText, setButtonText] = useState(BUTTON_TEXT.CONFIRM)
   const [selected, setSelected] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (selected.length > 0) {
+      setButtonText(BUTTON_TEXT.CONFIRM)
+    } else {
+      setButtonText(BUTTON_TEXT.SELECT)
+    }
+  }, [selected])
 
   const calculateFee = (difference ,obj) => {
     let feeObj = {mapId : obj.mapId}
@@ -96,7 +102,7 @@ const UnstakeModal = props => {
               
             <div className={styles.collapsedContent}>
               {
-                props.userStakes[props.unstakeModalContractAddress].singularStakes.map((x,index) => (
+                props.userStakes[props.unstakeModalContractAddress].singularStakes.map((x) => (
                   <label key={x.mapId} className={styles.stakedItem}>
                     <div className="d-flex justify-content-between flex-grow-1">
                       <span>{'Stake ' + x.mapId}</span>
@@ -152,6 +158,7 @@ const UnstakeModal = props => {
           color="primary"
           className="w-100 mt-4"
           loading={loading}
+          disabled={buttonText !== BUTTON_TEXT.CONFIRM}
         >{buttonText}</Button>
       </div>
     </SimpleModal>
