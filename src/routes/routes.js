@@ -11,7 +11,6 @@ import {lightTheme, darkTheme, GlobalStyles} from '../themes';
 import {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import * as walletActions from '../redux/actions/wallet/wallet.action';
-import { PuffLoader } from "react-spinners";
 
 // * Lazy loading
 const Swap = React.lazy(() => import('../Pages/Swap'));
@@ -46,7 +45,7 @@ const Routes = (props) => {
     return (
         <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
             <GlobalStyles/>
-            <React.Suspense fallback={<PuffLoader />}>
+            <React.Suspense fallback={<div />}>
             <Router>
                 <Switch>
                     <Route path="/" exact>

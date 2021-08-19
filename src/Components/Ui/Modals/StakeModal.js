@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import SimpleModal from "./SimpleModal";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import Button from "../Buttons/Button";
 
 import styles from "./modal.module.scss";
@@ -24,6 +24,18 @@ const StakeModal = props => {
       props.stakeModalFarmPosition
     )
   }
+
+  const buttonText = useMemo(() => {
+    if (!props.stakeInputValues) {
+      return BUTTON_TEXT.ENTER_AMT;
+    }
+
+    if (props.stakeInputValues > props.walletBalances[props.stakeModalIdentifier]) {
+      return BUTTON_TEXT.INSUFF_AMT;
+    }
+
+    return BUTTON_TEXT.STAKE;
+  }, [props.stakeInputValues, props.stakeModalIdentifier, props.walletBalances])
 
 
   return (
@@ -51,8 +63,9 @@ const StakeModal = props => {
         onClick={onStake}
         color="primary"
         className="w-100"
+        disabled={buttonText !== BUTTON_TEXT.STAKE}
         loading={loading}
-      >{BUTTON_TEXT.STAKE}</Button>
+      >{buttonText}</Button>
     </SimpleModal>
   )
 }
