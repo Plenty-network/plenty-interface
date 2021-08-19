@@ -22,9 +22,14 @@ import LinkTile from "../../Components/LinkTile/LinkTile"
 import Accordion from "../../Components/Ui/Accordion/Accordion"
 import Stats from "../../Components/Stats/Stats"
 import Header from "../../Components/Header/Header"
-import { connect } from "react-redux"
+import { connect, useDispatch } from "react-redux"
 import { FrontPageGradientDiv } from "../../themes"
-import { getTVL, getHomeStatsData } from "../../redux/actions/home/home.actions"
+import {
+	getTVL,
+	getHomeStatsData,
+	getPlentyToHarvest,
+	getPlentyBalanceOfUser,
+} from "../../redux/actions/home/home.actions"
 
 const Frontpage = ({
 	toggleTheme,
@@ -36,11 +41,17 @@ const Frontpage = ({
 	tvl,
 	getTVL,
 	getHomeStats,
+	wallet,
+	plentyToHarvest,
+	plentyBalance,
 }) => {
+	const dispatch = useDispatch()
 	useEffect(() => {
 		getHomeStats()
 		getTVL()
-	}, [])
+		wallet && getPlentyToHarvest(wallet)
+		wallet && getPlentyBalanceOfUser(wallet)
+	}, [wallet])
 	const walletConnected = true
 
 	return (
@@ -116,8 +127,8 @@ const Frontpage = ({
 								<Stats
 									valueLocked={15021}
 									plentyEarned={251_532}
-									plentyInWallet={12.48192}
-									plentyToHarvest={0.999715}
+									plentyInWallet={plentyBalance}
+									plentyToHarvest={plentyToHarvest}
 								/>
 							</div>
 						</Col>
@@ -130,7 +141,7 @@ const Frontpage = ({
 						text={`$${
 							homeStats.price &&
 							homeStats.price.toLocaleString(undefined, {
-								maximumFractionDigits: 20,
+								maximumFractionDigits: 3,
 							})
 						}`}
 						icon={dollar}
@@ -149,7 +160,10 @@ const Frontpage = ({
 				<Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
 					<Label
 						text={
-							homeStats.total_minted && homeStats.total_minted.toLocaleString()
+							homeStats.total_minted &&
+							homeStats.total_minted.toLocaleString(undefined, {
+								maximumFractionDigits: 0,
+							})
 						}
 						icon={farms}
 						subText={"Total minted"}
@@ -492,11 +506,16 @@ const mapStateToProps = state => ({
 	homeStats: state.home.homeStats.data,
 	tvl: state.home.tvl.data,
 	wallet: state.wallet.address,
+	plentyToHarvest: state.home.plentyToHarvest.data,
+	plentyBalance: state.home.plentyBalance.data,
 })
 
 const mapDispatchToProps = dispatch => ({
 	getHomeStats: () => dispatch(getHomeStatsData()),
 	getTVL: () => dispatch(getTVL()),
+	getPlentyToHarvest: (wallet) => dispatch(getPlentyToHarvest(wallet)),
+	getPlentyBalanceOfUser: (wallet) => dispatch(getPlentyBalanceOfUser(wallet)),
+	
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Frontpage)

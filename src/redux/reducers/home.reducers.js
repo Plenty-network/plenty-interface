@@ -16,6 +16,11 @@ const initState = {
 		loading: false,
 		data: 0,
 	},
+	plentyToHarvest: {
+		isPresent: false,
+		loading: false,
+		data: 0,
+	},
 }
 
 const homeReducer = (state = initState, action) => {
@@ -73,6 +78,21 @@ const homeReducer = (state = initState, action) => {
 			return {
 				...state,
 				plentyBalance: { isPresent: false, loading: false, data: 0 },
+			}
+		case actions.PLENTY_TO_HARVEST_FETCH:
+			return {
+				...state,
+				plentyToHarvest: { isPresent: false, loading: true, data: 0 },
+			}
+		case actions.PLENTY_TO_HARVEST_FETCH_SUCCESS:
+			return {
+				...state,
+				plentyToHarvest: { isPresent: true, loading: false, data: action.data },
+			}
+		case actions.PLENTY_TO_HARVEST_FETCH_FAILED:
+			return {
+				...state,
+				plentyToHarvest: { isPresent: false, loading: false, data: 0 },
 			}
 		default:
 			return {
