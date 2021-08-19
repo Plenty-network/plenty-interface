@@ -26,7 +26,7 @@ const LinkTile = (props) => {
             <div className={clsx(
                 styles.text,
                 "text-center",
-                "p-3", "flex-grow-1", "mb-5"
+                "p-3", "flex-grow-1", "mb-2"
             )}>
                 <p>{props.text}</p>
             </div>
@@ -35,7 +35,8 @@ const LinkTile = (props) => {
                     <button className={clsx(
                         styles.btn,
                         styles[color],
-                        "w-100"
+                        "w-100",
+                        "font-weight-bold"
                     )}>
                         {props.linkText}
                     </button>

@@ -13,6 +13,7 @@
 
 .text {
   min-height: 10em;
+  font-weight: 500;
 }
 
 .headerIcon {
@@ -21,12 +22,21 @@
 
 .tile {
   border-radius: 1em;
-  //border: 1px solid #d2d2d2;
+  transition: box-shadow 0.15s;
 
   &:hover {
-    border: none;
-    box-shadow: 1em 1em 0.5em -0.5em #c4c4c4;
+    box-shadow: 5px 5px 10px rgba(128,128,128, 0.3);
   }
+}
+
+.tile::after {
+  box-shadow: 5px 5px 15px rgba(255,3,3,0.3);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.tile:hover::after {
+  opacity: 1;
 }
 
 .default {
