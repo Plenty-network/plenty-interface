@@ -16,15 +16,16 @@
     font-size: 16px;
     line-height: 23px;
     padding-bottom: 20px;
-    color: #4e5d78;
+    color: var(--theme-text-1);
     border: 0 !important;
     background-color: transparent !important;
     & .active {
-      border-bottom: 2px solid #5603ad !important;
+      border-bottom: 2px solid var(--theme-primary-1) !important;
     }
   }
   .nav-link.active {
-    border-bottom: 2px solid #5603ad !important;
+    border-bottom: 2px solid var(--theme-primary-1) !important;
+    color: var(--theme-text-1);
   }
 }
 .swap-content-box-wrapper {
@@ -43,7 +44,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
-  background-color: #f9fafa;
+  background-color: var(--theme-input-bg);
   mix-blend-mode: normal;
   padding: 12px;
   border: 1px solid rgba(0, 0, 0, 0.08);
@@ -51,21 +52,21 @@
   border-radius: 15px;
 }
 .token-selector {
-  background-color: #ffffff;
+  background-color: var(--theme-bg-4);
   box-shadow: 0px 10px 30px rgba(138, 149, 158, 0.09);
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
   line-height: 18px;
-  color: #4e5d78;
+  color: var(--theme-text-1);
   border-radius: 6px;
   padding: 8px 6px;
   cursor: pointer;
   border: 0;
   &.not-selected {
     padding: 10px 6px;
-    background-color: rgba(86, 3, 173, 0.17);
-    color: #5603ad;
+    background-color: var(--theme-secondary-1);
+    color: var(--theme-primary-gradient-1);
   }
   > span {
     font-size: 16px;
@@ -137,7 +138,7 @@
   }
   .modal-footer {
     justify-content: center;
-    border-top: 1px solid #f1f1f1;
+    border-top: 1px solid var(--theme-border);
     padding-bottom: 0;
   }
 }
@@ -149,7 +150,7 @@
   .modal-header {
     padding: 0 18px;
     padding-bottom: 16px;
-    border-bottom: 1px solid #f1f1f1;
+    border-bottom: 1px solid var(--theme-border);
   }
   .modal-body {
     padding: 0;
@@ -159,7 +160,7 @@
     padding-bottom: 0;
     margin: 0;
     .swap-token-select-box {
-      background-color: #fff;
+      background-color: var(--theme-bg-1);
     }
     .token-selector {
       position: relative;
@@ -177,7 +178,7 @@
     font-weight: 500;
     font-size: 14px;
     line-height: 18px;
-    color: #4e5d78;
+    color: var(--theme-text-1);
   }
   &.confirm-add-liquidity-modal {
     .swap-token-select-box {
@@ -208,9 +209,9 @@
   font-size: 16px;
   line-height: 29px;
   outline: none;
-  color: #b0b7c3;
+  color: var(--theme-text-4);
   &::placeholder {
-    color: #b0b7c3;
+    color: var(--theme-text-4);
   }
 }
 .coin-selection-table {
@@ -307,14 +308,14 @@
 }
 .swap-content-btn {
   width: 100%;
-  background: linear-gradient(90deg, #7028e4 0%, #e5b2ca 100%);
+  background: linear-gradient(90deg, var(--theme-primary-gradient-1) 0%, var(--theme-primary-gradient-2) 100%);
   border-radius: 8px;
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
   line-height: 20px;
   letter-spacing: 0.0923534px;
-  color: #fafafb;
+  color: white;
   padding: 20px;
   margin-top: 20px;
   border: 0;
@@ -322,7 +323,7 @@
   align-items: center;
   justify-content: center;
   &.enter-amount {
-    background: #8a94a6;
+    background: var(--theme-text-3);
     cursor: not-allowed;
   }
   > span {
@@ -338,7 +339,7 @@
   font-weight: 500;
   font-size: 10px;
   line-height: 14px;
-  color: rgba(78, 93, 120, 0.52);
+  color: var(--theme-text-4);
   margin: 0;
   margin-top: 4px;
 }
@@ -347,7 +348,7 @@
   font-weight: normal;
   font-size: 11px;
   line-height: 14px;
-  color: #4e5d78;
+  color: var(--theme-text-1);
   margin-bottom: 10px;
 }
 .liquidity-container-tab {
@@ -361,17 +362,18 @@
   > .nav-link {
     flex: 0 0 50%;
     text-align: center;
-    background-color: #f9fafa;
+    background-color: var(--theme-bg-1);
     font-weight: 500;
     font-size: 12px;
     line-height: 11px;
-    color: #4e5d78;
     padding: 14px;
     border: 0;
     border-radius: 0;
+    color: var(--theme-text-1);
     &.active {
-      background-color: #f2f2f2;
+      background-color: var(--theme-bg-3);
       border-radius: 6px;
+      color: var(--theme-text-1);
     }
   }
 }

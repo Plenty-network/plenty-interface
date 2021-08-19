@@ -20,7 +20,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgb(92,15,174, 0.26);
+  background-color: var(--theme-secondary-1);
   border-radius: 28px;
   -webkit-transition: .4s;
   transition: .4s;
@@ -33,7 +33,7 @@
     left: 5px;
     bottom: 5px;
     border-radius: 50%;
-    background-color: rgb(92,15,174);
+    background-color: var(--theme-primary-gradient-1);
     transition: 0.4s;
   }
 }
@@ -45,9 +45,9 @@ input:checked + .slider:before {
 
 .label {
   line-height: 28px;
-  color: #8F92A1;
+  color: var(--theme-text-3);
 
   &.active {
-    color: #2D323D;
+    color: var(--theme-text-1);
   }
 }
