@@ -6,16 +6,18 @@ import {
 } from 'react-router-dom';
 //Components
 import Header from '../Components/Header/Header';
-import Swap from '../Pages/Swap';
-import Farms from '../Pages/Farms';
-import Ponds from '../Pages/Ponds';
-import Pools from '../Pages/Pools';
 import {ThemeProvider} from 'styled-components';
 import {lightTheme, darkTheme, GlobalStyles} from '../themes';
 import {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import * as walletActions from '../redux/actions/wallet/wallet.action';
-import Frontpage from "../Pages/Frontpage/Frontpage";
+
+// * Lazy loading
+const Swap = React.lazy(() => import('../Pages/Swap'));
+const Farms = React.lazy(() => import('../Pages/Farms'));
+const Ponds = React.lazy(() => import('../Pages/Ponds'));
+const Pools = React.lazy(() => import('../Pages/Pools'));
+const Frontpage = React.lazy(() => import("../Pages/Frontpage/Frontpage"));
 
 const Routes = (props) => {
     const [theme, setTheme] = useState('light');
@@ -24,7 +26,7 @@ const Routes = (props) => {
         theme === 'light' ? setTheme('dark') : setTheme('light');
     };
 
-    const connecthWallet = async () => {
+    const connectWallet = async () => {
         if (props.userAddress === null) {
             return props.connectWallet();
         }
@@ -43,13 +45,14 @@ const Routes = (props) => {
     return (
         <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
             <GlobalStyles/>
+            <React.Suspense fallback={<div />}>
             <Router>
                 <Switch>
                     <Route path="/" exact>
                         <Frontpage
                             toggleTheme={toggleTheme}
                             theme={theme}
-                            connecthWallet={connecthWallet}
+                            connecthWallet={connectWallet}
                             disconnectWallet={disconnectUserWallet}
                             walletAddress={props.userAddress}/>
                     </Route>
@@ -57,7 +60,7 @@ const Routes = (props) => {
                         <Header
                             toggleTheme={toggleTheme}
                             theme={theme}
-                            connecthWallet={connecthWallet}
+                            connecthWallet={connectWallet}
                             disconnectWallet={disconnectUserWallet}
                             walletAddress={props.userAddress}
                         />
@@ -65,7 +68,7 @@ const Routes = (props) => {
                         <Route path="/swap" exact>
                             <Swap
                                 walletAddress={props.userAddress}
-                                connecthWallet={connecthWallet}
+                                connecthWallet={connectWallet}
                             />
                         </Route>
                         <Route path="/farms">
@@ -80,6 +83,7 @@ const Routes = (props) => {
                     </div>
                 </Switch>
             </Router>
+            </React.Suspense>
         </ThemeProvider>
     );
 };
