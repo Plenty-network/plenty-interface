@@ -6,6 +6,7 @@ import FarmCard from '../Components/FarmCard/FarmCard';
 import plentyXtz from '../assets/images/farms/plenty-xtz.png';
 import plentyWBUSD from '../assets/images/farms/PLENTY-wBUSD.png';
 import plentyWUSDC from '../assets/images/farms/PLENTY-wUSDC.png';
+import plentyWWBTC from '../assets/images/farms/PLENTY-wWBTC.png'
 
 import plentyToken from '../assets/images/logo_small.png';
 import { connect } from 'react-redux';
@@ -148,6 +149,26 @@ const Farms = (props) => {
       fee: '0%',
       earned: 0,
       deposit: 'PLENTY / wBUSD LP',
+      liquidity: '5000',
+      withdrawalFee: '0%',
+      balance: 0,
+      userBalance: 0,
+      URL: '',
+      active: true,
+      source: 'Plenty',
+      rewards: '1000 PLENTY / DAY',
+    },
+    'PLENTY / wWBTC LP': {
+      image: plentyWWBTC,
+      harvestImg: plentyToken,
+      multi: '100',
+      title: 'PLENTY / wWBTC LP',
+      apr: 0,
+      apy: '2621',
+      earn: 'PLENTY',
+      fee: '0%',
+      earned: 0,
+      deposit: 'PLENTY / wWBTC LP',
       liquidity: '5000',
       withdrawalFee: '0%',
       balance: 0,
