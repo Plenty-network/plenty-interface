@@ -1,22 +1,16 @@
 import { TezosParameterFormat, TezosMessageUtils } from "conseiljs"
+import { BeaconWallet } from "@taquito/beacon-wallet"
+import { TezosToolkit, OpKind } from "@taquito/taquito"
 const CONFIG = require("../../../config/config")
-const TezosToolkit = require("@taquito/taquito").TezosToolkit
 const axios = require("axios")
 
-const calculateHarvestValue = async (
+export const calculateHarvestValue = async (
 	stakingContractAddress,
 	DECIMAL,
 	currentBlockLevel,
 	mapId,
 	packedAddress
 ) => {
-	console.log({
-		stakingContractAddress,
-		DECIMAL,
-		currentBlockLevel,
-		mapId,
-		packedAddress,
-	})
 	try {
 		let url = `${
 			CONFIG.RPC_NODES[CONFIG.NETWORK]
@@ -40,7 +34,6 @@ const calculateHarvestValue = async (
 			CONFIG.RPC_NODES[CONFIG.NETWORK]
 		}chains/main/blocks/head/context/big_maps/${mapId}/${packedAddress}`
 		let bigMapResponse = await axios.get(url)
-		console.log(bigMapResponse.data)
 		let userBalance = bigMapResponse.data.args[0].args[1].int
 		let userRewardPaid = bigMapResponse.data.args[3].int
 		let rewards = bigMapResponse.data.args[2].int
@@ -48,7 +41,6 @@ const calculateHarvestValue = async (
 			parseInt(userBalance) * (rewardPerToken - parseInt(userRewardPaid))
 		totalRewards = totalRewards / Math.pow(10, DECIMAL) + parseInt(rewards)
 		totalRewards = totalRewards / Math.pow(10, DECIMAL)
-		console.log(totalRewards)
 		if (totalRewards < 0) {
 			totalRewards = 0
 		}
@@ -58,7 +50,6 @@ const calculateHarvestValue = async (
 			address: stakingContractAddress,
 		}
 	} catch (error) {
-		console.log(error)
 		return {
 			success: false,
 			totalRewards: 0,
@@ -132,13 +123,11 @@ export const getHarvestValue = async (address, type, isActive) => {
 				totalRewards: response[i].totalRewards,
 			}
 		}
-		console.log({ harvestResponse })
 		return {
 			success: true,
 			response: harvestResponse,
 		}
 	} catch (error) {
-		console.log(error)
 		return {
 			success: false,
 			response: {},
@@ -156,7 +145,6 @@ export const getBalanceAmount = async (
 		let balance
 		const url = `https://mainnet.smartpy.io/chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`
 		const response = await axios.get(url)
-		console.log("---------Balance----------", mapId, response)
 
 		if (mapId === 3956 || mapId === 4353) {
 			balance = response.data.args[0].args[1].int
@@ -186,6 +174,214 @@ export const getBalanceAmount = async (
 			success: false,
 			balance: 0,
 			identifier,
+		}
+	}
+}
+
+export const CheckIfWalletConnected = async (wallet, somenet) => {
+	try {
+		const connectedNetwork = CONFIG.NETWORK
+		const network = {
+			type: connectedNetwork,
+		}
+		const activeAccount = await wallet.client.getActiveAccount()
+		if (!activeAccount) {
+			await wallet.client.requestPermissions({
+				network,
+			})
+		}
+		return {
+			success: true,
+		}
+	} catch (error) {
+		return {
+			success: false,
+			error,
+		}
+	}
+}
+
+export const getAllActiveContractAddresses = async () => {
+	let contracts = []
+	const connectedNetwork = CONFIG.NETWORK
+	for (let x in CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork]) {
+		if (
+			CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][x]["active"].length > 0
+		) {
+			for (let y in CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][x][
+				"active"
+			]) {
+				contracts.push({
+					contract:
+						CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][x]["active"][y][
+							"address"
+						],
+					mapId:
+						CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][x]["active"][y][
+							"mapId"
+						],
+				})
+			}
+		}
+	}
+	for (let x in CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork]) {
+		if (
+			CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][x]["active"].length > 0
+		) {
+			for (let y in CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][x][
+				"active"
+			]) {
+				contracts.push({
+					contract:
+						CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][x]["active"][y][
+							"address"
+						],
+					mapId:
+						CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][x]["active"][y][
+							"mapId"
+						],
+				})
+			}
+		}
+	}
+	return contracts
+}
+
+export const harvestAll = async () => {
+	const allActiveContracts = getAllActiveContractAddresses()
+	try {
+		const network = {
+			type: CONFIG.WALLET_NETWORK,
+		}
+		const options = {
+			name: CONFIG.NAME,
+		}
+		const wallet = new BeaconWallet(options)
+		const connectedNetwork = CONFIG.NETWORK
+		const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type)
+		if (WALLET_RESP.success) {
+			const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork])
+			Tezos.setRpcProvider(CONFIG.RPC_NODES[connectedNetwork])
+			Tezos.setWalletProvider(wallet)
+			let promises = []
+			allActiveContracts.forEach(async contractAddress =>
+				promises.push(await Tezos.wallet.at(contractAddress))
+			)
+			const response = await Promise.all(promises)
+
+			console.log(response)
+		}
+	} catch (error) {
+		console.log(error)
+	}
+}
+
+const getStakedAmount = async (
+	mapId,
+	packedKey,
+	identifier,
+	decimal,
+	address,
+	tokenDecimal
+) => {
+	try {
+		const url = `${
+			CONFIG.RPC_NODES[CONFIG.NETWORK]
+		}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`
+		const response = await axios.get(url)
+		let balance = response.data.args[0].args[1].int
+		balance = parseInt(balance)
+		balance = balance / Math.pow(10, decimal)
+		let singularStakes = []
+		for (let i = 0; i < response.data.args[0].args[0].length; i++) {
+			let amount = parseInt(
+				response.data.args[0].args[0][i].args[1].args[0].int
+			)
+			amount = parseFloat(
+				response.data.args[0].args[0][i].args[1].args[0].int /
+					Math.pow(10, tokenDecimal)
+			)
+			singularStakes.push({
+				mapId: response.data.args[0].args[0][i].args[0].int,
+				amount: amount,
+				block: response.data.args[0].args[0][i].args[1].args[1].int,
+			})
+		}
+
+		return {
+			success: true,
+			balance,
+			identifier,
+			address,
+			singularStakes,
+		}
+	} catch (error) {
+		return {
+			success: false,
+			balance: 0,
+			identifier,
+			singularStakes: [],
+		}
+	}
+}
+
+export const getStakedAmountForAllContracts = async (
+	address,
+	type,
+	isActive
+) => {
+	try {
+		let packedKey = getPackedKey(0, address, "FA1.2")
+
+		let promises = []
+		let blockData = await axios.get(
+			`${CONFIG.TZKT_NODES[CONFIG.NETWORK]}/v1/blocks/count`
+		)
+
+		for (let identifier in CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK]) {
+			for (let i in CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
+				isActive === true ? "active" : "inactive"
+			]) {
+				promises.push(
+					getStakedAmount(
+						CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
+							isActive === true ? "active" : "inactive"
+						][i].mapId,
+						packedKey,
+						identifier,
+						CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
+							isActive === true ? "active" : "inactive"
+						][i].decimal,
+						CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
+							isActive === true ? "active" : "inactive"
+						][i].address,
+						CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
+							isActive === true ? "active" : "inactive"
+						][i].tokenDecimal
+					)
+				)
+			}
+		}
+		const response = await Promise.all(promises)
+		let stakedAmountResponse = {}
+		for (let i in response) {
+			stakedAmountResponse[response[i].address] = {
+				stakedAmount: response[i].balance,
+				identifier: response[i].identifier,
+				singularStakes: response[i].singularStakes,
+			}
+		}
+
+		return {
+			success: true,
+			response: stakedAmountResponse,
+			currentBlock: blockData.data,
+		}
+	} catch (error) {
+		return {
+			success: false,
+			response: {},
+			currentBlock: 0,
 		}
 	}
 }
