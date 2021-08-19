@@ -159,27 +159,38 @@ module.exports = {
           ],
         },
         'PLENTY - wBUSD': {
-          active: [
-            {
-              address: 'KT1KJhxkCpZNwAFQURDoJ79hGqQgSC9UaWpG',
-              mapId: 10768,
-              decimal: 18,
-              tokenDecimal: 18,
-            },
-          ],
-          inactive: [],
-        },
+        active: [
+          {
+            address: 'KT1KJhxkCpZNwAFQURDoJ79hGqQgSC9UaWpG',
+            mapId: 10768,
+            decimal: 18,
+            tokenDecimal: 18,
+          },
+        ],
+        inactive: [],
+      },
         'PLENTY - wUSDC': {
           active: [
             {
-              address: 'KT1VV1ZG2phFCWjPGkqZ9DQ9JXJJGK7P54Fs',
-              mapId: 10770,
-              decimal: 12,
-              tokenDecimal: 6,
+              address: 'KT1Kp3KVT4nHFmSuL8bvETkgQzseUYP3LDBy',
+              mapId: 11019,
+              decimal: 18,
+              tokenDecimal: 12,
             },
           ],
           inactive: [],
         },
+        'PLENTY - wWBTC' : {
+          active: [
+            {
+              address: 'KT1M82a7arHVwcwaswnNUUuCnQ45xjjGKNd1',
+              mapId: 11057,
+              decimal: 18,
+              tokenDecimal: 13,
+            },
+          ],
+          inactive: [],
+        }
       },
     },
     PONDS: {
@@ -292,6 +303,13 @@ module.exports = {
         address: 'KT1Gz1mx1jm7JHqU7GuMVWF6soB9RjsfLN3o',
         mapId: 10755,
         decimal: 12,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+      'PLENTY - wWBTC': {
+        address: 'KT1La1qZiJtDRcd9ek8w5KYD47i9MQqAQHmP',
+        mapId : 11051,
+        decimal: 13,
         type: 'FA1.2',
         tokenId: 0,
       },
@@ -732,11 +750,29 @@ module.exports = {
         active: [
           {
             LP_TOKEN: 'KT1Gz1mx1jm7JHqU7GuMVWF6soB9RjsfLN3o',
-            CONTRACT: 'KT1VV1ZG2phFCWjPGkqZ9DQ9JXJJGK7P54Fs',
+            CONTRACT: 'KT1Kp3KVT4nHFmSuL8bvETkgQzseUYP3LDBy',
             DEX: 'KT1PuPNtDFLR6U7e7vDuxunDoKasVT6kMSkz',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             CARD_TYPE: 'PLENTY / wUSDC LP',
             TOKEN_DECIMAL: 12,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 12,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+          },
+        ],
+        inactive: [],
+      },
+      'PLENTY - wWBTC': {
+        active: [
+          {
+            LP_TOKEN: 'KT1La1qZiJtDRcd9ek8w5KYD47i9MQqAQHmP',
+            CONTRACT: 'KT1M82a7arHVwcwaswnNUUuCnQ45xjjGKNd1',
+            DEX: 'KT19Dskaofi6ZTkrw3Tq4pK7fUqHqCz4pTZ3',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            CARD_TYPE: 'PLENTY / wWBTC LP',
+            TOKEN_DECIMAL: 13,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
             TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
