@@ -94,7 +94,6 @@ export const GlobalStyles = createGlobalStyle`
       > defs stop:last-child {
         stop-color: ${(props) => props.theme.iconHoverBgEndColor};
       }
-      
     }
   }
   

@@ -208,7 +208,7 @@ const Swap = (props) => {
     <Container fluid>
       <Row>
         <Col sm={8} md={6} className="swap-content-section">
-          <div className={`swap-content-container ${hideContent}`}>
+          <div className={`bg-themed swap-content-container ${hideContent}`}>
             <Tabs defaultActiveKey="swap" className="swap-container-tab">
               <Tab eventKey="swap" title="Swap">
                 <SwapTab
