@@ -10,6 +10,7 @@ const RemoveLiquidity = (props) => {
     props.setFirstTokenAmount(input);
     let lpToken = props.swapData.lpToken;
     let lpTokenBalance = props.userBalances[lpToken];
+
     let removeAmount = (input * lpTokenBalance) / 100;
 
     let computedRemoveTokens = computeRemoveTokens(

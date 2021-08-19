@@ -3,156 +3,147 @@ import * as userApis from './api.user';
 
 const userBalancesFetchStart = () => {
   return {
-    type : actions.USER_BALANCES_FETCH_START
-  }
-}
+    type: actions.USER_BALANCES_FETCH_START,
+  };
+};
 
 const userBalancesFetchSuccessfull = (balances) => {
   return {
-    type : actions.USER_BALANCES_FETCH_SUCCESSFULL,
-    balances :balances
-  }
-}
+    type: actions.USER_BALANCES_FETCH_SUCCESSFULL,
+    balances: balances,
+  };
+};
 
 const userBalancesFetchFail = () => {
   return {
-    type : actions.USER_BALANCES_FETCH_FAIL
-  }
-}
+    type: actions.USER_BALANCES_FETCH_FAIL,
+  };
+};
 export const userBalancesClear = () => {
   return {
-    type : actions.USER_BALANCES_CLEAR
-  }
-}
+    type: actions.USER_BALANCES_CLEAR,
+  };
+};
 export const fetchUserBalances = (addressOfUser) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(userBalancesFetchStart());
-    userApis.getBalanceAmountForAllContracts(addressOfUser)
-      .then(resp => {
-        console.log(resp);
-        if(resp.success === true)
-        {
-          dispatch(userBalancesFetchSuccessfull(resp.response))
-        }
-        else
-        {
-          dispatch(userBalancesFetchFail())
+    userApis
+      .getBalanceAmountForAllContracts(addressOfUser)
+      .then((resp) => {
+        if (resp.success === true) {
+          dispatch(userBalancesFetchSuccessfull(resp.response));
+        } else {
+          dispatch(userBalancesFetchFail());
         }
       })
-      .catch(err => {
-        dispatch(userBalancesFetchFail())
-      })
-  }
-}
-
+      .catch((err) => {
+        dispatch(userBalancesFetchFail());
+      });
+  };
+};
 
 const userStakesFetchStart = () => {
   return {
-    type : actions.USER_STAKES_FETCH_START
-  }
-}
+    type: actions.USER_STAKES_FETCH_START,
+  };
+};
 
-const userStakesFetchSuccessfull = (data,block) => {
+const userStakesFetchSuccessfull = (data, block) => {
   return {
-    type : actions.USER_STAKES_FETCH_SUCCESSFULL,
+    type: actions.USER_STAKES_FETCH_SUCCESSFULL,
     data,
-    block
-  }
-}
+    block,
+  };
+};
 
 const userStakesFetchFailed = () => {
   return {
-    type : actions.USER_STAKES_FETCH_FAILED
-  }
-}
+    type: actions.USER_STAKES_FETCH_FAILED,
+  };
+};
 
 export const userStakesClear = () => {
   return {
-    type : actions.USER_STAKES_CLEAR
-  }
-}
+    type: actions.USER_STAKES_CLEAR,
+  };
+};
 
-export const getUserStakes = (addressOfUser, type , isActive) => {
-  return dispatch => {
+export const getUserStakes = (addressOfUser, type, isActive) => {
+  return (dispatch) => {
     dispatch(userStakesFetchStart());
-    userApis.getStakedAmountForAllContracts(addressOfUser, type , isActive)
-      .then(response => {
-        console.log({response});
-        dispatch(userStakesFetchSuccessfull(response.response , response.currentBlock))
+    userApis
+      .getStakedAmountForAllContracts(addressOfUser, type, isActive)
+      .then((response) => {
+        dispatch(
+          userStakesFetchSuccessfull(response.response, response.currentBlock)
+        );
       })
-      .catch(error => {
-        console.log(error)
-        dispatch(userStakesFetchFailed())
-      })
-  }
-}
+      .catch((error) => {
+        dispatch(userStakesFetchFailed());
+      });
+  };
+};
 
 const harvestValueFetchStart = () => {
   return {
-    type : actions.HARVEST_VALUE_FETCH_START
-  }
-}
+    type: actions.HARVEST_VALUE_FETCH_START,
+  };
+};
 
-const harvestValueFetchSuccessfull = (data , type, isActive) => {
-  console.log({data , type, isActive})
-  if(type === 'FARMS')
-  {
-    console.log('FARMS IS PINGED')
+const harvestValueFetchSuccessfull = (data, type, isActive) => {
+  if (type === 'FARMS') {
     return {
-      type : actions.HARVEST_VALUE_FARMS_FETCH_SUCCESSFULL,
-      data : {
+      type: actions.HARVEST_VALUE_FARMS_FETCH_SUCCESSFULL,
+      data: {
         data,
-        isActive
-      }
-    }
-  }
-  else if(type === 'POOLS')
-  {
+        isActive,
+      },
+    };
+  } else if (type === 'POOLS') {
     return {
-      type : actions.HARVEST_VALUE_POOLS_FETCH_SUCCESSFULL,
-      data : {
+      type: actions.HARVEST_VALUE_POOLS_FETCH_SUCCESSFULL,
+      data: {
         data,
-        isActive
-      }
-    }
-  }
-  else if(type === 'PONDS')
-  {
+        isActive,
+      },
+    };
+  } else if (type === 'PONDS') {
     return {
-      type : actions.HARVEST_VALUE_PONDS_FETCH_SUCCESSFULL,
-      data : {
+      type: actions.HARVEST_VALUE_PONDS_FETCH_SUCCESSFULL,
+      data: {
         data,
-        isActive
-      }
-    }
+        isActive,
+      },
+    };
   }
-}
+};
 
 const harvestValueFetchFailed = () => {
   return {
-    type : actions.HARVEST_VALUE_FETCH_FAILED
-  }
-}
+    type: actions.HARVEST_VALUE_FETCH_FAILED,
+  };
+};
 
-export const getHarvestValues = (addressOfUser, type , isActive) => {
-  return dispatch => {
+export const getHarvestValues = (addressOfUser, type, isActive) => {
+  return (dispatch) => {
     dispatch(harvestValueFetchStart());
-    userApis.getHarvestValue(addressOfUser, type , isActive)
-      .then(response => {
-        console.log({response});
-        dispatch(harvestValueFetchSuccessfull(response.response ,type , isActive))
+    userApis
+      .getHarvestValue(addressOfUser, type, isActive)
+      .then((response) => {
+        dispatch(
+          harvestValueFetchSuccessfull(response.response, type, isActive)
+        );
       })
-      .catch(error => {
-        console.log(error)
-        dispatch(harvestValueFetchFailed())
-      })
-  }
-}
+      .catch((error) => {
+        dispatch(harvestValueFetchFailed());
+      });
+  };
+};
 
 export const harvestValuesClear = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
-      type : actions.HARVEST_VALUE_CLEAR
-    })
-  }
-}
+      type: actions.HARVEST_VALUE_CLEAR,
+    });
+  };
+};

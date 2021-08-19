@@ -4,15 +4,18 @@ import Button from "../../Components/Ui/Buttons/Button"
 import Label from "../../Components/Ui/Label/Label"
 import Container from "react-bootstrap/Container"
 import { Col, Image, Row } from "react-bootstrap"
-import { Link, Route } from "react-router-dom"
+import { Link } from "react-router-dom"
 import clsx from "clsx"
-import dollar from "../../assets/images/frontpage/dollar.png"
-import marketCap from "../../assets/images/frontpage/marketcap.png"
-import farms from "../../assets/images/frontpage/farms.png"
-import totalBurned from "../../assets/images/frontpage/totalburned.png"
-import circulatingSupply from "../../assets/images/frontpage/circulatingsupply.png"
-import plentyBlock from "../../assets/images/frontpage/plentyblock.png"
-import plentyBig from "../../assets/images/frontpage/plentybig.png"
+import dollar from "../../assets/images/frontpage/dollar.svg"
+import marketCap from "../../assets/images/frontpage/marketcap.svg"
+import farms from "../../assets/images/frontpage/farms.svg"
+import totalBurned from "../../assets/images/frontpage/totalburned.svg"
+import circulatingSupply from "../../assets/images/frontpage/circulatingsupply.svg"
+import plentyBlock from "../../assets/images/frontpage/plentyblock.svg"
+import amm from "../../assets/images/frontpage/amm.svg"
+import pools from "../../assets/images/frontpage/pools.svg"
+import ponds from "../../assets/images/frontpage/ponds.svg"
+import plentyBig from "../../assets/images/frontpage/plentybig.svg"
 import { ReactComponent as Medium } from "../../assets/images/frontpage/medium.svg"
 import { ReactComponent as Twitter } from "../../assets/images/frontpage/twitter.svg"
 import { ReactComponent as Discord } from "../../assets/images/frontpage/discord.svg"
@@ -23,13 +26,15 @@ import Accordion from "../../Components/Ui/Accordion/Accordion"
 import Stats from "../../Components/Stats/Stats"
 import Header from "../../Components/Header/Header"
 import { connect, useDispatch } from "react-redux"
-import { FrontPageGradientDiv } from "../../themes"
 import {
 	getTVL,
 	getHomeStatsData,
 	getPlentyToHarvest,
 	getPlentyBalanceOfUser,
+	harvestAll,
 } from "../../redux/actions/home/home.actions"
+import { FrontPageBottomGradientDiv, FrontPageGradientDiv } from "../../themes"
+import Footer from "../../Components/Footer/Footer"
 
 const Frontpage = ({
 	toggleTheme,
@@ -44,6 +49,8 @@ const Frontpage = ({
 	wallet,
 	plentyToHarvest,
 	plentyBalance,
+	getPlentyToHarvest,
+	getPlentyBalanceOfUser,
 }) => {
 	const dispatch = useDispatch()
 	useEffect(() => {
@@ -52,12 +59,12 @@ const Frontpage = ({
 		wallet && getPlentyToHarvest(wallet)
 		wallet && getPlentyBalanceOfUser(wallet)
 	}, [wallet])
-	const walletConnected = true
+	const walletConnected = wallet ? true : false
 
 	return (
 		<Container fluid>
-			<div>
-				<FrontPageGradientDiv className={`row ${styles.rectangle}`}>
+			<div className={`d-flex flex-column ${styles.fullScreen}`}>
+				<FrontPageGradientDiv className="row flex-grow-1">
 					<Header
 						toggleTheme={toggleTheme}
 						theme={theme}
@@ -103,7 +110,9 @@ const Frontpage = ({
 								className={`mb-3 text-white font-weight-light ${styles.textMulish}`}>
 								Total Value Locked
 							</h5>
-							<h1 className="mb-3 text-white">$ {tvl.toLocaleString()}</h1>
+							<h1 className="mb-3 text-white font-weight-bold">
+								$ {tvl.toLocaleString()}
+							</h1>
 							<h5
 								className={`mb-4 text-white text-mulish font-weight-light ${styles.textMulish}`}>
 								Trade tokens and earn interest by staking. There is plenty of
@@ -120,11 +129,13 @@ const Frontpage = ({
 						</div>
 					</Col>
 					{walletConnected && (
-						<Col className="py-3 pb-lg-5 col-lg-6 col   -sm-12">
+						<Col className="py-3 pb-lg-5 col-lg-6 col-sm-12">
 							<div
 								className="col-lg-9 col-xl-7 m-auto py-lg-5 px-0 text-center
                                     align-items-center align-items-lg-start text-lg-left">
 								<Stats
+									wallet={wallet}
+									harvestAll={harvestAll}
 									valueLocked={15021}
 									plentyEarned={251_532}
 									plentyInWallet={plentyBalance}
@@ -134,79 +145,80 @@ const Frontpage = ({
 						</Col>
 					)}
 				</FrontPageGradientDiv>
+				<Row className="row bg-themed border-bottom-themed-dark-none">
+					<Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
+						<Label
+							text={`${
+								homeStats.price &&
+								homeStats.price.toLocaleString(undefined, {
+									maximumFractionDigits: 3,
+								})
+							}`}
+							icon={dollar}
+							subText={"Price"}
+						/>
+					</Col>
+					<Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
+						<Label
+							text={`${
+								homeStats.marketcap && homeStats.marketcap.toLocaleString()
+							}`}
+							icon={marketCap}
+							subText={"Market Cap"}
+						/>
+					</Col>
+					<Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
+						<Label
+							text={
+								homeStats.total_minted &&
+								homeStats.total_minted.toLocaleString(undefined, {
+									maximumFractionDigits: 0,
+								})
+							}
+							icon={farms}
+							subText={"Total minted"}
+						/>
+					</Col>
+					<Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
+						<Label
+							text={
+								homeStats.total_burned &&
+								homeStats.total_burned.toLocaleString()
+							}
+							icon={totalBurned}
+							subText={"Total burned"}
+						/>
+					</Col>
+					<Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
+						<Label
+							text={
+								homeStats.circulating_supply &&
+								homeStats.circulating_supply.toLocaleString()
+							}
+							icon={circulatingSupply}
+							subText={"Circulating Supply"}
+						/>
+					</Col>
+					<Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
+						<Label
+							text={
+								homeStats.plenty_per_block &&
+								homeStats.plenty_per_block.toLocaleString()
+							}
+							subText={"New PLENTY/Block"}
+							icon={plentyBlock}
+						/>
+					</Col>
+				</Row>
 			</div>
-			<Row className="row bg-themed border-bottom-themed-dark-none">
-				<Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
-					<Label
-						text={`$${
-							homeStats.price &&
-							homeStats.price.toLocaleString(undefined, {
-								maximumFractionDigits: 3,
-							})
-						}`}
-						icon={dollar}
-						subText={"Price"}
-					/>
-				</Col>
-				<Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
-					<Label
-						text={`$${
-							homeStats.marketcap && homeStats.marketcap.toLocaleString()
-						}`}
-						icon={marketCap}
-						subText={"Market Cap"}
-					/>
-				</Col>
-				<Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
-					<Label
-						text={
-							homeStats.total_minted &&
-							homeStats.total_minted.toLocaleString(undefined, {
-								maximumFractionDigits: 0,
-							})
-						}
-						icon={farms}
-						subText={"Total minted"}
-					/>
-				</Col>
-				<Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
-					<Label
-						text={
-							homeStats.total_burned && homeStats.total_burned.toLocaleString()
-						}
-						icon={totalBurned}
-						subText={"Total burned"}
-					/>
-				</Col>
-				<Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
-					<Label
-						text={
-							homeStats.circulating_supply &&
-							homeStats.circulating_supply.toLocaleString()
-						}
-						icon={circulatingSupply}
-						subText={"Circulating Supply"}
-					/>
-				</Col>
-				<Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
-					<Label
-						text={
-							homeStats.plenty_per_block &&
-							homeStats.plenty_per_block.toLocaleString()
-						}
-						subText={"New PLENTY/Block"}
-						icon={plentyBlock}
-					/>
-				</Col>
-			</Row>
 			<Row>
 				<Col xs={12} className="text-center my-5">
-					<h2 className={styles.plentyOnTezos}>
-						<p>Plenty of DeFi on Tezos.</p>
+					<h2 className="font-weight-bold">
+						<p>Plenty of DeFi on Tezos</p>
 					</h2>
 				</Col>
 			</Row>
-			<Row className="mb-5 mx-lg-5">
+			<Row className="mb-4 mx-lg-5">
 				<div className="col-xl-11 row m-auto">
 					<Col xs={12} md={6} lg={3} className="mb-3 d-flex">
 						<LinkTile
@@ -215,7 +227,7 @@ const Frontpage = ({
 							}
 							linkTo={"/swap"}
 							linkText={"Enter Exchange"}
-							headerIcon={circulatingSupply}
+							headerIcon={amm}
 							headerText={"AMM"}
 						/>
 					</Col>
@@ -237,6 +249,7 @@ const Frontpage = ({
 							}
 							linkTo={"/pools"}
 							linkText={"Enter Pools"}
+							headerIcon={pools}
 							headerText={"Pools"}
 						/>
 					</Col>
@@ -245,20 +258,21 @@ const Frontpage = ({
 							text={"Earn different Tezos tokens in Ponds by staking PLENTY."}
 							linkTo={"/ponds"}
 							linkText={"Enter Ponds"}
+							headerIcon={ponds}
 							headerText={"Ponds"}
 						/>
 					</Col>
 				</div>
 			</Row>
-			<Row className="mb-5 bg-themed-alt">
+			<Row className="py-5 bg-themed-alt">
 				<Col lg={6} xs={12}>
 					<div
 						className="col-10 col-lg-9 col-xl-7 m-auto py-lg-5 px-0 text-center
                                     align-items-center align-items-lg-start text-lg-left">
-						<h2 className={`mb-1 ${styles.plentyOnTezos}`}>
+						<h2 className={`mb-1 font-weight-bold ${styles.about}`}>
 							<p>About Plenty</p>
 						</h2>
-						<div className={"mb-3"}>
+						<div className={`mb-3 ${styles.aboutSubtext}`}>
 							<span>
 								<p>
 									Plenty is expanding DeFi use cases on Tezos towards a full
@@ -268,7 +282,10 @@ const Frontpage = ({
 								</p>
 							</span>
 						</div>
-						<a href={"/"} target="_blank" rel="noreferrer">
+						<a
+							href={"https://medium.com/plenty-defi"}
+							target="_blank"
+							rel="noreferrer">
 							<Medium className="mr-2 icon-themed" />
 						</a>
 						<a
@@ -297,18 +314,20 @@ const Frontpage = ({
 					</div>
 				</Col>
 			</Row>
-			<FrontPageGradientDiv className={clsx(styles.rectangle, "row")}>
-				<Col className="py-5">
+			<FrontPageBottomGradientDiv className="row">
+				<Col className="pt-5">
 					<Row>
 						<Col xs={12} md={6}>
 							<div
 								className="col-10 col-xl-8 m-auto pb-5 py-lg-3 px-0
                                     align-items-start text-left">
-								<h2 className="text-white">Frequently asked questions</h2>
+								<h2 className="text-white font-weight-bold">
+									Frequently asked questions
+								</h2>
 							</div>
 						</Col>
 					</Row>
-					<Row>
+					<Row className="border-bottom-themed">
 						<Col xs={12} md={6}>
 							<div
 								className="col-10 col-xl-8 m-auto py-lg-5 px-0
@@ -496,8 +515,11 @@ const Frontpage = ({
 							</div>
 						</Col>
 					</Row>
+					<Row className="justify-content-center mb-5 mt-4">
+						<Footer />
+					</Row>
 				</Col>
-			</FrontPageGradientDiv>
+			</FrontPageBottomGradientDiv>
 		</Container>
 	)
 }
@@ -513,9 +535,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 	getHomeStats: () => dispatch(getHomeStatsData()),
 	getTVL: () => dispatch(getTVL()),
-	getPlentyToHarvest: (wallet) => dispatch(getPlentyToHarvest(wallet)),
-	getPlentyBalanceOfUser: (wallet) => dispatch(getPlentyBalanceOfUser(wallet)),
-	
+	getPlentyToHarvest: wallet => dispatch(getPlentyToHarvest(wallet)),
+	getPlentyBalanceOfUser: wallet => dispatch(getPlentyBalanceOfUser(wallet)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Frontpage)

@@ -13,11 +13,18 @@ const LiquidityTab = (props) => {
           position. These tokens automatically earn fees proportional to your
           share of the pool, and can be redeemed at any time.
         </div>
-        <Tabs defaultActiveKey="add" className="liquidity-container-tab">
+        <Tabs
+          defaultActiveKey="add"
+          className={
+            !props.tokenOut.name
+              ? 'liquidity-container-tab content-hide'
+              : 'liquidity-container-tab'
+          }
+        >
           <Tab eventKey="add" title="Add">
             <AddLiquidity {...props} />
           </Tab>
-          <Tab eventKey="remove" title="Remove" disabled={props.tokenOut.name ===undefined}>
+          <Tab eventKey="remove" title="Remove">
             <RemoveLiquidity {...props} />
           </Tab>
         </Tabs>

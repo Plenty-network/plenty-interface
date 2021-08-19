@@ -1,6 +1,7 @@
 import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Link, useLocation } from 'react-router-dom';
+import NavDropdown from "react-bootstrap/NavDropdown";
 import clsx from "clsx";
 
 export const ExternalMenu = () => {
@@ -17,18 +18,14 @@ export const ExternalMenu = () => {
       title: 'Github',
       link: 'https://github.com/Plenty-DeFi',
     },
-    {
-      title: 'Roadmap',
-      link: 'https://www.notion.so/Roadmap-3d24ab4912c04d48859c332059c665ca',
-    },
   ];
   return (
     <>
       {menu.map((menu, index) => {
         return (
-          <Dropdown.Item href={menu.link} target="_blank" key={index}>
+          <NavDropdown.Item href={menu.link} target="_blank" key={index}>
             {menu.title}
-          </Dropdown.Item>
+          </NavDropdown.Item>
         );
       })}
     </>

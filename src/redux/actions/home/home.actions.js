@@ -1,7 +1,10 @@
-import { TezosToolkit } from "@taquito/taquito"
 import axios from "axios"
+import { TezosParameterFormat, TezosMessageUtils } from "conseiljs"
+import { BeaconWallet } from "@taquito/beacon-wallet"
+import { TezosToolkit, OpKind } from "@taquito/taquito"
 import * as actions from "../index.action"
 import * as homeApis from "./api.home"
+import { getUserStakes } from "../user/user.action"
 import CONFIG from "../../../config/config"
 
 export const getHomeStatsData = () => {
@@ -73,7 +76,6 @@ export const getPlentyBalanceOfUser = userAddress => {
 			"PLENTY",
 			CONFIG.TOKEN_CONTRACTS[connectedNetwork]["PLENTY"].decimal
 		)
-		console.log(res.success, "BALANCE")
 		if (res.success) {
 			dispatch({
 				type: actions.PLENTY_BALANCE_FETCH_SUCCESS,
@@ -82,5 +84,73 @@ export const getPlentyBalanceOfUser = userAddress => {
 		} else {
 			dispatch({ type: actions.PLENTY_BALANCE_FETCH_FAILED })
 		}
+	}
+}
+
+const getCurrentBlockLevel = async () => {
+	const response = await axios.get("https://api.better-call.dev/v1/head")
+	if (response.data[0].network != "mainnet") {
+		throw "Invalid Network"
+	}
+	return response.data[0].level
+}
+
+export const harvestAll = async userAddress => {
+	const allActiveContracts = await homeApis.getAllActiveContractAddresses()
+	const blockLevel = await getCurrentBlockLevel()
+	try {
+		const network = {
+			type: CONFIG.WALLET_NETWORK,
+		}
+		const options = {
+			name: CONFIG.NAME,
+		}
+		const wallet = new BeaconWallet(options)
+		const connectedNetwork = CONFIG.NETWORK
+		const WALLET_RESP = await homeApis.CheckIfWalletConnected(
+			wallet,
+			network.type
+		)
+		if (WALLET_RESP.success) {
+			const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork])
+			Tezos.setRpcProvider(CONFIG.RPC_NODES[connectedNetwork])
+			Tezos.setWalletProvider(wallet)
+			let promises = []
+			const packedKey = await homeApis.getPackedKey(0, userAddress, "FA1.2")
+			for (let key in allActiveContracts) {
+				console.log(allActiveContracts[key])
+				const output = await homeApis.calculateHarvestValue(
+					allActiveContracts[key].contract,
+					18,
+					blockLevel,
+					allActiveContracts[key].mapId,
+					packedKey
+				)
+				console.log(output.totalRewards)
+				if (output > 0) {
+					promises.push(await Tezos.wallet.at(allActiveContracts[key].contract))
+				}
+			}
+			if (promises.length > 0) {
+				const response = await Promise.all(promises)
+				let harvestBatch = []
+
+				for (let key1 in response) {
+					harvestBatch.push({
+						kind: OpKind.TRANSACTION,
+						...response[key1].methods.GetReward(1).toTransferParams(),
+					})
+				}
+				let batch = await Tezos.wallet.batch(harvestBatch)
+				let batchOperation = await batch.send()
+				await batchOperation
+					.confirmation()
+					.then(() => console.log(batchOperation.hash))
+			} else {
+				console.log("Nothing to harvest")
+			}
+		}
+	} catch (error) {
+		console.log(error)
 	}
 }

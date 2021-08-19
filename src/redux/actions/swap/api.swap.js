@@ -34,7 +34,7 @@ export const swapTokens = async (
     let tokenOutAddress = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_CONTRACT;
     let tokenOutId = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_ID;
     let tokenInInstance = await Tezos.wallet.at(tokenInAddress);
-    console.log('tokenInInstance', tokenInInstance);
+    
     let dexContractInstance = await Tezos.wallet.at(dexContractAddress);
     tokenInAmount =
       tokenInAmount *
@@ -101,7 +101,7 @@ export const swapTokens = async (
       operationId: batchOperation.hash,
     };
   } catch (error) {
-    console.log('error=', error);
+    
     return {
       success: false,
       error,
@@ -164,7 +164,7 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
       lpToken,
     };
   } catch (error) {
-    console.log(error);
+    
     return {
       success: true,
       tokenIn,
@@ -326,7 +326,7 @@ export const addLiquidity = async (
       CONFIG.AMM[connectedNetwork][tokenSecond].TOKEN_CONTRACT;
     let tokenFirstId = CONFIG.AMM[connectedNetwork][tokenFirst].TOKEN_ID;
     let tokenSecondId = CONFIG.AMM[connectedNetwork][tokenSecond].TOKEN_ID;
-    console.log({
+    
       dexContractAddress,
       tokenFirstAddress,
       tokenSecondAddress,
@@ -612,7 +612,7 @@ export const computeRemoveTokens = (
 //       ].TOKEN_DECIMAL;
 //     lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
 //     let dexContractInstance = await Tezos.wallet.at(dexContractAddress);
-//     console.log('sdfjkghsjfgs=', {
+//     
 //       lpToken_Amount,
 //     });
 //     let batch = Tezos.wallet
@@ -622,7 +622,7 @@ export const computeRemoveTokens = (
 //       );
 //     const batchOperation = await batch.send();
 //     await batchOperation.confirmation().then(() => batchOperation.opHash);
-//     console.log({ batchOperation });
+//     
 //     return {
 //       success: true,
 //       operationId: batchOperation.hash,
@@ -701,7 +701,7 @@ export const removeLiquidity = async (
       ].TOKEN_DECIMAL;
     lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
     let dexContractInstance = await Tezos.wallet.at(dexContractAddress);
-    console.log('sdfjkghsjfgs=', {
+    
       lpToken_Amount,
     });
     let batch = Tezos.wallet
@@ -715,7 +715,7 @@ export const removeLiquidity = async (
       );
     const batchOperation = await batch.send();
     await batchOperation.confirmation().then(() => batchOperation.opHash);
-    console.log({ batchOperation });
+    
     return {
       success: true,
       operationId: batchOperation.hash,
@@ -842,7 +842,7 @@ export const fetchAllWalletBalance = async (addressOfUser) => {
 //     tokenPriceResponse = tokenPriceResponse.data;
 //     const tokens = ['PLENTY', 'KALAM', 'wDAI', 'WRAP'];
 //     for (let i in tokenPriceResponse.contracts) {
-//       console.log(i);
+//       
 //       if (tokens.includes(tokenPriceResponse.contracts[i].symbol)) {
 //         tokenPrice[tokenPriceResponse.contracts[i].symbol] =
 //           tokenPriceResponse.contracts[i].usdValue;
@@ -853,7 +853,7 @@ export const fetchAllWalletBalance = async (addressOfUser) => {
 //       tokenPrice,
 //     };
 //   } catch (error) {
-//     console.log(error);
+//     
 //     return {
 //       success: false,
 //       tokenPrice: {},
@@ -879,7 +879,7 @@ export const getTokenPrices = async () => {
       tokenPrice,
     };
   } catch (error) {
-    console.log(error);
+    
     return {
       success: false,
       tokenPrice: {},
