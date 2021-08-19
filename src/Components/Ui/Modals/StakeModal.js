@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import SimpleModal from "./SimpleModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../Buttons/Button";
 
 import styles from "./modal.module.scss";
@@ -13,6 +13,7 @@ const BUTTON_TEXT = {
 }
 
 const StakeModal = props => {
+  const [buttonText, setButtonText] = useState(BUTTON_TEXT.ENTER_AMT)
   const [loading, setLoading] = useState(false);
 
   const onStake = () => {
@@ -24,6 +25,25 @@ const StakeModal = props => {
       props.stakeModalFarmPosition
     )
   }
+
+  useEffect(() => {
+    if (!props.stakeInputValues) {
+
+      setButtonText(BUTTON_TEXT.ENTER_AMT);
+
+    } else {
+
+      if (props.stakeInputValues > props.walletBalances[props.stakeModalIdentifier]) {
+
+        setButtonText(BUTTON_TEXT.INSUFF_AMT);
+
+      } else {
+
+        setButtonText(BUTTON_TEXT.STAKE);
+
+      }
+    }
+  }, [props.stakeInputValues, props.stakeModalIdentifier, props.walletBalances])
 
 
   return (
@@ -51,8 +71,9 @@ const StakeModal = props => {
         onClick={onStake}
         color="primary"
         className="w-100"
+        disabled={buttonText !== BUTTON_TEXT.STAKE}
         loading={loading}
-      >{BUTTON_TEXT.STAKE}</Button>
+      >{buttonText}</Button>
     </SimpleModal>
   )
 }
