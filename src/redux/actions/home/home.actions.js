@@ -127,7 +127,7 @@ export const harvestAll = async userAddress => {
 					packedKey
 				)
 				console.log(output.totalRewards)
-				if (output > 0) {
+				if (output.totalRewards > 0) {
 					promises.push(await Tezos.wallet.at(allActiveContracts[key].contract))
 				}
 			}
