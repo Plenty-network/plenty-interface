@@ -16,6 +16,7 @@ import wrap from '../assets/images/wrap.png'
 import Switch from "../Components/Ui/Switch/Switch";
 import styles from "../assets/scss/partials/_farms.module.scss";
 import StakeModal from '../Components/Ui/Modals/StakeModal';
+import UnstakeModal from '../Components/Ui/Modals/UnstakeModal';
 import CONFIG from '../config/config';
 import { connect } from 'react-redux';
 import * as poolsAction from '../redux/actions/pools/pools.actions';
@@ -226,7 +227,27 @@ const Pools = (props) => {
         handleInput={props.handleStakeOfPoolInputValue}
         stakeInputValues={props.stakeInputValue}
         stakeOnFarm={props.stakeOnPool}
+
       />
+      {props.isUnstakeModalOpen ? (
+        <UnstakeModal
+          unstakeModalwithdrawalFeeStructure={
+            props.unstakeModalwithdrawalFeeStructure
+          }
+          unstakeModalTitle={props.unstakeModalTitle}
+          unstakeModalFarmPosition={props.unstakeModalPoolPosition}
+          unstakeModalContractAddress={props.unstakeModalContractAddress}
+          unstakeModalIdentifier={props.unstakeModalIdentifier}
+          currentBlock={props.currentBlock}
+          open={props.isUnstakeModalOpen}
+          onClose={() => {
+            props.closePoolsUnstakeModal();
+          }}
+          userStakes={props.userStakes}
+          isActiveOpen={props.isActiveOpen}
+          unstakeOnFarm={props.unstakeOnPool}
+        />
+      ) : null}
     </div>
   );
 };
@@ -246,7 +267,14 @@ const mapStateToProps = (state) => {
     stakeModalTitle : state.pools.stakeModalTitle,
     stakeModalPoolPosition : state.pools.stakeModalPoolPosition,
     stakeModalContractAddress : state.pools.stakeModalContractAddress,
-    stakeInputValue : state.pools.stakeInputValue
+    stakeInputValue : state.pools.stakeInputValue,
+    isUnstakeModalOpen : state.pools.isUnstakeModalOpen,
+    unstakeModalIdentifier : state.pools.unstakeModalIdentifier,
+    unstakeModalContractAddress : state.pools.unstakeModalContractAddress,
+    unstakeModalPoolPosition : state.pools.unstakeModalPoolPosition,
+    unstakeModalTitle : state.pools.unstakeModalTitle,
+    unstakeModalwithdrawalFeeStructure : state.pools.unstakeModalwithdrawalFeeStructure,
+    currentBlock: state.user.currentBlock,
   };
 };
 
@@ -273,7 +301,25 @@ const mapDispatchToProps = (dispatch) => {
         contractAddress)),
         closePoolsStakeModal : () => dispatch(poolsAction.closePoolsStakeModal()),
     handleStakeOfPoolInputValue : (value) => dispatch(poolsAction.handleStakeOfPoolInputValue(value)),
-    stakeOnPool : (amount, poolIdentifier, isActive, position) => dispatch(poolsAction.stakeOnPool(amount, poolIdentifier, isActive, position))
+    stakeOnPool : (amount, poolIdentifier, isActive, position) => dispatch(poolsAction.stakeOnPool(amount, poolIdentifier, isActive, position)),
+    openPoolsUnstakeModal : (identifier,
+      contractAddress,
+      title,
+      withdrawalFeeStructure,
+      position) => dispatch(poolsAction.openPoolsUnstakeModal(identifier,
+        contractAddress,
+        title,
+        withdrawalFeeStructure,
+        position)),
+      closePoolsUnstakeModal : () => dispatch(poolsAction.closePoolsUnstakeModal()),
+      unstakeOnPool : (stakesToUnstake,
+        poolIdentifier,
+        isActive,
+        position) => dispatch(poolsAction.unstakeOnPool(stakesToUnstake,
+          poolIdentifier,
+          isActive,
+          position))
+
   };
 };
 

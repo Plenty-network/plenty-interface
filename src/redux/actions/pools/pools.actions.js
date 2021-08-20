@@ -144,8 +144,7 @@ const unstakingOnPoolFailed = () => {
 };
 
 export const unstakeOnPool = (
-  amount,
-  mapKey,
+  stakesToUnstake,
   poolIdentifier,
   isActive,
   position
@@ -153,7 +152,7 @@ export const unstakeOnPool = (
   return (dispatch) => {
     dispatch(initiateUnstakingOperationOnPool());
     poolsApis
-      .unstake(amount, mapKey, poolIdentifier, isActive, position)
+      .unstake(stakesToUnstake, poolIdentifier, isActive, position)
       .then((response) => {
         dispatch(unstakingOnPoolSuccessFull(response));
       })
@@ -287,6 +286,35 @@ export const handleStakeOfPoolInputValue = (value) => {
       data: {
         value,
       },
+    });
+  };
+};
+
+export const openPoolsUnstakeModal = (
+  identifier,
+  contractAddress,
+  title,
+  withdrawalFeeStructure,
+  position
+) => {
+  return (dispatch) => {
+    dispatch({
+      type: actions.OPEN_POOLS_UNSTAKE_MODAL,
+      data: {
+        identifier,
+        contractAddress,
+        title,
+        withdrawalFeeStructure,
+        position,
+      },
+    });
+  };
+};
+
+export const closePoolsUnstakeModal = () => {
+  return (dispatch) => {
+    dispatch({
+      type: actions.CLOSE_POOLS_UNSTAKE_MODAL,
     });
   };
 };
