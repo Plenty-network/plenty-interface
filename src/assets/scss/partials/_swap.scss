@@ -282,7 +282,7 @@
   border-radius: 100%;
   cursor: pointer;
   > span {
-    font-size: 14px;
+    font-size: 18px;
     font-weight: bold;
     color: var(--theme-text-1);
   }
@@ -294,7 +294,7 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 24px;
-  color: #4e5d78;
+  color: var(--theme-text-1);
   border: 0;
   background-color: transparent;
   outline: none;
@@ -389,9 +389,8 @@
   background-color: var(--theme-bg-1);
   mix-blend-mode: normal;
   padding: 14px 20px;
-  border-radius: 15px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+  border-radius: 4px;
+  margin-top: 8px;
 }
 .swap-detail-amt-wrapper {
   display: flex;
@@ -404,7 +403,7 @@
   font-weight: 500;
   font-size: 10px;
   line-height: 13px;
-  color: #505e79;
+  color: var(--theme-text-4);
   margin: 0;
   > span {
     vertical-align: middle;
