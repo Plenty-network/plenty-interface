@@ -375,6 +375,9 @@ export const addLiquidity = async (
           )
         )
         .withContractCall(
+          tokenFirstInstance.methods.approve(dexContractAddress, 0)
+        )
+        .withContractCall(
           tokenSecondInstance.methods.update_operators([
             {
               remove_operator: {
@@ -422,7 +425,8 @@ export const addLiquidity = async (
               },
             },
           ])
-        );
+        )
+        .withContractCall(tokenSecond.methods.approve(dexContractAddress, 0));
     } else if (
       CONFIG.AMM[connectedNetwork][tokenFirst].CALL_TYPE === 'FA2' &&
       CONFIG.AMM[connectedNetwork][tokenSecond].CALL_TYPE === 'FA2'
@@ -504,6 +508,12 @@ export const addLiquidity = async (
             tokenFirst_Amount,
             tokenSecond_Amount
           )
+        )
+        .withContractCall(
+          tokenFirstInstance.methods.approve(dexContractAddress, 0)
+        )
+        .withContractCall(
+          tokenSecondInstance.methods.approve(dexContractAddress, 0)
         );
     }
     const batchOperation = await batch.send();
