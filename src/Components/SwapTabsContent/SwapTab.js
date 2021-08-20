@@ -140,7 +140,7 @@ const SwapTab = (props) => {
                   {props.getTokenPrice.success && props.firstTokenAmount
                     ? (
                         props.firstTokenAmount *
-                        props.getTokenPrice.tokenPrice[props.tokenIn.name]
+                        props.userBalances[props.tokenOut.name]
                       ).toFixed(5)
                     : '0.00'}
                 </p>

@@ -1,99 +1,99 @@
-import axios from "axios"
-import { TezosParameterFormat, TezosMessageUtils } from "conseiljs"
-import { BeaconWallet } from "@taquito/beacon-wallet"
-import { TezosToolkit, OpKind } from "@taquito/taquito"
-import * as actions from "../index.action"
-import * as homeApis from "./api.home"
-import { getUserStakes } from "../user/user.action"
-import CONFIG from "../../../config/config"
+import axios from 'axios';
+import { TezosParameterFormat, TezosMessageUtils } from 'conseiljs';
+import { BeaconWallet } from '@taquito/beacon-wallet';
+import { TezosToolkit, OpKind } from '@taquito/taquito';
+import * as actions from '../index.action';
+import * as homeApis from './api.home';
+import { getUserStakes } from '../user/user.action';
+import CONFIG from '../../../config/config';
 
 export const getHomeStatsData = () => {
-	return async dispatch => {
-		dispatch({ type: actions.HOME_STATS_FETCH })
-		const res = await axios.get(
-			"https://mf29fdthuf.execute-api.us-east-2.amazonaws.com/v1/homestats"
-		)
-		if (res.data.success) {
-			dispatch({ type: actions.HOME_STATS_FETCH_SUCCESS, data: res.data.body })
-		} else {
-			dispatch({ type: actions.HOME_STATS_FETCH_FAILED })
-		}
-	}
-}
+  return async (dispatch) => {
+    dispatch({ type: actions.HOME_STATS_FETCH });
+    const res = await axios.get(
+      'https://mf29fdthuf.execute-api.us-east-2.amazonaws.com/v1/homestats'
+    );
+    if (res.data.success) {
+      dispatch({ type: actions.HOME_STATS_FETCH_SUCCESS, data: res.data.body });
+    } else {
+      dispatch({ type: actions.HOME_STATS_FETCH_FAILED });
+    }
+  };
+};
 
 export const getTVL = () => {
-	return async dispatch => {
-		dispatch({ type: actions.TVL_FETCH })
-		const res = await axios.get(
-			"https://mf29fdthuf.execute-api.us-east-2.amazonaws.com/v1/tvl"
-		)
-		if (res.data.success) {
-			dispatch({ type: actions.TVL_FETCH_SUCCESS, data: res.data.body })
-		} else {
-			dispatch({ type: actions.TVL_FETCH_FAILED })
-		}
-	}
-}
+  return async (dispatch) => {
+    dispatch({ type: actions.TVL_FETCH });
+    const res = await axios.get(
+      'https://mf29fdthuf.execute-api.us-east-2.amazonaws.com/v1/tvl'
+    );
+    if (res.data.success) {
+      dispatch({ type: actions.TVL_FETCH_SUCCESS, data: res.data.body });
+    } else {
+      dispatch({ type: actions.TVL_FETCH_FAILED });
+    }
+  };
+};
 
-export const getPlentyToHarvest = addressOfUser => {
-	let plentyToHarvest = 0
-	return async dispatch => {
-		dispatch({ type: actions.PLENTY_TO_HARVEST_FETCH })
-		let promises = [
-			homeApis.getHarvestValue(addressOfUser, "FARMS", true),
-			homeApis.getHarvestValue(addressOfUser, "FARMS", false),
-			homeApis.getHarvestValue(addressOfUser, "POOLS", true),
-			homeApis.getHarvestValue(addressOfUser, "POOLS", false),
-			// homeApis.getHarvestValue(addressOfUser, "PONDS", "active"),
-			// homeApis.getHarvestValue(addressOfUser, "PONDS", "inactive"),
-		]
-		const response = await Promise.all(promises)
-		response.forEach(item => {
-			if (item.success) {
-				for (const key in item.response) {
-					plentyToHarvest += item.response[key].totalRewards
-				}
-			} else {
-				dispatch({ type: actions.PLENTY_TO_HARVEST_FETCH_FAILED })
-				return
-			}
-		})
-		dispatch({
-			type: actions.PLENTY_TO_HARVEST_FETCH_SUCCESS,
-			data: plentyToHarvest,
-		})
-	}
-}
+export const getPlentyToHarvest = (addressOfUser) => {
+  let plentyToHarvest = 0;
+  return async (dispatch) => {
+    dispatch({ type: actions.PLENTY_TO_HARVEST_FETCH });
+    let promises = [
+      homeApis.getHarvestValue(addressOfUser, 'FARMS', true),
+      homeApis.getHarvestValue(addressOfUser, 'FARMS', false),
+      homeApis.getHarvestValue(addressOfUser, 'POOLS', true),
+      homeApis.getHarvestValue(addressOfUser, 'POOLS', false),
+      // homeApis.getHarvestValue(addressOfUser, "PONDS", "active"),
+      // homeApis.getHarvestValue(addressOfUser, "PONDS", "inactive"),
+    ];
+    const response = await Promise.all(promises);
+    response.forEach((item) => {
+      if (item.success) {
+        for (const key in item.response) {
+          plentyToHarvest += item.response[key].totalRewards;
+        }
+      } else {
+        dispatch({ type: actions.PLENTY_TO_HARVEST_FETCH_FAILED });
+        return;
+      }
+    });
+    dispatch({
+      type: actions.PLENTY_TO_HARVEST_FETCH_SUCCESS,
+      data: plentyToHarvest,
+    });
+  };
+};
 
-export const getPlentyBalanceOfUser = userAddress => {
-	return async dispatch => {
-		dispatch({ type: actions.PLENTY_BALANCE_FETCH })
-		const packedKey = homeApis.getPackedKey(0, userAddress, "FA1.2")
-		const connectedNetwork = CONFIG.NETWORK
-		const res = await homeApis.getBalanceAmount(
-			CONFIG.TOKEN_CONTRACTS[connectedNetwork]["PLENTY"].mapId,
-			packedKey,
-			"PLENTY",
-			CONFIG.TOKEN_CONTRACTS[connectedNetwork]["PLENTY"].decimal
-		)
-		if (res.success) {
-			dispatch({
-				type: actions.PLENTY_BALANCE_FETCH_SUCCESS,
-				data: res.balance,
-			})
-		} else {
-			dispatch({ type: actions.PLENTY_BALANCE_FETCH_FAILED })
-		}
-	}
-}
+export const getPlentyBalanceOfUser = (userAddress) => {
+  return async (dispatch) => {
+    dispatch({ type: actions.PLENTY_BALANCE_FETCH });
+    const packedKey = homeApis.getPackedKey(0, userAddress, 'FA1.2');
+    const connectedNetwork = CONFIG.NETWORK;
+    const res = await homeApis.getBalanceAmount(
+      CONFIG.TOKEN_CONTRACTS[connectedNetwork]['PLENTY'].mapId,
+      packedKey,
+      'PLENTY',
+      CONFIG.TOKEN_CONTRACTS[connectedNetwork]['PLENTY'].decimal
+    );
+    if (res.success) {
+      dispatch({
+        type: actions.PLENTY_BALANCE_FETCH_SUCCESS,
+        data: res.balance,
+      });
+    } else {
+      dispatch({ type: actions.PLENTY_BALANCE_FETCH_FAILED });
+    }
+  };
+};
 
 const getCurrentBlockLevel = async () => {
-	const response = await axios.get("https://api.better-call.dev/v1/head")
-	if (response.data[0].network != "mainnet") {
-		throw "Invalid Network"
-	}
-	return response.data[0].level
-}
+  const response = await axios.get('https://api.better-call.dev/v1/head');
+  if (response.data[0].network != 'mainnet') {
+    throw 'Invalid Network';
+  }
+  return response.data[0].level;
+};
 
 export const harvestAll = userAddress => {
 	return async dispatch => {
