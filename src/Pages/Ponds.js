@@ -5,14 +5,15 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import kalamimg from '../assets/images/kalam.png'
 import wrapimg from '../assets/images/wrap.png'
-import PondCard from "../Components/PondCard/PondCard";
-import styles from "../assets/scss/partials/_farms.module.scss";
-import Switch from "../Components/Ui/Switch/Switch";
 import { connect } from 'react-redux';
 import * as pondsAction from '../redux/actions/ponds/ponds.action';
 import * as walletActions from '../redux/actions/wallet/wallet.action';
 import CONFIG from '../config/config';
 import { throttle } from 'lodash/function';
+import PondCard from "../Components/PondCard/PondCard";
+import styles from "../assets/scss/partials/_farms.module.scss";
+import Switch from "../Components/Ui/Switch/Switch";
+import PondModals from "../Components/PondPage/PondModals";
 
 const Ponds = (props) => {
   // ! TEMP
@@ -165,6 +166,7 @@ Stake not visible? Visit old.plentydefi.com to unstake</p></div> : null}
           return <PondCard key={pool.title} {...pool} walletAddress={walletAddress} />;
         })} */}
       </div>
+      <PondModals />
     </div>
   );
 };

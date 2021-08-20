@@ -3,6 +3,8 @@ import { TezosToolkit , OpKind } from '@taquito/taquito';
 import axios from 'axios';
 import CONFIG from '../../../config/config';
 import { CheckIfWalletConnected } from "../../../apis/wallet/wallet";
+import { stakingOnPoolProcessing, unstakingOnPoolProcessing } from "./pools.actions";
+import store from "../../store/store";
 
 const fetchStorage = async (identifier, address, decimal, priceOfTokenInUsd, priceOfPlentyInUSD) => {
   try {
@@ -233,6 +235,7 @@ export const stake = async (amount, poolIdentifier , isActive, position) => {
             );
         }
         const batchOperation = await batch.send();
+        store.dispatch(stakingOnPoolProcessing(batchOperation))
         await batchOperation.confirmation().then(() => batchOperation.opHash);
         return {
           success: true,
@@ -292,6 +295,7 @@ export const stake = async (amount, poolIdentifier , isActive, position) => {
         });
         let batch = await Tezos.wallet.batch(unstakeBatch);
         let batchOperation = await batch.send();
+        store.dispatch(unstakingOnPoolProcessing(batchOperation));
         await batchOperation.confirmation().then(() => batchOperation.hash);
         return {
           success: true,

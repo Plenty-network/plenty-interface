@@ -14,12 +14,14 @@ const initialState = {
     },
     stakeOperation : {
         isLoading : false,
+        processing: false,
         completed : false,
         failed : false,
         operationHash : null
     },
     unstakeOperation : {
         isLoading : false,
+        processing: false,
         completed : false,
         failed : false,
         operationHash : null
@@ -33,6 +35,8 @@ const initialState = {
     modals: {
         open: POOL_PAGE_MODAL.NULL,
         contractAddress: null,
+        transactionId: '',
+        snackbar: false,
     },
     isActiveOpen : true,
     poolsToRender : [],
@@ -131,36 +135,59 @@ const poolsReducer = (state = initialState , action) => {
                 ...state,
                 stakeOperation : {
                     isLoading : true,
+                    processing: false,
                     completed : false,
                     failed : false,
                     operationHash : null
                 }
+            }
+        case actions.PROCESSING_STAKING_ON_POOL:
+            return {
+                ...state,
+                modals: {
+                    ...state.modals,
+                    open: POOL_PAGE_MODAL.TRANSACTION_SUCCESS,
+                    transactionId: action.payload.opHash
+                },
+                stakeOperation : {
+                    isLoading : false,
+                    processing: true,
+                    completed : false,
+                    failed : false,
+                    operationHash : null
+                },
+                isStakeModalOpen: false,
             }
         case actions.STAKING_ON_POOL_SUCCESSFULL:
             return {
                 ...state,
                 stakeOperation : {
                     isLoading : false,
+                    processing: false,
                     completed : true,
                     failed : false, 
                     operationHash : action.data
-                }
+                },
+                modals: { ...state.modals, snackbar: true }
             }
         case actions.STAKING_ON_POOL_FAILED:
             return {
                 ...state,
                 stakeOperation : {
                     isLoading : false,
+                    processing: false,
                     completed : false,
                     failed : true,
                     operationHash : null
-                }
+                },
+                modals: { ...state.modals, snackbar: true }
             }
         case actions.CLEAR_STAKING_ON_POOL_RESPONSE:
             return {
                 ...state,
                 stakeOperation : {
                     isLoading : false,
+                    processing: false,
                     completed : false,
                     failed : false,
                     operationHash : null
@@ -172,36 +199,59 @@ const poolsReducer = (state = initialState , action) => {
                 ...state,
                 unstakeOperation : {
                     isLoading : true,
+                    processing: false,
                     completed : false,
                     failed : false,
                     operationHash : null
                 }
+            }
+        case actions.PROCESSING_UNSTAKING_ON_POOL:
+            return {
+                ...state,
+                modals: {
+                    ...state.modals,
+                    open: POOL_PAGE_MODAL.TRANSACTION_SUCCESS,
+                    transactionId: action.payload.opHash
+                },
+                unstakeOperation : {
+                    isLoading : false,
+                    processing: true,
+                    completed : false,
+                    failed : false,
+                    operationHash : null
+                },
+                isUnstakeModalOpen: false,
             }
         case actions.UNSTAKING_ON_POOL_SUCCESSFULL:
             return {
                 ...state,
                 unstakeOperation : {
                     isLoading : false,
+                    processing: false,
                     completed : true,
                     failed : false, 
                     operationHash : action.data
-                }
+                },
+                modals: { ...state.modals, snackbar: true }
             }
         case actions.UNSTAKING_ON_POOL_FAILED:
             return {
                 ...state,
                 unstakeOperation : {
                     isLoading : false,
+                    processing: false,
                     completed : false,
                     failed : true,
                     operationHash : null
-                }
+                },
+                modals: { ...state.modals, snackbar: true }
             }
         case actions.CLEAR_UNSTAKING_ON_POOL_RESPONSE:
             return {
                 ...state,
                 unstakeOperation : {
                     isLoading : false,
+                    processing: false,
                     completed : false,
                     failed : false,
                     operationHash : null
@@ -313,6 +363,19 @@ const poolsReducer = (state = initialState , action) => {
                 unstakeModalTitle : '',
                 unstakeModalwithdrawalFeeStructure : []
             }
+
+        case actions.OPEN_CLOSE_POOLS_MODAL:
+            return {
+                ...state,
+                modals: { ...state.modals, ...action.payload }
+            }
+
+        case actions.DISMISS_POOLS_SNACKBAR:
+            return {
+                ...state,
+                modals: { ...state.modals, snackbar: false, }
+            }
+
         default:
             return {
                 ...state
