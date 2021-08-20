@@ -72,7 +72,8 @@ const FarmCard = (props) => {
         return numberWithCommas(
           props.activeFarmData.data.response[
             props.CONTRACT
-          ]?.totalLiquidty?.toFixed(0) ?? 0
+          ]?.totalLiquidty?.toFixed(0) ?? 0,
+          { plain: true }
         );
       } else {
         return 0;
