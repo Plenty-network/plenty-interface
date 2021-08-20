@@ -22,7 +22,7 @@ const FarmCard = (props) => {
         if (props.activeFarmData.isPresent === true) {
           const apr =
             props.activeFarmData.data.response[props.CONTRACT]?.APR ?? 0;
-          return Math.round(apr);
+          return numberWithCommas(Math.round(apr));
         }
 
         return 0;
@@ -38,7 +38,7 @@ const FarmCard = (props) => {
     if (props.isActiveOpen === true) {
       if (props.activeFarmData.isPresent === true) {
         const apy = apyCalculate(
-          props.activeFarmData.data.response[props.CONTRACT]?.APR?.toFixed(2) ??
+          props.activeFarmData.data.response[props.CONTRACT]?.APR ??
             0
         );
 
@@ -72,7 +72,8 @@ const FarmCard = (props) => {
         return numberWithCommas(
           props.activeFarmData.data.response[
             props.CONTRACT
-          ]?.totalLiquidty?.toFixed(0) ?? 0
+          ]?.totalLiquidty?.toFixed(0) ?? 0,
+          { plain: true }
         );
       } else {
         return 0;

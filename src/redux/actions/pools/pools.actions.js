@@ -87,6 +87,13 @@ const initiateStakingOperationOnPool = () => {
   };
 };
 
+export const stakingOnPoolProcessing = (batchOperation) => {
+  return {
+    type: actions.PROCESSING_STAKING_ON_POOL,
+    payload: batchOperation
+  }
+}
+
 const stakingOnPoolSuccessFull = (operationHash) => {
   return {
     type: actions.STAKING_ON_POOL_SUCCESSFULL,
@@ -110,6 +117,12 @@ export const stakeOnPool = (amount, poolIdentifier, isActive, position) => {
       })
       .catch((error) => {
         dispatch(stakingOnPoolFailed());
+      })
+      .finally(() => {
+        setTimeout(
+          () => dispatch(dismissSnackbar()),
+          5000
+        )
       });
   };
 };
@@ -130,6 +143,13 @@ const initiateUnstakingOperationOnPool = () => {
   };
 };
 
+export const unstakingOnPoolProcessing = (batchOperation) => {
+  return {
+    type: actions.PROCESSING_UNSTAKING_ON_POOL,
+    payload: batchOperation
+  }
+}
+
 const unstakingOnPoolSuccessFull = (operationHash) => {
   return {
     type: actions.UNSTAKING_ON_POOL_SUCCESSFULL,
@@ -144,8 +164,7 @@ const unstakingOnPoolFailed = () => {
 };
 
 export const unstakeOnPool = (
-  amount,
-  mapKey,
+  stakesToUnstake,
   poolIdentifier,
   isActive,
   position
@@ -153,12 +172,18 @@ export const unstakeOnPool = (
   return (dispatch) => {
     dispatch(initiateUnstakingOperationOnPool());
     poolsApis
-      .unstake(amount, mapKey, poolIdentifier, isActive, position)
+      .unstake(stakesToUnstake, poolIdentifier, isActive, position)
       .then((response) => {
         dispatch(unstakingOnPoolSuccessFull(response));
       })
       .catch((error) => {
         dispatch(unstakingOnPoolFailed());
+      })
+      .finally(() => {
+        setTimeout(
+          () => dispatch(dismissSnackbar()),
+          5000
+        )
       });
   };
 };
@@ -215,7 +240,7 @@ export const clearHarvestPoolResponse = () => {
 };
 
 export const openClosePoolsModal = (payload) => ({
-  type: actions.OPEN_CLOSE_PONDS_MODAL,
+  type: actions.OPEN_CLOSE_POOLS_MODAL,
   payload,
 });
 
@@ -290,3 +315,36 @@ export const handleStakeOfPoolInputValue = (value) => {
     });
   };
 };
+
+export const openPoolsUnstakeModal = (
+  identifier,
+  contractAddress,
+  title,
+  withdrawalFeeStructure,
+  position
+) => {
+  return (dispatch) => {
+    dispatch({
+      type: actions.OPEN_POOLS_UNSTAKE_MODAL,
+      data: {
+        identifier,
+        contractAddress,
+        title,
+        withdrawalFeeStructure,
+        position,
+      },
+    });
+  };
+};
+
+export const closePoolsUnstakeModal = () => {
+  return (dispatch) => {
+    dispatch({
+      type: actions.CLOSE_POOLS_UNSTAKE_MODAL,
+    });
+  };
+};
+
+const dismissSnackbar = () => ({
+  type: actions.DISMISS_POOLS_SNACKBAR,
+})

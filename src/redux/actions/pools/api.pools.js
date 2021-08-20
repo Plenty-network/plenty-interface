@@ -3,6 +3,8 @@ import { TezosToolkit , OpKind } from '@taquito/taquito';
 import axios from 'axios';
 import CONFIG from '../../../config/config';
 import { CheckIfWalletConnected } from "../../../apis/wallet/wallet";
+import { stakingOnPoolProcessing, unstakingOnPoolProcessing } from "./pools.actions";
+import store from "../../store/store";
 
 const fetchStorage = async (identifier, address, decimal, priceOfTokenInUsd, priceOfPlentyInUSD) => {
   try {
@@ -233,6 +235,7 @@ export const stake = async (amount, poolIdentifier , isActive, position) => {
             );
         }
         const batchOperation = await batch.send();
+        store.dispatch(stakingOnPoolProcessing(batchOperation))
         await batchOperation.confirmation().then(() => batchOperation.opHash);
         return {
           success: true,
@@ -252,7 +255,7 @@ export const stake = async (amount, poolIdentifier , isActive, position) => {
     }
   };
 
-  export const unstake = async (amount, mapKey, poolIdentifier, isActive, position) => {
+  export const unstake = async (stakesToUnstake, poolIdentifier, isActive, position) => {
     try {
       const network = {
         type: CONFIG.WALLET_NETWORK,
@@ -272,15 +275,33 @@ export const stake = async (amount, poolIdentifier , isActive, position) => {
           //CONFIG.CONTRACT[connectedNetwork].PLENTY_POOLS_CONTRACT
           CONFIG.POOLS[connectedNetwork][poolIdentifier][isActive === true ? 'active' : 'inactive'][position].CONTRACT
         );
-        let tokenAmount = amount * Math.pow(10, CONFIG.POOLS[connectedNetwork][poolIdentifier][isActive === true ? 'active' : 'inactive'][position].DECIMAL);
-        const operation = await contractInstance.methods
-          .unstake(tokenAmount, mapKey)
-          .send();
-        await operation.confirmation().then(() => operation.opHash);
+        let unstakeBatch = [];
+        let amount;
+        stakesToUnstake.map((stake) => {
+        amount =
+          stake.amount *
+          Math.pow(
+            10,
+            CONFIG.POOLS[connectedNetwork][poolIdentifier][
+              isActive === true ? 'active' : 'inactive'
+            ][position].TOKEN_DECIMAL
+          );
+        unstakeBatch.push({
+          kind: OpKind.TRANSACTION,
+          ...contractInstance.methods
+            .unstake(amount, stake.mapId)
+            .toTransferParams(),
+        });
+        });
+        let batch = await Tezos.wallet.batch(unstakeBatch);
+        let batchOperation = await batch.send();
+        store.dispatch(unstakingOnPoolProcessing(batchOperation));
+        await batchOperation.confirmation().then(() => batchOperation.hash);
         return {
           success: true,
-          operationId: operation.opHash,
+          operationId: batchOperation.opHash,
         };
+        
       } else {
         return {
           success: false,
@@ -288,6 +309,7 @@ export const stake = async (amount, poolIdentifier , isActive, position) => {
         };
       }
     } catch (error) {
+      console.log(error);
       return {
         success: false,
         error,

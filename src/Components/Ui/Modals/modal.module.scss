@@ -114,7 +114,7 @@
   }
 
   .collapsedContent {
-    height: 165px;
+    max-height: 165px;
     overflow: auto;
     margin: 16px;
     padding-right: 16px;
