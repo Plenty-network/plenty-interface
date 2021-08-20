@@ -1,0 +1,80 @@
+.page-layout-container {
+  margin-top: 40px;
+  padding: 0 180px;
+}
+.plenty-card {
+  padding: 18px 6px;
+  border: 0;
+  box-shadow: 0px 44px 65px rgba(176, 183, 195, 0.19);
+  border-radius: 15px;
+}
+.plenty-card-header {
+  border-bottom: 1px solid #f1f1f1;
+}
+.plenty-card-header-img-wrapper {
+  &.farm {
+    width: 76px;
+  }
+}
+.plenty-card-header-title {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 28px;
+  color: #4e5d78;
+  margin: 0;
+}
+.plenty-card-header-title-badge {
+  display: inline-block;
+  padding: 2px 4px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 14px;
+  margin: 0;
+  &.badge-other {
+    background-color: rgba(174, 110, 15, 0.16);
+    color: #f9a558;
+  }
+  &.badge-plenty {
+    background-color: rgba(92, 15, 174, 0.16);
+    color: #5c0fae;
+  }
+}
+.plenty-card-content {
+  padding: 20px 26px;
+  border-bottom: 1px solid #f1f1f1;
+}
+.plenty-card-content-info {
+  &:last-child {
+    .plenty-card-content-tag {
+      margin: 0;
+    }
+  }
+}
+.plenty-card-content-tag {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #4e5d78;
+  margin-bottom: 18px;
+}
+.plenty-card-tvl-info-wrapper {
+  padding: 12px 26px;
+  border-bottom: 1px solid #f1f1f1;
+}
+.plenty-card-tvl-info {
+  background: #f4f4f6;
+  padding: 22px 16px;
+  border-radius: 6px;
+  .plenty-card-content-tag {
+    margin: 0;
+  }
+}
+.plenty-card-wallet-btn-wrapper {
+  padding: 20px 26px 0;
+  .swap-content-btn {
+    margin: 0;
+  }
+}

@@ -1,0 +1,146 @@
+.pageLayoutContainer {
+  margin-top: 80px;
+  padding: 0 180px 40px;
+}
+
+.cardsContainer {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 345px);
+  grid-gap: 20px;
+  justify-content: center;
+}
+
+.plentyCard {
+  padding: 18px 6px;
+  border: 0;
+  border-radius: 15px;
+  background: var(--theme-card-bg);
+}
+
+.plentyCardHeader {
+  border-bottom: 1px solid var(--theme-border);
+
+  .imageWrapper {
+    width: 76px;
+  }
+
+  .imageWrapperSingle {
+    height: 45px;
+    width: 45px;
+  }
+
+  .title {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 28px;
+    color: var(--theme-text-1);
+    margin: 0;
+  }
+
+  .titleBadge {
+    display: inline-block;
+    padding: 2px 4px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 14px;
+    margin: 0;
+
+    &.badgeOther {
+      background-color: var(--theme-quipuswap-badge-bg);
+      color: var(--theme-quipuswap-badge-text);
+    }
+
+    &.badgePlenty {
+      background-color: var(--theme-plenty-badge-bg);
+      color: var(--theme-plenty-badge-text);
+    }
+  }
+}
+
+.plentyCardContent {
+  padding: 20px 26px;
+
+  &.topBorder {
+    border-top: 1px solid var(--theme-border);
+  }
+
+  &.bottomBorder {
+    border-bottom: 1px solid var(--theme-border);
+  }
+
+  .rightBorder {
+    border-right: 1px solid var(--theme-border);
+  }
+}
+
+.roiInfoImg {
+  margin: -4px 0 0;
+  width: 16px;
+  height: 12px;
+  cursor: pointer;
+  transition: transform 100ms ease-in;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+.plentyCardContentInfo {
+  &:last-child {
+    .plentyCardContentTag {
+      margin: 0;
+    }
+  }
+}
+.plentyCardContentTag {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: var(--theme-text-1);
+  margin-bottom: 18px;
+}
+
+.plentyCardTvlInfoWrapper {
+  padding: 12px 26px;
+  border-bottom: 1px solid var(--theme-border);
+}
+.plentyCardTvlInfo {
+  background: var(--theme-secondary-gradient);
+  padding: 22px 16px;
+  border-radius: 6px;
+  .plentyCardContentTag {
+    margin: 0;
+  }
+}
+.plentyCardWalletBtnWrapper {
+  padding: 20px 26px 0;
+  .swap-content-btn {
+    margin: 0;
+  }
+}
+
+.harvestStakeAmt {
+  width: 100%;
+  display: flex;
+  color: var(--theme-text-1);
+  background: var(--theme-input-bg);
+  border-radius: 6px;
+
+  &.empty {
+    color: var(--theme-text-4);
+  }
+
+  & > span {
+    margin: auto 12px;
+  }
+}

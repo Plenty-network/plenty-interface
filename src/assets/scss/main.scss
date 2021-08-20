@@ -1,0 +1,131 @@
+@import '~bootstrap/scss/bootstrap';
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;700&display=swap');
+@import './partials/header/header';
+@import './partials/footer/footer';
+@import './partials/swap';
+@import './partials/farms';
+@import './partials/poolCard';
+@import './theme';
+
+.flex {
+  display: flex;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.p-90 {
+  padding: 0 90px;
+}
+
+.p-26 {
+  padding: 0 26px;
+}
+
+.pb-20 {
+  padding-bottom: 20px;
+}
+
+.loading-data-wrapper {
+  position: fixed;
+  bottom: 60px;
+  right: 72px;
+}
+
+.loader-message-wrapper {
+  @extend .loading-data-wrapper;
+  bottom: 24px;
+  right: 24px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: -0.4px;
+  padding: 16px 24px;
+  border-radius: 7.34783px;
+
+  &.success {
+    background-color: rgba(35, 193, 89, 0.14);
+    color: #23c159;
+  }
+
+  &.error {
+    background-color: rgba(193, 35, 35, 0.14);
+    color: #c12323;
+  }
+
+  > span {
+    vertical-align: middle;
+  }
+}
+
+.content-hide {
+  display: none;
+}
+
+.navbar-toggler {
+  border: none;
+}
+
+.modal-backdrop {
+  background: var(--theme-bg-1);
+  //filter: blur(8px);
+}
+
+.loader-btn {
+  > span {
+    display: inline-block;
+  }
+}
+
+$h1-font-sizes: (
+  null: 38px,
+  480px: 40px,
+  640px: 42px,
+  1024px: 60px,
+  1400px: 76px,
+);
+
+$h3-font-sizes: (
+  null: 30px,
+  480px: 36px,
+  640px: 42px,
+  1024px: 48px,
+);
+
+@mixin font-size($fs-map) {
+  @each $fs-breakpoint, $fs-font-size in $fs-map {
+    @if $fs-breakpoint == null {
+      font-size: $fs-font-size;
+    } @else {
+      @media screen and (min-width: $fs-breakpoint) {
+        font-size: $fs-font-size;
+      }
+    }
+  }
+}
+
+h1 {
+  @include font-size($h1-font-sizes);
+}
+
+.tooltip-inner {
+  background: linear-gradient(90deg, rgba(112, 40, 228) 0%, rgba(229, 178, 202) 100%);
+  color: #FFFFFF;
+  opacity: 1;
+}
+
+.tooltip > .arrow {
+  opacity: 0;
+}
+
+body {
+  color: var(--theme-text-1);
+  background-color: var(--theme-bg-1);
+}
