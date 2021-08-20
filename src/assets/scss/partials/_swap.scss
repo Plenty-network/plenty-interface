@@ -84,8 +84,8 @@
 }
 .transaction-settings-dropdown {
   width: 290px;
-  left: -246px !important;
-  top: 12px !important;
+  left: 70px !important;
+  top: -62px !important;
   //background-color: #edeef2;
   border: 1px solid var(--theme-border);
   box-sizing: border-box;
@@ -308,7 +308,11 @@
 }
 .swap-content-btn {
   width: 100%;
-  background: linear-gradient(90deg, var(--theme-primary-gradient-1) 0%, var(--theme-primary-gradient-2) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--theme-primary-gradient-1) 0%,
+    var(--theme-primary-gradient-2) 100%
+  );
   border-radius: 8px;
   font-style: normal;
   font-weight: bold;
@@ -446,7 +450,11 @@
   margin-bottom: 20px;
 }
 .slipping-tolerance-btn {
-  background: linear-gradient(90deg, var(--theme-primary-gradient-1) 0%, var(--theme-primary-gradient-2) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--theme-primary-gradient-1) 0%,
+    var(--theme-primary-gradient-2) 100%
+  );
   border-radius: 7.34783px;
   font-style: normal;
   font-weight: bold;
@@ -460,11 +468,10 @@
 .slipping-tolerance-input {
   width: 125px;
   //background-color: #f4f4f6;
+  padding: 18px 26px;
   border: 1px solid var(--theme-border);
-  padding: 8px 26px;
   border-radius: 10.9259px;
   justify-self: flex-end;
-  text-align: right;
   outline: none;
   &.full-width {
     width: 100%;
