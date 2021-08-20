@@ -6,6 +6,7 @@
 @import './partials/swap';
 @import './partials/farms';
 @import './partials/poolCard';
+@import './theme';
 
 .flex {
   display: flex;
@@ -120,5 +121,5 @@ h1 {
 }
 
 body {
-  color: #4e5d78;
+  color: var(--theme-text-1);
 }

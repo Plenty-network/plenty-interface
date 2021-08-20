@@ -233,7 +233,7 @@ const Farms = (props) => {
     <>
       <div>
         <div>
-          <Row className="mt-5 justify-content-center">
+          <div className="mt-5 d-flex justify-content-center w-100">
             <Switch
               value={props.isActiveOpen}
               onChange={() => props.toggleFarmsType(!props.isActiveOpen)}
@@ -241,7 +241,7 @@ const Farms = (props) => {
               falseLabel={'Inactive'}
               inverted={true}
             />
-          </Row>
+          </div>
           <div className={styles.cardsContainer}>
             {props.farmsToRender?.map((farm, index) => {
               return (

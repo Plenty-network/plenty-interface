@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Button from "../Ui/Buttons/Button";
 import PropTypes from 'prop-types'
 
@@ -23,6 +23,12 @@ const FarmCardBottom = (props) => {
   const onWithdrawalFeeClick = () => {
     dispatch(openCloseFarmsModal({ open: FARM_PAGE_MODAL.WITHDRAWAL, contractAddress: props.CONTRACT }))
   }
+
+  const stakedAmount = useMemo(() => {
+    return props.userStakes.hasOwnProperty(props.CONTRACT)
+      ? props.userStakes[props.CONTRACT].stakedAmount
+      : 0
+  }, [props.CONTRACT, props.userStakes])
 
   return (
     <>
@@ -76,8 +82,10 @@ const FarmCardBottom = (props) => {
 
             <div className="d-flex">
 
-              <div className={clsx(styles.harvestStakeAmt, "mr-2 justify-content-end")}>
-                <span>{props.userStakes.hasOwnProperty(props.CONTRACT) ? props.userStakes[props.CONTRACT].stakedAmount : 0}</span>
+              <div className={clsx(styles.harvestStakeAmt, "mr-2 justify-content-end", {
+                [styles.empty]: !stakedAmount
+              })}>
+                <span>{stakedAmount}</span>
               </div>
               <span />
               {
