@@ -29,6 +29,12 @@ const StakeModal = props => {
     props.handleInput(parseFloat(props.walletBalances?.[props.stakeModalIdentifier] ?? 0))
   }
 
+  const onModalClose = () => {
+    setLoading(false);
+    props.handleInput("");
+    props.onClose();
+  }
+
   const buttonText = useMemo(() => {
     if (!props.stakeInputValues) {
       return BUTTON_TEXT.ENTER_AMT;
@@ -45,7 +51,7 @@ const StakeModal = props => {
   return (
     <SimpleModal
       open={props.open}
-      onClose={props.onClose}
+      onClose={onModalClose}
       title={`Stake ${props.stakeModalTitle} tokens`}
       className={styles.stakeModal}
     >
