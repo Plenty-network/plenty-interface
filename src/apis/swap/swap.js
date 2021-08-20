@@ -741,7 +741,7 @@ export const getTokenPrices = async () => {
     );
     let tokenPrice = {};
     tokenPriceResponse = tokenPriceResponse.data;
-    const tokens = ['PLENTY', 'wDAI', 'WRAP'];
+    const tokens = ['PLENTY', 'wDAI', 'WRAP', 'wWBTC', 'wUSDC', 'wBUSD'];
     const tokenAddress = {
       PLENTY: {
         contractAddress: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
@@ -750,6 +750,15 @@ export const getTokenPrices = async () => {
         contractAddress: 'KT1LRboPna9yQY9BrjtQYDS1DVxhKESK4VVd',
       },
       wDAI: {
+        contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+      },
+      wWBTC: {
+        contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+      },
+      wUSDC: {
+        contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+      },
+      wBUSD: {
         contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
       },
     };
