@@ -218,3 +218,75 @@ export const openClosePoolsModal = (payload) => ({
   type: actions.OPEN_CLOSE_PONDS_MODAL,
   payload,
 });
+
+
+export const togglePoolsType = (isActive) => {
+  return (dispatch) => {
+    if (isActive) {
+      dispatch({
+        type: actions.OPEN_ACTIVE_POOLS,
+      });
+    } else {
+      dispatch({
+        type: actions.OPEN_INACTIVE_POOLS,
+      });
+    }
+  };
+};
+
+export const setPoolsToRender = (poolsToRender) => {
+  return (dispatch) => {
+    dispatch({
+      type: actions.SET_POOLS_TO_RENDER,
+      data: poolsToRender,
+    });
+  };
+};
+
+export const clearRenderedPools= () => {
+  return (dispatch) => {
+    dispatch({
+      type: actions.CLEAR_RENDERED_POOLS,
+    });
+  };
+};
+
+
+export const openPoolsStakeModal = (
+  identifier,
+  title,
+  position,
+  contractAddress
+) => {
+  return (dispatch) => {
+    dispatch({
+      type: actions.OPEN_POOLS_STAKE_MODAL,
+      data: {
+        identifier,
+        title,
+        position,
+        contractAddress,
+      },
+    });
+  };
+};
+
+export const closePoolsStakeModal = () => {
+  return (dispatch) => {
+    dispatch({
+      type: actions.CLOSE_POOLS_STAKE_MODAL,
+    });
+  };
+};
+
+export const handleStakeOfPoolInputValue = (value) => {
+  console.log({value});
+  return (dispatch) => {
+    dispatch({
+      type: actions.HANDLE_STAKE_ON_POOLS_INPUT_VALUE,
+      data: {
+        value,
+      },
+    });
+  };
+};
