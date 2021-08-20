@@ -15,7 +15,7 @@ const useInfoTableHooks = (props) => {
       const roiDays = [1, 7, 30, 365];
       return props.data.map((datum, i) => ({
         col1: `${roiDays[i]} day${i ? 's' : ''}`,
-        col2: datum.roi?.toFixed(2),
+        col2: datum.roi?.toFixed(2) + '%',
         col3: datum.PlentyPer1000dollar?.toFixed(2),
       }));
     };
