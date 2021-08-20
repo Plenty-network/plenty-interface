@@ -2,8 +2,9 @@ import InfoTableModal from "../Modals/InfoTableModal";
 import { useDispatch, useSelector } from "react-redux";
 import { openCloseFarmsModal } from "../../redux/actions/farms/farms.actions";
 import { FARM_PAGE_MODAL } from "../../constants/farmsPage";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import InfoModal from "../Ui/Modals/InfoModal";
+import Loader from "../loader";
 
 const FarmModals = () => {
   const modalData = useSelector(state => state.farms.modals);
@@ -33,6 +34,8 @@ const FarmModals = () => {
     }
   )
 
+  const stakeOperations = useSelector(state => state.farms.stakeOperation)
+
   const getTableData = useCallback(() => {
     if (modalData.open === FARM_PAGE_MODAL.WITHDRAWAL) {
       return withDrawalFee
@@ -45,7 +48,18 @@ const FarmModals = () => {
     return []
   }, [modalData, withDrawalFee, roi])
 
+  const loaderMessage = useMemo(() => {
+    if (stakeOperations.completed || stakeOperations.failed) {
+      return {
+        message: stakeOperations.completed
+          ? 'Transaction confirmed'
+          : 'Transaction failed',
+        type: stakeOperations.completed ? 'success' : 'error'
+      }
+    }
 
+    return {}
+  }, [stakeOperations])
 
   const onClose = () => {
     dispatch(openCloseFarmsModal({ open: FARM_PAGE_MODAL.NULL, contractAddress: null }))
@@ -70,6 +84,12 @@ const FarmModals = () => {
             : () => window.open(`https://tzkt.io/${modalData.transactionId}`, '_blank')
         }
       />
+      {
+        (modalData.snackbar || stakeOperations.processing) && (<Loader
+          loading={stakeOperations.processing}
+          loaderMessage={loaderMessage}
+        />)
+      }
     </>
   )
 }

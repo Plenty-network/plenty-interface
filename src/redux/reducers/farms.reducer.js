@@ -34,7 +34,8 @@ const initialState = {
     modals: {
       open: FARM_PAGE_MODAL.NULL,
       contractAddress: null,
-      transactionId: ''
+      transactionId: '',
+      snackbar: false,
     },
     isActiveOpen : true,
     stakeInputValue : 0,
@@ -165,7 +166,8 @@ const farmsReducer = (state = initialState , action) => {
                     completed : true,
                     failed : false, 
                     operationHash : action.data
-                }
+                },
+                modals: { ...state.modals, snackbar: true }
             }
         case actions.STAKING_ON_FARM_FAILED:
             return {
@@ -176,7 +178,8 @@ const farmsReducer = (state = initialState , action) => {
                     completed : false,
                     failed : true,
                     operationHash : null
-                }
+                },
+                modals: { ...state.modals, snackbar: true }
             }
         case actions.CLEAR_STAKING_ON_FARM_RESPONSE:
             return {
@@ -343,7 +346,13 @@ const farmsReducer = (state = initialState , action) => {
         case actions.OPEN_CLOSE_FARMS_MODAL:
             return {
                 ...state,
-                modals: action.payload
+                modals: { ...state.modals, ...action.payload }
+            }
+
+        case actions.DISMISS_FARMS_SNACKBAR:
+            return {
+                ...state,
+                modals: { ...state.modals, snackbar: false, }
             }
 
         default:
