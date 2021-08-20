@@ -83,8 +83,8 @@
 }
 .transaction-settings-dropdown {
   width: 290px;
-  left: -246px !important;
-  top: 12px !important;
+  left: 70px !important;
+  top: -62px !important;
   //background-color: #edeef2;
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-sizing: border-box;
@@ -459,10 +459,9 @@
   width: 125px;
   //background-color: #f4f4f6;
   border: 1px solid rgba(0, 0, 0, 0.07);
-  padding: 8px 26px;
+  padding: 18px 26px;
   border-radius: 10.9259px;
   justify-self: flex-end;
-  text-align: right;
   outline: none;
   &.full-width {
     width: 100%;
