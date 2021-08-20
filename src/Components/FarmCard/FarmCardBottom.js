@@ -89,7 +89,7 @@ const FarmCardBottom = (props) => {
               </div>
               <span />
               {
-                 (props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0 ) // TODO add proper variable
+                 (props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0 )
                   ? <QuantityButton onAdd={() => props.openFarmsStakeModal(props.identifier,props.title,props.position,props.CONTRACT)} onRemove={() => props.openFarmsUnstakeModal(props.identifier,props.CONTRACT,props.title,props.withdrawalFeeStructure,props.position)}/> 
                   : <Button onClick={() => props.openFarmsStakeModal(props.identifier,props.title,props.position,props.CONTRACT)} color={"default"}>Stake</Button>
               }
@@ -106,7 +106,7 @@ const FarmCardBottom = (props) => {
             <div className={clsx(styles.plentyCardContent, styles.bottomBorder, "d-flex")}>
               <div className={clsx(styles.rightBorder, "w-50 text-center")}>
                 <div>Deposit Fee</div>
-                <OverlayTrigger
+                <OverlayTrigger {/* eslint-disable-line */}
                   key="top"
                   placement="top"
                   overlay={
