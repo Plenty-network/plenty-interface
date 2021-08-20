@@ -8,8 +8,8 @@ import clsx from "clsx";
 import QuantityButton from "../Ui/Buttons/QuantityButton";
 import { Image, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { openCloseFarmsModal } from "../../redux/actions/farms/farms.actions";
-import { FARM_PAGE_MODAL } from "../../constants/farmsPage";
+import { openClosePoolsModal } from "../../redux/actions/pools/pools.actions";
+import { POOL_PAGE_MODAL } from "../../constants/poolsPage";
 
 const PoolCardBottom = (props) => {
   const [ isExpanded, toggleExpand ] = useState(false);
@@ -22,7 +22,7 @@ const PoolCardBottom = (props) => {
   }
 
   const onWithdrawalFeeClick = () => {
-    dispatch(openCloseFarmsModal({ open: FARM_PAGE_MODAL.WITHDRAWAL, contractAddress: props.CONTRACT }))
+    dispatch(openClosePoolsModal({ open: POOL_PAGE_MODAL.WITHDRAWAL, contractAddress: props.CONTRACT }))
   }
 
   return (

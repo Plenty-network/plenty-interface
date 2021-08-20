@@ -87,6 +87,13 @@ const initiateStakingOperationOnPool = () => {
   };
 };
 
+export const stakingOnPoolProcessing = (batchOperation) => {
+  return {
+    type: actions.PROCESSING_STAKING_ON_POOL,
+    payload: batchOperation
+  }
+}
+
 const stakingOnPoolSuccessFull = (operationHash) => {
   return {
     type: actions.STAKING_ON_POOL_SUCCESSFULL,
@@ -110,6 +117,12 @@ export const stakeOnPool = (amount, poolIdentifier, isActive, position) => {
       })
       .catch((error) => {
         dispatch(stakingOnPoolFailed());
+      })
+      .finally(() => {
+        setTimeout(
+          () => dispatch(dismissSnackbar()),
+          5000
+        )
       });
   };
 };
@@ -129,6 +142,13 @@ const initiateUnstakingOperationOnPool = () => {
     type: actions.INITIATE_UNSTAKING_ON_POOL,
   };
 };
+
+export const unstakingOnPoolProcessing = (batchOperation) => {
+  return {
+    type: actions.PROCESSING_UNSTAKING_ON_POOL,
+    payload: batchOperation
+  }
+}
 
 const unstakingOnPoolSuccessFull = (operationHash) => {
   return {
@@ -158,6 +178,12 @@ export const unstakeOnPool = (
       })
       .catch((error) => {
         dispatch(unstakingOnPoolFailed());
+      })
+      .finally(() => {
+        setTimeout(
+          () => dispatch(dismissSnackbar()),
+          5000
+        )
       });
   };
 };
@@ -214,7 +240,7 @@ export const clearHarvestPoolResponse = () => {
 };
 
 export const openClosePoolsModal = (payload) => ({
-  type: actions.OPEN_CLOSE_PONDS_MODAL,
+  type: actions.OPEN_CLOSE_POOLS_MODAL,
   payload,
 });
 
@@ -318,3 +344,7 @@ export const closePoolsUnstakeModal = () => {
     });
   };
 };
+
+const dismissSnackbar = () => ({
+  type: actions.DISMISS_POOLS_SNACKBAR,
+})
