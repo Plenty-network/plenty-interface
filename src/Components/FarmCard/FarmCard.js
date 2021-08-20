@@ -38,8 +38,7 @@ const FarmCard = (props) => {
     if (props.isActiveOpen === true) {
       if (props.activeFarmData.isPresent === true) {
         const apy = apyCalculate(
-          props.activeFarmData.data.response[props.CONTRACT]?.APR ??
-            0
+          props.activeFarmData.data.response[props.CONTRACT]?.APR ?? 0
         );
 
         return numberWithCommas(Math.round(apy));
@@ -123,7 +122,7 @@ const FarmCard = (props) => {
               <p
                 className={clsx(
                   styles.titleBadge,
-                  props.source === 'Plenty'
+                  props.source === 'Plenty LP'
                     ? styles.badgePlenty
                     : styles.badgeOther
                 )}
