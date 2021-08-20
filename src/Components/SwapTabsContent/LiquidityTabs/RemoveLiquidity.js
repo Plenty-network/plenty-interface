@@ -2,9 +2,13 @@ import { useState } from 'react';
 import { computeRemoveTokens, removeLiquidity } from '../../../apis/swap/swap';
 
 import ConfirmRemoveLiquidity from './ConfirmRemoveLiquidity';
+import InfoModal from '../../Ui/Modals/InfoModal';
 
 const RemoveLiquidity = (props) => {
   const [removableTokens, setRemovableTokens] = useState({});
+  const [showTransactionSubmitModal, setShowTransactionSubmitModal] =
+    useState(false);
+  const [transactionId, setTransactionId] = useState('');
 
   const removeLiquidityInput = (input) => {
     props.setFirstTokenAmount(input);
@@ -31,6 +35,10 @@ const RemoveLiquidity = (props) => {
     props.setShowConfirmRemoveSupply(true);
     props.setHideContent('content-hide');
   };
+  const transactionSubmitModal = (id) => {
+    setTransactionId(id);
+    setShowTransactionSubmitModal(true);
+  };
   const confirmRemoveLiquidity = () => {
     props.setLoading(true);
     removeLiquidity(
@@ -40,7 +48,8 @@ const RemoveLiquidity = (props) => {
       removableTokens.tokenSecond_Out,
       removableTokens.removeAmount,
       props.walletAddress,
-      props.swapData.dexContractInstance
+      props.swapData.dexContractInstance,
+      transactionSubmitModal
     ).then((data) => {
       if (data.success) {
         props.setLoading(false);
@@ -153,6 +162,17 @@ const RemoveLiquidity = (props) => {
         removableTokens={removableTokens}
         confirmRemoveLiquidity={confirmRemoveLiquidity}
         onHide={props.handleClose}
+      />
+      <InfoModal
+        open={showTransactionSubmitModal}
+        onClose={() => setShowTransactionSubmitModal(false)}
+        message={'Transaction submitted'}
+        buttonText={'View on Tezos'}
+        onBtnClick={
+          transactionId
+            ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank')
+            : null
+        }
       />
     </>
   );
