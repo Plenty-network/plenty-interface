@@ -61,9 +61,9 @@ const Frontpage = ({
 			getHomeStats()
 			getTVL()
 			if (!!wallet) {
-					getPlentyToHarvest(wallet)
-					getPlentyBalanceOfUser(wallet)
-					getTVLOfUser(wallet)
+					// getPlentyToHarvest(wallet)
+					// getPlentyBalanceOfUser(wallet)
+					// getTVLOfUser(wallet)
 			}
 		}
 		getAllData()
@@ -71,6 +71,9 @@ const Frontpage = ({
 		return () => clearInterval(intervalId)
 	}, [wallet])
 
+	
+
+	const walletConnected = false
 
 	const onHarvestAll = () => {
 		!!wallet && harvestAll(wallet);
@@ -91,11 +94,11 @@ const Frontpage = ({
 					<Col
 						className={clsx(
 							"py-5",
-							!!wallet ? ["col-lg-6", "col-sm-12"] : "col-sm-12"
+							walletConnected ? ["col-lg-6", "col-sm-12"] : "col-sm-12"
 						)}>
 						<div
 							className={clsx(
-								!!wallet
+								walletConnected
 									? [
 											"d-flex",
 											"flex-column",
@@ -143,7 +146,7 @@ const Frontpage = ({
 							</Link>
 						</div>
 					</Col>
-					{!!wallet && (
+					{walletConnected && (
 						<Col className="py-3 pb-lg-5 col-lg-6 col-sm-12">
 							<div
 								className="col-lg-9 col-xl-7 m-auto py-lg-5 px-0 text-center

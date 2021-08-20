@@ -322,9 +322,9 @@ export const getStorageForFarms = async isActive => {
 				}
 			}
 		}
-		console.log(dexPromises, "<-------dexPromises-------->")
+		// console.log(dexPromises, "<-------dexPromises-------->")
 		const response = await Promise.all(dexPromises)
-		console.log(response, "<-----Dex Promises Response------->")
+		// console.log(response, "<-----Dex Promises Response------->")
 		let lpPricesInUsd = {}
 		for (let i in response) {
 			if (response[i].lpPriceInXtz * xtzPriceInUsd) {
