@@ -15,7 +15,7 @@ export const ExternalMenu = () => {
       link: 'https://medium.com/plenty-defi',
     },
     {
-      title: 'Github',
+      title: 'GitHub',
       link: 'https://github.com/Plenty-DeFi',
     },
   ];
