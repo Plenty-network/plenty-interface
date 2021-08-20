@@ -71,13 +71,13 @@ const Ponds = ({ walletAddress }) => {
 
   return (
     <div>
-      <Row className="mt-5 justify-content-center">
+      <div  className="mt-5 d-flex justify-content-center w-100">
         <Switch
           trueLabel={'Active'}
           falseLabel={'Inactive'}
           inverted={true}
         />
-      </Row>
+      </div>
       <div className={styles.cardsContainer}>
         {pondsList.map(pool => {
           return <PondCard key={pool.title} {...pool} walletAddress={walletAddress} />;

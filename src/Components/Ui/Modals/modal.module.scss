@@ -1,10 +1,7 @@
-  
-@use "../../../assets/scss/constants" as const;
-
 .simpleModal {
 
   & > :global(.modal-content) {
-    background: #FFFFFF;
+    background: var(--theme-card-bg);
     box-shadow: 0 16.9px 32.3304px rgba(176, 183, 195, 0.14);
     border-radius: 12px;
     border: 0;
@@ -13,7 +10,7 @@
 
   .header {
     padding: 14px 14px 26px;
-    border-bottom: 1px solid const.$border-color;
+    border-bottom: 1px solid var(--theme-border);
 
     &.noTitle {
       padding: 14px 14px 0;
@@ -28,7 +25,7 @@
   
   .closeBtn {
     cursor: pointer;
-    color: #8F92A166;
+    color: var(--theme-text-4);
   }
 
   .content {
@@ -57,7 +54,7 @@
   }
 
   .button {
-    color: const.$primary-color-1;
+    color: var(--theme-primary-1);
     cursor: pointer;
     user-select: none;
 
@@ -70,7 +67,7 @@
 
 .stakeModal {
   .inputWrapper {
-    background: #f4f4f6;
+    background: var(--theme-input-bg);
     border-radius: 6px;
     padding: 16px;
 
@@ -80,6 +77,7 @@
       outline: none;
       width: 50px;
       flex-grow: 1;
+      color: var(--theme-text-1);
     }
 
     & span {
@@ -90,7 +88,7 @@
 
 .unStakeModal {
   .unstakeSelectWrapper {
-    background: #f6f6f4;
+    background: var(--theme-input-bg);
     border-radius: 6px;
   }
 
@@ -98,7 +96,7 @@
     padding: 16px 14px;
 
     &.active {
-      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      border-bottom: 1px solid var(--theme-border);
     }
   }
 
@@ -111,7 +109,7 @@
   }
 
   .selectedStakes {
-    background: linear-gradient(90deg, rgba(112, 40, 228, 0.07) 0%, rgba(229, 178, 202, 0.07) 100%);
+    background: var(--theme-secondary-gradient);
     border-radius: 6px;
   }
 
@@ -130,7 +128,7 @@
   }
 
   .feeBreakdownWrapper {
-    background: #F9FAFA;
+    background: var(--theme-input-bg);
     border-radius: 15px;
     padding: 12px 16px;
   }
@@ -138,7 +136,7 @@
   .feeBreakdownTable {
     display: table;
     width: 100%;
-    border-bottom: 1px solid const.$border-color;
+    border-bottom: 1px solid var(--theme-border);
 
     & > div {
       display: table-row;

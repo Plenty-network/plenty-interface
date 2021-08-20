@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import SimpleModal from "./SimpleModal";
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Button from "../Buttons/Button";
 
 import styles from "./modal.module.scss";
@@ -13,16 +13,22 @@ const BUTTON_TEXT = {
 }
 
 const StakeModal = props => {
-  const [loading, setLoading] = useState(false);
-
   const onStake = () => {
-    setLoading(true)
     props.stakeOnFarm(
-      props.stakeInputValues,
+      parseFloat(props.stakeInputValues),
       props.stakeModalIdentifier,
       props.isActiveOpen,
       props.stakeModalFarmPosition
     )
+  }
+
+  const onMaxClick = () => {
+    props.handleInput(parseFloat(props.walletBalances?.[props.stakeModalIdentifier] ?? 0))
+  }
+
+  const onModalClose = () => {
+    props.handleInput("");
+    props.onClose();
   }
 
   const buttonText = useMemo(() => {
@@ -41,16 +47,16 @@ const StakeModal = props => {
   return (
     <SimpleModal
       open={props.open}
-      onClose={props.onClose}
+      onClose={onModalClose}
       title={`Stake ${props.stakeModalTitle} tokens`}
       className={styles.stakeModal}
     >
       <div className={clsx(styles.inputWrapper, "d-flex")}>
-        <input onChange={(event) => props.handleInput(parseFloat(event.target.value))} placeholder={"0.0"} />
+        <input value={props.stakeInputValues} onChange={(event) => props.handleInput(event.target.value)} placeholder={"0.0"} />
 
         <span className="mr-2 ml-2 mt-auto mb-auto">{props.stakeModalTitle}</span>
 
-        <Button onClick={() => null} size="small" color="secondary" className="rounded-pill">max</Button>
+        <Button onClick={onMaxClick} size="small" color="secondary" className="rounded-pill">max</Button>
       </div>
 
       <div className="d-flex flex-row-reverse">
@@ -64,14 +70,20 @@ const StakeModal = props => {
         color="primary"
         className="w-100"
         disabled={buttonText !== BUTTON_TEXT.STAKE}
-        loading={loading}
+        loading={props.stakeOperation?.isLoading}
       >{buttonText}</Button>
     </SimpleModal>
   )
 }
 
 StakeModal.propTypes = {
-  tokenData: PropTypes.any, // TODO add types
+  stakeOperation: PropTypes.shape({
+    isLoading : PropTypes.bool,
+    processing: PropTypes.bool,
+    completed : PropTypes.bool,
+    failed : PropTypes.bool,
+    operationHash : PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])])
+  }),
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired
 }

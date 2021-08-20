@@ -7,8 +7,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import clsx from "clsx";
 import Dropdown from 'react-bootstrap/Dropdown';
 import {ExternalMenu, NavigationMenu} from './Menu';
-import logo from '../../assets/images/logo.png';
 import {ReactComponent as Logo} from '../../assets/images/logo.svg';
+import {ReactComponent as LogoWhite} from '../../assets/images/logo-white.svg';
 import {Link} from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -18,17 +18,35 @@ const Header = (props) => {
         if (props.walletAddress) {
             return (
                 <button
-                    className="disconnect-wallet-btn"
+                    className="disconnect-wallet-btn bg-themed py-1 px-2 py-lg-2 px-lg-4"
                     onClick={props.disconnectWallet}
                 >
-                    {truncateMiddle(props.walletAddress, 4, 4, '...')}
+                    <span className={clsx(
+                        props.theme === 'light' ? "light-theme-text" : "span-themed"
+                    )}>
+                        {truncateMiddle(props.walletAddress, 4, 4, '...')}
+                    </span>
                 </button>
             );
         } else {
             return (
-                <button className="connect-wallet-btn" onClick={props.connecthWallet}>
-                    <span className="material-icons-round">add</span>
-                    Connect Wallet
+                <button className={clsx(
+                    props.theme === 'light' ? "frontpage-light-wallet-btn"
+                        : "bg-themed",
+                    "connect-wallet-btn",
+                    "py-1", "px-2", "py-lg-2", "px-lg-4")} onClick={props.connecthWallet}>
+                    <span className={clsx(
+                        "connect-wallet-btn d-lg-inline-block",
+                        props.isFrontPage ? "text-white" : "span-themed")}
+                    >
+                        <span className={clsx(
+                            "material-icons-round",
+                            props.isFrontPage ? "text-white" : "span-themed")}
+                        >
+                            add
+                        </span>
+                        Connect to Wallet
+                    </span>
                 </button>
             );
         }
@@ -52,22 +70,29 @@ const Header = (props) => {
         <Container fluid>
             <Row>
                 <Col sm={12} md={12}>
-                    <Navbar collapseOnSelect expand="lg" className="menu-wrapper">
-                        <Navbar.Brand as={Link} to="/" className="col-4">
-                            <Logo className={clsx(
-                                props.isFrontPage ? "logo-frontPage" : "logo")}/>
-                        </Navbar.Brand>
+                    <Navbar collapseOnSelect expand="lg" className="px-0 menu-wrapper">
+                        <Navbar.Brand as={Link} to="/" className="col-4 m-0">
+                            {
+                                props.isFrontPage ? <LogoWhite/> :
+                                    props.theme === 'light' ? <Logo/> : <LogoWhite/>
+                            }
 
-                        <Navbar.Toggle aria-controls="responsive-navbar-nav" className="ml-auto">
+                        </Navbar.Brand>
+                        <Nav.Item className="ml-auto d-lg-none align-self-lg-end">
+                            {connectWalletButton()}
+                        </Nav.Item>
+                        <Navbar.Toggle aria-controls="responsive-navbar-nav" className="ml-lg-auto">
                             <span className={clsx(
                                 "material-icons-round",
                                 props.isFrontPage ? "text-white"
                                     : "span-themed"
                             )}>more_vert</span>
                         </Navbar.Toggle>
+
                         <Navbar.Collapse id="responsive-navbar-nav">
                             <Nav className="align-items-lg-center w-100">
-                                <div className="col-lg-6 d-flex flex-lg-row flex-column justify-content-lg-center align-items-center">
+                                <div
+                                    className="col-lg-6 d-flex flex-lg-row flex-column justify-content-lg-center align-items-center">
                                     <Nav.Link className="align-self-end align-self-lg-center" as={Link}
                                               to="swap">
                                         <span className={clsx(
@@ -97,7 +122,8 @@ const Header = (props) => {
                                         )}>Ponds</span>
                                     </Nav.Link>
                                 </div>
-                                <div className="col-lg-6 d-flex flex-column flex-lg-row align-items-end align-items-lg-center">
+                                <div
+                                    className="col-lg-6 d-flex flex-column flex-lg-row align-items-end align-items-lg-center">
                                     <Nav.Item className="ml-auto">
                                         <a
                                             className="nav-menu-item-link px-lg-3 align-self-end align-self-lg-center"
@@ -116,10 +142,9 @@ const Header = (props) => {
                                         </a>
                                     </Nav.Item>
 
-                                    <Nav.Item className="ml-auto ml-lg-0 my-3 my-lg-0">
+                                    <Nav.Item className="d-none d-lg-block align-self-lg-end">
                                         {connectWalletButton()}
                                     </Nav.Item>
-
                                     <Nav.Item>
 
                                         <NavDropdown className="top" title={

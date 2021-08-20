@@ -1,5 +1,7 @@
 import { BeaconWallet } from '@taquito/beacon-wallet';
 import { TezosToolkit, OpKind } from '@taquito/taquito';
+import { stakingOnFarmProcessing, unstakingOnFarmProcessing } from "./farms.actions";
+import store from "../../store/store";
 const axios = require('axios');
 const CONFIG = require('../../../config/config');
 
@@ -98,6 +100,78 @@ const getLpPriceFromDex = async (identifier, dexAddress) => {
   }
 };
 
+const getPriceForPlentyLpTokens = async (identifier, lpTokenDecimal, dexAddress) => {
+  try {
+      const storageResponse = await axios.get(`https://mainnet.smartpy.io/chains/main/blocks/head/context/contracts/${dexAddress}/storage`)
+      let token1Pool = parseInt(storageResponse.data.args[1].args[1].int);
+      // token1Pool = token1Pool / Math.pow(10, 12);
+      let token2Pool = parseInt(storageResponse.data.args[4].int);
+      let lpTokenTotalSupply = parseInt(storageResponse.data.args[5].int);
+
+      let token1Address = (storageResponse.data.args[0].args[2].string).toString();
+      let token1Id = parseInt(storageResponse.data.args[1].args[0].args[0].int);
+      let token1Check = (storageResponse.data.args[0].args[3].prim).toString();
+
+      let token2Address = (storageResponse.data.args[1].args[2].string).toString();
+      let token2Id = parseInt(storageResponse.data.args[2].args[1].int);
+      let token2Check = (storageResponse.data.args[2].args[0].prim).toString();
+
+      const tokenPriceResponse = await axios.get('https://api.teztools.io/token/prices');
+      const tokenPricesData = tokenPriceResponse.data.contracts;
+      let tokenData = {};
+
+      let token1Type;
+      let token2Type;
+
+      if(token1Check.match('True')) {
+          token1Type = 'fa2';
+      } else {
+          token1Type = 'fa1.2';
+      }
+
+      if(token2Check.match('True')) {
+          token2Type = 'fa2';
+      } else {
+          token2Type = 'fa1.2';
+      }
+
+      for(let i in tokenPricesData)
+      {
+          if(tokenPricesData[i].tokenAddress === token1Address && tokenPricesData[i].type === token1Type)
+          {
+              tokenData['token0'] = { tokenName : tokenPricesData[i].symbol, tokenValue : tokenPricesData[i].usdValue, tokenDecimal : tokenPricesData[i].decimals };
+          } 
+
+          if(tokenPricesData[i].tokenAddress === token2Address && tokenPricesData[i].type === token2Type && tokenPricesData[i].tokenId === token2Id && tokenPricesData[i].tokenId === token2Id)
+          {
+              tokenData['token1'] = { tokenName : tokenPricesData[i].symbol, tokenValue : tokenPricesData[i].usdValue, tokenDecimal : tokenPricesData[i].decimals };
+          } 
+      }
+
+      var token1Amount = (Math.pow(10,lpTokenDecimal) * token1Pool ) / lpTokenTotalSupply ; 
+      token1Amount =  (token1Amount * tokenData['token0'].tokenValue) / Math.pow(10, tokenData['token0'].tokenDecimal) ; 
+      
+      var token2Amount = ( Math.pow(10,lpTokenDecimal) * token2Pool) / lpTokenTotalSupply ; 
+      token2Amount = (token2Amount * tokenData['token1'].tokenValue) / Math.pow(10, tokenData['token1'].tokenDecimal); 
+                              
+      let totalAmount = (token1Amount + token2Amount ).toFixed(2); 
+
+      return {
+          success : true,
+          identifier,
+          totalAmount
+      }
+  }   
+  catch(error)
+  {
+      return {
+          
+          success : false,
+      }
+  }
+}
+
+
 export const getFarmsData = async (isActive) => {
   try {
     let promises = [];
@@ -120,21 +194,28 @@ export const getFarmsData = async (isActive) => {
       for (let i in CONFIG.FARMS[CONFIG.NETWORK][key][
         isActive === true ? 'active' : 'inactive'
       ]) {
-        dexPromises.push(
-          getLpPriceFromDex(
-            key,
-            CONFIG.FARMS[CONFIG.NETWORK][key][
-              isActive === true ? 'active' : 'inactive'
-            ][i].DEX
-          )
-        );
+        
+        if(key === 'PLENTY - XTZ' || key === 'KALAM - XTZ') {
+          
+          dexPromises.push(getLpPriceFromDex(key, CONFIG.FARMS[CONFIG.NETWORK][key][isActive === true ? 'active' : 'inactive'][i].DEX));
+          
+        } 
+        else if(key === 'PLENTY - wBUSD' || key === 'PLENTY - wUSDC' || key === 'PLENTY - wWBTC'){
+          dexPromises.push(getPriceForPlentyLpTokens(key, CONFIG.FARMS[CONFIG.NETWORK][key][isActive === true ? 'active' : 'inactive'][i].TOKEN_DECIMAL, CONFIG.FARMS[CONFIG.NETWORK][key][isActive === true ? 'active' : 'inactive'][i].DEX));
+        }
+
       }
     }
     const response = await Promise.all(dexPromises);
     let lpPricesInUsd = {};
     for (let i in response) {
-      lpPricesInUsd[response[i].identifier] =
-        response[i].lpPriceInXtz * xtzPriceInUsd;
+
+      if(response[i].lpPriceInXtz * xtzPriceInUsd) {
+        lpPricesInUsd[response[i].identifier] = response[i].lpPriceInXtz * xtzPriceInUsd;
+      }
+      else {
+        lpPricesInUsd[response[i].identifier] = response[i].totalAmount;
+      }
     }
 
     for (let key in CONFIG.FARMS[CONFIG.NETWORK]) {
@@ -154,6 +235,7 @@ export const getFarmsData = async (isActive) => {
       }
     }
     let farmsData = {};
+    
     const farmResponse = await Promise.all(promises);
     for (let i in farmResponse) {
       farmsData[farmResponse[i].address] = {
@@ -303,6 +385,7 @@ export const stakeFarm = async (amount, farmIdentifier, isActive, position) => {
           );
       }
       const batchOperation = await batch.send();
+      store.dispatch(stakingOnFarmProcessing(batchOperation));
       await batchOperation.confirmation().then(() => batchOperation.opHash);
       return {
         success: true,
@@ -369,6 +452,7 @@ export const unstake = async (
       });
       let batch = await Tezos.wallet.batch(unstakeBatch);
       let batchOperation = await batch.send();
+      store.dispatch(unstakingOnFarmProcessing(batchOperation));
       await batchOperation.confirmation().then(() => batchOperation.hash);
       return {
         success: true,

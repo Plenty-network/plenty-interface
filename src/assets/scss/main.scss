@@ -6,6 +6,7 @@
 @import './partials/swap';
 @import './partials/farms';
 @import './partials/poolCard';
+@import './theme';
 
 .flex {
   display: flex;
@@ -68,6 +69,10 @@
   display: none;
 }
 
+.navbar-toggler {
+  border: none;
+}
+
 .modal-backdrop {
   background: rgba(245, 245, 245, 0.6);
   filter: blur(8px);
@@ -83,7 +88,8 @@ $h1-font-sizes: (
   null: 38px,
   480px: 40px,
   640px: 42px,
-  1024px: 72px,
+  1024px: 60px,
+  1400px: 76px,
 );
 
 $h3-font-sizes: (
@@ -120,5 +126,5 @@ h1 {
 }
 
 body {
-  color: #4e5d78;
+  color: var(--theme-text-1);
 }

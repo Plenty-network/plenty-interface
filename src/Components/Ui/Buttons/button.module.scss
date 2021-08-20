@@ -39,14 +39,14 @@
 
 .primary {
   color: white;
-  background: const.$bgGradient;
+  background: linear-gradient(90deg, var(--theme-primary-gradient-1) 0%, var(--theme-primary-gradient-2) 100%);
   border: 0;
   font-weight: bold;
 }
 
 .secondary {
-  background: const.$primary-color-1-light;
-  color: const.$primary-color-1;
+  background: var(--theme-secondary-1);
+  color: var(--theme-primary-gradient-1);
   border: 0;
 }
 
@@ -64,7 +64,8 @@
 
 .mute {
   border: 0;
-  background: #F5F5F5;
+  color: var(--theme-text-1);
+  background: var(--theme-input-bg);
 }
 
 .tertiary {
@@ -75,7 +76,7 @@
 }
 
 .default {
-  color: #5c0fae;
-  border: solid 1px #5c0fae;
+  color: var(--theme-default-btn);
+  border: solid 1px var(--theme-default-btn);
   background: transparent;
 }
