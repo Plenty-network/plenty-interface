@@ -63,6 +63,32 @@
   color: #FFFFFF !important;
 }
 
+.menu-item-active {
+  position: relative;
+
+  > span {
+    color: #2d323d;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: #7d00ff;
+    border-radius: 100%;
+    left: -15px;
+    right: 0;
+    @media (min-width: 992px) {
+      bottom: 0;
+      top: auto;
+      left: 0;
+      margin: auto;
+    }
+
+  }
+}
+
 .menu-active {
   position: relative;
 

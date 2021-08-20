@@ -9,11 +9,16 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import {ExternalMenu, NavigationMenu} from './Menu';
 import {ReactComponent as Logo} from '../../assets/images/logo.svg';
 import {ReactComponent as LogoWhite} from '../../assets/images/logo-white.svg';
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 
 const Header = (props) => {
+
+    const location = useLocation();
+    const { pathname } = location;
+    const splitLocation = pathname.split('/');
+
     let connectWalletButton = () => {
         if (props.walletAddress) {
             return (
@@ -90,31 +95,39 @@ const Header = (props) => {
                         </Navbar.Toggle>
 
                         <Navbar.Collapse id="responsive-navbar-nav">
-                            <Nav className="align-items-lg-center w-100">
+                            <Nav activeKey={location.pathname} className="align-items-lg-center w-100">
                                 <div
                                     className="col-lg-6 d-flex flex-lg-row flex-column justify-content-lg-center align-items-center">
-                                    <Nav.Link className="align-self-end align-self-lg-center" as={Link}
+                                    <Nav.Link className={clsx(
+                                            splitLocation[1] === 'swap' ? "menu-item-active" : undefined,
+                                    "align-self-end align-self-lg-center d-flex align-items-center")} as={Link}
                                               to="swap">
                                         <span className={clsx(
                                             props.isFrontPage ? "text-white"
                                                 : "span-themed"
                                         )}>Swap</span>
                                     </Nav.Link>
-                                    <Nav.Link className="align-self-end align-self-lg-center" as={Link}
+                                    <Nav.Link className={clsx(
+                                        splitLocation[1] === 'farms' ? "menu-item-active" : undefined,
+                                        "align-self-end align-self-lg-center d-flex align-items-center")} as={Link}
                                               to="farms">
                                         <span className={clsx(
                                             props.isFrontPage ? "text-white"
                                                 : "span-themed"
                                         )}>Farms</span>
                                     </Nav.Link>
-                                    <Nav.Link className="align-self-end align-self-lg-center" as={Link}
+                                    <Nav.Link className={clsx(
+                                        splitLocation[1] === 'pools' ? "menu-item-active" : undefined,
+                                        "align-self-end align-self-lg-center d-flex align-items-center")} as={Link}
                                               to="pools">
                                         <span className={clsx(
                                             props.isFrontPage ? "text-white"
                                                 : "span-themed"
                                         )}>Pools</span>
                                     </Nav.Link>
-                                    <Nav.Link className="align-self-end align-self-lg-center" as={Link}
+                                    <Nav.Link className={clsx(
+                                        splitLocation[1] === 'ponds' ? "menu-item-active" : undefined,
+                                        "align-self-end align-self-lg-center d-flex align-items-center")} as={Link}
                                               to="ponds">
                                         <span className={clsx(
                                             props.isFrontPage ? "text-white"
@@ -146,8 +159,28 @@ const Header = (props) => {
                                         {connectWalletButton()}
                                     </Nav.Item>
                                     <Nav.Item>
-
-                                        <NavDropdown className="top" title={
+                                        <div className="d-flex flex-column d-lg-none col p-0">
+                                            <hr className="w-100"/>
+                                            <a href={"https://www.notion.so/Plenty-Docs-082b61c1859e4c4f86d01c3daa0db9ed"}
+                                               className="align-self-end align-self-lg-center nav-link">
+                                                <span className={clsx(
+                                                    props.isFrontPage ? "text-white" : "span-themed"
+                                                )}>Docs</span>
+                                            </a>
+                                            <a href={"https://medium.com/plenty-defi"}
+                                               className="align-self-end align-self-lg-center nav-link">
+                                                <span className={clsx(
+                                                    props.isFrontPage ? "text-white" : "span-themed"
+                                                )}>Blog</span>
+                                            </a>
+                                            <a href={"https://github.com/Plenty-DeFi"}
+                                               className="align-self-end align-self-lg-center nav-link">
+                                                <span className={clsx(
+                                                    props.isFrontPage ? "text-white" : "span-themed"
+                                                )}>GitHub</span>
+                                            </a>
+                                        </div>
+                                        <NavDropdown className="d-none d-lg-block top" title={
                                             <span className={clsx(
                                                 "material-icons-round",
                                                 props.isFrontPage ? "text-white"
