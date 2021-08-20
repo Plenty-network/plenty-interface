@@ -159,16 +159,16 @@ module.exports = {
           ],
         },
         'PLENTY - wBUSD': {
-        active: [
-          {
-            address: 'KT1KJhxkCpZNwAFQURDoJ79hGqQgSC9UaWpG',
-            mapId: 10768,
-            decimal: 18,
-            tokenDecimal: 18,
-          },
-        ],
-        inactive: [],
-      },
+          active: [
+            {
+              address: 'KT1KJhxkCpZNwAFQURDoJ79hGqQgSC9UaWpG',
+              mapId: 10768,
+              decimal: 18,
+              tokenDecimal: 18,
+            },
+          ],
+          inactive: [],
+        },
         'PLENTY - wUSDC': {
           active: [
             {
@@ -180,7 +180,7 @@ module.exports = {
           ],
           inactive: [],
         },
-        'PLENTY - wWBTC' : {
+        'PLENTY - wWBTC': {
           active: [
             {
               address: 'KT1M82a7arHVwcwaswnNUUuCnQ45xjjGKNd1',
@@ -190,7 +190,7 @@ module.exports = {
             },
           ],
           inactive: [],
-        }
+        },
       },
     },
     PONDS: {
@@ -308,7 +308,7 @@ module.exports = {
       },
       'PLENTY - wWBTC': {
         address: 'KT1La1qZiJtDRcd9ek8w5KYD47i9MQqAQHmP',
-        mapId : 11051,
+        mapId: 11051,
         decimal: 13,
         type: 'FA1.2',
         tokenId: 0,
@@ -526,8 +526,8 @@ module.exports = {
             TOKEN_DECIMAL: 18,
             TOKEN_ID: 0,
             DECIMAL: 18,
-            CARD_TYPE : 'PLENTY',
-            withdrawalFeeType : 'type1'
+            CARD_TYPE: 'PLENTY',
+            withdrawalFeeType: 'type1',
           },
         ],
         inactive: [
@@ -539,8 +539,8 @@ module.exports = {
             TOKEN_DECIMAL: 18,
             TOKEN_ID: 0,
             DECIMAL: 18,
-            CARD_TYPE : 'PLENTY',
-            withdrawalFeeType : 'type3'
+            CARD_TYPE: 'PLENTY',
+            withdrawalFeeType: 'type3',
           },
         ],
       },
@@ -554,8 +554,8 @@ module.exports = {
             TOKEN_DECIMAL: 18,
             TOKEN_ID: 11,
             DECIMAL: 18,
-            CARD_TYPE : 'wMATIC',
-            withdrawalFeeType : 'type1'
+            CARD_TYPE: 'wMATIC',
+            withdrawalFeeType: 'type1',
           },
         ],
         inactive: [
@@ -567,8 +567,8 @@ module.exports = {
             TOKEN_DECIMAL: 18,
             TOKEN_ID: 11,
             DECIMAL: 18,
-            CARD_TYPE : 'wMATIC',
-            withdrawalFeeType : 'type3'
+            CARD_TYPE: 'wMATIC',
+            withdrawalFeeType: 'type3',
           },
         ],
       },
@@ -582,8 +582,8 @@ module.exports = {
             TOKEN_DECIMAL: 18,
             TOKEN_ID: 10,
             DECIMAL: 18,
-            CARD_TYPE : 'wLINK',
-            withdrawalFeeType : 'type1'
+            CARD_TYPE: 'wLINK',
+            withdrawalFeeType: 'type1',
           },
         ],
         inactive: [
@@ -595,8 +595,8 @@ module.exports = {
             TOKEN_DECIMAL: 18,
             TOKEN_ID: 10,
             DECIMAL: 18,
-            CARD_TYPE : 'wLINK',
-            withdrawalFeeType : 'type3'
+            CARD_TYPE: 'wLINK',
+            withdrawalFeeType: 'type3',
           },
         ],
       },
@@ -610,8 +610,8 @@ module.exports = {
             TOKEN_DECIMAL: 18,
             TOKEN_ID: 0,
             DECIMAL: 18,
-            CARD_TYPE : 'ETHtz',
-            withdrawalFeeType : 'type1'
+            CARD_TYPE: 'ETHtz',
+            withdrawalFeeType: 'type1',
           },
         ],
         inactive: [
@@ -623,8 +623,8 @@ module.exports = {
             TOKEN_DECIMAL: 18,
             TOKEN_ID: 0,
             DECIMAL: 18,
-            CARD_TYPE : 'ETHtz',
-            withdrawalFeeType : 'type3'
+            CARD_TYPE: 'ETHtz',
+            withdrawalFeeType: 'type3',
           },
         ],
       },
@@ -638,8 +638,8 @@ module.exports = {
             TOKEN_DECIMAL: 6,
             TOKEN_ID: 0,
             DECIMAL: 18,
-            CARD_TYPE : 'hDAO',
-            withdrawalFeeType : 'type1'
+            CARD_TYPE: 'hDAO',
+            withdrawalFeeType: 'type1',
           },
         ],
         inactive: [
@@ -651,8 +651,8 @@ module.exports = {
             TOKEN_DECIMAL: 6,
             TOKEN_ID: 0,
             DECIMAL: 18,
-            CARD_TYPE : 'hDAO',
-            withdrawalFeeType : 'type3'
+            CARD_TYPE: 'hDAO',
+            withdrawalFeeType: 'type3',
           },
         ],
       },
@@ -666,8 +666,8 @@ module.exports = {
             TOKEN_DECIMAL: 6,
             TOKEN_ID: 0,
             DECIMAL: 18,
-            CARD_TYPE : 'USDtz',
-            withdrawalFeeType : 'type1'
+            CARD_TYPE: 'USDtz',
+            withdrawalFeeType: 'type1',
           },
         ],
         inactive: [
@@ -679,8 +679,8 @@ module.exports = {
             TOKEN_DECIMAL: 6,
             TOKEN_ID: 0,
             DECIMAL: 18,
-            CARD_TYPE : 'USDtz',
-            withdrawalFeeType : 'type3'
+            CARD_TYPE: 'USDtz',
+            withdrawalFeeType: 'type3',
           },
         ],
       },
@@ -695,8 +695,8 @@ module.exports = {
             TOKEN_DECIMAL: 8,
             TOKEN_ID: 0,
             DECIMAL: 18,
-            CARD_TYPE : 'WRAP',
-            withdrawalFeeType : 'type1'
+            CARD_TYPE: 'WRAP',
+            withdrawalFeeType: 'type1',
           },
         ],
       },
@@ -733,6 +733,7 @@ module.exports = {
             LP_DECIMAL: 18,
             TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             DECIMAL: 18,
+            withdrawalFeeType: 'type3',
           },
         ],
       },
@@ -751,6 +752,7 @@ module.exports = {
             LP_DECIMAL: 12,
             TEMP_ADDRESS: 'KT1A5P4ejnLix13jtadsfV9GCnXLMNnab8UT',
             DECIMAL: 18,
+            withdrawalFeeType: 'type3',
           },
         ],
       },
@@ -803,7 +805,7 @@ module.exports = {
             LP_DECIMAL: 12,
             TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             DECIMAL: 18,
-            withdrawalFeeType: 'type4',
+            withdrawalFeeType: 'type2',
           },
         ],
         inactive: [],
@@ -825,13 +827,12 @@ module.exports = {
             STAKING_TOKEN_DECIMAL: 18,
             REWARD_TOKEN_DECIMAL: 10,
             TYPE: 'FA1.2',
-            CARD_TYPE:'KALAM'
+            CARD_TYPE: 'KALAM',
           },
         ],
       },
       WRAP: {
-        active: [
-        ],
+        active: [],
         inactive: [
           {
             REWARD_TOKEN: 'KT1LRboPna9yQY9BrjtQYDS1DVxhKESK4VVd',
@@ -842,8 +843,8 @@ module.exports = {
             STAKING_TOKEN_DECIMAL: 18,
             REWARD_TOKEN_DECIMAL: 8,
             TYPE: 'FA1.2',
-            CARD_TYPE : 'WRAP'
-          }
+            CARD_TYPE: 'WRAP',
+          },
         ],
       },
     },
@@ -851,23 +852,21 @@ module.exports = {
   },
   withdrawalFeeDistribution: {
     type1: [
-      { block: 4096, rate: 25 },
-      { block: 8192, rate: 12.5 },
-      { block: 12288, rate: 10 },
-      { block: 16384, rate: 4 },
+      { block: 4096, rate: 25, duration: '< 3 days' },
+      { block: 8192, rate: 12.5, duration: '< 6 days' },
+      { block: 12288, rate: 10, duration: '< 9 days' },
+      { block: 16384, rate: 4, duration: '> 9 days' },
     ],
     type2: [
-      { block: 12288, rate: 4 },
-      { block: 12288, rate: 0 },
+      { block: 12288, rate: 4, duration: '< 9 days' },
+      { block: 12288, rate: 0, duration: '> 9 days' },
     ],
-    type3: [
-      { block: 0, rate: 0 },
-    ],
+    type3: [{ block: 0, rate: 0, duration: '> 0 days' }],
     type4: [
-      { block: 4096, rate: 25 },
-      { block: 8192, rate: 12.5 },
-      { block: 12288, rate: 7.5 },
-      { block: 16384, rate: 4 },
+      { block: 4096, rate: 25, duration: '< 3 days' },
+      { block: 8192, rate: 12.5, duration: '< 6 days' },
+      { block: 12288, rate: 10, duration: '< 9 days' },
+      { block: 16384, rate: 2, duration: '> 9 days' },
     ],
   },
   NETWORK: 'mainnet',
