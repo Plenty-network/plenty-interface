@@ -18,11 +18,15 @@ const StakeModal = props => {
   const onStake = () => {
     setLoading(true)
     props.stakeOnFarm(
-      props.stakeInputValues,
+      parseFloat(props.stakeInputValues),
       props.stakeModalIdentifier,
       props.isActiveOpen,
       props.stakeModalFarmPosition
     )
+  }
+
+  const onMaxClick = () => {
+    props.handleInput(parseFloat(props.walletBalances?.[props.stakeModalIdentifier] ?? 0))
   }
 
   const buttonText = useMemo(() => {
@@ -46,11 +50,11 @@ const StakeModal = props => {
       className={styles.stakeModal}
     >
       <div className={clsx(styles.inputWrapper, "d-flex")}>
-        <input onChange={(event) => props.handleInput(parseFloat(event.target.value))} placeholder={"0.0"} />
+        <input value={props.stakeInputValues} onChange={(event) => props.handleInput(event.target.value)} placeholder={"0.0"} />
 
         <span className="mr-2 ml-2 mt-auto mb-auto">{props.stakeModalTitle}</span>
 
-        <Button onClick={() => null} size="small" color="secondary" className="rounded-pill">max</Button>
+        <Button onClick={onMaxClick} size="small" color="secondary" className="rounded-pill">max</Button>
       </div>
 
       <div className="d-flex flex-row-reverse">

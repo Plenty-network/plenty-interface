@@ -106,7 +106,7 @@ const FarmCardBottom = (props) => {
             <div className={clsx(styles.plentyCardContent, styles.bottomBorder, "d-flex")}>
               <div className={clsx(styles.rightBorder, "w-50 text-center")}>
                 <div>Deposit Fee</div>
-                <OverlayTrigger {/* eslint-disable-line */}
+                <OverlayTrigger
                   key="top"
                   placement="top"
                   overlay={
