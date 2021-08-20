@@ -8,13 +8,13 @@ import plentyToken from '../assets/images/logo_small.png';
 import plentyPoolIcon from '../assets/images/logo-icon.png';
 import hdao from '../assets/images/hdao.png';
 import kalam from '../assets/images/kalam-pool.png';
-import wlink from '../assets/images/wlink.png'
-import ethtz from '../assets/images/ethtz.png'
-import wmatic  from '../assets/images/wmatic.png'
+import wlink from '../assets/images/wlink.png';
+import ethtz from '../assets/images/ethtz.png';
+import wmatic from '../assets/images/wmatic.png';
 import usdtz from '../assets/images/usdtz.png';
-import wrap from '../assets/images/wrap.png'
-import Switch from "../Components/Ui/Switch/Switch";
-import styles from "../assets/scss/partials/_farms.module.scss";
+import wrap from '../assets/images/wrap.png';
+import Switch from '../Components/Ui/Switch/Switch';
+import styles from '../assets/scss/partials/_farms.module.scss';
 import StakeModal from '../Components/Ui/Modals/StakeModal';
 import UnstakeModal from '../Components/Ui/Modals/UnstakeModal';
 import CONFIG from '../config/config';
@@ -23,7 +23,7 @@ import * as poolsAction from '../redux/actions/pools/pools.actions';
 import * as walletActions from '../redux/actions/wallet/wallet.action';
 import * as userActions from '../redux/actions/user/user.action';
 import { throttle } from 'lodash/function';
-import PoolModals from "../Components/PoolPage/PoolModals";
+import PoolModals from '../Components/PoolPage/PoolModals';
 
 const Pools = (props) => {
   // ! TEMP
@@ -46,43 +46,42 @@ const Pools = (props) => {
   }, [props.isActiveOpen, props.userAddress]);
 
   const poolsCardsTypeList = {
-    PLENTY : {
+    PLENTY: {
       image: plentyPoolIcon,
       harvestImg: plentyToken,
       title: 'PLENTY',
     },
-    hDAO : {
+    hDAO: {
       image: hdao,
       harvestImg: plentyToken,
-      title : 'hDAO'
+      title: 'hDAO',
     },
-    ETHtz : {
+    ETHtz: {
       image: ethtz,
       harvestImg: plentyToken,
-      title : 'ETHtz'
+      title: 'ETHtz',
     },
-    wMATIC : {
+    wMATIC: {
       image: wmatic,
       harvestImg: plentyToken,
-      title : 'wMATIC'
+      title: 'wMATIC',
     },
-    wLINK : {
+    wLINK: {
       image: wlink,
       harvestImg: plentyToken,
-      title : 'wLINK'
+      title: 'wLINK',
     },
-    USDtz : {
+    USDtz: {
       image: usdtz,
       harvestImg: plentyToken,
-      title : 'USDtz'
+      title: 'USDtz',
     },
-    WRAP : {
+    WRAP: {
       image: wrap,
       harvestImg: plentyToken,
-      title : 'USDtz'
-    }
-
-  }
+      title: 'USDtz',
+    },
+  };
   const poolsList = [
     {
       image: plentyPoolIcon,
@@ -157,7 +156,7 @@ const Pools = (props) => {
               props.isActiveOpen === true ? 'active' : 'inactive'
             ][i],
           properties:
-          poolsCardsTypeList[
+            poolsCardsTypeList[
               CONFIG.POOLS[CONFIG.NETWORK][key][
                 props.isActiveOpen === true ? 'active' : 'inactive'
               ][i].CARD_TYPE
@@ -177,7 +176,6 @@ const Pools = (props) => {
         });
       }
     }
-    //console.log(poolsToBeRendered)
     props.setPoolsToRender(poolsToBeRendered);
   };
   return (
@@ -192,18 +190,18 @@ const Pools = (props) => {
         />
       </div>
       <div className={styles.cardsContainer}>
-        {props.poolsToRender?.map((pool,index) => {
+        {props.poolsToRender?.map((pool, index) => {
           return (
-          <PoolCard
-          key={index}
-          {...pool.properties}
-          {...pool.poolData}
-          identifier={pool.identifier}
-          position={pool.location}
-          withdrawalFeeStructure={[]}
-          {...props}
-          {...pool}
-          />
+            <PoolCard
+              key={index}
+              {...pool.properties}
+              {...pool.poolData}
+              identifier={pool.identifier}
+              position={pool.location}
+              withdrawalFeeStructure={[]}
+              {...props}
+              {...pool}
+            />
           );
         })}
         {/* {poolsList.map((pool) => {
@@ -229,7 +227,6 @@ const Pools = (props) => {
         handleInput={props.handleStakeOfPoolInputValue}
         stakeInputValues={props.stakeInputValue}
         stakeOnFarm={props.stakeOnPool}
-
       />
       {props.isUnstakeModalOpen ? (
         <UnstakeModal
@@ -260,26 +257,27 @@ const mapStateToProps = (state) => {
   return {
     userAddress: state.wallet.address,
     isActiveOpen: state.pools.isActiveOpen,
-    poolsToRender : state.pools.poolsToRender,
-    activePoolsData : state.pools.active,
-    inactivePoolsData : state.pools.inactive,
+    poolsToRender: state.pools.poolsToRender,
+    activePoolsData: state.pools.active,
+    inactivePoolsData: state.pools.inactive,
     userStakes: state.user.stakes,
     harvestValueOnPools: state.user.harvestValueOnPools,
     walletBalances: state.user.balances,
-    isStakeModalOpen : state.pools.isStakeModalOpen,
+    isStakeModalOpen: state.pools.isStakeModalOpen,
     stakeOperation: state.pools.stakeOperation,
-    stakeModalIdentifier :state.pools.stakeModalIdentifier,
-    stakeModalTitle : state.pools.stakeModalTitle,
-    stakeModalPoolPosition : state.pools.stakeModalPoolPosition,
-    stakeModalContractAddress : state.pools.stakeModalContractAddress,
-    stakeInputValue : state.pools.stakeInputValue,
-    isUnstakeModalOpen : state.pools.isUnstakeModalOpen,
+    stakeModalIdentifier: state.pools.stakeModalIdentifier,
+    stakeModalTitle: state.pools.stakeModalTitle,
+    stakeModalPoolPosition: state.pools.stakeModalPoolPosition,
+    stakeModalContractAddress: state.pools.stakeModalContractAddress,
+    stakeInputValue: state.pools.stakeInputValue,
+    isUnstakeModalOpen: state.pools.isUnstakeModalOpen,
     unstakeOperation: state.pools.unstakeOperation,
-    unstakeModalIdentifier : state.pools.unstakeModalIdentifier,
-    unstakeModalContractAddress : state.pools.unstakeModalContractAddress,
-    unstakeModalPoolPosition : state.pools.unstakeModalPoolPosition,
-    unstakeModalTitle : state.pools.unstakeModalTitle,
-    unstakeModalwithdrawalFeeStructure : state.pools.unstakeModalwithdrawalFeeStructure,
+    unstakeModalIdentifier: state.pools.unstakeModalIdentifier,
+    unstakeModalContractAddress: state.pools.unstakeModalContractAddress,
+    unstakeModalPoolPosition: state.pools.unstakeModalPoolPosition,
+    unstakeModalTitle: state.pools.unstakeModalTitle,
+    unstakeModalwithdrawalFeeStructure:
+      state.pools.unstakeModalwithdrawalFeeStructure,
     currentBlock: state.user.currentBlock,
   };
 };
@@ -289,43 +287,61 @@ const mapDispatchToProps = (dispatch) => {
     connectWallet: () => dispatch(walletActions.connectWallet()),
     togglePoolsType: (isActive) =>
       dispatch(poolsAction.togglePoolsType(isActive)),
-    setPoolsToRender : (poolsToBeRender) => dispatch(poolsAction.setPoolsToRender(poolsToBeRender)),
-    getPoolsData : (isActiveOpen) => dispatch(poolsAction.getPoolsData(isActiveOpen)),
+    setPoolsToRender: (poolsToBeRender) =>
+      dispatch(poolsAction.setPoolsToRender(poolsToBeRender)),
+    getPoolsData: (isActiveOpen) =>
+      dispatch(poolsAction.getPoolsData(isActiveOpen)),
     fetchUserBalances: (address) =>
       dispatch(userActions.fetchUserBalances(address)),
     getUserStakes: (address, type, isActive) =>
       dispatch(userActions.getUserStakes(address, type, isActive)),
     getHarvestValues: (address, type, isActive) =>
       dispatch(userActions.getHarvestValues(address, type, isActive)),
-    harvestOnPools : (poolIdentifier, isActive, position) => dispatch(poolsAction.harvestOnPool(poolIdentifier, isActive, position)),
-    openPoolsStakeModal : (identifier,
-      title,
-      position,
-      contractAddress) => dispatch(poolsAction.openPoolsStakeModal(identifier,
-        title,
-        position,
-        contractAddress)),
-        closePoolsStakeModal : () => dispatch(poolsAction.closePoolsStakeModal()),
-    handleStakeOfPoolInputValue : (value) => dispatch(poolsAction.handleStakeOfPoolInputValue(value)),
-    stakeOnPool : (amount, poolIdentifier, isActive, position) => dispatch(poolsAction.stakeOnPool(amount, poolIdentifier, isActive, position)),
-    openPoolsUnstakeModal : (identifier,
+    harvestOnPools: (poolIdentifier, isActive, position) =>
+      dispatch(poolsAction.harvestOnPool(poolIdentifier, isActive, position)),
+    openPoolsStakeModal: (identifier, title, position, contractAddress) =>
+      dispatch(
+        poolsAction.openPoolsStakeModal(
+          identifier,
+          title,
+          position,
+          contractAddress
+        )
+      ),
+    closePoolsStakeModal: () => dispatch(poolsAction.closePoolsStakeModal()),
+    handleStakeOfPoolInputValue: (value) =>
+      dispatch(poolsAction.handleStakeOfPoolInputValue(value)),
+    stakeOnPool: (amount, poolIdentifier, isActive, position) =>
+      dispatch(
+        poolsAction.stakeOnPool(amount, poolIdentifier, isActive, position)
+      ),
+    openPoolsUnstakeModal: (
+      identifier,
       contractAddress,
       title,
       withdrawalFeeStructure,
-      position) => dispatch(poolsAction.openPoolsUnstakeModal(identifier,
-        contractAddress,
-        title,
-        withdrawalFeeStructure,
-        position)),
-      closePoolsUnstakeModal : () => dispatch(poolsAction.closePoolsUnstakeModal()),
-      unstakeOnPool : (stakesToUnstake,
-        poolIdentifier,
-        isActive,
-        position) => dispatch(poolsAction.unstakeOnPool(stakesToUnstake,
+      position
+    ) =>
+      dispatch(
+        poolsAction.openPoolsUnstakeModal(
+          identifier,
+          contractAddress,
+          title,
+          withdrawalFeeStructure,
+          position
+        )
+      ),
+    closePoolsUnstakeModal: () =>
+      dispatch(poolsAction.closePoolsUnstakeModal()),
+    unstakeOnPool: (stakesToUnstake, poolIdentifier, isActive, position) =>
+      dispatch(
+        poolsAction.unstakeOnPool(
+          stakesToUnstake,
           poolIdentifier,
           isActive,
-          position))
-
+          position
+        )
+      ),
   };
 };
 
@@ -333,4 +349,4 @@ Pools.propTypes = {
   walletAddress: PropTypes.string.isRequired,
 };
 
-export default connect(mapStateToProps,mapDispatchToProps)(Pools);
+export default connect(mapStateToProps, mapDispatchToProps)(Pools);
