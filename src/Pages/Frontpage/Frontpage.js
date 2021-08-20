@@ -350,7 +350,7 @@ const Frontpage = ({
 							<div
 								className="col-10 col-xl-8 m-auto py-lg-5 px-0
                                     align-items-start text-left">
-								<Accordion text={"What is Plenty?"} className={styles.divider}>
+								<Accordion isOpen={true} text={"What is Plenty?"} className={styles.divider}>
 									<div>
 										<p className="text-white">
 											Plenty is a platform for creating liquidity and trading FA

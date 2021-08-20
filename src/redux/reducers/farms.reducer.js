@@ -157,6 +157,7 @@ const farmsReducer = (state = initialState , action) => {
                     operationHash : null
                 },
                 isStakeModalOpen: false,
+                stakeInputValue: "",
             }
         case actions.STAKING_ON_FARM_SUCCESSFULL:
             return {

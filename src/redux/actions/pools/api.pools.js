@@ -133,7 +133,6 @@ export const getPoolsData = async (isActive) => {
     }
 
     const poolResponse = await Promise.all(promises);
-    console.log({ poolResponse });
     let poolsData = {};
     for (let i in poolResponse) {
       poolsData[poolResponse[i].address] = {
@@ -155,7 +154,6 @@ export const getPoolsData = async (isActive) => {
       response: poolsData,
     };
   } catch (error) {
-    console.log(error);
     return {
       success: false,
       response: {},
@@ -188,7 +186,6 @@ export const getPoolsData = async (isActive) => {
 
 export const stake = async (amount, poolIdentifier, isActive, position) => {
   try {
-    console.log(amount, poolIdentifier, isActive, position);
     const network = {
       type: CONFIG.WALLET_NETWORK,
     };
@@ -368,7 +365,6 @@ export const unstake = async (
       };
     }
   } catch (error) {
-    console.log(error);
     return {
       success: false,
       error,

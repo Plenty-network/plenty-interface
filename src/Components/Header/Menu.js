@@ -8,14 +8,14 @@ export const ExternalMenu = () => {
   const menu = [
     {
       title: 'Docs',
-      link: 'https://www.notion.so/Plenty-Docs-082b61c1859e4c4f86d01c3daa0db9ed',
+      link: 'https://plenty-defi.notion.site/Plenty-Docs-004ba25f40b641a3a276b84ebdc44971',
     },
     {
       title: 'Blog',
       link: 'https://medium.com/plenty-defi',
     },
     {
-      title: 'Github',
+      title: 'GitHub',
       link: 'https://github.com/Plenty-DeFi',
     },
   ];

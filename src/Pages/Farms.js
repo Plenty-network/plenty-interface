@@ -95,7 +95,7 @@ const Farms = (props) => {
       userBalance: 0,
       URL: '',
       active: true,
-      source: 'Plenty',
+      source: 'Plenty LP',
       rewards: '1000 PLENTY / DAY',
     },
     'KALAM / PLENTY LP': {
@@ -115,7 +115,7 @@ const Farms = (props) => {
       userBalance: 0,
       URL: '',
       active: true,
-      source: 'Plenty',
+      source: 'Plenty LP',
       rewards: '1000 PLENTY / DAY',
     },
     'PLENTY / wUSDC LP': {
@@ -135,7 +135,7 @@ const Farms = (props) => {
       userBalance: 0,
       URL: '',
       active: true,
-      source: 'Plenty',
+      source: 'Plenty LP',
       rewards: '1000 PLENTY / DAY',
     },
     'PLENTY / wBUSD LP': {
@@ -155,7 +155,7 @@ const Farms = (props) => {
       userBalance: 0,
       URL: '',
       active: true,
-      source: 'Plenty',
+      source: 'Plenty LP',
       rewards: '1000 PLENTY / DAY',
     },
     'PLENTY / wWBTC LP': {
@@ -175,7 +175,7 @@ const Farms = (props) => {
       userBalance: 0,
       URL: '',
       active: true,
-      source: 'Plenty',
+      source: 'Plenty LP',
       rewards: '1000 PLENTY / DAY',
     },
   };
