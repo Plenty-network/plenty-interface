@@ -41,7 +41,13 @@ const initialState = {
     stakeModalTitle : '',
     stakeModalPoolPosition : -1,
     stakeModalContractAddress : '',
-    stakeInputValue : 0
+    stakeInputValue : 0,
+    isUnstakeModalOpen : false,
+    unstakeModalIdentifier : '',
+    unstakeModalContractAddress : '',
+    unstakeModalPoolPosition : -1,
+    unstakeModalTitle : '',
+    unstakeModalwithdrawalFeeStructure : []
 }
 
 const poolsReducer = (state = initialState , action) => {
@@ -285,6 +291,27 @@ const poolsReducer = (state = initialState , action) => {
             return {
                 ...state,
                 stakeInputValue : action.data.value
+            }
+        case actions.OPEN_POOLS_UNSTAKE_MODAL:
+            return {
+                ...state,
+                isUnstakeModalOpen : true,
+                unstakeModalIdentifier : action.data.identifier,
+                unstakeModalContractAddress : action.data.contractAddress,
+                unstakeModalPoolPosition : action.data.position,
+                unstakeModalTitle : action.data.title,
+                unstakeModalwithdrawalFeeStructure : action.data.withdrawalFeeStructure
+                
+            }
+        case actions.CLOSE_POOLS_UNSTAKE_MODAL:
+            return {
+                ...state,
+                isUnstakeModalOpen : false,
+                unstakeModalIdentifier : '',
+                unstakeModalContractAddress : '',
+                unstakeModalPoolPosition : -1,
+                unstakeModalTitle : '',
+                unstakeModalwithdrawalFeeStructure : []
             }
         default:
             return {
