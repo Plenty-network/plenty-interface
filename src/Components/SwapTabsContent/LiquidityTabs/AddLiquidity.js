@@ -5,12 +5,16 @@ import {
 } from '../../../apis/swap/swap';
 import { useState } from 'react';
 
+import InfoModal from '../../Ui/Modals/InfoModal';
 import ConfirmAddLiquidity from './ConfirmAddLiquidity';
 
 const AddLiquidity = (props) => {
   const [estimatedTokenAmout, setEstimatedTokenAmout] = useState('');
   const [secondTokenAmount, setSecondTokenAmount] = useState('');
   const [lpTokenAmount, setLpTokenAmount] = useState({});
+  const [showTransactionSubmitModal, setShowTransactionSubmitModal] =
+    useState(false);
+  const [transactionId, setTransactionId] = useState('');
 
   const handleLiquidityInput = (input) => {
     const estimatedTokenAmout = estimateOtherToken(
@@ -48,6 +52,10 @@ const AddLiquidity = (props) => {
     );
     setLpTokenAmount(lpTokenAmount);
   };
+  const transactionSubmitModal = (id) => {
+    setTransactionId(id);
+    setShowTransactionSubmitModal(true);
+  };
 
   const CallConfirmAddLiquidity = () => {
     props.setLoading(true);
@@ -59,7 +67,8 @@ const AddLiquidity = (props) => {
       props.tokenContractInstances[props.tokenIn.name],
       props.tokenContractInstances[props.tokenOut.name],
       props.walletAddress,
-      props.swapData.dexContractInstance
+      props.swapData.dexContractInstance,
+      transactionSubmitModal
     ).then((data) => {
       if (data.success) {
         props.setLoading(false);
@@ -228,6 +237,17 @@ const AddLiquidity = (props) => {
         CallConfirmAddLiquidity={CallConfirmAddLiquidity}
         lpTokenAmount={lpTokenAmount}
         onHide={props.handleClose}
+      />
+      <InfoModal
+        open={showTransactionSubmitModal}
+        onClose={() => setShowTransactionSubmitModal(false)}
+        message={'Transaction submitted'}
+        buttonText={'View on Tezos'}
+        onBtnClick={
+          transactionId
+            ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank')
+            : null
+        }
       />
     </>
   );

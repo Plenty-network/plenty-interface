@@ -16,6 +16,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import InfoModal from '../Components/Ui/Modals/InfoModal';
 
 import plenty from '../assets/images/logo_small.png';
 import wusdc from '../assets/images/wusdc.png';
@@ -232,6 +233,15 @@ const Swap = (props) => {
     setRecepient(elem);
   };
 
+  const [showTransactionSubmitModal, setShowTransactionSubmitModal] =
+    useState(false);
+  const [transactionId, setTransactionId] = useState('');
+
+  const transactionSubmitModal = (id) => {
+    setTransactionId(id);
+    setShowTransactionSubmitModal(true);
+  };
+
   return (
     <Container fluid>
       <Row>
@@ -270,6 +280,7 @@ const Swap = (props) => {
                   changeTokenLocation={changeTokenLocation}
                   handleOutTokenInput={handleOutTokenInput}
                   showRecepient={showRecepient}
+                  transactionSubmitModal={transactionSubmitModal}
                 />
               </Tab>
               <Tab eventKey="liquidity" title="Liquidity">
@@ -327,6 +338,17 @@ const Swap = (props) => {
         tokenOut={tokenOut}
         tokenType={tokenType}
       ></SwapModal>
+      <InfoModal
+        open={showTransactionSubmitModal}
+        onClose={() => setShowTransactionSubmitModal(false)}
+        message={'Transaction submitted'}
+        buttonText={'View on Tezos'}
+        onBtnClick={
+          transactionId
+            ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank')
+            : null
+        }
+      />
 
       <Loader loading={loading} loaderMessage={loaderMessage} />
     </Container>

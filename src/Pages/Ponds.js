@@ -1,19 +1,19 @@
-import React , {useEffect} from "react";
-import PropTypes from "prop-types";
-import wdaiImg from "../assets/images/wdai.png";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import kalamimg from '../assets/images/kalam.png'
-import wrapimg from '../assets/images/wrap.png'
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import wdaiImg from '../assets/images/wdai.png';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import kalamimg from '../assets/images/kalam.png';
+import wrapimg from '../assets/images/wrap.png';
 import { connect } from 'react-redux';
 import * as pondsAction from '../redux/actions/ponds/ponds.action';
 import * as walletActions from '../redux/actions/wallet/wallet.action';
 import CONFIG from '../config/config';
 import { throttle } from 'lodash/function';
-import PondCard from "../Components/PondCard/PondCard";
-import styles from "../assets/scss/partials/_farms.module.scss";
-import Switch from "../Components/Ui/Switch/Switch";
-import PondModals from "../Components/PondPage/PondModals";
+import PondCard from '../Components/PondCard/PondCard';
+import styles from '../assets/scss/partials/_farms.module.scss';
+import Switch from '../Components/Ui/Switch/Switch';
+import PondModals from '../Components/PondPage/PondModals';
 
 const Ponds = (props) => {
   // ! TEMP
@@ -28,17 +28,17 @@ const Ponds = (props) => {
     backgroundRefresh();
   }, [props.isActiveOpen, props.userAddress]);
   const pondsCardListType = {
-    KALAM : {
+    KALAM: {
       image: kalamimg,
       harvestImg: kalamimg,
       title: 'KALAM',
     },
-    WRAP : {
+    WRAP: {
       image: wrapimg,
       harvestImg: wrapimg,
       title: 'WRAP',
-    }
-  }
+    },
+  };
   const pondsList = [
     {
       image: wdaiImg,
@@ -111,7 +111,7 @@ const Ponds = (props) => {
               props.isActiveOpen === true ? 'active' : 'inactive'
             ][i],
           properties:
-          pondsCardListType[
+            pondsCardListType[
               CONFIG.PONDS[CONFIG.NETWORK][key][
                 props.isActiveOpen === true ? 'active' : 'inactive'
               ][i].CARD_TYPE
@@ -137,7 +137,7 @@ const Ponds = (props) => {
 
   return (
     <div>
-      <div  className="mt-5 d-flex justify-content-center w-100">
+      <div className="mt-5 d-flex justify-content-center w-100">
         <Switch
           value={props.isActiveOpen}
           onChange={() => props.togglePondsType(!props.isActiveOpen)}
@@ -147,21 +147,33 @@ const Ponds = (props) => {
         />
       </div>
       <div className={styles.cardsContainer}>
-      {props.pondsToRender?.map((pond,index) => {
+        {props.pondsToRender?.map((pond, index) => {
           return (
-          <PondCard
-          key={index}
-          {...pond.properties}
-          {...pond.poolData}
-          identifier={pond.identifier}
-          position={pond.location}
-          {...props}
-          {...pond}
-          />
+            <PondCard
+              key={index}
+              {...pond.properties}
+              {...pond.poolData}
+              identifier={pond.identifier}
+              position={pond.location}
+              {...props}
+              {...pond}
+            />
           );
         })}
-        {props.pondsToRender.length <=0 ? <div><p>No active ponds</p><br/><p>
-Stake not visible? Visit old.plentydefi.com to unstake</p></div> : null}
+        {props.pondsToRender.length <= 0 ? (
+          <div style={{ textAlign: 'center' }}>
+            <p>No active ponds</p>
+            <br />
+            <p>
+              Stake not visible? Visit{' '}
+              <a href="https://old.plentydefi.com/ponds" target="_blank">
+                {' '}
+                old.plentydefi.com
+              </a>{' '}
+              to unstake
+            </p>
+          </div>
+        ) : null}
         {/* {pondsList.map(pool => {
           return <PondCard key={pool.title} {...pool} walletAddress={walletAddress} />;
         })} */}
@@ -175,24 +187,22 @@ const mapStateToProps = (state) => {
   return {
     userAddress: state.wallet.address,
     isActiveOpen: state.ponds.isActiveOpen,
-    pondsToRender : state.ponds.pondsToRender,
-    
+    pondsToRender: state.ponds.pondsToRender,
   };
 };
-
 
 const mapDispatchToProps = (dispatch) => {
   return {
     connectWallet: () => dispatch(walletActions.connectWallet()),
     togglePondsType: (isActive) =>
       dispatch(pondsAction.togglePondsType(isActive)),
-      setPondsToRender : (pondsToBeRender) => dispatch(pondsAction.setPondsToRender(pondsToBeRender))
-
+    setPondsToRender: (pondsToBeRender) =>
+      dispatch(pondsAction.setPondsToRender(pondsToBeRender)),
   };
 };
 
 Ponds.propTypes = {
   walletAddress: PropTypes.string.isRequired,
-}
+};
 
-export default connect(mapStateToProps,mapDispatchToProps)(Ponds);
+export default connect(mapStateToProps, mapDispatchToProps)(Ponds);
