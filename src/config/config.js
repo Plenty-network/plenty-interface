@@ -825,11 +825,14 @@ module.exports = {
             STAKING_TOKEN_DECIMAL: 18,
             REWARD_TOKEN_DECIMAL: 10,
             TYPE: 'FA1.2',
+            CARD_TYPE:'KALAM'
           },
         ],
       },
       WRAP: {
         active: [
+        ],
+        inactive: [
           {
             REWARD_TOKEN: 'KT1LRboPna9yQY9BrjtQYDS1DVxhKESK4VVd',
             STAKING_TOKEN: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
@@ -839,9 +842,9 @@ module.exports = {
             STAKING_TOKEN_DECIMAL: 18,
             REWARD_TOKEN_DECIMAL: 8,
             TYPE: 'FA1.2',
-          },
+            CARD_TYPE : 'WRAP'
+          }
         ],
-        inactive: [],
       },
     },
     testnet: {},
