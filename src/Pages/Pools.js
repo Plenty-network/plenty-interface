@@ -181,7 +181,7 @@ const Pools = (props) => {
   };
   return (
     <div>
-      <Row className="mt-5 justify-content-center">
+      <div className="mt-5 d-flex justify-content-center w-100">
         <Switch
           value={props.isActiveOpen}
           onChange={() => props.togglePoolsType(!props.isActiveOpen)}
@@ -189,7 +189,7 @@ const Pools = (props) => {
           falseLabel={'Inactive'}
           inverted={true}
         />
-      </Row>
+      </div>
       <div className={styles.cardsContainer}>
         {props.poolsToRender?.map((pool,index) => {
           return (

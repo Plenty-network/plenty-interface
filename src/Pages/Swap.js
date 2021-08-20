@@ -60,7 +60,8 @@ const Swap = (props) => {
   const [recepient, setRecepient] = useState('');
   const [tokenType, setTokenType] = useState('tokenIn');
   const [tokenOut, setTokenOut] = useState({});
-  const [firstTokenAmount, setFirstTokenAmount] = useState(0);
+  const [firstTokenAmount, setFirstTokenAmount] = useState();
+  const [secondTokenAmount, setSecondTokenAmount] = useState();
   const [swapData, setSwapData] = useState({});
   const [computedOutDetails, setComputedOutDetails] = useState({});
   const [getTokenPrice, setGetTokenPrice] = useState({});
@@ -87,9 +88,10 @@ const Swap = (props) => {
       });
       setSwapData({});
       setComputedOutDetails({
-        tokenOut_amount: 0,
+        tokenOut_amount: '',
       });
-      setFirstTokenAmount(0);
+      setFirstTokenAmount('');
+      setSecondTokenAmount('');
 
       loadSwapData(tempTokenOut, tempTokenIn).then((data) => {
         if (data.success) {
@@ -136,11 +138,13 @@ const Swap = (props) => {
   };
 
   const handleTokenInput = (input) => {
-    setFirstTokenAmount(parseFloat(input));
+    setFirstTokenAmount(input);
+    setComputedOutDetails({});
     if (input === '' || isNaN(input)) {
-      setFirstTokenAmount(0);
+      setFirstTokenAmount('');
+      setSecondTokenAmount('');
       setComputedOutDetails({
-        tokenOut_amount: 0,
+        tokenOut_amount: '',
         fees: 0,
       });
       return;
@@ -154,6 +158,26 @@ const Swap = (props) => {
       );
       setComputedOutDetails(computedData);
       setLoading(false);
+    }
+  };
+
+  const handleOutTokenInput = (input) => {
+    setSecondTokenAmount(input);
+    if (input === '' || isNaN(input)) {
+      setSecondTokenAmount('');
+      setFirstTokenAmount('');
+      setComputedOutDetails({});
+      return;
+    } else {
+      const computedData = computeTokenOutput(
+        parseFloat(input),
+        swapData.tokenOut_supply,
+        swapData.tokenIn_supply,
+        swapData.exchangeFee,
+        slippage
+      );
+      setFirstTokenAmount(computedData.tokenOut_amount);
+      setComputedOutDetails(computedData);
     }
   };
 
@@ -190,7 +214,7 @@ const Swap = (props) => {
     setRecepient('');
     setTokenType('tokenIn');
     setTokenOut({});
-    setFirstTokenAmount(0);
+    setFirstTokenAmount();
     setSwapData({});
     setComputedOutDetails({});
     setGetTokenPrice({});
@@ -202,6 +226,10 @@ const Swap = (props) => {
       name: 'PLENTY',
       image: plenty,
     });
+  };
+  const [showRecepient, setShowRecepient] = useState(false);
+  const handleRecepient = (elem) => {
+    setRecepient(elem);
   };
 
   return (
@@ -215,6 +243,7 @@ const Swap = (props) => {
                   walletAddress={props.walletAddress}
                   setFirstTokenAmount={handleTokenInput}
                   firstTokenAmount={firstTokenAmount}
+                  secondTokenAmount={secondTokenAmount}
                   connecthWallet={props.connecthWallet}
                   tokenIn={tokenIn}
                   tokenOut={tokenOut}
@@ -239,6 +268,8 @@ const Swap = (props) => {
                   setLoaderMessage={setLoaderMessage}
                   resetAllValues={resetAllValues}
                   changeTokenLocation={changeTokenLocation}
+                  handleOutTokenInput={handleOutTokenInput}
+                  showRecepient={showRecepient}
                 />
               </Tab>
               <Tab eventKey="liquidity" title="Liquidity">
@@ -281,6 +312,8 @@ const Swap = (props) => {
               setSlippage={setSlippage}
               setRecepient={setRecepient}
               walletAddress={props.walletAddress}
+              handleRecepient={handleRecepient}
+              setShowRecepient={setShowRecepient}
             />
           </div>
         </Col>
@@ -292,6 +325,7 @@ const Swap = (props) => {
         tokens={tokens}
         tokenIn={tokenIn}
         tokenOut={tokenOut}
+        tokenType={tokenType}
       ></SwapModal>
 
       <Loader loading={loading} loaderMessage={loaderMessage} />

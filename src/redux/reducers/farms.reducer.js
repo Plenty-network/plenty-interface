@@ -21,6 +21,7 @@ const initialState = {
     },
     unstakeOperation : {
         isLoading : false,
+        processing: false,
         completed : false,
         failed : false,
         operationHash : null
@@ -198,36 +199,59 @@ const farmsReducer = (state = initialState , action) => {
                 ...state,
                 unstakeOperation : {
                     isLoading : true,
+                    processing: false,
                     completed : false,
                     failed : false,
                     operationHash : null
                 }
+            }
+        case actions.PROCESSING_UNSTAKING_ON_FARM:
+            return {
+                ...state,
+                modals: {
+                    ...state.modals,
+                    open: FARM_PAGE_MODAL.TRANSACTION_SUCCESS,
+                    transactionId: action.payload.opHash
+                },
+                unstakeOperation : {
+                    isLoading : false,
+                    processing: true,
+                    completed : false,
+                    failed : false,
+                    operationHash : null
+                },
+                isUnstakeModalOpen: false,
             }
         case actions.UNSTAKING_ON_FARM_SUCCESSFULL:
             return {
                 ...state,
                 unstakeOperation : {
                     isLoading : false,
+                    processing: false,
                     completed : true,
                     failed : false, 
                     operationHash : action.data
-                }
+                },
+                modals: { ...state.modals, snackbar: true }
             }
         case actions.UNSTAKING_ON_FARM_FAILED:
             return {
                 ...state,
                 unstakeOperation : {
                     isLoading : false,
+                    processing: false,
                     completed : false,
                     failed : true,
                     operationHash : null
-                }
+                },
+                modals: { ...state.modals, snackbar: true }
             }
         case actions.CLEAR_UNSTAKING_ON_FARM_RESPONSE:
             return {
                 ...state,
                 unstakeOperation : {
                     isLoading : false,
+                    processing: false,
                     completed : false,
                     failed : false,
                     operationHash : null

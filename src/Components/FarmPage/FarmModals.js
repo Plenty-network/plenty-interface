@@ -35,6 +35,7 @@ const FarmModals = () => {
   )
 
   const stakeOperations = useSelector(state => state.farms.stakeOperation)
+  const unstakeOperations = useSelector(state => state.farms.unstakeOperation)
 
   const getTableData = useCallback(() => {
     if (modalData.open === FARM_PAGE_MODAL.WITHDRAWAL) {
@@ -58,8 +59,21 @@ const FarmModals = () => {
       }
     }
 
+    if (unstakeOperations.completed || unstakeOperations.failed) {
+      return {
+        message: unstakeOperations.completed
+          ? 'Transaction confirmed'
+          : 'Transaction failed',
+        type: unstakeOperations.completed ? 'success' : 'error'
+      }
+    }
+
     return {}
-  }, [stakeOperations])
+  }, [stakeOperations, unstakeOperations])
+
+  const showSnackbar = useMemo(() => {
+    return modalData.snackbar || stakeOperations.processing || unstakeOperations.processing
+  }, [modalData.snackbar, stakeOperations.processing, unstakeOperations.processing])
 
   const onClose = () => {
     dispatch(openCloseFarmsModal({ open: FARM_PAGE_MODAL.NULL, contractAddress: null }))
@@ -85,10 +99,12 @@ const FarmModals = () => {
         }
       />
       {
-        (modalData.snackbar || stakeOperations.processing) && (<Loader
-          loading={stakeOperations.processing}
-          loaderMessage={loaderMessage}
-        />)
+        showSnackbar && (
+          <Loader
+            loading={stakeOperations.processing || unstakeOperations.processing}
+            loaderMessage={loaderMessage}
+          />
+        )
       }
     </>
   )

@@ -21,7 +21,6 @@ const UnstakeModal = props => {
 
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   const buttonText = useMemo(() => {
     if (selected.length > 0) {
@@ -47,7 +46,7 @@ const UnstakeModal = props => {
     }
 
     return <span>{SELECT_LABEL_TEXT.SELECT}</span>
-  }, [selected.length, open])
+  }, [selected, open])
 
 
   const calculateFee = (difference ,obj) => {
@@ -87,7 +86,6 @@ const UnstakeModal = props => {
   }
 
   const onUnstake = () => {
-    setLoading(true);
     props.unstakeOnFarm(
       selected,
       props.unstakeModalIdentifier,
@@ -183,7 +181,7 @@ const UnstakeModal = props => {
           onClick={onUnstake}
           color="primary"
           className="w-100 mt-4"
-          loading={loading}
+          loading={props.unstakeOperation?.isLoading}
           disabled={buttonText !== BUTTON_TEXT.CONFIRM}
         >{buttonText}</Button>
       </div>
@@ -193,7 +191,13 @@ const UnstakeModal = props => {
 
 
 UnstakeModal.propTypes = {
-  tokenData: PropTypes.any, // TODO add types
+  unstakeOperation: PropTypes.shape({
+    isLoading : PropTypes.bool,
+    processing: PropTypes.bool,
+    completed : PropTypes.bool,
+    failed : PropTypes.bool,
+    operationHash : PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])])
+  }),
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired
 }
