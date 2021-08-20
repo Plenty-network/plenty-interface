@@ -5,7 +5,6 @@ import { swapTokens } from '../../apis/swap/swap';
 import PuffLoader from 'react-spinners/PuffLoader';
 
 const SwapTab = (props) => {
-  console.log('sdfsdf=', props.showRecepient);
   const callSwapToken = () => {
     props.setShowConfirmSwap(true);
     props.setHideContent('content-hide');
@@ -24,7 +23,8 @@ const SwapTab = (props) => {
       props.firstTokenAmount,
       props.walletAddress,
       props.tokenContractInstances[props.tokenIn.name],
-      props.swapData.dexContractInstance
+      props.swapData.dexContractInstance,
+      props.transactionSubmitModal
     ).then((swapResp) => {
       if (swapResp.success) {
         props.setLoading(false);
