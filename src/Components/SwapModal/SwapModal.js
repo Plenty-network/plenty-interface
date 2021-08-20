@@ -2,6 +2,18 @@ import React from 'react';
 import { Modal } from 'react-bootstrap';
 
 const SwapModal = (props) => {
+  const tokensToShow = props.tokens.filter((token) => {
+    // if ((props.tokenIn.name !== token.name) && (props.tokenIn.name == 'PLENTY')) {
+    //   return token;
+    // } else {
+    //   return
+    // }
+    if (props.tokenIn.name !== 'PLENTY' && props.tokenType == 'tokenOut') {
+      return token.name == 'PLENTY';
+    } else if (props.tokenIn.name !== token.name) {
+      return token;
+    }
+  });
   return (
     <Modal
       show={props.show}
@@ -9,12 +21,14 @@ const SwapModal = (props) => {
       animation={false}
       className="swap-modal modal-themed"
     >
-      <Modal.Header closeButton  className="border-bottom-themed">
-        <Modal.Title><span className="span-themed">Select a token</span></Modal.Title>
+      <Modal.Header closeButton className="border-bottom-themed">
+        <Modal.Title>
+          <span className="span-themed">Select a token</span>
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="coin-selection-table">
-          {props.tokens.map((token, index) => {
+          {tokensToShow.map((token, index) => {
             return (
               <button
                 className="token-select-btn"

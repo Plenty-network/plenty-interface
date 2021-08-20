@@ -8,7 +8,8 @@ import { useState } from 'react';
 import ConfirmAddLiquidity from './ConfirmAddLiquidity';
 
 const AddLiquidity = (props) => {
-  const [estimatedTokenAmout, setEstimatedTokenAmout] = useState(0);
+  const [estimatedTokenAmout, setEstimatedTokenAmout] = useState('');
+  const [secondTokenAmount, setSecondTokenAmount] = useState('');
   const [lpTokenAmount, setLpTokenAmount] = useState({});
 
   const handleLiquidityInput = (input) => {
@@ -18,6 +19,22 @@ const AddLiquidity = (props) => {
       props.swapData.tokenOut_supply
     );
     setEstimatedTokenAmout(estimatedTokenAmout);
+  };
+  const handleLiquiditySecondInput = (input) => {
+    setSecondTokenAmount(input);
+    if (input === '' || isNaN(input)) {
+      setSecondTokenAmount('');
+      props.setFirstTokenAmount('');
+      setEstimatedTokenAmout({});
+      return;
+    } else {
+      const estimatedTokenAmout = estimateOtherToken(
+        input,
+        props.swapData.tokenOut_supply,
+        props.swapData.tokenIn_supply
+      );
+      props.setFirstTokenAmount(estimatedTokenAmout.otherTokenAmount);
+    }
   };
   const confirmAddLiquidity = () => {
     props.setShowConfirmAddSupply(true);
@@ -107,15 +124,25 @@ const AddLiquidity = (props) => {
           </div>
 
           <div className="token-user-input-wrapper">
-            <input
-              type="text"
-              className="token-user-input"
-              placeholder="0.0"
-              onChange={(e) => {
-                props.setFirstTokenAmount(e.target.value);
-                handleLiquidityInput(e.target.value);
-              }}
-            />
+            {props.tokenOut.name ? (
+              <input
+                type="text"
+                className="token-user-input"
+                placeholder="0.0"
+                value={props.firstTokenAmount}
+                onChange={(e) => {
+                  props.setFirstTokenAmount(e.target.value);
+                  handleLiquidityInput(e.target.value);
+                }}
+              />
+            ) : (
+              <input
+                type="text"
+                className="token-user-input"
+                placeholder="0.0"
+                disabled
+              />
+            )}
           </div>
           {props.walletAddress ? (
             <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
@@ -168,7 +195,12 @@ const AddLiquidity = (props) => {
               type="text"
               className="token-user-input"
               placeholder="0.0"
-              value={estimatedTokenAmout.otherTokenAmount}
+              value={
+                secondTokenAmount
+                  ? secondTokenAmount
+                  : estimatedTokenAmout.otherTokenAmount
+              }
+              onChange={(e) => handleLiquiditySecondInput(e.target.value)}
             />
           </div>
           {props.walletAddress && props.tokenOut.name ? (
