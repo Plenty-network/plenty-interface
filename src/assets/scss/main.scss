@@ -74,8 +74,8 @@
 }
 
 .modal-backdrop {
-  background: rgba(245, 245, 245, 0.6);
-  filter: blur(8px);
+  background: var(--theme-bg-1);
+  //filter: blur(8px);
 }
 
 .loader-btn {
@@ -127,4 +127,5 @@ h1 {
 
 body {
   color: var(--theme-text-1);
+  background-color: var(--theme-bg-1);
 }

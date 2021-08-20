@@ -63,14 +63,6 @@ export const FrontPageBottomGradientDiv = styled.div`
 `
 
 export const GlobalStyles = createGlobalStyle`
-  body {
-    background: ${(props) => props.theme.body};
-  }
-  
-  p {
-    color: ${(props) => props.theme.p};
-  }
-  
   .start-color {
     stop-color: ${(props) => props.theme.iconBgStartColor};
   }

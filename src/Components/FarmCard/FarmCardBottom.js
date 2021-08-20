@@ -85,7 +85,7 @@ const FarmCardBottom = (props) => {
               <div className={clsx(styles.harvestStakeAmt, "mr-2 justify-content-end", {
                 [styles.empty]: !stakedAmount
               })}>
-                <span>{stakedAmount}</span>
+                <span>{stakedAmount?.toFixed(5)}</span>
               </div>
               <span />
               {

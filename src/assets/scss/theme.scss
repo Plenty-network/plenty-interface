@@ -21,6 +21,10 @@
   --theme-bg-4: #FFFFFF;
   --theme-border: #F1F1F1;
   --theme-default-btn: #5C0FAE;
+  --theme-plenty-badge-bg: rgba(92, 15, 174, 0.16);
+  --theme-plenty-badge-text: #5C0FAE;
+  --theme-quipuswap-badge-bg: rgba(174, 110, 15, 0.16);
+  --theme-quipuswap-badge-text: #F9A558;
 }
 :root.dark {
   --theme-primary-1: #FFFFFF;
@@ -34,7 +38,7 @@
     96.01deg, var(--theme-secondary-gradient-1) -47.72%, var(--theme-secondary-gradient-2) 142.35%
   );
   --theme-card-bg: #2D3751;
-  --theme-input-bg: #51596F;
+  --theme-input-bg: #394460;
   --theme-text-1: #FFFFFF;
   --theme-text-inactive: #B0B7C3; // TODO find
   --theme-text-3: #8A94A6; // TODO find
@@ -45,6 +49,10 @@
   --theme-bg-4: #59617A;
   --theme-border: #4E576C;
   --theme-default-btn: #FFFFFF;
+  --theme-plenty-badge-bg: rgba(208, 189, 230, 0.3);
+  --theme-plenty-badge-text: #D9A4CD;
+  --theme-quipuswap-badge-bg: rgba(249, 165, 88, 0.14);
+  --theme-quipuswap-badge-text: #F9A558;
 }
 
 :root.theme-transiton {
