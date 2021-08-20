@@ -1,3 +1,7 @@
+import numeral from 'numeral';
+
 export const numberWithCommas = (x) => {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const formatter = x < 999900 ? '0,0' : '0,0.0a';
+
+  return numeral(x).format(formatter);
 }
