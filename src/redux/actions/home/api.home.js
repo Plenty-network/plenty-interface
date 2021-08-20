@@ -247,6 +247,520 @@ export const getAllActiveContractAddresses = async () => {
 	return contracts
 }
 
+const getLpPriceFromDex = async (identifier, dexAddress) => {
+	try {
+		const response = await axios.get(
+			`https://mainnet.smartpy.io/chains/main/blocks/head/context/contracts/${dexAddress}/storage`
+		)
+		let tez_pool = parseInt(response.data.args[1].args[0].args[1].args[2].int)
+		let total_Supply = null
+		if (identifier === "PLENTY - XTZ") {
+			total_Supply = parseInt(response.data.args[1].args[0].args[4].int)
+		} else {
+			total_Supply = parseInt(response.data.args[1].args[1].args[0].args[0].int)
+		}
+		let lpPriceInXtz = (tez_pool * 2) / total_Supply
+		return {
+			success: true,
+			identifier,
+			lpPriceInXtz,
+			tez_pool,
+			total_Supply,
+			dexAddress,
+		}
+	} catch (error) {
+		console.log(error)
+		return {
+			success: false,
+			identifier,
+			lpPriceInXtz: 0,
+		}
+	}
+}
+
+export const getStorageForFarms = async isActive => {
+	try {
+		let promises = []
+		let dexPromises = []
+		const xtzPriceResponse = await axios.get(
+			"https://api.coingecko.com/api/v3/coins/tezos?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false"
+		)
+		const xtzPriceInUsd = xtzPriceResponse.data.market_data.current_price.usd
+		const tokenPrices = await axios.get("https://api.teztools.io/token/prices")
+		const tokenPricesData = tokenPrices.data.contracts
+		let priceOfPlenty = 0
+		for (let i in tokenPricesData) {
+			if (
+				tokenPricesData[i].symbol === "PLENTY" &&
+				tokenPricesData[i].tokenAddress ===
+					"KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b"
+			) {
+				priceOfPlenty = tokenPricesData[i].usdValue
+			}
+		}
+
+		for (let key in CONFIG.FARMS[CONFIG.NETWORK]) {
+			for (let key1 in CONFIG.FARMS[CONFIG.NETWORK][key][isActive]) {
+				if (key === "PLENTY - XTZ" || key === "KALAM - XTZ") {
+					dexPromises.push(
+						getLpPriceFromDex(
+							key,
+							CONFIG.FARMS[CONFIG.NETWORK][key][isActive][key1].DEX
+						)
+					)
+				} else if (
+					key === "PLENTY - wBUSD" ||
+					key === "PLENTY - wUSDC" ||
+					key === "PLENTY - wWBTC"
+				) {
+					dexPromises.push(
+						getPriceForPlentyLpTokens(
+							key,
+							CONFIG.FARMS[CONFIG.NETWORK][key][isActive][key1].TOKEN_DECIMAL,
+							CONFIG.FARMS[CONFIG.NETWORK][key][isActive][key1].DEX
+						)
+					)
+				}
+			}
+		}
+		const response = await Promise.all(dexPromises)
+		let lpPricesInUsd = {}
+		for (let i in response) {
+			if (response[i].lpPriceInXtz * xtzPriceInUsd) {
+				lpPricesInUsd[response[i].identifier] =
+					response[i].lpPriceInXtz * xtzPriceInUsd
+			} else {
+				lpPricesInUsd[response[i].identifier] = response[i].totalAmount
+			}
+		}
+
+		console.log(lpPricesInUsd, "<-----lpPricesInUsd------>")
+
+		return {
+			success: true,
+			priceOfLPToken: lpPricesInUsd,
+		}
+	} catch (error) {
+		return {
+			success: false,
+			response: {},
+		}
+	}
+}
+
+const getPriceForPlentyLpTokens = async (
+	identifier,
+	lpTokenDecimal,
+	dexAddress
+) => {
+	try {
+		const storageResponse = await axios.get(
+			`https://mainnet.smartpy.io/chains/main/blocks/head/context/contracts/${dexAddress}/storage`
+		)
+		let token1Pool = parseInt(storageResponse.data.args[1].args[1].int)
+		// token1Pool = token1Pool / Math.pow(10, 12);
+		let token2Pool = parseInt(storageResponse.data.args[4].int)
+		let lpTokenTotalSupply = parseInt(storageResponse.data.args[5].int)
+
+		let token1Address = storageResponse.data.args[0].args[2].string.toString()
+		let token1Id = parseInt(storageResponse.data.args[1].args[0].args[0].int)
+		let token1Check = storageResponse.data.args[0].args[3].prim.toString()
+
+		let token2Address = storageResponse.data.args[1].args[2].string.toString()
+		let token2Id = parseInt(storageResponse.data.args[2].args[1].int)
+		let token2Check = storageResponse.data.args[2].args[0].prim.toString()
+
+		const tokenPriceResponse = await axios.get(
+			"https://api.teztools.io/token/prices"
+		)
+		const tokenPricesData = tokenPriceResponse.data.contracts
+		let tokenData = {}
+
+		let token1Type
+		let token2Type
+
+		if (token1Check.match("True")) {
+			token1Type = "fa2"
+		} else {
+			token1Type = "fa1.2"
+		}
+
+		if (token2Check.match("True")) {
+			token2Type = "fa2"
+		} else {
+			token2Type = "fa1.2"
+		}
+
+		for (let i in tokenPricesData) {
+			if (
+				tokenPricesData[i].tokenAddress === token1Address &&
+				tokenPricesData[i].type === token1Type
+			) {
+				tokenData["token0"] = {
+					tokenName: tokenPricesData[i].symbol,
+					tokenValue: tokenPricesData[i].usdValue,
+					tokenDecimal: tokenPricesData[i].decimals,
+				}
+			}
+
+			if (
+				tokenPricesData[i].tokenAddress === token2Address &&
+				tokenPricesData[i].type === token2Type &&
+				tokenPricesData[i].tokenId === token2Id &&
+				tokenPricesData[i].tokenId === token2Id
+			) {
+				tokenData["token1"] = {
+					tokenName: tokenPricesData[i].symbol,
+					tokenValue: tokenPricesData[i].usdValue,
+					tokenDecimal: tokenPricesData[i].decimals,
+				}
+			}
+		}
+
+		var token1Amount =
+			(Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply
+		token1Amount =
+			(token1Amount * tokenData["token0"].tokenValue) /
+			Math.pow(10, tokenData["token0"].tokenDecimal)
+
+		var token2Amount =
+			(Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply
+		token2Amount =
+			(token2Amount * tokenData["token1"].tokenValue) /
+			Math.pow(10, tokenData["token1"].tokenDecimal)
+
+		let totalAmount = (token1Amount + token2Amount).toFixed(2)
+
+		return {
+			success: true,
+			identifier,
+			totalAmount,
+		}
+	} catch (error) {
+		console.log(error)
+		return {
+			success: false,
+		}
+	}
+}
+
+export const getAllFarmsContracts = async () => {
+	let activeContracts = []
+	let inactiveContracts = []
+	const connectedNetwork = CONFIG.NETWORK
+	for (let key in CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork]) {
+		if (
+			CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][key]["active"].length > 0
+		) {
+			for (let key2 in CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][key][
+				"active"
+			]) {
+				activeContracts.push({
+					contract:
+						CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][key]["active"][
+							key2
+						]["address"],
+					mapId:
+						CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][key]["active"][
+							key2
+						]["mapId"],
+					identifier: key,
+					decimal:
+						CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][key]["active"][
+							key2
+						]["decimal"],
+					tokenDecimal:
+						CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][key]["active"][
+							key2
+						]["tokenDecimal"],
+				})
+			}
+		}
+	}
+	for (let key in CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork]) {
+		if (
+			CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][key]["inactive"].length >
+			0
+		) {
+			for (let key2 in CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][key][
+				"inactive"
+			]) {
+				inactiveContracts.push({
+					contract:
+						CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][key]["inactive"][
+							key2
+						]["address"],
+					mapId:
+						CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][key]["inactive"][
+							key2
+						]["mapId"],
+					identifier: key,
+					decimal:
+						CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][key]["inactive"][
+							key2
+						]["decimal"],
+					tokenDecimal:
+						CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][key]["inactive"][
+							key2
+						]["tokenDecimal"],
+				})
+			}
+		}
+	}
+	return {
+		activeContracts: activeContracts,
+		inactiveContracts: inactiveContracts,
+	}
+}
+
+export const getAllPoolsContracts = async () => {
+	let activeContracts = []
+	let inactiveContracts = []
+	const connectedNetwork = CONFIG.NETWORK
+	for (let key in CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork]) {
+		if (
+			CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][key]["active"].length > 0
+		) {
+			for (let key2 in CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][key][
+				"active"
+			]) {
+				activeContracts.push({
+					contract:
+						CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][key]["active"][
+							key2
+						]["address"],
+					mapId:
+						CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][key]["active"][
+							key2
+						]["mapId"],
+					identifier: key,
+					decimal:
+						CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][key]["active"][
+							key2
+						]["decimal"],
+					tokenDecimal:
+						CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][key]["active"][
+							key2
+						]["tokenDecimal"],
+				})
+			}
+		}
+	}
+	for (let key in CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork]) {
+		if (
+			CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][key]["inactive"].length >
+			0
+		) {
+			for (let key2 in CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][key][
+				"inactive"
+			]) {
+				inactiveContracts.push({
+					contract:
+						CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][key]["inactive"][
+							key2
+						]["address"],
+					mapId:
+						CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][key]["inactive"][
+							key2
+						]["mapId"],
+					identifier: key,
+					decimal:
+						CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][key]["inactive"][
+							key2
+						]["decimal"],
+					identifier: key,
+					tokenDecimal:
+						CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][key]["inactive"][
+							key2
+						]["tokenDecimal"],
+				})
+			}
+		}
+	}
+	return {
+		activeContracts: activeContracts,
+		inactiveContracts: inactiveContracts,
+	}
+}
+
+export const getStorageForPools = async isActive => {
+	try {
+		const xtzPriceResponse = await axios.get(
+			"https://api.coingecko.com/api/v3/coins/tezos?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false"
+		)
+		const tokenPrices = await axios.get("https://api.teztools.io/token/prices")
+		const tokenPricesData = tokenPrices.data.contracts
+		let priceOfPlenty = 0
+		let priceOfToken = []
+		let tokenData = {}
+
+		for (let i in tokenPricesData) {
+			if (
+				tokenPricesData[i].symbol === "PLENTY" &&
+				tokenPricesData[i].tokenAddress ===
+					"KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b"
+			) {
+				priceOfPlenty = tokenPricesData[i].usdValue
+				tokenData["PLENTY"] = {
+					tokenName: tokenPricesData[i].symbol,
+					tokenAddress: tokenPricesData[i].tokenAddress,
+					tokenValue: tokenPricesData[i].usdValue,
+				}
+			} else if (
+				tokenPricesData[i].tokenAddress !==
+				"KT1CU9BhZZ7zXJKwZ264xhzNx2eMNoUGVyCy"
+			) {
+				tokenData[tokenPricesData[i].symbol] = {
+					tokenName: tokenPricesData[i].symbol,
+					tokenAddress: tokenPricesData[i].tokenAddress,
+					tokenValue: tokenPricesData[i].usdValue,
+				}
+			}
+		}
+		console.log(tokenData, "<----tokenData----->")
+
+		for (let key in CONFIG.POOLS[CONFIG.NETWORK]) {
+			// console.log(key, "<----key from pool----->")
+			for (let key1 in CONFIG.POOLS[CONFIG.NETWORK][key][isActive]) {
+				console.log(
+					CONFIG.POOLS[CONFIG.NETWORK][key][isActive],
+					"<----key from pool----->"
+				)
+				if (
+					tokenData[key].tokenName === key &&
+					tokenData[key].tokenAddress ===
+						CONFIG.POOLS[CONFIG.NETWORK][key][isActive][key1].TOKEN
+				) {
+					priceOfToken[key] = tokenData[key].tokenValue
+				}
+			}
+		}
+
+		console.log("<------priceOfToken------>", priceOfToken)
+		return {
+			success: true,
+			priceOfToken: priceOfToken,
+		}
+	} catch (error) {
+		console.log(error)
+		return {
+			success: false,
+			response: {},
+		}
+	}
+}
+
+export const getPondContracts = async () => {
+	let activeContracts = []
+	let inactiveContracts = []
+	const connectedNetwork = CONFIG.NETWORK
+	for (let key in CONFIG.STAKING_CONTRACTS.PONDS[connectedNetwork]) {
+		if (
+			CONFIG.STAKING_CONTRACTS.PONDS[connectedNetwork][key]["active"].length > 0
+		) {
+			for (let key2 in CONFIG.STAKING_CONTRACTS.PONDS[connectedNetwork][key][
+				"active"
+			]) {
+				activeContracts.push({
+					contract:
+						CONFIG.STAKING_CONTRACTS.PONDS[connectedNetwork][key]["active"][
+							key2
+						]["address"],
+					mapId:
+						CONFIG.STAKING_CONTRACTS.PONDS[connectedNetwork][key]["active"][
+							key2
+						]["mapId"],
+					identifier: key,
+					decimal:
+						CONFIG.STAKING_CONTRACTS.PONDS[connectedNetwork][key]["active"][
+							key2
+						]["decimal"],
+					tokenDecimal:
+						CONFIG.STAKING_CONTRACTS.PONDS[connectedNetwork][key]["active"][
+							key2
+						]["tokenDecimal"],
+				})
+			}
+		}
+	}
+	for (let key in CONFIG.STAKING_CONTRACTS.PONDS[connectedNetwork]) {
+		console.log(key)
+		if (
+			CONFIG.STAKING_CONTRACTS.PONDS[connectedNetwork][key]["inactive"].length >
+			0
+		) {
+			for (let key2 in CONFIG.STAKING_CONTRACTS.PONDS[connectedNetwork][key][
+				"inactive"
+			]) {
+				inactiveContracts.push({
+					contract:
+						CONFIG.STAKING_CONTRACTS.PONDS[connectedNetwork][key]["inactive"][
+							key2
+						]["address"],
+					mapId:
+						CONFIG.STAKING_CONTRACTS.PONDS[connectedNetwork][key]["inactive"][
+							key2
+						]["mapId"],
+					decimal:
+						CONFIG.STAKING_CONTRACTS.PONDS[connectedNetwork][key]["inactive"][
+							key2
+						]["decimal"],
+					tokenDecimal:
+						CONFIG.STAKING_CONTRACTS.PONDS[connectedNetwork][key]["inactive"][
+							key2
+						]["tokenDecimal"],
+					identifier: key,
+				})
+			}
+		}
+	}
+	return {
+		activeContracts: activeContracts,
+		inactiveContracts: inactiveContracts,
+	}
+}
+
+export const getStorageForPonds = async isActive => {
+	try {
+		const xtzPriceResponse = await axios.get(
+			"https://api.coingecko.com/api/v3/coins/tezos?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false"
+		)
+		const xtzPriceInUsd = xtzPriceResponse.data.market_data.current_price.usd
+		const tokenPrices = await axios.get("https://api.teztools.io/token/prices")
+		const tokenPricesData = tokenPrices.data.contracts
+		let priceOfPlenty = 0
+		let priceOfToken = []
+		let tokenData = {}
+
+		for (let i in tokenPricesData) {
+			if (
+				tokenPricesData[i].symbol === "PLENTY" &&
+				tokenPricesData[i].tokenAddress ===
+					"KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b"
+			) {
+				priceOfPlenty = tokenPricesData[i].usdValue
+				tokenData["PLENTY"] = {
+					tokenName: tokenPricesData[i].symbol,
+					tokenAddress: tokenPricesData[i].tokenAddress,
+					tokenValue: tokenPricesData[i].usdValue,
+				}
+			}
+		}
+
+		console.log(priceOfPlenty, "<-----tokenData Ponds----->")
+
+		return {
+			success: true,
+			priceOfPlenty: priceOfPlenty,
+		}
+	} catch (error) {
+		return {
+			success: false,
+			response: {},
+		}
+	}
+}
+
 export const harvestAll = async () => {
 	const allActiveContracts = getAllActiveContractAddresses()
 	try {
@@ -269,7 +783,7 @@ export const harvestAll = async () => {
 			)
 			const response = await Promise.all(promises)
 
-			console.log(response)
+			// console.log(response)
 		}
 	} catch (error) {
 		console.log(error)

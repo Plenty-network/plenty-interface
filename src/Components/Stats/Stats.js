@@ -12,10 +12,6 @@ import styles from "./stats.module.scss"
 import Button from "../Ui/Buttons/Button"
 
 const Stats = props => {
-	function harvestAll() {
-		props.harvestAll(props.wallet)
-	}
-
 	return (
 		<div className={clsx("p-3", "bg-themed", styles.container)}>
 			<Row className="p-1">
@@ -26,9 +22,9 @@ const Stats = props => {
 					</span>
 					<hr />
 					<Label
-						text={`$${props.valueLocked.toLocaleString(undefined, {
-							maximumFractionDigits: 20,
-						})}`}
+						text={`$${props.valueLocked?.toLocaleString(undefined, {
+							maximumFractionDigits: 3,
+						}) ?? 0} `}
 						subText={"Total value locked"}
 						icon={dollar}
 						iconClass={"mt-1"}
@@ -44,7 +40,7 @@ const Stats = props => {
 			<Row className="p-1">
 				<Col xs={6}>
 					<Label
-						text={`${props.plentyInWallet.toLocaleString(undefined, {
+						text={`${props.plentyInWallet?.toLocaleString(undefined, {
 							maximumFractionDigits: 3,
 						})}`}
 						subText={"PLENTY in wallet"}
@@ -54,7 +50,7 @@ const Stats = props => {
 				</Col>
 				<Col xs={6}>
 					<Label
-						text={`${props.plentyToHarvest.toLocaleString(undefined, {
+						text={`${props.plentyToHarvest?.toLocaleString(undefined, {
 							maximumFractionDigits: 3,
 						})}`}
 						subText={"PLENTY to harvest"}
@@ -65,7 +61,7 @@ const Stats = props => {
 			</Row>
 			<Row className="p-1 mt-1">
 				<Col>
-					<Button onClick={harvestAll} color={"primary"} className={"w-100"}>
+					<Button onClick={props.harvestAll} color={"primary"} className={"w-100"}>
 						Harvest all
 					</Button>
 				</Col>

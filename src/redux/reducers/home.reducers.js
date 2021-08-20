@@ -26,6 +26,18 @@ const initState = {
 		loading: false,
 		data: [],
 	},
+	userTVL: {
+		isPresent: false,
+		loading: false,
+		data: 0,
+	},
+	harvestAllOperation: {
+		loading: false,
+		processing: false,
+		completed: false,
+		failed: false,
+		batchOperation: null,
+	},
 }
 
 const homeReducer = (state = initState, action) => {
@@ -109,10 +121,47 @@ const homeReducer = (state = initState, action) => {
 				...state,
 				harvestBatch: { isPresent: true, loading: false, data: action.data },
 			}
-			case actions.HARVEST_BATCH_FETCH_FAILED:
-				return {
-					...state,
-					harvestBatch: { isPresent: false, loading: false, data: [] },
+		case actions.HARVEST_BATCH_FETCH_FAILED:
+			return {
+				...state,
+				harvestBatch: { isPresent: false, loading: false, data: [] },
+			}
+		case actions.HARVEST_ALL_INITIATION: // INITIATION
+			return {
+				...state,
+				harvestAllOperation: { ...state.harvestAllOperation, loading: true },
+				
+			}
+		case actions.HARVEST_ALL_PROCESSING: // INITIATION
+			return {
+				...state,
+				harvestAllOperation: { ...state.harvestAllOperation, loading: false, processing: true },
+				
+			}
+		case actions.HARVEST_ALL_SUCCESS:
+			return {
+				...state,
+				harvestAllOperation: {...state.harvestAllOperation, processing: false, completed: true, batchOperation: action.payload },
+			}
+		case actions.HARVEST_ALL_FAILED:
+			return {
+				...state,
+				harvestAllOperation: {...state.harvestAllOperation, processing: false, failed: true, batchOperation: action.payload },
+			}
+		case actions.USER_TVL_FETCH:
+			return {
+				...state,
+				userTVL: { isPresent: false, loading: true, data: 0 },
+			}
+		case actions.USER_TVL_FETCH_SUCCESS:
+			return {
+				...state,
+				userTVL: { isPresent: true, loading: false, data: action.data },
+			}
+		case actions.USER_TVL_FETCH_FAILED:
+			return {
+				...state,
+				userTVL: { isPresent: true, loading: false, data: 0 },
 			}
 		default:
 			return {
