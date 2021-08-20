@@ -100,9 +100,11 @@ const PoolCard = (props) => {
         <div className={styles.plentyCard}>
 
           {/* * Header */}
-          <div className="pool-card-top-banner">
-            <p className="pool-card-top-banner-text">Reward end August 20</p>
-          </div>
+          {props.message && (
+            <div className="pool-card-top-banner">
+              <p className="pool-card-top-banner-text">{props.message}</p>
+            </div>
+          )}
           <div className={clsx(styles.plentyCardHeader, "flex justify-content-center align-center p-26 pb-20")}>
             <div className={clsx(styles.imageWrapperSingle, "mr-2")}>
               <Image src={props.image} fluid />
