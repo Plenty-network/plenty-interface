@@ -4,35 +4,154 @@ import axios from 'axios';
 import CONFIG from '../../../config/config';
 import { CheckIfWalletConnected } from "../../../apis/wallet/wallet";
 
+const fetchStorage = async (identifier, address, decimal, priceOfTokenInUsd, priceOfPlentyInUSD) => {
+  try {
+      const url = `https://mainnet.smartpy.io/chains/main/blocks/head/context/contracts/${address}/storage`;
+      const response = await axios.get(url);
+      
+      let totalSupply = response.data.args[3].int;
+      totalSupply = (totalSupply / Math.pow(10, decimal)).toFixed(6);
+      totalSupply = parseInt(totalSupply);
+
+      let rewardRate = response.data.args[1].args[1].int;
+      rewardRate = (rewardRate / Math.pow(10, decimal)).toFixed(18);
+      rewardRate = parseFloat(rewardRate);
+
+      let DPY = (rewardRate * 2880 * priceOfPlentyInUSD) / (totalSupply * priceOfTokenInUsd);
+      DPY = DPY * 100;
+
+      let intervalList = [1, 7, 30, 365];
+      let roiTable = [];
+
+      for (let interval of intervalList) {
+        roiTable.push({
+          roi: DPY * interval,
+          PlentyPer1000dollar:
+            (10 * DPY * interval) / priceOfPlentyInUSD,
+        });
+      }
+      //console.log(totalSupply, priceOfTokenInUsd)
+
+      let APR = (rewardRate * 1051200 * priceOfPlentyInUSD) / (totalSupply * priceOfTokenInUsd);
+      APR = APR * 100;
+
+      let totalLiquidty = totalSupply * priceOfTokenInUsd;
+
+      // console.log('==========APR,Liquidity========', identifier, APR, totalLiquidty);
+      // console.log(roiTable);
+      
+      return {
+          success : true,
+          identifier,
+          APR,
+          totalLiquidty,
+          address,
+          roiTable,
+          rewardRate
+      }
+  }
+  catch(error)
+  {   
+      return {
+          success : false,
+          error
+      }
+  }
+}
+
+
 export const getPoolsData = async (isActive) => {
-    try {
-        let url = null;
-        if(isActive)
-        {
-            url = CONFIG.SERVERLESS_BASE_URL + CONFIG.SERVERLESS_REQUEST.mainnet['POOLS-ACTIVE'];
-        }
-        else
-        {
-            url = CONFIG.SERVERLESS_BASE_URL + CONFIG.SERVERLESS_REQUEST.mainnet['POOLS-INACTIVE'];
-        }
-        const response = axios.get(url);
-        return {
-            success : true,
-            response : response.data
-        }
-    }
-    catch(error)
+
+  try {
+    let promises = [];
+    // let dexPromises = [];
+    // const xtzPriceResponse = await axios.get('https://api.coingecko.com/api/v3/coins/tezos?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false');
+    // const xtzPriceInUsd = xtzPriceResponse.data.market_data.current_price.usd;
+    const tokenPrices = await axios.get('https://api.teztools.io/token/prices');
+    const tokenPricesData = tokenPrices.data.contracts;
+    let priceOfPlenty = 0;
+    let priceOfToken = [];
+    let tokenData = {};
+  
+    for(let i in tokenPricesData)
     {
-        return {
-            success : false,
-            response : {}
-        }
+          if(tokenPricesData[i].symbol === 'PLENTY' && tokenPricesData[i].tokenAddress === 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b')
+          {
+              priceOfPlenty = tokenPricesData[i].usdValue;
+              tokenData['PLENTY'] = { tokenName : tokenPricesData[i].symbol, tokenAddress : tokenPricesData[i].tokenAddress, tokenValue : tokenPricesData[i].usdValue };
+          }
+          else if(tokenPricesData[i].tokenAddress !== 'KT1CU9BhZZ7zXJKwZ264xhzNx2eMNoUGVyCy') 
+          {
+              tokenData[tokenPricesData[i].symbol] = { tokenName : tokenPricesData[i].symbol, tokenAddress : tokenPricesData[i].tokenAddress, tokenValue : tokenPricesData[i].usdValue };
+          }
     }
+
+    for(let key in CONFIG.POOLS[CONFIG.NETWORK])
+    { 
+      for(let key1 in CONFIG.POOLS[CONFIG.NETWORK][key][isActive === true ? 'active' : 'inactive']) {  
+          if(tokenData[key].tokenName === key && tokenData[key].tokenAddress === CONFIG.POOLS[CONFIG.NETWORK][key][isActive === true ? 'active' : 'inactive'][key1].TOKEN) {
+              priceOfToken[key] = tokenData[key].tokenValue;
+          }
+          promises.push(fetchStorage(key, CONFIG.POOLS[CONFIG.NETWORK][key][isActive === true ? 'active' : 'inactive'][key1].CONTRACT, CONFIG.POOLS[CONFIG.NETWORK][key][isActive === true ? 'active' : 'inactive'][key1].DECIMAL, priceOfToken[key] , priceOfPlenty));
+      }
+    }
+
+    const poolResponse = await Promise.all(promises);
+    console.log({poolResponse});
+    let poolsData = {};
+    for(let i in poolResponse)
+    {
+      poolsData[poolResponse[i].address] = {APR : poolResponse[i].APR, totalLiquidty:poolResponse[i].totalLiquidty,roiTable : poolResponse[i].roiTable ,rewardRate : poolResponse[i].rewardRate}
+
+      // identifier,
+      //     APR,
+      //     totalLiquidty,
+      //     address,
+      //     roiTable,
+      //     rewardRate
+    }
+    return {
+      success : true,
+      response : poolsData
+    }
+  }
+  catch(error)
+  {
+    console.log(error);
+    return {
+      success : false,
+      response : {}
+    }
+  }
+    // try {
+    //     let url = null;
+    //     if(isActive)
+    //     {
+    //         url = CONFIG.SERVERLESS_BASE_URL + CONFIG.SERVERLESS_REQUEST.mainnet['POOLS-ACTIVE'];
+    //     }
+    //     else
+    //     {
+    //         url = CONFIG.SERVERLESS_BASE_URL + CONFIG.SERVERLESS_REQUEST.mainnet['POOLS-INACTIVE'];
+    //     }
+    //     const response = axios.get(url);
+    //     return {
+    //         success : true,
+    //         response : response.data
+    //     }
+    // }
+    // catch(error)
+    // {
+    //     return {
+    //         success : false,
+    //         response : {}
+    //     }
+    // }
     
 }
 
 export const stake = async (amount, poolIdentifier , isActive, position) => {
     try {
+      console.log(amount, poolIdentifier , isActive, position);
       const network = {
         type: CONFIG.WALLET_NETWORK,
       };
@@ -54,7 +173,7 @@ export const stake = async (amount, poolIdentifier , isActive, position) => {
         );
         const tokenContractInstance = await Tezos.wallet.at(
           //CONFIG.CONTRACT[connectedNetwork].POOLS[poolIdentifier].LP_TOKEN
-          CONFIG.POOLS[connectedNetwork][poolIdentifier][isActive === true ? 'active' : 'inactive'][position].LP_TOKEN
+          CONFIG.POOLS[connectedNetwork][poolIdentifier][isActive === true ? 'active' : 'inactive'][position].TOKEN
         );
         let tokenAmount =
           amount *
@@ -185,11 +304,10 @@ export const stake = async (amount, poolIdentifier , isActive, position) => {
         type: CONFIG.WALLET_NETWORK,
       };
       const wallet = new BeaconWallet(options);
-      await wallet.client.requestPermissions({
-        network,
-      });
       const connectedNetwork = CONFIG.NETWORK;
+      const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
       const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork]);
+      if (WALLET_RESP.success) {
       Tezos.setRpcProvider(CONFIG.RPC_NODES[connectedNetwork]);
       Tezos.setWalletProvider(wallet);
       const contractInstance = await Tezos.wallet.at(
@@ -202,6 +320,13 @@ export const stake = async (amount, poolIdentifier , isActive, position) => {
         success: true,
         operationId: operation.opHash,
       };
+      }
+      else {
+        return {
+          success: false,
+          error: WALLET_RESP.error,
+        };
+      }
     } catch (error) {
       return {
         success: false,
