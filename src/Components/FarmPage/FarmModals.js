@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { openCloseFarmsModal } from "../../redux/actions/farms/farms.actions";
 import { FARM_PAGE_MODAL } from "../../constants/farmsPage";
 import { useCallback } from "react";
+import InfoModal from "../Ui/Modals/InfoModal";
 
 const FarmModals = () => {
   const modalData = useSelector(state => state.farms.modals);
@@ -52,15 +53,23 @@ const FarmModals = () => {
 
   return (
     <>
-      {
-        (modalData.open === FARM_PAGE_MODAL.ROI || modalData.open === FARM_PAGE_MODAL.WITHDRAWAL) &&
-          <InfoTableModal
-            type={modalData.open}
-            open={!!modalData.open}
-            onClose={onClose}
-            tableData={getTableData()}
-          />
-      }
+      <InfoTableModal
+        type={modalData.open}
+        open={modalData.open === FARM_PAGE_MODAL.ROI || modalData.open === FARM_PAGE_MODAL.WITHDRAWAL}
+        onClose={onClose}
+        tableData={getTableData()}
+      />
+      <InfoModal
+        open={modalData.open === FARM_PAGE_MODAL.TRANSACTION_SUCCESS}
+        onClose={onClose}
+        message={'Transaction submitted'}
+        buttonText={'View on Tezos'}
+        onBtnClick={
+          !modalData.transactionId
+            ? undefined
+            : () => window.open(`https://tzkt.io/${modalData.transactionId}`, '_blank')
+        }
+      />
     </>
   )
 }

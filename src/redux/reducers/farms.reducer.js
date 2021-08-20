@@ -14,6 +14,7 @@ const initialState = {
     },
     stakeOperation : {
         isLoading : false,
+        processing: false,
         completed : false,
         failed : false,
         operationHash : null
@@ -33,6 +34,7 @@ const initialState = {
     modals: {
       open: FARM_PAGE_MODAL.NULL,
       contractAddress: null,
+      transactionId: ''
     },
     isActiveOpen : true,
     stakeInputValue : 0,
@@ -131,16 +133,35 @@ const farmsReducer = (state = initialState , action) => {
                 ...state,
                 stakeOperation : {
                     isLoading : true,
+                    processing: false,
                     completed : false,
                     failed : false,
                     operationHash : null
                 }
+            }
+        case actions.PROCESSING_STAKING_ON_FARM:
+            return {
+                ...state,
+                modals: {
+                    ...state.modals,
+                    open: FARM_PAGE_MODAL.TRANSACTION_SUCCESS,
+                    transactionId: action.payload.opHash
+                },
+                stakeOperation : {
+                    isLoading : false,
+                    processing: true,
+                    completed : false,
+                    failed : false,
+                    operationHash : null
+                },
+                isStakeModalOpen: false,
             }
         case actions.STAKING_ON_FARM_SUCCESSFULL:
             return {
                 ...state,
                 stakeOperation : {
                     isLoading : false,
+                    processing: false,
                     completed : true,
                     failed : false, 
                     operationHash : action.data
@@ -151,6 +172,7 @@ const farmsReducer = (state = initialState , action) => {
                 ...state,
                 stakeOperation : {
                     isLoading : false,
+                    processing: false,
                     completed : false,
                     failed : true,
                     operationHash : null
@@ -161,6 +183,7 @@ const farmsReducer = (state = initialState , action) => {
                 ...state,
                 stakeOperation : {
                     isLoading : false,
+                    processing: false,
                     completed : false,
                     failed : false,
                     operationHash : null
@@ -243,6 +266,7 @@ const farmsReducer = (state = initialState , action) => {
                 ...state,
                 stakeOperation : {
                     isLoading : false,
+                    processing: false,
                     completed : false,
                     failed : false,
                     operationHash : null

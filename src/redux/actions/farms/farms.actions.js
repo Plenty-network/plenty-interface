@@ -87,6 +87,13 @@ const initiateStakingOperationOnFarm = () => {
   };
 };
 
+export const stakingOnFarmProcessing = (batchOperation) => {
+  return {
+    type: actions.PROCESSING_STAKING_ON_FARM,
+    payload: batchOperation
+  }
+}
+
 const stakingOnFarmSuccessFull = (operationHash) => {
   return {
     type: actions.STAKING_ON_FARM_SUCCESSFULL,

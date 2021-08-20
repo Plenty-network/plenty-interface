@@ -13,10 +13,7 @@ const BUTTON_TEXT = {
 }
 
 const StakeModal = props => {
-  const [loading, setLoading] = useState(false);
-
   const onStake = () => {
-    setLoading(true)
     props.stakeOnFarm(
       parseFloat(props.stakeInputValues),
       props.stakeModalIdentifier,
@@ -30,7 +27,6 @@ const StakeModal = props => {
   }
 
   const onModalClose = () => {
-    setLoading(false);
     props.handleInput("");
     props.onClose();
   }
@@ -74,14 +70,20 @@ const StakeModal = props => {
         color="primary"
         className="w-100"
         disabled={buttonText !== BUTTON_TEXT.STAKE}
-        loading={loading}
+        loading={props.stakeOperation?.isLoading}
       >{buttonText}</Button>
     </SimpleModal>
   )
 }
 
 StakeModal.propTypes = {
-  tokenData: PropTypes.any, // TODO add types
+  stakeOperation: PropTypes.shape({
+    isLoading : PropTypes.bool,
+    processing: PropTypes.bool,
+    completed : PropTypes.bool,
+    failed : PropTypes.bool,
+    operationHash : PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])])
+  }),
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired
 }

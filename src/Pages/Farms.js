@@ -284,6 +284,7 @@ const Farms = (props) => {
         walletBalances={props.walletBalances}
         isActiveOpen={props.isActiveOpen}
         stakeModalContractAddress={props.stakeModalContractAddress}
+        stakeOperation={props.stakeOperation}
         stakeModalFarmPosition={props.stakeModalFarmPosition}
         stakeModalTitle={props.stakeModalTitle}
         stakeModalIdentifier={props.stakeModalIdentifier}
@@ -331,6 +332,7 @@ const mapStateToProps = (state) => {
     userAddress: state.wallet.address,
     isActiveOpen: state.farms.isActiveOpen,
     stakeInputValues: state.farms.stakeInputValues,
+    stakeOperation: state.farms.stakeOperation,
     activeFarmData: state.farms.active,
     inactiveFarmsData: state.farms.inactive,
     farmsToRender: state.farms.farmsToRender,
