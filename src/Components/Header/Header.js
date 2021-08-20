@@ -161,7 +161,7 @@ const Header = (props) => {
                                     <Nav.Item>
                                         <div className="d-flex flex-column d-lg-none col p-0">
                                             <hr className="w-100"/>
-                                            <a href={"https://www.notion.so/Plenty-Docs-082b61c1859e4c4f86d01c3daa0db9ed"}
+                                            <a href={"https://plenty-defi.notion.site/Plenty-Docs-004ba25f40b641a3a276b84ebdc44971"}
                                                className="align-self-end align-self-lg-center nav-link">
                                                 <span className={clsx(
                                                     props.isFrontPage ? "text-white" : "span-themed"
