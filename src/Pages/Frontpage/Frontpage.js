@@ -32,6 +32,7 @@ import {
 	getPlentyToHarvest,
 	getPlentyBalanceOfUser,
 	harvestAll,
+	getTVLOfUser,
 } from "../../redux/actions/home/home.actions"
 import { FrontPageBottomGradientDiv, FrontPageGradientDiv } from "../../themes"
 import Footer from "../../Components/Footer/Footer"
@@ -51,14 +52,32 @@ const Frontpage = ({
 	plentyBalance,
 	getPlentyToHarvest,
 	getPlentyBalanceOfUser,
+	getTVLOfUser,
+	userTVL,
+	harvestAll
 }) => {
 	useEffect(() => {
-		getHomeStats()
-		getTVL()
-		wallet && getPlentyToHarvest(wallet)
-		wallet && getPlentyBalanceOfUser(wallet)
+		const getAllData = () => {
+			getHomeStats()
+			getTVL()
+			if (!!wallet) {
+					// getPlentyToHarvest(wallet)
+					// getPlentyBalanceOfUser(wallet)
+					// getTVLOfUser(wallet)
+			}
+		}
+		getAllData()
+		const intervalId = setInterval(getAllData(), 30 * 1000);
+		return () => clearInterval(intervalId)
 	}, [wallet])
-	const walletConnected = !!wallet
+
+	
+
+	const walletConnected = false
+
+	const onHarvestAll = () => {
+		!!wallet && harvestAll(wallet);
+	}
 
 	return (
 		<Container fluid>
@@ -75,7 +94,7 @@ const Frontpage = ({
 					<Col
 						className={clsx(
 							"py-5",
-							walletConnected ? ["col-lg-6", "col-12"] : "col-12"
+							walletConnected ? ["col-lg-6", "col-sm-12"] : "col-sm-12"
 						)}>
 						<div
 							className={clsx(
@@ -110,7 +129,7 @@ const Frontpage = ({
 								Total Value Locked
 							</h5>
 							<h1 className="mb-3 text-white font-weight-bold">
-								{tvl ? `$ ${tvl.toLocaleString()}` : ''}
+								$ {tvl.toLocaleString()}
 							</h1>
 							<h5
 								className={`mb-4 text-white text-mulish font-weight-light ${styles.textMulish}`}>
@@ -128,14 +147,14 @@ const Frontpage = ({
 						</div>
 					</Col>
 					{walletConnected && (
-						<Col className="py-3 pb-lg-5 col-lg-6 col-12">
+						<Col className="py-3 pb-lg-5 col-lg-6 col-sm-12">
 							<div
 								className="col-lg-9 col-xl-7 m-auto py-lg-5 px-0 text-center
                                     align-items-center align-items-lg-start text-lg-left">
 								<Stats
 									wallet={wallet}
-									harvestAll={harvestAll}
-									valueLocked={15021}
+									harvestAll={onHarvestAll}
+									valueLocked={userTVL}
 									plentyEarned={251_532}
 									plentyInWallet={plentyBalance}
 									plentyToHarvest={plentyToHarvest}
@@ -331,7 +350,7 @@ const Frontpage = ({
 							<div
 								className="col-10 col-xl-8 m-auto py-lg-5 px-0
                                     align-items-start text-left">
-								<Accordion isOpen={true} text={"What is Plenty?"} className={styles.divider}>
+								<Accordion text={"What is Plenty?"} className={styles.divider}>
 									<div>
 										<p className="text-white">
 											Plenty is a platform for creating liquidity and trading FA
@@ -529,6 +548,7 @@ const mapStateToProps = state => ({
 	wallet: state.wallet.address,
 	plentyToHarvest: state.home.plentyToHarvest.data,
 	plentyBalance: state.home.plentyBalance.data,
+	userTVL : state.home.userTVL.data,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -536,6 +556,8 @@ const mapDispatchToProps = dispatch => ({
 	getTVL: () => dispatch(getTVL()),
 	getPlentyToHarvest: wallet => dispatch(getPlentyToHarvest(wallet)),
 	getPlentyBalanceOfUser: wallet => dispatch(getPlentyBalanceOfUser(wallet)),
+	getTVLOfUser: wallet => dispatch(getTVLOfUser(wallet)),
+	harvestAll : wallet => dispatch(harvestAll(wallet)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Frontpage)

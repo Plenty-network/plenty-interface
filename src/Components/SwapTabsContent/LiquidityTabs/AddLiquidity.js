@@ -37,6 +37,7 @@ const AddLiquidity = (props) => {
         props.swapData.tokenOut_supply,
         props.swapData.tokenIn_supply
       );
+      setEstimatedTokenAmout(estimatedTokenAmout);
       props.setFirstTokenAmount(estimatedTokenAmout.otherTokenAmount);
     }
   };
@@ -163,7 +164,7 @@ const AddLiquidity = (props) => {
                 {props.getTokenPrice.success && props.firstTokenAmount
                   ? (
                       props.firstTokenAmount *
-                      props.getTokenPrice.tokenPrice[props.tokenIn.name]
+                      props.userBalances[props.tokenIn.name]
                     ).toFixed(5)
                   : '0.00'}
               </p>

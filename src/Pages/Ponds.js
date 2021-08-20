@@ -131,7 +131,6 @@ const Ponds = (props) => {
         });
       }
     }
-    //console.log(poolsToBeRendered)
     props.setPondsToRender(pondsToBeRendered);
   };
 
