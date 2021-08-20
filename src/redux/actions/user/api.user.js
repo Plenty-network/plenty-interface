@@ -203,7 +203,6 @@ export const getStakedAmountForAllContracts = async (
       }
     }
     const response = await Promise.all(promises);
-    console.log({response});
     let stakedAmountResponse = {};
     for (let i in response) {
       stakedAmountResponse[response[i].address] = {
