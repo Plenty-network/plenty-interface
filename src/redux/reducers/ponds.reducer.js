@@ -35,6 +35,8 @@ const initialState = {
         open: POND_PAGE_MODAL.NULL,
         contractAddress: null,
     },
+    isActiveOpen : true,
+    pondsToRender : []
 }
 
 const pondsReducer = (state = initialState , action) => {
@@ -234,6 +236,26 @@ const pondsReducer = (state = initialState , action) => {
                     failed : false,
                     operationHash : null
                 }
+            }
+        case actions.OPEN_ACTIVE_PONDS:
+            return {
+                ...state,
+                isActiveOpen : true,
+            }
+        case actions.OPEN_INACTIVE_PONDS:
+            return {
+                ...state,
+                isActiveOpen : false
+            }
+        case actions.SET_PONDS_TO_RENDER:
+            return {
+                ...state,
+                pondsToRender : action.data
+            }
+        case actions.CLEAR_RENDERED_PONDS:
+            return {
+                ...state,
+                pondsToRender : []
             }
         default:
             return {

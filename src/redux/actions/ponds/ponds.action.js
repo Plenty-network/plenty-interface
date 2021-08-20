@@ -218,3 +218,35 @@ export const openClosePondsModal = (payload) => ({
   type: actions.OPEN_CLOSE_PONDS_MODAL,
   payload,
 });
+
+
+export const togglePondsType = (isActive) => {
+  return (dispatch) => {
+    if (isActive) {
+      dispatch({
+        type: actions.OPEN_ACTIVE_PONDS,
+      });
+    } else {
+      dispatch({
+        type: actions.OPEN_INACTIVE_PONDS,
+      });
+    }
+  };
+};
+
+export const setPondsToRender = (poolsToRender) => {
+  return (dispatch) => {
+    dispatch({
+      type: actions.SET_PONDS_TO_RENDER,
+      data: poolsToRender,
+    });
+  };
+};
+
+export const clearRenderedPonds= () => {
+  return (dispatch) => {
+    dispatch({
+      type: actions.CLEAR_RENDERED_PONDS,
+    });
+  };
+};
