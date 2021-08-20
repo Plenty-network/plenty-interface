@@ -301,6 +301,7 @@ const Farms = (props) => {
             props.unstakeModalwithdrawalFeeStructure
           }
           unstakeModalTitle={props.unstakeModalTitle}
+          unstakeOperation={props.unstakeOperation}
           unstakeModalFarmPosition={props.unstakeModalFarmPosition}
           unstakeModalContractAddress={props.unstakeModalContractAddress}
           unstakeModalIdentifier={props.unstakeModalIdentifier}
@@ -344,6 +345,7 @@ const mapStateToProps = (state) => {
     stakeModalFarmPosition: state.farms.stakeModalFarmPosition,
     stakeModalContractAddress: state.farms.stakeModalContractAddress,
     isUnstakeModalOpen: state.farms.isUnstakeModalOpen,
+    unstakeOperation: state.farms.unstakeOperation,
     unstakeModalIdentifier: state.farms.unstakeModalIdentifier,
     unstakeModalContractAddress: state.farms.unstakeModalContractAddress,
     unstakeModalFarmPosition: state.farms.unstakeModalFarmPosition,
