@@ -104,6 +104,11 @@ const FarmCard = (props) => {
       <div>
         <div className={styles.plentyCard}>
           {/* * Header */}
+          {props.message && (
+            <div className="pool-card-top-banner">
+              <p className="pool-card-top-banner-text">{props.message}</p>
+            </div>
+          )}
           <div
             className={clsx(
               styles.plentyCardHeader,
