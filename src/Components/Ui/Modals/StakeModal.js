@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import SimpleModal from "./SimpleModal";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import Button from "../Buttons/Button";
 
 import styles from "./modal.module.scss";
