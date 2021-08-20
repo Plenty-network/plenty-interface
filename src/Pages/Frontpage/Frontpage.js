@@ -59,7 +59,7 @@ const Frontpage = ({
 		wallet && getPlentyToHarvest(wallet)
 		wallet && getPlentyBalanceOfUser(wallet)
 	}, [wallet])
-	const walletConnected = wallet ? true : false
+	const walletConnected = !!wallet
 
 	return (
 		<Container fluid>
@@ -76,7 +76,7 @@ const Frontpage = ({
 					<Col
 						className={clsx(
 							"py-5",
-							walletConnected ? ["col-lg-6", "col-sm-12"] : "col-sm-12"
+							walletConnected ? ["col-lg-6", "col-12"] : "col-12"
 						)}>
 						<div
 							className={clsx(
@@ -111,7 +111,7 @@ const Frontpage = ({
 								Total Value Locked
 							</h5>
 							<h1 className="mb-3 text-white font-weight-bold">
-								$ {tvl.toLocaleString()}
+								{tvl ? `$ ${tvl.toLocaleString()}` : ''}
 							</h1>
 							<h5
 								className={`mb-4 text-white text-mulish font-weight-light ${styles.textMulish}`}>
@@ -129,7 +129,7 @@ const Frontpage = ({
 						</div>
 					</Col>
 					{walletConnected && (
-						<Col className="py-3 pb-lg-5 col-lg-6 col-sm-12">
+						<Col className="py-3 pb-lg-5 col-lg-6 col-12">
 							<div
 								className="col-lg-9 col-xl-7 m-auto py-lg-5 px-0 text-center
                                     align-items-center align-items-lg-start text-lg-left">
@@ -332,7 +332,7 @@ const Frontpage = ({
 							<div
 								className="col-10 col-xl-8 m-auto py-lg-5 px-0
                                     align-items-start text-left">
-								<Accordion text={"What is Plenty?"} className={styles.divider}>
+								<Accordion isOpen={true} text={"What is Plenty?"} className={styles.divider}>
 									<div>
 										<p className="text-white">
 											Plenty is a platform for creating liquidity and trading FA

@@ -4,7 +4,7 @@ import {Collapse} from "react-bootstrap";
 
 const Accordion = props => {
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(props.isOpen ? props.isOpen : false);
 
     const toggle = () => setIsOpen(!isOpen);
 
@@ -33,6 +33,7 @@ Accordion.propTypes = {
     accordionText: PropTypes.string,
     children: PropTypes.node,
     className: PropTypes.string,
+    isOpen: PropTypes.bool,
 }
 
 export default Accordion;
