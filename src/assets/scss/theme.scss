@@ -6,6 +6,9 @@
   --theme-primary-gradient-2: #E5B2CA;
   --theme-secondary-gradient-1: #F5F0FD;
   --theme-secondary-gradient-2: #FDFAFB;
+  --theme-secondary-gradient: linear-gradient(
+    90deg, var(--theme-secondary-gradient-1) -47.72%, var(--theme-secondary-gradient-2) 100%
+  );
   --theme-card-bg: #FFFFFF;
   --theme-input-bg: #F9FAFA;
   --theme-text-1: #4E5D78;
@@ -27,6 +30,9 @@
   --theme-primary-gradient-2: #E5B2CA;
   --theme-secondary-gradient-1: #3A537B;
   --theme-secondary-gradient-2: #8F9AAC;
+  --theme-secondary-gradient: linear-gradient(
+    96.01deg, var(--theme-secondary-gradient-1) -47.72%, var(--theme-secondary-gradient-2) 142.35%
+  );
   --theme-card-bg: #2D3751;
   --theme-input-bg: #51596F;
   --theme-text-1: #FFFFFF;

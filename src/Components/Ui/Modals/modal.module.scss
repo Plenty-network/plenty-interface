@@ -109,7 +109,7 @@
   }
 
   .selectedStakes {
-    background: linear-gradient(90deg, var(--theme-secondary-gradient-1) 0%, var(--theme-secondary-gradient-2) 100%);
+    background: var(--theme-secondary-gradient);
     border-radius: 6px;
   }
 

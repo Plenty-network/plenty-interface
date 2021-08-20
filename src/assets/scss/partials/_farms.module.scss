@@ -115,7 +115,7 @@
   border-bottom: 1px solid var(--theme-border);
 }
 .plentyCardTvlInfo {
-  background: linear-gradient(90deg, var(--theme-secondary-gradient-1) 0%, var(--theme-secondary-gradient-2) 100%);
+  background: var(--theme-secondary-gradient);
   padding: 22px 16px;
   border-radius: 6px;
   .plentyCardContentTag {

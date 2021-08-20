@@ -87,6 +87,13 @@ const initiateStakingOperationOnFarm = () => {
   };
 };
 
+export const stakingOnFarmProcessing = (batchOperation) => {
+  return {
+    type: actions.PROCESSING_STAKING_ON_FARM,
+    payload: batchOperation
+  }
+}
+
 const stakingOnFarmSuccessFull = (operationHash) => {
   return {
     type: actions.STAKING_ON_FARM_SUCCESSFULL,
@@ -110,6 +117,12 @@ export const stakeOnFarm = (amount, farmIdentifier, isActive, position) => {
       })
       .catch((error) => {
         dispatch(stakingOnFarmFailed());
+      })
+      .finally(() => {
+        setTimeout(
+          () => dispatch(dismissSnackbar()),
+          5000
+        );
       });
   };
 };
@@ -315,3 +328,7 @@ export const openCloseFarmsModal = (payload) => ({
   type: actions.OPEN_CLOSE_FARMS_MODAL,
   payload,
 });
+
+const dismissSnackbar = () => ({
+  type: actions.DISMISS_FARMS_SNACKBAR,
+})
