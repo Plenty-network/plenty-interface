@@ -3,15 +3,18 @@ import { Modal } from 'react-bootstrap';
 
 const SwapModal = (props) => {
   const tokensToShow = props.tokens.filter((token) => {
-    // if ((props.tokenIn.name !== token.name) && (props.tokenIn.name == 'PLENTY')) {
-    //   return token;
-    // } else {
-    //   return
-    // }
-    if (props.tokenIn.name !== 'PLENTY' && props.tokenType == 'tokenOut') {
-      return token.name == 'PLENTY';
-    } else if (props.tokenIn.name !== token.name) {
-      return token;
+    if (props.tokenType == 'tokenOut') {
+      if (props.tokenIn.name !== 'PLENTY') {
+        return token.name == 'PLENTY';
+      } else if (props.tokenIn.name !== token.name) {
+        return token;
+      }
+    } else {
+      if (props.tokenOut.name && props.tokenOut.name !== 'PLENTY') {
+        return token.name == 'PLENTY';
+      } else if (props.tokenOut.name !== token.name) {
+        return token;
+      }
     }
   });
   return (
