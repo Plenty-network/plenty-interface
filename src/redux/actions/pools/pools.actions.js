@@ -305,7 +305,6 @@ export const closePoolsStakeModal = () => {
 };
 
 export const handleStakeOfPoolInputValue = (value) => {
-  console.log({value});
   return (dispatch) => {
     dispatch({
       type: actions.HANDLE_STAKE_ON_POOLS_INPUT_VALUE,
