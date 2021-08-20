@@ -142,7 +142,14 @@ const FarmCardBottom = (props) => {
             </div>
 
             <div className={styles.plentyCardContent}>
-              <Button className="w-100" color={"default"} onClick={() => null}>
+              <Button
+                className="w-100"
+                color={"default"}
+                onClick={() => window.open(
+                  `https://better-call.dev/mainnet/${props.CONTRACT}/operations`,
+                  '_blank'
+                )}
+              >
                 View On Tezos
               </Button>
             </div>
