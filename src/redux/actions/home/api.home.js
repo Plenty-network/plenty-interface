@@ -269,7 +269,6 @@ const getLpPriceFromDex = async (identifier, dexAddress) => {
 			dexAddress,
 		}
 	} catch (error) {
-		console.log(error)
 		return {
 			success: false,
 			identifier,
@@ -334,7 +333,6 @@ export const getStorageForFarms = async isActive => {
 			}
 		}
 
-		console.log(lpPricesInUsd, "<-----lpPricesInUsd------>")
 
 		return {
 			success: true,
@@ -437,7 +435,6 @@ const getPriceForPlentyLpTokens = async (
 			totalAmount,
 		}
 	} catch (error) {
-		console.log(error)
 		return {
 			success: false,
 		}
@@ -617,15 +614,9 @@ export const getStorageForPools = async isActive => {
 				}
 			}
 		}
-		console.log(tokenData, "<----tokenData----->")
 
 		for (let key in CONFIG.POOLS[CONFIG.NETWORK]) {
-			// console.log(key, "<----key from pool----->")
 			for (let key1 in CONFIG.POOLS[CONFIG.NETWORK][key][isActive]) {
-				console.log(
-					CONFIG.POOLS[CONFIG.NETWORK][key][isActive],
-					"<----key from pool----->"
-				)
 				if (
 					tokenData[key].tokenName === key &&
 					tokenData[key].tokenAddress ===
@@ -636,13 +627,11 @@ export const getStorageForPools = async isActive => {
 			}
 		}
 
-		console.log("<------priceOfToken------>", priceOfToken)
 		return {
 			success: true,
 			priceOfToken: priceOfToken,
 		}
 	} catch (error) {
-		console.log(error)
 		return {
 			success: false,
 			response: {},
@@ -684,7 +673,6 @@ export const getPondContracts = async () => {
 		}
 	}
 	for (let key in CONFIG.STAKING_CONTRACTS.PONDS[connectedNetwork]) {
-		console.log(key)
 		if (
 			CONFIG.STAKING_CONTRACTS.PONDS[connectedNetwork][key]["inactive"].length >
 			0
@@ -747,7 +735,6 @@ export const getStorageForPonds = async isActive => {
 			}
 		}
 
-		console.log(priceOfPlenty, "<-----tokenData Ponds----->")
 
 		return {
 			success: true,
@@ -783,10 +770,8 @@ export const harvestAll = async () => {
 			)
 			const response = await Promise.all(promises)
 
-			// console.log(response)
 		}
 	} catch (error) {
-		console.log(error)
 	}
 }
 

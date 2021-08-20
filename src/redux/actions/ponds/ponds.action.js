@@ -87,6 +87,13 @@ const initiateStakingOperationOnPond = () => {
   };
 };
 
+export const stakingOnPondProcessing = (batchOperation) => {
+  return {
+    type: actions.PROCESSING_STAKING_ON_FARM,
+    payload: batchOperation
+  }
+}
+
 const stakingOnPondSuccessFull = (operationHash) => {
   return {
     type: actions.STAKING_ON_POND_SUCCESSFULL,
@@ -110,6 +117,12 @@ export const stakeOnPond = (amount, pondIdentifier, isActive, position) => {
       })
       .catch((error) => {
         dispatch(stakingOnPondFailed());
+      })
+      .finally(() => {
+        setTimeout(
+          () => dispatch(dismissSnackbar()),
+          5000
+        );
       });
   };
 };
@@ -129,6 +142,13 @@ const initiateUnstakingOperationOnPond = () => {
     type: actions.INITIATE_UNSTAKING_ON_POND,
   };
 };
+
+export const unstakingOnPondProcessing = (batchOperation) => {
+  return {
+    type: actions.PROCESSING_UNSTAKING_ON_POND,
+    payload: batchOperation
+  }
+}
 
 const unstakingOnPondSuccessFull = (operationHash) => {
   return {
@@ -159,6 +179,12 @@ export const unstakeOnPond = (
       })
       .catch((error) => {
         dispatch(unstakingOnPondFailed());
+      })
+      .finally(() => {
+        setTimeout(
+          () => dispatch(dismissSnackbar()),
+          5000
+        );
       });
   };
 };
@@ -218,3 +244,38 @@ export const openClosePondsModal = (payload) => ({
   type: actions.OPEN_CLOSE_PONDS_MODAL,
   payload,
 });
+
+
+export const togglePondsType = (isActive) => {
+  return (dispatch) => {
+    if (isActive) {
+      dispatch({
+        type: actions.OPEN_ACTIVE_PONDS,
+      });
+    } else {
+      dispatch({
+        type: actions.OPEN_INACTIVE_PONDS,
+      });
+    }
+  };
+};
+
+export const setPondsToRender = (poolsToRender) => {
+  return (dispatch) => {
+    dispatch({
+      type: actions.SET_PONDS_TO_RENDER,
+      data: poolsToRender,
+    });
+  };
+};
+
+export const clearRenderedPonds= () => {
+  return (dispatch) => {
+    dispatch({
+      type: actions.CLEAR_RENDERED_PONDS,
+    });
+  };
+};
+const dismissSnackbar = () => ({
+  type: actions.DISMISS_PONDS_SNACKBAR,
+})

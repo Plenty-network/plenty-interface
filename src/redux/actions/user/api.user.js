@@ -75,6 +75,7 @@ const getStakedAmount = async (
     return {
       success: false,
       balance: 0,
+      address,
       identifier,
       singularStakes: [],
     };
@@ -202,6 +203,7 @@ export const getStakedAmountForAllContracts = async (
       }
     }
     const response = await Promise.all(promises);
+    console.log({response});
     let stakedAmountResponse = {};
     for (let i in response) {
       stakedAmountResponse[response[i].address] = {
@@ -210,7 +212,7 @@ export const getStakedAmountForAllContracts = async (
         singularStakes: response[i].singularStakes,
       };
     }
-
+    console.log({stakedAmountResponse});
     return {
       success: true,
       response: stakedAmountResponse,

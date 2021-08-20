@@ -50,9 +50,7 @@ const Stats = props => {
 				</Col>
 				<Col xs={6}>
 					<Label
-						text={`${props.plentyToHarvest?.toLocaleString(undefined, {
-							maximumFractionDigits: 3,
-						})}`}
+						text={`${props.plentyToHarvest?.toFixed(5)}`}
 						subText={"PLENTY to harvest"}
 						icon={plentyToHarvest}
 						iconClass={"mt-1"}
@@ -61,7 +59,7 @@ const Stats = props => {
 			</Row>
 			<Row className="p-1 mt-1">
 				<Col>
-					<Button onClick={props.harvestAll} color={"primary"} className={"w-100"}>
+					<Button onClick={props.harvestAll} color={"primary"} className={"w-100"} disabled={props.plentyToHarvest === 0 }>
 						Harvest all
 					</Button>
 				</Col>

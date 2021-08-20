@@ -233,7 +233,7 @@ const Farms = (props) => {
     <>
       <div>
         <div>
-          <Row className="mt-5 justify-content-center">
+          <div className="mt-5 d-flex justify-content-center w-100">
             <Switch
               value={props.isActiveOpen}
               onChange={() => props.toggleFarmsType(!props.isActiveOpen)}
@@ -241,7 +241,7 @@ const Farms = (props) => {
               falseLabel={'Inactive'}
               inverted={true}
             />
-          </Row>
+          </div>
           <div className={styles.cardsContainer}>
             {props.farmsToRender?.map((farm, index) => {
               return (
@@ -284,6 +284,7 @@ const Farms = (props) => {
         walletBalances={props.walletBalances}
         isActiveOpen={props.isActiveOpen}
         stakeModalContractAddress={props.stakeModalContractAddress}
+        stakeOperation={props.stakeOperation}
         stakeModalFarmPosition={props.stakeModalFarmPosition}
         stakeModalTitle={props.stakeModalTitle}
         stakeModalIdentifier={props.stakeModalIdentifier}
@@ -300,6 +301,7 @@ const Farms = (props) => {
             props.unstakeModalwithdrawalFeeStructure
           }
           unstakeModalTitle={props.unstakeModalTitle}
+          unstakeOperation={props.unstakeOperation}
           unstakeModalFarmPosition={props.unstakeModalFarmPosition}
           unstakeModalContractAddress={props.unstakeModalContractAddress}
           unstakeModalIdentifier={props.unstakeModalIdentifier}
@@ -331,6 +333,7 @@ const mapStateToProps = (state) => {
     userAddress: state.wallet.address,
     isActiveOpen: state.farms.isActiveOpen,
     stakeInputValues: state.farms.stakeInputValues,
+    stakeOperation: state.farms.stakeOperation,
     activeFarmData: state.farms.active,
     inactiveFarmsData: state.farms.inactive,
     farmsToRender: state.farms.farmsToRender,
@@ -342,6 +345,7 @@ const mapStateToProps = (state) => {
     stakeModalFarmPosition: state.farms.stakeModalFarmPosition,
     stakeModalContractAddress: state.farms.stakeModalContractAddress,
     isUnstakeModalOpen: state.farms.isUnstakeModalOpen,
+    unstakeOperation: state.farms.unstakeOperation,
     unstakeModalIdentifier: state.farms.unstakeModalIdentifier,
     unstakeModalContractAddress: state.farms.unstakeModalContractAddress,
     unstakeModalFarmPosition: state.farms.unstakeModalFarmPosition,

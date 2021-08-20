@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Button from "../Ui/Buttons/Button";
 import PropTypes from 'prop-types'
 
@@ -23,6 +23,12 @@ const FarmCardBottom = (props) => {
   const onWithdrawalFeeClick = () => {
     dispatch(openCloseFarmsModal({ open: FARM_PAGE_MODAL.WITHDRAWAL, contractAddress: props.CONTRACT }))
   }
+
+  const stakedAmount = useMemo(() => {
+    return props.userStakes.hasOwnProperty(props.CONTRACT)
+      ? props.userStakes[props.CONTRACT].stakedAmount
+      : 0
+  }, [props.CONTRACT, props.userStakes])
 
   return (
     <>
@@ -76,14 +82,16 @@ const FarmCardBottom = (props) => {
 
             <div className="d-flex">
 
-              <div className={clsx(styles.harvestStakeAmt, "mr-2 justify-content-end")}>
-                <span>{props.userStakes.hasOwnProperty(props.CONTRACT) ? props.userStakes[props.CONTRACT].stakedAmount : 0}</span>
+              <div className={clsx(styles.harvestStakeAmt, "mr-2 justify-content-end", {
+                [styles.empty]: !stakedAmount
+              })}>
+                <span>{stakedAmount}</span>
               </div>
               <span />
               {
-                 (props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0 ) // TODO add proper variable
+                 (props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0 )
                   ? <QuantityButton onAdd={() => props.openFarmsStakeModal(props.identifier,props.title,props.position,props.CONTRACT)} onRemove={() => props.openFarmsUnstakeModal(props.identifier,props.CONTRACT,props.title,props.withdrawalFeeStructure,props.position)}/> 
-                  : <Button onClick={() => props.stakeOnFarm(props.stakeInputValues[props.CONTRACT],props.identifier,true,props.position) } color={"default"}>Stake</Button>
+                  : <Button onClick={() => props.openFarmsStakeModal(props.identifier,props.title,props.position,props.CONTRACT)} color={"default"}>Stake</Button>
               }
             </div>
           </>
@@ -134,7 +142,14 @@ const FarmCardBottom = (props) => {
             </div>
 
             <div className={styles.plentyCardContent}>
-              <Button className="w-100" color={"default"} onClick={() => null}>
+              <Button
+                className="w-100"
+                color={"default"}
+                onClick={() => window.open(
+                  `https://better-call.dev/mainnet/${props.CONTRACT}/operations`,
+                  '_blank'
+                )}
+              >
                 View On Tezos
               </Button>
             </div>

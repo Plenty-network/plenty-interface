@@ -14,12 +14,14 @@ const initialState = {
     },
     stakeOperation : {
         isLoading : false,
+        processing: false,
         completed : false,
         failed : false,
         operationHash : null
     },
     unstakeOperation : {
         isLoading : false,
+        processing: false,
         completed : false,
         failed : false,
         operationHash : null
@@ -33,7 +35,23 @@ const initialState = {
     modals: {
         open: POOL_PAGE_MODAL.NULL,
         contractAddress: null,
+        transactionId: '',
+        snackbar: false,
     },
+    isActiveOpen : true,
+    poolsToRender : [],
+    isStakeModalOpen : false,
+    stakeModalIdentifier :'',
+    stakeModalTitle : '',
+    stakeModalPoolPosition : -1,
+    stakeModalContractAddress : '',
+    stakeInputValue : 0,
+    isUnstakeModalOpen : false,
+    unstakeModalIdentifier : '',
+    unstakeModalContractAddress : '',
+    unstakeModalPoolPosition : -1,
+    unstakeModalTitle : '',
+    unstakeModalwithdrawalFeeStructure : []
 }
 
 const poolsReducer = (state = initialState , action) => {
@@ -117,36 +135,59 @@ const poolsReducer = (state = initialState , action) => {
                 ...state,
                 stakeOperation : {
                     isLoading : true,
+                    processing: false,
                     completed : false,
                     failed : false,
                     operationHash : null
                 }
+            }
+        case actions.PROCESSING_STAKING_ON_POOL:
+            return {
+                ...state,
+                modals: {
+                    ...state.modals,
+                    open: POOL_PAGE_MODAL.TRANSACTION_SUCCESS,
+                    transactionId: action.payload.opHash
+                },
+                stakeOperation : {
+                    isLoading : false,
+                    processing: true,
+                    completed : false,
+                    failed : false,
+                    operationHash : null
+                },
+                isStakeModalOpen: false,
             }
         case actions.STAKING_ON_POOL_SUCCESSFULL:
             return {
                 ...state,
                 stakeOperation : {
                     isLoading : false,
+                    processing: false,
                     completed : true,
                     failed : false, 
                     operationHash : action.data
-                }
+                },
+                modals: { ...state.modals, snackbar: true }
             }
         case actions.STAKING_ON_POOL_FAILED:
             return {
                 ...state,
                 stakeOperation : {
                     isLoading : false,
+                    processing: false,
                     completed : false,
                     failed : true,
                     operationHash : null
-                }
+                },
+                modals: { ...state.modals, snackbar: true }
             }
         case actions.CLEAR_STAKING_ON_POOL_RESPONSE:
             return {
                 ...state,
                 stakeOperation : {
                     isLoading : false,
+                    processing: false,
                     completed : false,
                     failed : false,
                     operationHash : null
@@ -158,36 +199,59 @@ const poolsReducer = (state = initialState , action) => {
                 ...state,
                 unstakeOperation : {
                     isLoading : true,
+                    processing: false,
                     completed : false,
                     failed : false,
                     operationHash : null
                 }
+            }
+        case actions.PROCESSING_UNSTAKING_ON_POOL:
+            return {
+                ...state,
+                modals: {
+                    ...state.modals,
+                    open: POOL_PAGE_MODAL.TRANSACTION_SUCCESS,
+                    transactionId: action.payload.opHash
+                },
+                unstakeOperation : {
+                    isLoading : false,
+                    processing: true,
+                    completed : false,
+                    failed : false,
+                    operationHash : null
+                },
+                isUnstakeModalOpen: false,
             }
         case actions.UNSTAKING_ON_POOL_SUCCESSFULL:
             return {
                 ...state,
                 unstakeOperation : {
                     isLoading : false,
+                    processing: false,
                     completed : true,
                     failed : false, 
                     operationHash : action.data
-                }
+                },
+                modals: { ...state.modals, snackbar: true }
             }
         case actions.UNSTAKING_ON_POOL_FAILED:
             return {
                 ...state,
                 unstakeOperation : {
                     isLoading : false,
+                    processing: false,
                     completed : false,
                     failed : true,
                     operationHash : null
-                }
+                },
+                modals: { ...state.modals, snackbar: true }
             }
         case actions.CLEAR_UNSTAKING_ON_POOL_RESPONSE:
             return {
                 ...state,
                 unstakeOperation : {
                     isLoading : false,
+                    processing: false,
                     completed : false,
                     failed : false,
                     operationHash : null
@@ -234,6 +298,84 @@ const poolsReducer = (state = initialState , action) => {
                     operationHash : null
                 }
             }
+        case actions.OPEN_ACTIVE_POOLS:
+            return {
+                ...state,
+                isActiveOpen : true,
+            }
+        case actions.OPEN_INACTIVE_POOLS:
+            return {
+                ...state,
+                isActiveOpen : false
+            }
+        case actions.SET_POOLS_TO_RENDER:
+            return {
+                ...state,
+                poolsToRender : action.data
+            }
+        case actions.CLEAR_RENDERED_POOLS:
+            return {
+                ...state,
+                poolsToRender : []
+            }
+        case actions.OPEN_POOLS_STAKE_MODAL:
+            return {
+                ...state,
+                isStakeModalOpen : true,
+                stakeModalIdentifier : action.data.identifier,
+                stakeModalTitle : action.data.title,
+                stakeModalPoolPosition : action.data.position,
+                stakeModalContractAddress : action.data.contractAddress
+            }
+        case actions.CLOSE_POOLS_STAKE_MODAL:
+            return {
+                ...state,
+                isStakeModalOpen : false,
+                stakeModalIdentifier : '',
+                stakeModalTitle : '',
+                stakeModalPoolPosition : -1,
+                stakeModalContractAddress : '',
+                stakeInputValue : 0
+            }
+        case actions.HANDLE_STAKE_ON_POOLS_INPUT_VALUE:
+            return {
+                ...state,
+                stakeInputValue : action.data.value
+            }
+        case actions.OPEN_POOLS_UNSTAKE_MODAL:
+            return {
+                ...state,
+                isUnstakeModalOpen : true,
+                unstakeModalIdentifier : action.data.identifier,
+                unstakeModalContractAddress : action.data.contractAddress,
+                unstakeModalPoolPosition : action.data.position,
+                unstakeModalTitle : action.data.title,
+                unstakeModalwithdrawalFeeStructure : action.data.withdrawalFeeStructure
+                
+            }
+        case actions.CLOSE_POOLS_UNSTAKE_MODAL:
+            return {
+                ...state,
+                isUnstakeModalOpen : false,
+                unstakeModalIdentifier : '',
+                unstakeModalContractAddress : '',
+                unstakeModalPoolPosition : -1,
+                unstakeModalTitle : '',
+                unstakeModalwithdrawalFeeStructure : []
+            }
+
+        case actions.OPEN_CLOSE_POOLS_MODAL:
+            return {
+                ...state,
+                modals: { ...state.modals, ...action.payload }
+            }
+
+        case actions.DISMISS_POOLS_SNACKBAR:
+            return {
+                ...state,
+                modals: { ...state.modals, snackbar: false, }
+            }
+
         default:
             return {
                 ...state

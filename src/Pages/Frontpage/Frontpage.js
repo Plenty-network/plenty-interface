@@ -71,18 +71,6 @@ const Frontpage = ({
 		return () => clearInterval(intervalId)
 	}, [wallet])
 
-	
-
-	// useEffect(() => {
-	// 	effect
-	// 	return () => {
-	// 		cleanup
-	// 	}
-	// }, [input])
-
-	// useEffect(() => {
-		
-	// })
 
 	const onHarvestAll = () => {
 		!!wallet && harvestAll(wallet);

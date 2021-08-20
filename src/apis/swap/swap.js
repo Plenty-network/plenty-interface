@@ -12,7 +12,8 @@ export const swapTokens = async (
   tokenInAmount,
   caller,
   tokenInInstance,
-  dexContractInstance
+  dexContractInstance,
+  transactionSubmitModal
 ) => {
   try {
     const network = {
@@ -96,6 +97,7 @@ export const swapTokens = async (
         );
     }
     const batchOperation = await batch.send();
+    transactionSubmitModal(batchOperation.opHash);
     await batchOperation.confirmation().then(() => batchOperation.opHash);
     return {
       success: true,
@@ -278,7 +280,8 @@ export const addLiquidity = async (
   tokenA_Instance,
   tokenB_Instance,
   caller,
-  dexContractInstance
+  dexContractInstance,
+  transactionSubmitModal
 ) => {
   try {
     const network = {
@@ -517,6 +520,7 @@ export const addLiquidity = async (
         );
     }
     const batchOperation = await batch.send();
+    transactionSubmitModal(batchOperation.opHash);
     await batchOperation.confirmation().then(() => batchOperation.opHash);
     return {
       success: true,
@@ -663,7 +667,8 @@ export const removeLiquidity = async (
   tokenB_MinimumRecieve,
   lpToken_Amount,
   caller,
-  dexContractInstance
+  dexContractInstance,
+  transactionSubmitModal
 ) => {
   try {
     let tokenFirst = null;
@@ -734,6 +739,7 @@ export const removeLiquidity = async (
         )
       );
     const batchOperation = await batch.send();
+    transactionSubmitModal(batchOperation.opHash);
     await batchOperation.confirmation().then(() => batchOperation.opHash);
     return {
       success: true,

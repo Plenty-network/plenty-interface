@@ -1,13 +1,15 @@
 import InfoTableModal from "../Modals/InfoTableModal";
 import { useDispatch, useSelector } from "react-redux";
-import { openCloseFarmsModal } from "../../redux/actions/farms/farms.actions";
-import { FARM_PAGE_MODAL } from "../../constants/farmsPage";
+
+
 import { useCallback, useMemo } from "react";
 import InfoModal from "../Ui/Modals/InfoModal";
 import Loader from "../loader";
+import { POND_PAGE_MODAL } from "../../constants/pondsPage";
+import { openClosePondsModal } from "../../redux/actions/ponds/ponds.action";
 
-const FarmModals = () => {
-  const modalData = useSelector(state => state.farms.modals);
+const PondModals = () => {
+  const modalData = useSelector(state => state.ponds.modals);
   const dispatch = useDispatch()
 
   const withDrawalFee = useSelector(
@@ -17,8 +19,8 @@ const FarmModals = () => {
       }
 
       return (
-        state.farms.farmsToRender
-          ?.find(x => x.farmData.CONTRACT === modalData.contractAddress)
+        state.ponds.pondsToRender
+          ?.find(x => x.pondData.CONTRACT === modalData.contractAddress)
           ?.withdrawalFeeStructure
       ) ?? []
     }
@@ -26,23 +28,23 @@ const FarmModals = () => {
 
   const roi = useSelector(
     state => {
-      if (state.farms.isActiveOpen) {
-        return state.farms?.active.data?.response?.[modalData.contractAddress]?.roiTable ?? [];
+      if (state.ponds.isActiveOpen) {
+        return state.ponds?.active.data?.response?.[modalData.contractAddress]?.roiTable ?? [];
       }
 
-      return state.farms?.inactive.data?.response?.[modalData.contractAddress]?.roiTable ?? [];
+      return state.ponds?.inactive.data?.response?.[modalData.contractAddress]?.roiTable ?? [];
     }
   )
 
-  const stakeOperations = useSelector(state => state.farms.stakeOperation)
-  const unstakeOperations = useSelector(state => state.farms.unstakeOperation)
+  const stakeOperations = useSelector(state => state.ponds.stakeOperation)
+  const unstakeOperations = useSelector(state => state.ponds.unstakeOperation)
 
   const getTableData = useCallback(() => {
-    if (modalData.open === FARM_PAGE_MODAL.WITHDRAWAL) {
+    if (modalData.open === POND_PAGE_MODAL.WITHDRAWAL) {
       return withDrawalFee
     }
 
-    if (modalData.open === FARM_PAGE_MODAL.ROI) {
+    if (modalData.open === POND_PAGE_MODAL.ROI) {
       return roi
     }
 
@@ -76,19 +78,19 @@ const FarmModals = () => {
   }, [modalData.snackbar, stakeOperations.processing, unstakeOperations.processing])
 
   const onClose = () => {
-    dispatch(openCloseFarmsModal({ open: FARM_PAGE_MODAL.NULL, contractAddress: null }))
+    dispatch(openClosePondsModal({ open: POND_PAGE_MODAL.NULL, contractAddress: null }))
   }
 
   return (
     <>
       <InfoTableModal
         type={modalData.open}
-        open={modalData.open === FARM_PAGE_MODAL.ROI || modalData.open === FARM_PAGE_MODAL.WITHDRAWAL}
+        open={modalData.open === POND_PAGE_MODAL.ROI || modalData.open === POND_PAGE_MODAL.WITHDRAWAL}
         onClose={onClose}
         tableData={getTableData()}
       />
       <InfoModal
-        open={modalData.open === FARM_PAGE_MODAL.TRANSACTION_SUCCESS}
+        open={modalData.open === POND_PAGE_MODAL.TRANSACTION_SUCCESS}
         onClose={onClose}
         message={'Transaction submitted'}
         buttonText={'View on Tezos'}
@@ -110,4 +112,4 @@ const FarmModals = () => {
   )
 }
 
-export default FarmModals
+export default PondModals

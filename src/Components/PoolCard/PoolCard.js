@@ -21,68 +21,73 @@ const PoolCard = (props) => {
 
 
   const getAPR = (props) => {
-    // try {
-    //   if (props.isActiveOpen === true) {
-    //     if (props.activeFarmData.isPresent === true) {
-    //       const apr = props.activeFarmData.data.response[props.CONTRACT]?.APR ?? 0;
-    //       return Math.round(apr);
-    //     }
-    //
-    //     return 0;
-    //   }
-    //
-    //   return 0;
-    // } catch (e) {
-    //   return 0;
-    // }
+    try {
+      if (props.isActiveOpen === true) {
+        if (props.activePoolsData.isPresent === true) {
+          const apr = props.activePoolsData.data.response[props.CONTRACT]?.APR ?? 0;
+          return Math.round(apr);
+        }
+    
+        return 0;
+      }
+    
+      return 0;
+    } catch (e) {
+      return 0;
+    }
 
-    return 0
+    //return 0
   }
 
   const getAPY = (props) => {
 
-    // if (props.isActiveOpen === true) {
-    //   if (props.activePoolData.isPresent === true) {
-    //     const apy = apyCalculate(
-    //       props.activePoolData.data.response[props.CONTRACT]?.APR?.toFixed(2) ?? 0
-    //     );
-    //
-    //     return numberWithCommas(Math.round(apy));
-    //   }
-    //
-    //   return 0;
-    // }
+    if (props.isActiveOpen === true) {
+      if (props.activePoolsData.isPresent === true) {
+        const apy = apyCalculate(
+          props.activePoolsData.data.response[props.CONTRACT]?.APR?.toFixed(2) ?? 0
+        );
+    
+        return numberWithCommas(Math.round(apy));
+      }
+    
+      return 0;
+    }
 
-    return 0;
+    //return 0;
   }
 
   const getReward = () => {
-    // if (props.isActiveOpen === true) {
-    //   if (props.activePoolData.isPresent === true) {
-    //     return (props.activePoolData.data.response[props.CONTRACT]?.rewardRate ?? 0) * 2880;
-    //   }
-    //
-    //   return 0;
-    // }
+    if (props.isActiveOpen === true) {
+      if (props.activePoolsData.isPresent === true) {
+        return (props.activePoolsData.data.response[props.CONTRACT]?.rewardRate ?? 0) * 2880;
+      }
+    
+      return 0;
+    }
 
     return 0;
   }
 
   const getTotalLiquidity = () => {
-    // if (props.isActiveOpen === true) {
-    //   if (props.activePoolData.isPresent === true) {
-    //     return numberWithCommas(props.activePoolData.data.response[props.CONTRACT]?.totalLiquidty?.toFixed(0) ?? 0);
-    //   }
-    //
-    //   return 0;
-    // }
+    if (props.isActiveOpen === true) {
+      if (props.activePoolsData.isPresent === true) {
+        return numberWithCommas(
+          props.activePoolsData.data.response[props.CONTRACT]?.totalLiquidty?.toFixed(0) ?? 0,
+          { plain: true }
+        );
+      }
+    
+      return 0;
+    }
 
     return 0;
   }
 
   const hasStakedAmount = () => {
-    // return props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT]?.stakedAmount > 0;
-    return false
+    return (
+      props.userStakes.hasOwnProperty(props.CONTRACT) &&
+      props.userStakes[props.CONTRACT]?.stakedAmount > 0
+    );
   }
 
   const onRoiClick = () => {
@@ -95,6 +100,9 @@ const PoolCard = (props) => {
         <div className={styles.plentyCard}>
 
           {/* * Header */}
+          <div className="pool-card-top-banner">
+            <p className="pool-card-top-banner-text">Reward end August 20</p>
+          </div>
           <div className={clsx(styles.plentyCardHeader, "flex justify-content-center align-center p-26 pb-20")}>
             <div className={clsx(styles.imageWrapperSingle, "mr-2")}>
               <Image src={props.image} fluid />
@@ -150,7 +158,7 @@ const PoolCard = (props) => {
               props.userAddress
                 ? !hasStakedAmount() ? (
                   <Button
-                    onClick={() => null}
+                    onClick={() => props.openPoolsStakeModal(props.identifier,props.title,props.position,props.CONTRACT,)}
                     color={"primary"}
                     className="w-100"
                   >Stake</Button>

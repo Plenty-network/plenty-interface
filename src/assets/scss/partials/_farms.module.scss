@@ -17,11 +17,11 @@
   padding: 18px 6px;
   border: 0;
   border-radius: 15px;
-  background: #FFFFFF;
+  background: var(--theme-card-bg);
 }
 
 .plentyCardHeader {
-  border-bottom: 1px solid #f1f1f1;
+  border-bottom: 1px solid var(--theme-border);
 
   .imageWrapper {
     width: 76px;
@@ -37,7 +37,7 @@
     font-weight: bold;
     font-size: 16px;
     line-height: 28px;
-    color: #4e5d78;
+    color: var(--theme-text-1);
     margin: 0;
   }
 
@@ -64,18 +64,17 @@
 
 .plentyCardContent {
   padding: 20px 26px;
-  // border-bottom: 1px solid #f1f1f1;
 
   &.topBorder {
-    border-top: 1px solid #f1f1f1;
+    border-top: 1px solid var(--theme-border);
   }
 
   &.bottomBorder {
-    border-bottom: 1px solid #f1f1f1;
+    border-bottom: 1px solid var(--theme-border);
   }
 
   .rightBorder {
-    border-right: 1px solid #f1f1f1;
+    border-right: 1px solid var(--theme-border);
   }
 }
 
@@ -107,16 +106,16 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
-  color: #4e5d78;
+  color: var(--theme-text-1);
   margin-bottom: 18px;
 }
 
 .plentyCardTvlInfoWrapper {
   padding: 12px 26px;
-  border-bottom: 1px solid #f1f1f1;
+  border-bottom: 1px solid var(--theme-border);
 }
 .plentyCardTvlInfo {
-  background: linear-gradient(90deg, rgba(112, 40, 228, 0.07) 0%, rgba(229, 178, 202, 0.07) 100%);
+  background: var(--theme-secondary-gradient);
   padding: 22px 16px;
   border-radius: 6px;
   .plentyCardContentTag {
@@ -133,8 +132,13 @@
 .harvestStakeAmt {
   width: 100%;
   display: flex;
-  background: #F4F4F6;
+  color: var(--theme-text-1);
+  background: var(--theme-input-bg);
   border-radius: 6px;
+
+  &.empty {
+    color: var(--theme-text-4);
+  }
 
   & > span {
     margin: auto 12px;

@@ -148,11 +148,9 @@ export const harvestAll = userAddress => {
 					const batchConfirm = await batchOperation.confirmation()
 					dispatch({ type: actions.HARVEST_ALL_SUCCESS, payload: batchConfirm }) // snack transaction success 
 				} else {
-					console.log("Nothing to harvest")
 				}
 			}
 		} catch (error) {
-			console.log(error)
 			dispatch({ type: actions.HARVEST_ALL_FAILED, payload: error })
 		} finally {
 			setTimeout(() => {
@@ -244,11 +242,6 @@ export const getTVLOfUser = userAddress => {
 			const pondTokenDataInactive = responseTokenData[3].priceOfPlenty
 			const farmTokenDataActive = responseTokenData[4].priceOfLPToken
 			const farmTokenDataInactive = responseTokenData[5].priceOfLPToken
-
-			console.log(poolTokenDataActive, poolTokenDataInactive, "POOL TOKEN DATA")
-			console.log(pondTokenDataActive, pondTokenDataInactive, "POND TOKEN DATA")
-			console.log(farmTokenDataActive, farmTokenDataInactive, "FARM TOKEN DATA")
-
 			const packedKey = homeApis.getPackedKey(0, userAddress, "FA1.2")
 
 			//FARM ACTIVE
@@ -270,12 +263,7 @@ export const getTVLOfUser = userAddress => {
 			const farmResponsesActive = await Promise.all(
 				stakedAmountsFromActiveFarmsPromises
 			)
-			console.log(farmResponsesActive)
 			for (let key in farmResponsesActive) {
-				console.log(
-					farmResponsesActive[key].balance,
-					farmTokenDataActive[farmResponsesActive[key].identifier]
-				)
 				if (farmResponsesActive[key].success) {
 					tvlOfUser +=
 						farmResponsesActive[key].balance *
@@ -285,7 +273,6 @@ export const getTVLOfUser = userAddress => {
 
 			//FARM INACTIVE
 			let stakedAmountsFromInactiveFarmsPromises = []
-			console.log(farmInactiveContracts, "farmInactiveContracts")
 			for (let key in farmInactiveContracts) {
 				const { mapId, identifier, decimal, contract, tokenDecimal } =
 					farmInactiveContracts[key]
@@ -303,13 +290,7 @@ export const getTVLOfUser = userAddress => {
 			const farmResponsesInactive = await Promise.all(
 				stakedAmountsFromInactiveFarmsPromises
 			)
-			console.log(farmResponsesInactive)
 			for (let key in farmResponsesInactive) {
-				console.log(
-					farmResponsesInactive[key].balance,
-					farmTokenDataInactive[farmResponsesInactive[key].identifier],
-					"INAVTIVE FARMS"
-				)
 				if (farmResponsesInactive[key].success) {
 					tvlOfUser +=
 						farmResponsesInactive[key].balance *
@@ -336,12 +317,7 @@ export const getTVLOfUser = userAddress => {
 			const poolResponseActive = await Promise.all(
 				stakedAmountsFromActivePoolsPromises
 			)
-			console.log(poolResponseActive)
 			for (let key in poolResponseActive) {
-				console.log(
-					poolResponseActive[key].balance,
-					poolTokenDataActive[poolResponseActive[key].identifier]
-				)
 				if (poolResponseActive[key].success) {
 					tvlOfUser +=
 						poolResponseActive[key].balance *
@@ -369,12 +345,7 @@ export const getTVLOfUser = userAddress => {
 			const poolResponseInactive = await Promise.all(
 				stakedAmountsFromInactivePoolsPromises
 			)
-			console.log(poolResponseInactive)
 			for (let key in poolResponseInactive) {
-				console.log(
-					poolResponseInactive[key].balance,
-					poolTokenDataInactive[poolResponseInactive[key].identifier]
-				)
 				if (poolResponseInactive[key].success) {
 					tvlOfUser +=
 						poolResponseInactive[key].balance *
@@ -401,9 +372,7 @@ export const getTVLOfUser = userAddress => {
 			const pondResponseActive = await Promise.all(
 				stakedAmountsFromActivePondPromises
 			)
-			console.log(pondResponseActive)
 			for (let key in pondResponseActive) {
-				console.log(pondResponseActive[key].balance, pondTokenDataActive)
 				if (pondResponseActive[key].success) {
 					tvlOfUser += pondResponseActive[key].balance * pondTokenDataActive
 				}
@@ -428,19 +397,15 @@ export const getTVLOfUser = userAddress => {
 			const pondResponseInactive = await Promise.all(
 				stakedAmountsFromInactivePondPromises
 			)
-			console.log(pondResponseInactive)
 			for (let key in pondResponseInactive) {
-				console.log(pondResponseInactive[key].balance, pondTokenDataInactive)
 				if (pondResponseInactive[key].success) {
 					tvlOfUser += pondResponseInactive[key].balance * pondTokenDataInactive
 				}
 			}
 			dispatch({ type: actions.USER_TVL_FETCH_SUCCESS, data: tvlOfUser })
 
-			console.log(tvlOfUser, "tvlOfUser")
 		} catch (error) {
 			dispatch({ type: actions.USER_TVL_FETCH_FAILED })
-			console.log(error)
 		}
 	}
 }

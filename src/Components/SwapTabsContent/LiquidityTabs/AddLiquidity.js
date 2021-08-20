@@ -5,11 +5,16 @@ import {
 } from '../../../apis/swap/swap';
 import { useState } from 'react';
 
+import InfoModal from '../../Ui/Modals/InfoModal';
 import ConfirmAddLiquidity from './ConfirmAddLiquidity';
 
 const AddLiquidity = (props) => {
-  const [estimatedTokenAmout, setEstimatedTokenAmout] = useState(0);
+  const [estimatedTokenAmout, setEstimatedTokenAmout] = useState('');
+  const [secondTokenAmount, setSecondTokenAmount] = useState('');
   const [lpTokenAmount, setLpTokenAmount] = useState({});
+  const [showTransactionSubmitModal, setShowTransactionSubmitModal] =
+    useState(false);
+  const [transactionId, setTransactionId] = useState('');
 
   const handleLiquidityInput = (input) => {
     const estimatedTokenAmout = estimateOtherToken(
@@ -18,6 +23,22 @@ const AddLiquidity = (props) => {
       props.swapData.tokenOut_supply
     );
     setEstimatedTokenAmout(estimatedTokenAmout);
+  };
+  const handleLiquiditySecondInput = (input) => {
+    setSecondTokenAmount(input);
+    if (input === '' || isNaN(input)) {
+      setSecondTokenAmount('');
+      props.setFirstTokenAmount('');
+      setEstimatedTokenAmout({});
+      return;
+    } else {
+      const estimatedTokenAmout = estimateOtherToken(
+        input,
+        props.swapData.tokenOut_supply,
+        props.swapData.tokenIn_supply
+      );
+      props.setFirstTokenAmount(estimatedTokenAmout.otherTokenAmount);
+    }
   };
   const confirmAddLiquidity = () => {
     props.setShowConfirmAddSupply(true);
@@ -31,6 +52,10 @@ const AddLiquidity = (props) => {
     );
     setLpTokenAmount(lpTokenAmount);
   };
+  const transactionSubmitModal = (id) => {
+    setTransactionId(id);
+    setShowTransactionSubmitModal(true);
+  };
 
   const CallConfirmAddLiquidity = () => {
     props.setLoading(true);
@@ -42,7 +67,8 @@ const AddLiquidity = (props) => {
       props.tokenContractInstances[props.tokenIn.name],
       props.tokenContractInstances[props.tokenOut.name],
       props.walletAddress,
-      props.swapData.dexContractInstance
+      props.swapData.dexContractInstance,
+      transactionSubmitModal
     ).then((data) => {
       if (data.success) {
         props.setLoading(false);
@@ -107,15 +133,25 @@ const AddLiquidity = (props) => {
           </div>
 
           <div className="token-user-input-wrapper">
-            <input
-              type="text"
-              className="token-user-input"
-              placeholder="0.0"
-              onChange={(e) => {
-                props.setFirstTokenAmount(e.target.value);
-                handleLiquidityInput(e.target.value);
-              }}
-            />
+            {props.tokenOut.name ? (
+              <input
+                type="text"
+                className="token-user-input"
+                placeholder="0.0"
+                value={props.firstTokenAmount}
+                onChange={(e) => {
+                  props.setFirstTokenAmount(e.target.value);
+                  handleLiquidityInput(e.target.value);
+                }}
+              />
+            ) : (
+              <input
+                type="text"
+                className="token-user-input"
+                placeholder="0.0"
+                disabled
+              />
+            )}
           </div>
           {props.walletAddress ? (
             <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
@@ -168,7 +204,12 @@ const AddLiquidity = (props) => {
               type="text"
               className="token-user-input"
               placeholder="0.0"
-              value={estimatedTokenAmout.otherTokenAmount}
+              value={
+                secondTokenAmount
+                  ? secondTokenAmount
+                  : estimatedTokenAmout.otherTokenAmount
+              }
+              onChange={(e) => handleLiquiditySecondInput(e.target.value)}
             />
           </div>
           {props.walletAddress && props.tokenOut.name ? (
@@ -196,6 +237,17 @@ const AddLiquidity = (props) => {
         CallConfirmAddLiquidity={CallConfirmAddLiquidity}
         lpTokenAmount={lpTokenAmount}
         onHide={props.handleClose}
+      />
+      <InfoModal
+        open={showTransactionSubmitModal}
+        onClose={() => setShowTransactionSubmitModal(false)}
+        message={'Transaction submitted'}
+        buttonText={'View on Tezos'}
+        onBtnClick={
+          transactionId
+            ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank')
+            : null
+        }
       />
     </>
   );
