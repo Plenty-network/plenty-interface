@@ -6,6 +6,7 @@
 @import './partials/swap';
 @import './partials/farms';
 @import './partials/poolCard';
+@import './theme';
 
 .flex {
   display: flex;
@@ -121,26 +122,4 @@ h1 {
 
 body {
   color: var(--theme-text-1);
-}
-
-:root {
-  --theme-primary-1: #5C0FAE;
-  --theme-primary-2: #D0BDE6;
-  --theme-secondary-1: #E3D1FF;
-  --theme-primary-gradient-1: #7028E4;
-  --theme-primary-gradient-2: #E5B2CA;
-  --theme-secondary-gradient-1: #F5F0FD;
-  --theme-secondary-gradient-2: #FDFAFB;
-  --theme-card-bg: #FFFFFF;
-  --theme-input-bg: #F9FAFA;
-  --theme-text-1: #4E5D78;
-  --theme-text-inactive: #B0B7C3;
-  --theme-text-3: #8A94A6;
-  --theme-text-4: #B0B7C3;
-  --theme-bg-1: #F9FAFA;
-  --theme-bg-2: #F3F3F3;
-  --theme-bg-3: #FAFBFC;
-  --theme-bg-4: #59617A;
-  --theme-border: #F1F1F1;
-  --theme-default-btn: #FFFFFF;
 }

@@ -8,9 +8,10 @@ import {
 import Header from '../Components/Header/Header';
 import {ThemeProvider} from 'styled-components';
 import {lightTheme, darkTheme, GlobalStyles} from '../themes';
-import {useState, useEffect} from 'react';
+import {useEffect} from 'react';
 import {connect} from 'react-redux';
 import * as walletActions from '../redux/actions/wallet/wallet.action';
+import useThemes from "../apis/hooks/theme";
 
 // * Lazy loading
 const Swap = React.lazy(() => import('../Pages/Swap'));
@@ -20,11 +21,7 @@ const Pools = React.lazy(() => import('../Pages/Pools'));
 const Frontpage = React.lazy(() => import("../Pages/Frontpage/Frontpage"));
 
 const Routes = (props) => {
-    const [theme, setTheme] = useState('light');
-
-    const toggleTheme = () => {
-        theme === 'light' ? setTheme('dark') : setTheme('light');
-    };
+    const {theme, toggleTheme} = useThemes();
 
     const connectWallet = async () => {
         if (props.userAddress === null) {
