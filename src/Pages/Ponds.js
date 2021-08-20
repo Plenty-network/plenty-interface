@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import wdaiImg from "../assets/images/wdai.png";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
 import PondCard from "../Components/PondCard/PondCard";
 import styles from "../assets/scss/partials/_farms.module.scss";
 import Switch from "../Components/Ui/Switch/Switch";
+import PondModals from "../Components/PondPage/PondModals";
 
 const Ponds = ({ walletAddress }) => {
   // ! TEMP
@@ -83,6 +82,7 @@ const Ponds = ({ walletAddress }) => {
           return <PondCard key={pool.title} {...pool} walletAddress={walletAddress} />;
         })}
       </div>
+      <PondModals />
     </div>
   );
 };

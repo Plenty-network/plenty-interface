@@ -3,6 +3,8 @@ import { TezosToolkit , OpKind } from '@taquito/taquito';
 import axios from 'axios';
 import CONFIG from '../../../config/config';
 import { CheckIfWalletConnected } from "../../../apis/wallet/wallet";
+import { stakingOnPondProcessing, unstakingOnPondProcessing } from "./ponds.action";
+import store from "../../store/store";
 
 export const getPondsData = async (isActive) => {
     try {
@@ -114,6 +116,7 @@ export const stake = async (amount, pondIdentifier , isActive, position) => {
             );
         }
         const batchOperation = await batch.send();
+        store.dispatch(stakingOnPondProcessing(batchOperation))
         await batchOperation.confirmation().then(() => batchOperation.opHash);
         return {
           success: true,
@@ -157,6 +160,7 @@ export const stake = async (amount, pondIdentifier , isActive, position) => {
         const operation = await contractInstance.methods
           .unstake(tokenAmount, mapKey)
           .send();
+        store.dispatch(unstakingOnPondProcessing(operation))
         await operation.confirmation().then(() => operation.opHash);
         return {
           success: true,
