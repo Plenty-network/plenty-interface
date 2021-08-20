@@ -2,6 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 import styled from 'styled-components';
 
 export const lightTheme = {
+  name: 'light',
   body: '#F9FAFA',
   p: '#4e5d78',
   span: '#4e5d78',
@@ -29,6 +30,7 @@ export const lightTheme = {
 
 
 export const darkTheme = {
+  name: 'dark',
   body: 'linear-gradient(108.61deg, #04152E -24.15%, #343C49 99.76%)',
   p: '#FFFFFF',
   span: '#FFFFFF',

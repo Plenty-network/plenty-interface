@@ -40,17 +40,18 @@ export const getPlentyToHarvest = addressOfUser => {
 	return async dispatch => {
 		dispatch({ type: actions.PLENTY_TO_HARVEST_FETCH })
 		let promises = [
-			homeApis.getHarvestValue(addressOfUser, "FARMS", "active"),
-			homeApis.getHarvestValue(addressOfUser, "FARMS", "inactive"),
-			homeApis.getHarvestValue(addressOfUser, "POOLS", "active"),
-			homeApis.getHarvestValue(addressOfUser, "POOLS", "inactive"),
-			homeApis.getHarvestValue(addressOfUser, "PONDS", "active"),
-			homeApis.getHarvestValue(addressOfUser, "PONDS", "inactive"),
+			homeApis.getHarvestValue(addressOfUser, "FARMS", true),
+			homeApis.getHarvestValue(addressOfUser, "FARMS", false),
+			homeApis.getHarvestValue(addressOfUser, "POOLS", true),
+			homeApis.getHarvestValue(addressOfUser, "POOLS", false),
+			// homeApis.getHarvestValue(addressOfUser, "PONDS", "active"),
+			// homeApis.getHarvestValue(addressOfUser, "PONDS", "inactive"),
 		]
 		const response = await Promise.all(promises)
 		response.forEach(item => {
 			if (item.success) {
 				for (const key in item.response) {
+					console.log(key)
 					plentyToHarvest += item.response[key].totalRewards
 				}
 			} else {
