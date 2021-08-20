@@ -34,6 +34,14 @@ const initialState = {
         open: POOL_PAGE_MODAL.NULL,
         contractAddress: null,
     },
+    isActiveOpen : true,
+    poolsToRender : [],
+    isStakeModalOpen : false,
+    stakeModalIdentifier :'',
+    stakeModalTitle : '',
+    stakeModalPoolPosition : -1,
+    stakeModalContractAddress : '',
+    stakeInputValue : 0
 }
 
 const poolsReducer = (state = initialState , action) => {
@@ -233,6 +241,50 @@ const poolsReducer = (state = initialState , action) => {
                     failed : false,
                     operationHash : null
                 }
+            }
+        case actions.OPEN_ACTIVE_POOLS:
+            return {
+                ...state,
+                isActiveOpen : true,
+            }
+        case actions.OPEN_INACTIVE_POOLS:
+            return {
+                ...state,
+                isActiveOpen : false
+            }
+        case actions.SET_POOLS_TO_RENDER:
+            return {
+                ...state,
+                poolsToRender : action.data
+            }
+        case actions.CLEAR_RENDERED_POOLS:
+            return {
+                ...state,
+                poolsToRender : []
+            }
+        case actions.OPEN_POOLS_STAKE_MODAL:
+            return {
+                ...state,
+                isStakeModalOpen : true,
+                stakeModalIdentifier : action.data.identifier,
+                stakeModalTitle : action.data.title,
+                stakeModalPoolPosition : action.data.position,
+                stakeModalContractAddress : action.data.contractAddress
+            }
+        case actions.CLOSE_POOLS_STAKE_MODAL:
+            return {
+                ...state,
+                isStakeModalOpen : false,
+                stakeModalIdentifier : '',
+                stakeModalTitle : '',
+                stakeModalPoolPosition : -1,
+                stakeModalContractAddress : '',
+                stakeInputValue : 0
+            }
+        case actions.HANDLE_STAKE_ON_POOLS_INPUT_VALUE:
+            return {
+                ...state,
+                stakeInputValue : action.data.value
             }
         default:
             return {

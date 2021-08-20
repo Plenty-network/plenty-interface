@@ -17,8 +17,8 @@ const PoolCardBottom = (props) => {
   const dispatch = useDispatch()
 
   const hasStakedAmount = () => {
-    // return props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0;
-    return false
+    return props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0;
+    //return false
   }
 
   const onWithdrawalFeeClick = () => {
@@ -44,21 +44,21 @@ const PoolCardBottom = (props) => {
               <Image height={31} src={props.harvestImg} fuild className="mt-auto mb-auto ml-2" />
               <span>
                 {
-                  // (
-                  //   props.userAddress !== null &&
-                  //   props.harvestValueOnFarms.hasOwnProperty(props.isActiveOpen) &&
-                  //   props.harvestValueOnFarms[props.isActiveOpen].hasOwnProperty(props.CONTRACT)&&
-                  //   props.harvestValueOnFarms[props.isActiveOpen][props.CONTRACT].totalRewards > 0
-                  // )
-                  //   ? props.harvestValueOnFarms[props.isActiveOpen][props.CONTRACT].totalRewards.toFixed(6)
-                  //   : 0
-                  0
+                  (
+                    props.userAddress !== null &&
+                    props.harvestValueOnPools.hasOwnProperty(props.isActiveOpen) &&
+                    props.harvestValueOnPools[props.isActiveOpen].hasOwnProperty(props.CONTRACT)&&
+                    props.harvestValueOnPools[props.isActiveOpen][props.CONTRACT].totalRewards > 0
+                  )
+                    ? props.harvestValueOnPools[props.isActiveOpen][props.CONTRACT].totalRewards.toFixed(6)
+                    : 0
+                  //0
                 }
               </span>
             </div>
 
             <Button
-              onClick={() => null}
+              onClick={() => props.harvestOnPools(props.identifier, props.isActiveOpen, props.position)}
               color={hasStakedAmount() ? "primary" : "default"}
             >
               Harvest
@@ -74,14 +74,14 @@ const PoolCardBottom = (props) => {
 
               <div className={clsx(styles.harvestStakeAmt, "mr-2 justify-content-end")}>
                 <span>{
-                  // props.userStakes.hasOwnProperty(props.CONTRACT) ? props.userStakes[props.CONTRACT].stakedAmount : 0
-                  0
+                  props.userStakes.hasOwnProperty(props.CONTRACT) ? props.userStakes[props.CONTRACT].stakedAmount : 0
+                
                 }</span>
               </div>
               <span />
               {
-                (props.stakedAmount > 0 ) // TODO add proper variable
-                  ? <QuantityButton onAdd={() => null} onRemove={() => null}/>
+                (props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0 ) // TODO add proper variable
+                  ? <QuantityButton onAdd={() => props.openPoolsStakeModal(props.identifier,props.title,props.position,props.CONTRACT,)} onRemove={() => null}/>
                   : <Button onClick={() => null} color={"default"}>Stake</Button>
               }
             </div>
