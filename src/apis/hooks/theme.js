@@ -6,10 +6,8 @@ const useThemes = () => {
 
   useEffect(() => {
     const localTheme = localStorage.getItem(THEME);
-
-    if (localTheme) {
-      toggleTheme({defaultTheme: localTheme})
-    }
+    // ? Setting default theme as light
+    toggleTheme({defaultTheme: localTheme ?? 'light'})
   }, [])
 
 
