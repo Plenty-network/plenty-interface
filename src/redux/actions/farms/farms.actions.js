@@ -143,6 +143,13 @@ const initiateUnstakingOperationOnFarm = () => {
   };
 };
 
+export const unstakingOnFarmProcessing = (batchOperation) => {
+  return {
+    type: actions.PROCESSING_UNSTAKING_ON_FARM,
+    payload: batchOperation
+  }
+}
+
 const unstakingOnFarmSuccessFull = (operationHash) => {
   return {
     type: actions.UNSTAKING_ON_FARM_SUCCESSFULL,
@@ -171,6 +178,12 @@ export const unstakeOnFarm = (
       })
       .catch((error) => {
         dispatch(unstakingOnFarmFailed());
+      })
+      .finally(() => {
+        setTimeout(
+          () => dispatch(dismissSnackbar()),
+          5000
+        )
       });
   };
 };

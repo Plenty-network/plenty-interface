@@ -1,6 +1,6 @@
 import { BeaconWallet } from '@taquito/beacon-wallet';
 import { TezosToolkit, OpKind } from '@taquito/taquito';
-import { stakingOnFarmProcessing } from "./farms.actions";
+import { stakingOnFarmProcessing, unstakingOnFarmProcessing } from "./farms.actions";
 import store from "../../store/store";
 const axios = require('axios');
 const CONFIG = require('../../../config/config');
@@ -452,6 +452,7 @@ export const unstake = async (
       });
       let batch = await Tezos.wallet.batch(unstakeBatch);
       let batchOperation = await batch.send();
+      store.dispatch(unstakingOnFarmProcessing(batchOperation));
       await batchOperation.confirmation().then(() => batchOperation.hash);
       return {
         success: true,
