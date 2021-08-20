@@ -1,6 +1,5 @@
 import * as actions from '../actions/index.action';
 import { POOL_PAGE_MODAL } from "../../constants/poolsPage";
-import { FARM_PAGE_MODAL } from "../../constants/farmsPage";
 
 const initialState = {
     active : {
