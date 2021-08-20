@@ -51,13 +51,13 @@
     margin: 0;
 
     &.badgeOther {
-      background-color: rgba(174, 110, 15, 0.16);
-      color: #f9a558;
+      background-color: var(--theme-quipuswap-badge-bg);
+      color: var(--theme-quipuswap-badge-text);
     }
 
     &.badgePlenty {
-      background-color: rgba(92, 15, 174, 0.16);
-      color: #5c0fae;
+      background-color: var(--theme-plenty-badge-bg);
+      color: var(--theme-plenty-badge-text);
     }
   }
 }
