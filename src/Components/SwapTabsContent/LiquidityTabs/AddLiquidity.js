@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 import InfoModal from '../../Ui/Modals/InfoModal';
 import ConfirmAddLiquidity from './ConfirmAddLiquidity';
+import PuffLoader from 'react-spinners/PuffLoader';
 
 const AddLiquidity = (props) => {
   const [estimatedTokenAmout, setEstimatedTokenAmout] = useState('');
@@ -104,20 +105,25 @@ const AddLiquidity = (props) => {
           Add Liquidity
         </button>
       );
-    } else if (props.firstTokenAmount && !props.tokenOut.name) {
+    } else if (!props.tokenOut.name) {
       swapContentButton = (
         <button className="swap-content-btn enter-amount">
-          Select a token to add
+          Select a token
         </button>
       );
     } else {
-      swapContentButton = (
+      swapContentButton = props.loading ? (
+        <button className="swap-content-btn loader-btn enter-amount">
+          <PuffLoader color={'#fff'} size={28} />
+        </button>
+      ) : (
         <button className="swap-content-btn enter-amount">
           Enter an amount
         </button>
       );
     }
   }
+
   return (
     <>
       <div className="swap-content-box">

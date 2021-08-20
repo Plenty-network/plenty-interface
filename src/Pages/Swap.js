@@ -197,6 +197,7 @@ const Swap = (props) => {
   useEffect(() => {
     setLoading(true);
     getTokenPrices().then((tokenPrice) => {
+      console.log('tokenPrice=', tokenPrice);
       setGetTokenPrice(tokenPrice);
       setLoading(false);
     });
