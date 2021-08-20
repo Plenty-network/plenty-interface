@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Button from "../Ui/Buttons/Button";
 import PropTypes from 'prop-types'
 
@@ -24,6 +24,12 @@ const PoolCardBottom = (props) => {
   const onWithdrawalFeeClick = () => {
     dispatch(openClosePoolsModal({ open: POOL_PAGE_MODAL.WITHDRAWAL, contractAddress: props.CONTRACT }))
   }
+
+  const stakedAmount = useMemo(() => {
+    return props.userStakes.hasOwnProperty(props.CONTRACT)
+      ? props.userStakes[props.CONTRACT].stakedAmount
+      : 0
+  }, [props.CONTRACT, props.userStakes])
 
   return (
     <>
@@ -73,14 +79,11 @@ const PoolCardBottom = (props) => {
             <div className="d-flex">
 
               <div className={clsx(styles.harvestStakeAmt, "mr-2 justify-content-end")}>
-                <span>{
-                  props.userStakes.hasOwnProperty(props.CONTRACT) ? props.userStakes[props.CONTRACT].stakedAmount : 0
-                
-                }</span>
+                <span>{stakedAmount?.toFixed(5)}</span>
               </div>
               <span />
               {
-                (props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0 ) // TODO add proper variable
+                stakedAmount > 0
                   ? <QuantityButton onAdd={() => props.openPoolsStakeModal(props.identifier,props.title,props.position,props.CONTRACT,)} onRemove={() => props.openPoolsUnstakeModal(props.identifier,props.CONTRACT,props.title,props.withdrawalFeeStructure,props.position)}/>
                   : <Button onClick={() => null} color={"default"}>Stake</Button>
               }
