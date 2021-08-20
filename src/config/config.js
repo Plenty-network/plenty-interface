@@ -140,7 +140,7 @@ module.exports = {
     },
     FARMS: {
       mainnet: {
-        'PLENTY-XTZ': {
+        'PLENTY - XTZ': {
           active: [
             {
               address: 'KT1JQAZqShNMakSNXc2cgTzdAWZFemGcU6n1',

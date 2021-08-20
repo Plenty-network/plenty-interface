@@ -61,9 +61,9 @@ const Frontpage = ({
 			getHomeStats()
 			getTVL()
 			if (!!wallet) {
-					// getPlentyToHarvest(wallet)
-					// getPlentyBalanceOfUser(wallet)
-					// getTVLOfUser(wallet)
+					getPlentyToHarvest(wallet)
+					getPlentyBalanceOfUser(wallet)
+					getTVLOfUser(wallet)
 			}
 		}
 		getAllData()
@@ -73,7 +73,7 @@ const Frontpage = ({
 
 	
 
-	const walletConnected = false
+	const walletConnected = !!wallet
 
 	const onHarvestAll = () => {
 		!!wallet && harvestAll(wallet);
