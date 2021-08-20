@@ -251,6 +251,7 @@ const SwapTab = (props) => {
             computedOutDetails={props.computedOutDetails}
             tokenIn={props.tokenIn}
             tokenOut={props.tokenOut}
+            firstTokenAmount={props.firstTokenAmount}
           />
         ) : null}
       </div>
