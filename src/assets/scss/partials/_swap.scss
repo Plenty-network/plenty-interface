@@ -105,6 +105,7 @@
     padding: 24px 30px;
     border-radius: 15px;
     border: 0;
+    background-color: var(--theme-card-bg);
   }
   .modal-header {
     padding: 0;
@@ -124,6 +125,7 @@
       direction: ltr;
       -webkit-font-feature-settings: 'liga';
       -webkit-font-smoothing: antialiased;
+      color: var(--theme-text-1);
     }
     .modal-title {
       font-style: normal;
@@ -198,7 +200,7 @@
 }
 .search-coin-input {
   width: 100%;
-  background-color: #f6f8fc;
+  background-color: var(--theme-input-bg);
   border-radius: 15px;
   box-shadow: none;
   padding: 16px 30px;
@@ -386,7 +388,7 @@
   }
 }
 .swap-detail-wrapper {
-  background-color: var(--theme-bg-1);
+  background-color: var(--theme-card-bg);
   mix-blend-mode: normal;
   padding: 14px 20px;
   border-radius: 4px;
