@@ -6,7 +6,7 @@ import FarmCard from '../Components/FarmCard/FarmCard';
 import plentyXtz from '../assets/images/farms/plenty-xtz.png';
 import plentyWBUSD from '../assets/images/farms/PLENTY-wBUSD.png';
 import plentyWUSDC from '../assets/images/farms/PLENTY-wUSDC.png';
-import plentyWWBTC from '../assets/images/farms/PLENTY-wWBTC.png'
+import plentyWWBTC from '../assets/images/farms/PLENTY-wWBTC.png';
 
 import plentyToken from '../assets/images/logo_small.png';
 import { connect } from 'react-redux';
@@ -186,19 +186,6 @@ const Farms = (props) => {
       for (let farms in CONFIG.FARMS[CONFIG.NETWORK][key][
         props.isActiveOpen === true ? 'active' : 'inactive'
       ]) {
-        console.log(
-          'famrs',
-          CONFIG.FARMS[CONFIG.NETWORK][key][
-            props.isActiveOpen === true ? 'active' : 'inactive'
-          ][farms]
-        );
-        console.log(
-          CONFIG.withdrawalFeeDistribution[
-            CONFIG.FARMS[CONFIG.NETWORK][key][
-              props.isActiveOpen === true ? 'active' : 'inactive'
-            ][farms].withdrawalFeeType
-          ]
-        );
         farmsToBeRendered.push({
           farmData:
             CONFIG.FARMS[CONFIG.NETWORK][key][

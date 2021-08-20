@@ -17,66 +17,22 @@ const PondCard = (props) => {
     ((Math.pow(1 + apr / 100 / 365, 365) - 1) * 100).toFixed(0);
 
   const getAPR = (props) => {
-    // try {
-    //   if (props.isActiveOpen === true) {
-    //     if (props.activePondData.isPresent === true) {
-    //       const apr = props.activePondData.data.response[props.CONTRACT]?.APR ?? 0;
-    //       return Math.round(apr);
-    //     }
-    //
-    //     return 0;
-    //   }
-    //
-    //   return 0;
-    // } catch (e) {
-    //   return 0;
-    // }
-
     return 0;
   };
 
   const getAPY = (props) => {
-    // if (props.isActiveOpen === true) {
-    //   if (props.activePondData.isPresent === true) {
-    //     const apy = apyCalculate(
-    //       props.activePondData.data.response[props.CONTRACT]?.APR?.toFixed(2) ?? 0
-    //     );
-    //
-    //     return numberWithCommas(Math.round(apy));
-    //   }
-    //
-    //   return 0;
-    // }
-
     return 0;
   };
 
   const getReward = () => {
-    // if(props.isActiveOpen === true) {
-    //   if(props.activePondData.isPresent === true) {
-    //     return (props.activePondData.data.response[props.CONTRACT]?.rewardRate ?? 0) * 2880;
-    //   }
-    //
-    //   return 0;
-    // }
-
     return 0;
   };
 
   const getTotalLiquidity = () => {
-    // if (props.isActiveOpen === true) {
-    //   if (props.activePondData.isPresent === true) {
-    //     return numberWithCommas(props.activePondData.data.response[props.CONTRACT]?.totalLiquidty?.toFixed(0) ?? 0);
-    //   }
-    //
-    //   return 0;
-    // }
-
     return 0;
   };
 
   const hasStakedAmount = () => {
-    // return props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT]?.stakedAmount > 0;
     return false;
   };
 
