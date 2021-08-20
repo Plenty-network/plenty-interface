@@ -23,7 +23,7 @@ const StakeModal = props => {
   }
 
   const onMaxClick = () => {
-    props.handleInput(parseFloat(props.walletBalances?.[props.stakeModalIdentifier] ?? 0))
+    props.handleInput(parseInt(props.walletBalances?.[props.stakeModalIdentifier] ?? 0))
   }
 
   const onModalClose = () => {

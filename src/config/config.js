@@ -540,7 +540,8 @@ module.exports = {
             TOKEN_ID: 0,
             DECIMAL: 18,
             CARD_TYPE : 'PLENTY',
-            withdrawalFeeType : 'type3'
+            withdrawalFeeType : 'type3',
+            message: 'Rewards ended June 9'
           },
         ],
       },
@@ -555,7 +556,8 @@ module.exports = {
             TOKEN_ID: 11,
             DECIMAL: 18,
             CARD_TYPE : 'wMATIC',
-            withdrawalFeeType : 'type1'
+            withdrawalFeeType : 'type1',
+            message: 'Staking disabled - Rewards end August 26'
           },
         ],
         inactive: [
@@ -568,7 +570,8 @@ module.exports = {
             TOKEN_ID: 11,
             DECIMAL: 18,
             CARD_TYPE : 'wMATIC',
-            withdrawalFeeType : 'type3'
+            withdrawalFeeType : 'type3',
+            message: 'Rewards ended June 9'
           },
         ],
       },
@@ -583,7 +586,8 @@ module.exports = {
             TOKEN_ID: 10,
             DECIMAL: 18,
             CARD_TYPE : 'wLINK',
-            withdrawalFeeType : 'type1'
+            withdrawalFeeType : 'type1',
+            message: 'Staking disabled - Rewards end August 26'
           },
         ],
         inactive: [
@@ -596,7 +600,8 @@ module.exports = {
             TOKEN_ID: 10,
             DECIMAL: 18,
             CARD_TYPE : 'wLINK',
-            withdrawalFeeType : 'type3'
+            withdrawalFeeType : 'type3',
+            message: 'Rewards ended June 9'
           },
         ],
       },
@@ -611,7 +616,8 @@ module.exports = {
             TOKEN_ID: 0,
             DECIMAL: 18,
             CARD_TYPE : 'ETHtz',
-            withdrawalFeeType : 'type1'
+            withdrawalFeeType : 'type1',
+            message: 'Rewards end September 2'
           },
         ],
         inactive: [
@@ -624,7 +630,8 @@ module.exports = {
             TOKEN_ID: 0,
             DECIMAL: 18,
             CARD_TYPE : 'ETHtz',
-            withdrawalFeeType : 'type3'
+            withdrawalFeeType : 'type3',
+            message: 'Rewards ended June 9'
           },
         ],
       },
@@ -639,7 +646,8 @@ module.exports = {
             TOKEN_ID: 0,
             DECIMAL: 18,
             CARD_TYPE : 'hDAO',
-            withdrawalFeeType : 'type1'
+            withdrawalFeeType : 'type1',
+            message: 'Rewards end September 2'
           },
         ],
         inactive: [
@@ -652,7 +660,8 @@ module.exports = {
             TOKEN_ID: 0,
             DECIMAL: 18,
             CARD_TYPE : 'hDAO',
-            withdrawalFeeType : 'type3'
+            withdrawalFeeType : 'type3',
+            message: 'Rewards ended June 9'
           },
         ],
       },
@@ -667,7 +676,8 @@ module.exports = {
             TOKEN_ID: 0,
             DECIMAL: 18,
             CARD_TYPE : 'USDtz',
-            withdrawalFeeType : 'type1'
+            withdrawalFeeType : 'type1',
+            message: 'Staking disabled - Rewards end August 26'
           },
         ],
         inactive: [
@@ -680,7 +690,8 @@ module.exports = {
             TOKEN_ID: 0,
             DECIMAL: 18,
             CARD_TYPE : 'USDtz',
-            withdrawalFeeType : 'type3'
+            withdrawalFeeType : 'type3',
+            message: 'Rewards ended June 9'
           },
         ],
       },
@@ -696,7 +707,8 @@ module.exports = {
             TOKEN_ID: 0,
             DECIMAL: 18,
             CARD_TYPE : 'WRAP',
-            withdrawalFeeType : 'type1'
+            withdrawalFeeType : 'type1',
+            message: 'Rewards ended August 11'
           },
         ],
       },
@@ -733,6 +745,7 @@ module.exports = {
             LP_DECIMAL: 18,
             TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             DECIMAL: 18,
+            message: 'Rewards ended June 9'
           },
         ],
       },
@@ -751,6 +764,7 @@ module.exports = {
             LP_DECIMAL: 12,
             TEMP_ADDRESS: 'KT1A5P4ejnLix13jtadsfV9GCnXLMNnab8UT',
             DECIMAL: 18,
+            message: 'Rewards ended June 22'
           },
         ],
       },
