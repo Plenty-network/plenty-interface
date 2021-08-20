@@ -25,7 +25,7 @@ import LinkTile from "../../Components/LinkTile/LinkTile"
 import Accordion from "../../Components/Ui/Accordion/Accordion"
 import Stats from "../../Components/Stats/Stats"
 import Header from "../../Components/Header/Header"
-import { connect, useDispatch } from "react-redux"
+import { connect } from "react-redux"
 import {
 	getTVL,
 	getHomeStatsData,
@@ -52,7 +52,6 @@ const Frontpage = ({
 	getPlentyToHarvest,
 	getPlentyBalanceOfUser,
 }) => {
-	const dispatch = useDispatch()
 	useEffect(() => {
 		getHomeStats()
 		getTVL()

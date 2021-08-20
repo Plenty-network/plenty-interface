@@ -45,7 +45,7 @@ const Stats = props => {
 				<Col xs={6}>
 					<Label
 						text={`${props.plentyInWallet.toLocaleString(undefined, {
-							maximumFractionDigits: 20,
+							maximumFractionDigits: 3,
 						})}`}
 						subText={"PLENTY in wallet"}
 						icon={plentyInWallet}
@@ -55,7 +55,7 @@ const Stats = props => {
 				<Col xs={6}>
 					<Label
 						text={`${props.plentyToHarvest.toLocaleString(undefined, {
-							maximumFractionDigits: 20,
+							maximumFractionDigits: 3,
 						})}`}
 						subText={"PLENTY to harvest"}
 						icon={plentyToHarvest}
