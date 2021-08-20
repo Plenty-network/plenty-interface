@@ -71,7 +71,10 @@ const PoolCard = (props) => {
   const getTotalLiquidity = () => {
     if (props.isActiveOpen === true) {
       if (props.activePoolsData.isPresent === true) {
-        return numberWithCommas(props.activePoolsData.data.response[props.CONTRACT]?.totalLiquidty?.toFixed(0) ?? 0);
+        return numberWithCommas(
+          props.activePoolsData.data.response[props.CONTRACT]?.totalLiquidty?.toFixed(0) ?? 0,
+          { plain: true }
+        );
       }
     
       return 0;

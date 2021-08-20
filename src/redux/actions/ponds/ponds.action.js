@@ -87,6 +87,13 @@ const initiateStakingOperationOnPond = () => {
   };
 };
 
+export const stakingOnPondProcessing = (batchOperation) => {
+  return {
+    type: actions.PROCESSING_STAKING_ON_FARM,
+    payload: batchOperation
+  }
+}
+
 const stakingOnPondSuccessFull = (operationHash) => {
   return {
     type: actions.STAKING_ON_POND_SUCCESSFULL,
@@ -110,6 +117,12 @@ export const stakeOnPond = (amount, pondIdentifier, isActive, position) => {
       })
       .catch((error) => {
         dispatch(stakingOnPondFailed());
+      })
+      .finally(() => {
+        setTimeout(
+          () => dispatch(dismissSnackbar()),
+          5000
+        );
       });
   };
 };
@@ -129,6 +142,13 @@ const initiateUnstakingOperationOnPond = () => {
     type: actions.INITIATE_UNSTAKING_ON_POND,
   };
 };
+
+export const unstakingOnPondProcessing = (batchOperation) => {
+  return {
+    type: actions.PROCESSING_UNSTAKING_ON_POND,
+    payload: batchOperation
+  }
+}
 
 const unstakingOnPondSuccessFull = (operationHash) => {
   return {
@@ -159,6 +179,12 @@ export const unstakeOnPond = (
       })
       .catch((error) => {
         dispatch(unstakingOnPondFailed());
+      })
+      .finally(() => {
+        setTimeout(
+          () => dispatch(dismissSnackbar()),
+          5000
+        );
       });
   };
 };
@@ -218,3 +244,7 @@ export const openClosePondsModal = (payload) => ({
   type: actions.OPEN_CLOSE_PONDS_MODAL,
   payload,
 });
+
+const dismissSnackbar = () => ({
+  type: actions.DISMISS_PONDS_SNACKBAR,
+})
