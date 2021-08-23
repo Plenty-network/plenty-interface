@@ -48,15 +48,6 @@ const Swap = (props) => {
   const [showConfirmAddSupply, setShowConfirmAddSupply] = useState(false);
   const [showConfirmRemoveSupply, setShowConfirmRemoveSupply] = useState(false);
   const [hideContent, setHideContent] = useState('');
-
-  const handleClose = () => {
-    setShow(false);
-    setShowConfirmSwap(false);
-    setShowConfirmAddSupply(false);
-    setShowConfirmRemoveSupply(false);
-    setHideContent('');
-    setLoading(false);
-  };
   const [slippage, setSlippage] = useState(0.05);
   const [recepient, setRecepient] = useState('');
   const [tokenType, setTokenType] = useState('tokenIn');
@@ -74,6 +65,15 @@ const Swap = (props) => {
     name: 'PLENTY',
     image: plenty,
   });
+
+  const handleClose = () => {
+    setShow(false);
+    setShowConfirmSwap(false);
+    setShowConfirmAddSupply(false);
+    setShowConfirmRemoveSupply(false);
+    setHideContent('');
+    setLoading(false);
+  };
 
   const changeTokenLocation = () => {
     const tempTokenIn = tokenIn.name;
@@ -103,7 +103,14 @@ const Swap = (props) => {
   };
 
   const selectToken = (token) => {
+    setFirstTokenAmount('');
+    setSecondTokenAmount('');
+    setSwapData({});
+    setComputedOutDetails({
+      tokenOut_amount: '',
+    });
     setLoading(true);
+
     if (tokenType === 'tokenIn') {
       setTokenIn({
         name: token.name,
@@ -197,7 +204,6 @@ const Swap = (props) => {
   useEffect(() => {
     setLoading(true);
     getTokenPrices().then((tokenPrice) => {
-      console.log('tokenPrice=', tokenPrice);
       setGetTokenPrice(tokenPrice);
       setLoading(false);
     });
@@ -216,14 +222,14 @@ const Swap = (props) => {
     setRecepient('');
     setTokenType('tokenIn');
     setTokenOut({});
-    setFirstTokenAmount();
+    setFirstTokenAmount('');
+    setSecondTokenAmount('');
     setSwapData({});
-    setComputedOutDetails({});
+    setComputedOutDetails({
+      tokenOut_amount: '',
+    });
     setGetTokenPrice({});
-    setUserBalances({});
     setTokenContractInstances({});
-    setLoading(false);
-    setLoaderMessage({});
     setTokenIn({
       name: 'PLENTY',
       image: plenty,
@@ -282,6 +288,7 @@ const Swap = (props) => {
                   handleOutTokenInput={handleOutTokenInput}
                   showRecepient={showRecepient}
                   transactionSubmitModal={transactionSubmitModal}
+                  setSecondTokenAmount={setSecondTokenAmount}
                 />
               </Tab>
               <Tab eventKey="liquidity" title="Liquidity">
