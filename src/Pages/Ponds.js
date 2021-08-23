@@ -16,16 +16,18 @@ import Switch from '../Components/Ui/Switch/Switch';
 import PondModals from '../Components/PondPage/PondModals';
 
 const Ponds = (props) => {
-  // ! TEMP
-
-  const fetchData = () => {
-    renderPonds();
-  };
 
   useEffect(() => {
-    const backgroundRefresh = throttle(fetchData, 1000, { trailing: true });
+    const fetchData = () => {
+      renderPonds();
+    };
 
-    backgroundRefresh();
+    fetchData();
+    const backgroundRefresh = setInterval(() => {
+      fetchData()
+    }, 30 * 1000);
+
+    return () => clearInterval(backgroundRefresh);
   }, [props.isActiveOpen, props.userAddress]);
   const pondsCardListType = {
     KALAM: {
