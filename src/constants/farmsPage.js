@@ -1,4 +1,5 @@
 import plentyXtz from "../assets/images/farms/plenty-xtz.png";
+import kalamXtz from "../assets/images/farms/kalam-xtz.png";
 import plentyToken from "../assets/images/logo_small.png";
 import plentyWUSDC from "../assets/images/farms/PLENTY-wUSDC.png";
 import plentyWBUSD from "../assets/images/farms/PLENTY-wBUSD.png";
@@ -35,7 +36,7 @@ export   const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'KALAM / XTZ LP': {
-    image: plentyXtz,
+    image: kalamXtz,
     harvestImg: plentyToken,
     multi: '100',
     title: 'KALAM / XTZ LP',

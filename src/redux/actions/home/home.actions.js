@@ -143,10 +143,13 @@ export const harvestAll = userAddress => {
 					}
 					let batch = await Tezos.wallet.batch(harvestBatch)
 					let batchOperation = await batch.send()
+					dispatch({type: actions.HARVEST_ALL_PROCESSING, payload: batchOperation })
 					// dispatch("transaction is submitted") processing: true
 					// snackbar loading
 					const batchConfirm = await batchOperation.confirmation()
 					dispatch({ type: actions.HARVEST_ALL_SUCCESS, payload: batchConfirm }) // snack transaction success 
+					dispatch(getPlentyToHarvest(userAddress))
+					dispatch(getPlentyBalanceOfUser(userAddress))
 				} else {
 					// console.log("Nothing to harvest")
 				}
@@ -156,7 +159,7 @@ export const harvestAll = userAddress => {
 			dispatch({ type: actions.HARVEST_ALL_FAILED, payload:error })
 		} finally {
 			setTimeout(() => {
-				// dismiss snackbar
+				dispatch({ type: actions.OPEN_CLOSE_HOME_MODAL, payload: {snackbar: false}})
 			}, 5000)
 		}
 	}
@@ -448,3 +451,8 @@ export const getTVLOfUser = userAddress => {
 		}
 	}
 }
+
+export const onModalOpenClose = (payload) => ({
+	type: actions.OPEN_CLOSE_HOME_MODAL,
+	payload : payload
+ })

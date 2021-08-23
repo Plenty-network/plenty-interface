@@ -22,9 +22,9 @@ const Stats = props => {
 					</span>
 					<hr />
 					<Label
-						text={`$${props.valueLocked?.toLocaleString(undefined, {
-							maximumFractionDigits: 3,
-						}) ?? 0} `}
+						text={props?.valueLocked === null ? null : `$${props?.valueLocked?.toLocaleString(undefined, {
+							maximumFractionDigits: 0,
+						})} `}
 						subText={"Total value locked"}
 						icon={dollar}
 						iconClass={"mt-1"}
@@ -59,7 +59,12 @@ const Stats = props => {
 			</Row>
 			<Row className="p-1 mt-1">
 				<Col>
-					<Button onClick={props.harvestAll} color={"primary"} className={"w-100"} disabled={props.plentyToHarvest === 0 }>
+					<Button
+						onClick={props.harvestAll}
+						color={"primary"} className={"w-100"}
+						disabled={props.plentyToHarvest === 0}
+						loading={props.harvestAllOperations.loading}
+					>
 						Harvest all
 					</Button>
 				</Col>

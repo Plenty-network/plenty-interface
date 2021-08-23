@@ -1,3 +1,4 @@
+import { HOME_PAGE_MODAL } from '../../constants/homePage'
 import * as actions from "../actions/index.action"
 
 const initState = {
@@ -29,7 +30,7 @@ const initState = {
 	userTVL: {
 		isPresent: false,
 		loading: false,
-		data: 0,
+		data: null,
 	},
 	harvestAllOperation: {
 		loading: false,
@@ -37,6 +38,12 @@ const initState = {
 		completed: false,
 		failed: false,
 		batchOperation: null,
+	},
+	modals: {
+		open: HOME_PAGE_MODAL.NULL,
+		contractAddress: null,
+		transactionId: '',
+		snackbar: false,
 	},
 }
 
@@ -136,7 +143,12 @@ const homeReducer = (state = initState, action) => {
 			return {
 				...state,
 				harvestAllOperation: { ...state.harvestAllOperation, loading: false, processing: true },
-				
+				modals: {
+					...state.modals,
+					open: HOME_PAGE_MODAL.TRANSACTION_SUCCESS,
+					transactionId: action.payload.opHash,
+					snackbar: true
+				}
 			}
 		case actions.HARVEST_ALL_SUCCESS:
 			return {
@@ -146,12 +158,12 @@ const homeReducer = (state = initState, action) => {
 		case actions.HARVEST_ALL_FAILED:
 			return {
 				...state,
-				harvestAllOperation: {...state.harvestAllOperation, processing: false, failed: true, batchOperation: action.payload },
+				harvestAllOperation: {...state.harvestAllOperation, processing: false, failed: true, loading: false, batchOperation: action.payload },
 			}
 		case actions.USER_TVL_FETCH:
 			return {
 				...state,
-				userTVL: { isPresent: false, loading: true, data: 0 },
+				userTVL: { isPresent: false, loading: true, data: null },
 			}
 		case actions.USER_TVL_FETCH_SUCCESS:
 			return {
@@ -162,6 +174,11 @@ const homeReducer = (state = initState, action) => {
 			return {
 				...state,
 				userTVL: { isPresent: true, loading: false, data: 0 },
+			}
+		case actions.OPEN_CLOSE_HOME_MODAL:
+			return {
+					...state,
+					modals: { ...state.modals, ...action.payload }
 			}
 		default:
 			return {
