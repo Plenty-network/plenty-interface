@@ -163,7 +163,7 @@ const homeReducer = (state = initState, action) => {
 		case actions.USER_TVL_FETCH:
 			return {
 				...state,
-				userTVL: { isPresent: false, loading: true, data: 0 },
+				userTVL: { isPresent: false, loading: true, data: null },
 			}
 		case actions.USER_TVL_FETCH_SUCCESS:
 			return {
@@ -173,7 +173,7 @@ const homeReducer = (state = initState, action) => {
 		case actions.USER_TVL_FETCH_FAILED:
 			return {
 				...state,
-				userTVL: { isPresent: true, loading: false, data: null },
+				userTVL: { isPresent: true, loading: false, data: 0 },
 			}
 		case actions.OPEN_CLOSE_HOME_MODAL:
 			return {
