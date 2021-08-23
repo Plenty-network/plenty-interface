@@ -70,6 +70,7 @@ const FarmCardBottom = (props) => {
                 )
               }}
               color={hasStakedAmount() ? "primary" : "default"}
+              loading={props.harvestOperation.tokenPair === props.identifier && props.harvestOperation.isLoading}
             >
               Harvest
             </Button>
