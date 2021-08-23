@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import Row from 'react-bootstrap/Row';
 
 import FarmCard from '../Components/FarmCard/FarmCard';
 

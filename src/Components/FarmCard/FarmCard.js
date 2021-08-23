@@ -24,8 +24,6 @@ const FarmCard = (props) => {
             props.activeFarmData.data.response[props.CONTRACT]?.APR ?? 0;
           return numberWithCommas(Math.round(apr));
         }
-
-        return 0;
       }
 
       return 0;
@@ -74,12 +72,22 @@ const FarmCard = (props) => {
           ]?.totalLiquidty?.toFixed(0) ?? 0,
           { plain: true }
         );
-      } else {
-        return 0;
       }
-    } else {
+
       return 0;
     }
+
+    if (props.inactiveFarmsData?.isPresent === true) {
+      return numberWithCommas(
+        props.inactiveFarmsData.data.response[
+          props.CONTRACT
+          ]?.totalLiquidty?.toFixed(0) ?? 0,
+        { plain: true }
+      );
+    }
+
+    return 0;
+
   };
 
   const hasStakedAmount = () => {
