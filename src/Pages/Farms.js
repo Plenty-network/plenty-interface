@@ -1,14 +1,7 @@
 import React, { useEffect } from 'react';
-import Row from 'react-bootstrap/Row';
 
 import FarmCard from '../Components/FarmCard/FarmCard';
 
-import plentyXtz from '../assets/images/farms/plenty-xtz.png';
-import plentyWBUSD from '../assets/images/farms/PLENTY-wBUSD.png';
-import plentyWUSDC from '../assets/images/farms/PLENTY-wUSDC.png';
-import plentyWWBTC from '../assets/images/farms/PLENTY-wWBTC.png';
-
-import plentyToken from '../assets/images/logo_small.png';
 import { connect } from 'react-redux';
 import * as farmsActions from '../redux/actions/farms/farms.actions';
 import * as userActions from '../redux/actions/user/user.action';
@@ -21,164 +14,26 @@ import UnstakeModal from '../Components/Ui/Modals/UnstakeModal';
 
 import styles from '../assets/scss/partials/_farms.module.scss';
 import FarmModals from '../Components/FarmPage/FarmModals';
-import { throttle } from 'lodash/function';
+import { FARMS_CARD_TYPE_LIST } from "../constants/farmsPage";
 
 const Farms = (props) => {
-  const fetchData = () => {
-    renderFarms();
-    props.getFarmsData(props.isActiveOpen);
-    props.getUserStakes(props.userAddress, 'FARMS', props.isActiveOpen);
-    props.getHarvestValues(props.userAddress, 'FARMS', props.isActiveOpen);
-    props.fetchUserBalances(props.userAddress);
-  };
 
   useEffect(() => {
-    const backgroundRefresh = throttle(fetchData, 2000, { trailing: true });
+    const fetchData = () => {
+      renderFarms();
+      props.getFarmsData(props.isActiveOpen);
+      props.getUserStakes(props.userAddress, 'FARMS', props.isActiveOpen);
+      props.getHarvestValues(props.userAddress, 'FARMS', props.isActiveOpen);
+      props.fetchUserBalances(props.userAddress);
+    };
 
-    backgroundRefresh();
+    fetchData();
+    const backgroundRefresh = setInterval(() => {
+      fetchData()
+    }, 30 * 1000)
+
+    return () => clearInterval(backgroundRefresh)
   }, [props.isActiveOpen, props.userAddress]);
-
-  const farmsCardTypeList = {
-    'PLENTY / XTZ LP': {
-      image: plentyXtz,
-      harvestImg: plentyToken,
-      multi: '100',
-      title: 'PLENTY / XTZ LP',
-      apr: 0,
-      apy: '2621',
-      earn: 'PLENTY',
-      fee: '0%',
-      earned: 0,
-      deposit: 'PLENTY - XTZ LP',
-      liquidity: '100000',
-      withdrawalFee: '0%',
-      balance: 0,
-      userBalance: 0,
-      URL: '',
-      active: true,
-      source: 'Quipuswap LP',
-      rewards: '1000 PLENTY / DAY',
-    },
-    'KALAM / XTZ LP': {
-      image: plentyXtz,
-      harvestImg: plentyToken,
-      multi: '100',
-      title: 'KALAM / XTZ LP',
-      apr: 3,
-      apy: '1111',
-      earn: 'PLENTY',
-      fee: '0%',
-      earned: 0,
-      deposit: 'KALAM - XTZ LP',
-      liquidity: '100000',
-      withdrawalFee: '0%',
-      balance: 0,
-      userBalance: 0,
-      URL: '',
-      active: true,
-      source: 'Quipuswap LP',
-      rewards: '1000 KALAM / DAY',
-    },
-    'hDAO / PLENTY LP': {
-      image: plentyXtz,
-      multi: '100',
-      title: 'hDAO / PLENTY LP',
-      apr: 0,
-      apy: '2621',
-      earn: 'PLENTY',
-      fee: '0%',
-      earned: 0,
-      deposit: 'PLENTY - XTZ LP',
-      liquidity: '1000',
-      withdrawalFee: '0%',
-      balance: 0,
-      userBalance: 0,
-      URL: '',
-      active: true,
-      source: 'Plenty LP',
-      rewards: '1000 PLENTY / DAY',
-    },
-    'KALAM / PLENTY LP': {
-      image: plentyXtz,
-      harvestImg: plentyToken,
-      multi: '100',
-      title: 'KALAM / PLENTY LP',
-      apr: 0,
-      apy: '2621',
-      earn: 'PLENTY',
-      fee: '0%',
-      earned: 0,
-      deposit: 'PLENTY - XTZ LP',
-      liquidity: '5000',
-      withdrawalFee: '0%',
-      balance: 0,
-      userBalance: 0,
-      URL: '',
-      active: true,
-      source: 'Plenty LP',
-      rewards: '1000 PLENTY / DAY',
-    },
-    'PLENTY / wUSDC LP': {
-      image: plentyWUSDC,
-      harvestImg: plentyToken,
-      multi: '100',
-      title: 'PLENTY / wUSDC LP',
-      apr: 0,
-      apy: '2621',
-      earn: 'PLENTY',
-      fee: '0%',
-      earned: 0,
-      deposit: 'PLENTY / wUSDC LP',
-      liquidity: '5000',
-      withdrawalFee: '0%',
-      balance: 0,
-      userBalance: 0,
-      URL: '',
-      active: true,
-      source: 'Plenty LP',
-      rewards: '1000 PLENTY / DAY',
-    },
-    'PLENTY / wBUSD LP': {
-      image: plentyWBUSD,
-      harvestImg: plentyToken,
-      multi: '100',
-      title: 'PLENTY / wBUSD LP',
-      apr: 0,
-      apy: '2621',
-      earn: 'PLENTY',
-      fee: '0%',
-      earned: 0,
-      deposit: 'PLENTY / wBUSD LP',
-      liquidity: '5000',
-      withdrawalFee: '0%',
-      balance: 0,
-      userBalance: 0,
-      URL: '',
-      active: true,
-      source: 'Plenty LP',
-      rewards: '1000 PLENTY / DAY',
-    },
-    'PLENTY / wWBTC LP': {
-      image: plentyWWBTC,
-      harvestImg: plentyToken,
-      multi: '100',
-      title: 'PLENTY / wWBTC LP',
-      apr: 0,
-      apy: '2621',
-      earn: 'PLENTY',
-      fee: '0%',
-      earned: 0,
-      deposit: 'PLENTY / wWBTC LP',
-      liquidity: '5000',
-      withdrawalFee: '0%',
-      balance: 0,
-      userBalance: 0,
-      URL: '',
-      active: true,
-      source: 'Plenty LP',
-      rewards: '1000 PLENTY / DAY',
-    },
-  };
 
   const renderFarms = () => {
     let farmsToBeRendered = [];
@@ -192,7 +47,7 @@ const Farms = (props) => {
               props.isActiveOpen === true ? 'active' : 'inactive'
             ][farms],
           properties:
-            farmsCardTypeList[
+            FARMS_CARD_TYPE_LIST[
               CONFIG.FARMS[CONFIG.NETWORK][key][
                 props.isActiveOpen === true ? 'active' : 'inactive'
               ][farms].CARD_TYPE
