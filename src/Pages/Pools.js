@@ -1,18 +1,6 @@
 import React, { useEffect } from 'react';
-import wrapImg from '../assets/images/wrap.png';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
 import PropTypes from 'prop-types';
 import PoolCard from '../Components/PoolCard/PoolCard';
-import plentyToken from '../assets/images/logo_small.png';
-import plentyPoolIcon from '../assets/images/logo-icon.png';
-import hdao from '../assets/images/hdao.png';
-import kalam from '../assets/images/kalam-pool.png';
-import wlink from '../assets/images/wlink.png';
-import ethtz from '../assets/images/ethtz.png';
-import wmatic from '../assets/images/wmatic.png';
-import usdtz from '../assets/images/usdtz.png';
-import wrap from '../assets/images/wrap.png';
 import Switch from '../Components/Ui/Switch/Switch';
 import styles from '../assets/scss/partials/_farms.module.scss';
 import StakeModal from '../Components/Ui/Modals/StakeModal';
@@ -22,128 +10,30 @@ import { connect } from 'react-redux';
 import * as poolsAction from '../redux/actions/pools/pools.actions';
 import * as walletActions from '../redux/actions/wallet/wallet.action';
 import * as userActions from '../redux/actions/user/user.action';
-import { throttle } from 'lodash/function';
 import PoolModals from '../Components/PoolPage/PoolModals';
+import { POOLS_CARDS_TYPE_LIST } from "../constants/poolsPage";
 
 const Pools = (props) => {
-  // ! TEMP
-  // useEffect(() => {
-  //   renderPools();
-  // },[])
 
-  const fetchData = () => {
-    renderPools();
-    props.getPoolsData(props.isActiveOpen);
-    props.getUserStakes(props.userAddress, 'POOLS', props.isActiveOpen);
-    props.getHarvestValues(props.userAddress, 'POOLS', props.isActiveOpen);
-    props.fetchUserBalances(props.userAddress);
-  };
+
 
   useEffect(() => {
-    const backgroundRefresh = throttle(fetchData, 1000, { trailing: true });
+    const fetchData = () => {
+      renderPools();
+      props.getPoolsData(props.isActiveOpen);
+      props.getUserStakes(props.userAddress, 'POOLS', props.isActiveOpen);
+      props.getHarvestValues(props.userAddress, 'POOLS', props.isActiveOpen);
+      props.fetchUserBalances(props.userAddress);
+    };
 
-    backgroundRefresh();
+    fetchData()
+    const backgroundRefresh = setInterval(() => {
+      fetchData()
+    }, 30 * 1000);
+
+    return () => clearInterval(backgroundRefresh);
   }, [props.isActiveOpen, props.userAddress]);
 
-  const poolsCardsTypeList = {
-    PLENTY: {
-      image: plentyPoolIcon,
-      harvestImg: plentyToken,
-      title: 'PLENTY',
-    },
-    hDAO: {
-      image: hdao,
-      harvestImg: plentyToken,
-      title: 'hDAO',
-    },
-    ETHtz: {
-      image: ethtz,
-      harvestImg: plentyToken,
-      title: 'ETHtz',
-    },
-    wMATIC: {
-      image: wmatic,
-      harvestImg: plentyToken,
-      title: 'wMATIC',
-    },
-    wLINK: {
-      image: wlink,
-      harvestImg: plentyToken,
-      title: 'wLINK',
-    },
-    USDtz: {
-      image: usdtz,
-      harvestImg: plentyToken,
-      title: 'USDtz',
-    },
-    WRAP: {
-      image: wrap,
-      harvestImg: plentyToken,
-      title: 'USDtz',
-    },
-  };
-  const poolsList = [
-    {
-      image: plentyPoolIcon,
-      multi: '100',
-      harvestImg: plentyToken,
-      title: 'PLENTY',
-      apr: 0,
-      apy: '2621',
-      earn: 'PLENTY',
-      fee: '0%',
-      earned: 100,
-      deposit: 'PLENTY - XTZ LP',
-      liquidity: '100000',
-      withdrawalFee: '0%',
-      balance: 0,
-      userBalance: 0,
-      URL: '',
-      active: true,
-      source: 'Quipuswap LP',
-      rewards: '1000 PLENTY / DAY',
-    },
-    {
-      image: hdao,
-      multi: '100',
-      title: 'hDAO',
-      apr: 0,
-      harvestImg: plentyToken,
-      apy: '2621',
-      earn: 'PLENTY',
-      fee: '0%',
-      earned: 0,
-      deposit: 'PLENTY - XTZ LP',
-      liquidity: '1000',
-      withdrawalFee: '0%',
-      balance: 0,
-      userBalance: 0,
-      URL: '',
-      active: true,
-      source: 'Plenty',
-      rewards: '1000 PLENTY / DAY',
-    },
-    {
-      image: kalam,
-      multi: '100',
-      title: 'KALAM',
-      harvestImg: plentyToken,
-      apr: 0,
-      apy: '2621',
-      earn: 'PLENTY',
-      fee: '0%',
-      earned: 0,
-      deposit: 'PLENTY - XTZ LP',
-      liquidity: '5000',
-      withdrawalFee: '0%',
-      balance: 0,
-      userBalance: 0,
-      URL: '',
-      active: true,
-      source: 'Plenty',
-      rewards: '1000 PLENTY / DAY',
-    },
-  ];
   const renderPools = () => {
     let poolsToBeRendered = [];
     for (let key in CONFIG.POOLS[CONFIG.NETWORK]) {
@@ -156,7 +46,7 @@ const Pools = (props) => {
               props.isActiveOpen === true ? 'active' : 'inactive'
             ][i],
           properties:
-            poolsCardsTypeList[
+            POOLS_CARDS_TYPE_LIST[
               CONFIG.POOLS[CONFIG.NETWORK][key][
                 props.isActiveOpen === true ? 'active' : 'inactive'
               ][i].CARD_TYPE
