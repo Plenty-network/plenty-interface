@@ -125,6 +125,32 @@ h1 {
   opacity: 0;
 }
 
+.shimmer {
+  background: var(--theme-bg-2) linear-gradient(
+      to right,
+      var(--theme-bg-2)  0%,
+      var(--theme-bg-4) 20%,
+      var(--theme-bg-2)  40%,
+      var(--theme-bg-2)  100%
+    ) no-repeat;
+  background-size: 800px 104px; 
+  display: inline-block;
+  position: relative;
+  animation: 3s placeholderShimmer infinite;
+  color: transparent;
+  border-radius: 6px;
+}
+
+@keyframes placeholderShimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  
+  100% {
+    background-position: -100% 0;
+  }
+}
+
 body {
   color: var(--theme-text-1);
   background-color: var(--theme-bg-1);

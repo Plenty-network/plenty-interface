@@ -31,6 +31,8 @@ const SwapTab = (props) => {
         props.handleLoaderMessage('success', 'Transaction confirmed');
         props.setShowConfirmSwap(false);
         props.setHideContent('');
+        props.setSecondTokenAmount('');
+        props.resetAllValues();
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
@@ -39,6 +41,9 @@ const SwapTab = (props) => {
         props.handleLoaderMessage('error', 'Transaction failed');
         props.setShowConfirmSwap(false);
         props.setHideContent('');
+        props.resetAllValues();
+        props.setSecondTokenAmount('');
+
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
@@ -200,6 +205,7 @@ const SwapTab = (props) => {
                   className="token-user-input"
                   disabled
                   placeholder="0.0"
+                  value={props.firstTokenAmount}
                 />
               )}
             </div>

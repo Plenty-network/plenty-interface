@@ -56,6 +56,7 @@ const RemoveLiquidity = (props) => {
         props.handleLoaderMessage('success', 'Transaction confirmed');
         props.setShowConfirmRemoveSupply(false);
         props.setHideContent('');
+        props.resetAllValues();
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
@@ -64,6 +65,7 @@ const RemoveLiquidity = (props) => {
         props.handleLoaderMessage('error', 'Transaction failed');
         props.setShowConfirmRemoveSupply(false);
         props.setHideContent('');
+        props.resetAllValues();
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);

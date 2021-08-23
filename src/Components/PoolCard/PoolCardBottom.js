@@ -66,6 +66,7 @@ const PoolCardBottom = (props) => {
             <Button
               onClick={() => props.harvestOnPools(props.identifier, props.isActiveOpen, props.position)}
               color={hasStakedAmount() ? "primary" : "default"}
+              loading={props.harvestOperation.tokenPair === props.identifier && props.harvestOperation.isLoading}
             >
               Harvest
             </Button>

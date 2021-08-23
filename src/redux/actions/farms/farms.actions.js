@@ -198,9 +198,10 @@ export const clearUntakeFarmResponse = () => {
 
 // harvest
 
-const initiateHarvestingOperationOnFarm = () => {
+const initiateHarvestingOperationOnFarm = (tokenPair) => {
   return {
     type: actions.INITIATE_HARVESTING_ON_FARM,
+    payload: { tokenPair }
   };
 };
 
@@ -219,7 +220,7 @@ const harvestingOnFarmFailed = () => {
 
 export const harvestOnFarm = (farmIdentifier, isActive, position) => {
   return (dispatch) => {
-    dispatch(initiateHarvestingOperationOnFarm());
+    dispatch(initiateHarvestingOperationOnFarm(farmIdentifier));
     farmApis
       .harvest(farmIdentifier, isActive, position)
       .then((response) => {

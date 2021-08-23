@@ -3,7 +3,7 @@ import {
   addLiquidity,
   lpTokenOutput,
 } from '../../../apis/swap/swap';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import InfoModal from '../../Ui/Modals/InfoModal';
 import ConfirmAddLiquidity from './ConfirmAddLiquidity';
@@ -77,6 +77,7 @@ const AddLiquidity = (props) => {
         props.handleLoaderMessage('success', 'Transaction confirmed');
         props.setShowConfirmAddSupply(false);
         props.setHideContent('');
+        props.resetAllValues();
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
@@ -85,12 +86,22 @@ const AddLiquidity = (props) => {
         props.handleLoaderMessage('error', 'Transaction failed');
         props.setShowConfirmAddSupply(false);
         props.setHideContent('');
+        props.resetAllValues();
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
       }
     });
   };
+
+  useEffect(() => {
+    if (props.firstTokenAmount == '' || props.firstTokenAmount == 0) {
+      setSecondTokenAmount('');
+      setEstimatedTokenAmout({
+        otherTokenAmount: '',
+      });
+    }
+  }, [props.firstTokenAmount]);
 
   let swapContentButton = (
     <button className="swap-content-btn" onClick={props.connecthWallet}>
@@ -157,6 +168,7 @@ const AddLiquidity = (props) => {
                 className="token-user-input"
                 placeholder="0.0"
                 disabled
+                value={props.firstTokenAmount}
               />
             )}
           </div>

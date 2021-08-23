@@ -80,6 +80,13 @@ const PoolCard = (props) => {
       return 0;
     }
 
+    if (props.inactivePoolsData.isPresent === true) {
+      return numberWithCommas(
+        props.inactivePoolsData.data.response[props.CONTRACT]?.totalLiquidty?.toFixed(0) ?? 0,
+        { plain: true }
+      );
+    }
+
     return 0;
   }
 

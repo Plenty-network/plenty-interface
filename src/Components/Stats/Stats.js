@@ -1,6 +1,6 @@
 import clsx from "clsx"
 import PropTypes from "prop-types"
-import React from "react"
+import React, { useMemo } from "react"
 import { Row, Col, Image } from "react-bootstrap"
 import Label from "../Ui/Label/Label"
 import greenBullet from "../../assets/images/stats/greenbullet.svg"
@@ -12,6 +12,10 @@ import styles from "./stats.module.scss"
 import Button from "../Ui/Buttons/Button"
 
 const Stats = props => {
+	const loading = useMemo(() => {
+		return props.valueLocked == null || props.plentyInWallet == null || props.plentyToHarvest == null
+	}, [props.plentyInWallet, props.plentyToHarvest, props.valueLocked])
+
 	return (
 		<div className={clsx("p-3", "bg-themed", styles.container)}>
 			<Row className="p-1">
@@ -22,9 +26,9 @@ const Stats = props => {
 					</span>
 					<hr />
 					<Label
-						text={`$${props.valueLocked?.toLocaleString(undefined, {
-							maximumFractionDigits: 3,
-						}) ?? 0} `}
+						text={loading ? null : `$${props?.valueLocked?.toLocaleString(undefined, {
+							maximumFractionDigits: 0,
+						})} `}
 						subText={"Total value locked"}
 						icon={dollar}
 						iconClass={"mt-1"}
@@ -40,7 +44,7 @@ const Stats = props => {
 			<Row className="p-1">
 				<Col xs={6}>
 					<Label
-						text={`${props.plentyInWallet?.toLocaleString(undefined, {
+						text={loading ? null : `${props.plentyInWallet?.toLocaleString(undefined, {
 							maximumFractionDigits: 3,
 						})}`}
 						subText={"PLENTY in wallet"}
@@ -50,7 +54,7 @@ const Stats = props => {
 				</Col>
 				<Col xs={6}>
 					<Label
-						text={`${props.plentyToHarvest?.toFixed(5)}`}
+						text={loading ? null : `${props.plentyToHarvest?.toFixed(5)}`}
 						subText={"PLENTY to harvest"}
 						icon={plentyToHarvest}
 						iconClass={"mt-1"}
@@ -59,7 +63,12 @@ const Stats = props => {
 			</Row>
 			<Row className="p-1 mt-1">
 				<Col>
-					<Button onClick={props.harvestAll} color={"primary"} className={"w-100"} disabled={props.plentyToHarvest === 0 }>
+					<Button
+						onClick={props.harvestAll}
+						color={"primary"} className={"w-100"}
+						disabled={props.plentyToHarvest === 0}
+						loading={props.harvestAllOperations.loading}
+					>
 						Harvest all
 					</Button>
 				</Col>

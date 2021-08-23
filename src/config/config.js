@@ -140,7 +140,7 @@ module.exports = {
     },
     FARMS: {
       mainnet: {
-        'PLENTY-XTZ': {
+        'PLENTY - XTZ': {
           active: [
             {
               address: 'KT1JQAZqShNMakSNXc2cgTzdAWZFemGcU6n1',
@@ -155,6 +155,17 @@ module.exports = {
               mapId: 3962,
               decimal: 18,
               tokenDecimal: 6,
+            },
+          ],
+        },
+        'KALAM - XTZ': {
+          active: [],
+          inactive: [
+            {
+              address: 'KT1DjDZio7k2GJwCJCXwK82ing3n51AE55DW',
+              mapId: 4488,
+              decimal: 18,
+              tokenDecimal: 10,
             },
           ],
         },

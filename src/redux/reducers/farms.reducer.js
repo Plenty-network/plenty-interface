@@ -30,7 +30,8 @@ const initialState = {
         isLoading : false,
         completed : false,
         failed : false,
-        operationHash : null
+        operationHash : null,
+        tokenPair: null
     },
     modals: {
       open: FARM_PAGE_MODAL.NULL,
@@ -266,7 +267,8 @@ const farmsReducer = (state = initialState , action) => {
                     isLoading : true,
                     completed : false,
                     failed : false,
-                    operationHash : null
+                    operationHash : null,
+                    tokenPair: action.payload.tokenPair
                 }
             }
         case actions.HARVESTING_ON_FARM_SUCCESSFULL:
@@ -276,7 +278,8 @@ const farmsReducer = (state = initialState , action) => {
                     isLoading : false,
                     completed : true,
                     failed : false, 
-                    operationHash : action.data
+                    operationHash : action.data,
+                    tokenPair: null,
                 }
             }
         case actions.HARVESTING_ON_FARM_FAILED:
@@ -286,7 +289,8 @@ const farmsReducer = (state = initialState , action) => {
                     isLoading : false,
                     completed : false,
                     failed : true,
-                    operationHash : null
+                    operationHash : null,
+                    tokenPair: null,
                 }
             }
         case actions.CLEAR_HARVESTING_ON_FARM_RESPONSE:
@@ -297,7 +301,8 @@ const farmsReducer = (state = initialState , action) => {
                     processing: false,
                     completed : false,
                     failed : false,
-                    operationHash : null
+                    operationHash : null,
+                    tokenPair: null,
                 }
             }
         case actions.OPEN_ACTIVE_FARMS:

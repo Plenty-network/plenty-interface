@@ -56,10 +56,10 @@ export const getLpPriceInXtz = async () => {
     //     promises.push(getLpPriceFromDex())
     // }
     promises.push(
-      getLpPriceFromDex('PLENTY-XTZ', 'KT1X1LgNkQShpF9nRLYw3Dgdy4qp38MX617z')
+      getLpPriceFromDex('PLENTY - XTZ', 'KT1X1LgNkQShpF9nRLYw3Dgdy4qp38MX617z')
     );
     promises.push(
-      getLpPriceFromDex('KALAM-XTZ', 'KT1J3wTYb4xk5BsSBkg6ML55bX1xq7desS34')
+      getLpPriceFromDex('KALAM - XTZ', 'KT1J3wTYb4xk5BsSBkg6ML55bX1xq7desS34')
     );
     const response = await Promise.all(promises);
     return {

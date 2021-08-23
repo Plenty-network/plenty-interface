@@ -60,7 +60,7 @@ const TransactionSettings = (props) => {
           <p className="transaction-setting-menu-label">Interface Settings</p>
           <div className="flex align-center">
             <p className="transaction-setting-sub-label">
-              Add Recepient{' '}
+              Add Recipient{' '}
               <span className="material-icons-round">help_outline</span>
             </p>
             <div className="toggleWrapper">
