@@ -1,18 +1,6 @@
 import React, { useEffect } from 'react';
-import wrapImg from '../assets/images/wrap.png';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
 import PropTypes from 'prop-types';
 import PoolCard from '../Components/PoolCard/PoolCard';
-import plentyToken from '../assets/images/logo_small.png';
-import plentyPoolIcon from '../assets/images/logo-icon.png';
-import hdao from '../assets/images/hdao.png';
-import kalam from '../assets/images/kalam-pool.png';
-import wlink from '../assets/images/wlink.png';
-import ethtz from '../assets/images/ethtz.png';
-import wmatic from '../assets/images/wmatic.png';
-import usdtz from '../assets/images/usdtz.png';
-import wrap from '../assets/images/wrap.png';
 import Switch from '../Components/Ui/Switch/Switch';
 import styles from '../assets/scss/partials/_farms.module.scss';
 import StakeModal from '../Components/Ui/Modals/StakeModal';
@@ -22,15 +10,10 @@ import { connect } from 'react-redux';
 import * as poolsAction from '../redux/actions/pools/pools.actions';
 import * as walletActions from '../redux/actions/wallet/wallet.action';
 import * as userActions from '../redux/actions/user/user.action';
-import { throttle } from 'lodash/function';
 import PoolModals from '../Components/PoolPage/PoolModals';
 import { POOLS_CARDS_TYPE_LIST } from "../constants/poolsPage";
 
 const Pools = (props) => {
-  // ! TEMP
-  // useEffect(() => {
-  //   renderPools();
-  // },[])
 
 
 
