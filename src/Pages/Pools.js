@@ -31,7 +31,7 @@ const Pools = (props) => {
       fetchData()
     }, 30 * 1000);
 
-    return clearInterval(backgroundRefresh);
+    return () => clearInterval(backgroundRefresh);
   }, [props.isActiveOpen, props.userAddress]);
 
   const renderPools = () => {
