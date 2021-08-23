@@ -249,12 +249,23 @@ const Swap = (props) => {
     setShowTransactionSubmitModal(true);
   };
 
+  const [activeTab, setActiveTab] = useState(localStorage.getItem('activeTab'));
+
+  const storeActiveTab = (elem) => {
+    setActiveTab(elem);
+    localStorage.setItem('activeTab', elem);
+  };
+
   return (
     <Container fluid>
       <Row>
         <Col sm={8} md={6} className="swap-content-section">
           <div className={`bg-themed swap-content-container ${hideContent}`}>
-            <Tabs defaultActiveKey="swap" className="swap-container-tab">
+            <Tabs
+              defaultActiveKey={activeTab}
+              className="swap-container-tab"
+              onSelect={(e) => storeActiveTab(e)}
+            >
               <Tab eventKey="swap" title="Swap">
                 <SwapTab
                   walletAddress={props.walletAddress}
