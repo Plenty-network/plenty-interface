@@ -23,7 +23,7 @@ const Stats = props => {
 					<hr />
 					<Label
 						text={props?.valueLocked === null ? null : `$${props?.valueLocked?.toLocaleString(undefined, {
-							maximumFractionDigits: 3,
+							maximumFractionDigits: 0,
 						})} `}
 						subText={"Total value locked"}
 						icon={dollar}
