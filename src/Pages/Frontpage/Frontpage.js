@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useMemo } from "react"
 import styles from "./frontpage.module.scss"
 import Button from "../../Components/Ui/Buttons/Button"
 import Label from "../../Components/Ui/Label/Label"
@@ -25,6 +25,7 @@ import LinkTile from "../../Components/LinkTile/LinkTile"
 import Accordion from "../../Components/Ui/Accordion/Accordion"
 import Stats from "../../Components/Stats/Stats"
 import Header from "../../Components/Header/Header"
+import Loader from "../../Components/loader"
 import { connect } from "react-redux"
 import {
 	getTVL,
@@ -33,9 +34,12 @@ import {
 	getPlentyBalanceOfUser,
 	harvestAll,
 	getTVLOfUser,
+	onModalOpenClose,
 } from "../../redux/actions/home/home.actions"
 import { FrontPageBottomGradientDiv, FrontPageGradientDiv } from "../../themes"
 import Footer from "../../Components/Footer/Footer"
+import InfoModal from '../../Components/Ui/Modals/InfoModal'
+import { HOME_PAGE_MODAL } from '../../constants/homePage'
 
 const Frontpage = ({
 	toggleTheme,
@@ -54,16 +58,19 @@ const Frontpage = ({
 	getPlentyBalanceOfUser,
 	getTVLOfUser,
 	userTVL,
-	harvestAll
+	harvestAll,
+	openCloseModal,
+	modalData,
+	harvestAllOperations,
 }) => {
 	useEffect(() => {
 		const getAllData = () => {
 			getHomeStats()
 			getTVL()
 			if (!!wallet) {
-					// getPlentyToHarvest(wallet)
-					// getPlentyBalanceOfUser(wallet)
-					// getTVLOfUser(wallet)
+					getPlentyToHarvest(wallet)
+					getPlentyBalanceOfUser(wallet)
+					getTVLOfUser(wallet)
 			}
 		}
 		getAllData()
@@ -73,13 +80,26 @@ const Frontpage = ({
 
 	
 
-	const walletConnected = false
+	const walletConnected = !!wallet
 
 	const onHarvestAll = () => {
 		!!wallet && harvestAll(wallet);
 	}
 
+	const loaderMessage = useMemo(() => {
+    if (harvestAllOperations.completed || harvestAllOperations.failed) {
+      return {
+        message: harvestAllOperations.completed
+          ? 'Transaction confirmed'
+          : 'Transaction failed',
+        type: harvestAllOperations.completed ? 'success' : 'error'
+      }
+    }
+    return {}
+  }, [harvestAllOperations])
+
 	return (
+		<>
 		<Container fluid>
 			<div className={`d-flex flex-column ${styles.fullScreen}`}>
 				<FrontPageGradientDiv className="row flex-grow-1">
@@ -152,12 +172,13 @@ const Frontpage = ({
 								className="col-lg-9 col-xl-7 m-auto py-lg-5 px-0 text-center
                                     align-items-center align-items-lg-start text-lg-left">
 								<Stats
-									wallet={wallet}
-									harvestAll={onHarvestAll}
-									valueLocked={userTVL}
-									plentyEarned={251_532}
-									plentyInWallet={plentyBalance}
-									plentyToHarvest={plentyToHarvest}
+										wallet={wallet}
+										harvestAll={onHarvestAll}
+										valueLocked={userTVL}
+										plentyEarned={251_532}
+										plentyInWallet={plentyBalance}
+										plentyToHarvest={plentyToHarvest}
+										harvestAllOperations={harvestAllOperations}
 								/>
 							</div>
 						</Col>
@@ -538,7 +559,27 @@ const Frontpage = ({
 					</Row>
 				</Col>
 			</FrontPageBottomGradientDiv>
-		</Container>
+			</Container>
+			<InfoModal
+        open={modalData.open === HOME_PAGE_MODAL.TRANSACTION_SUCCESS}
+				onClose={() => openCloseModal({ open: HOME_PAGE_MODAL.NULL, transactionId: ""})}
+        message={'Transaction submitted'}
+        buttonText={'View on Tezos'}
+        onBtnClick={
+          !modalData.transactionId
+            ? undefined
+            : () => window.open(`https://tzkt.io/${modalData.transactionId}`, '_blank')
+        }
+      />
+			{
+        modalData.snackbar && (
+          <Loader
+            loading={harvestAllOperations.processing}
+            loaderMessage={loaderMessage}
+          />
+        )
+      }
+		</>
 	)
 }
 
@@ -548,7 +589,9 @@ const mapStateToProps = state => ({
 	wallet: state.wallet.address,
 	plentyToHarvest: state.home.plentyToHarvest.data,
 	plentyBalance: state.home.plentyBalance.data,
-	userTVL : state.home.userTVL.data,
+	userTVL: state.home.userTVL.data,
+	modalData : state.home.modals,
+	harvestAllOperations: state.home.harvestAllOperation,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -557,7 +600,8 @@ const mapDispatchToProps = dispatch => ({
 	getPlentyToHarvest: wallet => dispatch(getPlentyToHarvest(wallet)),
 	getPlentyBalanceOfUser: wallet => dispatch(getPlentyBalanceOfUser(wallet)),
 	getTVLOfUser: wallet => dispatch(getTVLOfUser(wallet)),
-	harvestAll : wallet => dispatch(harvestAll(wallet)),
+	harvestAll: wallet => dispatch(harvestAll(wallet)),
+	openCloseModal: (payload) => dispatch(onModalOpenClose(payload))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Frontpage)

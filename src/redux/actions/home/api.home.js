@@ -750,33 +750,6 @@ export const getStorageForPonds = async isActive => {
 	}
 }
 
-export const harvestAll = async () => {
-	const allActiveContracts = getAllActiveContractAddresses()
-	try {
-		const network = {
-			type: CONFIG.WALLET_NETWORK,
-		}
-		const options = {
-			name: CONFIG.NAME,
-		}
-		const wallet = new BeaconWallet(options)
-		const connectedNetwork = CONFIG.NETWORK
-		const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type)
-		if (WALLET_RESP.success) {
-			const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork])
-			Tezos.setRpcProvider(CONFIG.RPC_NODES[connectedNetwork])
-			Tezos.setWalletProvider(wallet)
-			let promises = []
-			allActiveContracts.forEach(async contractAddress =>
-				promises.push(await Tezos.wallet.at(contractAddress))
-			)
-			const response = await Promise.all(promises)
-
-		}
-	} catch (error) {
-	}
-}
-
 const getStakedAmount = async (
   mapId,
   packedKey,
