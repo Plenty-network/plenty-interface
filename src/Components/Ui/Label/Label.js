@@ -18,7 +18,7 @@ const Label = props => {
             }
             <div className="text-left">
                 <p className={clsx("font-weight-bold", "m-0",
-                )}>{props.text}</p>
+                )}>{props.text === null ? <span className="shimmer">50000</span> : props.text}</p>
                 {props.subText &&
                 <p className={styles.subText}>
                     {props.subText}

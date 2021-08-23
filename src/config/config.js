@@ -158,6 +158,17 @@ module.exports = {
             },
           ],
         },
+        'KALAM - XTZ': {
+          active: [],
+          inactive: [
+            {
+              address: 'KT1DjDZio7k2GJwCJCXwK82ing3n51AE55DW',
+              mapId: 4488,
+              decimal: 18,
+              tokenDecimal: 10,
+            },
+          ],
+        },
         'PLENTY - wBUSD': {
           active: [
             {

@@ -143,20 +143,23 @@ export const harvestAll = userAddress => {
 					}
 					let batch = await Tezos.wallet.batch(harvestBatch)
 					let batchOperation = await batch.send()
+					dispatch({type: actions.HARVEST_ALL_PROCESSING, payload: batchOperation })
 					// dispatch("transaction is submitted") processing: true
 					// snackbar loading
 					const batchConfirm = await batchOperation.confirmation()
 					dispatch({ type: actions.HARVEST_ALL_SUCCESS, payload: batchConfirm }) // snack transaction success 
+					dispatch(getPlentyToHarvest(userAddress))
+					dispatch(getPlentyBalanceOfUser(userAddress))
 				} else {
-					console.log("Nothing to harvest")
+					// console.log("Nothing to harvest")
 				}
 			}
 		} catch (error) {
-			console.log(error)
+			// console.log(error)
 			dispatch({ type: actions.HARVEST_ALL_FAILED, payload:error })
 		} finally {
 			setTimeout(() => {
-				// dismiss snackbar
+				dispatch({ type: actions.OPEN_CLOSE_HOME_MODAL, payload: {snackbar: false}})
 			}, 5000)
 		}
 	}
@@ -245,9 +248,9 @@ export const getTVLOfUser = userAddress => {
 			const farmTokenDataActive = responseTokenData[4].priceOfLPToken
 			const farmTokenDataInactive = responseTokenData[5].priceOfLPToken
 
-			console.log(poolTokenDataActive, poolTokenDataInactive, "POOL TOKEN DATA")
-			console.log(pondTokenDataActive, pondTokenDataInactive, "POND TOKEN DATA")
-			console.log(farmTokenDataActive, farmTokenDataInactive, "FARM TOKEN DATA")
+			// console.log(poolTokenDataActive, poolTokenDataInactive, "POOL TOKEN DATA")
+			// console.log(pondTokenDataActive, pondTokenDataInactive, "POND TOKEN DATA")
+			// console.log(farmTokenDataActive, farmTokenDataInactive, "FARM TOKEN DATA")
 
 			const packedKey = homeApis.getPackedKey(0, userAddress, "FA1.2")
 
@@ -270,15 +273,15 @@ export const getTVLOfUser = userAddress => {
 			const farmResponsesActive = await Promise.all(
 				stakedAmountsFromActiveFarmsPromises
 			)
-			console.log(farmResponsesActive)
+			// console.log(farmResponsesActive)
 			for (let key in farmResponsesActive) {
-				console.log(
-					farmResponsesActive[key].balance,
-					typeof farmTokenDataActive["PLENTY - XTZ"],
-					isNaN(farmTokenDataActive["PLENTY - XTZ"]),
-					farmTokenDataActive[farmResponsesActive[key].identifier],
-					farmResponsesActive[key].identifier
-				)
+				// console.log(
+				// 	farmResponsesActive[key].balance,
+				// 	typeof farmTokenDataActive["PLENTY - XTZ"],
+				// 	isNaN(farmTokenDataActive["PLENTY - XTZ"]),
+				// 	farmTokenDataActive[farmResponsesActive[key].identifier],
+				// 	farmResponsesActive[key].identifier
+				// )
 				if (farmResponsesActive[key].success) {
 					tvlOfUser +=
 						farmResponsesActive[key].balance *
@@ -288,7 +291,7 @@ export const getTVLOfUser = userAddress => {
 
 			//FARM INACTIVE
 			let stakedAmountsFromInactiveFarmsPromises = []
-			console.log(farmInactiveContracts, "farmInactiveContracts")
+			// console.log(farmInactiveContracts, "farmInactiveContracts")
 			for (let key in farmInactiveContracts) {
 				const { mapId, identifier, decimal, contract, tokenDecimal } =
 					farmInactiveContracts[key]
@@ -306,14 +309,14 @@ export const getTVLOfUser = userAddress => {
 			const farmResponsesInactive = await Promise.all(
 				stakedAmountsFromInactiveFarmsPromises
 			)
-			console.log(farmResponsesInactive)
+			// console.log(farmResponsesInactive)
 			for (let key in farmResponsesInactive) {
-				console.log(
-					farmResponsesInactive[key].balance,
-					farmTokenDataInactive[farmResponsesInactive[key].identifier],
-					"INACTIVE FARMS",
-					farmTokenDataInactive, "<-----Inactive Farm Tokens----->"
-				)
+				// console.log(
+				// 	farmResponsesInactive[key].balance,
+				// 	farmTokenDataInactive[farmResponsesInactive[key].identifier],
+				// 	"INACTIVE FARMS",
+				// 	farmTokenDataInactive, "<-----Inactive Farm Tokens----->"
+				// )
 				if (farmResponsesInactive[key].success) {
 					tvlOfUser +=
 						farmResponsesInactive[key].balance *
@@ -448,3 +451,8 @@ export const getTVLOfUser = userAddress => {
 		}
 	}
 }
+
+export const onModalOpenClose = (payload) => ({
+	type: actions.OPEN_CLOSE_HOME_MODAL,
+	payload : payload
+ })
