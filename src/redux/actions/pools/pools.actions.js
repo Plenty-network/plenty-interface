@@ -198,9 +198,10 @@ export const clearUntakePoolResponse = () => {
 
 // harvest
 
-const initiateHarvestingOperationOnPool = () => {
+const initiateHarvestingOperationOnPool = (tokenPair) => {
   return {
     type: actions.INITIATE_HARVESTING_ON_POOL,
+    payload: { tokenPair }
   };
 };
 
@@ -219,7 +220,7 @@ const harvestingOnPoolFailed = () => {
 
 export const harvestOnPool = (poolIdentifier, isActive, position) => {
   return (dispatch) => {
-    dispatch(initiateHarvestingOperationOnPool());
+    dispatch(initiateHarvestingOperationOnPool(poolIdentifier));
     poolsApis
       .harvest(poolIdentifier, isActive, position)
       .then((response) => {

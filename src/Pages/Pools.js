@@ -168,6 +168,7 @@ const mapStateToProps = (state) => {
     unstakeModalTitle: state.pools.unstakeModalTitle,
     unstakeModalwithdrawalFeeStructure:
       state.pools.unstakeModalwithdrawalFeeStructure,
+    harvestOperation: state.pools.harvestOperation,
     currentBlock: state.user.currentBlock,
   };
 };

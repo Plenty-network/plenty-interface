@@ -40,6 +40,7 @@ import { FrontPageBottomGradientDiv, FrontPageGradientDiv } from "../../themes"
 import Footer from "../../Components/Footer/Footer"
 import InfoModal from '../../Components/Ui/Modals/InfoModal'
 import { HOME_PAGE_MODAL } from '../../constants/homePage'
+import { numberWithCommas } from "../../utils/formatNumbers";
 
 const Frontpage = ({
 	toggleTheme,
@@ -149,7 +150,7 @@ const Frontpage = ({
 								Total Value Locked
 							</h5>
 							<h1 className="mb-3 text-white font-weight-bold">
-								$ {tvl.toLocaleString()}
+								$ {numberWithCommas(tvl, { plain: true })}
 							</h1>
 							<h5
 								className={`mb-4 text-white text-mulish font-weight-light ${styles.textMulish}`}>

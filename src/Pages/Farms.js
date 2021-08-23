@@ -194,6 +194,7 @@ const mapStateToProps = (state) => {
     unstakeModalTitle: state.farms.unstakeModalTitle,
     unstakeModalwithdrawalFeeStructure:
       state.farms.unstakeModalwithdrawalFeeStructure,
+    harvestOperation: state.farms.harvestOperation,
     currentBlock: state.user.currentBlock,
     walletBalances: state.user.balances,
   };
