@@ -810,3 +810,52 @@ export const lpTokenOutput = (
     };
   }
 };
+
+export const computeOutputBasedOnTokenOutAmount = (
+  tokenOut_amount,
+  tokenIn_supply,
+  tokenOut_supply,
+  exchangeFee,
+  slippage
+) => {
+  try {
+    let Invariant = 0;
+    let tokenIn_amount = 0;
+    Invariant = tokenIn_supply * tokenOut_supply;
+    Invariant /= tokenOut_supply - tokenOut_amount;
+    tokenIn_amount = Invariant - tokenIn_supply;
+    tokenIn_amount = tokenIn_amount / (1 - exchangeFee);
+
+    let fees = tokenIn_amount * exchangeFee;
+    let minimum_Out = tokenOut_amount - (slippage * tokenOut_amount) / 100;
+    let updated_TokenIn_Supply = tokenIn_supply - tokenIn_amount;
+    let updated_TokenOut_Supply = tokenOut_supply - tokenOut_amount;
+    let next_tokenOut_Amount =
+      (1 - exchangeFee) * updated_TokenOut_Supply * tokenIn_amount;
+    next_tokenOut_Amount /=
+      updated_TokenIn_Supply + (1 - exchangeFee) * tokenIn_amount;
+
+    let priceImpact =
+      (tokenOut_amount - next_tokenOut_Amount) / tokenOut_amount;
+    priceImpact = priceImpact * 100;
+    priceImpact = priceImpact.toFixed(5);
+    priceImpact = Math.abs(priceImpact);
+    return {
+      tokenIn_amount,
+      tokenOut_amount,
+      fees,
+      minimum_Out,
+      priceImpact,
+    };
+    // return tokenInAmount;
+  } catch (error) {
+    console.log(error);
+    return {
+      tokenIn_amount: 0,
+      tokenOut_amount: 0,
+      fees: 0,
+      minimum_Out: 0,
+      priceImpact: 0,
+    };
+  }
+};

@@ -527,19 +527,18 @@ const Frontpage = ({
 								<Accordion text={"Are there risks?"} className={styles.divider}>
 									<div>
 										<p className="text-white">
-											Using smart contracts always brings risk. To reduce this
-											risk, external audits are underway. The first audit of the
-											AMM smart contracts is due next week. The staking smart
-											contracts&nbsp;
+											Using smart contracts always brings risk. To reduce this risk, 
+											the Plenty smart contracts are audited. Both the AMM and 
+											staking smart contracts&nbsp;
 											<a
 												href={
-													"https://github.com/Plenty-DeFi/security-audit/blob/main/PLENTYDEFI_SECURITY_AUDIT_APRIORIT.pdf"
+													"https://plenty-defi.notion.site/Audits-70fdccf107ec42feb0bcf720cb6c5ba5"
 												}
 												target="_blank"
 												rel="noreferrer">
 												were audited
 											</a>
-											&nbsp;successfully before.
+											&nbsp;successfully.
 										</p>
 										<p className="text-white">
 											For liquidity providers there is the risk of Impermanent

@@ -65,7 +65,7 @@ const AddLiquidity = (props) => {
       props.tokenIn.name,
       props.tokenOut.name,
       props.firstTokenAmount,
-      estimatedTokenAmout.otherTokenAmount,
+      props.computedOutDetails.tokenOut_amount,
       props.tokenContractInstances[props.tokenIn.name],
       props.tokenContractInstances[props.tokenOut.name],
       props.walletAddress,
@@ -78,6 +78,7 @@ const AddLiquidity = (props) => {
         props.setShowConfirmAddSupply(false);
         props.setHideContent('');
         props.resetAllValues();
+        props.fetchUserWalletBalance();
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
@@ -87,6 +88,7 @@ const AddLiquidity = (props) => {
         props.setShowConfirmAddSupply(false);
         props.setHideContent('');
         props.resetAllValues();
+        props.fetchUserWalletBalance();
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);

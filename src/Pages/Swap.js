@@ -4,6 +4,7 @@ import {
   computeTokenOutput,
   fetchAllWalletBalance,
   getTokenPrices,
+  computeOutputBasedOnTokenOutAmount,
 } from '../apis/swap/swap';
 
 import TransactionSettings from '../Components/TransactionSettings/TransactionSettings';
@@ -141,7 +142,6 @@ const Swap = (props) => {
     setHideContent('content-hide');
     setShow(true);
     setTokenType(type);
-
     setLoading(false);
   };
 
@@ -177,16 +177,24 @@ const Swap = (props) => {
       setComputedOutDetails({});
       return;
     } else {
-      const computedData = computeTokenOutput(
+      const computedData = computeOutputBasedOnTokenOutAmount(
         parseFloat(input),
-        swapData.tokenOut_supply,
         swapData.tokenIn_supply,
+        swapData.tokenOut_supply,
         swapData.exchangeFee,
         slippage
       );
-      setFirstTokenAmount(computedData.tokenOut_amount);
+      setFirstTokenAmount(computedData.tokenIn_amount);
       setComputedOutDetails(computedData);
     }
+  };
+
+  const fetchUserWalletBalance = () => {
+    fetchAllWalletBalance(props.walletAddress).then((resp) => {
+      setUserBalances(resp.userBalances);
+      setTokenContractInstances(resp.contractInstances);
+      setLoading(false);
+    });
   };
 
   useEffect(() => {
@@ -194,11 +202,7 @@ const Swap = (props) => {
     if (!props.walletAddress) {
       return;
     }
-    fetchAllWalletBalance(props.walletAddress).then((resp) => {
-      setUserBalances(resp.userBalances);
-      setTokenContractInstances(resp.contractInstances);
-      setLoading(false);
-    });
+    fetchUserWalletBalance();
   }, [props.walletAddress]);
 
   useEffect(() => {
@@ -254,7 +258,17 @@ const Swap = (props) => {
   const storeActiveTab = (elem) => {
     setActiveTab(elem);
     localStorage.setItem('activeTab', elem);
+    window.history.pushState({ path: elem }, '', elem);
   };
+
+  let showActiveTab = localStorage.getItem('activeTab');
+
+  if (
+    window.location.pathname.replace('/', '') == 'liquidity' ||
+    activeTab == 'liquidity'
+  ) {
+    showActiveTab = 'liquidity';
+  }
 
   return (
     <Container fluid>
@@ -262,7 +276,7 @@ const Swap = (props) => {
         <Col sm={8} md={6} className="swap-content-section">
           <div className={`bg-themed swap-content-container ${hideContent}`}>
             <Tabs
-              defaultActiveKey={activeTab}
+              defaultActiveKey={showActiveTab}
               className="swap-container-tab"
               onSelect={(e) => storeActiveTab(e)}
             >
@@ -300,6 +314,7 @@ const Swap = (props) => {
                   showRecepient={showRecepient}
                   transactionSubmitModal={transactionSubmitModal}
                   setSecondTokenAmount={setSecondTokenAmount}
+                  fetchUserWalletBalance={fetchUserWalletBalance}
                 />
               </Tab>
               <Tab eventKey="liquidity" title="Liquidity">
@@ -332,6 +347,7 @@ const Swap = (props) => {
                   setHideContent={setHideContent}
                   setLoaderMessage={setLoaderMessage}
                   resetAllValues={resetAllValues}
+                  fetchUserWalletBalance={fetchUserWalletBalance}
                 />
               </Tab>
             </Tabs>
