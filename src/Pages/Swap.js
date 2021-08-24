@@ -258,7 +258,17 @@ const Swap = (props) => {
   const storeActiveTab = (elem) => {
     setActiveTab(elem);
     localStorage.setItem('activeTab', elem);
+    window.history.pushState({ path: elem }, '', elem);
   };
+
+  let showActiveTab = localStorage.getItem('activeTab');
+
+  if (
+    window.location.pathname.replace('/', '') == 'liquidity' ||
+    activeTab == 'liquidity'
+  ) {
+    showActiveTab = 'liquidity';
+  }
 
   return (
     <Container fluid>
@@ -266,7 +276,7 @@ const Swap = (props) => {
         <Col sm={8} md={6} className="swap-content-section">
           <div className={`bg-themed swap-content-container ${hideContent}`}>
             <Tabs
-              defaultActiveKey={activeTab}
+              defaultActiveKey={showActiveTab}
               className="swap-container-tab"
               onSelect={(e) => storeActiveTab(e)}
             >

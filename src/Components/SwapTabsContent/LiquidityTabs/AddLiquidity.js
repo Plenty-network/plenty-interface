@@ -65,7 +65,7 @@ const AddLiquidity = (props) => {
       props.tokenIn.name,
       props.tokenOut.name,
       props.firstTokenAmount,
-      estimatedTokenAmout.otherTokenAmount,
+      props.computedOutDetails.tokenOut_amount,
       props.tokenContractInstances[props.tokenIn.name],
       props.tokenContractInstances[props.tokenOut.name],
       props.walletAddress,
