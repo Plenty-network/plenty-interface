@@ -1,9 +1,9 @@
 import { BeaconWallet } from '@taquito/beacon-wallet';
 import { TezosToolkit, OpKind } from '@taquito/taquito';
-import { stakingOnFarmProcessing, unstakingOnFarmProcessing } from "../../slices/farms/farms.slice";
+import { stakingOnFarmProcessing, unstakingOnFarmProcessing } from "./farms.slice";
 import store from "../../store/store";
-const axios = require('axios');
-const CONFIG = require('../../../config/config');
+import axios from 'axios';
+import CONFIG from '../../../config/config';
 
 const fetchStorageOfStakingContract = async (
   identifier,

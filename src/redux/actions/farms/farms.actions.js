@@ -1,5 +1,5 @@
-import * as actions from '../index.action';
-import * as farmApis from './api.farms';
+// import * as actions from '../index.action';
+// import * as farmApis from './api.farms';
 
 // const startActiveFarmDataFetching = () => {
 //   return {
@@ -39,29 +39,29 @@ import * as farmApis from './api.farms';
 //   };
 // };
 
-export const getFarmsData = (isActive) => (dispatch) => {
-    if (isActive) {
-      dispatch(startActiveFarmDataFetching());
-      farmApis
-        .getFarmsData(isActive)
-        .then((response) => {
-          dispatch(activeFarmDataFetchingSuccesfull(response));
-        })
-        .catch((error) => {
-          dispatch(activeFarmDataFetchingFailed());
-        });
-    } else {
-      dispatch(startInactiveFarmDataFetching());
-      farmApis
-        .getFarmsData(isActive)
-        .then((response) => {
-          dispatch(inactiveFarmDataFetchingSuccesfull(response));
-        })
-        .catch((error) => {
-          dispatch(inactiveFarmDataFetchingFailed());
-        });
-    }
-};
+// export const getFarmsData = (isActive) => (dispatch) => {
+//     if (isActive) {
+//       dispatch(startActiveFarmDataFetching());
+//       farmApis
+//         .getFarmsData(isActive)
+//         .then((response) => {
+//           dispatch(activeFarmDataFetchingSuccesfull(response));
+//         })
+//         .catch((error) => {
+//           dispatch(activeFarmDataFetchingFailed());
+//         });
+//     } else {
+//       dispatch(startInactiveFarmDataFetching());
+//       farmApis
+//         .getFarmsData(isActive)
+//         .then((response) => {
+//           dispatch(inactiveFarmDataFetchingSuccesfull(response));
+//         })
+//         .catch((error) => {
+//           dispatch(inactiveFarmDataFetchingFailed());
+//         });
+//     }
+// };
 
 
 // export const clearActiveFarmsData = () => {
@@ -106,25 +106,25 @@ export const getFarmsData = (isActive) => (dispatch) => {
 //   };
 // };
 
-export const stakeOnFarm = (amount, farmIdentifier, isActive, position) => {
-  return (dispatch) => {
-    dispatch(initiateStakingOperationOnFarm());
-    farmApis
-      .stakeFarm(amount, farmIdentifier, isActive, position)
-      .then((response) => {
-        dispatch(stakingOnFarmSuccessFull(response));
-      })
-      .catch((error) => {
-        dispatch(stakingOnFarmFailed());
-      })
-      .finally(() => {
-        setTimeout(
-          () => dispatch(dismissSnackbar()),
-          5000
-        );
-      });
-  };
-};
+// export const stakeOnFarm = (amount, farmIdentifier, isActive, position) => {
+//   return (dispatch) => {
+//     dispatch(initiateStakingOperationOnFarm());
+//     farmApis
+//       .stakeFarm(amount, farmIdentifier, isActive, position)
+//       .then((response) => {
+//         dispatch(stakingOnFarmSuccessFull(response));
+//       })
+//       .catch((error) => {
+//         dispatch(stakingOnFarmFailed());
+//       })
+//       .finally(() => {
+//         setTimeout(
+//           () => dispatch(dismissSnackbar()),
+//           5000
+//         );
+//       });
+//   };
+// };
 
 // export const clearStakeFarmResponse = () => {
 //   return (dispatch) => {
@@ -162,30 +162,30 @@ export const stakeOnFarm = (amount, farmIdentifier, isActive, position) => {
 //   };
 // };
 
-export const unstakeOnFarm = (
-  stakesToUnstake,
-  farmIdentifier,
-  isActive,
-  position
-) => {
-  return (dispatch) => {
-    dispatch(initiateUnstakingOperationOnFarm());
-    farmApis
-      .unstake(stakesToUnstake, farmIdentifier, isActive, position)
-      .then((response) => {
-        dispatch(unstakingOnFarmSuccessFull(response));
-      })
-      .catch((error) => {
-        dispatch(unstakingOnFarmFailed());
-      })
-      .finally(() => {
-        setTimeout(
-          () => dispatch(dismissSnackbar()),
-          5000
-        )
-      });
-  };
-};
+// export const unstakeOnFarm = (
+//   stakesToUnstake,
+//   farmIdentifier,
+//   isActive,
+//   position
+// ) => {
+//   return (dispatch) => {
+//     dispatch(initiateUnstakingOperationOnFarm());
+//     farmApis
+//       .unstake(stakesToUnstake, farmIdentifier, isActive, position)
+//       .then((response) => {
+//         dispatch(unstakingOnFarmSuccessFull(response));
+//       })
+//       .catch((error) => {
+//         dispatch(unstakingOnFarmFailed());
+//       })
+//       .finally(() => {
+//         setTimeout(
+//           () => dispatch(dismissSnackbar()),
+//           5000
+//         )
+//       });
+//   };
+// };
 
 // export const clearUntakeFarmResponse = () => {
 //   return (dispatch) => {
@@ -217,19 +217,19 @@ export const unstakeOnFarm = (
 //   };
 // };
 
-export const harvestOnFarm = (farmIdentifier, isActive, position) => {
-  return (dispatch) => {
-    dispatch(initiateHarvestingOperationOnFarm(farmIdentifier));
-    farmApis
-      .harvest(farmIdentifier, isActive, position)
-      .then((response) => {
-        dispatch(harvestingOnFarmSuccessFull(response));
-      })
-      .catch((error) => {
-        dispatch(harvestingOnFarmFailed());
-      });
-  };
-};
+// export const harvestOnFarm = (farmIdentifier, isActive, position) => {
+//   return (dispatch) => {
+//     dispatch(initiateHarvestingOperationOnFarm(farmIdentifier));
+//     farmApis
+//       .harvest(farmIdentifier, isActive, position)
+//       .then((response) => {
+//         dispatch(harvestingOnFarmSuccessFull(response));
+//       })
+//       .catch((error) => {
+//         dispatch(harvestingOnFarmFailed());
+//       });
+//   };
+// };
 
 // export const clearHarvestFarmResponse = () => {
 //   return (dispatch) => {
@@ -239,109 +239,109 @@ export const harvestOnFarm = (farmIdentifier, isActive, position) => {
 //   };
 // };
 
-export const toggleFarmsType = (isActive) => {
-  return (dispatch) => {
-    if (isActive) {
-      dispatch({
-        type: actions.OPEN_ACTIVE_FARMS,
-      });
-    } else {
-      dispatch({
-        type: actions.OPEN_INACTIVE_FARMS,
-      });
-    }
-  };
-};
-
-export const handleStakeOfFarmInputValue = (value) => {
-  return (dispatch) => {
-    dispatch({
-      type: actions.HANDLE_STAKE_ON_FARMS_INPUT_VALUE,
-      data: {
-        value,
-      },
-    });
-  };
-};
-
-export const setFarmsToRender = (farmsToRender) => {
-  return (dispatch) => {
-    dispatch({
-      type: actions.SET_FARMS_TO_RENDER,
-      data: farmsToRender,
-    });
-  };
-};
-
-export const clearRenderedFarms = () => {
-  return (dispatch) => {
-    dispatch({
-      type: actions.CLEAR_RENDERED_FARMS,
-    });
-  };
-};
-
-export const openFarmsStakeModal = (
-  identifier,
-  title,
-  position,
-  contractAddress
-) => {
-  return (dispatch) => {
-    dispatch({
-      type: actions.OPEN_FARMS_STAKE_MODAL,
-      data: {
-        identifier,
-        title,
-        position,
-        contractAddress,
-      },
-    });
-  };
-};
-
-export const closeFarmsStakeModal = () => {
-  return (dispatch) => {
-    dispatch({
-      type: actions.CLOSE_FARMS_STAKE_MODAL,
-    });
-  };
-};
-
-export const openFarmsUnstakeModal = (
-  identifier,
-  contractAddress,
-  title,
-  withdrawalFeeStructure,
-  position
-) => {
-  return (dispatch) => {
-    dispatch({
-      type: actions.OPEN_FARMS_UNSTAKE_MODAL,
-      data: {
-        identifier,
-        contractAddress,
-        title,
-        withdrawalFeeStructure,
-        position,
-      },
-    });
-  };
-};
-
-export const closeFarmsUnstakeModal = () => {
-  return (dispatch) => {
-    dispatch({
-      type: actions.CLOSE_FARMS_UNSTAKE_MODAL,
-    });
-  };
-};
-
-export const openCloseFarmsModal = (payload) => ({
-  type: actions.OPEN_CLOSE_FARMS_MODAL,
-  payload,
-});
-
-const dismissSnackbar = () => ({
-  type: actions.DISMISS_FARMS_SNACKBAR,
-})
+// export const toggleFarmsType = (isActive) => {
+//   return (dispatch) => {
+//     if (isActive) {
+//       dispatch({
+//         type: actions.OPEN_ACTIVE_FARMS,
+//       });
+//     } else {
+//       dispatch({
+//         type: actions.OPEN_INACTIVE_FARMS,
+//       });
+//     }
+//   };
+// };
+//
+// export const handleStakeOfFarmInputValue = (value) => {
+//   return (dispatch) => {
+//     dispatch({
+//       type: actions.HANDLE_STAKE_ON_FARMS_INPUT_VALUE,
+//       data: {
+//         value,
+//       },
+//     });
+//   };
+// };
+//
+// export const setFarmsToRender = (farmsToRender) => {
+//   return (dispatch) => {
+//     dispatch({
+//       type: actions.SET_FARMS_TO_RENDER,
+//       data: farmsToRender,
+//     });
+//   };
+// };
+//
+// export const clearRenderedFarms = () => {
+//   return (dispatch) => {
+//     dispatch({
+//       type: actions.CLEAR_RENDERED_FARMS,
+//     });
+//   };
+// };
+//
+// export const openFarmsStakeModal = (
+//   identifier,
+//   title,
+//   position,
+//   contractAddress
+// ) => {
+//   return (dispatch) => {
+//     dispatch({
+//       type: actions.OPEN_FARMS_STAKE_MODAL,
+//       data: {
+//         identifier,
+//         title,
+//         position,
+//         contractAddress,
+//       },
+//     });
+//   };
+// };
+//
+// export const closeFarmsStakeModal = () => {
+//   return (dispatch) => {
+//     dispatch({
+//       type: actions.CLOSE_FARMS_STAKE_MODAL,
+//     });
+//   };
+// };
+//
+// export const openFarmsUnstakeModal = (
+//   identifier,
+//   contractAddress,
+//   title,
+//   withdrawalFeeStructure,
+//   position
+// ) => {
+//   return (dispatch) => {
+//     dispatch({
+//       type: actions.OPEN_FARMS_UNSTAKE_MODAL,
+//       data: {
+//         identifier,
+//         contractAddress,
+//         title,
+//         withdrawalFeeStructure,
+//         position,
+//       },
+//     });
+//   };
+// };
+//
+// export const closeFarmsUnstakeModal = () => {
+//   return (dispatch) => {
+//     dispatch({
+//       type: actions.CLOSE_FARMS_UNSTAKE_MODAL,
+//     });
+//   };
+// };
+//
+// export const openCloseFarmsModal = (payload) => ({
+//   type: actions.OPEN_CLOSE_FARMS_MODAL,
+//   payload,
+// });
+//
+// const dismissSnackbar = () => ({
+//   type: actions.DISMISS_FARMS_SNACKBAR,
+// })

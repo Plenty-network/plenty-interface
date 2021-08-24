@@ -7,7 +7,7 @@ import {
   otherFarmsActions,
   stakingFarmsActions,
   unstakingFarmsAction
-} from "./farms.reducer";
+} from "./farms.action";
 
 const initialState = {
   active : {
