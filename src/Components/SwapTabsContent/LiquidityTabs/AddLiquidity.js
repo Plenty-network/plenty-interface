@@ -78,6 +78,7 @@ const AddLiquidity = (props) => {
         props.setShowConfirmAddSupply(false);
         props.setHideContent('');
         props.resetAllValues();
+        props.fetchUserWalletBalance();
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
@@ -87,6 +88,7 @@ const AddLiquidity = (props) => {
         props.setShowConfirmAddSupply(false);
         props.setHideContent('');
         props.resetAllValues();
+        props.fetchUserWalletBalance();
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);

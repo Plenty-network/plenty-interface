@@ -4,6 +4,7 @@ import {
   computeTokenOutput,
   fetchAllWalletBalance,
   getTokenPrices,
+  computeOutputBasedOnTokenOutAmount,
 } from '../apis/swap/swap';
 
 import TransactionSettings from '../Components/TransactionSettings/TransactionSettings';
@@ -141,7 +142,6 @@ const Swap = (props) => {
     setHideContent('content-hide');
     setShow(true);
     setTokenType(type);
-
     setLoading(false);
   };
 
@@ -177,16 +177,24 @@ const Swap = (props) => {
       setComputedOutDetails({});
       return;
     } else {
-      const computedData = computeTokenOutput(
+      const computedData = computeOutputBasedOnTokenOutAmount(
         parseFloat(input),
-        swapData.tokenOut_supply,
         swapData.tokenIn_supply,
+        swapData.tokenOut_supply,
         swapData.exchangeFee,
         slippage
       );
-      setFirstTokenAmount(computedData.tokenOut_amount);
+      setFirstTokenAmount(computedData.tokenIn_amount);
       setComputedOutDetails(computedData);
     }
+  };
+
+  const fetchUserWalletBalance = () => {
+    fetchAllWalletBalance(props.walletAddress).then((resp) => {
+      setUserBalances(resp.userBalances);
+      setTokenContractInstances(resp.contractInstances);
+      setLoading(false);
+    });
   };
 
   useEffect(() => {
@@ -194,11 +202,7 @@ const Swap = (props) => {
     if (!props.walletAddress) {
       return;
     }
-    fetchAllWalletBalance(props.walletAddress).then((resp) => {
-      setUserBalances(resp.userBalances);
-      setTokenContractInstances(resp.contractInstances);
-      setLoading(false);
-    });
+    fetchUserWalletBalance();
   }, [props.walletAddress]);
 
   useEffect(() => {
@@ -300,6 +304,7 @@ const Swap = (props) => {
                   showRecepient={showRecepient}
                   transactionSubmitModal={transactionSubmitModal}
                   setSecondTokenAmount={setSecondTokenAmount}
+                  fetchUserWalletBalance={fetchUserWalletBalance}
                 />
               </Tab>
               <Tab eventKey="liquidity" title="Liquidity">
@@ -332,6 +337,7 @@ const Swap = (props) => {
                   setHideContent={setHideContent}
                   setLoaderMessage={setLoaderMessage}
                   resetAllValues={resetAllValues}
+                  fetchUserWalletBalance={fetchUserWalletBalance}
                 />
               </Tab>
             </Tabs>

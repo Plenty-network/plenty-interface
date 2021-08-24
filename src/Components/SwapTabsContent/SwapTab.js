@@ -33,6 +33,7 @@ const SwapTab = (props) => {
         props.setHideContent('');
         props.setSecondTokenAmount('');
         props.resetAllValues();
+        props.fetchUserWalletBalance();
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
@@ -43,7 +44,7 @@ const SwapTab = (props) => {
         props.setHideContent('');
         props.resetAllValues();
         props.setSecondTokenAmount('');
-
+        props.fetchUserWalletBalance();
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
