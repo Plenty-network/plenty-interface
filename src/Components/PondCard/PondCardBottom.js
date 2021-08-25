@@ -8,8 +8,6 @@ import clsx from "clsx";
 import QuantityButton from "../Ui/Buttons/QuantityButton";
 import { Image, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { openCloseFarmsModal } from "../../redux/actions/farms/farms.actions";
-import { FARM_PAGE_MODAL } from "../../constants/farmsPage";
 
 const FarmCardBottom = (props) => {
   const [ isExpanded, toggleExpand ] = useState(false);
@@ -22,7 +20,7 @@ const FarmCardBottom = (props) => {
   }
 
   const onWithdrawalFeeClick = () => {
-    dispatch(openCloseFarmsModal({ open: FARM_PAGE_MODAL.WITHDRAWAL, contractAddress: props.CONTRACT }))
+    // dispatch(openCloseFarmsModal({ open: FARM_PAGE_MODAL.WITHDRAWAL, contractAddress: props.CONTRACT }))
   }
 
   return (

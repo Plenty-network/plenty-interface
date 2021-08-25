@@ -8,7 +8,6 @@ import Button from '../Ui/Buttons/Button';
 import CalculatorSvg from '../../assets/images/icons/calculator.svg';
 import { numberWithCommas } from '../../utils/formatNumbers';
 import { useDispatch } from 'react-redux';
-import { openCloseFarmsModal } from '../../redux/actions/farms/farms.actions';
 import { FARM_PAGE_MODAL } from '../../constants/farmsPage';
 
 
@@ -61,12 +60,12 @@ const FarmCard = (props) => {
   };
 
   const onRoiClick = () => {
-    dispatch(
-      openCloseFarmsModal({
-        open: FARM_PAGE_MODAL.ROI,
-        contractAddress: props.CONTRACT,
-      })
-    );
+    // dispatch(
+    //   openCloseFarmsModal({
+    //     open: FARM_PAGE_MODAL.ROI,
+    //     contractAddress: props.CONTRACT,
+    //   })
+    // );
   };
 
   return (
