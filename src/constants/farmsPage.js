@@ -14,12 +14,12 @@ export const FARM_PAGE_MODAL = {
   TRANSACTION_SUCCESS: 'transaction-success',
 }
 
-export   const FARMS_CARD_TYPE_LIST = {
+export  const FARMS_CARD_TYPE_LIST = {
   'PLENTY / XTZ LP': {
-    image: plentyXtz,
-    harvestImg: plentyToken,
+    image: plentyXtz, // NEED
+    harvestImg: plentyToken, // NEED
     multi: '100',
-    title: 'PLENTY / XTZ LP',
+    title: 'PLENTY / XTZ LP', // NEED
     apr: 0,
     apy: '2621',
     earn: 'PLENTY',
@@ -32,7 +32,7 @@ export   const FARMS_CARD_TYPE_LIST = {
     userBalance: 0,
     URL: '',
     active: true,
-    source: 'Quipuswap LP',
+    source: 'Quipuswap LP', // NEED
     rewards: '1000 PLENTY / DAY',
   },
   'KALAM / XTZ LP': {

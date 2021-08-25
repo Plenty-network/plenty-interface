@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { FARM_PAGE_MODAL } from "../../../constants/farmsPage";
 import {
-  activeFarmsActions,
+  activeFarmsActions, commonFarmsAction,
   harvestFarmsAction,
   inactiveFarmsActions,
   otherFarmsActions,
@@ -69,6 +69,7 @@ export const farmsSlice = createSlice({
   name: 'farms',
   initialState,
   reducers: {
+    ...commonFarmsAction,
     ...activeFarmsActions,
     ...inactiveFarmsActions,
     ...stakingFarmsActions,
@@ -79,6 +80,9 @@ export const farmsSlice = createSlice({
 })
 
 export const {
+  // * Common Farms
+  populateEmptyFarmsData,
+
   // * Active Farms
   startActiveFarmDataFetching,
   activeFarmDataFetchingSuccesfull,

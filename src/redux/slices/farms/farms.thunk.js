@@ -36,6 +36,7 @@ export const getFarmsDataThunk = (isActive) => (dispatch) => {
   dispatch(startDataFetching());
   getFarmsDataAPI(isActive)
     .then((response) => {
+
       dispatch(dataFetchingSuccessful(response.response));
     })
     .catch((error) => {

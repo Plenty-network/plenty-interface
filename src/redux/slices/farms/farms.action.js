@@ -1,5 +1,11 @@
 import { FARM_PAGE_MODAL } from "../../../constants/farmsPage";
 
+export const commonFarmsAction = {
+  populateEmptyFarmsData: (state, action) => {
+    state.data = action.payload
+  }
+}
+
 export const activeFarmsActions = {
   startActiveFarmDataFetching: (state) => {
     state.active = {
@@ -8,7 +14,12 @@ export const activeFarmsActions = {
     }
   },
   activeFarmDataFetchingSuccesfull: (state, action) => {
-    state.data.active = Object.entries(action.payload).map(([ key, value ]) => ({id: key, ...value}))
+
+    state.data.active = state.data.active.map(x => ({
+      ...x,
+      values: action.payload[x.farmData.CONTRACT],
+    }))
+
     state.active = {
       isPresent: true,
       loading: false,
@@ -36,7 +47,10 @@ export const inactiveFarmsActions = {
     }
   },
   inactiveFarmDataFetchingSuccesfull: (state, action) => {
-    state.data.inactive = Object.entries(action.payload).map(([ key, value ]) => ({id: key, ...value}))
+    state.data.inactive = state.data.inactive.map(x => ({
+      ...x,
+      values: action.payload[x.farmData.CONTRACT],
+    }))
     state.inactive = {
       isPresent: true,
       loading: false,
