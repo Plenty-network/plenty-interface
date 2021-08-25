@@ -1,6 +1,5 @@
 import InfoTableModal from "../Modals/InfoTableModal";
 import { useDispatch, useSelector } from "react-redux";
-import { openCloseFarmsModal } from "../../redux/actions/farms/farms.actions";
 import { FARM_PAGE_MODAL } from "../../constants/farmsPage";
 import { useCallback, useMemo } from "react";
 import InfoModal from "../Ui/Modals/InfoModal";
@@ -76,7 +75,7 @@ const FarmModals = () => {
   }, [modalData.snackbar, stakeOperations.processing, unstakeOperations.processing])
 
   const onClose = () => {
-    dispatch(openCloseFarmsModal({ open: FARM_PAGE_MODAL.NULL, contractAddress: null }))
+    // dispatch(openCloseFarmsModal({ open: FARM_PAGE_MODAL.NULL, contractAddress: null }))
   }
 
   return (
