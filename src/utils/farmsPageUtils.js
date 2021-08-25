@@ -10,7 +10,9 @@ export const populateFarmsWithoutData = () => {
 
   return Object
     .entries(farmsFromConfig)
+    // ? Converting Object to Array with key set as `identifier`
     .map(([ key, value ]) => ({identifier: key, ...value}))
+    // ? Combining data from CONFIG and FARMS_CARD_TYPE_LIST
     .reduce((acc, cur) => {
       const formatEachFarm = (farmData) => {
         const properities = FARMS_CARD_TYPE_LIST[farmData.CARD_TYPE]

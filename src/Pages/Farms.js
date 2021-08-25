@@ -131,7 +131,6 @@ const Farms = (props) => {
                   userAddress={props.userAddress}
                   isUnstakeModalOpen={props.isUnstakeModalOpen}
                   currentBlock={props.currentBlock}
-
                   {...farm.properties}
                   {...farm.farmData}
                   identifier={farm.identifier}
