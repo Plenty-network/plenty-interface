@@ -1,64 +1,233 @@
-import Col from 'react-bootstrap/Col';
-import Card from 'react-bootstrap/Card';
+import styles from '../../assets/scss/partials/_farms.module.scss';
 import Image from 'react-bootstrap/Image';
+import clsx from 'clsx';
+import FarmCardBottom from './FarmCardBottom';
+import Button from '../Ui/Buttons/Button';
+
+import CalculatorSvg from '../../assets/images/icons/calculator.svg';
+import { numberWithCommas } from '../../utils/formatNumbers';
+import { useDispatch } from 'react-redux';
+import { openCloseFarmsModal } from '../../redux/actions/farms/farms.actions';
+import { FARM_PAGE_MODAL } from '../../constants/farmsPage';
 
 const FarmCard = (props) => {
-  console.log('props=', props);
-  let badgeClass = 'badge-plenty';
-  if (props.source != 'Plenty') {
-    badgeClass = 'badge-other';
-  }
+  const dispatch = useDispatch();
 
-  let swapContentButton = '';
+  const apyCalculate = (apr) =>
+    ((Math.pow(1 + apr / 100 / 365, 365) - 1) * 100).toFixed(0);
 
-  if (!props.walletAddress) {
-    swapContentButton = (
-      <div className="plenty-card-wallet-btn-wrapper">
-        <button className="swap-content-btn" onClick={props.connecthWallet}>
-          <span className="material-icons-round">add</span> Connect Wallet
-        </button>
-      </div>
+  const getAPR = (props) => {
+    try {
+      if (props.isActiveOpen === true) {
+        if (props.activeFarmData.isPresent === true) {
+          const apr =
+            props.activeFarmData.data.response[props.CONTRACT]?.APR ?? 0;
+          return numberWithCommas(Math.round(apr));
+        }
+      }
+
+      return 0;
+    } catch (e) {
+      return 0;
+    }
+  };
+
+  const getAPY = (props) => {
+    if (props.isActiveOpen === true) {
+      if (props.activeFarmData.isPresent === true) {
+        const apy = apyCalculate(
+          props.activeFarmData.data.response[props.CONTRACT]?.APR ?? 0
+        );
+
+        return numberWithCommas(Math.round(apy));
+      }
+
+      return 0;
+    }
+
+    return 0;
+  };
+
+  const getReward = () => {
+    if (props.isActiveOpen === true) {
+      if (props.activeFarmData.isPresent === true) {
+        return (
+          (props.activeFarmData.data.response[props.CONTRACT]?.rewardRate ??
+            0) * 2880
+        );
+      } else {
+        return 0;
+      }
+    } else {
+      return 0;
+    }
+  };
+
+  const getTotalLiquidity = () => {
+    if (props.isActiveOpen === true) {
+      if (props.activeFarmData.isPresent === true) {
+        return numberWithCommas(
+          props.activeFarmData.data.response[
+            props.CONTRACT
+          ]?.totalLiquidty?.toFixed(0) ?? 0,
+          { plain: true }
+        );
+      }
+
+      return 0;
+    }
+
+    if (props.inactiveFarmsData?.isPresent === true) {
+      return numberWithCommas(
+        props.inactiveFarmsData.data.response[
+          props.CONTRACT
+          ]?.totalLiquidty?.toFixed(0) ?? 0,
+        { plain: true }
+      );
+    }
+
+    return 0;
+
+  };
+
+  const hasStakedAmount = () => {
+    return (
+      props.userStakes.hasOwnProperty(props.CONTRACT) &&
+      props.userStakes[props.CONTRACT]?.stakedAmount > 0
     );
-  }
+  };
+
+  const onRoiClick = () => {
+    dispatch(
+      openCloseFarmsModal({
+        open: FARM_PAGE_MODAL.ROI,
+        contractAddress: props.CONTRACT,
+      })
+    );
+  };
+
   return (
-    <Col sm={12} md={4}>
-      <Card className="plenty-card">
-        <div className="plenty-card-header flex justify-between align-center p-26 pb-20">
-          <div className="plenty-card-header-img-wrapper farm">
-            <Image src={props.image} fluid />
+    <>
+      <div>
+        <div className={styles.plentyCard}>
+          {/* * Header */}
+          {props.message && (
+            <div className="pool-card-top-banner">
+              <p className="pool-card-top-banner-text">{props.message}</p>
+            </div>
+          )}
+          <div
+            className={clsx(
+              styles.plentyCardHeader,
+              'flex justify-between align-center p-26 pb-20'
+            )}
+          >
+            <div className={styles.imageWrapper}>
+              <Image src={props.image} fluid />
+            </div>
+            <div className="text-right">
+              <p className={styles.title}>{props.title}</p>
+              <p
+                className={clsx(
+                  styles.titleBadge,
+                  props.source === 'Plenty LP'
+                    ? styles.badgePlenty
+                    : styles.badgeOther
+                )}
+              >
+                {props.source}
+              </p>
+            </div>
           </div>
-          <div style={{ textAlign: 'right' }}>
-            <p className="plenty-card-header-title">{props.title}</p>
-            <p className={`plenty-card-header-title-badge ${badgeClass}`}>
-              {props.source}
-            </p>
-          </div>
-        </div>
+          {/* * Header */}
 
-        <div className="plenty-card-content">
-          <div className="plenty-card-content-info flex justify-between">
-            <p className="plenty-card-content-tag">APY:</p>
-            <p className="plenty-card-content-tag">{props.apy}%</p>
-          </div>
-          <div className="plenty-card-content-info flex justify-between">
-            <p className="plenty-card-content-tag">APR:</p>
-            <p className="plenty-card-content-tag">{props.apr}%</p>
-          </div>
-          <div className="plenty-card-content-info flex justify-between">
-            <p className="plenty-card-content-tag">Rewards:</p>
-            <p className="plenty-card-content-tag">{props.rewards}</p>
-          </div>
-        </div>
+          {/* * Content */}
+          <div className={clsx(styles.plentyCardContent, 'pb-0')}>
+            <div
+              className={clsx(
+                styles.plentyCardContentInfo,
+                'flex justify-between'
+              )}
+            >
+              <p className={styles.plentyCardContentTag}>APY:</p>
+              <p className={styles.plentyCardContentTag}>{getAPY(props)}%</p>
+            </div>
+            <div
+              className={clsx(
+                styles.plentyCardContentInfo,
+                'flex justify-between'
+              )}
+            >
+              <p className={styles.plentyCardContentTag}>APR:</p>
+              <p className={styles.plentyCardContentTag}>
+                <img
+                  src={CalculatorSvg}
+                  alt={'Check ROI'}
+                  className={styles.roiInfoImg}
+                  onClick={onRoiClick}
+                />
+                {getAPR(props)}%
+              </p>
+            </div>
+            <div
+              className={clsx(
+                styles.plentyCardContentInfo,
+                'flex justify-between'
+              )}
+            >
+              <p className={styles.plentyCardContentTag}>Rewards:</p>
+              <p className={styles.plentyCardContentTag}>
+                {getReward()} PLENTY / DAY
+              </p>
+            </div>
 
-        <div className="plenty-card-tvl-info-wrapper">
-          <div className="plenty-card-tvl-info flex justify-between align-center">
-            <p className="plenty-card-content-tag">TVL:</p>
-            <p className="plenty-card-content-tag">${props.liquidity}</p>
+            <div
+              className={clsx(
+                styles.plentyCardTvlInfo,
+                'flex justify-between align-center mb-4'
+              )}
+            >
+              <p className={styles.plentyCardContentTag}>TVL:</p>
+              <p className={styles.plentyCardContentTag}>
+                ${getTotalLiquidity()}
+              </p>
+            </div>
+
+            {props.userAddress ? (
+              !hasStakedAmount() ? (
+                <Button
+                  onClick={() =>
+                    props.openFarmsStakeModal(
+                      props.identifier,
+                      props.title,
+                      props.position,
+                      props.CONTRACT
+                    )
+                  }
+                  color={'primary'}
+                  className="w-100"
+                >
+                  Stake
+                </Button>
+              ) : null
+            ) : (
+              <Button
+                onClick={props.connectWallet}
+                color={'primary'}
+                className="w-100"
+                startIcon="add"
+              >
+                Connect Wallet
+              </Button>
+            )}
           </div>
+          {/* * Content */}
+
+          <FarmCardBottom {...props} />
         </div>
-        {swapContentButton}
-      </Card>
-    </Col>
+      </div>
+      {/* <StakeModal open={props.isStakeModalOpen} onClose={() => props.closeFarmsStakeModal()} tokenData={{title: props.title}} /> */}
+    </>
   );
 };
 

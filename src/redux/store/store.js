@@ -1,23 +1,28 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable func-names */
-/* @flow */
-import { createStore, applyMiddleware } from "redux";
-import thunkMiddleware from "redux-thunk";
-import { createLogger } from "redux-logger";
-//import rootReducer from "../reducer/reducer";
-import allReducers from "../reducer/reducer";
+import {createStore,applyMiddleware , compose , combineReducers} from 'redux';
+import thunk from 'redux-thunk';
 
-const loggerMiddleware = createLogger();
-const createStoreWithMiddleware = applyMiddleware(
-  thunkMiddleware,
-  loggerMiddleware
-)(createStore);
+import userReducer from '../reducers/user.reducer';
+import walletReducer from '../reducers/wallet.reducer';
+import swapReducer from '../reducers/swap.reducer';
+import farmsReducer from '../reducers/farms.reducer';
+import pondsReducer from '../reducers/ponds.reducer';
+import poolsReducer from '../reducers/pools.reducer';
+import priceReducer from '../reducers/price.reducer';
+import homeReducer from "../reducers/home.reducers"
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const configureStore = function (initialState) {
-  if (initialState === void 0) {
-    initialState = {};
-  }
-  return createStoreWithMiddleware(allReducers, initialState);
-};
+const rootReducer = combineReducers({
+  user : userReducer,
+  wallet : walletReducer,
+  swap : swapReducer,
+  farms : farmsReducer,
+  pools : poolsReducer,
+  ponds : pondsReducer,
+  price: priceReducer,
+  home : homeReducer,
+})
 
-export default configureStore;
+//const store = createStore(rootReducer);
+const store = createStore(rootReducer , composeEnhancer(applyMiddleware(thunk)));
+
+export default store;

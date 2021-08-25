@@ -1,52 +1,86 @@
-import { WALLET_ADDRESS } from "../index.action";
+import {
+  WALLET_CONNECT_START,
+  WALLET_CONNECT_SUCCESSFULL,
+  WALLET_CONNECT_FAIL,
+  WALLET_DISCONNECT,
+  WALLET_GET_ADDRESS,
+} from '../index.action';
+
 import {
   ConnectWalletAPI,
   DisconnectWalletAPI,
   FetchWalletAPI,
-} from "./api.wallet";
+} from './api.wallet';
+
+const walletConnectionStart = () => {
+  return {
+    type: WALLET_CONNECT_START,
+  };
+};
+
+const walletConnectionSuccessfull = (address) => {
+  return {
+    type: WALLET_CONNECT_SUCCESSFULL,
+    address,
+  };
+};
+
+const walletConnectionFailed = () => {
+  return {
+    type: WALLET_CONNECT_FAIL,
+  };
+};
+
+const walletDisconnection = () => {
+  return {
+    type: WALLET_DISCONNECT,
+  };
+};
+
+const fetchWallet = (address) => {
+  return {
+    type: WALLET_GET_ADDRESS,
+    address,
+  };
+};
 
 export const connectWallet = () => {
-  return async (dispatch) => {
-    const WALLET_RESP = await ConnectWalletAPI();
-    if (WALLET_RESP.success) {
-      dispatch({
-        type: WALLET_ADDRESS,
-        payload: WALLET_RESP.wallet,
+  return (dispatch) => {
+    dispatch(walletConnectionStart());
+    ConnectWalletAPI()
+      .then((resp) => {
+        if (resp.success === true) {
+          dispatch(walletConnectionSuccessfull(resp.wallet));
+        } else {
+          dispatch(walletConnectionFailed());
+        }
+      })
+      .catch((err) => {
+        dispatch(walletConnectionFailed());
       });
-    } else {
-      dispatch({
-        type: WALLET_ADDRESS,
-        payload: null,
-      });
-    }
   };
 };
 
 export const disconnectWallet = () => {
-  return async (dispatch) => {
-    const WALLET_RESP = await DisconnectWalletAPI();
-    if (WALLET_RESP.success) {
-      dispatch({
-        type: WALLET_ADDRESS,
-        payload: null,
-      });
-    }
+  return (dispatch) => {
+    DisconnectWalletAPI()
+      .then((resp) => {
+        if (resp.success === true) {
+          dispatch(walletDisconnection());
+        }
+      })
+      .catch((err) => {});
   };
 };
 
-export const getWalletAddress = () => {
-  return async (dispatch) => {
-    const WALLET_RESP = await FetchWalletAPI();
-    if (WALLET_RESP.success) {
-      dispatch({
-        type: WALLET_ADDRESS,
-        payload: WALLET_RESP.wallet,
-      });
-    } else {
-      dispatch({
-        type: WALLET_ADDRESS,
-        payload: null,
-      });
-    }
+export const fetchWalletAddress = () => {
+  return (dispatch) => {
+    FetchWalletAPI()
+      .then((resp) => {
+        if (resp.success === true) {
+          dispatch(fetchWallet(resp.wallet));
+        }
+      })
+      .catch((err) => {});
   };
 };

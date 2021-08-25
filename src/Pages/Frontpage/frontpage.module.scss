@@ -1,0 +1,61 @@
+@use '../../assets/scss/constants' as const;
+
+.fullScreen {
+  min-height: 100vh;
+}
+
+.link {
+  text-decoration: none !important;
+}
+
+.amount {
+  letter-spacing: -0.04em;
+}
+
+.tvlValue {
+  font-family: DM Sans, serif;
+  font-style: normal;
+  font-weight: bold;
+  //font-size: 6em;
+  line-height: 139%;
+  letter-spacing: -0.04em;
+  color: #FFFFFF;
+}
+
+.tvlText {
+  font-family: 'DM Sans', sans-serif;;
+  font-style: normal;
+  font-weight: 300;
+  color: #FFFFFF;
+}
+
+.divider {
+  border-bottom: 1px solid #F1F1F1;
+}
+
+.textMulish {
+  font-family: 'Mulish', sans-serif !important;
+}
+
+.about {
+  letter-spacing: -1.584px;
+}
+
+.aboutSubtext {
+  letter-spacing: -0.66px;
+}
+
+.button {
+  height: 50px;
+  min-height: 3em;
+  background-color: #FFFFFF;
+  border: 0;
+  font-weight: bold;
+}
+
+.info {
+  font-family: 'DM Sans', sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  color: #FFFFFF;
+}

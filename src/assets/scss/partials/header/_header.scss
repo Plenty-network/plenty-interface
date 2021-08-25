@@ -4,17 +4,44 @@
   align-items: center;
   padding-top: 18px;
   padding-bottom: 18px;
-  > * {
-    flex: 33.33%;
-  }
+
 }
+
+//
+//.navbar-toggler-icon {
+//  background-image: url('src/assets/images/header/more_vert.svg');
+//}
+
+.dropdown-toggle:after {
+  content: none
+}
+
+.dropdown-menu {
+  left: auto;
+  right: 0;
+  border-radius: 10px;
+}
+
+.icon-frontpage {
+  fill: #FFFFFF;
+}
+
+.icon {
+  fill: #5603AD;
+}
+
+.header-col-center-frontpage {
+  margin: 0 auto;
+}
+
 .header-col-center {
   margin: 0 auto;
-  border-bottom: 1px solid #f3f3f3;
 }
+
 .logo-section {
   width: 90px;
 }
+
 .nav-menu-wrapper {
   list-style: none;
   display: flex;
@@ -22,15 +49,55 @@
   align-items: center;
   padding: 0;
   margin: 0;
+
   &:last-child {
     justify-content: flex-end;
   }
 }
-.menu-active {
+
+.theme-icon {
+  cursor: pointer;
+}
+
+.icon-white {
+  color: #FFFFFF !important;
+}
+
+.menu-item-active {
   position: relative;
-  > .nav-menu-item-link {
+
+  > span {
     color: #2d323d;
   }
+
+  &:after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: #7d00ff;
+    border-radius: 100%;
+    left: -15px;
+    right: 0;
+    @media (min-width: 992px) {
+      bottom: 0;
+      top: auto;
+      left: 0;
+      margin: auto;
+    }
+
+  }
+}
+
+.menu-active {
+  position: relative;
+
+  > .nav-menu-item-link {
+    > p {
+      color: #2d323d;
+    }
+  }
+
   &::after {
     content: '';
     position: absolute;
@@ -43,47 +110,67 @@
     margin: auto;
   }
 }
+
 .nav-menu-item-link {
   display: block;
-  color: #8a94a6;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
-  line-height: 29px;
-  padding: 0 15px;
   text-align: center;
   text-transform: capitalize;
+
+  > p {
+    &:hover {
+      text-decoration: none;
+      color: #2d323d !important;
+    }
+  }
+
   &:hover {
     text-decoration: none;
-    color: #2d323d;
+    color: #2d323d !important;
   }
+
   > span {
     vertical-align: middle;
   }
 }
-.connect-wallet-btn {
-  background-color: rgba(86, 3, 173, 0.12);
+
+.frontpage-light-wallet-btn {
+  background-color: rgba(86, 3, 173, 0.17);
+}
+
+.light-theme-text {
   color: #5603ad;
+}
+
+.connect-wallet-btn {
   font-style: normal;
   font-weight: bold;
   font-size: 14px;
   line-height: 29px;
-  box-shadow: 0px 0px 30px rgba(138, 149, 158, 0.09);
-  padding: 10px 14px;
+  //box-shadow: 0 0 30px rgba(138, 149, 158, 0.09);
   border: 0;
   border-radius: 15px;
+
   > span {
-    font-size: 20px;
+    text-overflow: ellipsis;
+    overflow: hidden;
     vertical-align: middle;
     font-weight: bold;
   }
 }
 
+.connect-to-wallet {
+
+}
+
 .disconnect-wallet-btn {
   @extend .connect-wallet-btn;
-  background: #ffffff;
-  width: 152px;
+  //background: #ffffff;
+  //width: 152px;
 }
+
 .menu-dropdown {
   left: -100px;
   top: 60px;
@@ -91,6 +178,7 @@
   box-shadow: 0px 23px 44px rgba(176, 183, 195, 0.14);
   border-radius: 15px;
   border: 0;
+
   > a {
     font-style: normal;
     font-weight: bold;

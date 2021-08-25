@@ -58,10 +58,7 @@ const ConfirmSwap = (props) => {
 
           <div className="swap-detail-wrapper">
             <div className="swap-detail-amt-wrapper">
-              <p className="swap-detail-amt-details">
-                Minimum received{' '}
-                <span className="material-icons-round">help_outline</span>
-              </p>
+              <p className="swap-detail-amt-details">Minimum received </p>
               <p className="swap-detail-amt-details">
                 {props.computedOutDetails.minimum_Out
                   ? props.computedOutDetails.minimum_Out.toFixed(8)
@@ -71,10 +68,7 @@ const ConfirmSwap = (props) => {
             </div>
 
             <div className="swap-detail-amt-wrapper">
-              <p className="swap-detail-amt-details">
-                Price Impact{' '}
-                <span className="material-icons-round">help_outline</span>
-              </p>
+              <p className="swap-detail-amt-details">Price Impact </p>
               <p className="swap-detail-amt-details">
                 {props.computedOutDetails.priceImpact
                   ? props.computedOutDetails.priceImpact
@@ -84,30 +78,21 @@ const ConfirmSwap = (props) => {
             </div>
 
             <div className="swap-detail-amt-wrapper">
+              <p className="swap-detail-amt-details">Fee </p>
               <p className="swap-detail-amt-details">
-                Liquidity Provider Fee{' '}
-                <span className="material-icons-round">help_outline</span>
-              </p>
-              <p className="swap-detail-amt-details">
-                {props.computedOutDetails.fees / 2} {props.tokenIn.name}
+                {props.firstTokenAmount / 400} {props.tokenIn.name}
               </p>
             </div>
 
             <div className="swap-detail-amt-wrapper">
+              <p className="swap-detail-amt-details">xPlenty Fee </p>
               <p className="swap-detail-amt-details">
-                xPlenty Fee{' '}
-                <span className="material-icons-round">help_outline</span>
-              </p>
-              <p className="swap-detail-amt-details">
-                {props.computedOutDetails.fees / 2} {props.tokenIn.name}
+                {props.firstTokenAmount / 1000} {props.tokenIn.name}
               </p>
             </div>
 
             <div className="swap-detail-amt-wrapper">
-              <p className="swap-detail-amt-details">
-                Slippage tolerance Fee{' '}
-                <span className="material-icons-round">help_outline</span>
-              </p>
+              <p className="swap-detail-amt-details">Slippage tolerance </p>
               <p className="swap-detail-amt-details">{props.slippage} %</p>
             </div>
             {props.loading ? (

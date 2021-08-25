@@ -1,13 +1,13 @@
 import React from "react";
-import WarppaedRoute from "./routes/routeWrapper";
-import configureStore from "./redux/store/store";
+import WrappedRoute from "./routes/routeWrapper";
+import store from "./redux/store/store";
 
 import "./App.scss";
 
 function App() {
   return (
     <>
-      <WarppaedRoute store={configureStore()} />
+      <WrappedRoute store={store} />
     </>
   );
 }

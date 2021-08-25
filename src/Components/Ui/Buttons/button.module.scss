@@ -1,0 +1,82 @@
+@use "../../../assets/scss/constants" as const;
+
+.btn {
+  min-width: 112px;
+  height: 50px;
+  border-radius: 7.35px;
+  display: flex;
+  justify-content: center;
+
+  & > span {
+    margin: auto 0;
+  }
+
+  &:active {
+    transform: scale(0.98);
+    transform-origin: 50% 50%;
+  }
+
+  &[disabled] {
+    background: #8A94A6;
+    transform: none;
+  }
+}
+
+.quantityBtn {
+  @extend .btn;
+  min-width: 50px;
+}
+
+.iconBtn {
+  height: 24px;
+  width: 24px;
+  min-width: 24px;
+  border-radius: 50%;
+  background: #F4F4F6;
+  border: 0;
+  padding: 0;
+}
+
+.primary {
+  color: white;
+  background: linear-gradient(90deg, var(--theme-primary-gradient-1) 0%, var(--theme-primary-gradient-2) 100%);
+  border: 0;
+  font-weight: bold;
+}
+
+.secondary {
+  background: var(--theme-secondary-1);
+  color: var(--theme-primary-gradient-1);
+  border: 0;
+}
+
+.smallBtn {
+  height: 26px;
+  min-width: inherit;
+  border-radius: 6px;
+  padding: 0 16px;
+  font-size: 14px;
+
+  & :global(.material-icons-round) {
+    font-size: 16px;
+  }
+}
+
+.mute {
+  border: 0;
+  color: var(--theme-text-1);
+  background: var(--theme-input-bg);
+}
+
+.tertiary {
+  color: #823DE0;
+  background-color: #FFFFFF;
+  border: 0;
+  font-weight: bold;
+}
+
+.default {
+  color: var(--theme-default-btn);
+  border: solid 1px var(--theme-default-btn);
+  background: transparent;
+}

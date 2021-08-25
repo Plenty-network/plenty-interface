@@ -2,10 +2,7 @@ const SwapDetails = (props) => {
   return (
     <div className="swap-detail-wrapper">
       <div className="swap-detail-amt-wrapper">
-        <p className="swap-detail-amt-details">
-          Minimum received{' '}
-          <span className="material-icons-round">help_outline</span>
-        </p>
+        <p className="swap-detail-amt-details">Minimum received </p>
         <p className="swap-detail-amt-details">
           {props.computedOutDetails.minimum_Out
             ? props.computedOutDetails.minimum_Out.toFixed(8)
@@ -15,10 +12,7 @@ const SwapDetails = (props) => {
       </div>
 
       <div className="swap-detail-amt-wrapper">
-        <p className="swap-detail-amt-details">
-          Price Impact{' '}
-          <span className="material-icons-round">help_outline</span>
-        </p>
+        <p className="swap-detail-amt-details">Price Impact </p>
         <p className="swap-detail-amt-details">
           {props.computedOutDetails.priceImpact
             ? props.computedOutDetails.priceImpact
@@ -28,12 +22,9 @@ const SwapDetails = (props) => {
       </div>
 
       <div className="swap-detail-amt-wrapper">
+        <p className="swap-detail-amt-details">Fee </p>
         <p className="swap-detail-amt-details">
-          Liquidity Provider Fee{' '}
-          <span className="material-icons-round">help_outline</span>
-        </p>
-        <p className="swap-detail-amt-details">
-          {props.computedOutDetails.fees} {props.tokenIn.name}
+          {props.firstTokenAmount / 400} {props.tokenIn.name}
         </p>
       </div>
     </div>
