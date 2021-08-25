@@ -10,35 +10,37 @@ import {
 } from "./farms.action";
 
 const initialState = {
-  active : {
-    isPresent : false,
-    loading : false,
-    data : {}
+  data: {
+    active: [],
+    inactive: [],
   },
-  inactive : {
-    isPresent : false,
-    loading : false,
-    data : {}
+  active: {
+    isPresent: false,
+    loading: false,
   },
-  stakeOperation : {
-    isLoading : false,
+  inactive: {
+    isPresent: false,
+    loading: false,
+  },
+  stakeOperation: {
+    isLoading: false,
     processing: false,
-    completed : false,
-    failed : false,
-    operationHash : null
+    completed: false,
+    failed: false,
+    operationHash: null
   },
-  unstakeOperation : {
-    isLoading : false,
+  unstakeOperation: {
+    isLoading: false,
     processing: false,
-    completed : false,
-    failed : false,
-    operationHash : null
+    completed: false,
+    failed: false,
+    operationHash: null
   },
-  harvestOperation : {
-    isLoading : false,
-    completed : false,
-    failed : false,
-    operationHash : null,
+  harvestOperation: {
+    isLoading: false,
+    completed: false,
+    failed: false,
+    operationHash: null,
     tokenPair: null
   },
   modals: {
@@ -47,20 +49,20 @@ const initialState = {
     transactionId: '',
     snackbar: false,
   },
-  isActiveOpen : true,
-  stakeInputValue : 0,
-  farmsToRender : [],
-  isStakeModalOpen : false,
-  stakeModalIdentifier :'',
-  stakeModalTitle : '',
-  stakeModalFarmPosition : -1,
-  stakeModalContractAddress : '',
-  isUnstakeModalOpen : false,
-  unstakeModalIdentifier : '',
-  unstakeModalContractAddress : '',
-  unstakeModalFarmPosition : -1,
-  unstakeModalTitle : '',
-  unstakeModalwithdrawalFeeStructure : []
+  isActiveOpen: true,
+  stakeInputValue: 0,
+  farmsToRender: [],
+  isStakeModalOpen: false,
+  stakeModalIdentifier: '',
+  stakeModalTitle: '',
+  stakeModalFarmPosition: -1,
+  stakeModalContractAddress: '',
+  isUnstakeModalOpen: false,
+  unstakeModalIdentifier: '',
+  unstakeModalContractAddress: '',
+  unstakeModalFarmPosition: -1,
+  unstakeModalTitle: '',
+  unstakeModalwithdrawalFeeStructure: []
 }
 
 export const farmsSlice = createSlice({

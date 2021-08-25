@@ -172,7 +172,7 @@ const getPriceForPlentyLpTokens = async (identifier, lpTokenDecimal, dexAddress)
 }
 
 
-export const getFarmsData = async (isActive) => {
+export const getFarmsDataAPI = async (isActive) => {
   try {
     let promises = [];
     let dexPromises = [];
@@ -282,7 +282,7 @@ const CheckIfWalletConnected = async (wallet, somenet) => {
   }
 };
 
-export const stakeFarm = async (amount, farmIdentifier, isActive, position) => {
+export const stakeFarmAPI = async (amount, farmIdentifier, isActive, position) => {
   try {
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -405,7 +405,7 @@ export const stakeFarm = async (amount, farmIdentifier, isActive, position) => {
   }
 };
 
-export const unstake = async (
+export const unstakeAPI = async (
   stakesToUnstake,
   farmIdentifier,
   isActive,
@@ -481,7 +481,7 @@ export const unstake = async (
   }
 };
 
-export const harvest = async (farmIdentifier, isActive, position) => {
+export const harvestAPI = async (farmIdentifier, isActive, position) => {
   try {
     const options = {
       name: CONFIG.NAME,

@@ -1,63 +1,57 @@
 import { FARM_PAGE_MODAL } from "../../../constants/farmsPage";
 
 export const activeFarmsActions = {
-  startActiveFarmDataFetching: (state, action) => {
+  startActiveFarmDataFetching: (state) => {
     state.active = {
       isPresent: false,
       loading: true,
-      data: {}
     }
   },
   activeFarmDataFetchingSuccesfull: (state, action) => {
+    state.data.active = Object.entries(action.payload).map(([ key, value ]) => ({id: key, ...value}))
     state.active = {
       isPresent: true,
       loading: false,
-      data: action.data
     }
   },
-  activeFarmDataFetchingFailed: (state, action) => {
+  activeFarmDataFetchingFailed: (state) => {
     state.active = {
       isPresent: false,
       loading: false,
-      data: {}
     }
   },
-  clearActiveFarmsData: (state, action) => {
+  clearActiveFarmsData: (state) => {
     state.active = {
       isPresent: false,
       loading: false,
-      data: {}
     }
   }
 };
 
 export const inactiveFarmsActions = {
-  startInactiveFarmDataFetching: (state, action) => {
+  startInactiveFarmDataFetching: (state) => {
     state.inactive = {
       isPresent: false,
       loading: true,
-      data: {}
     }
   },
   inactiveFarmDataFetchingSuccesfull: (state, action) => {
+    state.data.inactive = Object.entries(action.payload).map(([ key, value ]) => ({id: key, ...value}))
     state.inactive = {
       isPresent: true,
       loading: false,
-      data: action.data
     }
   },
-  inactiveFarmDataFetchingFailed: (state, action) => {
+  inactiveFarmDataFetchingFailed: (state) => {
     state.active = {
       isPresent: false,
       loading: false,
-      data: {}
     }
   },
-  clearInactiveFarmsData: (state, action) => {
+  clearInactiveFarmsData: (state) => {
     state.inactive = {
       isPresent: false,
       loading: false,
-      data: {}
     }
   }
 }
@@ -152,7 +146,7 @@ export const unstakingFarmsAction = {
       processing: false,
       completed: true,
       failed: false,
-      operationHash: action.data
+      operationHash: action.payload
     }
     state.modals.snackbar = true
   },
@@ -226,7 +220,7 @@ export const otherFarmsActions = {
   },
 
   setFarmsToRender: (state, action) => {
-    state.farmsToRender = action.data
+    state.farmsToRender = action.payload
   },
 
   openFarmsStakeModal: (state, action) => {
@@ -264,7 +258,7 @@ export const otherFarmsActions = {
   },
 
   openCloseFarmsModal: (state, action) => {
-    state.modals = { ...state.modals, ...action.payload }
+    state.modals = {...state.modals, ...action.payload}
   },
 
   dismissSnackbar: (state) => {

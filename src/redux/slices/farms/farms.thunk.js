@@ -1,4 +1,3 @@
-import * as farmApis from "../../actions/farms/api.farms";
 import {
   activeFarmDataFetchingFailed,
   activeFarmDataFetchingSuccesfull,
@@ -17,8 +16,9 @@ import {
   unstakingOnFarmFailed,
   unstakingOnFarmSuccessFull
 } from "./farms.slice";
+import { getFarmsDataAPI, harvestAPI, stakeFarmAPI, unstakeAPI } from "./farms.api";
 
-export const getFarmsData = (isActive) => (dispatch) => {
+export const getFarmsDataThunk = (isActive) => (dispatch) => {
   let startDataFetching;
   let dataFetchingSuccessful;
   let dataFetchingFailed;
@@ -34,20 +34,18 @@ export const getFarmsData = (isActive) => (dispatch) => {
   }
 
   dispatch(startDataFetching());
-  farmApis
-    .getFarmsData(isActive)
+  getFarmsDataAPI(isActive)
     .then((response) => {
-      dispatch(dataFetchingSuccessful(response));
+      dispatch(dataFetchingSuccessful(response.response));
     })
     .catch((error) => {
       dispatch(dataFetchingFailed());
     });
 };
 
-export const stakeOnFarm = (amount, farmIdentifier, isActive, position) => (dispatch) => {
+export const stakeOnFarmThunk = (amount, farmIdentifier, isActive, position) => (dispatch) => {
   dispatch(initiateStakingOperationOnFarm());
-  farmApis
-    .stakeFarm(amount, farmIdentifier, isActive, position)
+  stakeFarmAPI(amount, farmIdentifier, isActive, position)
     .then((response) => {
       dispatch(stakingOnFarmSuccessFull(response));
     })
@@ -62,15 +60,14 @@ export const stakeOnFarm = (amount, farmIdentifier, isActive, position) => (disp
     });
 };
 
-export const unstakeOnFarm = (
+export const unstakeOnFarmThunk = (
   stakesToUnstake,
   farmIdentifier,
   isActive,
   position
 ) => (dispatch) => {
   dispatch(initiateUnstakingOperationOnFarm());
-  farmApis
-    .unstake(stakesToUnstake, farmIdentifier, isActive, position)
+  unstakeAPI(stakesToUnstake, farmIdentifier, isActive, position)
     .then((response) => {
       dispatch(unstakingOnFarmSuccessFull(response));
     })
@@ -85,11 +82,10 @@ export const unstakeOnFarm = (
     });
 };
 
-export const harvestOnFarm = (farmIdentifier, isActive, position) => {
+export const harvestOnFarmThunk = (farmIdentifier, isActive, position) => {
   return (dispatch) => {
     dispatch(initiateHarvestingOperationOnFarm(farmIdentifier));
-    farmApis
-      .harvest(farmIdentifier, isActive, position)
+    harvestAPI(farmIdentifier, isActive, position)
       .then((response) => {
         dispatch(harvestingOnFarmSuccessFull(response));
       })

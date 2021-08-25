@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import FarmCard from '../Components/FarmCard/FarmCard';
 
 import { connect } from 'react-redux';
-import * as farmsActions from '../redux/actions/farms/farms.actions';
 import * as userActions from '../redux/actions/user/user.action';
 import CONFIG from '../config/config';
 import PropTypes from 'prop-types';
@@ -15,6 +14,15 @@ import UnstakeModal from '../Components/Ui/Modals/UnstakeModal';
 import styles from '../assets/scss/partials/_farms.module.scss';
 import FarmModals from '../Components/FarmPage/FarmModals';
 import { FARMS_CARD_TYPE_LIST } from "../constants/farmsPage";
+import {
+  closeFarmsStakeModal,
+  closeFarmsUnstakeModal,
+  openFarmsStakeModal,
+  openFarmsUnstakeModal,
+  setFarmsToRender,
+  toggleFarmsType
+} from "../redux/slices/farms/farms.slice";
+import { getFarmsDataThunk, harvestOnFarmThunk, stakeOnFarmThunk, unstakeOnFarmThunk } from "../redux/slices/farms/farms.thunk";
 
 const Farms = (props) => {
 
@@ -204,32 +212,32 @@ const mapDispatchToProps = (dispatch) => {
   return {
     connectWallet: () => dispatch(walletActions.connectWallet()),
     toggleFarmsType: (isActive) =>
-      dispatch(farmsActions.toggleFarmsType(isActive)),
+      dispatch(toggleFarmsType(isActive)),
     stakeOnFarm: (amount, farmIdentifier, isActive, position) =>
       dispatch(
-        farmsActions.stakeOnFarm(amount, farmIdentifier, isActive, position)
+        stakeOnFarmThunk(amount, farmIdentifier, isActive, position)
       ),
     harvestOnFarm: (farmIdentifier, isActive, position) =>
-      dispatch(farmsActions.harvestOnFarm(farmIdentifier, isActive, position)),
-    handleStakeOfFarmInputValue: (value) =>
-      dispatch(farmsActions.handleStakeOfFarmInputValue(value)),
-    getFarmsData: (isActive) => dispatch(farmsActions.getFarmsData(isActive)),
+      dispatch(harvestOnFarmThunk(farmIdentifier, isActive, position)),
+    // handleStakeOfFarmInputValue: (value) =>
+    //   dispatch(handleStakeOfFarmInputValue(value)),
+    getFarmsData: (isActive) => dispatch(getFarmsDataThunk(isActive)),
     setFarmsToRender: (farmsToBeRender) =>
-      dispatch(farmsActions.setFarmsToRender(farmsToBeRender)),
+      dispatch(setFarmsToRender(farmsToBeRender)),
     getUserStakes: (address, type, isActive) =>
       dispatch(userActions.getUserStakes(address, type, isActive)),
     getHarvestValues: (address, type, isActive) =>
       dispatch(userActions.getHarvestValues(address, type, isActive)),
     openFarmsStakeModal: (identifier, title, position, contractAddress) =>
       dispatch(
-        farmsActions.openFarmsStakeModal(
+        openFarmsStakeModal(
           identifier,
           title,
           position,
           contractAddress
         )
       ),
-    closeFarmsStakeModal: () => dispatch(farmsActions.closeFarmsStakeModal()),
+    closeFarmsStakeModal: () => dispatch(closeFarmsStakeModal()),
     openFarmsUnstakeModal: (
       identifier,
       contractAddress,
@@ -238,7 +246,7 @@ const mapDispatchToProps = (dispatch) => {
       postion
     ) =>
       dispatch(
-        farmsActions.openFarmsUnstakeModal(
+        openFarmsUnstakeModal(
           identifier,
           contractAddress,
           title,
@@ -247,10 +255,10 @@ const mapDispatchToProps = (dispatch) => {
         )
       ),
     closeFarmsUnstakeModal: () =>
-      dispatch(farmsActions.closeFarmsUnstakeModal()),
+      dispatch(closeFarmsUnstakeModal()),
     unstakeOnFarm: (stakesToUnstake, farmIdentifier, isActive, position) =>
       dispatch(
-        farmsActions.unstakeOnFarm(
+        unstakeOnFarmThunk(
           stakesToUnstake,
           farmIdentifier,
           isActive,
