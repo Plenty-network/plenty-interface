@@ -346,7 +346,10 @@ export const getStorageForFarms = async isActive => {
 				} else if (
 					key === "PLENTY - wBUSD" ||
 					key === "PLENTY - wUSDC" ||
-					key === "PLENTY - wWBTC"
+					key === "PLENTY - wWBTC" ||
+					key === "PLENTY - wMATIC" ||
+					key === "PLENTY - wLINK" ||
+					key === "PLENTY - USDtz"
 				) {
 					dexPromises.push(
 						getPriceForPlentyLpTokens(
@@ -440,16 +443,28 @@ const getPriceForPlentyLpTokens = async (
 				}
 			}
 
-			if (
-				tokenPricesData[i].tokenAddress === token2Address &&
-				tokenPricesData[i].type === token2Type &&
-				tokenPricesData[i].tokenId === token2Id &&
-				tokenPricesData[i].tokenId === token2Id
-			) {
-				tokenData["token1"] = {
-					tokenName: tokenPricesData[i].symbol,
-					tokenValue: tokenPricesData[i].usdValue,
-					tokenDecimal: tokenPricesData[i].decimals,
+			if (token2Type === "fa2") {
+				if (
+					tokenPricesData[i].tokenAddress === token2Address &&
+					tokenPricesData[i].type === token2Type &&
+					tokenPricesData[i].tokenId === token2Id
+				) {
+					tokenData["token1"] = {
+						tokenName: tokenPricesData[i].symbol,
+						tokenValue: tokenPricesData[i].usdValue,
+						tokenDecimal: tokenPricesData[i].decimals,
+					}
+				}
+			} else if (token2Type === "fa1.2") {
+				if (
+					tokenPricesData[i].tokenAddress === token2Address &&
+					tokenPricesData[i].type === token2Type
+				) {
+					tokenData["token1"] = {
+						tokenName: tokenPricesData[i].symbol,
+						tokenValue: tokenPricesData[i].usdValue,
+						tokenDecimal: tokenPricesData[i].decimals,
+					}
 				}
 			}
 		}
@@ -902,6 +917,7 @@ export const harvestAllHelper = async (
 ) => {
 	try {
 		const allActiveContracts = await getAllActiveContractAddresses()
+		// console.log(allActiveContracts, "allActiveContracts")
 		const blockLevel = await getCurrentBlockLevel()
 		const network = {
 			type: CONFIG.WALLET_NETWORK,
@@ -999,6 +1015,14 @@ export const getTVLOfUserHelper = async userAddress => {
 		for (let key in farmActiveContracts) {
 			const { mapId, identifier, decimal, contract, tokenDecimal } =
 				farmActiveContracts[key]
+			// console.log(
+			// 	mapId,
+			// 	identifier,
+			// 	decimal,
+			// 	contract,
+			// 	tokenDecimal,
+			// 	"ACTIVE FARMS"
+			// )
 			stakedAmountsFromActiveFarmsPromises.push(
 				getStakedAmount(
 					mapId,
@@ -1202,6 +1226,7 @@ export const plentyToHarvestHelper = async addressOfUser => {
 	]
 	const response = await Promise.all(promises)
 	response.forEach(item => {
+		// console.log("<---getHarvestValue--->", item)
 		if (item.success) {
 			for (const key in item.response) {
 				plentyToHarvest += item.response[key].totalRewards
