@@ -23,6 +23,9 @@ import plenty from '../assets/images/logo_small.png';
 import wusdc from '../assets/images/wusdc.png';
 import wbusd from '../assets/images/wBUSD.png';
 import wwbtc from '../assets/images/wwbtc.png';
+import wmatic from '../assets/images/wmatic.png';
+import wlink from '../assets/images/wlink.png';
+import usdtz from '../assets/images/usdtz.png';
 
 const Swap = (props) => {
   const tokens = [
@@ -41,6 +44,18 @@ const Swap = (props) => {
     {
       name: 'wWBTC',
       image: wwbtc,
+    },
+    {
+      name: 'wMATIC',
+      image: wmatic,
+    },
+    {
+      name: 'wLINK',
+      image: wlink,
+    },
+    {
+      name: 'USDtz',
+      image: usdtz,
     },
   ];
 
