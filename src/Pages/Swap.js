@@ -26,6 +26,7 @@ import wwbtc from '../assets/images/wwbtc.png';
 import wmatic from '../assets/images/wmatic.png';
 import wlink from '../assets/images/wlink.png';
 import usdtz from '../assets/images/usdtz.png';
+import kusd from '../assets/images/kusd.png';
 
 const Swap = (props) => {
   const tokens = [
@@ -57,6 +58,10 @@ const Swap = (props) => {
       name: 'USDtz',
       image: usdtz,
     },
+    {
+      name: 'kUSD',
+      image: kusd,
+    },
   ];
 
   const [show, setShow] = useState(false);
@@ -64,7 +69,7 @@ const Swap = (props) => {
   const [showConfirmAddSupply, setShowConfirmAddSupply] = useState(false);
   const [showConfirmRemoveSupply, setShowConfirmRemoveSupply] = useState(false);
   const [hideContent, setHideContent] = useState('');
-  const [slippage, setSlippage] = useState(0.05);
+  const [slippage, setSlippage] = useState(0.1);
   const [recepient, setRecepient] = useState('');
   const [tokenType, setTokenType] = useState('tokenIn');
   const [tokenOut, setTokenOut] = useState({});
