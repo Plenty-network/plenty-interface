@@ -281,25 +281,29 @@ export const addLiquidity = async (
     ) {
       tokenFirst = tokenA;
       tokenFirstInstance = tokenA_Instance;
-      tokenFirst_Amount =
+      tokenFirst_Amount = Math.floor(
         tokenA_Amount *
-        Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL);
+          Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL)
+      );
       tokenSecond = tokenB;
       tokenSecondInstance = tokenB_Instance;
-      tokenSecond_Amount =
+      tokenSecond_Amount = Math.floor(
         tokenB_Amount *
-        Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL);
+          Math.pow(10, CONFIG.AMM[connectedNetwork][tokenB].TOKEN_DECIMAL)
+      );
     } else {
       tokenFirst = tokenB;
       tokenFirstInstance = tokenB_Instance;
-      tokenFirst_Amount =
+      tokenFirst_Amount = Math.floor(
         tokenB_Amount *
-        Math.pow(10, CONFIG.AMM[connectedNetwork][tokenB].TOKEN_DECIMAL);
+          Math.pow(10, CONFIG.AMM[connectedNetwork][tokenB].TOKEN_DECIMAL)
+      );
       tokenSecond = tokenA;
       tokenSecondInstance = tokenA_Instance;
-      tokenSecond_Amount =
+      tokenSecond_Amount = Math.floor(
         tokenA_Amount *
-        Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL);
+          Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL)
+      );
     }
     let dexContractAddress =
       CONFIG.AMM[connectedNetwork][tokenFirst].DEX_PAIRS[tokenSecond].contract;
@@ -377,7 +381,10 @@ export const addLiquidity = async (
           ])
         )
         .withContractCall(
-          tokenSecond.methods.approve(dexContractAddress, tokenSecond_Amount)
+          tokenSecondInstance.methods.approve(
+            dexContractAddress,
+            tokenSecond_Amount
+          )
         )
         .withContractCall(
           dexContractInstance.methods.AddLiquidity(
@@ -397,7 +404,9 @@ export const addLiquidity = async (
             },
           ])
         )
-        .withContractCall(tokenSecond.methods.approve(dexContractAddress, 0));
+        .withContractCall(
+          tokenSecondInstance.methods.approve(dexContractAddress, 0)
+        );
     } else if (
       CONFIG.AMM[connectedNetwork][tokenFirst].CALL_TYPE === 'FA2' &&
       CONFIG.AMM[connectedNetwork][tokenSecond].CALL_TYPE === 'FA2'
@@ -657,6 +666,18 @@ export const fetchWalletBalance = async (
           symbol: icon,
           contractInstance: contract,
         };
+      } else if (icon === 'USDtz') {
+        const userDetails = await storage.ledger.get(addressOfUser);
+        let userBalance = userDetails.balance;
+        userBalance =
+          userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
+        userBalance = parseFloat(userBalance);
+        return {
+          success: true,
+          balance: userBalance,
+          symbol: icon,
+          contractInstance: contract,
+        };
       } else {
         const userDetails = await storage.balances.get(addressOfUser);
         let userBalance = userDetails.balance;
@@ -741,7 +762,18 @@ export const getTokenPrices = async () => {
     );
     let tokenPrice = {};
     tokenPriceResponse = tokenPriceResponse.data;
-    const tokens = ['PLENTY', 'wDAI', 'WRAP', 'wWBTC', 'wUSDC', 'wBUSD'];
+    const tokens = [
+      'PLENTY',
+      'wDAI',
+      'WRAP',
+      'wWBTC',
+      'wUSDC',
+      'wBUSD',
+      'wMATIC',
+      'wLINK',
+      'USDtz',
+      'kUSD',
+    ];
     const tokenAddress = {
       PLENTY: {
         contractAddress: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
@@ -760,6 +792,18 @@ export const getTokenPrices = async () => {
       },
       wBUSD: {
         contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+      },
+      wMATIC: {
+        contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+      },
+      wLINK: {
+        contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+      },
+      USDtz: {
+        contractAddress: 'KT1LN4LPSqTMS7Sd2CJw4bbDGRkMv2t68Fy9',
+      },
+      kUSD: {
+        contractAddress: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
       },
     };
     for (let i in tokenPriceResponse.contracts) {
