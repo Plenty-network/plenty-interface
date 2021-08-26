@@ -25,7 +25,7 @@ const Ponds = (props) => {
     fetchData();
     const backgroundRefresh = setInterval(() => {
       fetchData()
-    }, 30 * 1000);
+    }, 60 * 1000);
 
     return () => clearInterval(backgroundRefresh);
   }, [props.isActiveOpen, props.userAddress]);
