@@ -381,7 +381,10 @@ export const addLiquidity = async (
           ])
         )
         .withContractCall(
-          tokenSecond.methods.approve(dexContractAddress, tokenSecond_Amount)
+          tokenSecondInstance.methods.approve(
+            dexContractAddress,
+            tokenSecond_Amount
+          )
         )
         .withContractCall(
           dexContractInstance.methods.AddLiquidity(
@@ -401,7 +404,9 @@ export const addLiquidity = async (
             },
           ])
         )
-        .withContractCall(tokenSecond.methods.approve(dexContractAddress, 0));
+        .withContractCall(
+          tokenSecondInstance.methods.approve(dexContractAddress, 0)
+        );
     } else if (
       CONFIG.AMM[connectedNetwork][tokenFirst].CALL_TYPE === 'FA2' &&
       CONFIG.AMM[connectedNetwork][tokenSecond].CALL_TYPE === 'FA2'
@@ -767,6 +772,7 @@ export const getTokenPrices = async () => {
       'wMATIC',
       'wLINK',
       'USDtz',
+      'kUSD',
     ];
     const tokenAddress = {
       PLENTY: {
@@ -795,6 +801,9 @@ export const getTokenPrices = async () => {
       },
       USDtz: {
         contractAddress: 'KT1LN4LPSqTMS7Sd2CJw4bbDGRkMv2t68Fy9',
+      },
+      kUSD: {
+        contractAddress: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
       },
     };
     for (let i in tokenPriceResponse.contracts) {

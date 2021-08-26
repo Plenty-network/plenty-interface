@@ -536,6 +536,11 @@ module.exports = {
             property: 'token1_pool',
             liquidityToken: 'PlentywUSDClp',
           },
+          USDtz: {
+            contract: 'KT1EJMMismkf6TQdMzgx8hb1HpiiRVV8ZSm4',
+            property: 'token2_pool',
+            liquidityToken: 'wUSDC-USDtz-LP',
+          },
         },
       },
       wBUSD: {
@@ -611,6 +616,31 @@ module.exports = {
             property: 'token1_pool',
             liquidityToken: 'Plentyusdtzlp',
           },
+          kUSD: {
+            contract: 'KT1TnsQ6JqzyTz5PHMsGj28WwJyBtgc146aJ',
+            property: 'token1_pool',
+            liquidityToken: 'kUSD-USDtz-LP',
+          },
+          wUSDC: {
+            contract: 'KT1EJMMismkf6TQdMzgx8hb1HpiiRVV8ZSm4',
+            property: 'token1_pool',
+            liquidityToken: 'wUSDC-USDtz-LP',
+          },
+        },
+      },
+      kUSD: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
+        READ_TYPE: 'FA1.2',
+        CALL_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 18,
+        DEX_PAIRS: {
+          USDtz: {
+            contract: 'KT1TnsQ6JqzyTz5PHMsGj28WwJyBtgc146aJ',
+            property: 'token2_pool',
+            liquidityToken: 'kUSD-USDtz-LP',
+          },
         },
       },
       PlentywUSDClp: {
@@ -659,6 +689,22 @@ module.exports = {
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 12,
+        CALL_TYPE: 'FA1.2',
+      },
+      'kUSD-USDtz-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1HEdGi7rq1zgZ68dhAtKMZYKeD3EM5vYdf',
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 12,
+        CALL_TYPE: 'FA1.2',
+      },
+      'wUSDC-USDtz-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1FaoPYSyT4itmgTncvdshV7SeqqXk9RJXd',
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 6,
         CALL_TYPE: 'FA1.2',
       },
     },
