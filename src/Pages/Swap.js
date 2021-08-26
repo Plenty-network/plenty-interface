@@ -26,6 +26,7 @@ import wwbtc from '../assets/images/wwbtc.png';
 import wmatic from '../assets/images/wmatic.png';
 import wlink from '../assets/images/wlink.png';
 import usdtz from '../assets/images/usdtz.png';
+import kusd from '../assets/images/kusd.png';
 
 const Swap = (props) => {
   const tokens = [
@@ -56,6 +57,10 @@ const Swap = (props) => {
     {
       name: 'USDtz',
       image: usdtz,
+    },
+    {
+      name: 'kUSD',
+      image: kusd,
     },
   ];
 

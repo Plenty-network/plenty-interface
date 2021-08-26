@@ -72,7 +72,10 @@ const ConfirmAddLiquidity = (props) => {
                 {props.tokenOut.name} deposited{' '}
               </p>
               <p className="swap-detail-amt-details">
-                {props.computedOutDetails.tokenOut_amount} {props.tokenOut.name}
+                {props.secondTokenAmount
+                  ? props.secondTokenAmount
+                  : props.estimatedTokenAmout.otherTokenAmount}{' '}
+                {props.tokenOut.name}
               </p>
             </div>
 
