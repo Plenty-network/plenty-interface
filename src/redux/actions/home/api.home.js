@@ -1,11 +1,40 @@
 import { TezosParameterFormat, TezosMessageUtils } from "conseiljs"
 import { BeaconWallet } from "@taquito/beacon-wallet"
 import { TezosToolkit, OpKind } from "@taquito/taquito"
-import * as actions from "../index.action"
-import store from "../../store/store"
-import { getPlentyBalanceOfUser, getPlentyToHarvest } from "./home.actions"
 const CONFIG = require("../../../config/config")
 const axios = require("axios")
+
+export const getHomeStatsDataApi = async () => {
+	const res = await axios.get(
+		"https://mf29fdthuf.execute-api.us-east-2.amazonaws.com/v1/homestats"
+	)
+	if (res.data.success) {
+		return {
+			success: true,
+			data: res.data.body,
+		}
+	} else {
+		return {
+			success: false,
+		}
+	}
+}
+
+export const getTVLHelper = async () => {
+	const res = await axios.get(
+		"https://mf29fdthuf.execute-api.us-east-2.amazonaws.com/v1/tvl"
+	)
+	if (res.data.success) {
+		return {
+			success: true,
+			data: res.data.body,
+		}
+	} else {
+		return {
+			success: false,
+		}
+	}
+}
 
 export const calculateHarvestValue = async (
 	stakingContractAddress,
@@ -178,11 +207,12 @@ export const getBalanceAmount = async (
 			success: false,
 			balance: 0,
 			identifier,
+			error: error,
 		}
 	}
 }
 
-export const CheckIfWalletConnected = async (wallet, somenet) => {
+const CheckIfWalletConnected = async (wallet, somenet) => {
 	try {
 		const connectedNetwork = CONFIG.NETWORK
 		const network = {
@@ -205,7 +235,7 @@ export const CheckIfWalletConnected = async (wallet, somenet) => {
 	}
 }
 
-export const getAllActiveContractAddresses = async () => {
+const getAllActiveContractAddresses = async () => {
 	let contracts = []
 	const connectedNetwork = CONFIG.NETWORK
 	for (let x in CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork]) {
@@ -285,7 +315,7 @@ const getLpPriceFromDex = async (identifier, dexAddress) => {
 
 export const getStorageForFarms = async isActive => {
 	try {
-		let promises = []
+		// let promises = []
 		let dexPromises = []
 		const xtzPriceResponse = await axios.get(
 			"https://api.coingecko.com/api/v3/coins/tezos?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false"
@@ -370,7 +400,7 @@ const getPriceForPlentyLpTokens = async (
 		let lpTokenTotalSupply = parseInt(storageResponse.data.args[5].int)
 
 		let token1Address = storageResponse.data.args[0].args[2].string.toString()
-		let token1Id = parseInt(storageResponse.data.args[1].args[0].args[0].int)
+		// let token1Id = parseInt(storageResponse.data.args[1].args[0].args[0].int)
 		let token1Check = storageResponse.data.args[0].args[3].prim.toString()
 
 		let token2Address = storageResponse.data.args[1].args[2].string.toString()
@@ -716,14 +746,9 @@ export const getPondContracts = async () => {
 
 export const getStorageForPonds = async isActive => {
 	try {
-		const xtzPriceResponse = await axios.get(
-			"https://api.coingecko.com/api/v3/coins/tezos?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false"
-		)
-		const xtzPriceInUsd = xtzPriceResponse.data.market_data.current_price.usd
 		const tokenPrices = await axios.get("https://api.teztools.io/token/prices")
 		const tokenPricesData = tokenPrices.data.contracts
 		let priceOfPlenty = 0
-		let priceOfToken = []
 		let tokenData = {}
 
 		for (let i in tokenPricesData) {
@@ -753,7 +778,7 @@ export const getStorageForPonds = async isActive => {
 	}
 }
 
-const getStakedAmount = async (
+export const getStakedAmount = async (
 	mapId,
 	packedKey,
 	identifier,
@@ -928,5 +953,267 @@ export const harvestAllHelper = async (
 		}
 	} catch (error) {
 		return { success: false, error: error }
+	}
+}
+
+export const getTVLOfUserHelper = async userAddress => {
+	try {
+		let tvlOfUser = 0
+		const {
+			activeContracts: farmActiveContracts,
+			inactiveContracts: farmInactiveContracts,
+		} = await getAllFarmsContracts()
+		const {
+			activeContracts: poolActiveContracts,
+			inactiveContracts: poolsInactiveContracts,
+		} = await getAllPoolsContracts()
+		const {
+			activeContracts: pondActiveContracts,
+			inactiveContracts: pondInactiveContract,
+		} = await getPondContracts()
+		let tokenDataPromises = [
+			getStorageForPools("active"),
+			getStorageForPools("inactive"),
+			getStorageForPonds("active"),
+			getStorageForPonds("inactive"),
+			getStorageForFarms("active"),
+			getStorageForFarms("inactive"),
+		]
+
+		const responseTokenData = await Promise.all(tokenDataPromises)
+		const poolTokenDataActive = responseTokenData[0].priceOfToken
+		const poolTokenDataInactive = responseTokenData[1].priceOfToken
+		const pondTokenDataActive = responseTokenData[2].priceOfPlenty
+		const pondTokenDataInactive = responseTokenData[3].priceOfPlenty
+		const farmTokenDataActive = responseTokenData[4].priceOfLPToken
+		const farmTokenDataInactive = responseTokenData[5].priceOfLPToken
+
+		// console.log(poolTokenDataActive, poolTokenDataInactive, "POOL TOKEN DATA")
+		// console.log(pondTokenDataActive, pondTokenDataInactive, "POND TOKEN DATA")
+		// console.log(farmTokenDataActive, farmTokenDataInactive, "FARM TOKEN DATA")
+
+		const packedKey = getPackedKey(0, userAddress, "FA1.2")
+
+		//FARM ACTIVE
+		let stakedAmountsFromActiveFarmsPromises = []
+		for (let key in farmActiveContracts) {
+			const { mapId, identifier, decimal, contract, tokenDecimal } =
+				farmActiveContracts[key]
+			stakedAmountsFromActiveFarmsPromises.push(
+				getStakedAmount(
+					mapId,
+					packedKey,
+					identifier,
+					decimal,
+					contract,
+					tokenDecimal
+				)
+			)
+		}
+		const farmResponsesActive = await Promise.all(
+			stakedAmountsFromActiveFarmsPromises
+		)
+		// console.log(farmResponsesActive)
+		for (let key in farmResponsesActive) {
+			// console.log(
+			// 	farmResponsesActive[key].balance,
+			// 	typeof farmTokenDataActive["PLENTY - XTZ"],
+			// 	isNaN(farmTokenDataActive["PLENTY - XTZ"]),
+			// 	farmTokenDataActive[farmResponsesActive[key].identifier],
+			// 	farmResponsesActive[key].identifier
+			// )
+			if (farmResponsesActive[key].success) {
+				tvlOfUser +=
+					farmResponsesActive[key].balance *
+					farmTokenDataActive[farmResponsesActive[key].identifier]
+			}
+		}
+
+		//FARM INACTIVE
+		let stakedAmountsFromInactiveFarmsPromises = []
+		// console.log(farmInactiveContracts, "farmInactiveContracts")
+		for (let key in farmInactiveContracts) {
+			const { mapId, identifier, decimal, contract, tokenDecimal } =
+				farmInactiveContracts[key]
+			stakedAmountsFromInactiveFarmsPromises.push(
+				getStakedAmount(
+					mapId,
+					packedKey,
+					identifier,
+					decimal,
+					contract,
+					tokenDecimal
+				)
+			)
+		}
+		const farmResponsesInactive = await Promise.all(
+			stakedAmountsFromInactiveFarmsPromises
+		)
+		// console.log(farmResponsesInactive)
+		for (let key in farmResponsesInactive) {
+			// console.log(
+			// 	farmResponsesInactive[key].balance,
+			// 	farmTokenDataInactive[farmResponsesInactive[key].identifier],
+			// 	"INACTIVE FARMS",
+			// 	farmTokenDataInactive, "<-----Inactive Farm Tokens----->"
+			// )
+			if (farmResponsesInactive[key].success) {
+				tvlOfUser +=
+					farmResponsesInactive[key].balance *
+					farmTokenDataInactive[farmResponsesInactive[key].identifier]
+			}
+		}
+
+		//POOLS ACTIVE
+		let stakedAmountsFromActivePoolsPromises = []
+		for (let key in poolActiveContracts) {
+			const { mapId, identifier, decimal, contract, tokenDecimal } =
+				poolActiveContracts[key]
+			stakedAmountsFromActivePoolsPromises.push(
+				getStakedAmount(
+					mapId,
+					packedKey,
+					identifier,
+					decimal,
+					contract,
+					tokenDecimal
+				)
+			)
+		}
+		const poolResponseActive = await Promise.all(
+			stakedAmountsFromActivePoolsPromises
+		)
+		// console.log(poolResponseActive)
+		for (let key in poolResponseActive) {
+			// console.log(
+			// 	poolResponseActive[key].balance,
+			// 	poolTokenDataActive[poolResponseActive[key].identifier]
+			// )
+			if (poolResponseActive[key].success) {
+				tvlOfUser +=
+					poolResponseActive[key].balance *
+					poolTokenDataActive[poolResponseActive[key].identifier]
+			}
+		}
+
+		//POOL Inactive
+
+		let stakedAmountsFromInactivePoolsPromises = []
+		for (let key in poolsInactiveContracts) {
+			const { mapId, identifier, decimal, contract, tokenDecimal } =
+				poolsInactiveContracts[key]
+			stakedAmountsFromInactivePoolsPromises.push(
+				getStakedAmount(
+					mapId,
+					packedKey,
+					identifier,
+					decimal,
+					contract,
+					tokenDecimal
+				)
+			)
+		}
+		const poolResponseInactive = await Promise.all(
+			stakedAmountsFromInactivePoolsPromises
+		)
+		// console.log(poolResponseInactive)
+		for (let key in poolResponseInactive) {
+			// console.log(
+			// 	poolResponseInactive[key].balance,
+			// 	poolTokenDataInactive[poolResponseInactive[key].identifier]
+			// )
+			if (poolResponseInactive[key].success) {
+				tvlOfUser +=
+					poolResponseInactive[key].balance *
+					poolTokenDataInactive[poolResponseInactive[key].identifier]
+			}
+		}
+
+		//POND Active
+		let stakedAmountsFromActivePondPromises = []
+		for (let key in pondActiveContracts) {
+			const { mapId, identifier, decimal, contract, tokenDecimal } =
+				pondActiveContracts[key]
+			stakedAmountsFromActivePondPromises.push(
+				getStakedAmount(
+					mapId,
+					packedKey,
+					identifier,
+					decimal,
+					contract,
+					tokenDecimal
+				)
+			)
+		}
+		const pondResponseActive = await Promise.all(
+			stakedAmountsFromActivePondPromises
+		)
+		// console.log(pondResponseActive)
+		for (let key in pondResponseActive) {
+			// console.log(pondResponseActive[key].balance, pondTokenDataActive)
+			if (pondResponseActive[key].success) {
+				tvlOfUser += pondResponseActive[key].balance * pondTokenDataActive
+			}
+		}
+
+		//POND Inactive
+		let stakedAmountsFromInactivePondPromises = []
+		for (let key in pondInactiveContract) {
+			const { mapId, identifier, decimal, contract, tokenDecimal } =
+				pondInactiveContract[key]
+			stakedAmountsFromInactivePondPromises.push(
+				getStakedAmount(
+					mapId,
+					packedKey,
+					identifier,
+					decimal,
+					contract,
+					tokenDecimal
+				)
+			)
+		}
+		const pondResponseInactive = await Promise.all(
+			stakedAmountsFromInactivePondPromises
+		)
+		for (let key in pondResponseInactive) {
+			if (pondResponseInactive[key].success) {
+				tvlOfUser += pondResponseInactive[key].balance * pondTokenDataInactive
+			}
+		}
+		return {
+			success: true,
+			data: tvlOfUser,
+		}
+	} catch (error) {
+		return {
+			success: false,
+			error: error,
+		}
+	}
+}
+
+export const plentyToHarvestHelper = async addressOfUser => {
+	let plentyToHarvest = 0
+	let promises = [
+		getHarvestValue(addressOfUser, "FARMS", true),
+		getHarvestValue(addressOfUser, "FARMS", false),
+		getHarvestValue(addressOfUser, "POOLS", true),
+		getHarvestValue(addressOfUser, "POOLS", false),
+	]
+	const response = await Promise.all(promises)
+	response.forEach(item => {
+		if (item.success) {
+			for (const key in item.response) {
+				plentyToHarvest += item.response[key].totalRewards
+			}
+		} else {
+			return {
+				success: false,
+			}
+		}
+	})
+	return {
+		success: true,
+		data: plentyToHarvest,
 	}
 }
