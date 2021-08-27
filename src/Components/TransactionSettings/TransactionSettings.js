@@ -37,7 +37,7 @@ const TransactionSettings = (props) => {
         <div className="slipping-tolerance-detail-wrapper flex justify-between align-center">
           <button
             className="slipping-tolerance-btn"
-            onClick={(e) => props.setSlippage(0.05)}
+            onClick={(e) => props.setSlippage(0.5)}
           >
             Auto
           </button>
