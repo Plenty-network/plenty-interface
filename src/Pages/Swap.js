@@ -270,20 +270,38 @@ const Swap = (props) => {
         image: token.image,
       });
 
-      if (tokenOut.name) {
-        window.history.pushState(
-          {
-            path: `/swap?from=${token.name}&to=${tokenOut.name}`,
-          },
-          '',
-          `/swap?from=${token.name}&to=${tokenOut.name}`
-        );
+      if (window.location.pathname.replace('/', '') == 'swap') {
+        if (tokenOut.name) {
+          window.history.pushState(
+            {
+              path: `/swap?from=${token.name}&to=${tokenOut.name}`,
+            },
+            '',
+            `/swap?from=${token.name}&to=${tokenOut.name}`
+          );
+        } else {
+          window.history.pushState(
+            { path: `/swap?from=${token.name}` },
+            '',
+            `/swap?from=${token.name}`
+          );
+        }
       } else {
-        window.history.pushState(
-          { path: `/swap?from=${token.name}` },
-          '',
-          `/swap?from=${token.name}`
-        );
+        if (tokenOut.name) {
+          window.history.pushState(
+            {
+              path: `/liquidity/add?tokenA=${token.name}&tokenB=${tokenOut.name}`,
+            },
+            '',
+            `/liquidity/add?tokenA=${token.name}&tokenB=${tokenOut.name}`
+          );
+        } else {
+          window.history.pushState(
+            { path: `/liquidity/add?tokenA=${token.name}` },
+            '',
+            `/liquidity/add?tokenA=${token.name}`
+          );
+        }
       }
 
       loadSwapData(token.name, tokenOut.name).then((data) => {
@@ -297,13 +315,24 @@ const Swap = (props) => {
         name: token.name,
         image: token.image,
       });
-      window.history.pushState(
-        {
-          path: `/swap?from=${tokenIn.name}&to=${token.name}`,
-        },
-        '',
-        `/swap?from=${tokenIn.name}&to=${token.name}`
-      );
+      if (window.location.pathname.replace('/', '') == 'swap') {
+        window.history.pushState(
+          {
+            path: `/swap?from=${tokenIn.name}&to=${token.name}`,
+          },
+          '',
+          `/swap?from=${tokenIn.name}&to=${token.name}`
+        );
+      } else {
+        window.history.pushState(
+          {
+            path: `/liquidity/add?tokenA=${tokenIn.name}&tokenB=${token.name}`,
+          },
+          '',
+          `/liquidity/add?tokenA=${tokenIn.name}&tokenB=${token.name}`
+        );
+      }
+
       loadSwapData(tokenIn.name, token.name).then((data) => {
         if (data.success) {
           setSwapData(data);
@@ -423,6 +452,9 @@ const Swap = (props) => {
                   setLoaderMessage={setLoaderMessage}
                   resetAllValues={resetAllValues}
                   fetchUserWalletBalance={fetchUserWalletBalance}
+                  setTokenIn={setTokenIn}
+                  setTokenOut={setTokenOut}
+                  tokens={tokens}
                 />
               </Tab>
             </Tabs>

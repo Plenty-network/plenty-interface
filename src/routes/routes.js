@@ -65,7 +65,7 @@ const Routes = (props) => {
                   connecthWallet={connectWallet}
                 />
               </Route>
-              <Route path="/liquidity" exact>
+              <Route path="/liquidity">
                 <Swap
                   walletAddress={props.userAddress}
                   connecthWallet={connectWallet}

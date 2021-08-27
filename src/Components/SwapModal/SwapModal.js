@@ -26,7 +26,6 @@ const SwapModal = (props) => {
     <Modal
       show={props.show}
       onHide={props.onHide}
-      animation={false}
       className="swap-modal modal-themed"
     >
       <Modal.Header closeButton className="border-bottom-themed">
