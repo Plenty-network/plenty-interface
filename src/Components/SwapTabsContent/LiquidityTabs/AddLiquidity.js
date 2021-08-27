@@ -50,8 +50,6 @@ const AddLiquidity = (props) => {
       ? parseFloat(secondTokenAmount)
       : estimatedTokenAmout.otherTokenAmount;
 
-    console.log(props.firstTokenAmount, secondTokenAmountEntered);
-
     const lpTokenAmount = lpTokenOutput(
       props.firstTokenAmount,
       secondTokenAmountEntered,

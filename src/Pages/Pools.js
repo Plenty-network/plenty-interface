@@ -112,13 +112,13 @@ const Pools = (props) => {
         stakeModalFarmPosition={props.stakeModalPoolPosition}
         stakeModalTitle={props.stakeModalTitle}
         stakeModalIdentifier={props.stakeModalIdentifier}
-        open={props.isStakeModalOpen}
+        open={props.stakeModal.open}
         onClose={() => props.closePoolsStakeModal()}
         handleInput={props.handleStakeOfPoolInputValue}
         stakeInputValues={props.stakeInputValue}
         stakeOnFarm={props.stakeOnPool}
+        modalData={props.stakeModal}
       />
-      {props.isUnstakeModalOpen ? (
         <UnstakeModal
           unstakeModalwithdrawalFeeStructure={
             props.unstakeModalwithdrawalFeeStructure
@@ -129,15 +129,15 @@ const Pools = (props) => {
           unstakeModalContractAddress={props.unstakeModalContractAddress}
           unstakeModalIdentifier={props.unstakeModalIdentifier}
           currentBlock={props.currentBlock}
-          open={props.isUnstakeModalOpen}
+          open={props.unstakeModal.open}
           onClose={() => {
             props.closePoolsUnstakeModal();
           }}
           userStakes={props.userStakes}
           isActiveOpen={props.isActiveOpen}
           unstakeOnFarm={props.unstakeOnPool}
+          modalData={props.unstakeModal}
         />
-      ) : null}
       <PoolModals />
     </div>
   );
@@ -153,6 +153,8 @@ const mapStateToProps = (state) => {
     userStakes: state.user.stakes,
     harvestValueOnPools: state.user.harvestValueOnPools,
     walletBalances: state.user.balances,
+    stakeModal: state.pools.stakeModal,
+    unstakeModal: state.pools.unstakeModal,
     isStakeModalOpen: state.pools.isStakeModalOpen,
     stakeOperation: state.pools.stakeOperation,
     stakeModalIdentifier: state.pools.stakeModalIdentifier,
@@ -196,7 +198,7 @@ const mapDispatchToProps = (dispatch) => {
           identifier,
           title,
           position,
-          contractAddress
+          contractAddress,
         )
       ),
     closePoolsStakeModal: () => dispatch(poolsAction.closePoolsStakeModal()),
