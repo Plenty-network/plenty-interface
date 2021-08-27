@@ -8,7 +8,7 @@ module.exports = {
   RPC_NODES: {
     testnet: 'https://testnet.tezster.tech/',
     //mainnet: 'https://mainnet.smartpy.io/',
-    mainnet: 'https://mainnet-tezos.giganode.io/',
+    mainnet: 'https://tezos-prod.cryptonomic-infra.tech/',
   },
   TZKT_NODES: {
     mainnet: 'https://api.tzkt.io',
