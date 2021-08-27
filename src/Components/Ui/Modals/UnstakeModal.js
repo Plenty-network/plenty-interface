@@ -4,7 +4,7 @@ import Button from "../Buttons/Button";
 
 import styles from './modal.module.scss'
 import clsx from "clsx";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Collapse } from "react-bootstrap";
 
 const BUTTON_TEXT = {
@@ -21,6 +21,13 @@ const UnstakeModal = props => {
 
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState([]);
+
+  useEffect(() => {
+    if (!props.open) {
+      setOpen(false);
+      setSelected([]);
+    }
+  }, [props.open])
 
   const buttonText = useMemo(() => {
     if (selected.length > 0) {
@@ -168,7 +175,7 @@ const UnstakeModal = props => {
                 <div className={clsx(styles.feeBreakdownTable, "pb-2")}>
                   {
                     selected.map(x => (
-                      <div>
+                      <div key={x.mapId}>
                         <div>{'Stake ' + x.mapId}</div>
                         <div>{x.rate+'%'}</div>
                         <div>{x.fee}</div>

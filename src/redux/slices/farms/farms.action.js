@@ -86,6 +86,14 @@ export const stakingFarmsActions = {
     state.modals.transactionId = action.payload.opHash;
     state.modals.snackbar = true;
 
+    state.stakeModal = {
+      open: false,
+      identifier: '',
+      title: '',
+      contractAddress: '',
+      position: -1
+    }
+
     state.stakeOperation = {
       isLoading: false,
       processing: true,
@@ -145,6 +153,16 @@ export const unstakingFarmsAction = {
   unstakingOnFarmProcessing: (state, action) => {
     state.modals.open = FARM_PAGE_MODAL.TRANSACTION_SUCCESS;
     state.modals.transactionId = action.payload.opHash;
+    state.modals.snackbar = true;
+
+    state.unstakeModal = {
+      open: false,
+      identifier: '',
+      title: '',
+      contractAddress: '',
+      withdrawalFeeStructure: [],
+      position: -1,
+    }
 
     state.unstakeOperation = {
       isLoading: false,

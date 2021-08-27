@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import SimpleModal from "./SimpleModal";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Button from "../Buttons/Button";
 
 import styles from "./modal.module.scss";
@@ -14,6 +14,13 @@ const BUTTON_TEXT = {
 
 const StakeModal = props => {
   const [inputValue, setInputValue] = useState("")
+
+  useEffect(() => {
+    if (!props.open) {
+      setInputValue("");
+    }
+  }, [props.open])
+
   const onStake = () => {
     props.stakeOnFarm(
       parseFloat(inputValue),
@@ -28,6 +35,7 @@ const StakeModal = props => {
   }
 
   const onModalClose = () => {
+    setInputValue("");
     props.onClose();
   }
 
