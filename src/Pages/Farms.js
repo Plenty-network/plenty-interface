@@ -74,31 +74,18 @@ const Farms = (props) => {
               return (
                 <FarmCard
                   key={`${farm.identifier}${props.isActiveOpen ? ' active' : ''}`}
-                  handleStakeOfFarmInputValue={
-                    props.handleStakeOfFarmInputValue
-                  }
                   harvestOnFarm={props.harvestOnFarm}
-                  stakeInputValues={props.stakeInputValues}
                   stakeOnFarm={props.stakeOnFarm}
                   openFarmsStakeModal={props.openFarmsStakeModal}
-                  closeFarmsStakeModal={props.closeFarmsStakeModal}
                   openFarmsUnstakeModal={props.openFarmsUnstakeModal}
-                  closeFarmsUnstakeModal={props.closeFarmsUnstakeModal}
                   connectWallet={props.connectWallet}
                   unstakeOnFarm={props.unstakeOnFarm}
                   isActiveOpen={props.isActiveOpen}
                   farmCardData={farm}
                   userStakes={props.userStakes}
                   harvestValueOnFarms={props.harvestValueOnFarms}
-                  isStakeModalOpen={props.isStakeModalOpen}
                   userAddress={props.userAddress}
-                  isUnstakeModalOpen={props.isUnstakeModalOpen}
                   currentBlock={props.currentBlock}
-                  {...farm.properties}
-                  {...farm.farmData}
-                  identifier={farm.identifier}
-                  position={farm.location}
-                  withdrawalFeeStructure={farm.withdrawalFeeStructure}
                   harvestOperation={props.harvestOperation}
                 />
               );
@@ -168,11 +155,7 @@ const mapDispatchToProps = (dispatch) => {
       ),
     harvestOnFarm: (farmIdentifier, isActive, position) =>
       dispatch(harvestOnFarmThunk(farmIdentifier, isActive, position)),
-    // handleStakeOfFarmInputValue: (value) =>
-    //   dispatch(handleStakeOfFarmInputValue(value)),
     getFarmsData: (isActive) => dispatch(getFarmsDataThunk(isActive)),
-    setFarmsToRender: (farmsToBeRender) =>
-      dispatch(setFarmsToRender(farmsToBeRender)),
     getUserStakes: (address, type, isActive) =>
       dispatch(userActions.getUserStakes(address, type, isActive)),
     getHarvestValues: (address, type, isActive) =>

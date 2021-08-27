@@ -27,7 +27,7 @@ const FarmCardBottom = (props) => {
     return props.userStakes.hasOwnProperty(farmData.CONTRACT)
       ? props.userStakes[farmData.CONTRACT].stakedAmount
       : 0
-  }, [farmData.CONTRACT, props.userStakes, props.walletAddress])
+  }, [farmData.CONTRACT, props.userStakes, props.userAddress])
 
   return (
     <>
