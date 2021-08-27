@@ -7,6 +7,58 @@ import plentyWWBTC from '../assets/images/farms/PLENTY-wWBTC.png';
 import plentyUsdtz from '../assets/images/plenty-usdtz.png';
 import plentyWmatic from '../assets/images/plenty-wmatic.png';
 import plentyWlink from '../assets/images/plenty-wlink.png';
+import PropTypes from "prop-types";
+
+export const FARMS_CARD_DATA_PROPTYPES = PropTypes.shape({
+  farmData: PropTypes.shape({
+    LP_TOKEN: PropTypes.string,
+    CONTRACT: PropTypes.string,
+    DEX: PropTypes.string,
+    TOKEN_ADDRESS: PropTypes.string,
+    CARD_TYPE: PropTypes.string,
+    TOKEN_DECIMAL: 6,
+    TYPE: PropTypes.string,
+    LP_DECIMAL: 18,
+    TEMP_ADDRESS: PropTypes.string,
+    DECIMAL: 18,
+    withdrawalFeeType: PropTypes.array,
+  }).isRequired,
+  properties: PropTypes.shape({
+    image: PropTypes.string,
+    harvestImg: PropTypes.string,
+    multi: PropTypes.string,
+    title: PropTypes.string,
+    apr: PropTypes.number,
+    apy: PropTypes.string,
+    earn: PropTypes.string,
+    fee: PropTypes.string,
+    earned: PropTypes.number,
+    deposit: PropTypes.string,
+    liquidity: PropTypes.string,
+    withdrawalFee: PropTypes.string,
+    balance: PropTypes.number,
+    userBalance: PropTypes.number,
+    URL: PropTypes.string,
+    active: PropTypes.bool,
+    source: PropTypes.string,
+    rewards: PropTypes.string,
+  }).isRequired,
+  identifier: PropTypes.string.isRequired,
+  position: PropTypes.number.isRequired,
+  values: PropTypes.shape({
+    identifier: PropTypes.string,
+    APR: PropTypes.number,
+    totalLiquidty: PropTypes.number,
+    roiTable: PropTypes.arrayOf(
+      PropTypes.shape({
+        roi: PropTypes.number,
+        PlentyPer1000dollar: PropTypes.number,
+      })
+    ),
+    totalSupply: PropTypes.number,
+    rewardRate: PropTypes.number,
+  })
+})
 
 export const FARM_PAGE_MODAL = {
   NULL: null,

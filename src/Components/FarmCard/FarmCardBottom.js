@@ -7,28 +7,27 @@ import styles from "../../assets/scss/partials/_farms.module.scss"
 import clsx from "clsx";
 import QuantityButton from "../Ui/Buttons/QuantityButton";
 import { Image, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { FARM_PAGE_MODAL, FARMS_CARD_DATA_PROPTYPES } from "../../constants/farmsPage";
 import { useDispatch } from "react-redux";
-import { openCloseFarmsModal } from "../../redux/actions/farms/farms.actions";
-import { FARM_PAGE_MODAL } from "../../constants/farmsPage";
+import { openCloseFarmsModal } from "../../redux/slices/farms/farms.slice";
 
 const FarmCardBottom = (props) => {
+  const dispatch = useDispatch()
+  const { properties, farmData } = props.farmCardData
   const [ isExpanded, toggleExpand ] = useState(false);
   const target = useRef(null);
-  const dispatch = useDispatch()
-
-  const hasStakedAmount = () => {
-    return props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0;
-  }
 
   const onWithdrawalFeeClick = () => {
-    dispatch(openCloseFarmsModal({ open: FARM_PAGE_MODAL.WITHDRAWAL, contractAddress: props.CONTRACT }))
+    dispatch(openCloseFarmsModal({
+      open: FARM_PAGE_MODAL.WITHDRAWAL, contractAddress: farmData.CONTRACT, withdrawalFeeType: farmData.withdrawalFeeType
+    }))
   }
 
   const stakedAmount = useMemo(() => {
-    return props.userStakes.hasOwnProperty(props.CONTRACT)
-      ? props.userStakes[props.CONTRACT].stakedAmount
+    return props.userStakes.hasOwnProperty(farmData.CONTRACT)
+      ? props.userStakes[farmData.CONTRACT].stakedAmount
       : 0
-  }, [props.CONTRACT, props.userStakes])
+  }, [farmData.CONTRACT, props.userStakes, props.userAddress])
 
   return (
     <>
@@ -43,7 +42,7 @@ const FarmCardBottom = (props) => {
         }
       )}>
 
-        {(hasStakedAmount() || isExpanded) && (
+        {(stakedAmount > 0 || isExpanded) && (
           <div className="d-flex">
             <div className={clsx(styles.harvestStakeAmt, "mr-2 justify-content-between")}>
               <Image height={31} src={props.harvestImg} fuild className="mt-auto mb-auto ml-2" />
@@ -52,10 +51,10 @@ const FarmCardBottom = (props) => {
                   (
                     props.userAddress !== null &&
                     props.harvestValueOnFarms.hasOwnProperty(props.isActiveOpen) &&
-                    props.harvestValueOnFarms[props.isActiveOpen].hasOwnProperty(props.CONTRACT)&&
-                    props.harvestValueOnFarms[props.isActiveOpen][props.CONTRACT].totalRewards > 0
+                    props.harvestValueOnFarms[props.isActiveOpen].hasOwnProperty(farmData.CONTRACT)&&
+                    props.harvestValueOnFarms[props.isActiveOpen][farmData.CONTRACT].totalRewards > 0
                   )
-                    ? props.harvestValueOnFarms[props.isActiveOpen][props.CONTRACT].totalRewards.toFixed(6)
+                    ? props.harvestValueOnFarms[props.isActiveOpen][farmData.CONTRACT].totalRewards.toFixed(6)
                     : 0
                 }
               </span>
@@ -64,12 +63,12 @@ const FarmCardBottom = (props) => {
             <Button
               onClick={() => {
                 props.harvestOnFarm(
-                  props.identifier,
+                  props.farmCardData.identifier,
                   props.isActiveOpen,
-                  props.position
+                  props.farmCardData.position
                 )
               }}
-              color={hasStakedAmount() ? "primary" : "default"}
+              color={stakedAmount > 0 ? "primary" : "default"}
               loading={props.harvestOperation.tokenPair === props.identifier && props.harvestOperation.isLoading}
             >
               Harvest
@@ -90,9 +89,13 @@ const FarmCardBottom = (props) => {
               </div>
               <span />
               {
-                 (props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0 )
-                  ? <QuantityButton onAdd={() => props.openFarmsStakeModal(props.identifier,props.title,props.position,props.CONTRACT)} onRemove={() => props.openFarmsUnstakeModal(props.identifier,props.CONTRACT,props.title,props.withdrawalFeeStructure,props.position)}/> 
-                  : <Button onClick={() => props.openFarmsStakeModal(props.identifier,props.title,props.position,props.CONTRACT)} color={"default"}>Stake</Button>
+                (stakedAmount > 0)
+                  ? <QuantityButton
+                    onAdd={() => props.openFarmsStakeModal(props.farmCardData.identifier, properties.title,  farmData.CONTRACT, props.farmCardData.position)}
+                    onRemove={() => props.openFarmsUnstakeModal(props.farmCardData.identifier, farmData.CONTRACT, properties.title, farmData.withdrawalFeeType, props.farmCardData.position)}/>
+                  : <Button
+                    onClick={() => props.openFarmsStakeModal(props.farmCardData.identifier, properties.title,  farmData.CONTRACT, props.farmCardData.position)}
+                    color={"default"}>Stake</Button>
               }
             </div>
           </>
@@ -147,7 +150,7 @@ const FarmCardBottom = (props) => {
                 className="w-100"
                 color={"default"}
                 onClick={() => window.open(
-                  `https://better-call.dev/mainnet/${props.CONTRACT}/operations`,
+                  `https://better-call.dev/mainnet/${farmData.CONTRACT}/operations`,
                   '_blank'
                 )}
               >
@@ -170,7 +173,8 @@ const FarmCardBottom = (props) => {
 };
 
 FarmCardBottom.propTypes = {
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  farmCardData: FARMS_CARD_DATA_PROPTYPES
 }
 
 export default FarmCardBottom;

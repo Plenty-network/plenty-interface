@@ -89,7 +89,7 @@ const initiateStakingOperationOnPond = () => {
 
 export const stakingOnPondProcessing = (batchOperation) => {
   return {
-    type: actions.PROCESSING_STAKING_ON_FARM,
+    type: actions.PROCESSING_STAKING_ON_POND,
     payload: batchOperation
   }
 }

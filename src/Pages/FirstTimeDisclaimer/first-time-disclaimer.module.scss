@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .card {
   background: #FFFFFF;
   border-radius: 28px;
@@ -85,9 +87,9 @@ $md-checkbox-label-padding: .75em;
 
         $md-checkmark-size: $md-checkbox-size - 2 * $md-checkbox-padding;
 
-        transform: translate($md-checkbox-padding, ($md-checkbox-size / 2) - ($md-checkmark-size / 2.6)) rotate(-45deg);
+        transform: translate($md-checkbox-padding, math.div($md-checkbox-size, 2) - math.div($md-checkmark-size, 2.6)) rotate(-45deg);
         width: $md-checkmark-size;
-        height: $md-checkmark-size / 2;
+        height: math.div($md-checkmark-size, 2);
 
         border: $md-checkmark-width solid $md-checkmark-color;
         border-top-style: none;
