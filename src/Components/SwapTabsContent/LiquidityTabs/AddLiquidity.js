@@ -45,9 +45,14 @@ const AddLiquidity = (props) => {
   const confirmAddLiquidity = () => {
     props.setShowConfirmAddSupply(true);
     props.setHideContent('content-hide');
+
+    const secondTokenAmountEntered = secondTokenAmount
+      ? parseFloat(secondTokenAmount)
+      : estimatedTokenAmout.otherTokenAmount;
+
     const lpTokenAmount = lpTokenOutput(
       props.firstTokenAmount,
-      estimatedTokenAmout.otherTokenAmount,
+      secondTokenAmountEntered,
       props.swapData.tokenIn_supply,
       props.swapData.tokenOut_supply,
       props.swapData.lpTokenSupply
@@ -61,11 +66,14 @@ const AddLiquidity = (props) => {
 
   const CallConfirmAddLiquidity = () => {
     props.setLoading(true);
+    const secondTokenAmountEntered = secondTokenAmount
+      ? parseFloat(secondTokenAmount)
+      : estimatedTokenAmout.otherTokenAmount;
     addLiquidity(
       props.tokenIn.name,
       props.tokenOut.name,
       props.firstTokenAmount,
-      estimatedTokenAmout.otherTokenAmount,
+      secondTokenAmountEntered,
       props.tokenContractInstances[props.tokenIn.name],
       props.tokenContractInstances[props.tokenOut.name],
       props.walletAddress,
@@ -78,6 +86,7 @@ const AddLiquidity = (props) => {
         props.setShowConfirmAddSupply(false);
         props.setHideContent('');
         props.resetAllValues();
+        props.fetchUserWalletBalance();
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
@@ -87,6 +96,7 @@ const AddLiquidity = (props) => {
         props.setShowConfirmAddSupply(false);
         props.setHideContent('');
         props.resetAllValues();
+        props.fetchUserWalletBalance();
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
@@ -241,7 +251,9 @@ const AddLiquidity = (props) => {
                 {props.getTokenPrice.success &&
                 estimatedTokenAmout.otherTokenAmount
                   ? (
-                      estimatedTokenAmout.otherTokenAmount *
+                      (secondTokenAmount
+                        ? secondTokenAmount
+                        : estimatedTokenAmout.otherTokenAmount) *
                       props.getTokenPrice.tokenPrice[props.tokenOut.name]
                     ).toFixed(5)
                   : '0.00'}
@@ -256,6 +268,8 @@ const AddLiquidity = (props) => {
         CallConfirmAddLiquidity={CallConfirmAddLiquidity}
         lpTokenAmount={lpTokenAmount}
         onHide={props.handleClose}
+        estimatedTokenAmout={estimatedTokenAmout}
+        secondTokenAmount={secondTokenAmount}
       />
       <InfoModal
         open={showTransactionSubmitModal}

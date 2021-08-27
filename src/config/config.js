@@ -8,7 +8,7 @@ module.exports = {
   RPC_NODES: {
     testnet: 'https://testnet.tezster.tech/',
     //mainnet: 'https://mainnet.smartpy.io/',
-    mainnet: 'https://cres2hr8uxm6.midl.dev/',
+    mainnet: 'https://tezos-prod.cryptonomic-infra.tech/',
   },
   TZKT_NODES: {
     mainnet: 'https://api.tzkt.io',
@@ -36,18 +36,17 @@ module.exports = {
           ],
         },
         USDtz: {
-          active: [
-            {
-              address: 'KT1MBqc3GHpApBXaBZyvY63LF6eoFyTWtySn',
-              mapId: 4490,
-              decimal: 18,
-              tokenDecimal: 6,
-            },
-          ],
+          active: [],
           inactive: [
             {
               address: 'KT1K5cgrw1A8WTiizZ5b6TxNdFnBq9AtyQ7X',
               mapId: 3953,
+              decimal: 18,
+              tokenDecimal: 6,
+            },
+            {
+              address: 'KT1MBqc3GHpApBXaBZyvY63LF6eoFyTWtySn',
+              mapId: 4490,
               decimal: 18,
               tokenDecimal: 6,
             },
@@ -90,14 +89,7 @@ module.exports = {
           ],
         },
         wLINK: {
-          active: [
-            {
-              address: 'KT1KyxPitU1xNbTriondmAFtPEcFhjSLV1hz',
-              mapId: 4492,
-              decimal: 18,
-              tokenDecimal: 18,
-            },
-          ],
+          active: [],
           inactive: [
             {
               address: 'KT1JCkdS3x5hTWdrTQdzK6vEkeAdQzsm2wzf',
@@ -105,21 +97,26 @@ module.exports = {
               decimal: 18,
               tokenDecimal: 18,
             },
-          ],
-        },
-        wMATIC: {
-          active: [
             {
-              address: 'KT1XherecVvrE6X4PV5RTwdEKNzA294ZE9T9',
-              mapId: 4493,
+              address: 'KT1KyxPitU1xNbTriondmAFtPEcFhjSLV1hz',
+              mapId: 4492,
               decimal: 18,
               tokenDecimal: 18,
             },
           ],
+        },
+        wMATIC: {
+          active: [],
           inactive: [
             {
               address: 'KT1TNzH1KiVsWh9kpFrWACrDNnfK4ihvGAZs',
               mapId: 3947,
+              decimal: 18,
+              tokenDecimal: 18,
+            },
+            {
+              address: 'KT1XherecVvrE6X4PV5RTwdEKNzA294ZE9T9',
+              mapId: 4493,
               decimal: 18,
               tokenDecimal: 18,
             },
@@ -198,6 +195,39 @@ module.exports = {
               mapId: 11057,
               decimal: 18,
               tokenDecimal: 13,
+            },
+          ],
+          inactive: [],
+        },
+        'PLENTY - wMATIC': {
+          active: [
+            {
+              address: 'KT1UP9XHQigWMqNXYp9YXaCS1hV9jJkCF4h4',
+              mapId: 11823,
+              decimal: 18,
+              tokenDecimal: 18,
+            },
+          ],
+          inactive: [],
+        },
+        'PLENTY - wLINK': {
+          active: [
+            {
+              address: 'KT1UqnQ6b1EwQgYiKss4mDL7aktAHnkdctTQ',
+              mapId: 11819,
+              decimal: 18,
+              tokenDecimal: 18,
+            },
+          ],
+          inactive: [],
+        },
+        'PLENTY - USDtz': {
+          active: [
+            {
+              address: 'KT1VCrmywPNf8ZHH95HKHvYA4bBQJPa8g2sr',
+              mapId: 11821,
+              decimal: 18,
+              tokenDecimal: 12,
             },
           ],
           inactive: [],
@@ -321,6 +351,27 @@ module.exports = {
         address: 'KT1La1qZiJtDRcd9ek8w5KYD47i9MQqAQHmP',
         mapId: 11051,
         decimal: 13,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+      'PLENTY - wMATIC': {
+        address: 'KT1WCGPFvy97wwGxewKfvTr1QYPvpEgUKToS',
+        mapId: 11807,
+        decimal: 18,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+      'PLENTY - wLINK': {
+        address: 'KT1Brqb3JvXNKzwjW82F8pUAxQ7ipCfApWki',
+        mapId: 11811,
+        decimal: 18,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+      'PLENTY - USDtz': {
+        address: 'KT18qSo4Ch2Mfq4jP3eME7SWHB8B8EDTtVBu',
+        mapId: 11814,
+        decimal: 12,
         type: 'FA1.2',
         tokenId: 0,
       },
@@ -452,6 +503,21 @@ module.exports = {
             property: 'token2_pool',
             liquidityToken: 'PlentywWBTClp',
           },
+          wMATIC: {
+            contract: 'KT1VeNQa4mucRj36qAJ9rTzm4DTJKfemVaZT',
+            property: 'token2_pool',
+            liquidityToken: 'PlentywMaticlp',
+          },
+          wLINK: {
+            contract: 'KT1XVrXmWY9AdVri6KpxKo4CWxizKajmgzMt',
+            property: 'token2_pool',
+            liquidityToken: 'Plentywlinklp',
+          },
+          USDtz: {
+            contract: 'KT1D36ZG99YuhoCRZXLL86tQYAbv36bCq9XM',
+            property: 'token2_pool',
+            liquidityToken: 'Plentyusdtzlp',
+          },
         },
       },
       wUSDC: {
@@ -466,6 +532,11 @@ module.exports = {
             contract: 'KT1PuPNtDFLR6U7e7vDuxunDoKasVT6kMSkz',
             property: 'token1_pool',
             liquidityToken: 'PlentywUSDClp',
+          },
+          USDtz: {
+            contract: 'KT1EJMMismkf6TQdMzgx8hb1HpiiRVV8ZSm4',
+            property: 'token2_pool',
+            liquidityToken: 'wUSDC-USDtz-LP',
           },
         },
       },
@@ -499,6 +570,76 @@ module.exports = {
           },
         },
       },
+      wMATIC: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+        READ_TYPE: 'FA2',
+        CALL_TYPE: 'FA2',
+        TOKEN_ID: 11,
+        TOKEN_DECIMAL: 18,
+        DEX_PAIRS: {
+          PLENTY: {
+            contract: 'KT1VeNQa4mucRj36qAJ9rTzm4DTJKfemVaZT',
+            property: 'token1_pool',
+            liquidityToken: 'PlentywMaticlp',
+          },
+        },
+      },
+      wLINK: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+        READ_TYPE: 'FA2',
+        CALL_TYPE: 'FA2',
+        TOKEN_ID: 10,
+        TOKEN_DECIMAL: 18,
+        DEX_PAIRS: {
+          PLENTY: {
+            contract: 'KT1XVrXmWY9AdVri6KpxKo4CWxizKajmgzMt',
+            property: 'token1_pool',
+            liquidityToken: 'Plentywlinklp',
+          },
+        },
+      },
+      USDtz: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1LN4LPSqTMS7Sd2CJw4bbDGRkMv2t68Fy9',
+        READ_TYPE: 'FA1.2',
+        CALL_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 6,
+        DEX_PAIRS: {
+          PLENTY: {
+            contract: 'KT1D36ZG99YuhoCRZXLL86tQYAbv36bCq9XM',
+            property: 'token1_pool',
+            liquidityToken: 'Plentyusdtzlp',
+          },
+          kUSD: {
+            contract: 'KT1TnsQ6JqzyTz5PHMsGj28WwJyBtgc146aJ',
+            property: 'token1_pool',
+            liquidityToken: 'kUSD-USDtz-LP',
+          },
+          wUSDC: {
+            contract: 'KT1EJMMismkf6TQdMzgx8hb1HpiiRVV8ZSm4',
+            property: 'token1_pool',
+            liquidityToken: 'wUSDC-USDtz-LP',
+          },
+        },
+      },
+      kUSD: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
+        READ_TYPE: 'FA1.2',
+        CALL_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 18,
+        DEX_PAIRS: {
+          USDtz: {
+            contract: 'KT1TnsQ6JqzyTz5PHMsGj28WwJyBtgc146aJ',
+            property: 'token2_pool',
+            liquidityToken: 'kUSD-USDtz-LP',
+          },
+        },
+      },
       PlentywUSDClp: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1Gz1mx1jm7JHqU7GuMVWF6soB9RjsfLN3o',
@@ -521,6 +662,46 @@ module.exports = {
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 13,
+        CALL_TYPE: 'FA1.2',
+      },
+      PlentywMaticlp: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1WCGPFvy97wwGxewKfvTr1QYPvpEgUKToS',
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 18,
+        CALL_TYPE: 'FA1.2',
+      },
+      Plentywlinklp: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1Brqb3JvXNKzwjW82F8pUAxQ7ipCfApWki',
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 18,
+        CALL_TYPE: 'FA1.2',
+      },
+      Plentyusdtzlp: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT18qSo4Ch2Mfq4jP3eME7SWHB8B8EDTtVBu',
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 12,
+        CALL_TYPE: 'FA1.2',
+      },
+      'kUSD-USDtz-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1HEdGi7rq1zgZ68dhAtKMZYKeD3EM5vYdf',
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 12,
+        CALL_TYPE: 'FA1.2',
+      },
+      'wUSDC-USDtz-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1FaoPYSyT4itmgTncvdshV7SeqqXk9RJXd',
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 6,
         CALL_TYPE: 'FA1.2',
       },
     },
@@ -557,21 +738,7 @@ module.exports = {
         ],
       },
       wMATIC: {
-        active: [
-          {
-            TOKEN: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
-            CONTRACT: 'KT1XherecVvrE6X4PV5RTwdEKNzA294ZE9T9',
-            DEX: 'KT1RsfuBee5o7GtYrdB7bzQ1M6oVgyBnxY4S',
-            TYPE: 'FA2',
-            TOKEN_DECIMAL: 18,
-            TOKEN_ID: 11,
-            DECIMAL: 18,
-
-            CARD_TYPE: 'wMATIC',
-            withdrawalFeeType: 'type1',
-            message: 'Staking disabled - Rewards end August 26',
-          },
-        ],
+        active: [],
         inactive: [
           {
             TOKEN: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
@@ -586,24 +753,23 @@ module.exports = {
             withdrawalFeeType: 'type3',
             message: 'Rewards ended June 9',
           },
+          {
+            TOKEN: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+            CONTRACT: 'KT1XherecVvrE6X4PV5RTwdEKNzA294ZE9T9',
+            DEX: 'KT1RsfuBee5o7GtYrdB7bzQ1M6oVgyBnxY4S',
+            TYPE: 'FA2',
+            TOKEN_DECIMAL: 18,
+            TOKEN_ID: 11,
+            DECIMAL: 18,
+
+            CARD_TYPE: 'wMATIC',
+            withdrawalFeeType: 'type1',
+            message: 'Rewards ended August 26',
+          },
         ],
       },
       wLINK: {
-        active: [
-          {
-            TOKEN: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
-            CONTRACT: 'KT1KyxPitU1xNbTriondmAFtPEcFhjSLV1hz',
-            DEX: 'KT1Lpysr4nzcFegC9ci9kjoqVidwoanEmJWt',
-            TYPE: 'FA2',
-            TOKEN_DECIMAL: 18,
-            TOKEN_ID: 10,
-            DECIMAL: 18,
-
-            CARD_TYPE: 'wLINK',
-            withdrawalFeeType: 'type1',
-            message: 'Staking disabled - Rewards end August 26',
-          },
-        ],
+        active: [],
         inactive: [
           {
             TOKEN: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
@@ -617,6 +783,19 @@ module.exports = {
             CARD_TYPE: 'wLINK',
             withdrawalFeeType: 'type3',
             message: 'Rewards ended June 9',
+          },
+          {
+            TOKEN: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+            CONTRACT: 'KT1KyxPitU1xNbTriondmAFtPEcFhjSLV1hz',
+            DEX: 'KT1Lpysr4nzcFegC9ci9kjoqVidwoanEmJWt',
+            TYPE: 'FA2',
+            TOKEN_DECIMAL: 18,
+            TOKEN_ID: 10,
+            DECIMAL: 18,
+
+            CARD_TYPE: 'wLINK',
+            withdrawalFeeType: 'type1',
+            message: 'Rewards ended August 26',
           },
         ],
       },
@@ -633,7 +812,7 @@ module.exports = {
 
             CARD_TYPE: 'ETHtz',
             withdrawalFeeType: 'type1',
-            message: 'Rewards end September 2',
+            message: 'Staking disabled - Rewards end September 2',
           },
         ],
         inactive: [
@@ -665,7 +844,7 @@ module.exports = {
 
             CARD_TYPE: 'hDAO',
             withdrawalFeeType: 'type1',
-            message: 'Rewards end September 2',
+            message: 'Staking disabled - Rewards end September 2',
           },
         ],
         inactive: [
@@ -685,21 +864,7 @@ module.exports = {
         ],
       },
       USDtz: {
-        active: [
-          {
-            TOKEN: 'KT1LN4LPSqTMS7Sd2CJw4bbDGRkMv2t68Fy9',
-            CONTRACT: 'KT1MBqc3GHpApBXaBZyvY63LF6eoFyTWtySn',
-            DEX: 'KT1WxgZ1ZSfMgmsSDDcUn8Xn577HwnQ7e1Lb',
-            TYPE: 'FA1.2',
-            TOKEN_DECIMAL: 6,
-            TOKEN_ID: 0,
-            DECIMAL: 18,
-
-            CARD_TYPE: 'USDtz',
-            withdrawalFeeType: 'type1',
-            message: 'Staking disabled - Rewards end August 26',
-          },
-        ],
+        active: [],
         inactive: [
           {
             TOKEN: 'KT1LN4LPSqTMS7Sd2CJw4bbDGRkMv2t68Fy9',
@@ -713,6 +878,19 @@ module.exports = {
             CARD_TYPE: 'USDtz',
             withdrawalFeeType: 'type3',
             message: 'Rewards ended June 9',
+          },
+          {
+            TOKEN: 'KT1LN4LPSqTMS7Sd2CJw4bbDGRkMv2t68Fy9',
+            CONTRACT: 'KT1MBqc3GHpApBXaBZyvY63LF6eoFyTWtySn',
+            DEX: 'KT1WxgZ1ZSfMgmsSDDcUn8Xn577HwnQ7e1Lb',
+            TYPE: 'FA1.2',
+            TOKEN_DECIMAL: 6,
+            TOKEN_ID: 0,
+            DECIMAL: 18,
+
+            CARD_TYPE: 'USDtz',
+            withdrawalFeeType: 'type1',
+            message: 'Rewards ended August 26',
           },
         ],
       },
@@ -836,6 +1014,60 @@ module.exports = {
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             CARD_TYPE: 'PLENTY / wWBTC LP',
             TOKEN_DECIMAL: 13,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 12,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+          },
+        ],
+        inactive: [],
+      },
+      'PLENTY - wMATIC': {
+        active: [
+          {
+            LP_TOKEN: 'KT1WCGPFvy97wwGxewKfvTr1QYPvpEgUKToS',
+            CONTRACT: 'KT1UP9XHQigWMqNXYp9YXaCS1hV9jJkCF4h4',
+            DEX: 'KT1VeNQa4mucRj36qAJ9rTzm4DTJKfemVaZT',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            CARD_TYPE: 'PLENTY / wMATIC LP',
+            TOKEN_DECIMAL: 18,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 12,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+          },
+        ],
+        inactive: [],
+      },
+      'PLENTY - wLINK': {
+        active: [
+          {
+            LP_TOKEN: 'KT1Brqb3JvXNKzwjW82F8pUAxQ7ipCfApWki',
+            CONTRACT: 'KT1UqnQ6b1EwQgYiKss4mDL7aktAHnkdctTQ',
+            DEX: 'KT1XVrXmWY9AdVri6KpxKo4CWxizKajmgzMt',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            CARD_TYPE: 'PLENTY / wLINK LP',
+            TOKEN_DECIMAL: 18,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 12,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+          },
+        ],
+        inactive: [],
+      },
+      'PLENTY - USDtz': {
+        active: [
+          {
+            LP_TOKEN: 'KT18qSo4Ch2Mfq4jP3eME7SWHB8B8EDTtVBu',
+            CONTRACT: 'KT1VCrmywPNf8ZHH95HKHvYA4bBQJPa8g2sr',
+            DEX: 'KT1D36ZG99YuhoCRZXLL86tQYAbv36bCq9XM',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            CARD_TYPE: 'PLENTY / USDtz LP',
+            TOKEN_DECIMAL: 12,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
             TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
