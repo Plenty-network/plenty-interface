@@ -36,18 +36,17 @@ module.exports = {
           ],
         },
         USDtz: {
-          active: [
-            {
-              address: 'KT1MBqc3GHpApBXaBZyvY63LF6eoFyTWtySn',
-              mapId: 4490,
-              decimal: 18,
-              tokenDecimal: 6,
-            },
-          ],
+          active: [],
           inactive: [
             {
               address: 'KT1K5cgrw1A8WTiizZ5b6TxNdFnBq9AtyQ7X',
               mapId: 3953,
+              decimal: 18,
+              tokenDecimal: 6,
+            },
+            {
+              address: 'KT1MBqc3GHpApBXaBZyvY63LF6eoFyTWtySn',
+              mapId: 4490,
               decimal: 18,
               tokenDecimal: 6,
             },
@@ -90,14 +89,7 @@ module.exports = {
           ],
         },
         wLINK: {
-          active: [
-            {
-              address: 'KT1KyxPitU1xNbTriondmAFtPEcFhjSLV1hz',
-              mapId: 4492,
-              decimal: 18,
-              tokenDecimal: 18,
-            },
-          ],
+          active: [],
           inactive: [
             {
               address: 'KT1JCkdS3x5hTWdrTQdzK6vEkeAdQzsm2wzf',
@@ -105,21 +97,26 @@ module.exports = {
               decimal: 18,
               tokenDecimal: 18,
             },
-          ],
-        },
-        wMATIC: {
-          active: [
             {
-              address: 'KT1XherecVvrE6X4PV5RTwdEKNzA294ZE9T9',
-              mapId: 4493,
+              address: 'KT1KyxPitU1xNbTriondmAFtPEcFhjSLV1hz',
+              mapId: 4492,
               decimal: 18,
               tokenDecimal: 18,
             },
           ],
+        },
+        wMATIC: {
+          active: [],
           inactive: [
             {
               address: 'KT1TNzH1KiVsWh9kpFrWACrDNnfK4ihvGAZs',
               mapId: 3947,
+              decimal: 18,
+              tokenDecimal: 18,
+            },
+            {
+              address: 'KT1XherecVvrE6X4PV5RTwdEKNzA294ZE9T9',
+              mapId: 4493,
               decimal: 18,
               tokenDecimal: 18,
             },
@@ -741,21 +738,7 @@ module.exports = {
         ],
       },
       wMATIC: {
-        active: [
-          {
-            TOKEN: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
-            CONTRACT: 'KT1XherecVvrE6X4PV5RTwdEKNzA294ZE9T9',
-            DEX: 'KT1RsfuBee5o7GtYrdB7bzQ1M6oVgyBnxY4S',
-            TYPE: 'FA2',
-            TOKEN_DECIMAL: 18,
-            TOKEN_ID: 11,
-            DECIMAL: 18,
-
-            CARD_TYPE: 'wMATIC',
-            withdrawalFeeType: 'type1',
-            message: 'Staking disabled - Rewards end August 26',
-          },
-        ],
+        active: [],
         inactive: [
           {
             TOKEN: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
@@ -770,24 +753,23 @@ module.exports = {
             withdrawalFeeType: 'type3',
             message: 'Rewards ended June 9',
           },
+          {
+            TOKEN: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+            CONTRACT: 'KT1XherecVvrE6X4PV5RTwdEKNzA294ZE9T9',
+            DEX: 'KT1RsfuBee5o7GtYrdB7bzQ1M6oVgyBnxY4S',
+            TYPE: 'FA2',
+            TOKEN_DECIMAL: 18,
+            TOKEN_ID: 11,
+            DECIMAL: 18,
+
+            CARD_TYPE: 'wMATIC',
+            withdrawalFeeType: 'type1',
+            message: 'Rewards ended August 26',
+          },
         ],
       },
       wLINK: {
-        active: [
-          {
-            TOKEN: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
-            CONTRACT: 'KT1KyxPitU1xNbTriondmAFtPEcFhjSLV1hz',
-            DEX: 'KT1Lpysr4nzcFegC9ci9kjoqVidwoanEmJWt',
-            TYPE: 'FA2',
-            TOKEN_DECIMAL: 18,
-            TOKEN_ID: 10,
-            DECIMAL: 18,
-
-            CARD_TYPE: 'wLINK',
-            withdrawalFeeType: 'type1',
-            message: 'Staking disabled - Rewards end August 26',
-          },
-        ],
+        active: [],
         inactive: [
           {
             TOKEN: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
@@ -801,6 +783,19 @@ module.exports = {
             CARD_TYPE: 'wLINK',
             withdrawalFeeType: 'type3',
             message: 'Rewards ended June 9',
+          },
+          {
+            TOKEN: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+            CONTRACT: 'KT1KyxPitU1xNbTriondmAFtPEcFhjSLV1hz',
+            DEX: 'KT1Lpysr4nzcFegC9ci9kjoqVidwoanEmJWt',
+            TYPE: 'FA2',
+            TOKEN_DECIMAL: 18,
+            TOKEN_ID: 10,
+            DECIMAL: 18,
+
+            CARD_TYPE: 'wLINK',
+            withdrawalFeeType: 'type1',
+            message: 'Rewards ended August 26',
           },
         ],
       },
@@ -817,7 +812,7 @@ module.exports = {
 
             CARD_TYPE: 'ETHtz',
             withdrawalFeeType: 'type1',
-            message: 'Rewards end September 2',
+            message: 'Staking disabled - Rewards end September 2',
           },
         ],
         inactive: [
@@ -849,7 +844,7 @@ module.exports = {
 
             CARD_TYPE: 'hDAO',
             withdrawalFeeType: 'type1',
-            message: 'Rewards end September 2',
+            message: 'Staking disabled - Rewards end September 2',
           },
         ],
         inactive: [
@@ -869,21 +864,7 @@ module.exports = {
         ],
       },
       USDtz: {
-        active: [
-          {
-            TOKEN: 'KT1LN4LPSqTMS7Sd2CJw4bbDGRkMv2t68Fy9',
-            CONTRACT: 'KT1MBqc3GHpApBXaBZyvY63LF6eoFyTWtySn',
-            DEX: 'KT1WxgZ1ZSfMgmsSDDcUn8Xn577HwnQ7e1Lb',
-            TYPE: 'FA1.2',
-            TOKEN_DECIMAL: 6,
-            TOKEN_ID: 0,
-            DECIMAL: 18,
-
-            CARD_TYPE: 'USDtz',
-            withdrawalFeeType: 'type1',
-            message: 'Staking disabled - Rewards end August 26',
-          },
-        ],
+        active: [],
         inactive: [
           {
             TOKEN: 'KT1LN4LPSqTMS7Sd2CJw4bbDGRkMv2t68Fy9',
@@ -897,6 +878,19 @@ module.exports = {
             CARD_TYPE: 'USDtz',
             withdrawalFeeType: 'type3',
             message: 'Rewards ended June 9',
+          },
+          {
+            TOKEN: 'KT1LN4LPSqTMS7Sd2CJw4bbDGRkMv2t68Fy9',
+            CONTRACT: 'KT1MBqc3GHpApBXaBZyvY63LF6eoFyTWtySn',
+            DEX: 'KT1WxgZ1ZSfMgmsSDDcUn8Xn577HwnQ7e1Lb',
+            TYPE: 'FA1.2',
+            TOKEN_DECIMAL: 6,
+            TOKEN_ID: 0,
+            DECIMAL: 18,
+
+            CARD_TYPE: 'USDtz',
+            withdrawalFeeType: 'type1',
+            message: 'Rewards ended August 26',
           },
         ],
       },
