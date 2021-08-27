@@ -1,6 +1,7 @@
 import { TezosParameterFormat, TezosMessageUtils } from "conseiljs"
 import { BeaconWallet } from "@taquito/beacon-wallet"
 import { TezosToolkit, OpKind } from "@taquito/taquito"
+import { RPC_NODE } from '../../../constants/localStorage'
 const CONFIG = require("../../../config/config")
 const axios = require("axios")
 
@@ -44,8 +45,9 @@ export const calculateHarvestValue = async (
 	packedAddress
 ) => {
 	try {
+		let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK]
 		let url = `${
-			CONFIG.RPC_NODES[CONFIG.NETWORK]
+			rpcNode
 		}chains/main/blocks/head/context/contracts/${stakingContractAddress}/storage`
 		const smartContractResponse = await axios.get(url)
 		let periodFinish = smartContractResponse.data.args[1].args[0].args[0].int
@@ -63,7 +65,7 @@ export const calculateHarvestValue = async (
 		rewardPerToken =
 			rewardPerToken / totalSupply + parseInt(rewardPerTokenStored)
 		url = `${
-			CONFIG.RPC_NODES[CONFIG.NETWORK]
+			rpcNode
 		}chains/main/blocks/head/context/big_maps/${mapId}/${packedAddress}`
 		let bigMapResponse = await axios.get(url)
 		let userBalance = bigMapResponse.data.args[0].args[1].int
@@ -175,8 +177,9 @@ export const getBalanceAmount = async (
 ) => {
 	try {
 		let balance
+		let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK]
 		const url = `${
-			CONFIG.RPC_NODES[CONFIG.NETWORK]
+			rpcNode
 		}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`
 		const response = await axios.get(url)
 		if (mapId === 3956 || mapId === 4353) {
@@ -283,9 +286,10 @@ const getAllActiveContractAddresses = async () => {
 
 const getLpPriceFromDex = async (identifier, dexAddress) => {
 	try {
+		let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK]
 		const response = await axios.get(
 			`${
-				CONFIG.RPC_NODES[CONFIG.NETWORK]
+				rpcNode
 			}chains/main/blocks/head/context/contracts/${dexAddress}/storage`
 		)
 		let tez_pool = parseInt(response.data.args[1].args[0].args[1].args[2].int)
@@ -393,7 +397,8 @@ const getPriceForPlentyLpTokens = async (
 ) => {
 	try {
 		const connectedNetwork = CONFIG.NETWORK
-		const url = CONFIG.RPC_NODES[connectedNetwork]
+		let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+		const url = rpcNode
 		const storageResponse = await axios.get(
 			`${url}/chains/main/blocks/head/context/contracts/${dexAddress}/storage`
 		)
@@ -802,8 +807,9 @@ export const getStakedAmount = async (
 	tokenDecimal
 ) => {
 	try {
+		let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK]
 		const url = `${
-			CONFIG.RPC_NODES[CONFIG.NETWORK]
+			rpcNode
 		}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`
 		const response = await axios.get(url)
 		let balance = response.data.args[0].args[1].int
@@ -927,10 +933,11 @@ export const harvestAllHelper = async (
 		}
 		const wallet = new BeaconWallet(options)
 		const connectedNetwork = CONFIG.NETWORK
+		let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
 		const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type)
 		if (WALLET_RESP.success) {
-			const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork])
-			Tezos.setRpcProvider(CONFIG.RPC_NODES[connectedNetwork])
+			const Tezos = new TezosToolkit(rpcNode)
+			Tezos.setRpcProvider(rpcNode)
 			Tezos.setWalletProvider(wallet)
 			let promises = []
 			const packedKey = await getPackedKey(0, userAddress, "FA1.2")

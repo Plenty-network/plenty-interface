@@ -45,6 +45,9 @@ const initState = {
 		transactionId: '',
 		snackbar: false,
 	},
+	nodeState: {
+		rpcNode : ""
+	}
 }
 
 const homeReducer = (state = initState, action) => {
@@ -180,9 +183,15 @@ const homeReducer = (state = initState, action) => {
 					...state,
 					modals: { ...state.modals, ...action.payload }
 			}
+		case actions.CLEAR_RPC_NODE_NAME:
+			return {
+				...state,
+
+			}
 		default:
 			return {
 				...state,
+				nodeState: {...state.nodeState, rpcNode: action.payload}
 			}
 	}
 }

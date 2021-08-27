@@ -5,6 +5,7 @@ import {
   unstakingOnFarmProcessing,
 } from './farms.actions';
 import store from '../../store/store';
+import { RPC_NODE } from '../../../constants/localStorage';
 const axios = require('axios');
 const CONFIG = require('../../../config/config');
 
@@ -15,8 +16,10 @@ const fetchStorageOfStakingContract = async (
   priceOfPlentyInUSD
 ) => {
   try {
+    const connectedNetwork = CONFIG.NETWORK
+    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const url = `${
-      CONFIG.RPC_NODES[CONFIG.NETWORK]
+      rpcNode
     }chains/main/blocks/head/context/contracts/${address}/storage`;
     const response = await axios.get(url);
 
@@ -69,9 +72,11 @@ const fetchStorageOfStakingContract = async (
 
 const getLpPriceFromDex = async (identifier, dexAddress) => {
   try {
+    const connectedNetwork = CONFIG.NETWORK
+    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const response = await axios.get(
       `${
-        CONFIG.RPC_NODES[CONFIG.NETWORK]
+        rpcNode
       }chains/main/blocks/head/context/contracts/${dexAddress}/storage`
     );
 
@@ -360,13 +365,14 @@ export const stakeFarm = async (amount, farmIdentifier, isActive, position) => {
       name: CONFIG.NAME,
     };
     const connectedNetwork = CONFIG.NETWORK;
+    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const wallet = new BeaconWallet(options);
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (WALLET_RESP.success) {
       const account = await wallet.client.getActiveAccount();
       const userAddress = account.address;
-      const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork]);
-      Tezos.setRpcProvider(CONFIG.RPC_NODES[connectedNetwork]);
+      const Tezos = new TezosToolkit(rpcNode);
+      Tezos.setRpcProvider(rpcNode);
       Tezos.setWalletProvider(wallet);
 
       const farmContractInstance = await Tezos.wallet.at(
@@ -489,10 +495,11 @@ export const unstake = async (
     };
     const wallet = new BeaconWallet(options);
     const connectedNetwork = CONFIG.NETWORK;
+    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (WALLET_RESP.success) {
-      const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork]);
-      Tezos.setRpcProvider(CONFIG.RPC_NODES[connectedNetwork]);
+      const Tezos = new TezosToolkit(rpcNode);
+      Tezos.setRpcProvider(rpcNode);
       Tezos.setWalletProvider(wallet);
 
       const contractInstance = await Tezos.wallet.at(
@@ -564,10 +571,11 @@ export const harvest = async (farmIdentifier, isActive, position) => {
     // });
     const wallet = new BeaconWallet(options);
     const connectedNetwork = CONFIG.NETWORK;
+    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (WALLET_RESP.success) {
-      const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork]);
-      Tezos.setRpcProvider(CONFIG.RPC_NODES[connectedNetwork]);
+      const Tezos = new TezosToolkit(rpcNode);
+      Tezos.setRpcProvider(rpcNode);
       Tezos.setWalletProvider(wallet);
       const contractInstance = await Tezos.wallet.at(
         //CONFIG.CONTRACT[connectedNetwork].PLENTY_FARM_CONTRACT

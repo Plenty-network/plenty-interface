@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import truncateMiddle from 'truncate-middle';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -12,11 +12,14 @@ import { ReactComponent as LogoWhite } from '../../assets/images/logo-white.svg'
 import { Link, useLocation } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import SimpleModal from "../../Components/Ui/Modals/SimpleModal"
+import NodeSelectorModal from "./NodeSelectorModal"
 
 const Header = (props) => {
   const location = useLocation();
   const { pathname } = location;
   const splitLocation = pathname.split('/');
+  const [nodeSelector, toggleNodeSelector] = useState(false)
 
   let connectWalletButton = () => {
     if (props.walletAddress) {
@@ -88,7 +91,15 @@ const Header = (props) => {
     localStorage.setItem('activeTab', 'swap');
   };
 
+  const toggleNodeSelectorHandler = () => {
+    toggleNodeSelector(!nodeSelector)
+  }
+  const closeNodeSelectorModal = () => {
+    toggleNodeSelector(false)
+  }
+
   return (
+    <>
     <Container fluid>
       <Row>
         <Col sm={12} md={12}>
@@ -270,6 +281,18 @@ const Header = (props) => {
                           GitHub
                         </span>
                       </a>
+                      <a
+                        onClick={toggleNodeSelectorHandler}
+                        className="align-self-end align-self-lg-center nav-link"
+                      >
+                        <span
+                          className={clsx(
+                            props.isFrontPage ? 'text-white' : 'span-themed'
+                          )}
+                        >
+                          Node Selector
+                        </span>
+                      </a>
                     </div>
                     <NavDropdown
                       className="d-none d-lg-block top"
@@ -285,7 +308,7 @@ const Header = (props) => {
                       }
                       id="basic-nav-dropdown"
                     >
-                      <ExternalMenu />
+                        <ExternalMenu toggleNodeSelectorHandler={toggleNodeSelectorHandler}/>
                     </NavDropdown>
                   </Nav.Item>
                 </div>
@@ -295,64 +318,9 @@ const Header = (props) => {
         </Col>
       </Row>
     </Container>
+    <NodeSelectorModal title={"Node Selector"} nodeSelector={nodeSelector} closeNodeSelectorModal={closeNodeSelectorModal}/>
+  </>
   );
-  // return (
-  //     <Container fluid>
-  //         <Row>
-  //             <Col sm={12} md={12} className={clsx(
-  //                 "header-col-center",
-  //                 !props.isFrontPage && "border-bottom-themed")}>
-  //                 <Navbar className="menu-wrapper">
-  //                     <div>
-  //                         <div className="logo-section">
-  //                             <Link to={"/"}>
-  //                                 <Navbar.Brand>
-  //                                     <Logo className={clsx(
-  //                                         props.isFrontPage ? "logo-frontPage" : "logo")}/>
-  //                                 </Navbar.Brand>
-  //                             </Link>
-  //                         </div>
-  //                     </div>
-  //
-  //                     <ul className="nav-menu-wrapper">
-  //                         <NavigationMenu isFrontPage={props.isFrontPage}/>
-  //                     </ul>
-  //                     <ul className="nav-menu-wrapper">
-  //                         <li className="nav-menu-item">
-  //                             <a
-  //                                 className="nav-menu-item-link"
-  //                                 onClick={props.toggleTheme}
-  //                             >
-  //                                 {
-  //                                     props.theme === 'light' ?
-  //                                         <span className={clsx(
-  //                                             "theme-icon", "material-icons-round",
-  //                                             props.isFrontPage ? "icon-white" : "span-themed"
-  //                                             )}>dark_mode</span>
-  //                                         : <span className="theme-icon span-themed material-icons-round">light_mode</span>
-  //
-  //                                 }
-  //                             </a>
-  //                         </li>
-  //
-  //                         <li className="nav-menu-item">{connectWalletButton()}</li>
-  //                         <li className="nav-menu-item">
-  //                             <Dropdown>
-  //                                 <Dropdown.Toggle
-  //                                     as={CustomToggle}
-  //                                     id="dropdown-basic"
-  //                                 ></Dropdown.Toggle>
-  //                                 <Dropdown.Menu className="menu-dropdown">
-  //                                     <ExternalMenu/>
-  //                                 </Dropdown.Menu>
-  //                             </Dropdown>
-  //                         </li>
-  //                     </ul>
-  //                 </Navbar>
-  //             </Col>
-  //         </Row>
-  //     </Container>
-  // );
 };
 
 export default Header;

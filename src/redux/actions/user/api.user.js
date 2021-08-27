@@ -1,4 +1,5 @@
 import { TezosParameterFormat, TezosMessageUtils } from 'conseiljs';
+import { RPC_NODE } from '../../../constants/localStorage';
 const CONFIG = require('../../../config/config');
 const TezosToolkit = require('@taquito/taquito').TezosToolkit;
 const axios = require('axios');
@@ -41,8 +42,9 @@ const getStakedAmount = async (
   tokenDecimal
 ) => {
   try {
+    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
     const url = `${
-      CONFIG.RPC_NODES[CONFIG.NETWORK]
+      rpcNode
     }chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
     const response = await axios.get(url);
     let balance = response.data.args[0].args[1].int;
@@ -85,8 +87,9 @@ const getStakedAmount = async (
 const getBalanceAmount = async (mapId, packedKey, identifier, decimal) => {
   try {
     let balance;
+    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
     const url = `${
-      CONFIG.RPC_NODES[CONFIG.NETWORK]
+      rpcNode
     }chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
     const response = await axios.get(url);
 
@@ -234,8 +237,9 @@ const calculateHarvestValue = async (
   packedAddress
 ) => {
   try {
+    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
     let url = `${
-      CONFIG.RPC_NODES[CONFIG.NETWORK]
+      rpcNode
     }chains/main/blocks/head/context/contracts/${stakingContractAddress}/storage`;
     const smartContractResponse = await axios.get(url);
     let periodFinish = smartContractResponse.data.args[1].args[0].args[0].int;
@@ -253,7 +257,7 @@ const calculateHarvestValue = async (
     rewardPerToken =
       rewardPerToken / totalSupply + parseInt(rewardPerTokenStored);
     url = `${
-      CONFIG.RPC_NODES[CONFIG.NETWORK]
+      rpcNode
     }chains/main/blocks/head/context/big_maps/${mapId}/${packedAddress}`;
     let bigMapResponse = await axios.get(url);
 

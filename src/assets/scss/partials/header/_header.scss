@@ -187,3 +187,144 @@
     color: #4e5d78;
   }
 }
+
+.node-selector-text {
+  margin-top: -10px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 13px;
+  color : #505E79;
+}
+
+.node-selector-modal {
+  max-width: 350px;
+  max-height: 328px;
+  box-shadow: 0px 16.9px 32.3304px rgba(176, 183, 195, 0.14);
+  border-radius: 11.0217px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.node-selector-radio-container {
+  margin-top: 10px;
+  background: linear-gradient(90deg, rgba(112, 40, 228, 0.07) 0%, rgba(229, 178, 202, 0.07) 100%);
+  border-radius: 7.34783px;
+  display: flex;
+  flex-direction: column;
+  max-height: fit-content;
+}
+
+.node-selector-option-text {
+  color :  #4E5D78;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 23px;
+
+}
+
+.node-selector-radio-container ul{
+  list-style: none;
+  margin: 0;
+  padding: 10px 0;
+	overflow: auto;
+  max-height: fit-content;
+}
+
+ul li{
+  color:#4E5D78;
+  display: block;
+  position: relative;
+  float: left;
+  width: 100%;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 23px;
+	// border-bottom: 1px solid #333;
+}
+
+ul li input[type=radio]{
+  position: absolute;
+  visibility: hidden;
+}
+
+ul li label{
+  display: block;
+  position: relative;
+  font-weight: 300;
+  font-size: 1.35em;
+  padding: 5px 25px 5px 80px;
+  margin: 5px auto;
+  z-index: 9;
+  cursor: pointer;
+  -webkit-transition: all 0.25s linear;
+}
+
+
+
+ul li .check{
+  display: block;
+  position: absolute;
+  border: 0px solid #AAAAAA;
+  border-radius: 100%;
+  height: 25px;
+  width: 25px;
+  top: 8px;
+  left: 20px;
+	z-index: 5;
+	transition: border .25s linear;
+	-webkit-transition: border .25s linear;
+}
+
+ul li:hover .check {
+  border: 0px solid #FFFFFF;
+}
+
+ul li .check::before {
+  display: block;
+  position: absolute;
+	content: '';
+  border-radius: 100%;
+  height: 15px;
+  width: 15px;
+  top: 5px;
+	left: 5px;
+  margin: auto;
+	transition: background 0.25s linear;
+	-webkit-transition: background 0.25s linear;
+	background : #C1C7D0;
+
+}
+
+input[type=radio]:checked ~ .check {
+  border: 0px solid linear-gradient(94.97deg, #7028E4 4%, #E5B2CA 142.86%);
+}
+
+input[type=radio]:checked ~ .check::before {    
+  background: linear-gradient(94.97deg, #7028E4 4%, #E5B2CA 142.86%);
+}
+
+
+input[type=radio]:checked ~ label{
+  color: linear-gradient(94.97deg, #7028E4 4%, #E5B2CA 142.86%);
+}
+
+.node-selector-modal-input {
+  display: block;
+  position: relative;
+  font-weight: 300;
+  width: 165px;
+  margin: 8px 0px 0px 80px;
+  z-index: 9;
+  cursor: pointer;
+  -webkit-transition: all 0.25s linear;
+  background: #F9FAFA;
+  mix-blend-mode: normal;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  border-radius: 11.0217px;
+  outline: none;
+  padding: 5px;
+}

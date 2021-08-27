@@ -156,3 +156,9 @@ export const onModalOpenClose = payload => ({
 	type: actions.OPEN_CLOSE_HOME_MODAL,
 	payload: payload,
 })
+
+export const setRPCNodeName = (nodeName) => {
+	return dispatch => {
+		dispatch({type: actions.SET_RPC_NODE_NAME, payload : nodeName})
+	}
+}

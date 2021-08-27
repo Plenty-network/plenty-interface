@@ -5,6 +5,7 @@ import CONFIG from '../../../config/config';
 import { CheckIfWalletConnected } from "../../../apis/wallet/wallet";
 import { stakingOnPondProcessing, unstakingOnPondProcessing } from "./ponds.action";
 import store from "../../store/store";
+import { RPC_NODE } from '../../../constants/localStorage';
 
 export const getPondsData = async (isActive) => {
     try {
@@ -42,13 +43,14 @@ export const stake = async (amount, pondIdentifier , isActive, position) => {
         name: CONFIG.NAME,
       };
       const connectedNetwork = CONFIG.NETWORK;
+      let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
       const wallet = new BeaconWallet(options);
       const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
       if (WALLET_RESP.success) {
         const account = await wallet.client.getActiveAccount();
         const userAddress = account.address;
-        const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork]);
-        Tezos.setRpcProvider(CONFIG.RPC_NODES[connectedNetwork]);
+        const Tezos = new TezosToolkit(rpcNode);
+        Tezos.setRpcProvider(rpcNode);
         Tezos.setWalletProvider(wallet);
         const pondContractInstance = await Tezos.wallet.at(
           //CONFIG.CONTRACT[connectedNetwork].PONDS[pondIdentifier].CONTRACT
@@ -146,10 +148,11 @@ export const stake = async (amount, pondIdentifier , isActive, position) => {
       };
       const wallet = new BeaconWallet(options);
       const connectedNetwork = CONFIG.NETWORK;
+      let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
       const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
       if (WALLET_RESP.success) {
-        const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork]);
-        Tezos.setRpcProvider(CONFIG.RPC_NODES[connectedNetwork]);
+        const Tezos = new TezosToolkit(rpcNode);
+        Tezos.setRpcProvider(rpcNode);
         Tezos.setWalletProvider(wallet);
   
         const contractInstance = await Tezos.wallet.at(
@@ -193,8 +196,9 @@ export const stake = async (amount, pondIdentifier , isActive, position) => {
         network,
       });
       const connectedNetwork = CONFIG.NETWORK;
-      const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork]);
-      Tezos.setRpcProvider(CONFIG.RPC_NODES[connectedNetwork]);
+      let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+      const Tezos = new TezosToolkit(rpcNode);
+      Tezos.setRpcProvider(rpcNode);
       Tezos.setWalletProvider(wallet);
       const contractInstance = await Tezos.wallet.at(
         //CONFIG.CONTRACT[connectedNetwork].PLENTY_PONDS_CONTRACT
