@@ -74,7 +74,7 @@ const getLpPriceFromDex = async (identifier, dexAddress) => {
 
     let tez_pool = parseInt(response.data.args[1].args[0].args[1].args[2].int);
 
-    let total_Supply = null;
+    let total_Supply;
     if (identifier === 'PLENTY - XTZ') {
       total_Supply = parseInt(response.data.args[1].args[0].args[4].int);
     } else {
@@ -322,7 +322,7 @@ export const stakeFarmAPI = async (amount, farmIdentifier, isActive, position) =
             isActive === true ? 'active' : 'inactive'
           ][position].TOKEN_DECIMAL
         );
-      let batch = null;
+      let batch;
       if (
         //CONFIG.CONTRACT[connectedNetwork].FARMS[farmIdentifier].TYPE === 'FA1.2'
         CONFIG.FARMS[connectedNetwork][farmIdentifier][
@@ -398,10 +398,7 @@ export const stakeFarmAPI = async (amount, farmIdentifier, isActive, position) =
       };
     }
   } catch (error) {
-    return {
-      success: false,
-      error,
-    };
+    throw new Error(error);
   }
 };
 
@@ -432,9 +429,8 @@ export const unstakeAPI = async (
           isActive === true ? 'active' : 'inactive'
         ][position].CONTRACT
       );
-      let unstakeBatch = [];
       let amount;
-      stakesToUnstake.map((stake) => {
+      const unstakeBatch = stakesToUnstake.map((stake) => {
         amount =
           stake.amount *
           Math.pow(
@@ -443,12 +439,12 @@ export const unstakeAPI = async (
               isActive === true ? 'active' : 'inactive'
             ][position].TOKEN_DECIMAL
           );
-        unstakeBatch.push({
+        return {
           kind: OpKind.TRANSACTION,
           ...contractInstance.methods
             .unstake(amount, stake.mapId)
             .toTransferParams(),
-        });
+        };
       });
       let batch = await Tezos.wallet.batch(unstakeBatch);
       let batchOperation = await batch.send();

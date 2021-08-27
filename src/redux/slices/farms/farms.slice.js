@@ -48,21 +48,24 @@ const initialState = {
     contractAddress: null,
     transactionId: '',
     snackbar: false,
+    withdrawalFeeType: [],
+    roiTable: []
+  },
+  stakeModal: {
+    open: false,
+    identifier: '',
+    title: '',
+    contractAddress: '',
+    position: -1,
+  },
+  unstakeModal: {
+    open: false,
+    identifier: '',
+    title: '',
+    contractAddress: '',
+    withdrawalFeeStructure: [],
   },
   isActiveOpen: true,
-  stakeInputValue: 0,
-  farmsToRender: [],
-  isStakeModalOpen: false,
-  stakeModalIdentifier: '',
-  stakeModalTitle: '',
-  stakeModalFarmPosition: -1,
-  stakeModalContractAddress: '',
-  isUnstakeModalOpen: false,
-  unstakeModalIdentifier: '',
-  unstakeModalContractAddress: '',
-  unstakeModalFarmPosition: -1,
-  unstakeModalTitle: '',
-  unstakeModalwithdrawalFeeStructure: []
 }
 
 export const farmsSlice = createSlice({

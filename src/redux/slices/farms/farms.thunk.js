@@ -45,6 +45,7 @@ export const getFarmsDataThunk = (isActive) => (dispatch) => {
 };
 
 export const stakeOnFarmThunk = (amount, farmIdentifier, isActive, position) => (dispatch) => {
+  console.log({amount, farmIdentifier, isActive, position})
   dispatch(initiateStakingOperationOnFarm());
   stakeFarmAPI(amount, farmIdentifier, isActive, position)
     .then((response) => {

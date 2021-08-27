@@ -147,7 +147,7 @@ const UnstakeModal = props => {
         </div>
 
         <div className="d-flex justify-content-end mr-2 mb-2">
-          <div>Total staked balance: {props.userStakes[props.unstakeModalContractAddress].stakedAmount}</div>
+          <div>Total staked balance: {props.userStakes?.[props.unstakeModalContractAddress]?.stakedAmount}</div>
         </div>
 
         {
