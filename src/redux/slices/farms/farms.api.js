@@ -1,12 +1,9 @@
 import { BeaconWallet } from '@taquito/beacon-wallet';
-import { TezosToolkit, OpKind } from '@taquito/taquito';
-import {
-  stakingOnFarmProcessing,
-  unstakingOnFarmProcessing,
-} from './farms.actions';
-import store from '../../store/store';
-const axios = require('axios');
-const CONFIG = require('../../../config/config');
+import { OpKind, TezosToolkit } from '@taquito/taquito';
+import { stakingOnFarmProcessing, unstakingOnFarmProcessing } from "./farms.slice";
+import store from "../../store/store";
+import axios from 'axios';
+import CONFIG from '../../../config/config';
 
 const fetchStorageOfStakingContract = async (
   identifier,
@@ -77,7 +74,7 @@ const getLpPriceFromDex = async (identifier, dexAddress) => {
 
     let tez_pool = parseInt(response.data.args[1].args[0].args[1].args[2].int);
 
-    let total_Supply = null;
+    let total_Supply;
     if (identifier === 'PLENTY - XTZ') {
       total_Supply = parseInt(response.data.args[1].args[0].args[4].int);
     } else {
@@ -131,20 +128,20 @@ const getPriceForPlentyLpTokens = async (
     const tokenPricesData = tokenPriceResponse.data.contracts;
     let tokenData = {};
 
-    let token1Type;
-    let token2Type;
+      let token1Type;
+      let token2Type;
 
-    if (token1Check.match('True')) {
-      token1Type = 'fa2';
-    } else {
-      token1Type = 'fa1.2';
-    }
+      if(token1Check.match('True')) {
+          token1Type = 'fa2';
+      } else {
+          token1Type = 'fa1.2';
+      }
 
-    if (token2Check.match('True')) {
-      token2Type = 'fa2';
-    } else {
-      token2Type = 'fa1.2';
-    }
+      if(token2Check.match('True')) {
+          token2Type = 'fa2';
+      } else {
+          token2Type = 'fa1.2';
+      }
 
     for (let i in tokenPricesData) {
       if (
@@ -223,7 +220,7 @@ const getPriceForPlentyLpTokens = async (
   }
 };
 
-export const getFarmsData = async (isActive) => {
+export const getFarmsDataAPI = async (isActive) => {
   try {
     let promises = [];
     let dexPromises = [];
@@ -304,7 +301,7 @@ export const getFarmsData = async (isActive) => {
       }
     }
     let farmsData = {};
-
+    
     const farmResponse = await Promise.all(promises);
     for (let i in farmResponse) {
       farmsData[farmResponse[i].address] = {
@@ -351,7 +348,7 @@ const CheckIfWalletConnected = async (wallet, somenet) => {
   }
 };
 
-export const stakeFarm = async (amount, farmIdentifier, isActive, position) => {
+export const stakeFarmAPI = async (amount, farmIdentifier, isActive, position) => {
   try {
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -467,14 +464,11 @@ export const stakeFarm = async (amount, farmIdentifier, isActive, position) => {
       };
     }
   } catch (error) {
-    return {
-      success: false,
-      error,
-    };
+    throw new Error(error);
   }
 };
 
-export const unstake = async (
+export const unstakeAPI = async (
   stakesToUnstake,
   farmIdentifier,
   isActive,
@@ -501,9 +495,8 @@ export const unstake = async (
           isActive === true ? 'active' : 'inactive'
         ][position].CONTRACT
       );
-      let unstakeBatch = [];
       let amount;
-      stakesToUnstake.map((stake) => {
+      const unstakeBatch = stakesToUnstake.map((stake) => {
         amount =
           stake.amount *
           Math.pow(
@@ -512,12 +505,12 @@ export const unstake = async (
               isActive === true ? 'active' : 'inactive'
             ][position].TOKEN_DECIMAL
           );
-        unstakeBatch.push({
+        return {
           kind: OpKind.TRANSACTION,
           ...contractInstance.methods
             .unstake(amount, stake.mapId)
             .toTransferParams(),
-        });
+        };
       });
       let batch = await Tezos.wallet.batch(unstakeBatch);
       let batchOperation = await batch.send();
@@ -543,14 +536,11 @@ export const unstake = async (
       };
     }
   } catch (error) {
-    return {
-      success: false,
-      error,
-    };
+    throw new Error(error);
   }
 };
 
-export const harvest = async (farmIdentifier, isActive, position) => {
+export const harvestAPI = async (farmIdentifier, isActive, position) => {
   try {
     const options = {
       name: CONFIG.NAME,

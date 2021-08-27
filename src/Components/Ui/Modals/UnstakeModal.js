@@ -4,7 +4,7 @@ import Button from "../Buttons/Button";
 
 import styles from './modal.module.scss'
 import clsx from "clsx";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Collapse } from "react-bootstrap";
 
 const BUTTON_TEXT = {
@@ -22,6 +22,13 @@ const UnstakeModal = props => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState([]);
 
+  useEffect(() => {
+    if (!props.open) {
+      setOpen(false);
+      setSelected([]);
+    }
+  }, [props.open])
+
   const buttonText = useMemo(() => {
     if (selected.length > 0) {
       return BUTTON_TEXT.CONFIRM
@@ -32,8 +39,8 @@ const UnstakeModal = props => {
 
 
   const userStakes = useMemo(() => {
-    return props.userStakes?.[props.unstakeModalContractAddress]?.singularStakes ?? [];
-  }, [props.unstakeModalContractAddress, props.userStakes])
+    return props.userStakes?.[props.modalData.contractAddress]?.singularStakes ?? [];
+  }, [props.modalData.contractAddress, props.userStakes])
 
   const selectLabelText = useMemo(() => {
     if (selected.length > 0 && !open) {
@@ -49,30 +56,33 @@ const UnstakeModal = props => {
   }, [selected, open])
 
 
-  const calculateFee = (difference ,obj) => {
-    let feeObj = {mapId : obj.mapId}
-    let fee = -1;
-      for (let i = 0; i < props.unstakeModalwithdrawalFeeStructure.length; i++) {
-        if (difference < props.unstakeModalwithdrawalFeeStructure[i].block) {
-          fee = ((obj.amount * props.unstakeModalwithdrawalFeeStructure[i].rate) / 100).toFixed(10);
-          fee = parseFloat(fee);
-          feeObj['rate'] = props.unstakeModalwithdrawalFeeStructure[i].rate;
-          feeObj['fee'] = fee;
-          feeObj['amount']=obj.amount
-          break;
-        }
-      }
-      if (fee === -1) {
-        fee = (
-          (obj.amount * props.unstakeModalwithdrawalFeeStructure[props.unstakeModalwithdrawalFeeStructure.length - 1].rate) /
-          100
-        ).toFixed(10);
-        fee = parseFloat(fee);
-        feeObj['rate'] = props.unstakeModalwithdrawalFeeStructure[props.unstakeModalwithdrawalFeeStructure.length - 1].rate;
-        feeObj['fee'] = fee;
-        feeObj['amount']=obj.amount
-      }
+  const calculateFee = (difference, obj) => {
+    let feeObj = {mapId: obj.mapId}
+    let fee;
+
+    const matchingFeeType = props.modalData.withdrawalFeeStructure.find(x => difference < x.block)
+
+    if (matchingFeeType) {
+      fee = ((obj.amount * matchingFeeType.rate) / 100).toFixed(10);
+      fee = parseFloat(fee);
+      feeObj['rate'] = matchingFeeType.rate;
+      feeObj['fee'] = fee;
+      feeObj['amount'] = obj.amount
+
       return feeObj;
+    }
+
+    const lastFeeType = props.modalData.withdrawalFeeStructure[props.modalData.withdrawalFeeStructure.length - 1]
+    fee = (
+      (obj.amount * lastFeeType.rate) /
+      100
+    ).toFixed(10);
+    fee = parseFloat(fee);
+    feeObj.rate = lastFeeType.rate;
+    feeObj.fee = fee;
+    feeObj.amount = obj.amount
+
+    return feeObj;
   }
 
   const onStakeSelect = (obj) => {
@@ -88,17 +98,23 @@ const UnstakeModal = props => {
   const onUnstake = () => {
     props.unstakeOnFarm(
       selected,
-      props.unstakeModalIdentifier,
+      props.modalData.identifier,
       props.isActiveOpen,
-      props.unstakeModalFarmPosition
+      props.modalData.position
     )
+  }
+
+  const onClose = () => {
+    setSelected([]);
+    setOpen(false);
+    props.onClose();
   }
 
   return (
     <SimpleModal
       open={props.open}
-      onClose={props.onClose}
-      title={`Unstake ${props.unstakeModalTitle} tokens`}
+      onClose={onClose}
+      title={`Unstake ${props.modalData.title} tokens`}
     >
       <div className={styles.unStakeModal}>
 
@@ -147,7 +163,7 @@ const UnstakeModal = props => {
         </div>
 
         <div className="d-flex justify-content-end mr-2 mb-2">
-          <div>Total staked balance: {props.userStakes[props.unstakeModalContractAddress].stakedAmount}</div>
+          <div>Total staked balance: {props.userStakes?.[props.modalData.contractAddress]?.stakedAmount}</div>
         </div>
 
         {
@@ -159,7 +175,7 @@ const UnstakeModal = props => {
                 <div className={clsx(styles.feeBreakdownTable, "pb-2")}>
                   {
                     selected.map(x => (
-                      <div>
+                      <div key={x.mapId}>
                         <div>{'Stake ' + x.mapId}</div>
                         <div>{x.rate+'%'}</div>
                         <div>{x.fee}</div>

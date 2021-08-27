@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import SimpleModal from "./SimpleModal";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Button from "../Buttons/Button";
 
 import styles from "./modal.module.scss";
@@ -13,55 +13,63 @@ const BUTTON_TEXT = {
 }
 
 const StakeModal = props => {
+  const [inputValue, setInputValue] = useState("")
+
+  useEffect(() => {
+    if (!props.open) {
+      setInputValue("");
+    }
+  }, [props.open])
+
   const onStake = () => {
     props.stakeOnFarm(
-      parseFloat(props.stakeInputValues),
-      props.stakeModalIdentifier,
+      parseFloat(inputValue),
+      props.modalData.identifier,
       props.isActiveOpen,
-      props.stakeModalFarmPosition
+      props.modalData.position
     )
   }
 
   const onMaxClick = () => {
-    props.handleInput(parseInt(props.walletBalances?.[props.stakeModalIdentifier] ?? 0))
+    setInputValue((props.walletBalances?.[props.modalData.identifier] ?? 0).toFixed(0))
   }
 
   const onModalClose = () => {
-    props.handleInput("");
+    setInputValue("");
     props.onClose();
   }
 
   const buttonText = useMemo(() => {
-    if (!props.stakeInputValues) {
+    if (!inputValue) {
       return BUTTON_TEXT.ENTER_AMT;
     }
 
-    if (props.stakeInputValues > props.walletBalances[props.stakeModalIdentifier]) {
+    if (inputValue > props.walletBalances[props.modalData.identifier]) {
       return BUTTON_TEXT.INSUFF_AMT;
     }
 
     return BUTTON_TEXT.STAKE;
-  }, [props.stakeInputValues, props.stakeModalIdentifier, props.walletBalances])
+  }, [inputValue, props.modalData.identifier, props.walletBalances])
 
 
   return (
     <SimpleModal
       open={props.open}
       onClose={onModalClose}
-      title={`Stake ${props.stakeModalTitle} tokens`}
+      title={`Stake ${props.modalData.title} tokens`}
       className={styles.stakeModal}
     >
       <div className={clsx(styles.inputWrapper, "d-flex")}>
-        <input value={props.stakeInputValues} onChange={(event) => props.handleInput(event.target.value)} placeholder={"0.0"} />
+        <input value={inputValue} onChange={(event) => setInputValue(event.target.value)} placeholder={"0.0"} type="number" />
 
-        <span className="mr-2 ml-2 mt-auto mb-auto">{props.stakeModalTitle}</span>
+        <span className="mr-2 ml-2 mt-auto mb-auto">{props.modalData.title}</span>
 
         <Button onClick={onMaxClick} size="small" color="secondary" className="rounded-pill">max</Button>
       </div>
 
       <div className="d-flex flex-row-reverse">
         <div className="mb-3 mr-3">
-          <span>Balance: {props.walletBalances[props.stakeModalIdentifier]}</span>
+          <span>Balance: {props.walletBalances[props.modalData.identifier]}</span>
         </div>
       </div>
 
