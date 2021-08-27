@@ -812,7 +812,7 @@ module.exports = {
 
             CARD_TYPE: 'ETHtz',
             withdrawalFeeType: 'type1',
-            message: 'Rewards end September 2',
+            message: 'Staking disabled - Rewards end September 2',
           },
         ],
         inactive: [
@@ -844,7 +844,7 @@ module.exports = {
 
             CARD_TYPE: 'hDAO',
             withdrawalFeeType: 'type1',
-            message: 'Rewards end September 2',
+            message: 'Staking disabled - Rewards end September 2',
           },
         ],
         inactive: [
