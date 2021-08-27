@@ -63,9 +63,9 @@ const FarmCardBottom = (props) => {
             <Button
               onClick={() => {
                 props.harvestOnFarm(
-                  props.identifier,
+                  props.farmCardData.identifier,
                   props.isActiveOpen,
-                  props.position
+                  props.farmCardData.position
                 )
               }}
               color={stakedAmount > 0 ? "primary" : "default"}
@@ -92,7 +92,7 @@ const FarmCardBottom = (props) => {
                 (stakedAmount > 0)
                   ? <QuantityButton
                     onAdd={() => props.openFarmsStakeModal(props.farmCardData.identifier, properties.title,  farmData.CONTRACT, props.farmCardData.position)}
-                    onRemove={() => props.openFarmsUnstakeModal(props.farmCardData.identifier, farmData.CONTRACT, properties.title, props.farmCardData.withdrawalFeeType)}/>
+                    onRemove={() => props.openFarmsUnstakeModal(props.farmCardData.identifier, farmData.CONTRACT, properties.title, farmData.withdrawalFeeType, props.farmCardData.position)}/>
                   : <Button
                     onClick={() => props.openFarmsStakeModal(props.farmCardData.identifier, properties.title,  farmData.CONTRACT, props.farmCardData.position)}
                     color={"default"}>Stake</Button>

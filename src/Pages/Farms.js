@@ -116,9 +116,6 @@ const Farms = (props) => {
         stakeOperation={props.stakeOperation}
       />
       <UnstakeModal
-        unstakeModalwithdrawalFeeStructure={
-          props.unstakeModalwithdrawalFeeStructure
-        }
         modalData={props.unstakeModal}
         currentBlock={props.currentBlock}
         open={props.unstakeModal.open}
@@ -130,11 +127,6 @@ const Farms = (props) => {
         unstakeOnFarm={props.unstakeOnFarm}
         unstakeOperation={props.unstakeOperation}
       />
-
-      {/* identifier={props.identifier} */}
-      {/* withdrawalFeeStructure={props.withdrawalFeeStructure} */}
-      {/* tokenData={{title: props.title}} */}
-      {/* CONTRACT={props.CONTRACT} position={props.position} identifier={props.identifier} */}
       <FarmModals />
     </>
   );
@@ -200,6 +192,7 @@ const mapDispatchToProps = (dispatch) => {
       contractAddress,
       title,
       withdrawalFeeStructure,
+      position
     ) =>
       dispatch(
         openFarmsUnstakeModal({
@@ -207,6 +200,7 @@ const mapDispatchToProps = (dispatch) => {
           contractAddress,
           title,
           withdrawalFeeStructure,
+          position
         })
       ),
     closeFarmsUnstakeModal: () =>

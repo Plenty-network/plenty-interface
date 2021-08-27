@@ -196,7 +196,7 @@ export const harvestFarmsAction = {
       completed: false,
       failed: false,
       operationHash: null,
-      tokenPair: action.payload.tokenPair
+      tokenPair: action.payload
     }
   },
 
@@ -265,7 +265,8 @@ export const otherFarmsActions = {
       identifier: action.payload.identifier,
       title: action.payload.title,
       contractAddress: action.payload.contractAddress,
-      withdrawalFeeStructure: action.payload.withdrawalFeeStructure
+      withdrawalFeeStructure: action.payload.withdrawalFeeStructure,
+      position: action.payload.position,
     }
   },
 
@@ -275,7 +276,8 @@ export const otherFarmsActions = {
       identifier: '',
       title: '',
       contractAddress: '',
-      withdrawalFeeStructure: []
+      withdrawalFeeStructure: [],
+      position: -1,
     }
   },
 
