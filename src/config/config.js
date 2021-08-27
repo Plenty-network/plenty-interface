@@ -764,7 +764,7 @@ module.exports = {
 
             CARD_TYPE: 'wMATIC',
             withdrawalFeeType: 'type1',
-            message: 'Rewarded ended August 26',
+            message: 'Rewards ended August 26',
           },
         ],
       },
@@ -795,7 +795,7 @@ module.exports = {
 
             CARD_TYPE: 'wLINK',
             withdrawalFeeType: 'type1',
-            message: 'Rewarded ended August 26',
+            message: 'Rewards ended August 26',
           },
         ],
       },
