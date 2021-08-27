@@ -123,41 +123,6 @@ const Swap = (props) => {
     }
   };
 
-  const selectToken = (token) => {
-    setFirstTokenAmount('');
-    setSecondTokenAmount('');
-    setSwapData({});
-    setComputedOutDetails({
-      tokenOut_amount: '',
-    });
-    setLoading(true);
-
-    if (tokenType === 'tokenIn') {
-      setTokenIn({
-        name: token.name,
-        image: token.image,
-      });
-      loadSwapData(token.name, tokenOut.name).then((data) => {
-        if (data.success) {
-          setSwapData(data);
-          setLoading(false);
-        }
-      });
-    } else {
-      setTokenOut({
-        name: token.name,
-        image: token.image,
-      });
-      loadSwapData(tokenIn.name, token.name).then((data) => {
-        if (data.success) {
-          setSwapData(data);
-          setLoading(false);
-        }
-      });
-    }
-    handleClose();
-  };
-
   const handleTokenType = (type) => {
     setHideContent('content-hide');
     setShow(true);
@@ -289,6 +254,96 @@ const Swap = (props) => {
   ) {
     showActiveTab = 'liquidity';
   }
+
+  const selectToken = (token) => {
+    setFirstTokenAmount('');
+    setSecondTokenAmount('');
+    setSwapData({});
+    setComputedOutDetails({
+      tokenOut_amount: '',
+    });
+    setLoading(true);
+
+    if (tokenType === 'tokenIn') {
+      setTokenIn({
+        name: token.name,
+        image: token.image,
+      });
+
+      if (tokenOut.name) {
+        window.history.pushState(
+          {
+            path: `/swap?from=${token.name}&to=${tokenOut.name}`,
+          },
+          '',
+          `/swap?from=${token.name}&to=${tokenOut.name}`
+        );
+      } else {
+        window.history.pushState(
+          { path: `/swap?from=${token.name}` },
+          '',
+          `/swap?from=${token.name}`
+        );
+      }
+
+      loadSwapData(token.name, tokenOut.name).then((data) => {
+        if (data.success) {
+          setSwapData(data);
+          setLoading(false);
+        }
+      });
+    } else {
+      setTokenOut({
+        name: token.name,
+        image: token.image,
+      });
+      window.history.pushState(
+        {
+          path: `/swap?from=${tokenIn.name}&to=${token.name}`,
+        },
+        '',
+        `/swap?from=${tokenIn.name}&to=${token.name}`
+      );
+      loadSwapData(tokenIn.name, token.name).then((data) => {
+        if (data.success) {
+          setSwapData(data);
+          setLoading(false);
+        }
+      });
+    }
+    handleClose();
+  };
+
+  useEffect(() => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlSearchParams.entries());
+
+    if (params.from !== params.to) {
+      if (params.from) {
+        tokens.map((token) => {
+          if (token.name == params.from) {
+            setTokenIn({
+              name: params.from,
+              image: token.image,
+            });
+          }
+        });
+      }
+
+      if (params.to) {
+        tokens.map((token) => {
+          if (token.name == params.to) {
+            setTokenOut({
+              name: params.to,
+              image: token.image,
+            });
+          }
+        });
+      }
+    } else {
+      return;
+    }
+  }, []);
 
   return (
     <Container fluid>
