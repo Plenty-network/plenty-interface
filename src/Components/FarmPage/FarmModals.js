@@ -1,53 +1,29 @@
 import InfoTableModal from "../Modals/InfoTableModal";
 import { useDispatch, useSelector } from "react-redux";
-import { openCloseFarmsModal } from "../../redux/actions/farms/farms.actions";
 import { FARM_PAGE_MODAL } from "../../constants/farmsPage";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import InfoModal from "../Ui/Modals/InfoModal";
 import Loader from "../loader";
+import { openCloseFarmsModal } from "../../redux/slices/farms/farms.slice";
 
 const FarmModals = () => {
   const modalData = useSelector(state => state.farms.modals);
   const dispatch = useDispatch()
 
-  const withDrawalFee = useSelector(
-    state => {
-      if (modalData.contractAddress == null) {
-        return []
-      }
-
-      return (
-        state.farms.farmsToRender
-          ?.find(x => x.farmData.CONTRACT === modalData.contractAddress)
-          ?.withdrawalFeeStructure
-      ) ?? []
-    }
-  )
-
-  const roi = useSelector(
-    state => {
-      if (state.farms.isActiveOpen) {
-        return state.farms?.active.data?.response?.[modalData.contractAddress]?.roiTable ?? [];
-      }
-
-      return state.farms?.inactive.data?.response?.[modalData.contractAddress]?.roiTable ?? [];
-    }
-  )
-
   const stakeOperations = useSelector(state => state.farms.stakeOperation)
   const unstakeOperations = useSelector(state => state.farms.unstakeOperation)
 
-  const getTableData = useCallback(() => {
+  const tableData = useMemo(() => {
     if (modalData.open === FARM_PAGE_MODAL.WITHDRAWAL) {
-      return withDrawalFee
+      return modalData.withdrawalFeeType
     }
 
     if (modalData.open === FARM_PAGE_MODAL.ROI) {
-      return roi
+      return modalData.roiTable
     }
 
     return []
-  }, [modalData, withDrawalFee, roi])
+  }, [modalData.open, modalData.roiTable, modalData.withdrawalFeeType])
 
   const loaderMessage = useMemo(() => {
     if (stakeOperations.completed || stakeOperations.failed) {
@@ -76,7 +52,12 @@ const FarmModals = () => {
   }, [modalData.snackbar, stakeOperations.processing, unstakeOperations.processing])
 
   const onClose = () => {
-    dispatch(openCloseFarmsModal({ open: FARM_PAGE_MODAL.NULL, contractAddress: null }))
+    dispatch(openCloseFarmsModal({
+      open: FARM_PAGE_MODAL.NULL,
+      contractAddress: null,
+      withdrawalFeeType: [],
+      roiTable: []
+    }))
   }
 
   return (
@@ -85,7 +66,7 @@ const FarmModals = () => {
         type={modalData.open}
         open={modalData.open === FARM_PAGE_MODAL.ROI || modalData.open === FARM_PAGE_MODAL.WITHDRAWAL}
         onClose={onClose}
-        tableData={getTableData()}
+        tableData={tableData}
       />
       <InfoModal
         open={modalData.open === FARM_PAGE_MODAL.TRANSACTION_SUCCESS}

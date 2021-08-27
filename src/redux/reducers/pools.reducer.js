@@ -39,20 +39,22 @@ const initialState = {
         transactionId: '',
         snackbar: false,
     },
+    stakeModal: {
+        open: false,
+        identifier: '',
+        title: '',
+        contractAddress: '',
+        position: -1,
+    },
+    unstakeModal: {
+        open: false,
+        identifier: '',
+        title: '',
+        contractAddress: '',
+        withdrawalFeeStructure: [],
+    },
     isActiveOpen : true,
     poolsToRender : [],
-    isStakeModalOpen : false,
-    stakeModalIdentifier :'',
-    stakeModalTitle : '',
-    stakeModalPoolPosition : -1,
-    stakeModalContractAddress : '',
-    stakeInputValue : 0,
-    isUnstakeModalOpen : false,
-    unstakeModalIdentifier : '',
-    unstakeModalContractAddress : '',
-    unstakeModalPoolPosition : -1,
-    unstakeModalTitle : '',
-    unstakeModalwithdrawalFeeStructure : []
 }
 
 const poolsReducer = (state = initialState , action) => {
@@ -157,7 +159,10 @@ const poolsReducer = (state = initialState , action) => {
                     failed : false,
                     operationHash : null
                 },
-                isStakeModalOpen: false,
+                stakeModal: {
+                    ...state.stakeModal,
+                    open: false
+                }
             }
         case actions.STAKING_ON_POOL_SUCCESSFULL:
             return {
@@ -221,7 +226,10 @@ const poolsReducer = (state = initialState , action) => {
                     failed : false,
                     operationHash : null
                 },
-                isUnstakeModalOpen: false,
+                unstakeModal: {
+                    ...state.unstakeModal,
+                    open: false,
+                }
             }
         case actions.UNSTAKING_ON_POOL_SUCCESSFULL:
             return {
@@ -326,21 +334,26 @@ const poolsReducer = (state = initialState , action) => {
         case actions.OPEN_POOLS_STAKE_MODAL:
             return {
                 ...state,
-                isStakeModalOpen : true,
-                stakeModalIdentifier : action.data.identifier,
-                stakeModalTitle : action.data.title,
-                stakeModalPoolPosition : action.data.position,
-                stakeModalContractAddress : action.data.contractAddress
+                stakeModal: {
+                    ...state.stakeModal,
+                    open: true,
+                    identifier : action.data.identifier,
+                    title : action.data.title,
+                    position : action.data.position,
+                    contractAddress : action.data.contractAddress
+                }
             }
         case actions.CLOSE_POOLS_STAKE_MODAL:
             return {
                 ...state,
-                isStakeModalOpen : false,
-                stakeModalIdentifier : '',
-                stakeModalTitle : '',
-                stakeModalPoolPosition : -1,
-                stakeModalContractAddress : '',
-                stakeInputValue : 0
+                stakeModal: {
+                    ...state.stakeModal,
+                    open: false,
+                    identifier: '',
+                    title: '',
+                    contractAddress: '',
+                    position: -1,
+                }
             }
         case actions.HANDLE_STAKE_ON_POOLS_INPUT_VALUE:
             return {
@@ -350,23 +363,27 @@ const poolsReducer = (state = initialState , action) => {
         case actions.OPEN_POOLS_UNSTAKE_MODAL:
             return {
                 ...state,
-                isUnstakeModalOpen : true,
-                unstakeModalIdentifier : action.data.identifier,
-                unstakeModalContractAddress : action.data.contractAddress,
-                unstakeModalPoolPosition : action.data.position,
-                unstakeModalTitle : action.data.title,
-                unstakeModalwithdrawalFeeStructure : action.data.withdrawalFeeStructure
-                
+                unstakeModal: {
+                    ...state.unstakeModal,
+                    open: true,
+                    identifier: action.data.identifier,
+                    title: action.data.title,
+                    contractAddress: action.data.contractAddress,
+                    withdrawalFeeStructure: action.data.withdrawalFeeStructure,
+                    position: action.data.position,
+                },
             }
         case actions.CLOSE_POOLS_UNSTAKE_MODAL:
             return {
                 ...state,
-                isUnstakeModalOpen : false,
-                unstakeModalIdentifier : '',
-                unstakeModalContractAddress : '',
-                unstakeModalPoolPosition : -1,
-                unstakeModalTitle : '',
-                unstakeModalwithdrawalFeeStructure : []
+                unstakeModal: {
+                    ...state.unstakeModal,
+                    open: false,
+                    identifier: '',
+                    title: '',
+                    contractAddress: '',
+                    withdrawalFeeStructure: [],
+                }
             }
 
         case actions.OPEN_CLOSE_POOLS_MODAL:

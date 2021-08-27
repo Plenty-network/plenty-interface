@@ -7,88 +7,50 @@ import Button from '../Ui/Buttons/Button';
 import CalculatorSvg from '../../assets/images/icons/calculator.svg';
 import { numberWithCommas } from '../../utils/formatNumbers';
 import { useDispatch } from 'react-redux';
-import { openCloseFarmsModal } from '../../redux/actions/farms/farms.actions';
-import { FARM_PAGE_MODAL } from '../../constants/farmsPage';
+import { FARM_PAGE_MODAL, FARMS_CARD_DATA_PROPTYPES } from '../../constants/farmsPage';
+import { openCloseFarmsModal } from "../../redux/slices/farms/farms.slice";
+
 
 const FarmCard = (props) => {
   const dispatch = useDispatch();
+  const { properties, values } = props.farmCardData
 
   const apyCalculate = (apr) =>
     ((Math.pow(1 + apr / 100 / 365, 365) - 1) * 100).toFixed(0);
 
-  const getAPR = (props) => {
+  const getAPR = () => {
     try {
-      if (props.isActiveOpen === true) {
-        if (props.activeFarmData.isPresent === true) {
-          const apr =
-            props.activeFarmData.data.response[props.CONTRACT]?.APR ?? 0;
-          return numberWithCommas(Math.round(apr));
-        }
-      }
+      const apr = values?.APR ?? 0;
+      return numberWithCommas(Math.round(apr));
 
-      return 0;
     } catch (e) {
       return 0;
     }
   };
 
-  const getAPY = (props) => {
-    if (props.isActiveOpen === true) {
-      if (props.activeFarmData.isPresent === true) {
-        const apy = apyCalculate(
-          props.activeFarmData.data.response[props.CONTRACT]?.APR ?? 0
-        );
+  const getAPY = () => {
+    const apy = apyCalculate(
+      values?.APR ?? 0
+    );
 
-        return numberWithCommas(Math.round(apy));
-      }
-
-      return 0;
-    }
-
-    return 0;
+    return numberWithCommas(Math.round(apy));
   };
 
   const getReward = () => {
-    if (props.isActiveOpen === true) {
-      if (props.activeFarmData.isPresent === true) {
-        return (
-          (props.activeFarmData.data.response[props.CONTRACT]?.rewardRate ??
-            0) * 2880
-        );
-      } else {
-        return 0;
-      }
-    } else {
-      return 0;
-    }
+
+    return (values?.rewardRate ?? 0) * 2880
+
   };
 
   const getTotalLiquidity = () => {
-    if (props.isActiveOpen === true) {
-      if (props.activeFarmData.isPresent === true) {
-        return numberWithCommas(
-          props.activeFarmData.data.response[
-            props.CONTRACT
-          ]?.totalLiquidty?.toFixed(0) ?? 0,
-          { plain: true }
-        );
-      }
 
-      return 0;
-    }
+    return numberWithCommas(
+      values?.totalLiquidty?.toFixed(0) ?? 0,
+      {plain: true}
+    );
 
-    if (props.inactiveFarmsData?.isPresent === true) {
-      return numberWithCommas(
-        props.inactiveFarmsData.data.response[
-          props.CONTRACT
-          ]?.totalLiquidty?.toFixed(0) ?? 0,
-        { plain: true }
-      );
-    }
+  }
 
-    return 0;
-
-  };
 
   const hasStakedAmount = () => {
     return (
@@ -102,6 +64,7 @@ const FarmCard = (props) => {
       openCloseFarmsModal({
         open: FARM_PAGE_MODAL.ROI,
         contractAddress: props.CONTRACT,
+        roiTable: props.farmCardData.values.roiTable
       })
     );
   };
@@ -123,19 +86,19 @@ const FarmCard = (props) => {
             )}
           >
             <div className={styles.imageWrapper}>
-              <Image src={props.image} fluid />
+              <Image src={properties.image} fluid />
             </div>
             <div className="text-right">
-              <p className={styles.title}>{props.title}</p>
+              <p className={styles.title}>{properties.title}</p>
               <p
                 className={clsx(
                   styles.titleBadge,
-                  props.source === 'Plenty LP'
+                  properties.source === 'Plenty LP'
                     ? styles.badgePlenty
                     : styles.badgeOther
                 )}
               >
-                {props.source}
+                {properties.source}
               </p>
             </div>
           </div>
@@ -230,5 +193,9 @@ const FarmCard = (props) => {
     </>
   );
 };
+
+FarmCard.propTypes = {
+  farmCardData: FARMS_CARD_DATA_PROPTYPES
+}
 
 export default FarmCard;

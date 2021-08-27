@@ -29,7 +29,7 @@ const PoolCardBottom = (props) => {
     return props.userStakes.hasOwnProperty(props.CONTRACT)
       ? props.userStakes[props.CONTRACT].stakedAmount
       : 0
-  }, [props.CONTRACT, props.userStakes])
+  }, [props.CONTRACT, props.userStakes, props.userAddress])
 
   return (
     <>
@@ -86,7 +86,7 @@ const PoolCardBottom = (props) => {
               {
                 stakedAmount > 0
                   ? <QuantityButton onAdd={() => props.openPoolsStakeModal(props.identifier,props.title,props.position,props.CONTRACT,)} onRemove={() => props.openPoolsUnstakeModal(props.identifier,props.CONTRACT,props.title,props.withdrawalFeeStructure,props.position)}/>
-                  : <Button onClick={() => null} color={"default"}>Stake</Button>
+                  : <Button onClick={() => props.openPoolsStakeModal(props.identifier,props.title,props.position,props.CONTRACT)} color={"default"}>Stake</Button>
               }
             </div>
           </>
