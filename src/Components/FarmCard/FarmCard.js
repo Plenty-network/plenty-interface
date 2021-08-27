@@ -13,7 +13,7 @@ import { openCloseFarmsModal } from "../../redux/slices/farms/farms.slice";
 
 const FarmCard = (props) => {
   const dispatch = useDispatch();
-  const { properties, values } = props.farmCardData
+  const { farmData, properties, values } = props.farmCardData
 
   const apyCalculate = (apr) =>
     ((Math.pow(1 + apr / 100 / 365, 365) - 1) * 100).toFixed(0);
@@ -54,8 +54,8 @@ const FarmCard = (props) => {
 
   const hasStakedAmount = () => {
     return (
-      props.userStakes.hasOwnProperty(props.CONTRACT) &&
-      props.userStakes[props.CONTRACT]?.stakedAmount > 0
+      props.userStakes.hasOwnProperty(farmData.CONTRACT) &&
+      props.userStakes[farmData.CONTRACT]?.stakedAmount > 0
     );
   };
 
@@ -63,8 +63,8 @@ const FarmCard = (props) => {
     dispatch(
       openCloseFarmsModal({
         open: FARM_PAGE_MODAL.ROI,
-        contractAddress: props.CONTRACT,
-        roiTable: props.farmCardData.values.roiTable
+        contractAddress: farmData.CONTRACT,
+        roiTable: values.roiTable
       })
     );
   };
@@ -161,10 +161,10 @@ const FarmCard = (props) => {
                 <Button
                   onClick={() =>
                     props.openFarmsStakeModal(
-                      props.identifier,
-                      props.title,
-                      props.position,
-                      props.CONTRACT
+                      props.farmCardData.identifier,
+                      properties.title,
+                      farmData.CONTRACT,
+                      props.farmCardData.position
                     )
                   }
                   color={'primary'}
