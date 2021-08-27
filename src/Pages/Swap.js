@@ -69,7 +69,7 @@ const Swap = (props) => {
   const [showConfirmAddSupply, setShowConfirmAddSupply] = useState(false);
   const [showConfirmRemoveSupply, setShowConfirmRemoveSupply] = useState(false);
   const [hideContent, setHideContent] = useState('');
-  const [slippage, setSlippage] = useState(0.1);
+  const [slippage, setSlippage] = useState(0.5);
   const [recepient, setRecepient] = useState('');
   const [tokenType, setTokenType] = useState('tokenIn');
   const [tokenOut, setTokenOut] = useState({});
