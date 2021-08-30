@@ -2,60 +2,66 @@ import Button from "../Ui/Buttons/Button"
 import React, { useEffect, useState } from "react"
 import SimpleModal from "../Ui/Modals/SimpleModal"
 import { RPC_NODE } from "../../constants/localStorage"
-import { connect } from 'react-redux'
-import { setRPCNodeName } from '../../redux/actions/home/home.actions'
+import { connect } from "react-redux"
+import { setRPCNodeName } from "../../redux/actions/home/home.actions"
 
-const urlRegex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm
+const urlRegex =
+	/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm
 
-function isValidURL(str){
+function isValidURL(str) {
 	return urlRegex.test(str)
 }
 
- function NodeSelectorModal(props) {
-	
-	 const [currentRPC, setCurrentRPC] = useState("")
-	 const [customRPC, setCustomRPC] = useState("")
-	
-	 const LOCAL_RPC_NODES = {
-		"PLENTY": "https://cres2hr8uxm6.midl.dev/",
-		"GIGANODE": "https://mainnet-tezos.giganode.io/",
-		"CRYPTONOMIC" : "https://tezos-prod.cryptonomic-infra.tech/",
-	 }
-	 console.log(Object.entries(LOCAL_RPC_NODES))
-	 
-	 useEffect(() => {
-		 const RPCNodeInLS = localStorage.getItem(RPC_NODE)
+function NodeSelectorModal(props) {
+	const [currentRPC, setCurrentRPC] = useState("")
+	const [customRPC, setCustomRPC] = useState("")
 
-		 if (!RPCNodeInLS) {
+	const LOCAL_RPC_NODES = {
+		PLENTY: "https://cres2hr8uxm6.midl.dev/",
+		GIGANODE: "https://mainnet-tezos.giganode.io/",
+		CRYPTONOMIC: "https://tezos-prod.cryptonomic-infra.tech/",
+	}
+	const nodeNames = {
+		PLENTY: "Plenty node",
+		GIGANODE: "Giganode",
+		CRYPTONOMIC: "Cryptonomic",
+	}
+	console.log(Object.entries(LOCAL_RPC_NODES))
+
+	useEffect(() => {
+		const RPCNodeInLS = localStorage.getItem(RPC_NODE)
+
+		if (!RPCNodeInLS) {
 			setCurrentRPC("")
 			return
 		}
-		 
-		 if (!isValidURL(RPCNodeInLS)) {
-			 // set default node
-			localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES['PLENTY'])
-			setCurrentRPC('PLENTY')
+
+		if (!isValidURL(RPCNodeInLS)) {
+			// set default node
+			localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES["PLENTY"])
+			setCurrentRPC("PLENTY")
 			return
-		 }
-		 
+		}
 
-		const matchedNode = Object.entries(LOCAL_RPC_NODES).find(([_, nodeLink]) => {
-			if (nodeLink === RPCNodeInLS) {
-				return true
+		const matchedNode = Object.entries(LOCAL_RPC_NODES).find(
+			([_, nodeLink]) => {
+				if (nodeLink === RPCNodeInLS) {
+					return true
+				}
+				return false
 			}
-			return false
-		 })
+		)
 
-		 if (!matchedNode) {
+		if (!matchedNode) {
 			setCurrentRPC("CUSTOM")
 			setCustomRPC(RPCNodeInLS)
 			return
-		 }
+		}
 
-		 const [nodeName] = matchedNode
-		 setCurrentRPC(nodeName)
-		 // eslint-disable-next-line
-		}, [])
+		const [nodeName] = matchedNode
+		setCurrentRPC(nodeName)
+		// eslint-disable-next-line
+	}, [props.nodeSelector])
 
 	const setRPCInLS = () => {
 		if (currentRPC !== "CUSTOM") {
@@ -73,7 +79,7 @@ function isValidURL(str){
 		}
 		props.closeNodeSelectorModal(customRPC)
 	}
-	 
+
 	return (
 		<SimpleModal
 			title={props.title}
@@ -84,37 +90,30 @@ function isValidURL(str){
 				The Plenty node can be overloaded sometimes. When your data doesn’t load
 				properly, try switching to a different node, or use a custom node.
 			</div>
-			<div className="node-selector-radio-container">
+			<div className="node-selector-radio-container node-selector-list">
 				<ul>
-					<li onClick={() => setCurrentRPC("PLENTY")}>
-						<input type="radio" checked={currentRPC === 'PLENTY'} id="f-option" name="selector" />
-						<label for="f-option">Plenty node</label>
+					{Object.entries(nodeNames).map(([identifier, name]) => (
+						<li onClick={() => setCurrentRPC(identifier)}>
+							<input
+								defaultChecked={currentRPC === identifier}
+								type="radio"
+								checked={currentRPC === identifier}
+								id={identifier}
+								name="selector"
+							/>
+							<label for={identifier}>{name}</label>
 
-						<div class="check"></div>
-					</li>
-
-					<li
-						onClick={() => setCurrentRPC("GIGANODE")}>
-						<input type="radio" checked={currentRPC === 'GIGANODE'} id="s-option" name="selector" />
-						<label for="s-option">Giganode</label>
-
-						<div class="check">
-							<div class="inside"></div>
-						</div>
-					</li>
-
-					<li
-						onClick={() =>
-							setCurrentRPC("CRYPTONOMIC")
-						}>
-						<input type="radio" id="t-option" checked={currentRPC === 'CRYPTONOMIC'} name="selector" />
-						<label for="t-option">Cryptonomic</label>
-						<div class="check">
-							<div class="inside"></div>
-						</div>
-					</li>
+							<div class="check"></div>
+						</li>
+					))}
 					<li onClick={() => setCurrentRPC("CUSTOM")}>
-						<input type="radio" id="w-option" checked={currentRPC === 'CUSTOM'} name="selector" />
+						<input
+							defaultChecked={currentRPC === "CUSTOM"}
+							type="radio"
+							id="w-option"
+							checked={currentRPC === "CUSTOM"}
+							name="selector"
+						/>
 						<label for="w-option">Custom</label>
 						<input
 							type="url"
@@ -143,12 +142,12 @@ function isValidURL(str){
 	)
 }
 
-const mapStateToProps = (state) => ({
-	selectedNode : state.home.nodeState.rpcNode
+const mapStateToProps = state => ({
+	selectedNode: state.home.nodeState.rpcNode,
 })
 
-const mapDispatchToProps = (dispatch) => ({
-	setRPCNodeName : () => dispatch(setRPCNodeName())
+const mapDispatchToProps = dispatch => ({
+	setRPCNodeName: () => dispatch(setRPCNodeName()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NodeSelectorModal)
