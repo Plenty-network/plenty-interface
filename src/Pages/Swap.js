@@ -243,7 +243,7 @@ const Swap = (props) => {
   const storeActiveTab = (elem) => {
     setActiveTab(elem);
     localStorage.setItem('activeTab', elem);
-    window.history.pushState({ path: elem }, '', elem);
+    window.history.pushState({ path: `/${elem}` }, '', `/${elem}`);
   };
 
   let showActiveTab = localStorage.getItem('activeTab');
