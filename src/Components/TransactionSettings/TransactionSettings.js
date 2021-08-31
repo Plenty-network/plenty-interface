@@ -32,15 +32,12 @@ const TransactionSettings = (props) => {
 
       <Dropdown.Menu className="menu-dropdown transaction-settings-dropdown bg-themed bg-themed-transcation-settings">
         <p className="transaction-setting-menu-label">Transaction Settings</p>
-        <p className="transaction-setting-sub-label">
-          Slippage tolerance{' '}
-          <span className="material-icons-round">help_outline</span>
-        </p>
+        <p className="transaction-setting-sub-label">Slippage tolerance </p>
 
         <div className="slipping-tolerance-detail-wrapper flex justify-between align-center">
           <button
             className="slipping-tolerance-btn"
-            onClick={(e) => props.setSlippage(0.05)}
+            onClick={(e) => props.setSlippage(0.5)}
           >
             Auto
           </button>
@@ -50,6 +47,7 @@ const TransactionSettings = (props) => {
             placeholder="0.10"
             value={props.slippage}
             onChange={(e) => props.setSlippage(e.target.value)}
+            style={{ textAlign: 'right', padding: '10px 26px' }}
           />
           <div className="percentage-icon">
             <span className="span-themed">%</span>
@@ -59,10 +57,7 @@ const TransactionSettings = (props) => {
         <div className="interface-setting-wrapper">
           <p className="transaction-setting-menu-label">Interface Settings</p>
           <div className="flex align-center">
-            <p className="transaction-setting-sub-label">
-              Add Recipient{' '}
-              <span className="material-icons-round">help_outline</span>
-            </p>
+            <p className="transaction-setting-sub-label">Add Recipient </p>
             <div className="toggleWrapper">
               <input
                 type="checkbox"

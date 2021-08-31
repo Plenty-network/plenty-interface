@@ -84,6 +84,15 @@ export const stakingFarmsActions = {
   stakingOnFarmProcessing: (state, action) => {
     state.modals.open = FARM_PAGE_MODAL.TRANSACTION_SUCCESS;
     state.modals.transactionId = action.payload.opHash;
+    state.modals.snackbar = true;
+
+    state.stakeModal = {
+      open: false,
+      identifier: '',
+      title: '',
+      contractAddress: '',
+      position: -1
+    }
 
     state.stakeOperation = {
       isLoading: false,
@@ -94,6 +103,7 @@ export const stakingFarmsActions = {
     };
     state.isStakeModalOpen = false;
     state.stakeInputValue = "";
+
   },
 
   stakingOnFarmSuccessFull: (state, action) => {
@@ -102,7 +112,7 @@ export const stakingFarmsActions = {
       processing: false,
       completed: true,
       failed: false,
-      operationHash: action.data
+      operationHash: action.payload
     }
     state.modals.snackbar = true
   },
@@ -130,7 +140,7 @@ export const stakingFarmsActions = {
 }
 
 export const unstakingFarmsAction = {
-  initiateUnstakingOperationOnFarm: (state, action) => {
+  initiateUnstakingOperationOnFarm: (state) => {
     state.unstakeOperation = {
       isLoading: true,
       processing: false,
@@ -143,6 +153,16 @@ export const unstakingFarmsAction = {
   unstakingOnFarmProcessing: (state, action) => {
     state.modals.open = FARM_PAGE_MODAL.TRANSACTION_SUCCESS;
     state.modals.transactionId = action.payload.opHash;
+    state.modals.snackbar = true;
+
+    state.unstakeModal = {
+      open: false,
+      identifier: '',
+      title: '',
+      contractAddress: '',
+      withdrawalFeeStructure: [],
+      position: -1,
+    }
 
     state.unstakeOperation = {
       isLoading: false,
@@ -194,7 +214,7 @@ export const harvestFarmsAction = {
       completed: false,
       failed: false,
       operationHash: null,
-      tokenPair: action.payload.tokenPair
+      tokenPair: action.payload
     }
   },
 
@@ -203,7 +223,7 @@ export const harvestFarmsAction = {
       isLoading: false,
       completed: true,
       failed: false,
-      operationHash: action.data,
+      operationHash: action.payload,
       tokenPair: null,
     }
   },
@@ -238,41 +258,49 @@ export const otherFarmsActions = {
   },
 
   openFarmsStakeModal: (state, action) => {
-    state.isStakeModalOpen = true;
-    state.stakeModalIdentifier = action.data.identifier;
-    state.stakeModalTitle = action.data.title;
-    state.stakeModalFarmPosition = action.data.position;
-    state.stakeModalContractAddress = action.data.contractAddress;
+    state.stakeModal = {
+      open: true,
+      identifier: action.payload.identifier,
+      title: action.payload.title,
+      contractAddress: action.payload.contractAddress,
+      position: action.payload.position
+    }
   },
 
   closeFarmsStakeModal: (state) => {
-    state.isStakeModalOpen = false;
-    state.stakeModalIdentifier = '';
-    state.stakeModalTitle = '';
-    state.stakeModalFarmPosition = -1;
-    state.stakeModalContractAddress = '';
+    state.stakeModal = {
+      open: false,
+      identifier: '',
+      title: '',
+      contractAddress: '',
+      position: -1
+    }
   },
 
   openFarmsUnstakeModal: (state, action) => {
-    state.isUnstakeModalOpen = true;
-    state.unstakeModalIdentifier = action.data.identifier;
-    state.unstakeModalTitle = action.data.title;
-    state.unstakeModalFarmPosition = action.data.position;
-    state.unstakeModalContractAddress = action.data.contractAddress;
-    state.unstakeModalwithdrawalFeeStructure = action.data.withdrawalFeeStructure;
+    state.unstakeModal = {
+      open: true,
+      identifier: action.payload.identifier,
+      title: action.payload.title,
+      contractAddress: action.payload.contractAddress,
+      withdrawalFeeStructure: action.payload.withdrawalFeeStructure,
+      position: action.payload.position,
+    }
   },
 
   closeFarmsUnstakeModal: (state) => {
-    state.isStakeModalOpen = false;
-    state.unstakeModalIdentifier = '';
-    state.unstakeModalTitle = '';
-    state.unstakeModalFarmPosition = -1;
-    state.unstakeModalContractAddress = '';
-    state.unstakeModalwithdrawalFeeStructure = []
+    state.unstakeModal = {
+      open: false,
+      identifier: '',
+      title: '',
+      contractAddress: '',
+      withdrawalFeeStructure: [],
+      position: -1,
+    }
   },
 
   openCloseFarmsModal: (state, action) => {
-    state.modals = {...state.modals, ...action.payload}
+    state.modals = {...state.modals, ...action.payload }
   },
 
   dismissSnackbar: (state) => {

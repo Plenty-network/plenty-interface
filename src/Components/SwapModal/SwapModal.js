@@ -1,18 +1,23 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
+const config = require('../../config/config');
 
 const SwapModal = (props) => {
   const tokensToShow = props.tokens.filter((token) => {
     if (props.tokenType == 'tokenOut') {
-      if (props.tokenIn.name !== 'PLENTY') {
-        return token.name == 'PLENTY';
-      } else if (props.tokenIn.name !== token.name) {
+      if (
+        config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[token.name]
+      ) {
         return token;
       }
     } else {
-      if (props.tokenOut.name && props.tokenOut.name !== 'PLENTY') {
-        return token.name == 'PLENTY';
-      } else if (props.tokenOut.name !== token.name) {
+      if (props.tokenOut.name) {
+        if (
+          config.AMM[config.NETWORK][props.tokenOut.name].DEX_PAIRS[token.name]
+        ) {
+          return token;
+        }
+      } else {
         return token;
       }
     }
@@ -21,7 +26,6 @@ const SwapModal = (props) => {
     <Modal
       show={props.show}
       onHide={props.onHide}
-      animation={false}
       className="swap-modal modal-themed"
     >
       <Modal.Header closeButton className="border-bottom-themed">

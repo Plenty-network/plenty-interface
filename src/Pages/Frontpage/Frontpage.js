@@ -75,7 +75,7 @@ const Frontpage = ({
 			}
 		}
 		getAllData()
-		const intervalId = setInterval(getAllData(), 30 * 1000);
+		const intervalId = setInterval(getAllData(), 60 * 1000);
 		return () => clearInterval(intervalId)
 	}, [wallet])
 

@@ -1,9 +1,64 @@
-import plentyXtz from "../assets/images/farms/plenty-xtz.png";
-import kalamXtz from "../assets/images/farms/kalam-xtz.png";
-import plentyToken from "../assets/images/logo_small.png";
-import plentyWUSDC from "../assets/images/farms/PLENTY-wUSDC.png";
-import plentyWBUSD from "../assets/images/farms/PLENTY-wBUSD.png";
-import plentyWWBTC from "../assets/images/farms/PLENTY-wWBTC.png";
+import plentyXtz from '../assets/images/farms/plenty-xtz.png';
+import kalamXtz from '../assets/images/farms/kalam-xtz.png';
+import plentyToken from '../assets/images/logo_small.png';
+import plentyWUSDC from '../assets/images/farms/PLENTY-wUSDC.png';
+import plentyWBUSD from '../assets/images/farms/PLENTY-wBUSD.png';
+import plentyWWBTC from '../assets/images/farms/PLENTY-wWBTC.png';
+import plentyUsdtz from '../assets/images/plenty-usdtz.png';
+import plentyWmatic from '../assets/images/plenty-wmatic.png';
+import plentyWlink from '../assets/images/plenty-wlink.png';
+import PropTypes from "prop-types";
+
+export const FARMS_CARD_DATA_PROPTYPES = PropTypes.shape({
+  farmData: PropTypes.shape({
+    LP_TOKEN: PropTypes.string,
+    CONTRACT: PropTypes.string,
+    DEX: PropTypes.string,
+    TOKEN_ADDRESS: PropTypes.string,
+    CARD_TYPE: PropTypes.string,
+    TOKEN_DECIMAL: 6,
+    TYPE: PropTypes.string,
+    LP_DECIMAL: 18,
+    TEMP_ADDRESS: PropTypes.string,
+    DECIMAL: 18,
+    withdrawalFeeType: PropTypes.array,
+  }).isRequired,
+  properties: PropTypes.shape({
+    image: PropTypes.string,
+    harvestImg: PropTypes.string,
+    multi: PropTypes.string,
+    title: PropTypes.string,
+    apr: PropTypes.number,
+    apy: PropTypes.string,
+    earn: PropTypes.string,
+    fee: PropTypes.string,
+    earned: PropTypes.number,
+    deposit: PropTypes.string,
+    liquidity: PropTypes.string,
+    withdrawalFee: PropTypes.string,
+    balance: PropTypes.number,
+    userBalance: PropTypes.number,
+    URL: PropTypes.string,
+    active: PropTypes.bool,
+    source: PropTypes.string,
+    rewards: PropTypes.string,
+  }).isRequired,
+  identifier: PropTypes.string.isRequired,
+  position: PropTypes.number.isRequired,
+  values: PropTypes.shape({
+    identifier: PropTypes.string,
+    APR: PropTypes.number,
+    totalLiquidty: PropTypes.number,
+    roiTable: PropTypes.arrayOf(
+      PropTypes.shape({
+        roi: PropTypes.number,
+        PlentyPer1000dollar: PropTypes.number,
+      })
+    ),
+    totalSupply: PropTypes.number,
+    rewardRate: PropTypes.number,
+  })
+})
 
 export const FARM_PAGE_MODAL = {
   NULL: null,
@@ -12,14 +67,14 @@ export const FARM_PAGE_MODAL = {
   UNSTAKE: 'unstake',
   WITHDRAWAL: 'withdrawal',
   TRANSACTION_SUCCESS: 'transaction-success',
-}
+};
 
-export  const FARMS_CARD_TYPE_LIST = {
+export const FARMS_CARD_TYPE_LIST = {
   'PLENTY / XTZ LP': {
-    image: plentyXtz, // NEED
-    harvestImg: plentyToken, // NEED
+    image: plentyXtz,
+    harvestImg: plentyToken,
     multi: '100',
-    title: 'PLENTY / XTZ LP', // NEED
+    title: 'PLENTY / XTZ LP',
     apr: 0,
     apy: '2621',
     earn: 'PLENTY',
@@ -32,7 +87,7 @@ export  const FARMS_CARD_TYPE_LIST = {
     userBalance: 0,
     URL: '',
     active: true,
-    source: 'Quipuswap LP', // NEED
+    source: 'Quipuswap LP',
     rewards: '1000 PLENTY / DAY',
   },
   'KALAM / XTZ LP': {
@@ -145,6 +200,66 @@ export  const FARMS_CARD_TYPE_LIST = {
     fee: '0%',
     earned: 0,
     deposit: 'PLENTY / wWBTC LP',
+    liquidity: '5000',
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+  },
+  'PLENTY / wMATIC LP': {
+    image: plentyWmatic,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'PLENTY / wMATIC LP',
+    apr: 0,
+    apy: '2621',
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'PLENTY / wMATIC LP',
+    liquidity: '5000',
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+  },
+  'PLENTY / wLINK LP': {
+    image: plentyWlink,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'PLENTY / wLINK LP',
+    apr: 0,
+    apy: '2621',
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'PLENTY / wLINK LP',
+    liquidity: '5000',
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+  },
+  'PLENTY / USDtz LP': {
+    image: plentyUsdtz,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'PLENTY / USDtz LP',
+    apr: 0,
+    apy: '2621',
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'PLENTY / USDtz LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,

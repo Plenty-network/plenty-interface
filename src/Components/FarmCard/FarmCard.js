@@ -1,24 +1,24 @@
 import styles from '../../assets/scss/partials/_farms.module.scss';
 import Image from 'react-bootstrap/Image';
 import clsx from 'clsx';
-import PropTypes from "prop-types";
 import FarmCardBottom from './FarmCardBottom';
 import Button from '../Ui/Buttons/Button';
 
 import CalculatorSvg from '../../assets/images/icons/calculator.svg';
 import { numberWithCommas } from '../../utils/formatNumbers';
 import { useDispatch } from 'react-redux';
-import { FARM_PAGE_MODAL } from '../../constants/farmsPage';
+import { FARM_PAGE_MODAL, FARMS_CARD_DATA_PROPTYPES } from '../../constants/farmsPage';
+import { openCloseFarmsModal } from "../../redux/slices/farms/farms.slice";
 
 
 const FarmCard = (props) => {
   const dispatch = useDispatch();
-  const { properities, values } = props.farmCardData
+  const { farmData, properties, values } = props.farmCardData
 
   const apyCalculate = (apr) =>
     ((Math.pow(1 + apr / 100 / 365, 365) - 1) * 100).toFixed(0);
 
-  const getAPR = (props) => {
+  const getAPR = () => {
     try {
       const apr = values?.APR ?? 0;
       return numberWithCommas(Math.round(apr));
@@ -28,7 +28,7 @@ const FarmCard = (props) => {
     }
   };
 
-  const getAPY = (props) => {
+  const getAPY = () => {
     const apy = apyCalculate(
       values?.APR ?? 0
     );
@@ -54,18 +54,19 @@ const FarmCard = (props) => {
 
   const hasStakedAmount = () => {
     return (
-      props.userStakes.hasOwnProperty(props.CONTRACT) &&
-      props.userStakes[props.CONTRACT]?.stakedAmount > 0
+      props.userStakes.hasOwnProperty(farmData.CONTRACT) &&
+      props.userStakes[farmData.CONTRACT]?.stakedAmount > 0
     );
   };
 
   const onRoiClick = () => {
-    // dispatch(
-    //   openCloseFarmsModal({
-    //     open: FARM_PAGE_MODAL.ROI,
-    //     contractAddress: props.CONTRACT,
-    //   })
-    // );
+    dispatch(
+      openCloseFarmsModal({
+        open: FARM_PAGE_MODAL.ROI,
+        contractAddress: farmData.CONTRACT,
+        roiTable: values.roiTable
+      })
+    );
   };
 
   return (
@@ -85,19 +86,19 @@ const FarmCard = (props) => {
             )}
           >
             <div className={styles.imageWrapper}>
-              <Image src={properities.image} fluid />
+              <Image src={properties.image} fluid />
             </div>
             <div className="text-right">
-              <p className={styles.title}>{properities.title}</p>
+              <p className={styles.title}>{properties.title}</p>
               <p
                 className={clsx(
                   styles.titleBadge,
-                  properities.source === 'Plenty LP'
+                  properties.source === 'Plenty LP'
                     ? styles.badgePlenty
                     : styles.badgeOther
                 )}
               >
-                {properities.source}
+                {properties.source}
               </p>
             </div>
           </div>
@@ -160,10 +161,10 @@ const FarmCard = (props) => {
                 <Button
                   onClick={() =>
                     props.openFarmsStakeModal(
-                      props.identifier,
-                      props.title,
-                      props.position,
-                      props.CONTRACT
+                      props.farmCardData.identifier,
+                      properties.title,
+                      farmData.CONTRACT,
+                      props.farmCardData.position
                     )
                   }
                   color={'primary'}
@@ -194,55 +195,7 @@ const FarmCard = (props) => {
 };
 
 FarmCard.propTypes = {
-  farmCardData: PropTypes.shape({
-    farmData: PropTypes.shape({
-      LP_TOKEN: PropTypes.string,
-      CONTRACT: PropTypes.string,
-      DEX: PropTypes.string,
-      TOKEN_ADDRESS: PropTypes.string,
-      CARD_TYPE: PropTypes.string,
-      TOKEN_DECIMAL: 6,
-      TYPE: PropTypes.string,
-      LP_DECIMAL: 18,
-      TEMP_ADDRESS: PropTypes.string,
-      DECIMAL: 18,
-      withdrawalFeeType: PropTypes.string, // TODO add withdrawal Fee Data
-    }).isRequired,
-    properities: PropTypes.shape({
-      image: PropTypes.string,
-      harvestImg: PropTypes.string,
-      multi: PropTypes.string,
-      title: PropTypes.string,
-      apr: PropTypes.number,
-      apy: PropTypes.string,
-      earn: PropTypes.string,
-      fee: PropTypes.string,
-      earned: PropTypes.number,
-      deposit: PropTypes.string,
-      liquidity: PropTypes.string,
-      withdrawalFee: PropTypes.string,
-      balance: PropTypes.number,
-      userBalance: PropTypes.number,
-      URL: PropTypes.string,
-      active: PropTypes.bool,
-      source: PropTypes.string,
-      rewards: PropTypes.string,
-    }).isRequired,
-    identifier: PropTypes.string.isRequired,
-    values: PropTypes.shape({
-      identifier: PropTypes.string,
-      APR: PropTypes.number,
-      totalLiquidty: PropTypes.number,
-      roiTable: PropTypes.arrayOf(
-        PropTypes.shape({
-          roi: PropTypes.number,
-          PlentyPer1000dollar: PropTypes.number,
-        })
-      ),
-      totalSupply: PropTypes.number,
-      rewardRate: PropTypes.number,
-    })
-  })
+  farmCardData: FARMS_CARD_DATA_PROPTYPES
 }
 
 export default FarmCard;

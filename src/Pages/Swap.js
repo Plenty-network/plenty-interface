@@ -23,6 +23,10 @@ import plenty from '../assets/images/logo_small.png';
 import wusdc from '../assets/images/wusdc.png';
 import wbusd from '../assets/images/wBUSD.png';
 import wwbtc from '../assets/images/wwbtc.png';
+import wmatic from '../assets/images/wmatic.png';
+import wlink from '../assets/images/wlink.png';
+import usdtz from '../assets/images/usdtz.png';
+import kusd from '../assets/images/kusd.png';
 
 const Swap = (props) => {
   const tokens = [
@@ -42,6 +46,22 @@ const Swap = (props) => {
       name: 'wWBTC',
       image: wwbtc,
     },
+    {
+      name: 'wMATIC',
+      image: wmatic,
+    },
+    {
+      name: 'wLINK',
+      image: wlink,
+    },
+    {
+      name: 'USDtz',
+      image: usdtz,
+    },
+    {
+      name: 'kUSD',
+      image: kusd,
+    },
   ];
 
   const [show, setShow] = useState(false);
@@ -49,7 +69,7 @@ const Swap = (props) => {
   const [showConfirmAddSupply, setShowConfirmAddSupply] = useState(false);
   const [showConfirmRemoveSupply, setShowConfirmRemoveSupply] = useState(false);
   const [hideContent, setHideContent] = useState('');
-  const [slippage, setSlippage] = useState(0.05);
+  const [slippage, setSlippage] = useState(0.5);
   const [recepient, setRecepient] = useState('');
   const [tokenType, setTokenType] = useState('tokenIn');
   const [tokenOut, setTokenOut] = useState({});
@@ -101,41 +121,6 @@ const Swap = (props) => {
         }
       });
     }
-  };
-
-  const selectToken = (token) => {
-    setFirstTokenAmount('');
-    setSecondTokenAmount('');
-    setSwapData({});
-    setComputedOutDetails({
-      tokenOut_amount: '',
-    });
-    setLoading(true);
-
-    if (tokenType === 'tokenIn') {
-      setTokenIn({
-        name: token.name,
-        image: token.image,
-      });
-      loadSwapData(token.name, tokenOut.name).then((data) => {
-        if (data.success) {
-          setSwapData(data);
-          setLoading(false);
-        }
-      });
-    } else {
-      setTokenOut({
-        name: token.name,
-        image: token.image,
-      });
-      loadSwapData(tokenIn.name, token.name).then((data) => {
-        if (data.success) {
-          setSwapData(data);
-          setLoading(false);
-        }
-      });
-    }
-    handleClose();
   };
 
   const handleTokenType = (type) => {
@@ -258,7 +243,7 @@ const Swap = (props) => {
   const storeActiveTab = (elem) => {
     setActiveTab(elem);
     localStorage.setItem('activeTab', elem);
-    window.history.pushState({ path: elem }, '', elem);
+    window.history.pushState({ path: `/${elem}` }, '', `/${elem}`);
   };
 
   let showActiveTab = localStorage.getItem('activeTab');
@@ -269,6 +254,125 @@ const Swap = (props) => {
   ) {
     showActiveTab = 'liquidity';
   }
+
+  const selectToken = (token) => {
+    setFirstTokenAmount('');
+    setSecondTokenAmount('');
+    setSwapData({});
+    setComputedOutDetails({
+      tokenOut_amount: '',
+    });
+    setLoading(true);
+
+    if (tokenType === 'tokenIn') {
+      setTokenIn({
+        name: token.name,
+        image: token.image,
+      });
+
+      if (window.location.pathname.replace('/', '') == 'swap') {
+        if (tokenOut.name) {
+          window.history.pushState(
+            {
+              path: `/swap?from=${token.name}&to=${tokenOut.name}`,
+            },
+            '',
+            `/swap?from=${token.name}&to=${tokenOut.name}`
+          );
+        } else {
+          window.history.pushState(
+            { path: `/swap?from=${token.name}` },
+            '',
+            `/swap?from=${token.name}`
+          );
+        }
+      } else {
+        if (tokenOut.name) {
+          window.history.pushState(
+            {
+              path: `/liquidity/add?tokenA=${token.name}&tokenB=${tokenOut.name}`,
+            },
+            '',
+            `/liquidity/add?tokenA=${token.name}&tokenB=${tokenOut.name}`
+          );
+        } else {
+          window.history.pushState(
+            { path: `/liquidity/add?tokenA=${token.name}` },
+            '',
+            `/liquidity/add?tokenA=${token.name}`
+          );
+        }
+      }
+
+      loadSwapData(token.name, tokenOut.name).then((data) => {
+        if (data.success) {
+          setSwapData(data);
+          setLoading(false);
+        }
+      });
+    } else {
+      setTokenOut({
+        name: token.name,
+        image: token.image,
+      });
+      if (window.location.pathname.replace('/', '') == 'swap') {
+        window.history.pushState(
+          {
+            path: `/swap?from=${tokenIn.name}&to=${token.name}`,
+          },
+          '',
+          `/swap?from=${tokenIn.name}&to=${token.name}`
+        );
+      } else {
+        window.history.pushState(
+          {
+            path: `/liquidity/add?tokenA=${tokenIn.name}&tokenB=${token.name}`,
+          },
+          '',
+          `/liquidity/add?tokenA=${tokenIn.name}&tokenB=${token.name}`
+        );
+      }
+
+      loadSwapData(tokenIn.name, token.name).then((data) => {
+        if (data.success) {
+          setSwapData(data);
+          setLoading(false);
+        }
+      });
+    }
+    handleClose();
+  };
+
+  useEffect(() => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlSearchParams.entries());
+
+    if (params.from !== params.to) {
+      if (params.from) {
+        tokens.map((token) => {
+          if (token.name == params.from) {
+            setTokenIn({
+              name: params.from,
+              image: token.image,
+            });
+          }
+        });
+      }
+
+      if (params.to) {
+        tokens.map((token) => {
+          if (token.name == params.to) {
+            setTokenOut({
+              name: params.to,
+              image: token.image,
+            });
+          }
+        });
+      }
+    } else {
+      return;
+    }
+  }, []);
 
   return (
     <Container fluid>
@@ -348,6 +452,9 @@ const Swap = (props) => {
                   setLoaderMessage={setLoaderMessage}
                   resetAllValues={resetAllValues}
                   fetchUserWalletBalance={fetchUserWalletBalance}
+                  setTokenIn={setTokenIn}
+                  setTokenOut={setTokenOut}
+                  tokens={tokens}
                 />
               </Tab>
             </Tabs>
