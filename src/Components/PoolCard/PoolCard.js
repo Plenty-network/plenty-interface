@@ -56,7 +56,7 @@ const PoolCard = (props) => {
     //return 0;
   }
 
-  const onStakeButtonClicked = (props) => {
+  const onStakeButtonClicked = () => {
     if(props.isActiveOpen === true)
     {
       props.openPoolsStakeModal(props.identifier,props.title,props.position,props.CONTRACT,)
@@ -174,7 +174,7 @@ const PoolCard = (props) => {
               props.userAddress
                 ? !hasStakedAmount() ? (
                   <Button
-                    onClick={() => onStakeButtonClicked(props)}
+                    onClick={() => onStakeButtonClicked()}
                     color={"primary"}
                     className="w-100"
                   >Stake</Button>

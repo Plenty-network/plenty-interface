@@ -29,7 +29,7 @@ const FarmCardBottom = (props) => {
       : 0
   }, [farmData.CONTRACT, props.userStakes, props.userAddress])
 
-  const onStakeButtonClicked = (props) => {
+  const onStakeButtonClicked = () => {
 
     if(props.isActiveOpen === true)
     {
@@ -104,10 +104,10 @@ const FarmCardBottom = (props) => {
               {
                 (stakedAmount > 0)
                   ? <QuantityButton
-                    onAdd={() => onStakeButtonClicked(props)}
+                    onAdd={() => onStakeButtonClicked()}
                     onRemove={() => props.openFarmsUnstakeModal(props.farmCardData.identifier, farmData.CONTRACT, properties.title, farmData.withdrawalFeeType, props.farmCardData.position)}/>
                   : <Button
-                    onClick={() => onStakeButtonClicked(props)}
+                    onClick={() => onStakeButtonClicked()}
                     color={"default"}>Stake</Button>
               }
             </div>

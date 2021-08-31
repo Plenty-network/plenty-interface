@@ -25,7 +25,7 @@ const PoolCardBottom = (props) => {
     dispatch(openClosePoolsModal({ open: POOL_PAGE_MODAL.WITHDRAWAL, contractAddress: props.CONTRACT }))
   }
 
-  const onStakeButtonClicked = (props) => {
+  const onStakeButtonClicked = () => {
     if(props.isActiveOpen === true)
     {
       props.openPoolsStakeModal(props.identifier,props.title,props.position,props.CONTRACT,)
@@ -92,8 +92,8 @@ const PoolCardBottom = (props) => {
               <span />
               {
                 stakedAmount > 0
-                  ? <QuantityButton onAdd={() => onStakeButtonClicked(props)} onRemove={() => props.openPoolsUnstakeModal(props.identifier,props.CONTRACT,props.title,props.withdrawalFeeStructure,props.position)}/>
-                  : <Button onClick={() => onStakeButtonClicked(props)} color={"default"}>Stake</Button>
+                  ? <QuantityButton onAdd={() => onStakeButtonClicked()} onRemove={() => props.openPoolsUnstakeModal(props.identifier,props.CONTRACT,props.title,props.withdrawalFeeStructure,props.position)}/>
+                  : <Button onClick={() => onStakeButtonClicked()} color={"default"}>Stake</Button>
               }
             </div>
           </>

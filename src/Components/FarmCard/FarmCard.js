@@ -36,7 +36,7 @@ const FarmCard = (props) => {
     return numberWithCommas(Math.round(apy));
   };
 
-  const onStakeButtonClicked = (props) => {
+  const onStakeButtonClicked = () => {
 
     if(props.isActiveOpen === true)
     {
@@ -173,7 +173,7 @@ const FarmCard = (props) => {
               !hasStakedAmount() ? (
                 <Button
                   onClick={() =>
-                    onStakeButtonClicked(props)
+                    onStakeButtonClicked()
                   }
                   color={'primary'}
                   className="w-100"
