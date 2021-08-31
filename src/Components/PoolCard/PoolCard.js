@@ -167,6 +167,7 @@ const PoolCard = (props) => {
               props.userAddress
                 ? !hasStakedAmount() ? (
                   <Button
+                    disabled={props.isActiveOpen === false}
                     onClick={() => props.openPoolsStakeModal(props.identifier,props.title,props.position,props.CONTRACT,)}
                     color={"primary"}
                     className="w-100"

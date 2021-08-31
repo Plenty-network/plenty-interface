@@ -159,6 +159,7 @@ const FarmCard = (props) => {
             {props.userAddress ? (
               !hasStakedAmount() ? (
                 <Button
+                disabled={props.isActiveOpen === false}
                   onClick={() =>
                     props.openFarmsStakeModal(
                       props.farmCardData.identifier,
