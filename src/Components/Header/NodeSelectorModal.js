@@ -42,7 +42,6 @@ function NodeSelectorModal(props) {
 			return
 		}
 		isValidURL(RPCNodeInLS).then((res) => {
-			console.log(res)
 			if (!res) {
 				localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES["PLENTY"])
 				setCurrentRPC("PLENTY")
@@ -86,7 +85,6 @@ function NodeSelectorModal(props) {
 			}
 			const response = await isValidURL(_customRPC)
 
-				console.log(response)
 				if (!response) {
 					props.setLoaderMessage({ type: "error", message: "Invalid RPC URL" })
 					setTimeout(() => {
