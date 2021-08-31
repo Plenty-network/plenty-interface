@@ -366,9 +366,7 @@ export const getStorageForFarms = async isActive => {
 				}
 			}
 		}
-		// console.log(dexPromises, "<-------dexPromises-------->")
 		const response = await Promise.all(dexPromises)
-		// console.log(response, "<-----Dex Promises Response------->")
 		let lpPricesInUsd = {}
 		for (let i in response) {
 			if (response[i].lpPriceInXtz * xtzPriceInUsd) {
@@ -924,7 +922,6 @@ export const harvestAllHelper = async (
 ) => {
 	try {
 		const allActiveContracts = await getAllActiveContractAddresses()
-		// console.log(allActiveContracts, "allActiveContracts")
 		const blockLevel = await getCurrentBlockLevel()
 		const network = {
 			type: CONFIG.WALLET_NETWORK,
@@ -972,7 +969,6 @@ export const harvestAllHelper = async (
 					batchConfirm: batchConfirm,
 				}
 			} else {
-				// console.log("Nothing to harvest!")
 			}
 		}
 	} catch (error) {
@@ -1012,9 +1008,6 @@ export const getTVLOfUserHelper = async userAddress => {
 		const farmTokenDataActive = responseTokenData[4].priceOfLPToken
 		const farmTokenDataInactive = responseTokenData[5].priceOfLPToken
 
-		// console.log(poolTokenDataActive, poolTokenDataInactive, "POOL TOKEN DATA")
-		// console.log(pondTokenDataActive, pondTokenDataInactive, "POND TOKEN DATA")
-		// console.log(farmTokenDataActive, farmTokenDataInactive, "FARM TOKEN DATA")
 
 		const packedKey = getPackedKey(0, userAddress, "FA1.2")
 
@@ -1023,14 +1016,6 @@ export const getTVLOfUserHelper = async userAddress => {
 		for (let key in farmActiveContracts) {
 			const { mapId, identifier, decimal, contract, tokenDecimal } =
 				farmActiveContracts[key]
-			// console.log(
-			// 	mapId,
-			// 	identifier,
-			// 	decimal,
-			// 	contract,
-			// 	tokenDecimal,
-			// 	"ACTIVE FARMS"
-			// )
 			stakedAmountsFromActiveFarmsPromises.push(
 				getStakedAmount(
 					mapId,
@@ -1045,15 +1030,7 @@ export const getTVLOfUserHelper = async userAddress => {
 		const farmResponsesActive = await Promise.all(
 			stakedAmountsFromActiveFarmsPromises
 		)
-		// console.log(farmResponsesActive)
 		for (let key in farmResponsesActive) {
-			// console.log(
-			// 	farmResponsesActive[key].balance,
-			// 	typeof farmTokenDataActive["PLENTY - XTZ"],
-			// 	isNaN(farmTokenDataActive["PLENTY - XTZ"]),
-			// 	farmTokenDataActive[farmResponsesActive[key].identifier],
-			// 	farmResponsesActive[key].identifier
-			// )
 			if (farmResponsesActive[key].success) {
 				tvlOfUser +=
 					farmResponsesActive[key].balance *
@@ -1063,7 +1040,6 @@ export const getTVLOfUserHelper = async userAddress => {
 
 		//FARM INACTIVE
 		let stakedAmountsFromInactiveFarmsPromises = []
-		// console.log(farmInactiveContracts, "farmInactiveContracts")
 		for (let key in farmInactiveContracts) {
 			const { mapId, identifier, decimal, contract, tokenDecimal } =
 				farmInactiveContracts[key]
@@ -1081,14 +1057,7 @@ export const getTVLOfUserHelper = async userAddress => {
 		const farmResponsesInactive = await Promise.all(
 			stakedAmountsFromInactiveFarmsPromises
 		)
-		// console.log(farmResponsesInactive)
 		for (let key in farmResponsesInactive) {
-			// console.log(
-			// 	farmResponsesInactive[key].balance,
-			// 	farmTokenDataInactive[farmResponsesInactive[key].identifier],
-			// 	"INACTIVE FARMS",
-			// 	farmTokenDataInactive, "<-----Inactive Farm Tokens----->"
-			// )
 			if (farmResponsesInactive[key].success) {
 				tvlOfUser +=
 					farmResponsesInactive[key].balance *
@@ -1115,12 +1084,7 @@ export const getTVLOfUserHelper = async userAddress => {
 		const poolResponseActive = await Promise.all(
 			stakedAmountsFromActivePoolsPromises
 		)
-		// console.log(poolResponseActive)
 		for (let key in poolResponseActive) {
-			// console.log(
-			// 	poolResponseActive[key].balance,
-			// 	poolTokenDataActive[poolResponseActive[key].identifier]
-			// )
 			if (poolResponseActive[key].success) {
 				tvlOfUser +=
 					poolResponseActive[key].balance *
@@ -1148,12 +1112,7 @@ export const getTVLOfUserHelper = async userAddress => {
 		const poolResponseInactive = await Promise.all(
 			stakedAmountsFromInactivePoolsPromises
 		)
-		// console.log(poolResponseInactive)
 		for (let key in poolResponseInactive) {
-			// console.log(
-			// 	poolResponseInactive[key].balance,
-			// 	poolTokenDataInactive[poolResponseInactive[key].identifier]
-			// )
 			if (poolResponseInactive[key].success) {
 				tvlOfUser +=
 					poolResponseInactive[key].balance *
@@ -1180,9 +1139,7 @@ export const getTVLOfUserHelper = async userAddress => {
 		const pondResponseActive = await Promise.all(
 			stakedAmountsFromActivePondPromises
 		)
-		// console.log(pondResponseActive)
 		for (let key in pondResponseActive) {
-			// console.log(pondResponseActive[key].balance, pondTokenDataActive)
 			if (pondResponseActive[key].success) {
 				tvlOfUser += pondResponseActive[key].balance * pondTokenDataActive
 			}
@@ -1234,7 +1191,6 @@ export const plentyToHarvestHelper = async addressOfUser => {
 	]
 	const response = await Promise.all(promises)
 	response.forEach(item => {
-		// console.log("<---getHarvestValue--->", item)
 		if (item.success) {
 			for (const key in item.response) {
 				plentyToHarvest += item.response[key].totalRewards

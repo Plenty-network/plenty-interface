@@ -214,7 +214,6 @@ export const getStakedAmountForAllContracts = async (
         singularStakes: response[i].singularStakes,
       };
     }
-    console.log({stakedAmountResponse});
     return {
       success: true,
       response: stakedAmountResponse,

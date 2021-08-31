@@ -28,18 +28,15 @@ function NodeSelectorModal(props) {
 		GIGANODE: "Giganode",
 		CRYPTONOMIC: "Cryptonomic",
 	}
-	console.log(Object.entries(LOCAL_RPC_NODES))
 
 	useEffect(() => {
 		const RPCNodeInLS = localStorage.getItem(RPC_NODE)
-		console.log(RPCNodeInLS)
 		if (!RPCNodeInLS) {
 			setCurrentRPC("")
 			return
 		}
 		isValidURL(RPCNodeInLS).then((res) => {
 			if (res) {
-				console.log(res, RPCNodeInLS, "<---Test--->")
 				localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES["PLENTY"])
 				setCurrentRPC("PLENTY")
 				return
@@ -68,11 +65,8 @@ function NodeSelectorModal(props) {
 	const setRPCInLS =  () => {
 		if (currentRPC !== "CUSTOM") {
 			localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES[currentRPC])
-			// props.setRPCNodeName(currentRPC)
-			window.location.reload()
 		} else {
 			isValidURL(customRPC).then((res) => {
-				console.log(res, "line 96")
 				if (!res) {
 					props.setLoaderMessage({ type: "error", message: "Invalid RPC URL" })
 					setTimeout(() => {
@@ -82,7 +76,6 @@ function NodeSelectorModal(props) {
 				} else {
 					localStorage.setItem(RPC_NODE, customRPC)
 					props.closeNodeSelectorModal(customRPC)
-					window.location.reload()
 				}
 			});
 		}
