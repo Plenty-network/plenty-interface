@@ -36,6 +36,19 @@ const FarmCard = (props) => {
     return numberWithCommas(Math.round(apy));
   };
 
+  const onStakeButtonClicked = (props) => {
+
+    if(props.isActiveOpen === true)
+    {
+      props.openFarmsStakeModal(
+        props.farmCardData.identifier,
+        properties.title,
+        farmData.CONTRACT,
+        props.farmCardData.position
+      )
+    }
+  }
+
   const getReward = () => {
 
     return (values?.rewardRate ?? 0) * 2880
@@ -160,12 +173,7 @@ const FarmCard = (props) => {
               !hasStakedAmount() ? (
                 <Button
                   onClick={() =>
-                    props.openFarmsStakeModal(
-                      props.farmCardData.identifier,
-                      properties.title,
-                      farmData.CONTRACT,
-                      props.farmCardData.position
-                    )
+                    onStakeButtonClicked(props)
                   }
                   color={'primary'}
                   className="w-100"

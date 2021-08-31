@@ -25,6 +25,13 @@ const PoolCardBottom = (props) => {
     dispatch(openClosePoolsModal({ open: POOL_PAGE_MODAL.WITHDRAWAL, contractAddress: props.CONTRACT }))
   }
 
+  const onStakeButtonClicked = (props) => {
+    if(props.isActiveOpen === true)
+    {
+      props.openPoolsStakeModal(props.identifier,props.title,props.position,props.CONTRACT,)
+    }
+  }
+  
   const stakedAmount = useMemo(() => {
     return props.userStakes.hasOwnProperty(props.CONTRACT)
       ? props.userStakes[props.CONTRACT].stakedAmount
@@ -85,8 +92,8 @@ const PoolCardBottom = (props) => {
               <span />
               {
                 stakedAmount > 0
-                  ? <QuantityButton onAdd={() => props.openPoolsStakeModal(props.identifier,props.title,props.position,props.CONTRACT,)} onRemove={() => props.openPoolsUnstakeModal(props.identifier,props.CONTRACT,props.title,props.withdrawalFeeStructure,props.position)}/>
-                  : <Button onClick={() => props.openPoolsStakeModal(props.identifier,props.title,props.position,props.CONTRACT)} color={"default"}>Stake</Button>
+                  ? <QuantityButton onAdd={() => onStakeButtonClicked(props)} onRemove={() => props.openPoolsUnstakeModal(props.identifier,props.CONTRACT,props.title,props.withdrawalFeeStructure,props.position)}/>
+                  : <Button onClick={() => onStakeButtonClicked(props)} color={"default"}>Stake</Button>
               }
             </div>
           </>
