@@ -14,12 +14,15 @@ import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import SimpleModal from "../../Components/Ui/Modals/SimpleModal"
 import NodeSelectorModal from "./NodeSelectorModal"
+import Loader from "../../Components/loader"
+
 
 const Header = (props) => {
   const location = useLocation();
   const { pathname } = location;
   const splitLocation = pathname.split('/');
   const [nodeSelector, toggleNodeSelector] = useState(false)
+  const [loaderMessage, setLoaderMessage] = useState({})
 
   let connectWalletButton = () => {
     if (props.walletAddress) {
@@ -318,7 +321,8 @@ const Header = (props) => {
         </Col>
       </Row>
     </Container>
-    <NodeSelectorModal title={"Node Selector"} nodeSelector={nodeSelector} closeNodeSelectorModal={closeNodeSelectorModal}/>
+      <NodeSelectorModal title={"Node Selector"} nodeSelector={nodeSelector} closeNodeSelectorModal={closeNodeSelectorModal} setLoaderMessage={setLoaderMessage}/>
+      <Loader loaderMessage={loaderMessage}/>
   </>
   );
 };

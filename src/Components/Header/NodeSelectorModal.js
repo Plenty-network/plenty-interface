@@ -4,12 +4,14 @@ import SimpleModal from "../Ui/Modals/SimpleModal"
 import { RPC_NODE } from "../../constants/localStorage"
 import { connect } from "react-redux"
 import { setRPCNodeName } from "../../redux/actions/home/home.actions"
+import axios from 'axios'
 
-const urlRegex =
-	/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm
-
-function isValidURL(str) {
-	return urlRegex.test(str)
+async function isValidURL(userInput) {
+	const response = axios.get(userInput + "/chains/main/blocks");
+	if (response.status === 200) {
+		return true
+	}
+	return false
 }
 
 function NodeSelectorModal(props) {
@@ -30,18 +32,18 @@ function NodeSelectorModal(props) {
 
 	useEffect(() => {
 		const RPCNodeInLS = localStorage.getItem(RPC_NODE)
-
+		console.log(RPCNodeInLS)
 		if (!RPCNodeInLS) {
 			setCurrentRPC("")
 			return
 		}
-
-		if (!isValidURL(RPCNodeInLS)) {
-			// set default node
-			localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES["PLENTY"])
-			setCurrentRPC("PLENTY")
-			return
-		}
+		isValidURL(RPCNodeInLS).then((res) => {
+			if (res) {
+				console.log(res, RPCNodeInLS, "<---Test--->")
+				localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES["PLENTY"])
+				setCurrentRPC("PLENTY")
+				return
+		}});
 
 		const matchedNode = Object.entries(LOCAL_RPC_NODES).find(
 			([_, nodeLink]) => {
@@ -63,21 +65,27 @@ function NodeSelectorModal(props) {
 		// eslint-disable-next-line
 	}, [props.nodeSelector])
 
-	const setRPCInLS = () => {
+	const setRPCInLS =  () => {
 		if (currentRPC !== "CUSTOM") {
 			localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES[currentRPC])
 			// props.setRPCNodeName(currentRPC)
 			window.location.reload()
 		} else {
-			if (!isValidURL(customRPC)) {
-				// show toast
-				return
-			}
-			localStorage.setItem(RPC_NODE, customRPC)
-			// props.setRPCNodeName("CUSTOM")
-			window.location.reload()
+			isValidURL(customRPC).then((res) => {
+				console.log(res, "line 96")
+				if (!res) {
+					props.setLoaderMessage({ type: "error", message: "Invalid RPC URL" })
+					setTimeout(() => {
+						props.setLoaderMessage({});
+					}, 5000)
+					return
+				} else {
+					localStorage.setItem(RPC_NODE, customRPC)
+					props.closeNodeSelectorModal(customRPC)
+					window.location.reload()
+				}
+			});
 		}
-		props.closeNodeSelectorModal(customRPC)
 	}
 
 	return (
@@ -93,29 +101,30 @@ function NodeSelectorModal(props) {
 			<div className="node-selector-radio-container node-selector-list">
 				<ul>
 					{Object.entries(nodeNames).map(([identifier, name]) => (
-						<li onClick={() => setCurrentRPC(identifier)}>
-							<input
+						<li>
+							
+							<label for={identifier} onClick={ () =>  setCurrentRPC(identifier)}><input
 								defaultChecked={currentRPC === identifier}
 								type="radio"
 								checked={currentRPC === identifier}
 								id={identifier}
 								name="selector"
-							/>
-							<label for={identifier}>{name}</label>
-
-							<div class="check"></div>
+							/>{name}<div class="check"></div></label>		
 						</li>
 					))}
-					<li onClick={() => setCurrentRPC("CUSTOM")}>
-						<input
+					<li>
+						
+						<label for="w-option" onClick={() =>  setCurrentRPC("CUSTOM")}><input
 							defaultChecked={currentRPC === "CUSTOM"}
 							type="radio"
 							id="w-option"
 							checked={currentRPC === "CUSTOM"}
 							name="selector"
-						/>
-						<label for="w-option">Custom</label>
+							
+					/>Custom<div class="check">
+				</div></label>
 						<input
+							disabled={ currentRPC !== "CUSTOM"}
 							type="url"
 							for="w-option"
 							className="node-selector-modal-input"
@@ -125,9 +134,7 @@ function NodeSelectorModal(props) {
 								setCustomRPC(e.target.value)
 							}}
 						/>
-						<div class="check">
-							<div class="inside"></div>
-						</div>
+
 					</li>
 				</ul>
 			</div>

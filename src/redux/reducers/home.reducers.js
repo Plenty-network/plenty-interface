@@ -5,7 +5,14 @@ const initState = {
 	homeStats: {
 		isPresent: false,
 		loading: false,
-		data: {},
+		data: {
+			marketcap: 0,
+			circulating_supply: 0,
+			total_minted: 0,
+			total_burned: 0,
+			price: 0,
+			plenty_per_block:0,
+		},
 	},
 	tvl: {
 		isPresent: false,
@@ -58,7 +65,7 @@ const homeReducer = (state = initState, action) => {
 				homeStats: {
 					isPresent: false,
 					loading: true,
-					data: {},
+					data: {...state.homeStats.data},
 				},
 			}
 		case actions.HOME_STATS_FETCH_SUCCESS:
@@ -69,7 +76,7 @@ const homeReducer = (state = initState, action) => {
 		case actions.HOME_STATS_FETCH_FAILED:
 			return {
 				...state,
-				homeStats: { isPresent: false, loading: false, data: {} },
+				homeStats: { isPresent: false, loading: false, data: {...state.homeStats.data} },
 			}
 
 		case actions.TVL_FETCH:

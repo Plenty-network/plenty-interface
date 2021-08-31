@@ -2,12 +2,13 @@ import { TezosParameterFormat, TezosMessageUtils } from "conseiljs"
 import { BeaconWallet } from "@taquito/beacon-wallet"
 import { TezosToolkit, OpKind } from "@taquito/taquito"
 import { RPC_NODE } from '../../../constants/localStorage'
+import { SERVERLESS_BASE_URL, SERVERLESS_REQUEST } from '../../../config/config'
 const CONFIG = require("../../../config/config")
 const axios = require("axios")
 
 export const getHomeStatsDataApi = async () => {
 	const res = await axios.get(
-		"https://mf29fdthuf.execute-api.us-east-2.amazonaws.com/v1/homestats"
+		SERVERLESS_BASE_URL[CONFIG.NETWORK] + SERVERLESS_REQUEST[CONFIG.NETWORK]['PLENTY-STATS']
 	)
 	if (res.data.success) {
 		return {
@@ -23,7 +24,7 @@ export const getHomeStatsDataApi = async () => {
 
 export const getTVLHelper = async () => {
 	const res = await axios.get(
-		"https://mf29fdthuf.execute-api.us-east-2.amazonaws.com/v1/tvl"
+		SERVERLESS_BASE_URL[CONFIG.NETWORK] + SERVERLESS_REQUEST[CONFIG.NETWORK]['HOME-PAGE-TVL']
 	)
 	if (res.data.success) {
 		return {
@@ -322,10 +323,10 @@ export const getStorageForFarms = async isActive => {
 		// let promises = []
 		let dexPromises = []
 		const xtzPriceResponse = await axios.get(
-			"https://api.coingecko.com/api/v3/coins/tezos?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false"
+			CONFIG.API.url
 		)
 		const xtzPriceInUsd = xtzPriceResponse.data.market_data.current_price.usd
-		const tokenPrices = await axios.get("https://api.teztools.io/token/prices")
+		const tokenPrices = await axios.get(CONFIG.API.tezToolTokenPrice)
 		const tokenPricesData = tokenPrices.data.contracts
 		let priceOfPlenty = 0
 		for (let i in tokenPricesData) {
@@ -416,7 +417,7 @@ const getPriceForPlentyLpTokens = async (
 		let token2Check = storageResponse.data.args[2].args[0].prim.toString()
 
 		const tokenPriceResponse = await axios.get(
-			"https://api.teztools.io/token/prices"
+			CONFIG.API.tezToolTokenPrice
 		)
 		const tokenPricesData = tokenPriceResponse.data.contracts
 		let tokenData = {}
@@ -641,7 +642,7 @@ export const getAllPoolsContracts = async () => {
 
 export const getStorageForPools = async isActive => {
 	try {
-		const tokenPrices = await axios.get("https://api.teztools.io/token/prices")
+		const tokenPrices = await axios.get(CONFIG.API.tezToolTokenPrice)
 		const tokenPricesData = tokenPrices.data.contracts
 		let priceOfPlenty = 0
 		let priceOfToken = []
@@ -766,7 +767,7 @@ export const getPondContracts = async () => {
 
 export const getStorageForPonds = async isActive => {
 	try {
-		const tokenPrices = await axios.get("https://api.teztools.io/token/prices")
+		const tokenPrices = await axios.get(CONFIG.API.tezToolTokenPrice)
 		const tokenPricesData = tokenPrices.data.contracts
 		let priceOfPlenty = 0
 		let tokenData = {}
