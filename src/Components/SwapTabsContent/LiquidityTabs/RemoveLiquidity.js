@@ -4,7 +4,7 @@ import { computeRemoveTokens, removeLiquidity } from '../../../apis/swap/swap';
 import ConfirmRemoveLiquidity from './ConfirmRemoveLiquidity';
 import InfoModal from '../../Ui/Modals/InfoModal';
 
-const CONFIG = require('../../../config/config');
+import CONFIG from '../../../config/config';
 
 const RemoveLiquidity = (props) => {
   const [removableTokens, setRemovableTokens] = useState({});
