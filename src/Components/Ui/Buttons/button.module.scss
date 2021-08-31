@@ -17,7 +17,7 @@
   }
 
   &[disabled] {
-    background: #8A94A6;
+    background: #8a94a6;
     transform: none;
   }
 }
@@ -32,14 +32,18 @@
   width: 24px;
   min-width: 24px;
   border-radius: 50%;
-  background: #F4F4F6;
+  background: #f4f4f6;
   border: 0;
   padding: 0;
 }
 
 .primary {
   color: white;
-  background: linear-gradient(90deg, var(--theme-primary-gradient-1) 0%, var(--theme-primary-gradient-2) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--theme-primary-gradient-1) 0%,
+    var(--theme-primary-gradient-2) 100%
+  );
   border: 0;
   font-weight: bold;
 }
@@ -69,8 +73,8 @@
 }
 
 .tertiary {
-  color: #823DE0;
-  background-color: #FFFFFF;
+  color: #823de0;
+  background-color: #ffffff;
   border: 0;
   font-weight: bold;
 }
@@ -79,4 +83,11 @@
   color: var(--theme-default-btn);
   border: solid 1px var(--theme-default-btn);
   background: transparent;
+
+  &[disabled] {
+    background: var(--theme-bg-4);
+    border-color: #8a94a6;
+    color: #8a94a6;
+    transform: none;
+  }
 }
