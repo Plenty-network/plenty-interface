@@ -18,7 +18,7 @@ const fetchStorage = async (
   priceOfPlentyInUSD
 ) => {
   try {
-    const url = `https://mainnet.smartpy.io/chains/main/blocks/head/context/contracts/${address}/storage`;
+    const url = CONFIG.RPC_NODES[CONFIG.NETWORK] + `/chains/main/blocks/head/context/contracts/${address}/storage`;
     const response = await axios.get(url);
 
     let totalSupply = response.data.args[3].int;

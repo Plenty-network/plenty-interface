@@ -111,9 +111,7 @@ const getPriceForPlentyLpTokens = async (
   dexAddress
 ) => {
   try {
-    const storageResponse = await axios.get(
-      `https://mainnet.smartpy.io/chains/main/blocks/head/context/contracts/${dexAddress}/storage`
-    );
+    const storageResponse = await axios.get(CONFIG.RPC_NODES[CONFIG.NETWORK] + `/chains/main/blocks/head/context/contracts/${dexAddress}/storage`);
     let token1Pool = parseInt(storageResponse.data.args[1].args[1].int);
     // token1Pool = token1Pool / Math.pow(10, 12);
     let token2Pool = parseInt(storageResponse.data.args[4].int);
