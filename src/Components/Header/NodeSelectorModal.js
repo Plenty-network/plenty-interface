@@ -7,11 +7,17 @@ import { setRPCNodeName } from "../../redux/actions/home/home.actions"
 import axios from 'axios'
 
 async function isValidURL(userInput) {
-	const response = axios.get(userInput + "/chains/main/blocks");
-	if (response.status === 200) {
-		return true
+	try {
+		// const response = await axios.get(userInput + "/chains/main/blocks")
+		const response = await axios({
+			method: "get",
+			baseURL: userInput,
+			url: "/chains/main/blocks"
+		})
+		return response.status === 200
+	} catch (error) {
+		return false
 	}
-	return false
 }
 
 function NodeSelectorModal(props) {
@@ -29,14 +35,15 @@ function NodeSelectorModal(props) {
 		CRYPTONOMIC: "Cryptonomic",
 	}
 
-	useEffect(() => {
+	const rpcNodeDetect = () => {
 		const RPCNodeInLS = localStorage.getItem(RPC_NODE)
 		if (!RPCNodeInLS) {
 			setCurrentRPC("")
 			return
 		}
 		isValidURL(RPCNodeInLS).then((res) => {
-			if (res) {
+			console.log(res)
+			if (!res) {
 				localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES["PLENTY"])
 				setCurrentRPC("PLENTY")
 				return
@@ -59,25 +66,38 @@ function NodeSelectorModal(props) {
 
 		const [nodeName] = matchedNode
 		setCurrentRPC(nodeName)
+	}
+
+	useEffect(() => {
+		rpcNodeDetect()
 		// eslint-disable-next-line
 	}, [props.nodeSelector])
 
-	const setRPCInLS =  () => {
+	
+
+	const setRPCInLS =  async() => {
 		if (currentRPC !== "CUSTOM") {
 			localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES[currentRPC])
+			window.location.reload()
 		} else {
-			isValidURL(customRPC).then((res) => {
-				if (!res) {
+			let _customRPC = customRPC
+			if (!_customRPC.match(/\/$/)) {
+				_customRPC += "/"
+			}
+			const response = await isValidURL(_customRPC)
+
+				console.log(response)
+				if (!response) {
 					props.setLoaderMessage({ type: "error", message: "Invalid RPC URL" })
 					setTimeout(() => {
 						props.setLoaderMessage({});
 					}, 5000)
 					return
 				} else {
-					localStorage.setItem(RPC_NODE, customRPC)
-					props.closeNodeSelectorModal(customRPC)
+					localStorage.setItem(RPC_NODE, _customRPC)
+					props.closeNodeSelectorModal(_customRPC)
+					window.location.reload()
 				}
-			});
 		}
 	}
 

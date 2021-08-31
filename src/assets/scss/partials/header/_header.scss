@@ -194,7 +194,7 @@
   font-weight: 500;
   font-size: 10px;
   line-height: 13px;
-  color : #505E79;
+  color : var(--theme-text-1);
 }
 
 .node-selector-modal {
@@ -209,7 +209,7 @@
 
 .node-selector-radio-container {
   margin-top: 10px;
-  background: linear-gradient(90deg, rgba(112, 40, 228, 0.07) 0%, rgba(229, 178, 202, 0.07) 100%);
+  background: var(--theme-secondary-gradient);
   border-radius: 7.34783px;
   display: flex;
   flex-direction: column;
@@ -217,7 +217,7 @@
 }
 
 .node-selector-option-text {
-  color :  #4E5D78;
+  color: var(--theme-text-1);
   font-weight: 500;
   font-size: 12px;
   line-height: 23px;
@@ -235,7 +235,7 @@
 .node-selector-list {
    ul {
      li {
-      color:#4E5D78;
+      color:var(--theme-text-1);
       display: block;
       position: relative;
       float: left;
@@ -248,13 +248,13 @@
         position: absolute;
         visibility: hidden;
         &:checked ~ .check {
-          border: 0px solid linear-gradient(94.97deg, #7028E4 4%, #E5B2CA 142.86%);
+          border: 0px solid linear-gradient(94.97deg, var(--theme-primary-gradient-1) 4%, var(--theme-primary-gradient-2) 142.86%);
         }
         &:checked ~ .check::before {    
-          background: linear-gradient(94.97deg, #7028E4 4%, #E5B2CA 142.86%);
+          background: linear-gradient(94.97deg, var(--theme-primary-gradient-1) 4%, var(--theme-primary-gradient-2) 142.86%);
         }
         &:checked ~ label{
-          color: linear-gradient(94.97deg, #7028E4 4%, #E5B2CA 142.86%);
+          color: linear-gradient(94.97deg, var(--theme-primary-gradient-1) 4%, var(--theme-primary-gradient-2) 142.86%);
         }
       }
        label{
@@ -276,7 +276,7 @@
       .check{
         display: block;
         position: absolute;
-        border: 0px solid #AAAAAA;
+        border: 0;
         border-radius: 100%;
         height: 25px;
         width: 25px;
@@ -303,7 +303,7 @@
         }
       }
       &:hover .check {
-        border: 0px solid #FFFFFF;
+        border: 0px solid var(--theme-bg-4);
       }
 
     }
@@ -321,11 +321,12 @@
   z-index: 9;
   cursor: pointer;
   -webkit-transition: all 0.25s linear;
-  background: #F9FAFA;
+  background: var(--theme-input-bg);
   mix-blend-mode: normal;
   border: 1px solid rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
   border-radius: 11.0217px;
   outline: none;
   padding: 5px;
+  color: var(--theme-text-1);
 }
