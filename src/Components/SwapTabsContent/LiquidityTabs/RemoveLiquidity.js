@@ -4,6 +4,8 @@ import { computeRemoveTokens, removeLiquidity } from '../../../apis/swap/swap';
 import ConfirmRemoveLiquidity from './ConfirmRemoveLiquidity';
 import InfoModal from '../../Ui/Modals/InfoModal';
 
+const CONFIG = require('../../../config/config');
+
 const RemoveLiquidity = (props) => {
   const [removableTokens, setRemovableTokens] = useState({});
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] =
@@ -12,11 +14,7 @@ const RemoveLiquidity = (props) => {
 
   const removeLiquidityInput = (input) => {
     props.setFirstTokenAmount(input);
-    let lpToken = props.swapData.lpToken;
-    let lpTokenBalance = props.userBalances[lpToken];
-
-    let removeAmount = (input * lpTokenBalance) / 100;
-
+    let removeAmount = input;
     let computedRemoveTokens = computeRemoveTokens(
       removeAmount,
       props.swapData.lpTokenSupply,
@@ -90,10 +88,26 @@ const RemoveLiquidity = (props) => {
       </button>
     );
   }
+  if (
+    props.walletAddress &&
+    props.firstTokenAmount &&
+    props.firstTokenAmount >
+      props.userBalances[
+        CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
+          props.tokenOut.name
+        ].liquidityToken
+      ]
+  ) {
+    swapContentButton = (
+      <button className="swap-content-btn enter-amount" disabled>
+        Insufficient Balance
+      </button>
+    );
+  }
   return (
     <>
       <div className="swap-content-box">
-        <div className="swap-token-select-box" style={{ position: 'relative' }}>
+        <div className="swap-token-select-box" style={{ minHeight: '70px' }}>
           <div className="token-selector-balance-wrapper">
             <p className="remove-liquidity-token-info">Amount to remove</p>
           </div>
@@ -104,15 +118,22 @@ const RemoveLiquidity = (props) => {
               className="token-user-input"
               placeholder="0.00"
               onChange={(e) => removeLiquidityInput(parseFloat(e.target.value))}
-              style={{ paddingRight: '14px' }}
             />
-            <div className="percentage-icon">%</div>
           </div>
-          {props.walletConnected ? (
-            <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
-              <p className="wallet-token-balance">Balance: 0 Plenty</p>
-            </div>
-          ) : null}
+          <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
+            {props.tokenOut.name ? (
+              <p className="wallet-token-balance">
+                Balance:{' '}
+                {
+                  props.userBalances[
+                    CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
+                      props.tokenOut.name
+                    ].liquidityToken
+                  ]
+                }
+              </p>
+            ) : null}
+          </div>
         </div>
       </div>
 
@@ -121,7 +142,7 @@ const RemoveLiquidity = (props) => {
       </div>
 
       <div className="swap-content-box">
-        <div className="swap-token-select-box">
+        <div className="swap-token-select-box" style={{ minHeight: '70px' }}>
           <div className="token-selector-balance-wrapper">
             <p className="remove-liquidity-token-info">You will receive</p>
           </div>
