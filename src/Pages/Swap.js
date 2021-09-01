@@ -132,7 +132,6 @@ const Swap = (props) => {
   };
 
   const handleTokenInput = (input) => {
-    console.log('upar=', input);
     setFirstTokenAmount(input);
     setComputedOutDetails({});
     if (input === '' || isNaN(input)) {
@@ -157,7 +156,6 @@ const Swap = (props) => {
   };
 
   const handleOutTokenInput = (input) => {
-    console.log(input);
     setSecondTokenAmount(input);
     setComputedOutDetails({});
     if (input === '' || isNaN(input)) {
