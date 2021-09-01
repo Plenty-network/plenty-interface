@@ -82,6 +82,7 @@ const Swap = (props) => {
   const [loading, setLoading] = useState(false);
   const [loaderMessage, setLoaderMessage] = useState({});
   const [tokenContractInstances, setTokenContractInstances] = useState({});
+  const [loaderInButton, setLoaderInButton] = useState(false);
   const [tokenIn, setTokenIn] = useState({
     name: 'PLENTY',
     image: plenty,
@@ -93,7 +94,7 @@ const Swap = (props) => {
     setShowConfirmAddSupply(false);
     setShowConfirmRemoveSupply(false);
     setHideContent('');
-    setLoading(false);
+    //setLoading(false);
   };
 
   const changeTokenLocation = () => {
@@ -131,6 +132,7 @@ const Swap = (props) => {
   };
 
   const handleTokenInput = (input) => {
+    console.log('upar=', input);
     setFirstTokenAmount(input);
     setComputedOutDetails({});
     if (input === '' || isNaN(input)) {
@@ -155,11 +157,16 @@ const Swap = (props) => {
   };
 
   const handleOutTokenInput = (input) => {
+    console.log(input);
     setSecondTokenAmount(input);
+    setComputedOutDetails({});
     if (input === '' || isNaN(input)) {
       setSecondTokenAmount('');
       setFirstTokenAmount('');
-      setComputedOutDetails({});
+      setComputedOutDetails({
+        tokenOut_amount: '',
+        fees: 0,
+      });
       return;
     } else {
       const computedData = computeOutputBasedOnTokenOutAmount(
@@ -175,15 +182,18 @@ const Swap = (props) => {
   };
 
   const fetchUserWalletBalance = () => {
+    setLoaderInButton(true);
     fetchAllWalletBalance(props.walletAddress).then((resp) => {
       setUserBalances(resp.userBalances);
       setTokenContractInstances(resp.contractInstances);
+      setLoaderInButton(false);
       setLoading(false);
     });
   };
 
   useEffect(() => {
     setLoading(true);
+    setLoaderInButton(true);
     if (!props.walletAddress) {
       return;
     }
@@ -191,10 +201,11 @@ const Swap = (props) => {
   }, [props.walletAddress]);
 
   useEffect(() => {
-    setLoading(true);
+    //setLoading(true);
+    setLoaderInButton(true);
     getTokenPrices().then((tokenPrice) => {
       setGetTokenPrice(tokenPrice);
-      setLoading(false);
+      //setLoading(false);
     });
   }, []);
 
@@ -256,13 +267,14 @@ const Swap = (props) => {
   }
 
   const selectToken = (token) => {
+    setLoaderInButton(true);
     setFirstTokenAmount('');
     setSecondTokenAmount('');
     setSwapData({});
     setComputedOutDetails({
       tokenOut_amount: '',
     });
-    setLoading(true);
+    //setLoading(true);
 
     if (tokenType === 'tokenIn') {
       setTokenIn({
@@ -307,7 +319,8 @@ const Swap = (props) => {
       loadSwapData(token.name, tokenOut.name).then((data) => {
         if (data.success) {
           setSwapData(data);
-          setLoading(false);
+          //setLoading(false);
+          setLoaderInButton(false);
         }
       });
     } else {
@@ -336,7 +349,8 @@ const Swap = (props) => {
       loadSwapData(tokenIn.name, token.name).then((data) => {
         if (data.success) {
           setSwapData(data);
-          setLoading(false);
+          //setLoading(false);
+          setLoaderInButton(false);
         }
       });
     }
@@ -419,6 +433,8 @@ const Swap = (props) => {
                   transactionSubmitModal={transactionSubmitModal}
                   setSecondTokenAmount={setSecondTokenAmount}
                   fetchUserWalletBalance={fetchUserWalletBalance}
+                  loaderInButton={loaderInButton}
+                  setLoaderInButton={setLoaderInButton}
                 />
               </Tab>
               <Tab eventKey="liquidity" title="Liquidity">
@@ -455,6 +471,8 @@ const Swap = (props) => {
                   setTokenIn={setTokenIn}
                   setTokenOut={setTokenOut}
                   tokens={tokens}
+                  loaderInButton={loaderInButton}
+                  setLoaderInButton={setLoaderInButton}
                 />
               </Tab>
             </Tabs>

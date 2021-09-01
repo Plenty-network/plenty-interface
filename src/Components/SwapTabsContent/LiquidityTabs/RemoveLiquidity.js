@@ -88,22 +88,25 @@ const RemoveLiquidity = (props) => {
       </button>
     );
   }
-  if (
-    props.walletAddress &&
-    props.firstTokenAmount &&
-    props.firstTokenAmount >
-      props.userBalances[
-        CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
-          props.tokenOut.name
-        ].liquidityToken
-      ]
-  ) {
-    swapContentButton = (
-      <button className="swap-content-btn enter-amount" disabled>
-        Insufficient Balance
-      </button>
-    );
+  if (props.tokenIn.name && props.tokenOut.name) {
+    if (
+      props.walletAddress &&
+      props.firstTokenAmount &&
+      props.firstTokenAmount >
+        props.userBalances[
+          CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
+            props.tokenOut.name
+          ].liquidityToken
+        ]
+    ) {
+      swapContentButton = (
+        <button className="swap-content-btn enter-amount" disabled>
+          Insufficient Balance
+        </button>
+      );
+    }
   }
+
   return (
     <>
       <div className="swap-content-box">

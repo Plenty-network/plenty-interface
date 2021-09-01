@@ -12,6 +12,7 @@ const SwapTab = (props) => {
 
   const confirmSwapToken = () => {
     props.setLoading(true);
+    props.setLoaderInButton(true);
     let recepientAddress = props.recepient
       ? props.recepient
       : props.walletAddress;
@@ -34,6 +35,7 @@ const SwapTab = (props) => {
         props.setSecondTokenAmount('');
         props.resetAllValues();
         props.fetchUserWalletBalance();
+        props.setLoaderInButton(false);
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
@@ -45,6 +47,7 @@ const SwapTab = (props) => {
         props.resetAllValues();
         props.setSecondTokenAmount('');
         props.fetchUserWalletBalance();
+        props.setLoaderInButton(false);
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
@@ -64,18 +67,20 @@ const SwapTab = (props) => {
           Swap
         </button>
       );
-    } else if (props.tokenOut.name === undefined) {
+    } else if (!props.tokenOut.name) {
       swapContentButton = (
         <button className="swap-content-btn enter-amount">
           Select a token
         </button>
       );
-    } else {
-      swapContentButton = props.loading ? (
+    } else if (props.loaderInButton) {
+      swapContentButton = (
         <button className="swap-content-btn loader-btn enter-amount">
           <PuffLoader color={'#fff'} size={28} />
         </button>
-      ) : (
+      );
+    } else {
+      swapContentButton = (
         <button className="swap-content-btn enter-amount">
           Enter an amount
         </button>
@@ -188,7 +193,7 @@ const SwapTab = (props) => {
             </div>
 
             <div className="token-user-input-wrapper">
-              {props.tokenOut.name ? (
+              {props.swapData.tokenOutPerTokenIn && props.tokenOut.name ? (
                 <input
                   type="text"
                   className="token-user-input"
