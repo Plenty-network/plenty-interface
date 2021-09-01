@@ -34,27 +34,24 @@ function NodeSelectorModal(props) {
 		CRYPTONOMIC: "Cryptonomic",
 	}
 
-	const rpcNodeDetect = () => {
+	const rpcNodeDetect = async () => {
+		
 		const RPCNodeInLS = localStorage.getItem(RPC_NODE)
 		if (!RPCNodeInLS) {
 			setCurrentRPC("")
 			return
 		}
-		isValidURL(RPCNodeInLS).then((res) => {
-			if (!res) {
-				localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES["PLENTY"])
-				props.setNode(LOCAL_RPC_NODES["PLENTY"])
-				setCurrentRPC("PLENTY")
-				return
-		}});
+		
+		const valid = await isValidURL(RPCNodeInLS)
+		if (!valid) {
+			localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES["PLENTY"])
+			props.setNode(LOCAL_RPC_NODES["PLENTY"])
+			setCurrentRPC("PLENTY")
+			return
+		}
 
-		const matchedNode = Object.entries(LOCAL_RPC_NODES).find(
-			([_, nodeLink]) => {
-				if (nodeLink === RPCNodeInLS) {
-					return true
-				}
-				return false
-			}
+		const matchedNode = Object.keys(LOCAL_RPC_NODES).find(
+			(key) => (LOCAL_RPC_NODES[key] === RPCNodeInLS) 
 		)
 
 		if (!matchedNode) {
@@ -63,7 +60,7 @@ function NodeSelectorModal(props) {
 			return
 		}
 
-		const [nodeName] = matchedNode
+		const nodeName = matchedNode
 		setCurrentRPC(nodeName)
 	}
 
