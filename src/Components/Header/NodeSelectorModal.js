@@ -41,7 +41,7 @@ function NodeSelectorModal(props) {
 			setCurrentRPC("")
 			return
 		}
-		
+
 		const valid = await isValidURL(RPCNodeInLS)
 		if (!valid) {
 			localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES["PLENTY"])
@@ -60,8 +60,7 @@ function NodeSelectorModal(props) {
 			return
 		}
 
-		const nodeName = matchedNode
-		setCurrentRPC(nodeName)
+		setCurrentRPC(matchedNode)
 	}
 
 	useEffect(() => {
