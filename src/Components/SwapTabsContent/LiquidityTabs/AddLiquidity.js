@@ -18,6 +18,15 @@ const AddLiquidity = (props) => {
   const [transactionId, setTransactionId] = useState('');
 
   const handleLiquidityInput = (input) => {
+    setEstimatedTokenAmout({});
+    if (input === '' || isNaN(input)) {
+      setSecondTokenAmount('');
+      props.setFirstTokenAmount('');
+      setEstimatedTokenAmout({
+        otherTokenAmount: '',
+      });
+      return;
+    }
     const estimatedTokenAmout = estimateOtherToken(
       input,
       props.swapData.tokenIn_supply,
@@ -27,10 +36,13 @@ const AddLiquidity = (props) => {
   };
   const handleLiquiditySecondInput = (input) => {
     setSecondTokenAmount(input);
+    setEstimatedTokenAmout({});
     if (input === '' || isNaN(input)) {
       setSecondTokenAmount('');
       props.setFirstTokenAmount('');
-      setEstimatedTokenAmout({});
+      setEstimatedTokenAmout({
+        otherTokenAmount: '',
+      });
       return;
     } else {
       const estimatedTokenAmout = estimateOtherToken(
@@ -133,7 +145,7 @@ const AddLiquidity = (props) => {
         </button>
       );
     } else {
-      swapContentButton = props.loading ? (
+      swapContentButton = props.loaderInButton ? (
         <button className="swap-content-btn loader-btn enter-amount">
           <PuffLoader color={'#fff'} size={28} />
         </button>
@@ -161,7 +173,7 @@ const AddLiquidity = (props) => {
           </div>
 
           <div className="token-user-input-wrapper">
-            {props.tokenOut.name ? (
+            {props.swapData.success ? (
               <input
                 type="text"
                 className="token-user-input"
@@ -229,17 +241,27 @@ const AddLiquidity = (props) => {
           </div>
 
           <div className="token-user-input-wrapper">
-            <input
-              type="text"
-              className="token-user-input"
-              placeholder="0.0"
-              value={
-                secondTokenAmount
-                  ? secondTokenAmount
-                  : estimatedTokenAmout.otherTokenAmount
-              }
-              onChange={(e) => handleLiquiditySecondInput(e.target.value)}
-            />
+            {props.swapData.success ? (
+              <input
+                type="text"
+                className="token-user-input"
+                placeholder="0.0"
+                value={
+                  secondTokenAmount
+                    ? secondTokenAmount
+                    : estimatedTokenAmout.otherTokenAmount
+                }
+                onChange={(e) => handleLiquiditySecondInput(e.target.value)}
+              />
+            ) : (
+              <input
+                type="text"
+                disabled
+                className="token-user-input"
+                placeholder="0.0"
+                value={props.firstTokenAmount}
+              />
+            )}
           </div>
           {props.walletAddress && props.tokenOut.name ? (
             <div className="flex justify-between" style={{ flex: '0 0 100%' }}>

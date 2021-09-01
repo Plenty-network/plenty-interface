@@ -7,7 +7,6 @@ module.exports = {
   },
   RPC_NODES: {
     testnet: 'https://testnet.tezster.tech/',
-    //mainnet: 'https://mainnet.smartpy.io/',
     mainnet: 'https://tezos-prod.cryptonomic-infra.tech/',
   },
   TZKT_NODES: {
@@ -378,17 +377,13 @@ module.exports = {
     },
   },
   SERVERLESS_BASE_URL: {
-    mainnet: 'https://mf29fdthuf.execute-api.us-east-2.amazonaws.com/v1',
+    mainnet: 'https://w0sujgfj39.execute-api.us-east-2.amazonaws.com/v1',
     testnet: 'https://testnet.dummy-api.us-east-10.amazonaws.com/v1',
   },
   SERVERLESS_REQUEST: {
     mainnet: {
-      'FARMS-ACTIVE': '/farms/active',
-      'FARMS-INACTIVE': '/farms/inactive',
-      'POOLS-ACTIVE': '/pools/active',
-      'POOLS-INACTIVE': '/pools/inactive',
-      'PONDS-ACTIVE': '/ponds/active',
-      'PONDS-INACTIVE': '/ponds/inactive',
+      'HOME-PAGE-TVL': '/tvl',
+      'PLENTY-STATS' : '/homestats'
     },
     testnet: {},
   },
