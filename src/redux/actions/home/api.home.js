@@ -46,7 +46,7 @@ export const calculateHarvestValue = async (
 	packedAddress
 ) => {
 	try {
-		let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK]
+		const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK]
 		let url = `${
 			rpcNode
 		}chains/main/blocks/head/context/contracts/${stakingContractAddress}/storage`
@@ -178,7 +178,7 @@ export const getBalanceAmount = async (
 ) => {
 	try {
 		let balance
-		let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK]
+		const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK]
 		const url = `${
 			rpcNode
 		}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`
@@ -287,7 +287,7 @@ const getAllActiveContractAddresses = async () => {
 
 const getLpPriceFromDex = async (identifier, dexAddress) => {
 	try {
-		let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK]
+		const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK]
 		const response = await axios.get(
 			`${
 				rpcNode
@@ -396,7 +396,7 @@ const getPriceForPlentyLpTokens = async (
 ) => {
 	try {
 		const connectedNetwork = CONFIG.NETWORK
-		let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+		const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
 		const url = rpcNode
 		const storageResponse = await axios.get(
 			`${url}/chains/main/blocks/head/context/contracts/${dexAddress}/storage`
@@ -806,7 +806,7 @@ export const getStakedAmount = async (
 	tokenDecimal
 ) => {
 	try {
-		let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK]
+		const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK]
 		const url = `${
 			rpcNode
 		}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`
@@ -931,7 +931,7 @@ export const harvestAllHelper = async (
 		}
 		const wallet = new BeaconWallet(options)
 		const connectedNetwork = CONFIG.NETWORK
-		let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+		const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
 		const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type)
 		if (WALLET_RESP.success) {
 			const Tezos = new TezosToolkit(rpcNode)

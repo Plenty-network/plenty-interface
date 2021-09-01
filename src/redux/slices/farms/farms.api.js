@@ -14,7 +14,7 @@ const fetchStorageOfStakingContract = async (
 ) => {
   try {
     const connectedNetwork = CONFIG.NETWORK
-    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const url = `${
       rpcNode
     }chains/main/blocks/head/context/contracts/${address}/storage`;
@@ -70,7 +70,7 @@ const fetchStorageOfStakingContract = async (
 const getLpPriceFromDex = async (identifier, dexAddress) => {
   try {
     const connectedNetwork = CONFIG.NETWORK
-    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const response = await axios.get(
       `${
         rpcNode
@@ -360,7 +360,7 @@ export const stakeFarmAPI = async (amount, farmIdentifier, isActive, position) =
       name: CONFIG.NAME,
     };
     const connectedNetwork = CONFIG.NETWORK;
-    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const wallet = new BeaconWallet(options);
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (WALLET_RESP.success) {
@@ -487,7 +487,7 @@ export const unstakeAPI = async (
     };
     const wallet = new BeaconWallet(options);
     const connectedNetwork = CONFIG.NETWORK;
-    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (WALLET_RESP.success) {
       const Tezos = new TezosToolkit(rpcNode);
@@ -559,7 +559,7 @@ export const harvestAPI = async (farmIdentifier, isActive, position) => {
     // });
     const wallet = new BeaconWallet(options);
     const connectedNetwork = CONFIG.NETWORK;
-    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (WALLET_RESP.success) {
       const Tezos = new TezosToolkit(rpcNode);

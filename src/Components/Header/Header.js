@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import truncateMiddle from 'truncate-middle';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -15,6 +15,9 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import SimpleModal from "../../Components/Ui/Modals/SimpleModal"
 import NodeSelectorModal from "./NodeSelectorModal"
 import Loader from "../../Components/loader"
+import { RPC_NODE } from '../../constants/localStorage';
+import { setNode } from '../../redux/slices/settings/settings.slice';
+import { connect } from 'react-redux';
 
 
 const Header = (props) => {
@@ -23,6 +26,13 @@ const Header = (props) => {
   const splitLocation = pathname.split('/');
   const [nodeSelector, toggleNodeSelector] = useState(false)
   const [loaderMessage, setLoaderMessage] = useState({})
+
+  useEffect(() => {
+    const RPCNodeInLS = localStorage.getItem(RPC_NODE)
+    if (RPCNodeInLS) {
+      props.setNode(RPCNodeInLS)
+    }
+  }, [])
 
   let connectWalletButton = () => {
     if (props.walletAddress) {
@@ -327,4 +337,12 @@ const Header = (props) => {
   );
 };
 
-export default Header;
+const mapStateToProps = state => ({
+	rpcNode: state.settings.rpcNode,
+})
+
+const mapDispatchToProps = dispatch => ({
+	setNode: (rpcNode) => dispatch(setNode(rpcNode)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

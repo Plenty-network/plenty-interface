@@ -194,7 +194,7 @@ export const stake = async (amount, poolIdentifier, isActive, position) => {
       name: CONFIG.NAME,
     };
     const connectedNetwork = CONFIG.NETWORK;
-    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const wallet = new BeaconWallet(options);
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (WALLET_RESP.success) {
@@ -322,7 +322,7 @@ export const unstake = async (
     };
     const wallet = new BeaconWallet(options);
     const connectedNetwork = CONFIG.NETWORK;
-    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (WALLET_RESP.success) {
       const Tezos = new TezosToolkit(rpcNode);
@@ -385,7 +385,7 @@ export const harvest = async (poolIdentifier, isActive, position) => {
     };
     const wallet = new BeaconWallet(options);
     const connectedNetwork = CONFIG.NETWORK;
-    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     const Tezos = new TezosToolkit(rpcNode);
     if (WALLET_RESP.success) {

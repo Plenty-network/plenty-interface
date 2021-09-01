@@ -3,12 +3,11 @@ import React, { useEffect, useState } from "react"
 import SimpleModal from "../Ui/Modals/SimpleModal"
 import { RPC_NODE } from "../../constants/localStorage"
 import { connect } from "react-redux"
-import { setRPCNodeName } from "../../redux/actions/home/home.actions"
 import axios from 'axios'
+import { setNode } from '../../redux/slices/settings/settings.slice'
 
 async function isValidURL(userInput) {
 	try {
-		// const response = await axios.get(userInput + "/chains/main/blocks")
 		const response = await axios({
 			method: "get",
 			baseURL: userInput,
@@ -44,6 +43,7 @@ function NodeSelectorModal(props) {
 		isValidURL(RPCNodeInLS).then((res) => {
 			if (!res) {
 				localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES["PLENTY"])
+				props.setNode(LOCAL_RPC_NODES["PLENTY"])
 				setCurrentRPC("PLENTY")
 				return
 		}});
@@ -77,8 +77,8 @@ function NodeSelectorModal(props) {
 	const setRPCInLS =  async() => {
 		if (currentRPC !== "CUSTOM") {
 			localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES[currentRPC])
+			props.setNode(LOCAL_RPC_NODES[currentRPC])
 			props.closeNodeSelectorModal()
-			window.location.reload()
 		} else {
 			let _customRPC = customRPC
 			if (!_customRPC.match(/\/$/)) {
@@ -94,8 +94,8 @@ function NodeSelectorModal(props) {
 					return
 				} else {
 					localStorage.setItem(RPC_NODE, _customRPC)
+					props.setNode(_customRPC)
 					props.closeNodeSelectorModal(_customRPC)
-					window.location.reload()
 				}
 		}
 	}
@@ -162,11 +162,11 @@ function NodeSelectorModal(props) {
 }
 
 const mapStateToProps = state => ({
-	selectedNode: state.home.nodeState.rpcNode,
+	rpcNode: state.settings.rpcNode,
 })
 
 const mapDispatchToProps = dispatch => ({
-	setRPCNodeName: () => dispatch(setRPCNodeName()),
+	setNode: (rpcNode) => dispatch(setNode(rpcNode)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NodeSelectorModal)

@@ -42,7 +42,7 @@ const getStakedAmount = async (
   tokenDecimal
 ) => {
   try {
-    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
     const url = `${
       rpcNode
     }chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
@@ -87,7 +87,7 @@ const getStakedAmount = async (
 const getBalanceAmount = async (mapId, packedKey, identifier, decimal) => {
   try {
     let balance;
-    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
     const url = `${
       rpcNode
     }chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
@@ -236,7 +236,7 @@ const calculateHarvestValue = async (
   packedAddress
 ) => {
   try {
-    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
     let url = `${
       rpcNode
     }chains/main/blocks/head/context/contracts/${stakingContractAddress}/storage`;

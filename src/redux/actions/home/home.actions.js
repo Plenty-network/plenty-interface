@@ -1,4 +1,3 @@
-import axios from "axios"
 import * as actions from "../index.action"
 import * as homeApis from "./api.home"
 import CONFIG from "../../../config/config"
@@ -156,9 +155,3 @@ export const onModalOpenClose = payload => ({
 	type: actions.OPEN_CLOSE_HOME_MODAL,
 	payload: payload,
 })
-
-export const setRPCNodeName = (nodeName) => {
-	return dispatch => {
-		dispatch({type: actions.SET_RPC_NODE_NAME, payload : nodeName})
-	}
-}

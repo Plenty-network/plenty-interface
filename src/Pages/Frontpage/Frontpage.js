@@ -63,6 +63,7 @@ const Frontpage = ({
 	openCloseModal,
 	modalData,
 	harvestAllOperations,
+	rpcNode,
 }) => {
 	useEffect(() => {
 		const getAllData = () => {
@@ -77,7 +78,7 @@ const Frontpage = ({
 		getAllData()
 		const intervalId = setInterval(getAllData(), 60 * 1000);
 		return () => clearInterval(intervalId)
-	}, [wallet])
+	}, [wallet, rpcNode])
 
 	
 
@@ -592,6 +593,7 @@ const mapStateToProps = state => ({
 	userTVL: state.home.userTVL.data,
 	modalData : state.home.modals,
 	harvestAllOperations: state.home.harvestAllOperation,
+	rpcNode: state.settings.rpcNode,
 })
 
 const mapDispatchToProps = dispatch => ({
