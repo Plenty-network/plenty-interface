@@ -112,10 +112,10 @@ const Frontpage = ({
 						walletAddress={walletAddress}
 						isFrontPage={true}
 					/>
-					<Col
+					<div
 						className={clsx(
 							"py-5",
-							walletConnected ? ["col-lg-6", "col-sm-12"] : "col-sm-12"
+							walletConnected ? ["col-lg-6", "col-sm-12", "col-md-12"] : "col-sm-12 col-md-12"
 						)}>
 						<div
 							className={clsx(
@@ -166,9 +166,9 @@ const Frontpage = ({
 								</Button>
 							</Link>
 						</div>
-					</Col>
+					</div>
 					{walletConnected && (
-						<Col className="py-3 pb-lg-5 col-lg-6 col-sm-12">
+						<div className="py-3 pb-lg-5 col-lg-6 col-sm-12">
 							<div
 								className="col-lg-9 col-xl-7 m-auto py-lg-5 px-0 text-center
                                     align-items-center align-items-lg-start text-lg-left">
@@ -182,7 +182,7 @@ const Frontpage = ({
 										harvestAllOperations={harvestAllOperations}
 								/>
 							</div>
-						</Col>
+						</div>
 					)}
 				</FrontPageGradientDiv>
 				<Row className="row bg-themed border-bottom-themed-dark-none">

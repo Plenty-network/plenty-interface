@@ -77,6 +77,7 @@ function NodeSelectorModal(props) {
 	const setRPCInLS =  async() => {
 		if (currentRPC !== "CUSTOM") {
 			localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES[currentRPC])
+			props.closeNodeSelectorModal()
 			window.location.reload()
 		} else {
 			let _customRPC = customRPC
