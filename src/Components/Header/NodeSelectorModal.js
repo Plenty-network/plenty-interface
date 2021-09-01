@@ -5,6 +5,7 @@ import { RPC_NODE } from "../../constants/localStorage"
 import { connect } from "react-redux"
 import axios from 'axios'
 import { setNode } from '../../redux/slices/settings/settings.slice'
+import CONFIG from "../../config/config"
 
 async function isValidURL(userInput) {
 	try {
@@ -36,10 +37,18 @@ function NodeSelectorModal(props) {
 
 	const rpcNodeDetect = async () => {
 		
-		const RPCNodeInLS = localStorage.getItem(RPC_NODE)
+		let RPCNodeInLS = localStorage.getItem(RPC_NODE)
+
 		if (!RPCNodeInLS) {
-			setCurrentRPC("")
-			return
+			Object.keys(LOCAL_RPC_NODES).forEach((ele) => {
+				if (LOCAL_RPC_NODES[ele] === CONFIG.RPC_NODES[CONFIG.NETWORK]) {
+					localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES[ele])
+					props.setNode(LOCAL_RPC_NODES[ele])
+					setCurrentRPC(ele)
+					RPCNodeInLS = LOCAL_RPC_NODES[ele]
+					return
+				}
+			})
 		}
 
 		const valid = await isValidURL(RPCNodeInLS)
