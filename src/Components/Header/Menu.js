@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import NavDropdown from "react-bootstrap/NavDropdown";
 import clsx from "clsx";
 
-export const ExternalMenu = () => {
+export const ExternalMenu = (props) => {
   const menu = [
     {
       title: 'Docs',
@@ -18,14 +18,21 @@ export const ExternalMenu = () => {
       title: 'GitHub',
       link: 'https://github.com/Plenty-DeFi',
     },
+    {
+      title: "Node Selector",
+    },
   ];
   return (
     <>
       {menu.map((menu, index) => {
         return (
-          <NavDropdown.Item href={menu.link} target="_blank" key={index}>
+          menu.title !== "Node Selector" ? <NavDropdown.Item href={menu.link} target="_blank" key={index}>
             {menu.title}
-          </NavDropdown.Item>
+          </NavDropdown.Item> : (
+              <NavDropdown.Item target="_blank" key={index} onClick={props.toggleNodeSelectorHandler}>
+                {menu.title}
+              </NavDropdown.Item>
+            )
         );
       })}
     </>

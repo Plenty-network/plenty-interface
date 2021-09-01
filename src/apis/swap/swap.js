@@ -3,6 +3,7 @@ import { BeaconWallet } from '@taquito/beacon-wallet';
 import { CheckIfWalletConnected } from '../wallet/wallet';
 import CONFIG from '../../config/config';
 import axios from 'axios';
+import { RPC_NODE } from '../../constants/localStorage';
 
 export const swapTokens = async (
   tokenIn,
@@ -15,6 +16,8 @@ export const swapTokens = async (
   dexContractInstance,
   transactionSubmitModal
 ) => {
+  let connectedNetwork = CONFIG.NETWORK;
+  let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
   try {
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -22,14 +25,13 @@ export const swapTokens = async (
     const options = {
       name: CONFIG.NAME,
     };
-    let connectedNetwork = CONFIG.NETWORK;
     const wallet = new BeaconWallet(options);
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (!WALLET_RESP.success) {
       throw new Error('Wallet connection failed');
     }
-    const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork]);
-    Tezos.setRpcProvider(CONFIG.RPC_NODES[connectedNetwork]);
+    const Tezos = new TezosToolkit(rpcNode);
+    Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
     let dexContractAddress =
       CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
@@ -114,9 +116,10 @@ export const swapTokens = async (
 export const loadSwapData = async (tokenIn, tokenOut) => {
   try {
     let connectedNetwork = CONFIG.NETWORK;
+    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     let dexContractAddress =
       CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
-    const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork]);
+    const Tezos = new TezosToolkit(rpcNode);
     let dexContractInstance = await Tezos.contract.at(dexContractAddress);
     let dexStorage = await dexContractInstance.storage();
     let systemFee = await dexStorage.systemFee;
@@ -272,8 +275,9 @@ export const addLiquidity = async (
     let tokenSecondInstance = null;
 
     let connectedNetwork = CONFIG.NETWORK;
-    const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork]);
-    Tezos.setRpcProvider(CONFIG.RPC_NODES[connectedNetwork]);
+    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+    const Tezos = new TezosToolkit(rpcNode);
+    Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
     if (
       CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].property ===
@@ -557,13 +561,14 @@ export const removeLiquidity = async (
       name: CONFIG.NAME,
     };
     let connectedNetwork = CONFIG.NETWORK;
+    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const wallet = new BeaconWallet(options);
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (!WALLET_RESP.success) {
       throw new Error('Wallet connection failed');
     }
-    const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork]);
-    Tezos.setRpcProvider(CONFIG.RPC_NODES[connectedNetwork]);
+    const Tezos = new TezosToolkit(rpcNode);
+    Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
     let tokenFirst_MinimumRecieve;
     let tokenSecond_MinimumRecieve;
@@ -636,8 +641,9 @@ export const fetchWalletBalance = async (
 ) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork]);
-    Tezos.setProvider(CONFIG.RPC_NODES[connectedNetwork]);
+    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+    const Tezos = new TezosToolkit(rpcNode);
+    Tezos.setProvider(rpcNode);
     const contract = await Tezos.contract.at(tokenContractAddress);
     const storage = await contract.storage();
     let userBalance = 0;

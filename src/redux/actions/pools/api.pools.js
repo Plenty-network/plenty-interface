@@ -8,6 +8,7 @@ import {
   unstakingOnPoolProcessing,
 } from './pools.actions';
 import store from '../../store/store';
+import { RPC_NODE } from '../../../constants/localStorage';
 
 const fetchStorage = async (
   identifier,
@@ -17,7 +18,7 @@ const fetchStorage = async (
   priceOfPlentyInUSD
 ) => {
   try {
-    const url = `https://mainnet.smartpy.io/chains/main/blocks/head/context/contracts/${address}/storage`;
+    const url = CONFIG.RPC_NODES[CONFIG.NETWORK] + `/chains/main/blocks/head/context/contracts/${address}/storage`;
     const response = await axios.get(url);
 
     let totalSupply = response.data.args[3].int;
@@ -193,13 +194,14 @@ export const stake = async (amount, poolIdentifier, isActive, position) => {
       name: CONFIG.NAME,
     };
     const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const wallet = new BeaconWallet(options);
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (WALLET_RESP.success) {
       const account = await wallet.client.getActiveAccount();
       const userAddress = account.address;
-      const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork]);
-      Tezos.setRpcProvider(CONFIG.RPC_NODES[connectedNetwork]);
+      const Tezos = new TezosToolkit(rpcNode);
+      Tezos.setRpcProvider(rpcNode);
       Tezos.setWalletProvider(wallet);
       const poolContractInstance = await Tezos.wallet.at(
         //CONFIG.CONTRACT[connectedNetwork].POOLS[poolIdentifier].CONTRACT
@@ -320,10 +322,11 @@ export const unstake = async (
     };
     const wallet = new BeaconWallet(options);
     const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (WALLET_RESP.success) {
-      const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork]);
-      Tezos.setRpcProvider(CONFIG.RPC_NODES[connectedNetwork]);
+      const Tezos = new TezosToolkit(rpcNode);
+      Tezos.setRpcProvider(rpcNode);
       Tezos.setWalletProvider(wallet);
 
       const contractInstance = await Tezos.wallet.at(
@@ -382,10 +385,11 @@ export const harvest = async (poolIdentifier, isActive, position) => {
     };
     const wallet = new BeaconWallet(options);
     const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
-    const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork]);
+    const Tezos = new TezosToolkit(rpcNode);
     if (WALLET_RESP.success) {
-      Tezos.setRpcProvider(CONFIG.RPC_NODES[connectedNetwork]);
+      Tezos.setRpcProvider(rpcNode);
       Tezos.setWalletProvider(wallet);
       const contractInstance = await Tezos.wallet.at(
         //CONFIG.CONTRACT[connectedNetwork].PLENTY_POOLS_CONTRACT

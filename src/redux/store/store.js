@@ -6,7 +6,8 @@ import swapReducer from '../reducers/swap.reducer';
 import pondsReducer from '../reducers/ponds.reducer';
 import poolsReducer from '../reducers/pools.reducer';
 import priceReducer from '../reducers/price.reducer';
-import homeReducer from "../reducers/home.reducers"
+import homeReducer from "../reducers/home.reducers";
+import settingsReducer from "../slices/settings/settings.slice";
 
 import farmsReducer from "../slices/farms/farms.slice";
 
@@ -18,7 +19,8 @@ const rootReducer = {
   pools : poolsReducer,
   ponds : pondsReducer,
   price: priceReducer,
-  home : homeReducer,
+  home: homeReducer,
+  settings: settingsReducer,
 }
 
 //const store = createStore(rootReducer);

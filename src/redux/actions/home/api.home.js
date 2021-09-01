@@ -1,12 +1,14 @@
 import { TezosParameterFormat, TezosMessageUtils } from "conseiljs"
 import { BeaconWallet } from "@taquito/beacon-wallet"
 import { TezosToolkit, OpKind } from "@taquito/taquito"
+import { RPC_NODE } from '../../../constants/localStorage'
+import { SERVERLESS_BASE_URL, SERVERLESS_REQUEST } from '../../../config/config'
 const CONFIG = require("../../../config/config")
 const axios = require("axios")
 
 export const getHomeStatsDataApi = async () => {
 	const res = await axios.get(
-		"https://mf29fdthuf.execute-api.us-east-2.amazonaws.com/v1/homestats"
+		SERVERLESS_BASE_URL[CONFIG.NETWORK] + SERVERLESS_REQUEST[CONFIG.NETWORK]['PLENTY-STATS']
 	)
 	if (res.data.success) {
 		return {
@@ -22,7 +24,7 @@ export const getHomeStatsDataApi = async () => {
 
 export const getTVLHelper = async () => {
 	const res = await axios.get(
-		"https://mf29fdthuf.execute-api.us-east-2.amazonaws.com/v1/tvl"
+		SERVERLESS_BASE_URL[CONFIG.NETWORK] + SERVERLESS_REQUEST[CONFIG.NETWORK]['HOME-PAGE-TVL']
 	)
 	if (res.data.success) {
 		return {
@@ -44,8 +46,9 @@ export const calculateHarvestValue = async (
 	packedAddress
 ) => {
 	try {
+		const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK]
 		let url = `${
-			CONFIG.RPC_NODES[CONFIG.NETWORK]
+			rpcNode
 		}chains/main/blocks/head/context/contracts/${stakingContractAddress}/storage`
 		const smartContractResponse = await axios.get(url)
 		let periodFinish = smartContractResponse.data.args[1].args[0].args[0].int
@@ -63,7 +66,7 @@ export const calculateHarvestValue = async (
 		rewardPerToken =
 			rewardPerToken / totalSupply + parseInt(rewardPerTokenStored)
 		url = `${
-			CONFIG.RPC_NODES[CONFIG.NETWORK]
+			rpcNode
 		}chains/main/blocks/head/context/big_maps/${mapId}/${packedAddress}`
 		let bigMapResponse = await axios.get(url)
 		let userBalance = bigMapResponse.data.args[0].args[1].int
@@ -175,8 +178,9 @@ export const getBalanceAmount = async (
 ) => {
 	try {
 		let balance
+		const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK]
 		const url = `${
-			CONFIG.RPC_NODES[CONFIG.NETWORK]
+			rpcNode
 		}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`
 		const response = await axios.get(url)
 		if (mapId === 3956 || mapId === 4353) {
@@ -283,9 +287,10 @@ const getAllActiveContractAddresses = async () => {
 
 const getLpPriceFromDex = async (identifier, dexAddress) => {
 	try {
+		const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK]
 		const response = await axios.get(
 			`${
-				CONFIG.RPC_NODES[CONFIG.NETWORK]
+				rpcNode
 			}chains/main/blocks/head/context/contracts/${dexAddress}/storage`
 		)
 		let tez_pool = parseInt(response.data.args[1].args[0].args[1].args[2].int)
@@ -318,10 +323,10 @@ export const getStorageForFarms = async isActive => {
 		// let promises = []
 		let dexPromises = []
 		const xtzPriceResponse = await axios.get(
-			"https://api.coingecko.com/api/v3/coins/tezos?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false"
+			CONFIG.API.url
 		)
 		const xtzPriceInUsd = xtzPriceResponse.data.market_data.current_price.usd
-		const tokenPrices = await axios.get("https://api.teztools.io/token/prices")
+		const tokenPrices = await axios.get(CONFIG.API.tezToolTokenPrice)
 		const tokenPricesData = tokenPrices.data.contracts
 		let priceOfPlenty = 0
 		for (let i in tokenPricesData) {
@@ -361,9 +366,7 @@ export const getStorageForFarms = async isActive => {
 				}
 			}
 		}
-		// console.log(dexPromises, "<-------dexPromises-------->")
 		const response = await Promise.all(dexPromises)
-		// console.log(response, "<-----Dex Promises Response------->")
 		let lpPricesInUsd = {}
 		for (let i in response) {
 			if (response[i].lpPriceInXtz * xtzPriceInUsd) {
@@ -393,7 +396,8 @@ const getPriceForPlentyLpTokens = async (
 ) => {
 	try {
 		const connectedNetwork = CONFIG.NETWORK
-		const url = CONFIG.RPC_NODES[connectedNetwork]
+		const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+		const url = rpcNode
 		const storageResponse = await axios.get(
 			`${url}/chains/main/blocks/head/context/contracts/${dexAddress}/storage`
 		)
@@ -411,7 +415,7 @@ const getPriceForPlentyLpTokens = async (
 		let token2Check = storageResponse.data.args[2].args[0].prim.toString()
 
 		const tokenPriceResponse = await axios.get(
-			"https://api.teztools.io/token/prices"
+			CONFIG.API.tezToolTokenPrice
 		)
 		const tokenPricesData = tokenPriceResponse.data.contracts
 		let tokenData = {}
@@ -636,7 +640,7 @@ export const getAllPoolsContracts = async () => {
 
 export const getStorageForPools = async isActive => {
 	try {
-		const tokenPrices = await axios.get("https://api.teztools.io/token/prices")
+		const tokenPrices = await axios.get(CONFIG.API.tezToolTokenPrice)
 		const tokenPricesData = tokenPrices.data.contracts
 		let priceOfPlenty = 0
 		let priceOfToken = []
@@ -761,7 +765,7 @@ export const getPondContracts = async () => {
 
 export const getStorageForPonds = async isActive => {
 	try {
-		const tokenPrices = await axios.get("https://api.teztools.io/token/prices")
+		const tokenPrices = await axios.get(CONFIG.API.tezToolTokenPrice)
 		const tokenPricesData = tokenPrices.data.contracts
 		let priceOfPlenty = 0
 		let tokenData = {}
@@ -802,8 +806,9 @@ export const getStakedAmount = async (
 	tokenDecimal
 ) => {
 	try {
+		const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK]
 		const url = `${
-			CONFIG.RPC_NODES[CONFIG.NETWORK]
+			rpcNode
 		}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`
 		const response = await axios.get(url)
 		let balance = response.data.args[0].args[1].int
@@ -917,7 +922,6 @@ export const harvestAllHelper = async (
 ) => {
 	try {
 		const allActiveContracts = await getAllActiveContractAddresses()
-		// console.log(allActiveContracts, "allActiveContracts")
 		const blockLevel = await getCurrentBlockLevel()
 		const network = {
 			type: CONFIG.WALLET_NETWORK,
@@ -927,10 +931,11 @@ export const harvestAllHelper = async (
 		}
 		const wallet = new BeaconWallet(options)
 		const connectedNetwork = CONFIG.NETWORK
+		const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
 		const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type)
 		if (WALLET_RESP.success) {
-			const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork])
-			Tezos.setRpcProvider(CONFIG.RPC_NODES[connectedNetwork])
+			const Tezos = new TezosToolkit(rpcNode)
+			Tezos.setRpcProvider(rpcNode)
 			Tezos.setWalletProvider(wallet)
 			let promises = []
 			const packedKey = await getPackedKey(0, userAddress, "FA1.2")
@@ -964,7 +969,6 @@ export const harvestAllHelper = async (
 					batchConfirm: batchConfirm,
 				}
 			} else {
-				// console.log("Nothing to harvest!")
 			}
 		}
 	} catch (error) {
@@ -1004,9 +1008,6 @@ export const getTVLOfUserHelper = async userAddress => {
 		const farmTokenDataActive = responseTokenData[4].priceOfLPToken
 		const farmTokenDataInactive = responseTokenData[5].priceOfLPToken
 
-		// console.log(poolTokenDataActive, poolTokenDataInactive, "POOL TOKEN DATA")
-		// console.log(pondTokenDataActive, pondTokenDataInactive, "POND TOKEN DATA")
-		// console.log(farmTokenDataActive, farmTokenDataInactive, "FARM TOKEN DATA")
 
 		const packedKey = getPackedKey(0, userAddress, "FA1.2")
 
@@ -1015,14 +1016,6 @@ export const getTVLOfUserHelper = async userAddress => {
 		for (let key in farmActiveContracts) {
 			const { mapId, identifier, decimal, contract, tokenDecimal } =
 				farmActiveContracts[key]
-			// console.log(
-			// 	mapId,
-			// 	identifier,
-			// 	decimal,
-			// 	contract,
-			// 	tokenDecimal,
-			// 	"ACTIVE FARMS"
-			// )
 			stakedAmountsFromActiveFarmsPromises.push(
 				getStakedAmount(
 					mapId,
@@ -1037,15 +1030,7 @@ export const getTVLOfUserHelper = async userAddress => {
 		const farmResponsesActive = await Promise.all(
 			stakedAmountsFromActiveFarmsPromises
 		)
-		// console.log(farmResponsesActive)
 		for (let key in farmResponsesActive) {
-			// console.log(
-			// 	farmResponsesActive[key].balance,
-			// 	typeof farmTokenDataActive["PLENTY - XTZ"],
-			// 	isNaN(farmTokenDataActive["PLENTY - XTZ"]),
-			// 	farmTokenDataActive[farmResponsesActive[key].identifier],
-			// 	farmResponsesActive[key].identifier
-			// )
 			if (farmResponsesActive[key].success) {
 				tvlOfUser +=
 					farmResponsesActive[key].balance *
@@ -1055,7 +1040,6 @@ export const getTVLOfUserHelper = async userAddress => {
 
 		//FARM INACTIVE
 		let stakedAmountsFromInactiveFarmsPromises = []
-		// console.log(farmInactiveContracts, "farmInactiveContracts")
 		for (let key in farmInactiveContracts) {
 			const { mapId, identifier, decimal, contract, tokenDecimal } =
 				farmInactiveContracts[key]
@@ -1073,14 +1057,7 @@ export const getTVLOfUserHelper = async userAddress => {
 		const farmResponsesInactive = await Promise.all(
 			stakedAmountsFromInactiveFarmsPromises
 		)
-		// console.log(farmResponsesInactive)
 		for (let key in farmResponsesInactive) {
-			// console.log(
-			// 	farmResponsesInactive[key].balance,
-			// 	farmTokenDataInactive[farmResponsesInactive[key].identifier],
-			// 	"INACTIVE FARMS",
-			// 	farmTokenDataInactive, "<-----Inactive Farm Tokens----->"
-			// )
 			if (farmResponsesInactive[key].success) {
 				tvlOfUser +=
 					farmResponsesInactive[key].balance *
@@ -1107,12 +1084,7 @@ export const getTVLOfUserHelper = async userAddress => {
 		const poolResponseActive = await Promise.all(
 			stakedAmountsFromActivePoolsPromises
 		)
-		// console.log(poolResponseActive)
 		for (let key in poolResponseActive) {
-			// console.log(
-			// 	poolResponseActive[key].balance,
-			// 	poolTokenDataActive[poolResponseActive[key].identifier]
-			// )
 			if (poolResponseActive[key].success) {
 				tvlOfUser +=
 					poolResponseActive[key].balance *
@@ -1140,12 +1112,7 @@ export const getTVLOfUserHelper = async userAddress => {
 		const poolResponseInactive = await Promise.all(
 			stakedAmountsFromInactivePoolsPromises
 		)
-		// console.log(poolResponseInactive)
 		for (let key in poolResponseInactive) {
-			// console.log(
-			// 	poolResponseInactive[key].balance,
-			// 	poolTokenDataInactive[poolResponseInactive[key].identifier]
-			// )
 			if (poolResponseInactive[key].success) {
 				tvlOfUser +=
 					poolResponseInactive[key].balance *
@@ -1172,9 +1139,7 @@ export const getTVLOfUserHelper = async userAddress => {
 		const pondResponseActive = await Promise.all(
 			stakedAmountsFromActivePondPromises
 		)
-		// console.log(pondResponseActive)
 		for (let key in pondResponseActive) {
-			// console.log(pondResponseActive[key].balance, pondTokenDataActive)
 			if (pondResponseActive[key].success) {
 				tvlOfUser += pondResponseActive[key].balance * pondTokenDataActive
 			}
@@ -1226,7 +1191,6 @@ export const plentyToHarvestHelper = async addressOfUser => {
 	]
 	const response = await Promise.all(promises)
 	response.forEach(item => {
-		// console.log("<---getHarvestValue--->", item)
 		if (item.success) {
 			for (const key in item.response) {
 				plentyToHarvest += item.response[key].totalRewards
