@@ -7,13 +7,15 @@ import Button from '../Ui/Buttons/Button';
 import CalculatorSvg from '../../assets/images/icons/calculator.svg';
 import { numberWithCommas } from '../../utils/formatNumbers';
 import { useDispatch } from 'react-redux';
-import { FARM_PAGE_MODAL, FARMS_CARD_DATA_PROPTYPES } from '../../constants/farmsPage';
-import { openCloseFarmsModal } from "../../redux/slices/farms/farms.slice";
-
+import {
+  FARM_PAGE_MODAL,
+  FARMS_CARD_DATA_PROPTYPES,
+} from '../../constants/farmsPage';
+import { openCloseFarmsModal } from '../../redux/slices/farms/farms.slice';
 
 const FarmCard = (props) => {
   const dispatch = useDispatch();
-  const { farmData, properties, values } = props.farmCardData
+  const { farmData, properties, values } = props.farmCardData;
 
   const apyCalculate = (apr) =>
     ((Math.pow(1 + apr / 100 / 365, 365) - 1) * 100).toFixed(0);
@@ -22,35 +24,26 @@ const FarmCard = (props) => {
     try {
       const apr = values?.APR ?? 0;
       return numberWithCommas(Math.round(apr));
-
     } catch (e) {
       return 0;
     }
   };
 
   const getAPY = () => {
-    const apy = apyCalculate(
-      values?.APR ?? 0
-    );
+    const apy = apyCalculate(values?.APR ?? 0);
 
     return numberWithCommas(Math.round(apy));
   };
 
   const getReward = () => {
-
-    return (values?.rewardRate ?? 0) * 2880
-
+    return (values?.rewardRate ?? 0) * 2880;
   };
 
   const getTotalLiquidity = () => {
-
-    return numberWithCommas(
-      values?.totalLiquidty?.toFixed(0) ?? 0,
-      {plain: true}
-    );
-
-  }
-
+    return numberWithCommas(values?.totalLiquidty?.toFixed(0) ?? 0, {
+      plain: true,
+    });
+  };
 
   const hasStakedAmount = () => {
     return (
@@ -64,7 +57,7 @@ const FarmCard = (props) => {
       openCloseFarmsModal({
         open: FARM_PAGE_MODAL.ROI,
         contractAddress: farmData.CONTRACT,
-        roiTable: values.roiTable
+        roiTable: values.roiTable,
       })
     );
   };
@@ -159,6 +152,7 @@ const FarmCard = (props) => {
             {props.userAddress ? (
               !hasStakedAmount() ? (
                 <Button
+                  disabled={!props.isActiveOpen}
                   onClick={() =>
                     props.openFarmsStakeModal(
                       props.farmCardData.identifier,
@@ -195,7 +189,7 @@ const FarmCard = (props) => {
 };
 
 FarmCard.propTypes = {
-  farmCardData: FARMS_CARD_DATA_PROPTYPES
-}
+  farmCardData: FARMS_CARD_DATA_PROPTYPES,
+};
 
 export default FarmCard;

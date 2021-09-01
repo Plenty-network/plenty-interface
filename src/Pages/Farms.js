@@ -46,7 +46,7 @@ const Farms = (props) => {
     }, 60 * 1000)
 
     return () => clearInterval(backgroundRefresh)
-  }, [props.isActiveOpen, props.userAddress]);
+  }, [props.isActiveOpen, props.userAddress, props.rpcNode]);
 
   const farmsToRender = useMemo(() => {
     if (props.isActiveOpen) {
@@ -140,6 +140,7 @@ const mapStateToProps = (state) => {
     walletBalances: state.user.balances,
     stakeModal: state.farms.stakeModal,
     unstakeModal: state.farms.unstakeModal,
+    rpcNode: state.settings.rpcNode,
   };
 };
 

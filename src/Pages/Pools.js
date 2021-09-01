@@ -32,7 +32,7 @@ const Pools = (props) => {
     }, 60 * 1000);
 
     return () => clearInterval(backgroundRefresh);
-  }, [props.isActiveOpen, props.userAddress]);
+  }, [props.isActiveOpen, props.userAddress, props.rpcNode]);
 
   const renderPools = () => {
     let poolsToBeRendered = [];
@@ -172,6 +172,7 @@ const mapStateToProps = (state) => {
       state.pools.unstakeModalwithdrawalFeeStructure,
     harvestOperation: state.pools.harvestOperation,
     currentBlock: state.user.currentBlock,
+    rpcNode: state.settings.rpcNode,
   };
 };
 

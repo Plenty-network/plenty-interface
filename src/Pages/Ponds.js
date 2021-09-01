@@ -28,7 +28,7 @@ const Ponds = (props) => {
     }, 60 * 1000);
 
     return () => clearInterval(backgroundRefresh);
-  }, [props.isActiveOpen, props.userAddress]);
+  }, [props.isActiveOpen, props.userAddress, props.rpcNode]);
   const pondsCardListType = {
     KALAM: {
       image: kalamimg,
@@ -189,6 +189,7 @@ const mapStateToProps = (state) => {
     userAddress: state.wallet.address,
     isActiveOpen: state.ponds.isActiveOpen,
     pondsToRender: state.ponds.pondsToRender,
+    rpcNode: state.settings.rpcNode,
   };
 };
 

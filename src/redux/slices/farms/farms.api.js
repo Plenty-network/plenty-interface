@@ -4,6 +4,7 @@ import { stakingOnFarmProcessing, unstakingOnFarmProcessing } from "./farms.slic
 import store from "../../store/store";
 import axios from 'axios';
 import CONFIG from '../../../config/config';
+import { RPC_NODE } from '../../../constants/localStorage';
 
 const fetchStorageOfStakingContract = async (
   identifier,
@@ -12,8 +13,10 @@ const fetchStorageOfStakingContract = async (
   priceOfPlentyInUSD
 ) => {
   try {
+    const connectedNetwork = CONFIG.NETWORK
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const url = `${
-      CONFIG.RPC_NODES[CONFIG.NETWORK]
+      rpcNode
     }chains/main/blocks/head/context/contracts/${address}/storage`;
     const response = await axios.get(url);
 
@@ -66,9 +69,11 @@ const fetchStorageOfStakingContract = async (
 
 const getLpPriceFromDex = async (identifier, dexAddress) => {
   try {
+    const connectedNetwork = CONFIG.NETWORK
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const response = await axios.get(
       `${
-        CONFIG.RPC_NODES[CONFIG.NETWORK]
+        rpcNode
       }chains/main/blocks/head/context/contracts/${dexAddress}/storage`
     );
 
@@ -106,9 +111,7 @@ const getPriceForPlentyLpTokens = async (
   dexAddress
 ) => {
   try {
-    const storageResponse = await axios.get(
-      `https://mainnet.smartpy.io/chains/main/blocks/head/context/contracts/${dexAddress}/storage`
-    );
+    const storageResponse = await axios.get(CONFIG.RPC_NODES[CONFIG.NETWORK] + `/chains/main/blocks/head/context/contracts/${dexAddress}/storage`);
     let token1Pool = parseInt(storageResponse.data.args[1].args[1].int);
     // token1Pool = token1Pool / Math.pow(10, 12);
     let token2Pool = parseInt(storageResponse.data.args[4].int);
@@ -357,13 +360,14 @@ export const stakeFarmAPI = async (amount, farmIdentifier, isActive, position) =
       name: CONFIG.NAME,
     };
     const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const wallet = new BeaconWallet(options);
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (WALLET_RESP.success) {
       const account = await wallet.client.getActiveAccount();
       const userAddress = account.address;
-      const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork]);
-      Tezos.setRpcProvider(CONFIG.RPC_NODES[connectedNetwork]);
+      const Tezos = new TezosToolkit(rpcNode);
+      Tezos.setRpcProvider(rpcNode);
       Tezos.setWalletProvider(wallet);
 
       const farmContractInstance = await Tezos.wallet.at(
@@ -483,10 +487,11 @@ export const unstakeAPI = async (
     };
     const wallet = new BeaconWallet(options);
     const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (WALLET_RESP.success) {
-      const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork]);
-      Tezos.setRpcProvider(CONFIG.RPC_NODES[connectedNetwork]);
+      const Tezos = new TezosToolkit(rpcNode);
+      Tezos.setRpcProvider(rpcNode);
       Tezos.setWalletProvider(wallet);
 
       const contractInstance = await Tezos.wallet.at(
@@ -554,10 +559,11 @@ export const harvestAPI = async (farmIdentifier, isActive, position) => {
     // });
     const wallet = new BeaconWallet(options);
     const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (WALLET_RESP.success) {
-      const Tezos = new TezosToolkit(CONFIG.RPC_NODES[connectedNetwork]);
-      Tezos.setRpcProvider(CONFIG.RPC_NODES[connectedNetwork]);
+      const Tezos = new TezosToolkit(rpcNode);
+      Tezos.setRpcProvider(rpcNode);
       Tezos.setWalletProvider(wallet);
       const contractInstance = await Tezos.wallet.at(
         //CONFIG.CONTRACT[connectedNetwork].PLENTY_FARM_CONTRACT
