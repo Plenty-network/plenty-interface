@@ -116,7 +116,6 @@ export const swapTokens = async (
 
 export const loadSwapData = async (tokenIn, tokenOut) => {
   try {
-    console.log({ tokenIn, tokenOut });
     let connectedNetwork = CONFIG.NETWORK;
     let rpcNode =
       localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
@@ -669,9 +668,7 @@ export const fetchWalletBalance = async (
         };
       } else if (icon === 'QUIPU') {
         const userDetails = await storage.account_info.get(addressOfUser);
-        //console.log({ icon, userDetails });
         let userBalance = userDetails.balances.valueMap.get('"0"');
-        console.log({ icon, userBalance });
         userBalance = userBalance.toNumber() / Math.pow(10, token_decimal);
         userBalance = parseFloat(userBalance);
         return {
@@ -741,7 +738,7 @@ export const fetchWalletBalance = async (
         });
         userBalance = (
           userDetails.toNumber() / Math.pow(10, token_decimal)
-        ).toFixed(3);
+        ).toFixed(token_decimal);
         userBalance = parseFloat(userBalance);
 
         return {
