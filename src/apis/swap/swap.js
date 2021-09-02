@@ -670,7 +670,7 @@ export const fetchWalletBalance = async (
       } else if (icon === 'QUIPU') {
         const userDetails = await storage.account_info.get(addressOfUser);
         //console.log({ icon, userDetails });
-        let userBalance = userDetails.balances.valueMap;
+        let userBalance = userDetails.balances.valueMap.get('"0"');
         console.log({ icon, userBalance });
         userBalance = userBalance.toNumber() / Math.pow(10, token_decimal);
         userBalance = parseFloat(userBalance);
@@ -817,6 +817,10 @@ export const getTokenPrices = async () => {
       'wLINK',
       'USDtz',
       'kUSD',
+      'wWETH',
+      'hDAO',
+      'ETHtz',
+      'QUIPU',
     ];
     const tokenAddress = {
       PLENTY: {
@@ -843,11 +847,23 @@ export const getTokenPrices = async () => {
       wLINK: {
         contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
       },
+      wWETH: {
+        contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+      },
       USDtz: {
         contractAddress: 'KT1LN4LPSqTMS7Sd2CJw4bbDGRkMv2t68Fy9',
       },
       kUSD: {
         contractAddress: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
+      },
+      hDAO: {
+        contractAddress: 'KT1AFA2mwNUMNd4SsujE1YYp29vd8BZejyKW',
+      },
+      ETHtz: {
+        contractAddress: 'KT19at7rQUvyjxnZ2fBv7D9zc8rkyG7gAoU8',
+      },
+      QUIPU: {
+        contractAddress: 'KT193D4vozYnhGJQVtw7CoxxqphqUEEwK6Vb',
       },
     };
     for (let i in tokenPriceResponse.contracts) {
