@@ -1,7 +1,10 @@
 import { BeaconWallet } from '@taquito/beacon-wallet';
 import { OpKind, TezosToolkit } from '@taquito/taquito';
-import { stakingOnFarmProcessing, unstakingOnFarmProcessing } from "./farms.slice";
-import store from "../../store/store";
+import {
+  stakingOnFarmProcessing,
+  unstakingOnFarmProcessing,
+} from './farms.slice';
+import store from '../../store/store';
 import axios from 'axios';
 import CONFIG from '../../../config/config';
 import { RPC_NODE } from '../../../constants/localStorage';
@@ -13,11 +16,10 @@ const fetchStorageOfStakingContract = async (
   priceOfPlentyInUSD
 ) => {
   try {
-    const connectedNetwork = CONFIG.NETWORK
-    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
-    const url = `${
-      rpcNode
-    }chains/main/blocks/head/context/contracts/${address}/storage`;
+    const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode =
+      localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    const url = `${rpcNode}chains/main/blocks/head/context/contracts/${address}/storage`;
     const response = await axios.get(url);
 
     let totalSupply = response.data.args[3].int;
@@ -69,12 +71,11 @@ const fetchStorageOfStakingContract = async (
 
 const getLpPriceFromDex = async (identifier, dexAddress) => {
   try {
-    const connectedNetwork = CONFIG.NETWORK
-    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+    const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode =
+      localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const response = await axios.get(
-      `${
-        rpcNode
-      }chains/main/blocks/head/context/contracts/${dexAddress}/storage`
+      `${rpcNode}chains/main/blocks/head/context/contracts/${dexAddress}/storage`
     );
 
     let tez_pool = parseInt(response.data.args[1].args[0].args[1].args[2].int);
@@ -111,7 +112,10 @@ const getPriceForPlentyLpTokens = async (
   dexAddress
 ) => {
   try {
-    const storageResponse = await axios.get(CONFIG.RPC_NODES[CONFIG.NETWORK] + `/chains/main/blocks/head/context/contracts/${dexAddress}/storage`);
+    const storageResponse = await axios.get(
+      CONFIG.RPC_NODES[CONFIG.NETWORK] +
+        `/chains/main/blocks/head/context/contracts/${dexAddress}/storage`
+    );
     let token1Pool = parseInt(storageResponse.data.args[1].args[1].int);
     // token1Pool = token1Pool / Math.pow(10, 12);
     let token2Pool = parseInt(storageResponse.data.args[4].int);
@@ -131,20 +135,20 @@ const getPriceForPlentyLpTokens = async (
     const tokenPricesData = tokenPriceResponse.data.contracts;
     let tokenData = {};
 
-      let token1Type;
-      let token2Type;
+    let token1Type;
+    let token2Type;
 
-      if(token1Check.match('True')) {
-          token1Type = 'fa2';
-      } else {
-          token1Type = 'fa1.2';
-      }
+    if (token1Check.match('True')) {
+      token1Type = 'fa2';
+    } else {
+      token1Type = 'fa1.2';
+    }
 
-      if(token2Check.match('True')) {
-          token2Type = 'fa2';
-      } else {
-          token2Type = 'fa1.2';
-      }
+    if (token2Check.match('True')) {
+      token2Type = 'fa2';
+    } else {
+      token2Type = 'fa1.2';
+    }
 
     for (let i in tokenPricesData) {
       if (
@@ -260,7 +264,12 @@ export const getFarmsDataAPI = async (isActive) => {
           key === 'PLENTY - wWBTC' ||
           key === 'PLENTY - wMATIC' ||
           key === 'PLENTY - wLINK' ||
-          key === 'PLENTY - USDtz'
+          key === 'PLENTY - USDtz' ||
+          key === 'PLENTY - hDAO' ||
+          key === 'PLENTY - ETHtz' ||
+          key === 'PLENTY - wWETH' ||
+          key === 'PLENTY - kUSD' ||
+          key === 'PLENTY - QUIPU'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(
@@ -304,7 +313,7 @@ export const getFarmsDataAPI = async (isActive) => {
       }
     }
     let farmsData = {};
-    
+
     const farmResponse = await Promise.all(promises);
     for (let i in farmResponse) {
       farmsData[farmResponse[i].address] = {
@@ -351,7 +360,12 @@ const CheckIfWalletConnected = async (wallet, somenet) => {
   }
 };
 
-export const stakeFarmAPI = async (amount, farmIdentifier, isActive, position) => {
+export const stakeFarmAPI = async (
+  amount,
+  farmIdentifier,
+  isActive,
+  position
+) => {
   try {
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -360,7 +374,8 @@ export const stakeFarmAPI = async (amount, farmIdentifier, isActive, position) =
       name: CONFIG.NAME,
     };
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+    const rpcNode =
+      localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const wallet = new BeaconWallet(options);
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (WALLET_RESP.success) {
@@ -487,7 +502,8 @@ export const unstakeAPI = async (
     };
     const wallet = new BeaconWallet(options);
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+    const rpcNode =
+      localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (WALLET_RESP.success) {
       const Tezos = new TezosToolkit(rpcNode);
@@ -559,7 +575,8 @@ export const harvestAPI = async (farmIdentifier, isActive, position) => {
     // });
     const wallet = new BeaconWallet(options);
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+    const rpcNode =
+      localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (WALLET_RESP.success) {
       const Tezos = new TezosToolkit(rpcNode);

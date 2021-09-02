@@ -17,7 +17,8 @@ export const swapTokens = async (
   transactionSubmitModal
 ) => {
   let connectedNetwork = CONFIG.NETWORK;
-  let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+  let rpcNode =
+    localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
   try {
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -115,8 +116,10 @@ export const swapTokens = async (
 
 export const loadSwapData = async (tokenIn, tokenOut) => {
   try {
+    console.log({ tokenIn, tokenOut });
     let connectedNetwork = CONFIG.NETWORK;
-    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+    let rpcNode =
+      localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     let dexContractAddress =
       CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
     const Tezos = new TezosToolkit(rpcNode);
@@ -170,6 +173,7 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
       dexContractInstance,
     };
   } catch (error) {
+    console.log({ error });
     return {
       success: true,
       tokenIn,
@@ -275,7 +279,8 @@ export const addLiquidity = async (
     let tokenSecondInstance = null;
 
     let connectedNetwork = CONFIG.NETWORK;
-    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+    let rpcNode =
+      localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const Tezos = new TezosToolkit(rpcNode);
     Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
@@ -561,7 +566,8 @@ export const removeLiquidity = async (
       name: CONFIG.NAME,
     };
     let connectedNetwork = CONFIG.NETWORK;
-    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+    let rpcNode =
+      localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const wallet = new BeaconWallet(options);
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (!WALLET_RESP.success) {
@@ -641,7 +647,8 @@ export const fetchWalletBalance = async (
 ) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+    let rpcNode =
+      localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const Tezos = new TezosToolkit(rpcNode);
     Tezos.setProvider(rpcNode);
     const contract = await Tezos.contract.at(tokenContractAddress);
@@ -660,9 +667,22 @@ export const fetchWalletBalance = async (
           symbol: icon,
           contractInstance: contract,
         };
-      } else if (icon === 'KALAM') {
+      } else if (icon === 'QUIPU') {
+        const userDetails = await storage.account_info.get(addressOfUser);
+        //console.log({ icon, userDetails });
+        let userBalance = userDetails.balances.valueMap;
+        console.log({ icon, userBalance });
+        userBalance = userBalance.toNumber() / Math.pow(10, token_decimal);
+        userBalance = parseFloat(userBalance);
+        return {
+          success: true,
+          balance: userBalance,
+          symbol: icon,
+          contractInstance: contract,
+        };
+      } else if (icon === 'KALAM' || icon === 'ETHtz') {
         const userDetails = await storage.ledger.get(addressOfUser);
-        let userBalance = userDetails;
+        let userBalance = userDetails.balance;
         userBalance =
           userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
         userBalance = parseFloat(userBalance);
@@ -698,21 +718,39 @@ export const fetchWalletBalance = async (
         };
       }
     } else {
-      const userDetails = await storage.assets.ledger.get({
-        0: addressOfUser,
-        1: token_id,
-      });
-      userBalance = (
-        userDetails.toNumber() / Math.pow(10, token_decimal)
-      ).toFixed(3);
-      userBalance = parseFloat(userBalance);
+      if (icon === 'hDAO') {
+        const userDetails = await storage.ledger.get({
+          0: addressOfUser,
+          1: token_id,
+        });
+        userBalance = (
+          userDetails.toNumber() / Math.pow(10, token_decimal)
+        ).toFixed(3);
+        userBalance = parseFloat(userBalance);
 
-      return {
-        success: true,
-        balance: userBalance,
-        symbol: icon,
-        contractInstance: contract,
-      };
+        return {
+          success: true,
+          balance: userBalance,
+          symbol: icon,
+          contractInstance: contract,
+        };
+      } else {
+        const userDetails = await storage.assets.ledger.get({
+          0: addressOfUser,
+          1: token_id,
+        });
+        userBalance = (
+          userDetails.toNumber() / Math.pow(10, token_decimal)
+        ).toFixed(3);
+        userBalance = parseFloat(userBalance);
+
+        return {
+          success: true,
+          balance: userBalance,
+          symbol: icon,
+          contractInstance: contract,
+        };
+      }
     }
   } catch (e) {
     return {
