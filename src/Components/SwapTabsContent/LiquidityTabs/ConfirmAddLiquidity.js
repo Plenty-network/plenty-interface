@@ -5,7 +5,6 @@ const ConfirmAddLiquidity = (props) => {
   return (
     <Modal
       show={props.showConfirmAddSupply}
-      animation={false}
       onHide={props.onHide}
       className="confirm-swap-modal confirm-add-liquidity-modal"
     >

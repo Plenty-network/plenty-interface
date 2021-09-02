@@ -6,7 +6,6 @@ const ConfirmSwap = (props) => {
     <Modal
       show={props.show}
       onHide={props.onHide}
-      animation={false}
       className="confirm-swap-modal"
     >
       <Modal.Header closeButton>

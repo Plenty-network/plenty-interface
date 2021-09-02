@@ -35,52 +35,64 @@ import QUIPU from '../assets/images/quipu.png';
 const Swap = (props) => {
   const tokens = [
     {
-      name: 'PLENTY',
-      image: plenty,
-    },
-    {
-      name: 'wUSDC',
-      image: wusdc,
-    },
-    {
-      name: 'wBUSD',
-      image: wbusd,
-    },
-    {
-      name: 'wWBTC',
-      image: wwbtc,
-    },
-    {
-      name: 'wMATIC',
-      image: wmatic,
-    },
-    {
-      name: 'wLINK',
-      image: wlink,
-    },
-    {
-      name: 'USDtz',
-      image: usdtz,
-    },
-    {
-      name: 'kUSD',
-      image: kusd,
-    },
-    {
       name: 'hDAO',
       image: hDAO,
+      new: true,
     },
     {
       name: 'ETHtz',
       image: ETHtz,
+      new: true,
     },
     {
       name: 'wWETH',
       image: wWETH,
+      new: true,
     },
     {
       name: 'QUIPU',
       image: QUIPU,
+      new: true,
+    },
+    {
+      name: 'kUSD',
+      image: kusd,
+      new: true,
+    },
+    {
+      name: 'PLENTY',
+      image: plenty,
+      new: false,
+    },
+    {
+      name: 'wUSDC',
+      image: wusdc,
+      new: false,
+    },
+    {
+      name: 'wBUSD',
+      image: wbusd,
+      new: false,
+    },
+    {
+      name: 'wWBTC',
+      image: wwbtc,
+      new: false,
+    },
+    {
+      name: 'wMATIC',
+      image: wmatic,
+      new: false,
+    },
+    {
+      name: 'wLINK',
+      image: wlink,
+      new: false,
+    },
+    {
+      name: 'USDtz',
+      image: usdtz,
+      new: false,
     },
   ];
 
@@ -401,8 +413,25 @@ const Swap = (props) => {
           }
         });
       }
-    } else {
-      return;
+    }
+
+    if (params.from && params.to) {
+      loadSwapData(params.from, params.to).then((data) => {
+        if (data.success) {
+          setSwapData(data);
+          //setLoading(false);
+          setLoaderInButton(false);
+        }
+      });
+    }
+    if (params.tokenA && params.tokenB) {
+      loadSwapData(params.tokenA, params.tokenB).then((data) => {
+        if (data.success) {
+          setSwapData(data);
+          //setLoading(false);
+          setLoaderInButton(false);
+        }
+      });
     }
   }, []);
 
