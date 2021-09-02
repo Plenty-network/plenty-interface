@@ -236,6 +236,7 @@
   }
 }
 .token-select-btn {
+  position: relative;
   width: 100%;
   text-align: left;
   border: 0;
@@ -582,4 +583,20 @@ input:checked {
     left: -250px !important;
     top: 20px !important;
   }
+}
+.new-badge-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(35, 193, 89, 0.14);
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+  letter-spacing: -0.4px;
+  color: #23c159;
+  text-align: center;
+  padding: 4px 10px;
 }

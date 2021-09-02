@@ -349,12 +349,17 @@ export const getStorageForFarms = async isActive => {
 						)
 					)
 				} else if (
-					key === "PLENTY - wBUSD" ||
-					key === "PLENTY - wUSDC" ||
-					key === "PLENTY - wWBTC" ||
-					key === "PLENTY - wMATIC" ||
-					key === "PLENTY - wLINK" ||
-					key === "PLENTY - USDtz"
+					key === 'PLENTY - wBUSD' ||
+          key === 'PLENTY - wUSDC' ||
+          key === 'PLENTY - wWBTC' ||
+          key === 'PLENTY - wMATIC'||
+          key === 'PLENTY - wLINK' ||
+          key === 'PLENTY - USDtz' ||
+          key === 'PLENTY - hDAO'  ||
+          key === 'PLENTY - ETHtz' ||
+          key === 'PLENTY - wWETH' ||
+          key === 'PLENTY - kUSD'  ||
+          key === 'PLENTY - QUIPU'
 				) {
 					dexPromises.push(
 						getPriceForPlentyLpTokens(

@@ -173,7 +173,8 @@ const AddLiquidity = (props) => {
           </div>
 
           <div className="token-user-input-wrapper">
-            {props.swapData.success ? (
+            {props.swapData.success &&
+            props.userBalances[props.tokenIn.name] ? (
               <input
                 type="text"
                 className="token-user-input"
