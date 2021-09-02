@@ -4,6 +4,7 @@ import { CheckIfWalletConnected } from '../wallet/wallet';
 import CONFIG from '../../config/config';
 import axios from 'axios';
 import { RPC_NODE } from '../../constants/localStorage';
+import { beaconWallet } from '../../utils/wallet';
 
 export const swapTokens = async (
   tokenIn,
@@ -25,7 +26,8 @@ export const swapTokens = async (
     const options = {
       name: CONFIG.NAME,
     };
-    const wallet = new BeaconWallet(options);
+    // const wallet = new BeaconWallet(options);
+    const wallet = beaconWallet;
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (!WALLET_RESP.success) {
       throw new Error('Wallet connection failed');
@@ -262,7 +264,8 @@ export const addLiquidity = async (
     const options = {
       name: CONFIG.NAME,
     };
-    const wallet = new BeaconWallet(options);
+    // const wallet = new BeaconWallet(options);
+    const wallet = beaconWallet;
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (!WALLET_RESP.success) {
       throw new Error('Wallet connection failed');
@@ -562,7 +565,8 @@ export const removeLiquidity = async (
     };
     let connectedNetwork = CONFIG.NETWORK;
     let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
-    const wallet = new BeaconWallet(options);
+    // const wallet = new BeaconWallet(options);
+    const wallet = beaconWallet;
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (!WALLET_RESP.success) {
       throw new Error('Wallet connection failed');

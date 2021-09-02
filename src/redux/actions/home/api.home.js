@@ -3,6 +3,7 @@ import { BeaconWallet } from "@taquito/beacon-wallet"
 import { TezosToolkit, OpKind } from "@taquito/taquito"
 import { RPC_NODE } from '../../../constants/localStorage'
 import { SERVERLESS_BASE_URL, SERVERLESS_REQUEST } from '../../../config/config'
+import { beaconWallet } from '../../../utils/wallet'
 const CONFIG = require("../../../config/config")
 const axios = require("axios")
 
@@ -929,7 +930,8 @@ export const harvestAllHelper = async (
 		const options = {
 			name: CONFIG.NAME,
 		}
-		const wallet = new BeaconWallet(options)
+		// const wallet = new BeaconWallet(options)
+		const wallet = beaconWallet;
 		const connectedNetwork = CONFIG.NETWORK
 		const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
 		const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type)

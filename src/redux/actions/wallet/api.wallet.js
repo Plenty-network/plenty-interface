@@ -1,4 +1,5 @@
 import { BeaconWallet } from '@taquito/beacon-wallet';
+import { beaconWallet } from '../../../utils/wallet';
 const CONFIG = require('../../../config/config');
 
 export const ConnectWalletAPI = async () => {
@@ -9,7 +10,8 @@ export const ConnectWalletAPI = async () => {
     const options = {
       name: CONFIG.NAME,
     };
-    const wallet = new BeaconWallet(options);
+    // const wallet = new BeaconWallet(options);
+    const wallet = beaconWallet
     let account = await wallet.client.getActiveAccount();
     if (!account) {
       await wallet.client.requestPermissions({
@@ -36,7 +38,8 @@ export const DisconnectWalletAPI = async () => {
     const options = {
       name: CONFIG.WALLET_NETWORK,
     };
-    const wallet = new BeaconWallet(options);
+    // const wallet = new BeaconWallet(options)
+    const wallet = beaconWallet;
     await wallet.disconnect();
     return {
       success: true,
@@ -56,7 +59,8 @@ export const FetchWalletAPI = async () => {
     const options = {
       name: CONFIG.NAME,
     };
-    const wallet = new BeaconWallet(options);
+    // const wallet = new BeaconWallet(options);
+    const wallet = beaconWallet
     let account = await wallet.client.getActiveAccount();
     if (!account) {
       return {

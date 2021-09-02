@@ -5,6 +5,7 @@ import store from "../../store/store";
 import axios from 'axios';
 import CONFIG from '../../../config/config';
 import { RPC_NODE } from '../../../constants/localStorage';
+import { beaconWallet } from '../../../utils/wallet';
 
 const fetchStorageOfStakingContract = async (
   identifier,
@@ -361,7 +362,8 @@ export const stakeFarmAPI = async (amount, farmIdentifier, isActive, position) =
     };
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
-    const wallet = new BeaconWallet(options);
+    // const wallet = new BeaconWallet(options);
+    const wallet = beaconWallet;
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (WALLET_RESP.success) {
       const account = await wallet.client.getActiveAccount();
@@ -485,7 +487,8 @@ export const unstakeAPI = async (
     const options = {
       name: CONFIG.NAME,
     };
-    const wallet = new BeaconWallet(options);
+    // const wallet = new BeaconWallet(options);
+    const wallet = beaconWallet;
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
@@ -557,7 +560,8 @@ export const harvestAPI = async (farmIdentifier, isActive, position) => {
     // await wallet.client.requestPermissions({
     //   network,
     // });
-    const wallet = new BeaconWallet(options);
+    // const wallet = new BeaconWallet(options);
+    const wallet = beaconWallet;
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
