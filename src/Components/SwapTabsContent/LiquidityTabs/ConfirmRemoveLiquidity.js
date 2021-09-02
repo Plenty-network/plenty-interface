@@ -6,7 +6,6 @@ const ConfirmRemoveLiquidity = (props) => {
     <Modal
       show={props.showConfirmRemoveSupply}
       onHide={props.onHide}
-      animation={false}
       className="confirm-swap-modal"
     >
       <Modal.Header closeButton>

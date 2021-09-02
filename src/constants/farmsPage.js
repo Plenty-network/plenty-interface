@@ -7,7 +7,13 @@ import plentyWWBTC from '../assets/images/farms/PLENTY-wWBTC.png';
 import plentyUsdtz from '../assets/images/plenty-usdtz.png';
 import plentyWmatic from '../assets/images/plenty-wmatic.png';
 import plentyWlink from '../assets/images/plenty-wlink.png';
-import PropTypes from "prop-types";
+import hdaoLpFarm from '../assets/images/farms/hdaoLpFarm.png';
+import ethtzLpFarm from '../assets/images/farms/ethtzLpFarm.png';
+import wwethLpFarm from '../assets/images/farms/wwethLpFarm.png';
+import kusdLpFarm from '../assets/images/farms/kusdLpFarm.png';
+import quipuLpFarm from '../assets/images/farms/quipuLpFarm.png';
+
+import PropTypes from 'prop-types';
 
 export const FARMS_CARD_DATA_PROPTYPES = PropTypes.shape({
   farmData: PropTypes.shape({
@@ -57,8 +63,8 @@ export const FARMS_CARD_DATA_PROPTYPES = PropTypes.shape({
     ),
     totalSupply: PropTypes.number,
     rewardRate: PropTypes.number,
-  })
-})
+  }),
+});
 
 export const FARM_PAGE_MODAL = {
   NULL: null,
@@ -260,6 +266,106 @@ export const FARMS_CARD_TYPE_LIST = {
     fee: '0%',
     earned: 0,
     deposit: 'PLENTY / USDtz LP',
+    liquidity: '5000',
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+  },
+  'PLENTY / hDAO LP': {
+    image: hdaoLpFarm,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'PLENTY / hDAO LP',
+    apr: 0,
+    apy: '2621',
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'PLENTY / hDAO LP',
+    liquidity: '5000',
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+  },
+  'PLENTY / ETHtz LP': {
+    image: ethtzLpFarm,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'PLENTY / ETHtz LP',
+    apr: 0,
+    apy: '2621',
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'PLENTY / ETHtz LP',
+    liquidity: '5000',
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+  },
+  'PLENTY / wWETH LP': {
+    image: wwethLpFarm,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'PLENTY / wWETH LP',
+    apr: 0,
+    apy: '2621',
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'PLENTY / wWETH LP',
+    liquidity: '5000',
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+  },
+  'PLENTY / kUSD LP': {
+    image: kusdLpFarm,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'PLENTY / kUSD LP',
+    apr: 0,
+    apy: '2621',
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'PLENTY / kUSD LP',
+    liquidity: '5000',
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+  },
+  'PLENTY / QUIPU LP': {
+    image: quipuLpFarm,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'PLENTY / QUIPU LP',
+    apr: 0,
+    apy: '2621',
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'PLENTY / QUIPU LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
