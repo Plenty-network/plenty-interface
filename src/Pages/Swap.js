@@ -37,50 +37,62 @@ const Swap = (props) => {
     {
       name: 'PLENTY',
       image: plenty,
+      new: false,
     },
     {
       name: 'wUSDC',
       image: wusdc,
+      new: false,
     },
     {
       name: 'wBUSD',
       image: wbusd,
+      new: false,
     },
     {
       name: 'wWBTC',
       image: wwbtc,
+      new: false,
     },
     {
       name: 'wMATIC',
       image: wmatic,
+      new: false,
     },
     {
       name: 'wLINK',
       image: wlink,
+      new: false,
     },
     {
       name: 'USDtz',
       image: usdtz,
+      new: false,
     },
     {
       name: 'kUSD',
       image: kusd,
+      new: false,
     },
     {
       name: 'hDAO',
       image: hDAO,
+      new: true,
     },
     {
       name: 'ETHtz',
       image: ETHtz,
+      new: true,
     },
     {
       name: 'wWETH',
       image: wWETH,
+      new: true,
     },
     {
       name: 'QUIPU',
       image: QUIPU,
+      new: true,
     },
   ];
 
@@ -401,8 +413,25 @@ const Swap = (props) => {
           }
         });
       }
-    } else {
-      return;
+    }
+
+    if (params.from && params.to) {
+      loadSwapData(params.from, params.to).then((data) => {
+        if (data.success) {
+          setSwapData(data);
+          //setLoading(false);
+          setLoaderInButton(false);
+        }
+      });
+    }
+    if (params.tokenA && params.tokenB) {
+      loadSwapData(params.tokenA, params.tokenB).then((data) => {
+        if (data.success) {
+          setSwapData(data);
+          //setLoading(false);
+          setLoaderInButton(false);
+        }
+      });
     }
   }, []);
 

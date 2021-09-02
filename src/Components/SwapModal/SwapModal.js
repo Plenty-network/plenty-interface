@@ -48,6 +48,9 @@ const SwapModal = (props) => {
                   alt={token.name}
                 />
                 <span className="span-themed">{token.name}</span>
+                {token.new ? (
+                  <span className="new-badge-icon">New!</span>
+                ) : null}
               </button>
             );
           })}
