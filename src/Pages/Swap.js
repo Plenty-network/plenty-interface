@@ -27,6 +27,10 @@ import wmatic from '../assets/images/wmatic.png';
 import wlink from '../assets/images/wlink.png';
 import usdtz from '../assets/images/usdtz.png';
 import kusd from '../assets/images/kusd.png';
+import hDAO from '../assets/images/hdao.png';
+import ETHtz from '../assets/images/ethtz.png';
+import wWETH from '../assets/images/wweth.png';
+import QUIPU from '../assets/images/quipu.png';
 
 const Swap = (props) => {
   const tokens = [
@@ -61,6 +65,22 @@ const Swap = (props) => {
     {
       name: 'kUSD',
       image: kusd,
+    },
+    {
+      name: 'hDAO',
+      image: hDAO,
+    },
+    {
+      name: 'ETHtz',
+      image: ETHtz,
+    },
+    {
+      name: 'wWETH',
+      image: wWETH,
+    },
+    {
+      name: 'QUIPU',
+      image: QUIPU,
     },
   ];
 
