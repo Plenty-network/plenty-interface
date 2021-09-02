@@ -35,6 +35,31 @@ import QUIPU from '../assets/images/quipu.png';
 const Swap = (props) => {
   const tokens = [
     {
+      name: 'hDAO',
+      image: hDAO,
+      new: true,
+    },
+    {
+      name: 'ETHtz',
+      image: ETHtz,
+      new: true,
+    },
+    {
+      name: 'wWETH',
+      image: wWETH,
+      new: true,
+    },
+    {
+      name: 'QUIPU',
+      image: QUIPU,
+      new: true,
+    },
+    {
+      name: 'kUSD',
+      image: kusd,
+      new: true,
+    },
+    {
       name: 'PLENTY',
       image: plenty,
       new: false,
@@ -68,31 +93,6 @@ const Swap = (props) => {
       name: 'USDtz',
       image: usdtz,
       new: false,
-    },
-    {
-      name: 'kUSD',
-      image: kusd,
-      new: false,
-    },
-    {
-      name: 'hDAO',
-      image: hDAO,
-      new: true,
-    },
-    {
-      name: 'ETHtz',
-      image: ETHtz,
-      new: true,
-    },
-    {
-      name: 'wWETH',
-      image: wWETH,
-      new: true,
-    },
-    {
-      name: 'QUIPU',
-      image: QUIPU,
-      new: true,
     },
   ];
 
