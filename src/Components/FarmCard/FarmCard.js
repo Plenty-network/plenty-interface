@@ -108,7 +108,7 @@ const FarmCard = (props) => {
             >
               <p className={styles.plentyCardContentTag}>APY:</p>
               <p className={styles.plentyCardContentTag}>
-                {values === undefined ? <span className="shimmer">99999999</span> : `${getAPY(props)}`}%
+                {values === undefined ? <span className="shimmer">99999999</span> : `${getAPY(props)}%`}
               </p>
             </div>
             <div
@@ -119,13 +119,13 @@ const FarmCard = (props) => {
             >
               <p className={styles.plentyCardContentTag}>APR:</p>
               <p className={styles.plentyCardContentTag}>
-                <img
+                {values && <img
                   src={CalculatorSvg}
                   alt={'Check ROI'}
                   className={styles.roiInfoImg}
                   onClick={onRoiClick}
-                />
-                {values === undefined ? <text className="shimmer">99999999</text> : `${getAPR(props)}`}%
+                />}
+                {values === undefined ? <text className="shimmer">99999999</text> : `${getAPR(props)}%`}
               </p>
             </div>
             <div
@@ -136,7 +136,7 @@ const FarmCard = (props) => {
             >
               <p className={styles.plentyCardContentTag}>Rewards:</p>
               <p className={styles.plentyCardContentTag}>
-                {values === undefined ? <text className="shimmer">99999999</text> : `${getReward()}` } PLENTY / DAY
+                {values === undefined ? <text className="shimmer">99999999</text> : `${getReward()} PLENTY / DAY` } 
               </p>
             </div>
 
@@ -148,7 +148,7 @@ const FarmCard = (props) => {
             >
               <p className={styles.plentyCardContentTag}>TVL:</p>
               <p className={styles.plentyCardContentTag}>
-                ${values === undefined ? <text className="shimmer">99999999</text> : `${getTotalLiquidity()}`}
+                {values === undefined ? <text className="shimmer">99999999</text> : `$ ${getTotalLiquidity()}`}
               </p>
             </div>
 
@@ -183,7 +183,7 @@ const FarmCard = (props) => {
           </div>
           {/* * Content */}
 
-          <FarmCardBottom {...props} />
+          <FarmCardBottom {...props}/>
         </div>
       </div>
       {/* <StakeModal open={props.isStakeModalOpen} onClose={() => props.closeFarmsStakeModal()} tokenData={{title: props.title}} /> */}
