@@ -147,16 +147,14 @@ const RemoveLiquidity = (props) => {
       <div className="swap-content-box">
         <div className="swap-token-select-box" style={{ minHeight: '70px' }}>
           <div className="token-selector-balance-wrapper">
-            <p className="remove-liquidity-token-info">You will receive</p>
+            <p className="remove-liquidity-token-info">Receiving</p>
           </div>
 
           <div className="token-user-input-wrapper remove-liquidity-pair-wrapper flex">
             <button className="token-selector">
               <img src={props.tokenIn.image} className="button-logo" />
               {removableTokens.tokenFirst_Out
-                ? parseFloat(
-                    parseInt(removableTokens.tokenFirst_Out * 100) / 100
-                  )
+                ? removableTokens.tokenFirst_Out.toFixed(4)
                 : '0.00'}
               <span className="remove-liquidity-token-name">
                 {props.tokenIn.name}
@@ -166,9 +164,7 @@ const RemoveLiquidity = (props) => {
             <button className="token-selector">
               <img src={props.tokenOut.image} className="button-logo" />
               {removableTokens.tokenSecond_Out
-                ? parseFloat(
-                    parseInt(removableTokens.tokenSecond_Out * 100) / 100
-                  )
+                ? removableTokens.tokenSecond_Out.toFixed(4)
                 : '0.00'}
               <span className="remove-liquidity-token-name">
                 {props.tokenOut.name}

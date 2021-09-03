@@ -3,7 +3,11 @@
 .fullScreen {
   min-height: 100vh;
 }
-
+.homePageBanner {
+  background-position: left bottom;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 .link {
   text-decoration: none !important;
 }
@@ -19,18 +23,18 @@
   //font-size: 6em;
   line-height: 139%;
   letter-spacing: -0.04em;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .tvlText {
-  font-family: 'DM Sans', sans-serif;;
+  font-family: 'DM Sans', sans-serif;
   font-style: normal;
   font-weight: 300;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .divider {
-  border-bottom: 1px solid #F1F1F1;
+  border-bottom: 1px solid #f1f1f1;
 }
 
 .textMulish {
@@ -48,7 +52,7 @@
 .button {
   height: 50px;
   min-height: 3em;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border: 0;
   font-weight: bold;
 }
@@ -57,5 +61,5 @@
   font-family: 'DM Sans', sans-serif;
   font-style: normal;
   font-weight: normal;
-  color: #FFFFFF;
+  color: #ffffff;
 }
