@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 import styled from 'styled-components';
-import lineBg from './assets/images/banner-bg.png';
+// import lineBg from './assets/images/banner-bg.png';
 
 export const lightTheme = {
   name: 'light',
@@ -39,8 +39,10 @@ export const darkTheme = {
   hr: '#f1f1f1',
   logo: '#FFFFFF',
   logoFrontPage: '#FFFFFF',
-  frontPageGradient: `url(${lineBg})`,
-  frontPageBottomGradient: `url(${lineBg})`,
+  // frontPageGradient: `url(${lineBg})`,
+  // frontPageBottomGradient: `url(${lineBg})`,
+  frontPageGradient: ``,
+  frontPageBottomGradient: ``,
   bg: '#2D3751',
   bgAlt: '#2C3645',
   backgroundLight: '#394460',
