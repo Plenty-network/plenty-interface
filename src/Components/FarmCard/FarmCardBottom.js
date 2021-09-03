@@ -15,7 +15,7 @@ import { openCloseFarmsModal } from '../../redux/slices/farms/farms.slice';
 
 const FarmCardBottom = (props) => {
   const dispatch = useDispatch();
-  const { properties, farmData } = props.farmCardData;
+  const { properties, farmData, values } = props.farmCardData;
   const [isExpanded, toggleExpand] = useState(false);
   const target = useRef(null);
 
@@ -60,17 +60,20 @@ const FarmCardBottom = (props) => {
                 className="mt-auto mb-auto ml-2"
               />
               <span>
-                {props.userAddress !== null &&
-                props.harvestValueOnFarms.hasOwnProperty(props.isActiveOpen) &&
-                props.harvestValueOnFarms[props.isActiveOpen].hasOwnProperty(
-                  farmData.CONTRACT
-                ) &&
-                props.harvestValueOnFarms[props.isActiveOpen][farmData.CONTRACT]
-                  .totalRewards > 0
-                  ? props.harvestValueOnFarms[props.isActiveOpen][
-                      farmData.CONTRACT
-                    ].totalRewards.toFixed(6)
-                  : 0}
+							{values &&
+								props.userAddress !== null &&
+								props.harvestValueOnFarms.hasOwnProperty(props.isActiveOpen) &&
+								props.harvestValueOnFarms[props.isActiveOpen].hasOwnProperty(
+									farmData.CONTRACT
+								) &&
+								props.harvestValueOnFarms[props.isActiveOpen][farmData.CONTRACT]
+									.totalRewards > 0 ? (
+									props.harvestValueOnFarms[props.isActiveOpen][
+										farmData.CONTRACT
+									].totalRewards.toFixed(6)
+								) : (
+									<span className="shimmer">99999999</span>
+								)}
               </span>
             </div>
 

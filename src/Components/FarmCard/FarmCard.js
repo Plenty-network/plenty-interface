@@ -12,6 +12,7 @@ import {
   FARMS_CARD_DATA_PROPTYPES,
 } from '../../constants/farmsPage';
 import { openCloseFarmsModal } from '../../redux/slices/farms/farms.slice';
+import { useEffect } from 'react';
 
 const FarmCard = (props) => {
   const dispatch = useDispatch();
@@ -106,7 +107,9 @@ const FarmCard = (props) => {
               )}
             >
               <p className={styles.plentyCardContentTag}>APY:</p>
-              <p className={styles.plentyCardContentTag}>{getAPY(props)}%</p>
+              <p className={styles.plentyCardContentTag}>
+                {values == null ? <span className="shimmer">99999999</span> : `${getAPY(props)}%`}
+              </p>
             </div>
             <div
               className={clsx(
@@ -116,13 +119,13 @@ const FarmCard = (props) => {
             >
               <p className={styles.plentyCardContentTag}>APR:</p>
               <p className={styles.plentyCardContentTag}>
-                <img
+                {values && <img
                   src={CalculatorSvg}
                   alt={'Check ROI'}
                   className={styles.roiInfoImg}
                   onClick={onRoiClick}
-                />
-                {getAPR(props)}%
+                />}
+                {values == null ? <span className="shimmer">99999999</span> : `${getAPR(props)}%`}
               </p>
             </div>
             <div
@@ -133,7 +136,7 @@ const FarmCard = (props) => {
             >
               <p className={styles.plentyCardContentTag}>Rewards:</p>
               <p className={styles.plentyCardContentTag}>
-                {getReward()} PLENTY / DAY
+                {values == null ? <span className="shimmer">99999999</span> : `${getReward()} PLENTY / DAY` } 
               </p>
             </div>
 
@@ -145,7 +148,7 @@ const FarmCard = (props) => {
             >
               <p className={styles.plentyCardContentTag}>TVL:</p>
               <p className={styles.plentyCardContentTag}>
-                ${getTotalLiquidity()}
+                {values == null ? <span className="shimmer">99999999</span> : `$ ${getTotalLiquidity()}`}
               </p>
             </div>
 
@@ -180,7 +183,7 @@ const FarmCard = (props) => {
           </div>
           {/* * Content */}
 
-          <FarmCardBottom {...props} />
+          <FarmCardBottom {...props}/>
         </div>
       </div>
       {/* <StakeModal open={props.isStakeModalOpen} onClose={() => props.closeFarmsStakeModal()} tokenData={{title: props.title}} /> */}
