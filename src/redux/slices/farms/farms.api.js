@@ -109,7 +109,8 @@ const getLpPriceFromDex = async (identifier, dexAddress) => {
 const getPriceForPlentyLpTokens = async (
   identifier,
   lpTokenDecimal,
-  dexAddress
+  dexAddress,
+  tokenPricesData
 ) => {
   try {
     const storageResponse = await axios.get(
@@ -129,10 +130,10 @@ const getPriceForPlentyLpTokens = async (
     let token2Id = parseInt(storageResponse.data.args[2].args[1].int);
     let token2Check = storageResponse.data.args[2].args[0].prim.toString();
 
-    const tokenPriceResponse = await axios.get(
-      'https://api.teztools.io/token/prices'
-    );
-    const tokenPricesData = tokenPriceResponse.data.contracts;
+    // const tokenPriceResponse = await axios.get(
+    //   'https://api.teztools.io/token/prices'
+    // );
+    // const tokenPricesData = tokenPriceResponse.data.contracts;
     let tokenData = {};
 
     let token1Type;
@@ -231,9 +232,15 @@ export const getFarmsDataAPI = async (isActive) => {
   try {
     let promises = [];
     let dexPromises = [];
-    const xtzPriceResponse = await axios.get(CONFIG.API.url);
+    let initialDataPromises = [];
+    initialDataPromises.push(axios.get(CONFIG.API.url));
+    initialDataPromises.push(axios.get(CONFIG.API.tezToolTokenPrice));
+    const initialDataResponse = await Promise.all(initialDataPromises);
+    //const xtzPriceResponse = await axios.get(CONFIG.API.url);
+    const xtzPriceResponse = initialDataResponse[0];
     const xtzPriceInUsd = xtzPriceResponse.data.market_data.current_price.usd;
-    const tokenPrices = await axios.get(CONFIG.API.tezToolTokenPrice);
+    //const tokenPrices = await axios.get(CONFIG.API.tezToolTokenPrice);
+    const tokenPrices = initialDataResponse[1];
     const tokenPricesData = tokenPrices.data.contracts;
     let priceOfPlenty = 0;
     for (let i in tokenPricesData) {
@@ -279,7 +286,8 @@ export const getFarmsDataAPI = async (isActive) => {
               ][i].TOKEN_DECIMAL,
               CONFIG.FARMS[CONFIG.NETWORK][key][
                 isActive === true ? 'active' : 'inactive'
-              ][i].DEX
+              ][i].DEX,
+              tokenPricesData
             )
           );
         }
