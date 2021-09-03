@@ -248,9 +248,10 @@ const Swap = (props) => {
   };
 
   const resetAllValues = () => {
-    setSlippage(0.05);
+    setSlippage(0.5);
     setRecepient('');
     setTokenType('tokenIn');
+    setTokenOut({});
     setFirstTokenAmount('');
     setSecondTokenAmount('');
     setSwapData({});
