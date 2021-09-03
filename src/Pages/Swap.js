@@ -251,7 +251,6 @@ const Swap = (props) => {
     setSlippage(0.05);
     setRecepient('');
     setTokenType('tokenIn');
-    setTokenOut({});
     setFirstTokenAmount('');
     setSecondTokenAmount('');
     setSwapData({});
