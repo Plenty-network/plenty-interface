@@ -52,14 +52,7 @@ module.exports = {
           ],
         },
         ETHtz: {
-          active: [
-            {
-              address: 'KT19asUVzBNidHgTHp8MP31YSphooMb3piWR',
-              mapId: 4491,
-              decimal: 18,
-              tokenDecimal: 18,
-            },
-          ],
+          active: [],
           inactive: [
             {
               address: 'KT1J7v85udA8GnaBupacgY9mMvrb8zQdYb3E',
@@ -67,21 +60,26 @@ module.exports = {
               decimal: 18,
               tokenDecimal: 18,
             },
+            {
+              address: 'KT19asUVzBNidHgTHp8MP31YSphooMb3piWR',
+              mapId: 4491,
+              decimal: 18,
+              tokenDecimal: 18,
+            },
           ],
         },
         hDAO: {
-          active: [
-            {
-              address: 'KT1Ga15wxGR5oWK1vBG2GXbjYM6WqPgpfRSP',
-              mapId: 4496,
-              decimal: 18,
-              tokenDecimal: 6,
-            },
-          ],
+          active: [],
           inactive: [
             {
               address: 'KT1Vs8gqh7YskPnUQMfmjogZh3A5ZLpqQGcg',
               mapId: 3952,
+              decimal: 18,
+              tokenDecimal: 6,
+            },
+            {
+              address: 'KT1Ga15wxGR5oWK1vBG2GXbjYM6WqPgpfRSP',
+              mapId: 4496,
               decimal: 18,
               tokenDecimal: 6,
             },
@@ -1033,21 +1031,7 @@ module.exports = {
         ],
       },
       ETHtz: {
-        active: [
-          {
-            TOKEN: 'KT19at7rQUvyjxnZ2fBv7D9zc8rkyG7gAoU8',
-            CONTRACT: 'KT19asUVzBNidHgTHp8MP31YSphooMb3piWR',
-            DEX: 'KT1Evsp2yA19Whm24khvFPcwimK6UaAJu8Zo',
-            TYPE: 'FA1.2',
-            TOKEN_DECIMAL: 18,
-            TOKEN_ID: 0,
-            DECIMAL: 18,
-
-            CARD_TYPE: 'ETHtz',
-            withdrawalFeeType: 'type1',
-            message: 'Staking disabled - Rewards end September 2',
-          },
-        ],
+        active: [],
         inactive: [
           {
             TOKEN: 'KT19at7rQUvyjxnZ2fBv7D9zc8rkyG7gAoU8',
@@ -1062,24 +1046,23 @@ module.exports = {
             withdrawalFeeType: 'type3',
             message: 'Rewards ended June 9',
           },
-        ],
-      },
-      hDAO: {
-        active: [
           {
-            TOKEN: 'KT1AFA2mwNUMNd4SsujE1YYp29vd8BZejyKW',
-            CONTRACT: 'KT1Ga15wxGR5oWK1vBG2GXbjYM6WqPgpfRSP',
-            DEX: 'KT1QxLqukyfohPV5kPkw97Rs6cw1DDDvYgbB',
-            TYPE: 'FA2',
-            TOKEN_DECIMAL: 6,
+            TOKEN: 'KT19at7rQUvyjxnZ2fBv7D9zc8rkyG7gAoU8',
+            CONTRACT: 'KT19asUVzBNidHgTHp8MP31YSphooMb3piWR',
+            DEX: 'KT1Evsp2yA19Whm24khvFPcwimK6UaAJu8Zo',
+            TYPE: 'FA1.2',
+            TOKEN_DECIMAL: 18,
             TOKEN_ID: 0,
             DECIMAL: 18,
 
-            CARD_TYPE: 'hDAO',
+            CARD_TYPE: 'ETHtz',
             withdrawalFeeType: 'type1',
-            message: 'Staking disabled - Rewards end September 2',
+            message: 'Rewards ended September 2',
           },
         ],
+      },
+      hDAO: {
+        active: [],
         inactive: [
           {
             TOKEN: 'KT1AFA2mwNUMNd4SsujE1YYp29vd8BZejyKW',
@@ -1093,6 +1076,19 @@ module.exports = {
             CARD_TYPE: 'hDAO',
             withdrawalFeeType: 'type3',
             message: 'Rewards ended June 9',
+          },
+          {
+            TOKEN: 'KT1AFA2mwNUMNd4SsujE1YYp29vd8BZejyKW',
+            CONTRACT: 'KT1Ga15wxGR5oWK1vBG2GXbjYM6WqPgpfRSP',
+            DEX: 'KT1QxLqukyfohPV5kPkw97Rs6cw1DDDvYgbB',
+            TYPE: 'FA2',
+            TOKEN_DECIMAL: 6,
+            TOKEN_ID: 0,
+            DECIMAL: 18,
+
+            CARD_TYPE: 'hDAO',
+            withdrawalFeeType: 'type1',
+            message: 'Rewards ended September 2',
           },
         ],
       },
