@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 import styled from 'styled-components';
+// import lineBg from './assets/images/banner-bg.png';
 
 export const lightTheme = {
   name: 'light',
@@ -9,8 +10,10 @@ export const lightTheme = {
   hr: '#d2d2d2',
   logo: '#5603AD',
   logoFrontPage: '#FFFFFF',
-  frontPageGradient: 'linear-gradient(178.62deg, #7028E4 16.71%, #E5B2CA 217.99%)',
-  frontPageBottomGradient: 'linear-gradient(94.97deg, #7028E4 4%, #E5B2CA 142.86%)',
+  frontPageGradient: `linear-gradient(178.62deg, #7028E4 16.71%, #E5B2CA 217.99%)`,
+  frontPageBottomGradient: `linear-gradient(94.97deg, #7028E4 4%, #E5B2CA 142.86%)`,
+  // frontPageGradient: `url(${lineBg}), linear-gradient(178.62deg, #7028E4 16.71%, #E5B2CA 217.99%)`,
+  // frontPageBottomGradient: `url(${lineBg}), linear-gradient(94.97deg, #7028E4 4%, #E5B2CA 142.86%)`,
   bg: '#FFFFFF',
   bgAlt: '#FFFFFF',
   backgroundLight: '#F9FAFA',
@@ -28,7 +31,6 @@ export const lightTheme = {
 
 // body: 'linear-gradient(108.61deg, #A060D9 -24.15%, #7028E4 99.76%)',
 
-
 export const darkTheme = {
   name: 'dark',
   body: 'linear-gradient(108.61deg, #04152E -24.15%, #343C49 99.76%)',
@@ -37,8 +39,10 @@ export const darkTheme = {
   hr: '#f1f1f1',
   logo: '#FFFFFF',
   logoFrontPage: '#FFFFFF',
-  frontPageGradient: 'transparent',
-  frontPageBottomGradient: 'transparent',
+  // frontPageGradient: `url(${lineBg})`,
+  // frontPageBottomGradient: `url(${lineBg})`,
+  frontPageGradient: ``,
+  frontPageBottomGradient: ``,
   bg: '#2D3751',
   bgAlt: '#2C3645',
   backgroundLight: '#394460',
@@ -55,12 +59,12 @@ export const darkTheme = {
 };
 
 export const FrontPageGradientDiv = styled.div`
-  background: ${(props) => props.theme.frontPageGradient};
-`
+  background-image: ${(props) => props.theme.frontPageGradient};
+`;
 
 export const FrontPageBottomGradientDiv = styled.div`
-  background: ${(props) => props.theme.frontPageBottomGradient};
-`
+  background-image: ${(props) => props.theme.frontPageBottomGradient};
+`;
 
 export const GlobalStyles = createGlobalStyle`
   .start-color {
