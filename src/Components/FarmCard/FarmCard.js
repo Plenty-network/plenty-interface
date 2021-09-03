@@ -12,6 +12,7 @@ import {
   FARMS_CARD_DATA_PROPTYPES,
 } from '../../constants/farmsPage';
 import { openCloseFarmsModal } from '../../redux/slices/farms/farms.slice';
+import { useEffect } from 'react';
 
 const FarmCard = (props) => {
   const dispatch = useDispatch();
@@ -106,7 +107,9 @@ const FarmCard = (props) => {
               )}
             >
               <p className={styles.plentyCardContentTag}>APY:</p>
-              <p className={styles.plentyCardContentTag}>{getAPY(props)}%</p>
+              <p className={styles.plentyCardContentTag}>
+                {values === undefined ? <span className="shimmer">99999999</span> : `${getAPY(props)}`}%
+              </p>
             </div>
             <div
               className={clsx(
@@ -122,7 +125,7 @@ const FarmCard = (props) => {
                   className={styles.roiInfoImg}
                   onClick={onRoiClick}
                 />
-                {getAPR(props)}%
+                {values === undefined ? <text className="shimmer">99999999</text> : `${getAPR(props)}`}%
               </p>
             </div>
             <div
@@ -133,7 +136,7 @@ const FarmCard = (props) => {
             >
               <p className={styles.plentyCardContentTag}>Rewards:</p>
               <p className={styles.plentyCardContentTag}>
-                {getReward()} PLENTY / DAY
+                {values === undefined ? <text className="shimmer">99999999</text> : `${getReward()}` } PLENTY / DAY
               </p>
             </div>
 
@@ -145,7 +148,7 @@ const FarmCard = (props) => {
             >
               <p className={styles.plentyCardContentTag}>TVL:</p>
               <p className={styles.plentyCardContentTag}>
-                ${getTotalLiquidity()}
+                ${values === undefined ? <text className="shimmer">99999999</text> : `${getTotalLiquidity()}`}
               </p>
             </div>
 
