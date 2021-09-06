@@ -50,7 +50,7 @@ const PondCard = (props) => {
       <div>
         <div className={styles.plentyCard}>
           {/* * Header */}
-          <div className="pool-card-top-banner">
+          <div className="pool-card-top-banner alert">
             <p className="pool-card-top-banner-text">
               Visit old.plentydefi.com to unstake
             </p>
