@@ -49,15 +49,17 @@
     font-size: 10px;
     line-height: 14px;
     margin: 0;
-
+    text-decoration: none;
     &.badgeOther {
       background-color: var(--theme-quipuswap-badge-bg);
       color: var(--theme-quipuswap-badge-text);
     }
-
     &.badgePlenty {
       background-color: var(--theme-plenty-badge-bg);
       color: var(--theme-plenty-badge-text);
+    }
+    &:hover {
+      text-decoration: none;
     }
   }
 }

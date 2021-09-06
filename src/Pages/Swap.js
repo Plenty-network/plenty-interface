@@ -35,23 +35,13 @@ import QUIPU from '../assets/images/quipu.png';
 const Swap = (props) => {
   const tokens = [
     {
-      name: 'hDAO',
-      image: hDAO,
-      new: true,
-    },
-    {
       name: 'ETHtz',
       image: ETHtz,
       new: true,
     },
     {
-      name: 'wWETH',
-      image: wWETH,
-      new: true,
-    },
-    {
-      name: 'QUIPU',
-      image: QUIPU,
+      name: 'hDAO',
+      image: hDAO,
       new: true,
     },
     {
@@ -65,8 +55,13 @@ const Swap = (props) => {
       new: false,
     },
     {
-      name: 'wUSDC',
-      image: wusdc,
+      name: 'QUIPU',
+      image: QUIPU,
+      new: true,
+    },
+    {
+      name: 'USDtz',
+      image: usdtz,
       new: false,
     },
     {
@@ -75,8 +70,8 @@ const Swap = (props) => {
       new: false,
     },
     {
-      name: 'wWBTC',
-      image: wwbtc,
+      name: 'wLINK',
+      image: wlink,
       new: false,
     },
     {
@@ -85,14 +80,19 @@ const Swap = (props) => {
       new: false,
     },
     {
-      name: 'wLINK',
-      image: wlink,
+      name: 'wUSDC',
+      image: wusdc,
       new: false,
     },
     {
-      name: 'USDtz',
-      image: usdtz,
+      name: 'wWBTC',
+      image: wwbtc,
       new: false,
+    },
+    {
+      name: 'wWETH',
+      image: wWETH,
+      new: true,
     },
   ];
 
@@ -248,10 +248,9 @@ const Swap = (props) => {
   };
 
   const resetAllValues = () => {
-    setSlippage(0.5);
+    setSlippage(0.05);
     setRecepient('');
     setTokenType('tokenIn');
-    setTokenOut({});
     setFirstTokenAmount('');
     setSecondTokenAmount('');
     setSwapData({});

@@ -117,7 +117,7 @@ const PoolCard = (props) => {
         <div className={styles.plentyCard}>
           {/* * Header */}
           {props.message && (
-            <div className="pool-card-top-banner">
+            <div className={`pool-card-top-banner ${props.bannerType}`}>
               <p className="pool-card-top-banner-text">{props.message}</p>
             </div>
           )}

@@ -1,9 +1,14 @@
 .pool-card-top-banner {
-  background: linear-gradient(135deg, #feb692 0%, #ea5455 100%);
   border-radius: 14.5px 14.5px 0px 0px;
   padding: 5px;
   text-align: center;
   margin: -18px -6px 12px;
+  &.info {
+    background: linear-gradient(135deg, #81fbb8 0%, #28c76f 100%);
+  }
+  &.alert {
+    background: linear-gradient(135deg, #feb692 0%, #ea5455 100%);
+  }
 }
 .pool-card-top-banner-text {
   font-style: normal;
