@@ -16,12 +16,18 @@ import {
   closeFarmsStakeModal,
   closeFarmsUnstakeModal,
   openFarmsStakeModal,
-  openFarmsUnstakeModal, populateEmptyFarmsData,
+  openFarmsUnstakeModal,
+  populateEmptyFarmsData,
   setFarmsToRender,
-  toggleFarmsType
-} from "../redux/slices/farms/farms.slice";
-import { getFarmsDataThunk, harvestOnFarmThunk, stakeOnFarmThunk, unstakeOnFarmThunk } from "../redux/slices/farms/farms.thunk";
-import { populateFarmsWithoutData } from "../utils/farmsPageUtils";
+  toggleFarmsType,
+} from '../redux/slices/farms/farms.slice';
+import {
+  getFarmsDataThunk,
+  harvestOnFarmThunk,
+  stakeOnFarmThunk,
+  unstakeOnFarmThunk,
+} from '../redux/slices/farms/farms.thunk';
+import { populateFarmsWithoutData } from '../utils/farmsPageUtils';
 
 const Farms = (props) => {
   // * Initial Call
@@ -30,7 +36,7 @@ const Farms = (props) => {
       const farmsWithoutData = populateFarmsWithoutData();
       props.populateEmptyFarmsData(farmsWithoutData);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     const fetchData = () => {
@@ -42,19 +48,19 @@ const Farms = (props) => {
 
     fetchData();
     const backgroundRefresh = setInterval(() => {
-      fetchData()
-    }, 60 * 1000)
+      fetchData();
+    }, 60 * 1000);
 
-    return () => clearInterval(backgroundRefresh)
+    return () => clearInterval(backgroundRefresh);
   }, [props.isActiveOpen, props.userAddress, props.rpcNode]);
 
   const farmsToRender = useMemo(() => {
     if (props.isActiveOpen) {
-      return props.activeFarms
+      return props.activeFarms;
     }
 
-    return props.inactiveFarms
-  }, [props.activeFarms, props.inactiveFarms, props.isActiveOpen])
+    return props.inactiveFarms;
+  }, [props.activeFarms, props.inactiveFarms, props.isActiveOpen]);
 
   return (
     <>
@@ -70,10 +76,12 @@ const Farms = (props) => {
             />
           </div>
           <div className={styles.cardsContainer}>
-            {farmsToRender?.map(farm => {
+            {farmsToRender?.map((farm) => {
               return (
                 <FarmCard
-                  key={`${farm.identifier}${props.isActiveOpen ? ' active' : ''}`}
+                  key={`${farm.identifier}${
+                    props.isActiveOpen ? ' active' : ''
+                  }`}
                   harvestOnFarm={props.harvestOnFarm}
                   stakeOnFarm={props.stakeOnFarm}
                   openFarmsStakeModal={props.openFarmsStakeModal}
@@ -148,12 +156,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     connectWallet: () => dispatch(walletActions.connectWallet()),
     populateEmptyFarmsData: (farms) => dispatch(populateEmptyFarmsData(farms)),
-    toggleFarmsType: (isActive) =>
-      dispatch(toggleFarmsType(isActive)),
+    toggleFarmsType: (isActive) => dispatch(toggleFarmsType(isActive)),
     stakeOnFarm: (amount, farmIdentifier, isActive, position) =>
-      dispatch(
-        stakeOnFarmThunk(amount, farmIdentifier, isActive, position)
-      ),
+      dispatch(stakeOnFarmThunk(amount, farmIdentifier, isActive, position)),
     harvestOnFarm: (farmIdentifier, isActive, position) =>
       dispatch(harvestOnFarmThunk(farmIdentifier, isActive, position)),
     getFarmsData: (isActive) => dispatch(getFarmsDataThunk(isActive)),
@@ -164,11 +169,11 @@ const mapDispatchToProps = (dispatch) => {
     openFarmsStakeModal: (identifier, title, contractAddress, position) =>
       dispatch(
         openFarmsStakeModal({
-            identifier,
-            title,
-            contractAddress,
-            position
-          })
+          identifier,
+          title,
+          contractAddress,
+          position,
+        })
       ),
     closeFarmsStakeModal: () => dispatch(closeFarmsStakeModal()),
     openFarmsUnstakeModal: (
@@ -184,19 +189,13 @@ const mapDispatchToProps = (dispatch) => {
           contractAddress,
           title,
           withdrawalFeeStructure,
-          position
+          position,
         })
       ),
-    closeFarmsUnstakeModal: () =>
-      dispatch(closeFarmsUnstakeModal()),
+    closeFarmsUnstakeModal: () => dispatch(closeFarmsUnstakeModal()),
     unstakeOnFarm: (stakesToUnstake, farmIdentifier, isActive, position) =>
       dispatch(
-        unstakeOnFarmThunk(
-          stakesToUnstake,
-          farmIdentifier,
-          isActive,
-          position
-        )
+        unstakeOnFarmThunk(stakesToUnstake, farmIdentifier, isActive, position)
       ),
     fetchUserBalances: (address) =>
       dispatch(userActions.fetchUserBalances(address)),
