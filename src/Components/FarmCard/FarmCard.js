@@ -68,9 +68,13 @@ const FarmCard = (props) => {
       <div>
         <div className={styles.plentyCard}>
           {/* * Header */}
-          {props.message && (
-            <div className="pool-card-top-banner">
-              <p className="pool-card-top-banner-text">{props.message}</p>
+          {props.farmCardData.farmData.message && (
+            <div
+              className={`pool-card-top-banner ${props.farmCardData.farmData.bannerType}`}
+            >
+              <p className="pool-card-top-banner-text">
+                {props.farmCardData.farmData.message}
+              </p>
             </div>
           )}
           <div
@@ -108,7 +112,11 @@ const FarmCard = (props) => {
             >
               <p className={styles.plentyCardContentTag}>APY:</p>
               <p className={styles.plentyCardContentTag}>
-                {values == null ? <span className="shimmer">99999999</span> : `${getAPY(props)}%`}
+                {values == null ? (
+                  <span className="shimmer">99999999</span>
+                ) : (
+                  `${getAPY(props)}%`
+                )}
               </p>
             </div>
             <div
@@ -119,13 +127,19 @@ const FarmCard = (props) => {
             >
               <p className={styles.plentyCardContentTag}>APR:</p>
               <p className={styles.plentyCardContentTag}>
-                {values && <img
-                  src={CalculatorSvg}
-                  alt={'Check ROI'}
-                  className={styles.roiInfoImg}
-                  onClick={onRoiClick}
-                />}
-                {values == null ? <span className="shimmer">99999999</span> : `${getAPR(props)}%`}
+                {values && (
+                  <img
+                    src={CalculatorSvg}
+                    alt={'Check ROI'}
+                    className={styles.roiInfoImg}
+                    onClick={onRoiClick}
+                  />
+                )}
+                {values == null ? (
+                  <span className="shimmer">99999999</span>
+                ) : (
+                  `${getAPR(props)}%`
+                )}
               </p>
             </div>
             <div
@@ -136,7 +150,11 @@ const FarmCard = (props) => {
             >
               <p className={styles.plentyCardContentTag}>Rewards:</p>
               <p className={styles.plentyCardContentTag}>
-                {values == null ? <span className="shimmer">99999999</span> : `${getReward()} PLENTY / DAY` } 
+                {values == null ? (
+                  <span className="shimmer">99999999</span>
+                ) : (
+                  `${getReward()} PLENTY / DAY`
+                )}
               </p>
             </div>
 
@@ -148,7 +166,11 @@ const FarmCard = (props) => {
             >
               <p className={styles.plentyCardContentTag}>TVL:</p>
               <p className={styles.plentyCardContentTag}>
-                {values == null ? <span className="shimmer">99999999</span> : `$ ${getTotalLiquidity()}`}
+                {values == null ? (
+                  <span className="shimmer">99999999</span>
+                ) : (
+                  `$ ${getTotalLiquidity()}`
+                )}
               </p>
             </div>
 
@@ -183,7 +205,7 @@ const FarmCard = (props) => {
           </div>
           {/* * Content */}
 
-          <FarmCardBottom {...props}/>
+          <FarmCardBottom {...props} />
         </div>
       </div>
       {/* <StakeModal open={props.isStakeModalOpen} onClose={() => props.closeFarmsStakeModal()} tokenData={{title: props.title}} /> */}
