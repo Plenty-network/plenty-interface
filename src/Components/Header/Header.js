@@ -225,6 +225,25 @@ const Header = (props) => {
                         Ponds
                       </span>
                     </Nav.Link>
+                    <Nav.Link
+                      className={clsx(
+                        splitLocation[1] === 'stake'
+                          ? 'menu-item-active'
+                          : undefined,
+                        'align-self-end align-self-lg-center d-flex align-items-center'
+                      )}
+                      as={Link}
+                      to="/stake"
+                      onClick={resetActiveTab}
+                    >
+                      <span
+                        className={clsx(
+                          props.isFrontPage ? 'text-white' : 'span-themed'
+                        )}
+                      >
+                        Stake
+                      </span>
+                    </Nav.Link>
                   </div>
                   <div className="col-lg-6 d-flex flex-column flex-lg-row align-items-end align-items-lg-center">
                     <Nav.Item className="ml-auto">
