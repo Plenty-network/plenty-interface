@@ -119,6 +119,12 @@ const Swap = (props) => {
     name: 'PLENTY',
     image: plenty,
   });
+  const urlSearchParameters = new URLSearchParams(window.location.search);
+  const parameters = Object.fromEntries(urlSearchParameters.entries());
+
+  if (parameters.tokenA && parameters.tokenB) {
+    localStorage.setItem('activeTab', 'liquidity');
+  }
 
   const handleClose = () => {
     setShow(false);

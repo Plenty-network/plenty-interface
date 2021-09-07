@@ -68,13 +68,9 @@ const FarmCard = (props) => {
       <div>
         <div className={styles.plentyCard}>
           {/* * Header */}
-          {props.farmCardData.farmData.message && (
-            <div
-              className={`pool-card-top-banner ${props.farmCardData.farmData.bannerType}`}
-            >
-              <p className="pool-card-top-banner-text">
-                {props.farmCardData.farmData.message}
-              </p>
+          {farmData.message && (
+            <div className={`pool-card-top-banner ${farmData.bannerType}`}>
+              <p className="pool-card-top-banner-text">{farmData.message}</p>
             </div>
           )}
           <div
@@ -88,7 +84,9 @@ const FarmCard = (props) => {
             </div>
             <div className="text-right">
               <p className={styles.title}>{properties.title}</p>
-              <p
+              <a
+                href={farmData.liquidityLink}
+                target="_blank"
                 className={clsx(
                   styles.titleBadge,
                   properties.source === 'Plenty LP'
@@ -97,7 +95,7 @@ const FarmCard = (props) => {
                 )}
               >
                 {properties.source}
-              </p>
+              </a>
             </div>
           </div>
           {/* * Header */}
