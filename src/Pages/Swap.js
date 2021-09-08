@@ -269,6 +269,7 @@ const Swap = (props) => {
       name: 'PLENTY',
       image: plenty,
     });
+    setTokenOut({});
   };
   const [showRecepient, setShowRecepient] = useState(false);
   const handleRecepient = (elem) => {
