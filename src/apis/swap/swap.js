@@ -93,7 +93,7 @@ export const swapTokens = async (
               remove_operator: {
                 owner: caller,
                 operator: dexContractAddress,
-                token_id: tokenOutId,
+                token_id: tokenInId,
               },
             },
           ])
