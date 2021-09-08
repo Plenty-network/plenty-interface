@@ -124,7 +124,9 @@ const RemoveLiquidity = (props) => {
             />
           </div>
           <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
-            {props.tokenOut.name ? (
+            {CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
+              props.tokenOut.name
+            ] ? (
               <p className="wallet-token-balance">
                 Balance:{' '}
                 {
