@@ -107,6 +107,7 @@ export const swapTokens = async (
       operationId: batchOperation.hash,
     };
   } catch (error) {
+    console.log(error);
     return {
       success: false,
       error,
@@ -677,9 +678,22 @@ export const fetchWalletBalance = async (
           symbol: icon,
           contractInstance: contract,
         };
-      } else if (icon === 'KALAM' || icon === 'ETHtz') {
+      } else if (icon === 'ETHtz') {
         const userDetails = await storage.ledger.get(addressOfUser);
         let userBalance = userDetails.balance;
+        userBalance =
+          userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
+        userBalance = parseFloat(userBalance);
+        return {
+          success: true,
+          balance: userBalance,
+          symbol: icon,
+          contractInstance: contract,
+        };
+      } else if (icon === 'KALAM') {
+        const userDetails = await storage.ledger.get(addressOfUser);
+        console.log({ icon, userDetails });
+        let userBalance = userDetails;
         userBalance =
           userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
         userBalance = parseFloat(userBalance);
@@ -715,7 +729,7 @@ export const fetchWalletBalance = async (
         };
       }
     } else {
-      if (icon === 'hDAO') {
+      if (icon === 'hDAO' || icon === 'UNO') {
         const userDetails = await storage.ledger.get({
           0: addressOfUser,
           1: token_id,
@@ -782,7 +796,7 @@ export const fetchAllWalletBalance = async (addressOfUser) => {
       userBalances[response[i].symbol] = response[i].balance;
       contractInstances[response[i].symbol] = response[i].contractInstance;
     }
-
+    console.log({ userBalances, contractInstances });
     return {
       success: true,
       userBalances,
@@ -818,6 +832,9 @@ export const getTokenPrices = async () => {
       'hDAO',
       'ETHtz',
       'QUIPU',
+      'UNO',
+      'SMAK',
+      'KALAM',
     ];
     const tokenAddress = {
       PLENTY: {
@@ -861,6 +878,15 @@ export const getTokenPrices = async () => {
       },
       QUIPU: {
         contractAddress: 'KT193D4vozYnhGJQVtw7CoxxqphqUEEwK6Vb',
+      },
+      UNO: {
+        contractAddress: 'KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF',
+      },
+      SMAK: {
+        contractAddress: 'KT1TwzD6zV3WeJ39ukuqxcfK2fJCnhvrdN1X',
+      },
+      KALAM: {
+        contractAddress: 'KT1A5P4ejnLix13jtadsfV9GCnXLMNnab8UT',
       },
     };
     for (let i in tokenPriceResponse.contracts) {
