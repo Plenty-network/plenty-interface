@@ -12,6 +12,11 @@ import ethtzLpFarm from '../assets/images/farms/ethtzLpFarm.png';
 import wwethLpFarm from '../assets/images/farms/wwethLpFarm.png';
 import kusdLpFarm from '../assets/images/farms/kusdLpFarm.png';
 import quipuLpFarm from '../assets/images/farms/quipuLpFarm.png';
+import kalamLpFarm from '../assets/images/farms/plenty-kalam.png';
+import smakLpFarm from '../assets/images/farms/plenty-smak.png';
+import tzbtcLpFarm from '../assets/images/farms/plenty-tzbtc.png';
+import unoLpFarm from '../assets/images/farms/plenty-uno.png';
+import wrapLpFarm from '../assets/images/farms/plenty-wrap.png';
 
 import PropTypes from 'prop-types';
 
@@ -376,7 +381,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'PLENTY / WRAP LP': {
-    image: quipuLpFarm,
+    image: wrapLpFarm,
     harvestImg: plentyToken,
     multi: '100',
     title: 'PLENTY / WRAP LP',
@@ -396,7 +401,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'PLENTY / UNO LP': {
-    image: quipuLpFarm,
+    image: unoLpFarm,
     harvestImg: plentyToken,
     multi: '100',
     title: 'PLENTY / UNO LP',
@@ -416,7 +421,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'PLENTY / SMAK LP': {
-    image: quipuLpFarm,
+    image: smakLpFarm,
     harvestImg: plentyToken,
     multi: '100',
     title: 'PLENTY / SMAK LP',
@@ -436,7 +441,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'PLENTY / KALAM LP': {
-    image: quipuLpFarm,
+    image: kalamLpFarm,
     harvestImg: plentyToken,
     multi: '100',
     title: 'PLENTY / KALAM LP',
@@ -456,7 +461,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'PLENTY / tzBTC LP': {
-    image: quipuLpFarm,
+    image: tzbtcLpFarm,
     harvestImg: plentyToken,
     multi: '100',
     title: 'PLENTY / tzBTC LP',

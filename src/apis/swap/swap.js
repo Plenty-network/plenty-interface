@@ -4,6 +4,7 @@ import { CheckIfWalletConnected } from '../wallet/wallet';
 import CONFIG from '../../config/config';
 import axios from 'axios';
 import { RPC_NODE } from '../../constants/localStorage';
+import { packDataBytes, unpackDataBytes } from '@taquito/michel-codec';
 
 export const swapTokens = async (
   tokenIn,
@@ -715,6 +716,51 @@ export const fetchWalletBalance = async (
           symbol: icon,
           contractInstance: contract,
         };
+      } else if (icon === 'tzBTC') {
+        let userBalance = 0;
+        // const packedAddress = packDataBytes(
+        //   { string: addressOfUser },
+        //   { prim: 'address' }
+        // );
+        // console.log({ packedAddress });
+        // const ledgerKey = {
+        //   prim: 'Pair',
+        //   args: [
+        //     { string: 'ledger' },
+        //     { bytes: packedAddress.bytes.slice(12) },
+        //   ],
+        // };
+        // console.log({ ledgerKey });
+        // const ledgerKeyBytes = packDataBytes(ledgerKey);
+        // console.log({ ledgerKeyBytes });
+        // console.log('ledgerKeyBytes.bytes', ledgerKeyBytes.bytes);
+        // const bigmapVal = await storage.ledger.get(ledgerKeyBytes.bytes);
+        // if (bigmapVal) {
+        //   const bigmapValData = unpackDataBytes({ bytes: bigmapVal });
+        //   if (
+        //     bigmapValData.hasOwnProperty('prim') &&
+        //     bigmapValData.prim === 'Pair'
+        //   ) {
+        //     userBalance = +bigmapValData.args[0].int / Math.pow(10, 18);
+        //   }
+        // }
+        return {
+          success: true,
+          balance: userBalance,
+          symbol: icon,
+          contractInstance: contract,
+        };
+        // const userDetails = await storage.ledger.get(addressOfUser);
+        // let userBalance = userDetails.balance;
+        // userBalance =
+        //   userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
+        // userBalance = parseFloat(userBalance);
+        // return {
+        //   success: true,
+        //   balance: userBalance,
+        //   symbol: icon,
+        //   contractInstance: contract,
+        // };
       } else {
         const userDetails = await storage.balances.get(addressOfUser);
         let userBalance = userDetails.balance;
@@ -764,6 +810,7 @@ export const fetchWalletBalance = async (
       }
     }
   } catch (e) {
+    console.log({ e, icon });
     return {
       success: false,
       balance: 0,
