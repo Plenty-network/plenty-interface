@@ -31,23 +31,33 @@ import hDAO from '../assets/images/hdao.png';
 import ETHtz from '../assets/images/ethtz.png';
 import wWETH from '../assets/images/wweth.png';
 import QUIPU from '../assets/images/quipu.png';
+import WRAP from '../assets/images/wrap.png';
+import UNO from '../assets/images/uno.png';
+import KALAM from '../assets/images/kalam-swap.png';
+import SMAK from '../assets/images/smak-swap.png';
+import tzBTC from '../assets/images/tzbtc-swap.png';
 
 const Swap = (props) => {
   const tokens = [
     {
       name: 'ETHtz',
       image: ETHtz,
-      new: true,
+      new: false,
     },
     {
       name: 'hDAO',
       image: hDAO,
+      new: false,
+    },
+    {
+      name: 'KALAM',
+      image: KALAM,
       new: true,
     },
     {
       name: 'kUSD',
       image: kusd,
-      new: true,
+      new: false,
     },
     {
       name: 'PLENTY',
@@ -57,12 +67,22 @@ const Swap = (props) => {
     {
       name: 'QUIPU',
       image: QUIPU,
+      new: false,
+    },
+    {
+      name: 'SMAK',
+      image: SMAK,
       new: true,
     },
     {
       name: 'USDtz',
       image: usdtz,
       new: false,
+    },
+    {
+      name: 'tzBTC',
+      image: tzBTC,
+      new: true,
     },
     {
       name: 'wBUSD',
@@ -80,6 +100,11 @@ const Swap = (props) => {
       new: false,
     },
     {
+      name: 'WRAP',
+      image: WRAP,
+      new: true,
+    },
+    {
       name: 'wUSDC',
       image: wusdc,
       new: false,
@@ -92,6 +117,11 @@ const Swap = (props) => {
     {
       name: 'wWETH',
       image: wWETH,
+      new: false,
+    },
+    {
+      name: 'UNO',
+      image: UNO,
       new: true,
     },
   ];
