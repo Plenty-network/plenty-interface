@@ -528,8 +528,8 @@ module.exports = {
         tokenId: 0,
       },
       'PLENTY - KALAM': {
-        address: 'KT1B6ALzWXQp5wUavuo2VTMNjRdTGm8wx37w',
-        mapId: 14100,
+        address: 'KT1G3QTnrpWNhZr9x3Prprw3GH6gAMqV113D',
+        mapId: 14104,
         decimal: 14,
         type: 'FA1.2',
         tokenId: 0,
@@ -718,6 +718,11 @@ module.exports = {
             property: 'token2_pool',
             liquidityToken: 'Plenty-SMAK-LP',
           },
+          tzBTC: {
+            contract: 'KT1HaDP8fRW7kavK2beST7o4RvzuvZbn5VwV',
+            property: 'token2_pool',
+            liquidityToken: 'PlentytzBTClp',
+          },
         },
       },
       wUSDC: {
@@ -872,6 +877,21 @@ module.exports = {
             contract: 'KT1C2SXoGcje3VVMJHKRVhYXuWuNmv5ztJcw',
             property: 'token1_pool',
             liquidityToken: 'Plentywraplp',
+          },
+        },
+      },
+      tzBTC: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1PWx2mnDueood7fEmfbBDKx1D9BAnnXitn',
+        READ_TYPE: 'FA1.2',
+        CALL_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 8,
+        DEX_PAIRS: {
+          PLENTY: {
+            contract: 'KT1HaDP8fRW7kavK2beST7o4RvzuvZbn5VwV',
+            property: 'token1_pool',
+            liquidityToken: 'PlentytzBTClp',
           },
         },
       },
@@ -1105,7 +1125,7 @@ module.exports = {
       },
       Plentykalamlp: {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1B6ALzWXQp5wUavuo2VTMNjRdTGm8wx37w',
+        TOKEN_CONTRACT: 'KT1G3QTnrpWNhZr9x3Prprw3GH6gAMqV113D',
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 14,
@@ -1117,6 +1137,14 @@ module.exports = {
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 10,
+        CALL_TYPE: 'FA1.2',
+      },
+      PlentytzBTClp: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1SqQimKz3RbQbckpSHhn4nanUmDuRqkFH3',
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 13,
         CALL_TYPE: 'FA1.2',
       },
     },

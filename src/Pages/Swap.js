@@ -33,7 +33,7 @@ import wWETH from '../assets/images/wweth.png';
 import QUIPU from '../assets/images/quipu.png';
 import WRAP from '../assets/images/wrap.png';
 import UNO from '../assets/images/uno.png';
-import KALAM from '../assets/images/uno.png';
+import KALAM from '../assets/images/kalam.png';
 import SMAK from '../assets/images/smak.png';
 import tzBTC from '../assets/images/tzBTC.png';
 
