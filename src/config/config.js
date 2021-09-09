@@ -328,6 +328,17 @@ module.exports = {
           ],
           inactive: [],
         },
+        'PLENTY - tzBTC': {
+          active: [
+            {
+              address: 'KT1RwFV1xQU2E9TsXe1qzkdwAgFWaKk8bfAa',
+              mapId: 14291,
+              decimal: 18,
+              tokenDecimal: 13,
+            },
+          ],
+          inactive: [],
+        },
       },
     },
     PONDS: {
@@ -534,6 +545,14 @@ module.exports = {
         type: 'FA1.2',
         tokenId: 0,
       },
+      'PLENTY - tzBTC': {
+        address: 'KT1SqQimKz3RbQbckpSHhn4nanUmDuRqkFH3',
+        mapId: 14093,
+        decimal: 13,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+      // KT1SqQimKz3RbQbckpSHhn4nanUmDuRqkFH3
     },
   },
   SERVERLESS_BASE_URL: {
@@ -1731,6 +1750,27 @@ module.exports = {
             message: 'TBD',
             bannerType: 'info',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=KALAM',
+          },
+        ],
+        inactive: [],
+      },
+      'PLENTY - tzBTC': {
+        active: [
+          {
+            LP_TOKEN: 'KT1SqQimKz3RbQbckpSHhn4nanUmDuRqkFH3',
+            CONTRACT: 'KT1RwFV1xQU2E9TsXe1qzkdwAgFWaKk8bfAa',
+            DEX: 'KT1HaDP8fRW7kavK2beST7o4RvzuvZbn5VwV',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            CARD_TYPE: 'PLENTY / tzBTC LP',
+            TOKEN_DECIMAL: 13,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 12,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+            message: 'TBD',
+            bannerType: 'info',
+            liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=tzBTC',
           },
         ],
         inactive: [],

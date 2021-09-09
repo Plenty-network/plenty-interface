@@ -42,12 +42,12 @@ const Swap = (props) => {
     {
       name: 'ETHtz',
       image: ETHtz,
-      new: true,
+      new: false,
     },
     {
       name: 'hDAO',
       image: hDAO,
-      new: true,
+      new: false,
     },
     {
       name: 'KALAM',
@@ -57,7 +57,7 @@ const Swap = (props) => {
     {
       name: 'kUSD',
       image: kusd,
-      new: true,
+      new: false,
     },
     {
       name: 'PLENTY',
@@ -67,7 +67,7 @@ const Swap = (props) => {
     {
       name: 'QUIPU',
       image: QUIPU,
-      new: true,
+      new: false,
     },
     {
       name: 'SMAK',
@@ -117,7 +117,7 @@ const Swap = (props) => {
     {
       name: 'wWETH',
       image: wWETH,
-      new: true,
+      new: false,
     },
     {
       name: 'UNO',
