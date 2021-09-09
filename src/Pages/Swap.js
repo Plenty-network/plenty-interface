@@ -35,7 +35,7 @@ import WRAP from '../assets/images/wrap.png';
 import UNO from '../assets/images/uno.png';
 import KALAM from '../assets/images/kalam-swap.png';
 import SMAK from '../assets/images/smak-swap.png';
-import tzBTC from '../assets/images/tzbtc.png';
+import tzBTC from '../assets/images/tzbtc-swap.png';
 
 const Swap = (props) => {
   const tokens = [
