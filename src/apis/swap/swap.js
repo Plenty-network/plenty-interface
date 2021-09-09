@@ -4,6 +4,7 @@ import { CheckIfWalletConnected } from '../wallet/wallet';
 import CONFIG from '../../config/config';
 import axios from 'axios';
 import { RPC_NODE } from '../../constants/localStorage';
+import { packDataBytes, unpackDataBytes } from '@taquito/michel-codec';
 
 export const swapTokens = async (
   tokenIn,
@@ -107,6 +108,7 @@ export const swapTokens = async (
       operationId: batchOperation.hash,
     };
   } catch (error) {
+    console.log(error);
     return {
       success: false,
       error,
@@ -677,9 +679,21 @@ export const fetchWalletBalance = async (
           symbol: icon,
           contractInstance: contract,
         };
-      } else if (icon === 'KALAM' || icon === 'ETHtz') {
+      } else if (icon === 'ETHtz') {
         const userDetails = await storage.ledger.get(addressOfUser);
         let userBalance = userDetails.balance;
+        userBalance =
+          userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
+        userBalance = parseFloat(userBalance);
+        return {
+          success: true,
+          balance: userBalance,
+          symbol: icon,
+          contractInstance: contract,
+        };
+      } else if (icon === 'KALAM') {
+        const userDetails = await storage.ledger.get(addressOfUser);
+        let userBalance = userDetails;
         userBalance =
           userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
         userBalance = parseFloat(userBalance);
@@ -701,6 +715,37 @@ export const fetchWalletBalance = async (
           symbol: icon,
           contractInstance: contract,
         };
+      } else if (icon === 'tzBTC') {
+        let userBalance = 0;
+        const packedAddress = packDataBytes(
+          { string: addressOfUser },
+          { prim: 'address' }
+        );
+        const ledgerKey = {
+          prim: 'Pair',
+          args: [
+            { string: 'ledger' },
+            { bytes: packedAddress.bytes.slice(12) },
+          ],
+        };
+        const ledgerKeyBytes = packDataBytes(ledgerKey);
+        const ledgerInstance = storage[Object.keys(storage)[0]];
+        const bigmapVal = await ledgerInstance.get(ledgerKeyBytes.bytes);
+        if (bigmapVal) {
+          const bigmapValData = unpackDataBytes({ bytes: bigmapVal });
+          if (
+            bigmapValData.hasOwnProperty('prim') &&
+            bigmapValData.prim === 'Pair'
+          ) {
+            userBalance = +bigmapValData.args[0].int / Math.pow(10, 8);
+          }
+        }
+        return {
+          success: true,
+          balance: userBalance,
+          symbol: icon,
+          contractInstance: contract,
+        };
       } else {
         const userDetails = await storage.balances.get(addressOfUser);
         let userBalance = userDetails.balance;
@@ -715,7 +760,7 @@ export const fetchWalletBalance = async (
         };
       }
     } else {
-      if (icon === 'hDAO') {
+      if (icon === 'hDAO' || icon === 'UNO') {
         const userDetails = await storage.ledger.get({
           0: addressOfUser,
           1: token_id,
@@ -782,7 +827,6 @@ export const fetchAllWalletBalance = async (addressOfUser) => {
       userBalances[response[i].symbol] = response[i].balance;
       contractInstances[response[i].symbol] = response[i].contractInstance;
     }
-
     return {
       success: true,
       userBalances,
@@ -818,6 +862,10 @@ export const getTokenPrices = async () => {
       'hDAO',
       'ETHtz',
       'QUIPU',
+      'UNO',
+      'SMAK',
+      'KALAM',
+      'tzBTC',
     ];
     const tokenAddress = {
       PLENTY: {
@@ -861,6 +909,18 @@ export const getTokenPrices = async () => {
       },
       QUIPU: {
         contractAddress: 'KT193D4vozYnhGJQVtw7CoxxqphqUEEwK6Vb',
+      },
+      UNO: {
+        contractAddress: 'KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF',
+      },
+      SMAK: {
+        contractAddress: 'KT1TwzD6zV3WeJ39ukuqxcfK2fJCnhvrdN1X',
+      },
+      KALAM: {
+        contractAddress: 'KT1A5P4ejnLix13jtadsfV9GCnXLMNnab8UT',
+      },
+      tzBTC: {
+        contractAddress: 'KT1PWx2mnDueood7fEmfbBDKx1D9BAnnXitn',
       },
     };
     for (let i in tokenPriceResponse.contracts) {
