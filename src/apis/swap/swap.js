@@ -693,7 +693,6 @@ export const fetchWalletBalance = async (
         };
       } else if (icon === 'KALAM') {
         const userDetails = await storage.ledger.get(addressOfUser);
-        console.log({ icon, userDetails });
         let userBalance = userDetails;
         userBalance =
           userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
@@ -718,49 +717,35 @@ export const fetchWalletBalance = async (
         };
       } else if (icon === 'tzBTC') {
         let userBalance = 0;
-        // const packedAddress = packDataBytes(
-        //   { string: addressOfUser },
-        //   { prim: 'address' }
-        // );
-        // console.log({ packedAddress });
-        // const ledgerKey = {
-        //   prim: 'Pair',
-        //   args: [
-        //     { string: 'ledger' },
-        //     { bytes: packedAddress.bytes.slice(12) },
-        //   ],
-        // };
-        // console.log({ ledgerKey });
-        // const ledgerKeyBytes = packDataBytes(ledgerKey);
-        // console.log({ ledgerKeyBytes });
-        // console.log('ledgerKeyBytes.bytes', ledgerKeyBytes.bytes);
-        // const bigmapVal = await storage.ledger.get(ledgerKeyBytes.bytes);
-        // if (bigmapVal) {
-        //   const bigmapValData = unpackDataBytes({ bytes: bigmapVal });
-        //   if (
-        //     bigmapValData.hasOwnProperty('prim') &&
-        //     bigmapValData.prim === 'Pair'
-        //   ) {
-        //     userBalance = +bigmapValData.args[0].int / Math.pow(10, 18);
-        //   }
-        // }
+        const packedAddress = packDataBytes(
+          { string: addressOfUser },
+          { prim: 'address' }
+        );
+        const ledgerKey = {
+          prim: 'Pair',
+          args: [
+            { string: 'ledger' },
+            { bytes: packedAddress.bytes.slice(12) },
+          ],
+        };
+        const ledgerKeyBytes = packDataBytes(ledgerKey);
+        const ledgerInstance = storage[Object.keys(storage)[0]];
+        const bigmapVal = await ledgerInstance.get(ledgerKeyBytes.bytes);
+        if (bigmapVal) {
+          const bigmapValData = unpackDataBytes({ bytes: bigmapVal });
+          if (
+            bigmapValData.hasOwnProperty('prim') &&
+            bigmapValData.prim === 'Pair'
+          ) {
+            userBalance = +bigmapValData.args[0].int / Math.pow(10, 8);
+          }
+        }
         return {
           success: true,
           balance: userBalance,
           symbol: icon,
           contractInstance: contract,
         };
-        // const userDetails = await storage.ledger.get(addressOfUser);
-        // let userBalance = userDetails.balance;
-        // userBalance =
-        //   userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
-        // userBalance = parseFloat(userBalance);
-        // return {
-        //   success: true,
-        //   balance: userBalance,
-        //   symbol: icon,
-        //   contractInstance: contract,
-        // };
       } else {
         const userDetails = await storage.balances.get(addressOfUser);
         let userBalance = userDetails.balance;
@@ -810,7 +795,6 @@ export const fetchWalletBalance = async (
       }
     }
   } catch (e) {
-    console.log({ e, icon });
     return {
       success: false,
       balance: 0,
@@ -843,7 +827,6 @@ export const fetchAllWalletBalance = async (addressOfUser) => {
       userBalances[response[i].symbol] = response[i].balance;
       contractInstances[response[i].symbol] = response[i].contractInstance;
     }
-    console.log({ userBalances, contractInstances });
     return {
       success: true,
       userBalances,
