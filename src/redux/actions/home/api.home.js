@@ -326,17 +326,14 @@ const getLpPriceFromDex = async (identifier, dexAddress) => {
   }
 };
 
-export const getStorageForFarms = async (isActive) => {
+export const getStorageForFarms = async (isActive, tokenPricesData) => {
   try {
     let dexPromises = [];
     let initialDataPromises = [];
     initialDataPromises.push(axios.get(CONFIG.API.url));
-    initialDataPromises.push(axios.get(CONFIG.API.tezToolTokenPrice));
     const initialDataResponse = await Promise.all(initialDataPromises);
     const xtzPriceResponse = initialDataResponse[0];
     const xtzPriceInUsd = xtzPriceResponse.data.market_data.current_price.usd;
-    const tokenPrices = initialDataResponse[1];
-    const tokenPricesData = tokenPrices.data.contracts;
     let priceOfPlenty = 0;
     for (let i in tokenPricesData) {
       if (
@@ -379,7 +376,8 @@ export const getStorageForFarms = async (isActive) => {
             getPriceForPlentyLpTokens(
               key,
               CONFIG.FARMS[CONFIG.NETWORK][key][isActive][key1].TOKEN_DECIMAL,
-              CONFIG.FARMS[CONFIG.NETWORK][key][isActive][key1].DEX
+              CONFIG.FARMS[CONFIG.NETWORK][key][isActive][key1].DEX,
+              tokenPricesData
             )
           );
         }
@@ -411,7 +409,8 @@ export const getStorageForFarms = async (isActive) => {
 const getPriceForPlentyLpTokens = async (
   identifier,
   lpTokenDecimal,
-  dexAddress
+  dexAddress,
+  tokenPricesData
 ) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
@@ -424,7 +423,6 @@ const getPriceForPlentyLpTokens = async (
         `${url}/chains/main/blocks/head/context/contracts/${dexAddress}/storage`
       )
     );
-    initialDataPromises.push(axios.get(CONFIG.API.tezToolTokenPrice));
     const initialDataResponse = await Promise.all(initialDataPromises);
     const storageResponse = initialDataResponse[0];
     let token1Pool = parseInt(storageResponse.data.args[1].args[1].int);
@@ -440,8 +438,8 @@ const getPriceForPlentyLpTokens = async (
     let token2Id = parseInt(storageResponse.data.args[2].args[1].int);
     let token2Check = storageResponse.data.args[2].args[0].prim.toString();
 
-    const tokenPriceResponse = initialDataResponse[1];
-    const tokenPricesData = tokenPriceResponse.data.contracts;
+    // const tokenPriceResponse = initialDataResponse[1];
+    // const tokenPricesData = tokenPriceResponse.data.contracts;
     let tokenData = {};
 
     let token1Type;
@@ -662,10 +660,8 @@ export const getAllPoolsContracts = async () => {
   };
 };
 
-export const getStorageForPools = async (isActive) => {
+export const getStorageForPools = async (isActive, tokenPricesData) => {
   try {
-    const tokenPrices = await axios.get(CONFIG.API.tezToolTokenPrice);
-    const tokenPricesData = tokenPrices.data.contracts;
     let priceOfPlenty = 0;
     let priceOfToken = [];
     let tokenData = {};
@@ -787,10 +783,8 @@ export const getPondContracts = async () => {
   };
 };
 
-export const getStorageForPonds = async (isActive) => {
+export const getStorageForPonds = async (isActive, tokenPricesData) => {
   try {
-    const tokenPrices = await axios.get(CONFIG.API.tezToolTokenPrice);
-    const tokenPricesData = tokenPrices.data.contracts;
     let priceOfPlenty = 0;
     let tokenData = {};
 
@@ -949,16 +943,18 @@ export const harvestAllHelper = async (
 export const getTVLOfUserHelper = async (userAddress) => {
   try {
     let tvlOfUser = 0;
+    const tokenPrices = await axios.get(CONFIG.API.tezToolTokenPrice);
+    const tokenPricesData = tokenPrices.data.contracts;
     const initialDataResponse = await Promise.all([
       getAllFarmsContracts(),
       getAllPoolsContracts(),
       getPondContracts(),
-      getStorageForPools('active'),
-      getStorageForPools('inactive'),
-      getStorageForPonds('active'),
-      getStorageForPonds('inactive'),
-      getStorageForFarms('active'),
-      getStorageForFarms('inactive'),
+      getStorageForPools('active', tokenPricesData),
+      getStorageForPools('inactive', tokenPricesData),
+      getStorageForPonds('active', tokenPricesData),
+      getStorageForPonds('inactive', tokenPricesData),
+      getStorageForFarms('active', tokenPricesData),
+      getStorageForFarms('inactive', tokenPricesData),
     ]);
     const {
       activeContracts: farmActiveContracts,
