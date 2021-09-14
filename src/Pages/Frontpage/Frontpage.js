@@ -41,6 +41,7 @@ import Footer from '../../Components/Footer/Footer';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import { HOME_PAGE_MODAL } from '../../constants/homePage';
 import { numberWithCommas } from '../../utils/formatNumbers';
+import NumericLabel from 'react-pretty-numbers';
 
 const Frontpage = ({
   toggleTheme,
@@ -97,6 +98,35 @@ const Frontpage = ({
     }
     return {};
   }, [harvestAllOperations]);
+
+  let currencyOptions = {
+    justification: 'L',
+    locales: 'en-AU',
+    currency: false,
+    currencyIndicator: 'AUD',
+    percentage: false,
+    precision: 0,
+    wholenumber: null,
+    commafy: true,
+    shortFormat: false,
+    shortFormatMinValue: 100000,
+    shortFormatPrecision: 1,
+    title: false,
+  };
+  let currencyOptionsWithSymbol = {
+    justification: 'L',
+    locales: 'en-AU',
+    currency: true,
+    currencyIndicator: 'AUD',
+    percentage: false,
+    precision: 0,
+    wholenumber: null,
+    commafy: true,
+    shortFormat: false,
+    shortFormatMinValue: 100000,
+    shortFormatPrecision: 1,
+    title: false,
+  };
 
   return (
     <>
@@ -156,7 +186,9 @@ const Frontpage = ({
                   Total Value Locked
                 </h5>
                 <h1 className="mb-3 text-white font-weight-bold">
-                  $ {numberWithCommas(tvl, { plain: true })}
+                  <NumericLabel params={currencyOptionsWithSymbol}>
+                    {tvl}
+                  </NumericLabel>
                 </h1>
                 <h5
                   className={`mb-4 text-white text-mulish font-weight-light ${styles.textMulish}`}
@@ -197,21 +229,28 @@ const Frontpage = ({
           <Row className="row bg-themed border-bottom-themed-dark-none">
             <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
               <Label
-                text={`${
-                  homeStats.price &&
-                  homeStats.price.toLocaleString(undefined, {
-                    maximumFractionDigits: 3,
-                  })
-                }`}
+                text={
+                  homeStats.price ? (
+                    <NumericLabel params={currencyOptions}>
+                      {homeStats.price}
+                    </NumericLabel>
+                  ) : (
+                    '0'
+                  )
+                }
                 icon={dollar}
                 subText={'Price'}
               />
             </Col>
             <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
               <Label
-                text={`${
-                  homeStats.marketcap && homeStats.marketcap.toLocaleString()
-                }`}
+                text={
+                  homeStats.marketcap && (
+                    <NumericLabel params={currencyOptions}>
+                      {homeStats.marketcap.toFixed(0)}
+                    </NumericLabel>
+                  )
+                }
                 icon={marketCap}
                 subText={'Market Cap'}
               />
@@ -219,10 +258,11 @@ const Frontpage = ({
             <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
               <Label
                 text={
-                  homeStats.total_minted &&
-                  homeStats.total_minted.toLocaleString(undefined, {
-                    maximumFractionDigits: 0,
-                  })
+                  homeStats.total_minted && (
+                    <NumericLabel params={currencyOptions}>
+                      {homeStats.total_minted.toFixed(0)}
+                    </NumericLabel>
+                  )
                 }
                 icon={farms}
                 subText={'Total minted'}
@@ -231,8 +271,11 @@ const Frontpage = ({
             <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
               <Label
                 text={
-                  homeStats.total_burned &&
-                  homeStats.total_burned.toLocaleString()
+                  homeStats.total_burned && (
+                    <NumericLabel params={currencyOptions}>
+                      {homeStats.total_burned.toFixed(0)}
+                    </NumericLabel>
+                  )
                 }
                 icon={totalBurned}
                 subText={'Total burned'}
@@ -241,8 +284,11 @@ const Frontpage = ({
             <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
               <Label
                 text={
-                  homeStats.circulating_supply &&
-                  homeStats.circulating_supply.toLocaleString()
+                  homeStats.circulating_supply && (
+                    <NumericLabel params={currencyOptions}>
+                      {homeStats.circulating_supply.toFixed(0)}
+                    </NumericLabel>
+                  )
                 }
                 icon={circulatingSupply}
                 subText={'Circulating Supply'}
@@ -251,8 +297,11 @@ const Frontpage = ({
             <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
               <Label
                 text={
-                  homeStats.plenty_per_block &&
-                  homeStats.plenty_per_block.toLocaleString()
+                  homeStats.plenty_per_block && (
+                    <NumericLabel params={currencyOptions}>
+                      {homeStats.plenty_per_block}
+                    </NumericLabel>
+                  )
                 }
                 subText={'New PLENTY/Block'}
                 icon={plentyBlock}
