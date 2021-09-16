@@ -36,6 +36,7 @@ import UNO from '../assets/images/uno.png';
 import KALAM from '../assets/images/kalam-swap.png';
 import SMAK from '../assets/images/smak-swap.png';
 import tzBTC from '../assets/images/tzbtc-swap.png';
+import uUSD from '../assets/images/uUSD.png';
 
 const Swap = (props) => {
   const tokens = [
@@ -122,6 +123,11 @@ const Swap = (props) => {
     {
       name: 'UNO',
       image: UNO,
+      new: true,
+    },
+    {
+      name: 'uUSD',
+      image: uUSD,
       new: true,
     },
   ];

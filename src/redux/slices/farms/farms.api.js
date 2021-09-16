@@ -281,7 +281,8 @@ export const getFarmsDataAPI = async (isActive) => {
           key === 'PLENTY - SMAK' ||
           key === 'PLENTY - UNO' ||
           key === 'PLENTY - WRAP' ||
-          key === 'PLENTY - tzBTC'
+          key === 'PLENTY - tzBTC' ||
+          key === 'PLENTY - uUSD'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(
