@@ -370,7 +370,8 @@ export const getStorageForFarms = async (isActive, tokenPricesData) => {
           key === 'PLENTY - SMAK' ||
           key === 'PLENTY - UNO' ||
           key === 'PLENTY - WRAP' ||
-          key === 'PLENTY - tzBTC'
+          key === 'PLENTY - tzBTC' ||
+          key === 'PLENTY - uUSD'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(

@@ -339,6 +339,17 @@ module.exports = {
           ],
           inactive: [],
         },
+        'PLENTY - uUSD': {
+          active: [
+            {
+              address: 'KT1HSYQ9NLTQufuvNUwMhLY7B9TX8LDUfgsr',
+              mapId: 15911,
+              decimal: 18,
+              tokenDecimal: 14,
+            },
+          ],
+          inactive: [],
+        },
       },
     },
     PONDS: {
@@ -552,7 +563,13 @@ module.exports = {
         type: 'FA1.2',
         tokenId: 0,
       },
-      // KT1SqQimKz3RbQbckpSHhn4nanUmDuRqkFH3
+      'PLENTY - uUSD': {
+        address: 'KT1E8CrG6uznYAG9vZVGtApMJwwTScxPEUKq',
+        mapId: 15796,
+        decimal: 14,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
     },
   },
   SERVERLESS_BASE_URL: {
@@ -1793,6 +1810,27 @@ module.exports = {
             message: '😍 Double reward rate until September 23',
             bannerType: 'info',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=tzBTC',
+          },
+        ],
+        inactive: [],
+      },
+      'PLENTY - uUSD': {
+        active: [
+          {
+            LP_TOKEN: 'KT1E8CrG6uznYAG9vZVGtApMJwwTScxPEUKq',
+            CONTRACT: 'KT1HSYQ9NLTQufuvNUwMhLY7B9TX8LDUfgsr',
+            DEX: 'KT1Cba383ZJpEearqnUyUKUMsgu5Z3TXBgeH',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            CARD_TYPE: 'PLENTY / uUSD LP',
+            TOKEN_DECIMAL: 14,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 12,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+            message: '😍 TBD',
+            bannerType: 'info',
+            liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=uUSD',
           },
         ],
         inactive: [],

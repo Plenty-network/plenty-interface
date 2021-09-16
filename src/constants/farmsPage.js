@@ -17,6 +17,7 @@ import smakLpFarm from '../assets/images/farms/plenty-smak.png';
 import tzbtcLpFarm from '../assets/images/farms/plenty-tzbtc.png';
 import unoLpFarm from '../assets/images/farms/plenty-uno.png';
 import wrapLpFarm from '../assets/images/farms/plenty-wrap.png';
+import uusdLpFarm from '../assets/images/farms/uusdLpFarm.png';
 
 import PropTypes from 'prop-types';
 
@@ -471,6 +472,26 @@ export const FARMS_CARD_TYPE_LIST = {
     fee: '0%',
     earned: 0,
     deposit: 'PLENTY / tzBTC LP',
+    liquidity: '5000',
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+  },
+  'PLENTY / uUSD LP': {
+    image: uusdLpFarm,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'PLENTY / uUSD LP',
+    apr: 0,
+    apy: '2621',
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'PLENTY / uUSD LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
