@@ -31,7 +31,9 @@ const StakeModal = (props) => {
   };
 
   const onMaxClick = () => {
-    setInputValue(props.walletBalances?.[props.modalData.identifier] ?? 0);
+    const value =
+      props.walletBalances?.[props.modalData.identifier].toString() ?? 0;
+    setInputValue(value.substring(0, value.length - 1));
   };
 
   const onModalClose = () => {

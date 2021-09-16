@@ -1828,7 +1828,7 @@ module.exports = {
             TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             DECIMAL: 18,
             withdrawalFeeType: 'type2',
-            message: '😍 TBD',
+            message: '😍 Double reward rate until September 30',
             bannerType: 'info',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=uUSD',
           },
