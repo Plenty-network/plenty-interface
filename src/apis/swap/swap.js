@@ -5,6 +5,36 @@ import CONFIG from '../../config/config';
 import axios from 'axios';
 import { RPC_NODE } from '../../constants/localStorage';
 import { packDataBytes, unpackDataBytes } from '@taquito/michel-codec';
+import { TezosParameterFormat, TezosMessageUtils } from 'conseiljs';
+
+const getPackedKey = (tokenId, address, type) => {
+  const accountHex = `0x${TezosMessageUtils.writeAddress(address)}`;
+  let packedKey = null;
+  if (type === 'FA2') {
+    packedKey = TezosMessageUtils.encodeBigMapKey(
+      Buffer.from(
+        TezosMessageUtils.writePackedData(
+          `(Pair ${accountHex} ${tokenId})`,
+          '',
+          TezosParameterFormat.Michelson
+        ),
+        'hex'
+      )
+    );
+  } else {
+    packedKey = TezosMessageUtils.encodeBigMapKey(
+      Buffer.from(
+        TezosMessageUtils.writePackedData(
+          `${accountHex}`,
+          '',
+          TezosParameterFormat.Michelson
+        ),
+        'hex'
+      )
+    );
+  }
+  return packedKey;
+};
 
 export const swapTokens = async (
   tokenIn,
@@ -765,6 +795,7 @@ export const fetchWalletBalance = async (
           0: addressOfUser,
           1: token_id,
         });
+
         userBalance = (
           userDetails.toNumber() / Math.pow(10, token_decimal)
         ).toFixed(3);
@@ -773,6 +804,20 @@ export const fetchWalletBalance = async (
         return {
           success: true,
           balance: userBalance,
+          symbol: icon,
+          contractInstance: contract,
+        };
+      } else if (icon === 'uUSD') {
+        const packedKey = getPackedKey(token_id, addressOfUser, 'FA2');
+        const balanceResponse = await axios.get(
+          `${rpcNode}chains/main/blocks/head/context/big_maps/7706/${packedKey}`
+        );
+        let balance = parseFloat(balanceResponse.data.int);
+        balance = balance / Math.pow(10, token_decimal);
+
+        return {
+          success: true,
+          balance,
           symbol: icon,
           contractInstance: contract,
         };
@@ -866,6 +911,7 @@ export const getTokenPrices = async () => {
       'SMAK',
       'KALAM',
       'tzBTC',
+      'uUSD',
     ];
     const tokenAddress = {
       PLENTY: {
@@ -921,6 +967,9 @@ export const getTokenPrices = async () => {
       },
       tzBTC: {
         contractAddress: 'KT1PWx2mnDueood7fEmfbBDKx1D9BAnnXitn',
+      },
+      uUSD: {
+        contractAddress: 'KT1XRPEPXbZK25r3Htzp2o1x7xdMMmfocKNW',
       },
     };
     for (let i in tokenPriceResponse.contracts) {
