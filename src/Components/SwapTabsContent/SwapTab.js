@@ -55,6 +55,15 @@ const SwapTab = (props) => {
     });
   };
 
+  const onClickAmount = () => {
+    const value =
+      props.userBalances[props.tokenIn.name].toLocaleString('en-US', {
+        maximumFractionDigits: 20,
+        useGrouping: false,
+      }) ?? 0;
+    props.setFirstTokenAmount(value.substring(0, value.length - 1));
+  };
+
   let swapContentButton = (
     <button className="swap-content-btn" onClick={props.connecthWallet}>
       <span className="material-icons-round">add</span> Connect Wallet
@@ -131,11 +140,7 @@ const SwapTab = (props) => {
                 {props.tokenOut.name ? (
                   <p
                     className="wallet-token-balance"
-                    onClick={() =>
-                      props.setFirstTokenAmount(
-                        props.userBalances[props.tokenIn.name]
-                      )
-                    }
+                    onClick={onClickAmount}
                     style={{ cursor: 'pointer' }}
                   >
                     Balance: {props.userBalances[props.tokenIn.name]}

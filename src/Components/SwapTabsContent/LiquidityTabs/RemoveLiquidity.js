@@ -107,6 +107,20 @@ const RemoveLiquidity = (props) => {
     }
   }
 
+  const onClickAmount = () => {
+    const value =
+      props.userBalances[
+        CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
+          props.tokenOut.name
+        ].liquidityToken
+      ].toLocaleString('en-US', {
+        maximumFractionDigits: 20,
+        useGrouping: false,
+      }) ?? 0;
+    props.setFirstTokenAmount(value.substring(0, value.length - 1));
+    removeLiquidityInput(value.substring(0, value.length - 1));
+  };
+
   return (
     <>
       <div className="swap-content-box">
@@ -120,6 +134,7 @@ const RemoveLiquidity = (props) => {
               type="text"
               className="token-user-input"
               placeholder="0.00"
+              value={props.firstTokenAmount}
               onChange={(e) => removeLiquidityInput(parseFloat(e.target.value))}
             />
           </div>
@@ -127,7 +142,11 @@ const RemoveLiquidity = (props) => {
             {CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
               props.tokenOut.name
             ] ? (
-              <p className="wallet-token-balance">
+              <p
+                className="wallet-token-balance"
+                style={{ cursor: 'pointer' }}
+                onClick={onClickAmount}
+              >
                 Balance:{' '}
                 {
                   props.userBalances[
