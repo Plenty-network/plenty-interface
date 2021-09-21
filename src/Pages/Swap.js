@@ -264,11 +264,11 @@ const Swap = (props) => {
   };
 
   useEffect(() => {
-    setLoading(true);
-    setLoaderInButton(true);
     if (!props.walletAddress) {
       return;
     }
+    setLoading(true);
+    setLoaderInButton(true);
     fetchUserWalletBalance();
   }, [props.walletAddress]);
 
