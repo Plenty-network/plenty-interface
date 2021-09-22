@@ -11,12 +11,9 @@ import * as poolsAction from '../redux/actions/pools/pools.actions';
 import * as walletActions from '../redux/actions/wallet/wallet.action';
 import * as userActions from '../redux/actions/user/user.action';
 import PoolModals from '../Components/PoolPage/PoolModals';
-import { POOLS_CARDS_TYPE_LIST } from "../constants/poolsPage";
+import { POOLS_CARDS_TYPE_LIST } from '../constants/poolsPage';
 
 const Pools = (props) => {
-
-
-
   useEffect(() => {
     const fetchData = () => {
       renderPools();
@@ -26,9 +23,9 @@ const Pools = (props) => {
       props.fetchUserBalances(props.userAddress);
     };
 
-    fetchData()
+    fetchData();
     const backgroundRefresh = setInterval(() => {
-      fetchData()
+      fetchData();
     }, 60 * 1000);
 
     return () => clearInterval(backgroundRefresh);
@@ -94,15 +91,6 @@ const Pools = (props) => {
             />
           );
         })}
-        {/* {poolsList.map((pool) => {
-          return (
-            <PoolCard
-              key={pool.title}
-              {...pool}
-              walletAddress={'walletAddress'}
-            />
-          );
-        })} */}
       </div>
       <StakeModal
         walletBalances={props.walletBalances}
@@ -119,25 +107,25 @@ const Pools = (props) => {
         stakeOnFarm={props.stakeOnPool}
         modalData={props.stakeModal}
       />
-        <UnstakeModal
-          unstakeModalwithdrawalFeeStructure={
-            props.unstakeModalwithdrawalFeeStructure
-          }
-          unstakeOperation={props.unstakeOperation}
-          unstakeModalTitle={props.unstakeModalTitle}
-          unstakeModalFarmPosition={props.unstakeModalPoolPosition}
-          unstakeModalContractAddress={props.unstakeModalContractAddress}
-          unstakeModalIdentifier={props.unstakeModalIdentifier}
-          currentBlock={props.currentBlock}
-          open={props.unstakeModal.open}
-          onClose={() => {
-            props.closePoolsUnstakeModal();
-          }}
-          userStakes={props.userStakes}
-          isActiveOpen={props.isActiveOpen}
-          unstakeOnFarm={props.unstakeOnPool}
-          modalData={props.unstakeModal}
-        />
+      <UnstakeModal
+        unstakeModalwithdrawalFeeStructure={
+          props.unstakeModalwithdrawalFeeStructure
+        }
+        unstakeOperation={props.unstakeOperation}
+        unstakeModalTitle={props.unstakeModalTitle}
+        unstakeModalFarmPosition={props.unstakeModalPoolPosition}
+        unstakeModalContractAddress={props.unstakeModalContractAddress}
+        unstakeModalIdentifier={props.unstakeModalIdentifier}
+        currentBlock={props.currentBlock}
+        open={props.unstakeModal.open}
+        onClose={() => {
+          props.closePoolsUnstakeModal();
+        }}
+        userStakes={props.userStakes}
+        isActiveOpen={props.isActiveOpen}
+        unstakeOnFarm={props.unstakeOnPool}
+        modalData={props.unstakeModal}
+      />
       <PoolModals />
     </div>
   );
@@ -199,7 +187,7 @@ const mapDispatchToProps = (dispatch) => {
           identifier,
           title,
           position,
-          contractAddress,
+          contractAddress
         )
       ),
     closePoolsStakeModal: () => dispatch(poolsAction.closePoolsStakeModal()),
