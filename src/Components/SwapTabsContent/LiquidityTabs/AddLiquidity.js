@@ -157,6 +157,16 @@ const AddLiquidity = (props) => {
     }
   }
 
+  const onClickAmount = () => {
+    const value =
+      props.userBalances[props.tokenIn.name].toLocaleString('en-US', {
+        maximumFractionDigits: 20,
+        useGrouping: false,
+      }) ?? 0;
+    props.setFirstTokenAmount(value.substring(0, value.length - 1));
+    handleLiquidityInput(value.substring(0, value.length - 1));
+  };
+
   return (
     <>
       <div className="swap-content-box">
@@ -197,7 +207,11 @@ const AddLiquidity = (props) => {
           </div>
           {props.walletAddress ? (
             <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
-              <p className="wallet-token-balance">
+              <p
+                className="wallet-token-balance"
+                style={{ cursor: 'pointer' }}
+                onClick={onClickAmount}
+              >
                 Balance: {props.userBalances[props.tokenIn.name]}
               </p>
               <p className="wallet-token-balance">
