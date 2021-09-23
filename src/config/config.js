@@ -7,7 +7,7 @@ module.exports = {
   },
   RPC_NODES: {
     testnet: 'https://testnet.tezster.tech/',
-    mainnet: 'https://tezos-prod.cryptonomic-infra.tech/',
+    mainnet: 'https://mifx20dfsr.windmill.tools/',
   },
   TZKT_NODES: {
     mainnet: 'https://api.tzkt.io',
