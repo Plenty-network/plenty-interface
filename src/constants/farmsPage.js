@@ -18,6 +18,7 @@ import tzbtcLpFarm from '../assets/images/farms/plenty-tzbtc.png';
 import unoLpFarm from '../assets/images/farms/plenty-uno.png';
 import wrapLpFarm from '../assets/images/farms/plenty-wrap.png';
 import uusdLpFarm from '../assets/images/farms/uusdLpFarm.png';
+import gifIcon from '../assets/images/gif-dao-token.png';
 
 import wbusd from '../assets/images/busd.png';
 
@@ -523,5 +524,27 @@ export const FARMS_CARD_TYPE_LIST = {
     active: true,
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
+  },
+  'PLENTY / GIF Dual LP': {
+    image: uusdLpFarm,
+    harvestImg: plentyToken,
+    harvestImg1: gifIcon,
+    multi: '100',
+    title: 'PLENTY / GIF Dual LP',
+    apr: 0,
+    apy: '2621',
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'PLENTY / GIF Dual LP',
+    liquidity: '5000',
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+    isDualFarm: true,
   },
 };

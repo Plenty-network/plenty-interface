@@ -75,10 +75,10 @@ const FarmCardBottom = (props) => {
                     ].hasOwnProperty(farmData.CONTRACT) &&
                     props.harvestValueOnFarms[props.isActiveOpen][
                       farmData.CONTRACT
-                    ].totalRewards > 0 ? (
+                    ].totalRewards[0] > 0 ? (
                       props.harvestValueOnFarms[props.isActiveOpen][
                         farmData.CONTRACT
-                      ].totalRewards.toFixed(3)
+                      ].totalRewards[0].toFixed(4)
                     ) : (
                       <span className="shimmer">99999999</span>
                     )}
@@ -103,10 +103,10 @@ const FarmCardBottom = (props) => {
                     ].hasOwnProperty(farmData.CONTRACT) &&
                     props.harvestValueOnFarms[props.isActiveOpen][
                       farmData.CONTRACT
-                    ].totalRewards > 0 ? (
+                    ].totalRewards[1] > 0 ? (
                       props.harvestValueOnFarms[props.isActiveOpen][
                         farmData.CONTRACT
-                      ].totalRewards.toFixed(3)
+                      ].totalRewards[1].toFixed(4)
                     ) : (
                       <span className="shimmer">99999999</span>
                     )}

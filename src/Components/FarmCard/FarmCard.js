@@ -37,7 +37,11 @@ const FarmCard = (props) => {
   };
 
   const getReward = () => {
-    return (values?.rewardRate ?? 0) * 2880;
+    if (farmData.isDualFarm === true) {
+      return (values?.rewardRate[0] ?? 0) * 2880;
+    } else {
+      return (values?.rewardRate ?? 0) * 2880;
+    }
   };
 
   const getTotalLiquidity = () => {
