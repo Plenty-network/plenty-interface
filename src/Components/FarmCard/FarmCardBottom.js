@@ -47,35 +47,106 @@ const FarmCardBottom = (props) => {
       >
         {(stakedAmount > 0 || isExpanded) && (
           <div className="d-flex">
-            <div
-              className={clsx(
-                styles.harvestStakeAmt,
-                'mr-2 justify-content-between'
-              )}
-            >
-              <Image
-                height={31}
-                src={props.harvestImg}
-                fuild
-                className="mt-auto mb-auto ml-2"
-              />
-              <span>
-							{values &&
-								props.userAddress !== null &&
-								props.harvestValueOnFarms.hasOwnProperty(props.isActiveOpen) &&
-								props.harvestValueOnFarms[props.isActiveOpen].hasOwnProperty(
-									farmData.CONTRACT
-								) &&
-								props.harvestValueOnFarms[props.isActiveOpen][farmData.CONTRACT]
-									.totalRewards > 0 ? (
-									props.harvestValueOnFarms[props.isActiveOpen][
-										farmData.CONTRACT
-									].totalRewards.toFixed(6)
-								) : (
-									<span className="shimmer">99999999</span>
-								)}
-              </span>
-            </div>
+            {properties.isDualFarm ? (
+              <div
+                className={`${styles.harvestStakeAmt} mr-2 d-flex justify-content-between align-center`}
+                style={{ paddingRight: '8px' }}
+              >
+                <div
+                  style={{
+                    borderRight: '1px solid rgba(0, 0, 0, 0.04)',
+                    paddingRight: '16%',
+                  }}
+                >
+                  <Image
+                    height={17}
+                    src={properties.harvestImg}
+                    fuild
+                    className="mt-auto mb-auto ml-2"
+                  />
+                  <span style={{ fontSize: '10px', marginLeft: '6px' }}>
+                    {values &&
+                    props.userAddress !== null &&
+                    props.harvestValueOnFarms.hasOwnProperty(
+                      props.isActiveOpen
+                    ) &&
+                    props.harvestValueOnFarms[
+                      props.isActiveOpen
+                    ].hasOwnProperty(farmData.CONTRACT) &&
+                    props.harvestValueOnFarms[props.isActiveOpen][
+                      farmData.CONTRACT
+                    ].totalRewards > 0 ? (
+                      props.harvestValueOnFarms[props.isActiveOpen][
+                        farmData.CONTRACT
+                      ].totalRewards.toFixed(3)
+                    ) : (
+                      <span className="shimmer">99999999</span>
+                    )}
+                  </span>
+                </div>
+
+                <div>
+                  <Image
+                    height={17}
+                    src={properties.harvestImg1}
+                    fuild
+                    className="mt-auto mb-auto ml-2"
+                  />
+                  <span style={{ fontSize: '10px', marginLeft: '6px' }}>
+                    {values &&
+                    props.userAddress !== null &&
+                    props.harvestValueOnFarms.hasOwnProperty(
+                      props.isActiveOpen
+                    ) &&
+                    props.harvestValueOnFarms[
+                      props.isActiveOpen
+                    ].hasOwnProperty(farmData.CONTRACT) &&
+                    props.harvestValueOnFarms[props.isActiveOpen][
+                      farmData.CONTRACT
+                    ].totalRewards > 0 ? (
+                      props.harvestValueOnFarms[props.isActiveOpen][
+                        farmData.CONTRACT
+                      ].totalRewards.toFixed(3)
+                    ) : (
+                      <span className="shimmer">99999999</span>
+                    )}
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <div
+                className={clsx(
+                  styles.harvestStakeAmt,
+                  'mr-2 justify-content-between'
+                )}
+              >
+                <Image
+                  height={31}
+                  src={properties.harvestImg}
+                  fuild
+                  className="mt-auto mb-auto ml-2"
+                />
+                <span>
+                  {values &&
+                  props.userAddress !== null &&
+                  props.harvestValueOnFarms.hasOwnProperty(
+                    props.isActiveOpen
+                  ) &&
+                  props.harvestValueOnFarms[props.isActiveOpen].hasOwnProperty(
+                    farmData.CONTRACT
+                  ) &&
+                  props.harvestValueOnFarms[props.isActiveOpen][
+                    farmData.CONTRACT
+                  ].totalRewards > 0 ? (
+                    props.harvestValueOnFarms[props.isActiveOpen][
+                      farmData.CONTRACT
+                    ].totalRewards.toFixed(6)
+                  ) : (
+                    <span className="shimmer">99999999</span>
+                  )}
+                </span>
+              </div>
+            )}
 
             <Button
               onClick={() => {

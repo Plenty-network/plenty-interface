@@ -1828,8 +1828,8 @@ module.exports = {
       { block: 24576, rate: 2, duration: '> 9 days' },
     ],
   },
-  NETWORK: 'mainnet',
-  WALLET_NETWORK: 'mainnet',
+  NETWORK: 'testnet',
+  WALLET_NETWORK: 'granadanet',
   ADMIN_ADDRESS: 'KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW',
   BURNER: 'tz1ZnK6zYJrC9PfKCPryg9tPW6LrERisTGtg',
 };
