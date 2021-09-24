@@ -204,7 +204,7 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
       dexContractInstance,
     };
   } catch (error) {
-    console.log({ error });
+    console.log({ message: 'swap data error', error });
     return {
       success: true,
       tokenIn,
@@ -721,7 +721,7 @@ export const fetchWalletBalance = async (
           symbol: icon,
           contractInstance: contract,
         };
-      } else if (icon === 'KALAM') {
+      } else if (icon === 'KALAM' || icon === 'GIF') {
         const userDetails = await storage.ledger.get(addressOfUser);
         let userBalance = userDetails;
         userBalance =

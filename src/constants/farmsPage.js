@@ -18,6 +18,9 @@ import tzbtcLpFarm from '../assets/images/farms/plenty-tzbtc.png';
 import unoLpFarm from '../assets/images/farms/plenty-uno.png';
 import wrapLpFarm from '../assets/images/farms/plenty-wrap.png';
 import uusdLpFarm from '../assets/images/farms/uusdLpFarm.png';
+import gifIcon from '../assets/images/gif-dao-token.png';
+
+import wbusd from '../assets/images/busd.png';
 
 import PropTypes from 'prop-types';
 
@@ -101,6 +104,7 @@ export const FARMS_CARD_TYPE_LIST = {
     active: true,
     source: 'Quipuswap LP',
     rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
   },
   'KALAM / XTZ LP': {
     image: kalamXtz,
@@ -121,6 +125,7 @@ export const FARMS_CARD_TYPE_LIST = {
     active: true,
     source: 'Quipuswap LP',
     rewards: '1000 KALAM / DAY',
+    isDualFarm: false,
   },
   'hDAO / PLENTY LP': {
     image: plentyXtz,
@@ -140,6 +145,7 @@ export const FARMS_CARD_TYPE_LIST = {
     active: true,
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
   },
   'KALAM / PLENTY LP': {
     image: plentyXtz,
@@ -160,10 +166,12 @@ export const FARMS_CARD_TYPE_LIST = {
     active: true,
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
   },
   'PLENTY / wUSDC LP': {
     image: plentyWUSDC,
     harvestImg: plentyToken,
+    harvestImg1: wbusd,
     multi: '100',
     title: 'PLENTY / wUSDC LP',
     apr: 0,
@@ -180,6 +188,7 @@ export const FARMS_CARD_TYPE_LIST = {
     active: true,
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
   },
   'PLENTY / wBUSD LP': {
     image: plentyWBUSD,
@@ -200,6 +209,7 @@ export const FARMS_CARD_TYPE_LIST = {
     active: true,
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
   },
   'PLENTY / wWBTC LP': {
     image: plentyWWBTC,
@@ -220,6 +230,7 @@ export const FARMS_CARD_TYPE_LIST = {
     active: true,
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
   },
   'PLENTY / wMATIC LP': {
     image: plentyWmatic,
@@ -240,6 +251,7 @@ export const FARMS_CARD_TYPE_LIST = {
     active: true,
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
   },
   'PLENTY / wLINK LP': {
     image: plentyWlink,
@@ -260,6 +272,7 @@ export const FARMS_CARD_TYPE_LIST = {
     active: true,
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
   },
   'PLENTY / USDtz LP': {
     image: plentyUsdtz,
@@ -280,6 +293,7 @@ export const FARMS_CARD_TYPE_LIST = {
     active: true,
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
   },
   'PLENTY / hDAO LP': {
     image: hdaoLpFarm,
@@ -300,6 +314,7 @@ export const FARMS_CARD_TYPE_LIST = {
     active: true,
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
   },
   'PLENTY / ETHtz LP': {
     image: ethtzLpFarm,
@@ -320,6 +335,7 @@ export const FARMS_CARD_TYPE_LIST = {
     active: true,
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
   },
   'PLENTY / wWETH LP': {
     image: wwethLpFarm,
@@ -340,6 +356,7 @@ export const FARMS_CARD_TYPE_LIST = {
     active: true,
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
   },
   'PLENTY / kUSD LP': {
     image: kusdLpFarm,
@@ -360,6 +377,7 @@ export const FARMS_CARD_TYPE_LIST = {
     active: true,
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
   },
   'PLENTY / QUIPU LP': {
     image: quipuLpFarm,
@@ -380,6 +398,7 @@ export const FARMS_CARD_TYPE_LIST = {
     active: true,
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
   },
   'PLENTY / WRAP LP': {
     image: wrapLpFarm,
@@ -400,6 +419,7 @@ export const FARMS_CARD_TYPE_LIST = {
     active: true,
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
   },
   'PLENTY / UNO LP': {
     image: unoLpFarm,
@@ -420,6 +440,7 @@ export const FARMS_CARD_TYPE_LIST = {
     active: true,
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
   },
   'PLENTY / SMAK LP': {
     image: smakLpFarm,
@@ -440,6 +461,7 @@ export const FARMS_CARD_TYPE_LIST = {
     active: true,
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
   },
   'PLENTY / KALAM LP': {
     image: kalamLpFarm,
@@ -460,6 +482,7 @@ export const FARMS_CARD_TYPE_LIST = {
     active: true,
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
   },
   'PLENTY / tzBTC LP': {
     image: tzbtcLpFarm,
@@ -480,6 +503,7 @@ export const FARMS_CARD_TYPE_LIST = {
     active: true,
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
   },
   'PLENTY / uUSD LP': {
     image: uusdLpFarm,
@@ -500,5 +524,27 @@ export const FARMS_CARD_TYPE_LIST = {
     active: true,
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
+  },
+  'PLENTY / GIF Dual LP': {
+    image: uusdLpFarm,
+    harvestImg: plentyToken,
+    harvestImg1: gifIcon,
+    multi: '100',
+    title: 'PLENTY / GIF Dual LP',
+    apr: 0,
+    apy: '2621',
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'PLENTY / GIF Dual LP',
+    liquidity: '5000',
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+    isDualFarm: true,
   },
 };
