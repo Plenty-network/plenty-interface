@@ -80,7 +80,7 @@ const FarmCardBottom = (props) => {
                         farmData.CONTRACT
                       ].totalRewards[0].toFixed(4)
                     ) : (
-                      <span className="shimmer">99999999</span>
+                      <span className="shimmer">99999</span>
                     )}
                   </span>
                 </div>
@@ -108,7 +108,7 @@ const FarmCardBottom = (props) => {
                         farmData.CONTRACT
                       ].totalRewards[1].toFixed(4)
                     ) : (
-                      <span className="shimmer">99999999</span>
+                      <span className="shimmer">99999</span>
                     )}
                   </span>
                 </div>

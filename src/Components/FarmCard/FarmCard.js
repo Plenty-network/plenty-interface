@@ -37,10 +37,25 @@ const FarmCard = (props) => {
   };
 
   const getReward = () => {
-    if (farmData.isDualFarm === true) {
-      return (values?.rewardRate[0] ?? 0) * 2880;
+    if (farmData.isDualFarm) {
+      return (
+        <>
+          {`${(values?.rewardRate[0] ?? 0) * 2880} PLENTY | ${
+            (values?.rewardRate[1] ?? 0) * 2880
+          } GIF`}{' '}
+          <span
+            style={{
+              display: 'block',
+              textAlign: 'right',
+              fontSize: '10px',
+            }}
+          >
+            / DAY
+          </span>
+        </>
+      );
     } else {
-      return (values?.rewardRate ?? 0) * 2880;
+      return `${(values?.rewardRate ?? 0) * 2880} PLENTY / DAY`;
     }
   };
 
@@ -155,7 +170,7 @@ const FarmCard = (props) => {
                 {values == null ? (
                   <span className="shimmer">99999999</span>
                 ) : (
-                  `${getReward()} PLENTY / DAY`
+                  getReward()
                 )}
               </p>
             </div>

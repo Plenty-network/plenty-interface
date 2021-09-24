@@ -17,7 +17,6 @@ const fetchStorageForDualStakingContract = async (
   tokenPricesData
 ) => {
   try {
-    console.log('Dual is called');
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode =
       localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
@@ -38,9 +37,7 @@ const fetchStorageForDualStakingContract = async (
     }
     let promises = [];
     let urlTokenFirst = `${rpcNode}chains/main/blocks/head/context/contracts/${dualInfo.tokenFirst.rewardContract}/storage`;
-    console.log({ urlTokenFirst });
     let urlTokenSecond = `${rpcNode}chains/main/blocks/head/context/contracts/${dualInfo.tokenSecond.rewardContract}/storage`;
-    console.log({ urlTokenSecond });
 
     promises.push(axios.get(urlTokenFirst));
     promises.push(axios.get(urlTokenSecond));
@@ -92,7 +89,6 @@ const fetchStorageForDualStakingContract = async (
     }
 
     let totalLiquidty = totalSupply * priceOfStakeTokenInUsd;
-    console.log({ totalLiquidty, totalSupply, priceOfStakeTokenInUsd });
     return {
       success: true,
       identifier,
