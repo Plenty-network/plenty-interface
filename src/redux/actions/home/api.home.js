@@ -499,7 +499,8 @@ export const getStorageForFarms = async (isActive, tokenPricesData) => {
           key === 'PLENTY - UNO' ||
           key === 'PLENTY - WRAP' ||
           key === 'PLENTY - tzBTC' ||
-          key === 'PLENTY - uUSD'
+          key === 'PLENTY - uUSD' ||
+          key === 'PLENTY - GIF'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(
@@ -993,6 +994,54 @@ export const getStakedAmount = async (
   }
 };
 
+const getStakedAmountDual = async (
+  mapId,
+  packedKey,
+  identifier,
+  decimal,
+  address,
+  tokenDecimal
+) => {
+  try {
+    const rpcNode =
+      localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
+    const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
+    const response = await axios.get(url);
+    let balance = response.data.args[1].int;
+    balance = parseInt(balance);
+    balance = balance / Math.pow(10, tokenDecimal);
+    let singularStakes = [];
+    //amt - args[0][0].args[1].args[0]
+    for (let i = 0; i < response.data.args[0].length; i++) {
+      let amount = parseFloat(
+        response.data.args[0][i].args[1].args[0].int /
+          Math.pow(10, tokenDecimal)
+      );
+      singularStakes.push({
+        mapId: response.data.args[0][i].args[0].int,
+        amount: amount,
+        block: response.data.args[0][i].args[1].args[0].int,
+      });
+    }
+
+    return {
+      success: true,
+      balance,
+      identifier,
+      address,
+      singularStakes,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      balance: 0,
+      address,
+      identifier,
+      singularStakes: [],
+    };
+  }
+};
+
 const getCurrentBlockLevel = async () => {
   const response = await axios.get('https://api.better-call.dev/v1/head');
   if (response.data[0].network != 'mainnet') {
@@ -1112,16 +1161,29 @@ export const getTVLOfUserHelper = async (userAddress) => {
     for (let key in farmActiveContracts) {
       const { mapId, identifier, decimal, contract, tokenDecimal } =
         farmActiveContracts[key];
-      stakedAmountsFromActiveFarmsPromises.push(
-        getStakedAmount(
-          mapId,
-          packedKey,
-          identifier,
-          decimal,
-          contract,
-          tokenDecimal
-        )
-      );
+      if (identifier === 'PLENTY - GIF') {
+        stakedAmountsFromActiveFarmsPromises.push(
+          getStakedAmountDual(
+            mapId,
+            packedKey,
+            identifier,
+            decimal,
+            contract,
+            tokenDecimal
+          )
+        );
+      } else {
+        stakedAmountsFromActiveFarmsPromises.push(
+          getStakedAmount(
+            mapId,
+            packedKey,
+            identifier,
+            decimal,
+            contract,
+            tokenDecimal
+          )
+        );
+      }
     }
     const farmResponsesActive = await Promise.all(
       stakedAmountsFromActiveFarmsPromises
