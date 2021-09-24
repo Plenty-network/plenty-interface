@@ -199,7 +199,6 @@ const calculateHarvestValueDual = async (
       address: stakingContract,
     };
   } catch (error) {
-    console.log({ message: 'calculateHarvestValueDual', error });
     return {
       success: false,
       totalRewards: [0, 0],
@@ -393,6 +392,11 @@ const getAllActiveContractAddresses = async () => {
             CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][x]['active'][y][
               'mapId'
             ],
+          dualInfo:
+            CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][x]['active'][y][
+              'dualInfo'
+            ],
+          x: x,
         });
       }
     }
@@ -1080,17 +1084,33 @@ export const harvestAllHelper = async (
       let promises = [];
       const packedKey = await getPackedKey(0, userAddress, 'FA1.2');
       for (let key in allActiveContracts) {
-        const output = await calculateHarvestValue(
-          allActiveContracts[key].contract,
-          18,
-          blockLevel,
-          allActiveContracts[key].mapId,
-          packedKey
-        );
-        if (output.totalRewards > 0) {
-          promises.push(
-            await Tezos.wallet.at(allActiveContracts[key].contract)
-          );
+        const output =
+          allActiveContracts[key].x === 'PLENTY - GIF'
+            ? await calculateHarvestValueDual(
+                allActiveContracts[key].contract,
+                allActiveContracts[key].dualInfo,
+                blockLevel,
+                packedKey
+              )
+            : await calculateHarvestValue(
+                allActiveContracts[key].contract,
+                18,
+                blockLevel,
+                allActiveContracts[key].mapId,
+                packedKey
+              );
+        if (allActiveContracts[key].x === 'PLENTY - GIF') {
+          if (output.totalRewards[0] > 0) {
+            promises.push(
+              await Tezos.wallet.at(allActiveContracts[key].contract)
+            );
+          }
+        } else {
+          if (output.totalRewards > 0) {
+            promises.push(
+              await Tezos.wallet.at(allActiveContracts[key].contract)
+            );
+          }
         }
       }
       if (promises.length > 0) {
