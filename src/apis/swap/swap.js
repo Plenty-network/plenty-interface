@@ -912,6 +912,7 @@ export const getTokenPrices = async () => {
       'KALAM',
       'tzBTC',
       'uUSD',
+      'GIF',
     ];
     const tokenAddress = {
       PLENTY: {
@@ -970,6 +971,9 @@ export const getTokenPrices = async () => {
       },
       uUSD: {
         contractAddress: 'KT1XRPEPXbZK25r3Htzp2o1x7xdMMmfocKNW',
+      },
+      GIF: {
+        contractAddress: 'KT1XTxpQvo7oRCqp85LikEZgAZ22uDxhbWJv',
       },
     };
     for (let i in tokenPriceResponse.contracts) {
