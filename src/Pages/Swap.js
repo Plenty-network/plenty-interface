@@ -31,23 +31,40 @@ import hDAO from '../assets/images/hdao.png';
 import ETHtz from '../assets/images/ethtz.png';
 import wWETH from '../assets/images/wweth.png';
 import QUIPU from '../assets/images/quipu.png';
+import WRAP from '../assets/images/wrap.png';
+import UNO from '../assets/images/uno.png';
+import KALAM from '../assets/images/kalam-swap.png';
+import SMAK from '../assets/images/smak-swap.png';
+import tzBTC from '../assets/images/tzbtc-swap.png';
+import uUSD from '../assets/images/uUSD.png';
+import gif from '../assets/images/gif-dao-token.png';
 
 const Swap = (props) => {
   const tokens = [
     {
       name: 'ETHtz',
       image: ETHtz,
+      new: false,
+    },
+    {
+      name: 'GIF',
+      image: gif,
       new: true,
     },
     {
       name: 'hDAO',
       image: hDAO,
+      new: false,
+    },
+    {
+      name: 'KALAM',
+      image: KALAM,
       new: true,
     },
     {
       name: 'kUSD',
       image: kusd,
-      new: true,
+      new: false,
     },
     {
       name: 'PLENTY',
@@ -57,12 +74,22 @@ const Swap = (props) => {
     {
       name: 'QUIPU',
       image: QUIPU,
+      new: false,
+    },
+    {
+      name: 'SMAK',
+      image: SMAK,
       new: true,
     },
     {
       name: 'USDtz',
       image: usdtz,
       new: false,
+    },
+    {
+      name: 'tzBTC',
+      image: tzBTC,
+      new: true,
     },
     {
       name: 'wBUSD',
@@ -80,6 +107,11 @@ const Swap = (props) => {
       new: false,
     },
     {
+      name: 'WRAP',
+      image: WRAP,
+      new: true,
+    },
+    {
       name: 'wUSDC',
       image: wusdc,
       new: false,
@@ -92,6 +124,16 @@ const Swap = (props) => {
     {
       name: 'wWETH',
       image: wWETH,
+      new: false,
+    },
+    {
+      name: 'UNO',
+      image: UNO,
+      new: true,
+    },
+    {
+      name: 'uUSD',
+      image: uUSD,
       new: true,
     },
   ];
@@ -119,6 +161,12 @@ const Swap = (props) => {
     name: 'PLENTY',
     image: plenty,
   });
+  const urlSearchParameters = new URLSearchParams(window.location.search);
+  const parameters = Object.fromEntries(urlSearchParameters.entries());
+
+  if (parameters.tokenA && parameters.tokenB) {
+    localStorage.setItem('activeTab', 'liquidity');
+  }
 
   const handleClose = () => {
     setShow(false);
@@ -222,11 +270,11 @@ const Swap = (props) => {
   };
 
   useEffect(() => {
-    setLoading(true);
-    setLoaderInButton(true);
     if (!props.walletAddress) {
       return;
     }
+    setLoading(true);
+    setLoaderInButton(true);
     fetchUserWalletBalance();
   }, [props.walletAddress]);
 
@@ -263,6 +311,7 @@ const Swap = (props) => {
       name: 'PLENTY',
       image: plenty,
     });
+    setTokenOut({});
   };
   const [showRecepient, setShowRecepient] = useState(false);
   const handleRecepient = (elem) => {

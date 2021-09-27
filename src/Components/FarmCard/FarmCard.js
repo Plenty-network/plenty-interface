@@ -37,7 +37,26 @@ const FarmCard = (props) => {
   };
 
   const getReward = () => {
-    return (values?.rewardRate ?? 0) * 2880;
+    if (farmData.isDualFarm) {
+      return (
+        <>
+          {`${(values?.rewardRate[0] ?? 0) * 2880} PLENTY | ${
+            (values?.rewardRate[1] ?? 0) * 2880
+          } GIF`}{' '}
+          <span
+            style={{
+              display: 'block',
+              textAlign: 'right',
+              fontSize: '10px',
+            }}
+          >
+            / DAY
+          </span>
+        </>
+      );
+    } else {
+      return `${(values?.rewardRate ?? 0) * 2880} PLENTY / DAY`;
+    }
   };
 
   const getTotalLiquidity = () => {
@@ -68,13 +87,9 @@ const FarmCard = (props) => {
       <div>
         <div className={styles.plentyCard}>
           {/* * Header */}
-          {props.farmCardData.farmData.message && (
-            <div
-              className={`pool-card-top-banner ${props.farmCardData.farmData.bannerType}`}
-            >
-              <p className="pool-card-top-banner-text">
-                {props.farmCardData.farmData.message}
-              </p>
+          {farmData.message && (
+            <div className={`pool-card-top-banner ${farmData.bannerType}`}>
+              <p className="pool-card-top-banner-text">{farmData.message}</p>
             </div>
           )}
           <div
@@ -88,7 +103,9 @@ const FarmCard = (props) => {
             </div>
             <div className="text-right">
               <p className={styles.title}>{properties.title}</p>
-              <p
+              <a
+                href={farmData.liquidityLink}
+                target="_blank"
                 className={clsx(
                   styles.titleBadge,
                   properties.source === 'Plenty LP'
@@ -97,7 +114,7 @@ const FarmCard = (props) => {
                 )}
               >
                 {properties.source}
-              </p>
+              </a>
             </div>
           </div>
           {/* * Header */}
@@ -153,7 +170,7 @@ const FarmCard = (props) => {
                 {values == null ? (
                   <span className="shimmer">99999999</span>
                 ) : (
-                  `${getReward()} PLENTY / DAY`
+                  getReward()
                 )}
               </p>
             </div>

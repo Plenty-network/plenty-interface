@@ -9,6 +9,115 @@ import axios from 'axios';
 import CONFIG from '../../../config/config';
 import { RPC_NODE } from '../../../constants/localStorage';
 
+const fetchStorageForDualStakingContract = async (
+  identifier,
+  address,
+  dualInfo,
+  priceOfStakeTokenInUsd,
+  tokenPricesData
+) => {
+  try {
+    const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode =
+      localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    let tokenFirstPrice = 0;
+    let tokenSecondPrice = 0;
+    for (let i in tokenPricesData) {
+      if (
+        tokenPricesData[i].symbol === dualInfo.tokenFirst.symbol &&
+        tokenPricesData[i].tokenAddress === dualInfo.tokenFirst.tokenContract
+      ) {
+        tokenFirstPrice = tokenPricesData[i].usdValue;
+      } else if (
+        tokenPricesData[i].symbol === dualInfo.tokenSecond.symbol &&
+        tokenPricesData[i].tokenAddress === dualInfo.tokenSecond.tokenContract
+      ) {
+        tokenSecondPrice = tokenPricesData[i].usdValue;
+      }
+    }
+    let promises = [];
+    let urlTokenFirst = `${rpcNode}chains/main/blocks/head/context/contracts/${dualInfo.tokenFirst.rewardContract}/storage`;
+    let urlTokenSecond = `${rpcNode}chains/main/blocks/head/context/contracts/${dualInfo.tokenSecond.rewardContract}/storage`;
+
+    promises.push(axios.get(urlTokenFirst));
+    promises.push(axios.get(urlTokenSecond));
+
+    const response = await Promise.all(promises);
+    let totalSupply = response[0].data.args[4].int;
+    totalSupply = (totalSupply / Math.pow(10, 18)).toFixed(2);
+
+    let rewardRateFirst = response[0].data.args[1].args[2].int;
+    rewardRateFirst = (
+      rewardRateFirst / Math.pow(10, dualInfo.tokenFirst.tokenDecimal)
+    ).toFixed(3);
+    let rewardRateSecond = response[1].data.args[1].args[2].int;
+    rewardRateSecond = (
+      rewardRateSecond / Math.pow(10, dualInfo.tokenSecond.tokenDecimal)
+    ).toFixed(3);
+
+    let APRFirst =
+      (rewardRateFirst * 1051200 * tokenFirstPrice) /
+      (totalSupply * priceOfStakeTokenInUsd);
+
+    let APRSecond =
+      (rewardRateSecond * 1051200 * tokenSecondPrice) /
+      (totalSupply * priceOfStakeTokenInUsd);
+
+    let APR = APRFirst + APRSecond;
+    APR = APR * 100;
+
+    let DPYFirst =
+      (rewardRateFirst * 2880 * tokenFirstPrice) /
+      (totalSupply * priceOfStakeTokenInUsd);
+
+    let DPYSecond =
+      (rewardRateSecond * 2880 * tokenSecondPrice) /
+      (totalSupply * priceOfStakeTokenInUsd);
+
+    let DPY = DPYFirst + DPYSecond;
+    DPY = DPY * 100;
+
+    let intervalList = [1, 7, 30, 365];
+    let roiTable = [];
+
+    for (let interval of intervalList) {
+      roiTable.push({
+        roi: DPY * interval,
+        PlentyPer1000dollar: (10 * DPYFirst * interval) / tokenFirstPrice,
+        tokenSecondPer1000dollar:
+          (10 * DPYSecond * interval) / tokenSecondPrice,
+      });
+    }
+
+    let totalLiquidty = totalSupply * priceOfStakeTokenInUsd;
+    return {
+      success: true,
+      identifier,
+      APR,
+      totalLiquidty,
+      roiTable,
+      totalSupply,
+      address,
+      rewardRate: [rewardRateFirst, rewardRateSecond],
+      tokens: [dualInfo.tokenFirst.symbol, dualInfo.tokenSecond.symbol],
+    };
+  } catch (error) {
+    console.log({ message: 'Dual Storage error', error });
+    return {
+      success: false,
+      error,
+      success: true,
+      identifier,
+      APR: 0,
+      totalLiquidty: 0,
+      roiTable: [],
+      totalSupply: 0,
+      address,
+      rewardRate: 0,
+    };
+  }
+};
+
 const fetchStorageOfStakingContract = async (
   identifier,
   address,
@@ -276,7 +385,14 @@ export const getFarmsDataAPI = async (isActive) => {
           key === 'PLENTY - ETHtz' ||
           key === 'PLENTY - wWETH' ||
           key === 'PLENTY - kUSD' ||
-          key === 'PLENTY - QUIPU'
+          key === 'PLENTY - QUIPU' ||
+          key === 'PLENTY - KALAM' ||
+          key === 'PLENTY - SMAK' ||
+          key === 'PLENTY - UNO' ||
+          key === 'PLENTY - WRAP' ||
+          key === 'PLENTY - tzBTC' ||
+          key === 'PLENTY - uUSD' ||
+          key === 'PLENTY - GIF'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(
@@ -308,16 +424,36 @@ export const getFarmsDataAPI = async (isActive) => {
       for (let i in CONFIG.FARMS[CONFIG.NETWORK][key][
         isActive === true ? 'active' : 'inactive'
       ]) {
-        promises.push(
-          fetchStorageOfStakingContract(
-            key,
-            CONFIG.FARMS[CONFIG.NETWORK][key][
-              isActive === true ? 'active' : 'inactive'
-            ][i].CONTRACT,
-            lpPricesInUsd[key],
-            priceOfPlenty
-          )
-        );
+        if (
+          CONFIG.FARMS[CONFIG.NETWORK][key][
+            isActive === true ? 'active' : 'inactive'
+          ][i].isDualFarm === false
+        ) {
+          promises.push(
+            fetchStorageOfStakingContract(
+              key,
+              CONFIG.FARMS[CONFIG.NETWORK][key][
+                isActive === true ? 'active' : 'inactive'
+              ][i].CONTRACT,
+              lpPricesInUsd[key],
+              priceOfPlenty
+            )
+          );
+        } else {
+          promises.push(
+            fetchStorageForDualStakingContract(
+              key,
+              CONFIG.FARMS[CONFIG.NETWORK][key][
+                isActive === true ? 'active' : 'inactive'
+              ][i].CONTRACT,
+              CONFIG.FARMS[CONFIG.NETWORK][key][
+                isActive === true ? 'active' : 'inactive'
+              ][i].dualInfo,
+              lpPricesInUsd[key],
+              tokenPricesData
+            )
+          );
+        }
       }
     }
     let farmsData = {};
