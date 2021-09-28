@@ -384,11 +384,12 @@ const calculateHarvestValueDual = async (
     );
 
     let harvestValueResponse = await Promise.all(harvestValuePromises);
+    console.log({ harvestValueResponse });
     return {
       success: true,
       totalRewards: [
         harvestValueResponse[0].totalRewards,
-        harvestValueResponse[0].totalRewards,
+        harvestValueResponse[1].totalRewards,
       ],
       address: stakingContract,
     };
