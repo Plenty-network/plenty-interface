@@ -531,7 +531,7 @@ export const FARMS_CARD_TYPE_LIST = {
     harvestImg: plentyToken,
     harvestImg1: gifIcon,
     multi: '100',
-    title: 'PLENTY / GIF Dual LP',
+    title: 'PLENTY / GIF LP',
     apr: 0,
     apy: '2621',
     earn: 'PLENTY',

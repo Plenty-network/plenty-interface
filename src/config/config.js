@@ -1928,7 +1928,7 @@ module.exports = {
                 rewardContract: 'KT1LQS3kyhaaW6thmW96anY71gZ92ECGU7Ja',
               },
             },
-            CARD_TYPE: 'PLENTY / GIF LP',
+            CARD_TYPE: 'PLENTY / GIF Dual LP',
             TOKEN_DECIMAL: 13,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
