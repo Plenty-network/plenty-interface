@@ -204,7 +204,7 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
       dexContractInstance,
     };
   } catch (error) {
-    console.log({ error });
+    console.log({ message: 'swap data error', error });
     return {
       success: true,
       tokenIn,
@@ -721,7 +721,7 @@ export const fetchWalletBalance = async (
           symbol: icon,
           contractInstance: contract,
         };
-      } else if (icon === 'KALAM') {
+      } else if (icon === 'KALAM' || icon === 'GIF') {
         const userDetails = await storage.ledger.get(addressOfUser);
         let userBalance = userDetails;
         userBalance =
@@ -912,6 +912,7 @@ export const getTokenPrices = async () => {
       'KALAM',
       'tzBTC',
       'uUSD',
+      'GIF',
     ];
     const tokenAddress = {
       PLENTY: {
@@ -970,6 +971,9 @@ export const getTokenPrices = async () => {
       },
       uUSD: {
         contractAddress: 'KT1XRPEPXbZK25r3Htzp2o1x7xdMMmfocKNW',
+      },
+      GIF: {
+        contractAddress: 'KT1XTxpQvo7oRCqp85LikEZgAZ22uDxhbWJv',
       },
     };
     for (let i in tokenPriceResponse.contracts) {

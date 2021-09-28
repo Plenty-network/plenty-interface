@@ -67,7 +67,6 @@ function NodeSelectorModal(props) {
       setCustomRPC(RPCNodeInLS);
       return;
     }
-    console.log('matchedNode=', matchedNode);
 
     setCurrentRPC(matchedNode);
   };
