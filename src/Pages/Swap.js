@@ -37,6 +37,7 @@ import KALAM from '../assets/images/kalam-swap.png';
 import SMAK from '../assets/images/smak-swap.png';
 import tzBTC from '../assets/images/tzbtc-swap.png';
 import uUSD from '../assets/images/uUSD.png';
+import gif from '../assets/images/gif-dao-token.png';
 
 const Swap = (props) => {
   const tokens = [
@@ -44,6 +45,11 @@ const Swap = (props) => {
       name: 'ETHtz',
       image: ETHtz,
       new: false,
+    },
+    {
+      name: 'GIF',
+      image: gif,
+      new: true,
     },
     {
       name: 'hDAO',

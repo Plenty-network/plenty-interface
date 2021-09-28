@@ -13,6 +13,15 @@ const useInfoTableHooks = (props) => {
         }));
       }
       const roiDays = [1, 7, 30, 365];
+
+      if (props.data[0].tokenSecondPer1000dollar) {
+        return props.data.map((datum, i) => ({
+          col1: `${roiDays[i]} day${i ? 's' : ''}`,
+          col2: datum.roi?.toFixed(2) + '%',
+          col3: datum.PlentyPer1000dollar?.toFixed(2),
+          col4: datum.tokenSecondPer1000dollar?.toFixed(2),
+        }));
+      }
       return props.data.map((datum, i) => ({
         col1: `${roiDays[i]} day${i ? 's' : ''}`,
         col2: datum.roi?.toFixed(2) + '%',
@@ -23,7 +32,13 @@ const useInfoTableHooks = (props) => {
     if (props.type === 'withdrawal') {
       setValues({ ...infoTableData.withdrawal, formattedData: formatData() });
     } else {
-      setValues({ ...infoTableData.roi, formattedData: formatData() });
+      if (props.data.length) {
+        if (props.data[0].tokenSecondPer1000dollar) {
+          setValues({ ...infoTableData.roiDual, formattedData: formatData() });
+        } else {
+          setValues({ ...infoTableData.roi, formattedData: formatData() });
+        }
+      }
     }
   }, [props.type, props.data]);
 
@@ -38,6 +53,11 @@ const infoTableData = {
   },
   roi: {
     headerRow: ['Time Frame', 'ROI', 'PLENTY per $1000'],
+    disclaimer:
+      'Calculated based on current rates. Rates are estimates provided for your convenience only, and by no means represent guaranteed returns.',
+  },
+  roiDual: {
+    headerRow: ['Time Frame', 'ROI', 'PLENTY per $1000', 'GIF per $1000'],
     disclaimer:
       'Calculated based on current rates. Rates are estimates provided for your convenience only, and by no means represent guaranteed returns.',
   },

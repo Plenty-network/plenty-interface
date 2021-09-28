@@ -101,6 +101,112 @@ export const calculateHarvestValue = async (
   }
 };
 
+const calculateHarvestValueDualEntity = async (
+  stakingContractAddress,
+  DECIMAL,
+  currentBlockLevel,
+  mapId,
+  packedAddress
+) => {
+  try {
+    const rpcNode =
+      localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
+    let url = `${rpcNode}chains/main/blocks/head/context/contracts/${stakingContractAddress}/storage`;
+    const smartContractResponse = await axios.get(url);
+
+    let periodFinish = smartContractResponse.data.args[1].args[0].int;
+
+    let lastUpdateTime = smartContractResponse.data.args[0].args[2].int;
+
+    let rewardRate = smartContractResponse.data.args[1].args[2].int;
+
+    let totalSupply = smartContractResponse.data.args[4].int;
+
+    let rewardPerTokenStored = smartContractResponse.data.args[1].args[1].int;
+
+    if (totalSupply == 0) {
+      throw 'No One Staked';
+    }
+
+    let rewardPerToken = Math.min(currentBlockLevel, parseInt(periodFinish));
+    rewardPerToken = rewardPerToken - parseInt(lastUpdateTime);
+    rewardPerToken *= parseInt(rewardRate) * Math.pow(10, DECIMAL);
+    rewardPerToken =
+      rewardPerToken / totalSupply + parseInt(rewardPerTokenStored);
+    url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedAddress}`;
+    let bigMapResponse = await axios.get(url);
+
+    let userBalance = bigMapResponse.data.args[0].int;
+    let userRewardPaid = bigMapResponse.data.args[2].int;
+    let rewards = bigMapResponse.data.args[1].int;
+    let totalRewards =
+      parseInt(userBalance) * (rewardPerToken - parseInt(userRewardPaid));
+    totalRewards = totalRewards / Math.pow(10, DECIMAL) + parseInt(rewards);
+    totalRewards = totalRewards / Math.pow(10, DECIMAL);
+
+    if (totalRewards < 0) {
+      totalRewards = 0;
+    }
+    return {
+      success: true,
+      totalRewards,
+      address: stakingContractAddress,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      totalRewards: 0,
+      address: stakingContractAddress,
+    };
+  }
+};
+
+const calculateHarvestValueDual = async (
+  stakingContract,
+  dualInfo,
+  currentBlock,
+  packedAddress
+) => {
+  try {
+    let harvestValuePromises = [];
+    harvestValuePromises.push(
+      calculateHarvestValueDualEntity(
+        dualInfo.tokenFirst.rewardContract,
+        dualInfo.tokenFirst.tokenDecimal,
+        currentBlock,
+        dualInfo.tokenFirst.rewardMapId,
+        packedAddress
+      )
+    );
+
+    harvestValuePromises.push(
+      calculateHarvestValueDualEntity(
+        dualInfo.tokenSecond.rewardContract,
+        dualInfo.tokenSecond.tokenDecimal,
+        currentBlock,
+        dualInfo.tokenSecond.rewardMapId,
+        packedAddress
+      )
+    );
+
+    let harvestValueResponse = await Promise.all(harvestValuePromises);
+    return {
+      success: true,
+      totalRewards: [
+        harvestValueResponse[0].totalRewards,
+        harvestValueResponse[0].totalRewards,
+      ],
+      address: stakingContract,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      totalRewards: [0, 0],
+      address: stakingContract,
+    };
+  }
+};
+
 export const getPackedKey = (tokenId, address, type) => {
   const accountHex = `0x${TezosMessageUtils.writeAddress(address)}`;
   let packedKey = null;
@@ -142,29 +248,50 @@ export const getHarvestValue = async (address, type, isActive) => {
       for (let i in CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
         isActive === true ? 'active' : 'inactive'
       ]) {
-        promises.push(
-          calculateHarvestValue(
-            CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
-              isActive === true ? 'active' : 'inactive'
-            ][i].address,
-            CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
-              isActive === true ? 'active' : 'inactive'
-            ][i].decimal,
-            blockData.data,
-            CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
-              isActive === true ? 'active' : 'inactive'
-            ][i].mapId,
-            packedKey
-          )
-        );
+        if (identifier === 'PLENTY - GIF') {
+          promises.push(
+            calculateHarvestValueDual(
+              CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
+                isActive === true ? 'active' : 'inactive'
+              ][i].address,
+              CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
+                isActive === true ? 'active' : 'inactive'
+              ][i].dualInfo,
+              blockData.data,
+              packedKey
+            )
+          );
+        } else {
+          promises.push(
+            calculateHarvestValue(
+              CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
+                isActive === true ? 'active' : 'inactive'
+              ][i].address,
+              CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
+                isActive === true ? 'active' : 'inactive'
+              ][i].decimal,
+              blockData.data,
+              CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
+                isActive === true ? 'active' : 'inactive'
+              ][i].mapId,
+              packedKey
+            )
+          );
+        }
       }
     }
     const response = await Promise.all(promises);
 
     for (let i in response) {
-      harvestResponse[response[i].address] = {
-        totalRewards: response[i].totalRewards,
-      };
+      if (Array.isArray(response[i].totalRewards)) {
+        harvestResponse[response[i].address] = {
+          totalRewards: response[i].totalRewards[0],
+        };
+      } else {
+        harvestResponse[response[i].address] = {
+          totalRewards: response[i].totalRewards,
+        };
+      }
     }
     return {
       success: true,
@@ -265,6 +392,11 @@ const getAllActiveContractAddresses = async () => {
             CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][x]['active'][y][
               'mapId'
             ],
+          dualInfo:
+            CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][x]['active'][y][
+              'dualInfo'
+            ],
+          x: x,
         });
       }
     }
@@ -371,7 +503,8 @@ export const getStorageForFarms = async (isActive, tokenPricesData) => {
           key === 'PLENTY - UNO' ||
           key === 'PLENTY - WRAP' ||
           key === 'PLENTY - tzBTC' ||
-          key === 'PLENTY - uUSD'
+          key === 'PLENTY - uUSD' ||
+          key === 'PLENTY - GIF'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(
@@ -865,6 +998,54 @@ export const getStakedAmount = async (
   }
 };
 
+const getStakedAmountDual = async (
+  mapId,
+  packedKey,
+  identifier,
+  decimal,
+  address,
+  tokenDecimal
+) => {
+  try {
+    const rpcNode =
+      localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
+    const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
+    const response = await axios.get(url);
+    let balance = response.data.args[1].int;
+    balance = parseInt(balance);
+    balance = balance / Math.pow(10, tokenDecimal);
+    let singularStakes = [];
+    //amt - args[0][0].args[1].args[0]
+    for (let i = 0; i < response.data.args[0].length; i++) {
+      let amount = parseFloat(
+        response.data.args[0][i].args[1].args[0].int /
+          Math.pow(10, tokenDecimal)
+      );
+      singularStakes.push({
+        mapId: response.data.args[0][i].args[0].int,
+        amount: amount,
+        block: response.data.args[0][i].args[1].args[0].int,
+      });
+    }
+
+    return {
+      success: true,
+      balance,
+      identifier,
+      address,
+      singularStakes,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      balance: 0,
+      address,
+      identifier,
+      singularStakes: [],
+    };
+  }
+};
+
 const getCurrentBlockLevel = async () => {
   const response = await axios.get('https://api.better-call.dev/v1/head');
   if (response.data[0].network != 'mainnet') {
@@ -903,17 +1084,33 @@ export const harvestAllHelper = async (
       let promises = [];
       const packedKey = await getPackedKey(0, userAddress, 'FA1.2');
       for (let key in allActiveContracts) {
-        const output = await calculateHarvestValue(
-          allActiveContracts[key].contract,
-          18,
-          blockLevel,
-          allActiveContracts[key].mapId,
-          packedKey
-        );
-        if (output.totalRewards > 0) {
-          promises.push(
-            await Tezos.wallet.at(allActiveContracts[key].contract)
-          );
+        const output =
+          allActiveContracts[key].x === 'PLENTY - GIF'
+            ? await calculateHarvestValueDual(
+                allActiveContracts[key].contract,
+                allActiveContracts[key].dualInfo,
+                blockLevel,
+                packedKey
+              )
+            : await calculateHarvestValue(
+                allActiveContracts[key].contract,
+                18,
+                blockLevel,
+                allActiveContracts[key].mapId,
+                packedKey
+              );
+        if (allActiveContracts[key].x === 'PLENTY - GIF') {
+          if (output.totalRewards[0] > 0) {
+            promises.push(
+              await Tezos.wallet.at(allActiveContracts[key].contract)
+            );
+          }
+        } else {
+          if (output.totalRewards > 0) {
+            promises.push(
+              await Tezos.wallet.at(allActiveContracts[key].contract)
+            );
+          }
         }
       }
       if (promises.length > 0) {
@@ -984,16 +1181,29 @@ export const getTVLOfUserHelper = async (userAddress) => {
     for (let key in farmActiveContracts) {
       const { mapId, identifier, decimal, contract, tokenDecimal } =
         farmActiveContracts[key];
-      stakedAmountsFromActiveFarmsPromises.push(
-        getStakedAmount(
-          mapId,
-          packedKey,
-          identifier,
-          decimal,
-          contract,
-          tokenDecimal
-        )
-      );
+      if (identifier === 'PLENTY - GIF') {
+        stakedAmountsFromActiveFarmsPromises.push(
+          getStakedAmountDual(
+            mapId,
+            packedKey,
+            identifier,
+            decimal,
+            contract,
+            tokenDecimal
+          )
+        );
+      } else {
+        stakedAmountsFromActiveFarmsPromises.push(
+          getStakedAmount(
+            mapId,
+            packedKey,
+            identifier,
+            decimal,
+            contract,
+            tokenDecimal
+          )
+        );
+      }
     }
     const farmResponsesActive = await Promise.all(
       stakedAmountsFromActiveFarmsPromises
