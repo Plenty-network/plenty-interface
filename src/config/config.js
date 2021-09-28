@@ -6,7 +6,7 @@ module.exports = {
     tezToolTokenPrice: 'https://api.teztools.io/token/prices',
   },
   RPC_NODES: {
-    testnet: 'https://testnet.tezster.tech',
+    testnet: 'https://testnet-tezos.giganode.io/',
     mainnet: 'https://tezos-prod.cryptonomic-infra.tech',
   },
   TZKT_NODES: {
@@ -411,6 +411,15 @@ module.exports = {
     },
   },
   TOKEN_CONTRACTS: {
+    testnet: {
+      PLENTY: {
+        address: 'KT1PHbg4Dqmg9zWwuWQjo4dDTsgJ5svdyXdH',
+        mapId: 22612,
+        decimal: 18,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+    },
     mainnet: {
       PLENTY: {
         address: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
@@ -2002,8 +2011,31 @@ module.exports = {
       { block: 24576, rate: 2, duration: '> 9 days' },
     ],
   },
-  NETWORK: 'mainnet',
-  WALLET_NETWORK: 'mainnet',
+  xPlenty: {
+    testnet: {
+      plentyTokenContract: {
+        address: 'KT1PHbg4Dqmg9zWwuWQjo4dDTsgJ5svdyXdH',
+        balancesMapId: 22612,
+        decimal: 18,
+      },
+      xPlentyTokenContract: {
+        address: 'KT1PP3YaYF4iNTyryjjKe5WrqnnMbQPLqd4E',
+        balancesMapId: 40509,
+        decimal: 18,
+      },
+      rewardManager: {
+        address: 'KT1M1uU6br1ijvZVGe6FYwqf3kHK4GmUfDso',
+      },
+      xPlentyCurve: {
+        address: 'KT1Luq2wvCFJ8zDCJmqWsyXLXeffhwcTExJe',
+        bigMapExpression:
+          'exprudLL27ekHKb2ZJCTRomMHjKqPK8CmJjDpk2cY2shwagF3woAnn',
+      },
+    },
+    mainnet: {},
+  },
+  NETWORK: 'testnet',
+  WALLET_NETWORK: 'granadanet',
   ADMIN_ADDRESS: 'KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW',
   BURNER: 'tz1ZnK6zYJrC9PfKCPryg9tPW6LrERisTGtg',
 };

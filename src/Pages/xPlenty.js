@@ -1,14 +1,30 @@
+import React, { useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import Loader from '../Components/loader';
 
 import StakePlenty from '../Components/xPlentyTabs/StakePlenty';
 import UnstakePlenty from '../Components/xPlentyTabs/UnstakePlenty';
 import XplentyBalance from '../Components/xPlentyTabs/xPlentyBalance';
 
-const Stake = () => {
+import { connect } from 'react-redux';
+import {
+  xPlentyComputationsThunk,
+  getExpectedxPlentyThunk,
+  buyXPlentyThunk,
+  getExpectedPlentyThunk,
+  sellXPlentyThunk,
+} from '../redux/slices/xPlenty/xPlenty.thunk';
+import * as userActions from '../redux/actions/user/user.action';
+
+const Stake = (props) => {
+  useEffect(() => {
+    props.getxPlentyData();
+    props.fetchUserBalances(props.walletAddress);
+  }, []);
   return (
     <Container fluid>
       <Row>
@@ -38,15 +54,33 @@ const Stake = () => {
                 originally deposited PLENTY plus all rewards collected over
                 time.
               </p>
+
+              <p className="xplenty-info">
+                Value Locked : {props.xPlentyData.data.ValueLockedToShow} |
+                xPlenty Supply : {props.xPlentyData.data.xPlentySupplyToShow} |
+                Plenty Staked : {props.xPlentyData.data.plentyStakedToShow}
+              </p>
             </div>
             <div className="bg-themed swap-content-container xplenty-content-container">
               <Tabs defaultActiveKey="stake" className="swap-container-tab">
                 <Tab eventKey="stake" title="Stake Plenty">
-                  <StakePlenty />
+                  <StakePlenty
+                    xPlentyData={props.xPlentyData}
+                    setExpectedxPlenty={props.setExpectedxPlenty}
+                    buyxPlenty={props.buyxPlenty}
+                    expectedxPlenty={props.expectedxPlenty}
+                    walletAddress={props.walletAddress}
+                  />
                 </Tab>
 
                 <Tab eventKey="unstake" title="Unstake">
-                  <UnstakePlenty />
+                  <UnstakePlenty
+                    xPlentyData={props.xPlentyData}
+                    setExpectedPlenty={props.setExpectedPlenty}
+                    sellXPlenty={props.sellXPlenty}
+                    expectedPlenty={props.expectedPlenty}
+                    walletAddress={props.walletAddress}
+                  />
                 </Tab>
               </Tabs>
               <div
@@ -67,4 +101,33 @@ const Stake = () => {
   );
 };
 
-export default Stake;
+const mapStateToProps = (state) => {
+  return {
+    xPlentyData: state.xPlenty.xPlentyData,
+    expectedxPlenty: state.xPlenty.expectedxPlenty,
+    expectedPlenty: state.xPlenty.expectedPlenty,
+    userAddress: state.wallet.address,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getxPlentyData: () => dispatch(xPlentyComputationsThunk()),
+    setExpectedxPlenty: (plentyBalance, totalSupply, plentyAmount) =>
+      dispatch(
+        getExpectedxPlentyThunk(plentyBalance, totalSupply, plentyAmount)
+      ),
+    buyxPlenty: (plentyBalance, totalSupply, plentyAmount) =>
+      dispatch(buyXPlentyThunk(plentyBalance, totalSupply, plentyAmount)),
+    setExpectedPlenty: (plentyBalance, totalSupply, xplentyAmount) =>
+      dispatch(
+        getExpectedPlentyThunk(plentyBalance, totalSupply, xplentyAmount)
+      ),
+    sellXPlenty: (xPlentyAmount, minimumExpected, recipient) =>
+      dispatch(sellXPlentyThunk(xPlentyAmount, minimumExpected, recipient)),
+    fetchUserBalances: (address) =>
+      dispatch(userActions.fetchUserBalances(address)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Stake);
