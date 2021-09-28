@@ -384,7 +384,6 @@ const calculateHarvestValueDual = async (
     );
 
     let harvestValueResponse = await Promise.all(harvestValuePromises);
-    console.log({ harvestValueResponse });
     return {
       success: true,
       totalRewards: [
