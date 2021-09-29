@@ -83,9 +83,9 @@ const fetchStorageForDualStakingContract = async (
     for (let interval of intervalList) {
       roiTable.push({
         roi: DPY * interval,
-        PlentyPer1000dollar: (10 * DPYFirst * interval) / tokenFirstPrice,
+        PlentyPer1000dollar: (10 * DPYFirst * interval * 100) / tokenFirstPrice,
         tokenSecondPer1000dollar:
-          (10 * DPYSecond * interval) / tokenSecondPrice,
+          (10 * DPYSecond * interval * 100) / tokenSecondPrice,
       });
     }
 
