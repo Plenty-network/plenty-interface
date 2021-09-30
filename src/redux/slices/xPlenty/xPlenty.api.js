@@ -30,7 +30,8 @@ const getPlentyPrice = (tokenPriceData) => {
 export const xPlentyComputations = async () => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode =
+      localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
 
     let axiosPromises = [];
 
@@ -43,20 +44,20 @@ export const xPlentyComputations = async () => {
 
     // Getting Current Block
     axiosPromises.push(
-      Axios.get('https://api.granadanet.tzkt.io/v1/blocks/count')
+      Axios.get('https://api.mainnet.tzkt.io/v1/blocks/count')
     );
 
     // Getting Reward Manager Storage
     axiosPromises.push(
       Axios.get(
-        `https://granadanet.smartpy.io/chains/main/blocks/head/context/contracts/${CONFIG.xPlenty[connectedNetwork].rewardManager.address}/storage`
+        `${rpcNode}chains/main/blocks/head/context/contracts/${CONFIG.xPlenty[connectedNetwork].rewardManager.address}/storage`
       )
     );
 
     // Getting Plenty Curve Storage
     axiosPromises.push(
       Axios.get(
-        `https://granadanet.smartpy.io/chains/main/blocks/head/context/contracts/${CONFIG.xPlenty[connectedNetwork].xPlentyCurve.address}/storage`
+        `${rpcNode}chains/main/blocks/head/context/contracts/${CONFIG.xPlenty[connectedNetwork].xPlentyCurve.address}/storage`
       )
     );
 
@@ -184,7 +185,8 @@ export const buyXPlenty = async (plentyAmount, minimumExpected, recipient) => {
     minimumExpected = minimumExpected * Math.pow(10, 18);
     minimumExpected = Math.floor(minimumExpected);
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode =
+      localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const wallet = new BeaconWallet(options);
     const WALLET_RESP = await CheckIfWalletConnected(wallet);
     if (WALLET_RESP.success) {
@@ -209,6 +211,7 @@ export const buyXPlenty = async (plentyAmount, minimumExpected, recipient) => {
             plentyAmount
           )
         )
+        // 0 -> minimum
         .withContractCall(
           xPlentyBuySellContractInstance.methods.buy(
             minimumExpected,
@@ -246,7 +249,8 @@ export const sellXPlenty = async (
     minimumExpected = minimumExpected * Math.pow(10, 18);
     minimumExpected = Math.floor(minimumExpected);
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode =
+      localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const wallet = new BeaconWallet(options);
     const WALLET_RESP = await CheckIfWalletConnected(wallet);
     if (WALLET_RESP.success) {

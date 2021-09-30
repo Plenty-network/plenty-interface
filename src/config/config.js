@@ -11,7 +11,7 @@ module.exports = {
   },
   TZKT_NODES: {
     mainnet: 'https://api.tzkt.io',
-    testnet: 'https://api.florencenet.tzkt.io',
+    testnet: 'https://api.granadanet.tzkt.io',
   },
   STAKING_CONTRACTS: {
     POOLS: {
@@ -2032,10 +2032,29 @@ module.exports = {
           'exprudLL27ekHKb2ZJCTRomMHjKqPK8CmJjDpk2cY2shwagF3woAnn',
       },
     },
-    mainnet: {},
+    mainnet: {
+      plentyTokenContract: {
+        address: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+        balancesMapId: 3943,
+        decimal: 18,
+      },
+      xPlentyTokenContract: {
+        address: 'KT1Rpviewjg82JgjGfAKFneSupjAR1kUhbza',
+        balancesMapId: 18153,
+        decimal: 18,
+      },
+      rewardManager: {
+        address: 'KT1MCgouivQ2rzam5hA2gqF1eMtY5i6ndJvT',
+      },
+      xPlentyCurve: {
+        address: 'KT1PxkrCckgh5fA5v2cZEE2bX5q2RV1rv8dj',
+        bigMapExpression:
+          'exprudkkDPkJ6KmqHyZ1VT7aZHYji3s7FnkKayYkDBrmUemSbsFwSJ',
+      },
+    },
   },
-  NETWORK: 'testnet',
-  WALLET_NETWORK: 'granadanet',
+  NETWORK: 'mainnet',
+  WALLET_NETWORK: 'mainnet',
   ADMIN_ADDRESS: 'KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW',
   BURNER: 'tz1ZnK6zYJrC9PfKCPryg9tPW6LrERisTGtg',
 };
