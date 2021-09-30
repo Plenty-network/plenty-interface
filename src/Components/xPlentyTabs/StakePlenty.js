@@ -49,7 +49,8 @@ const StakePlenty = (props) => {
       </div>
       <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
         <p className="wallet-token-balance" style={{ cursor: 'pointer' }}>
-          Balance: 252.3142 PLENTY
+          Balance: {props.plentyBalance ? props.plentyBalance.toFixed(3) : 0}{' '}
+          PLENTY
         </p>
         <p className="wallet-token-balance">
           1 xPLENTY ={' '}

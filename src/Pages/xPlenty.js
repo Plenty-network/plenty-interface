@@ -70,6 +70,7 @@ const Stake = (props) => {
                     buyxPlenty={props.buyxPlenty}
                     expectedxPlenty={props.expectedxPlenty}
                     walletAddress={props.walletAddress}
+                    plentyBalance={props.walletBalances.PLENTY}
                   />
                 </Tab>
 
@@ -80,6 +81,7 @@ const Stake = (props) => {
                     sellXPlenty={props.sellXPlenty}
                     expectedPlenty={props.expectedPlenty}
                     walletAddress={props.walletAddress}
+                    xplentyBalance={props.walletBalances.xPLENTY}
                   />
                 </Tab>
               </Tabs>
@@ -107,6 +109,7 @@ const mapStateToProps = (state) => {
     expectedxPlenty: state.xPlenty.expectedxPlenty,
     expectedPlenty: state.xPlenty.expectedPlenty,
     userAddress: state.wallet.address,
+    walletBalances: state.user.balances,
   };
 };
 

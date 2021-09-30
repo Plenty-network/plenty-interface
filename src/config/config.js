@@ -428,6 +428,13 @@ module.exports = {
         type: 'FA1.2',
         tokenId: 0,
       },
+      xPLENTY: {
+        address: 'KT1Rpviewjg82JgjGfAKFneSupjAR1kUhbza',
+        mapId: 18153,
+        decimal: 18,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
       wMATIC: {
         address: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
         mapId: 1772,
