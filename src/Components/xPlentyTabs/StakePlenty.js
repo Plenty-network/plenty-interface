@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import plenty from '../../assets/images/logo_small.png';
 
 const StakePlenty = (props) => {
-  const [plentyInput, setPlentyInput] = useState(0);
+  const [plentyInput, setPlentyInput] = useState('');
   const plentyInputHandler = (value) => {
     if (value == '' || isNaN(value)) {
       setPlentyInput('');
       return;
     }
-    setPlentyInput(parseFloat(value));
+    setPlentyInput(value);
     props.setExpectedxPlenty(
       props.xPlentyData.data.plentyBalance,
       props.xPlentyData.data.totalSupply,
