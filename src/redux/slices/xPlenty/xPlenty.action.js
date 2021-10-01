@@ -34,6 +34,31 @@ export const expectedxPlentyActions = {
   },
 };
 
+export const transactionInjectionModalActions = {
+  opentransactionInjectionModal: (state) => {
+    state.isTransactionInjectionModalOpen = true;
+  },
+  closetransactionInjectionModal: (state) => {
+    state.isTransactionInjectionModalOpen = false;
+  },
+};
+
+export const toastActions = {
+  openToastOnFail: (state) => {
+    state.toastMessage = 'Transaction Failed';
+    state.isInfoType = true;
+    state.isToastOpen = true;
+  },
+  openToastOnSuccess: (state) => {
+    state.toastMessage = 'Transaction Successfull';
+    state.isInfoType = false;
+    state.isToastOpen = true;
+  },
+  closeToast: (state) => {
+    state.isToastOpen = false;
+  },
+};
+
 export const buyingxPlentyActions = {
   initiateBuying: (state) => {
     state.xPlentyBuyingOperation = {

@@ -4,6 +4,15 @@ import { OpKind, TezosToolkit } from '@taquito/taquito';
 import CONFIG from '../../../config/config';
 import { RPC_NODE } from '../../../constants/localStorage';
 
+import store from '../../store/store';
+import {
+  opentransactionInjectionModal,
+  closetransactionInjectionModal,
+  openToastOnFail,
+  openToastOnSuccess,
+  closeToast,
+} from './xPlenty.slice';
+
 const getPlentyPrice = (tokenPriceData) => {
   try {
     let plentyPrice = 0;
@@ -223,13 +232,18 @@ export const buyXPlenty = async (plentyAmount, minimumExpected, recipient) => {
           plentyContractInstance.methods.approve(xPlentyBuySellContract, 0)
         );
       const batchOperation = await batch.send();
+      store.dispatch(opentransactionInjectionModal());
       await batchOperation.confirmation().then(() => batchOperation.opHash);
+      store.dispatch(closetransactionInjectionModal());
+      store.dispatch(openToastOnSuccess());
       return {
         success: true,
         operationId: batchOperation.hash,
       };
     }
   } catch (error) {
+    store.dispatch(closetransactionInjectionModal());
+    store.dispatch(openToastOnFail());
     console.log(error);
   }
 };
@@ -289,7 +303,10 @@ export const sellXPlenty = async (
           xPlentyContractInstance.methods.approve(xPlentyBuySellContract, 0)
         );
       const batchOperation = await batch.send();
+      store.dispatch(opentransactionInjectionModal());
       await batchOperation.confirmation().then(() => batchOperation.opHash);
+      store.dispatch(closetransactionInjectionModal());
+      store.dispatch(openToastOnSuccess());
       console.log({ batchOperation });
       return {
         success: true,
@@ -298,5 +315,7 @@ export const sellXPlenty = async (
     }
   } catch (error) {
     console.log(error);
+    store.dispatch(closetransactionInjectionModal());
+    store.dispatch(openToastOnFail());
   }
 };

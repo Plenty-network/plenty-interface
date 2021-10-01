@@ -18,6 +18,8 @@ import {
   sellingFailed,
   setExpectedPlenty,
   setExpectedxPlenty,
+  closetransactionInjectionModal,
+  closeToast,
 } from './xPlenty.slice';
 
 export const xPlentyComputationsThunk = () => (dispatch) => {
@@ -77,3 +79,11 @@ export const sellXPlentyThunk =
         dispatch(sellingFailed());
       });
   };
+
+export const closetransactionInjectionModalThunk = () => (dispatch) => {
+  dispatch(closetransactionInjectionModal());
+};
+
+export const closeToastThunk = () => (dispatch) => {
+  dispatch(closeToast());
+};

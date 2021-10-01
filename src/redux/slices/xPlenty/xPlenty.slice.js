@@ -5,11 +5,17 @@ import {
   expectedxPlentyActions,
   buyingxPlentyActions,
   sellingxPlentyActions,
+  transactionInjectionModalActions,
+  toastActions,
 } from './xPlenty.action';
 
 const initialState = {
   expectedPlenty: 0,
   expectedxPlenty: 0,
+  isTransactionInjectionModalOpen: false,
+  toastMessage: '',
+  isInfoType: true,
+  isToastOpen: false,
   xPlentyData: {
     isLoading: false,
     isPresent: false,
@@ -38,6 +44,8 @@ export const xPlentySlice = createSlice({
     ...expectedxPlentyActions,
     ...buyingxPlentyActions,
     ...sellingxPlentyActions,
+    ...transactionInjectionModalActions,
+    ...toastActions,
   },
 });
 
@@ -58,6 +66,13 @@ export const {
   sellingSuccessfull,
   sellingFailed,
   clearSellingResponse,
+
+  opentransactionInjectionModal,
+  closetransactionInjectionModal,
+
+  openToastOnFail,
+  openToastOnSuccess,
+  closeToast,
 } = xPlentySlice.actions;
 
 export default xPlentySlice.reducer;
