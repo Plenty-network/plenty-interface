@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import plenty from '../../assets/images/logo_small.png';
+
 const StakePlenty = (props) => {
   const [plentyInput, setPlentyInput] = useState(0);
   const plentyInputHandler = (value) => {
@@ -11,6 +13,7 @@ const StakePlenty = (props) => {
     );
   };
   const buyHandler = () => {
+    props.setLoading(true);
     let plentyInputWithFormat = plentyInput * Math.pow(10, 18);
     plentyInputWithFormat = Math.floor(plentyInputWithFormat);
 
@@ -22,6 +25,36 @@ const StakePlenty = (props) => {
       props.walletAddress
     );
   };
+
+  let xplentyButton = (
+    <button
+      className="swap-content-btn xplenty-btn"
+      onClick={props.connecthWallet}
+    >
+      <span className="material-icons-round">add</span> Connect Wallet
+    </button>
+  );
+  if (props.walletAddress) {
+    if (plentyInput > props.plentyBalance) {
+      xplentyButton = (
+        <button className="swap-content-btn enter-amount">
+          Insufficient balance
+        </button>
+      );
+    } else if (plentyInput) {
+      xplentyButton = (
+        <button className="swap-content-btn xplenty-btn" onClick={buyHandler}>
+          Stake Plenty
+        </button>
+      );
+    } else {
+      xplentyButton = (
+        <button className="swap-content-btn enter-amount">
+          Enter an amount
+        </button>
+      );
+    }
+  }
   return (
     <>
       <div
@@ -33,7 +66,7 @@ const StakePlenty = (props) => {
       >
         <div className="token-selector-balance-wrapper">
           <button className="token-selector dropdown-themed">
-            <img src="" className="button-logo" />
+            <img src={plenty} className="button-logo" />
             <span className="span-themed">PLENTY </span>
           </button>
         </div>
@@ -46,55 +79,22 @@ const StakePlenty = (props) => {
             placeholder="0.0"
           />
         </div>
-      </div>
-      <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
-        <p className="wallet-token-balance" style={{ cursor: 'pointer' }}>
-          Balance: {props.plentyBalance ? props.plentyBalance.toFixed(3) : 0}{' '}
-          PLENTY
-        </p>
-        <p className="wallet-token-balance">
-          1 xPLENTY ={' '}
-          {props.xPlentyData.data.plentyPerXplenty
-            ? props.xPlentyData.data.plentyPerXplenty.toFixed(3)
-            : 0}{' '}
-          PLENTY
-        </p>
-      </div>
-      <button className="swap-content-btn xplenty-btn" onClick={buyHandler}>
-        Stake PLENTY
-      </button>
-
-      <div
-        className="swap-token-select-box bg-themed-light swap-content-box-wrapper"
-        style={{
-          minHeight: 0,
-          borderRadius: '6px',
-        }}
-      >
-        <div className="token-selector-balance-wrapper">
-          <p className="xplenty-staking-apr">Staking APR</p>
-        </div>
-
-        <div className="token-user-input-wrapper">
-          <p className="xplenty-staking-apr">
-            {props.xPlentyData.data.APR
-              ? props.xPlentyData.data.APR.toFixed(3)
-              : 0}
-            {'%'}
+        <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
+          <p className="wallet-token-balance" style={{ cursor: 'pointer' }}>
+            Balance: {props.plentyBalance ? props.plentyBalance.toFixed(3) : 0}{' '}
+            PLENTY
+          </p>
+          <p className="wallet-token-balance">
+            1 xPLENTY ={' '}
+            {props.xPlentyData.data.plentyPerXplenty
+              ? props.xPlentyData.data.plentyPerXplenty.toFixed(3)
+              : 0}{' '}
+            PLENTY
           </p>
         </div>
-        <>
-          <div className="token-selector-balance-wrapper">
-            <p className="xplenty-staking-apr">Minimum Recieved</p>
-          </div>
-
-          <div className="token-user-input-wrapper">
-            <p className="xplenty-staking-apr">
-              {props.expectedxPlenty ? props.expectedxPlenty.toFixed(3) : 0}
-            </p>
-          </div>
-        </>
       </div>
+
+      {xplentyButton}
     </>
   );
 };

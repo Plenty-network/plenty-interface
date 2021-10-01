@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -25,81 +25,146 @@ const Stake = (props) => {
     props.getxPlentyData();
     props.fetchUserBalances(props.walletAddress);
   }, []);
+
+  const [loading, setLoading] = useState(false);
+  const [loaderMessage, setLoaderMessage] = useState({});
+
   return (
-    <Container fluid>
-      <Row>
-        <Col
-          sm={12}
-          md={10}
-          className="swap-content-section xplenty-content-section"
-        >
-          <div className="xplenty-content-wrapper">
-            <div className="xplenty-info-wrapper">
-              <h2 className="xplenty-heading">
-                Maximize yield by staking PLENTY for xPLENTY
-              </h2>
-              <p className="xplenty-info">
-                For every swap on Plenty, 0.09% of the swap fees are distributed
-                as PLENTY tokens to the staking pool, which are distributed
-                among the holders proportionally to the amount of their staked
-                tokens and stake duration.
-              </p>
+    <>
+      <Container fluid>
+        <Row>
+          <Col
+            sm={12}
+            md={10}
+            className="swap-content-section xplenty-content-section"
+          >
+            <div className="xplenty-content-wrapper">
+              <div className="xplenty-info-wrapper">
+                <h2 className="xplenty-heading">
+                  Maximize yield by staking PLENTY for xPLENTY
+                </h2>
+                <p className="xplenty-info">
+                  For every swap on Plenty, 0.09% of the swap fees are
+                  distributed as PLENTY tokens to the staking pool, which are
+                  distributed among the holders proportionally to the amount of
+                  their staked tokens and stake duration.
+                </p>
 
-              <p className="xplenty-info">
-                When you stake PLENTY, you automatically receive xPLENTY in
-                return. The xPLENTY token is a flash loan resistant token and
-                will be used for governance. Furthermore, xPLENTY is
-                continuously compounding staking rewards and trading fees. By
-                unstaking, your xPLENTY tokens are burned and you receive all
-                originally deposited PLENTY plus all rewards collected over
-                time.
-              </p>
+                <p className="xplenty-info">
+                  When you stake PLENTY, you automatically receive xPLENTY in
+                  return. The xPLENTY token is a flash loan resistant token and
+                  will be used for governance. Furthermore, xPLENTY is
+                  continuously compounding staking rewards and trading fees. By
+                  unstaking, your xPLENTY tokens are burned and you receive all
+                  originally deposited PLENTY plus all rewards collected over
+                  time.
+                </p>
 
-              <p className="xplenty-info">
-                Value Locked : {props.xPlentyData.data.ValueLockedToShow} |
-                xPlenty Supply : {props.xPlentyData.data.xPlentySupplyToShow} |
-                Plenty Staked : {props.xPlentyData.data.plentyStakedToShow}
-              </p>
-            </div>
-            <div className="bg-themed swap-content-container xplenty-content-container">
-              <Tabs defaultActiveKey="stake" className="swap-container-tab">
-                <Tab eventKey="stake" title="Stake Plenty">
-                  <StakePlenty
-                    xPlentyData={props.xPlentyData}
-                    setExpectedxPlenty={props.setExpectedxPlenty}
-                    buyxPlenty={props.buyxPlenty}
-                    expectedxPlenty={props.expectedxPlenty}
-                    walletAddress={props.walletAddress}
-                    plentyBalance={props.walletBalances.PLENTY}
-                  />
-                </Tab>
+                <ul className="xplenty-number-info">
+                  <li>
+                    <p>Value Locked</p>
+                    <p className="xplenty-numbers">
+                      {props.xPlentyData.data.ValueLockedToShow
+                        ? props.xPlentyData.data.ValueLockedToShow.toFixed(2)
+                        : null}
+                    </p>
+                  </li>
+                  <li>
+                    <p>xPlenty Supply</p>
+                    <p className="xplenty-numbers">
+                      {props.xPlentyData.data.xPlentySupplyToShow
+                        ? props.xPlentyData.data.xPlentySupplyToShow.toFixed(2)
+                        : null}
+                    </p>
+                  </li>
+                  <li>
+                    <p>Plenty Staked</p>
+                    <p className="xplenty-numbers">
+                      {props.xPlentyData.data.plentyStakedToShow
+                        ? props.xPlentyData.data.plentyStakedToShow.toFixed(2)
+                        : null}
+                    </p>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <div
+                  className="swap-token-select-box bg-themed-light swap-content-box-wrapper"
+                  style={{
+                    minHeight: 0,
+                    borderRadius: '6px',
+                    padding: '22px',
+                    marginBottom: '15px',
+                    marginTop: 0,
+                  }}
+                >
+                  <div className="token-selector-balance-wrapper">
+                    <p className="xplenty-staking-apr">
+                      Rewards distribution start:
+                    </p>
+                  </div>
+                  <div className="token-user-input-wrapper">
+                    <p className="xplenty-staking-apr">
+                      {/* {props.xPlentyData.data.APR
+                      ? props.xPlentyData.data.APR.toFixed(3)
+                      : 0}
+                    {'%'} */}
+                      October 4
+                    </p>
+                  </div>
+                </div>
+                <div className="bg-themed swap-content-container xplenty-content-container">
+                  <Tabs defaultActiveKey="stake" className="swap-container-tab">
+                    <Tab eventKey="stake" title="Stake Plenty">
+                      <StakePlenty
+                        xPlentyData={props.xPlentyData}
+                        setExpectedxPlenty={props.setExpectedxPlenty}
+                        buyxPlenty={props.buyxPlenty}
+                        expectedxPlenty={props.expectedxPlenty}
+                        walletAddress={props.walletAddress}
+                        plentyBalance={props.walletBalances.PLENTY}
+                        setLoading={setLoading}
+                        setLoaderMessage={setLoaderMessage}
+                      />
+                    </Tab>
 
-                <Tab eventKey="unstake" title="Unstake">
-                  <UnstakePlenty
-                    xPlentyData={props.xPlentyData}
-                    setExpectedPlenty={props.setExpectedPlenty}
-                    sellXPlenty={props.sellXPlenty}
-                    expectedPlenty={props.expectedPlenty}
-                    walletAddress={props.walletAddress}
-                    xplentyBalance={props.walletBalances.xPLENTY}
-                  />
-                </Tab>
-              </Tabs>
-              <div
-                className="swap-token-select-box bg-themed-light swap-content-box-wrapper"
-                style={{
-                  borderRadius: '6px',
-                  alignItems: 'flex-start',
-                  minHeight: 0,
-                }}
-              >
-                <XplentyBalance />
+                    <Tab eventKey="unstake" title="Unstake">
+                      <UnstakePlenty
+                        xPlentyData={props.xPlentyData}
+                        setExpectedPlenty={props.setExpectedPlenty}
+                        sellXPlenty={props.sellXPlenty}
+                        expectedPlenty={props.expectedPlenty}
+                        walletAddress={props.walletAddress}
+                        xplentyBalance={props.walletBalances.xPLENTY}
+                      />
+                    </Tab>
+                  </Tabs>
+                  <div
+                    className="swap-token-select-box bg-themed-light swap-content-box-wrapper"
+                    style={{
+                      minHeight: 0,
+                      borderRadius: '6px',
+                    }}
+                  >
+                    <div className="token-selector-balance-wrapper">
+                      <p className="wallet-token-balance">Minimum received</p>
+                    </div>
+                    <div className="token-user-input-wrapper">
+                      <p className="xplenty-staking-apr">
+                        {props.xPlentyData.data.APR
+                          ? props.xPlentyData.data.APR.toFixed(3)
+                          : '7.2 xPlenty'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </Col>
-      </Row>
-    </Container>
+          </Col>
+        </Row>
+      </Container>
+      <Loader loading={loading} loaderMessage={loaderMessage} />
+    </>
   );
 };
 

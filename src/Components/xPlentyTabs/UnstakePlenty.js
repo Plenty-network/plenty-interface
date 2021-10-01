@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import xplenty from '../../assets/images/xplenty-icon.png';
+
 const UnstakePlenty = (props) => {
   const [xPlentyInput, setxPlentyInput] = useState(0);
   const xPlentyInputHandler = (value) => {
@@ -21,6 +23,37 @@ const UnstakePlenty = (props) => {
       props.walletAddress
     );
   };
+
+  let xplentyButton = (
+    <button
+      className="swap-content-btn xplenty-btn"
+      onClick={props.connecthWallet}
+    >
+      <span className="material-icons-round">add</span> Connect Wallet
+    </button>
+  );
+  if (props.walletAddress) {
+    if (xPlentyInput > props.xplentyBalance) {
+      xplentyButton = (
+        <button className="swap-content-btn enter-amount">
+          Insufficient balance
+        </button>
+      );
+    } else if (xPlentyInput) {
+      xplentyButton = (
+        <button className="swap-content-btn xplenty-btn" onClick={sellHandler}>
+          Untake Plenty
+        </button>
+      );
+    } else {
+      xplentyButton = (
+        <button className="swap-content-btn enter-amount">
+          Enter an amount
+        </button>
+      );
+    }
+  }
+
   return (
     <>
       <div
@@ -32,7 +65,7 @@ const UnstakePlenty = (props) => {
       >
         <div className="token-selector-balance-wrapper">
           <button className="token-selector dropdown-themed">
-            <img src="" className="button-logo" />
+            <img src={xplenty} className="button-logo" />
             <span className="span-themed">XPLENTY </span>
           </button>
         </div>
@@ -47,55 +80,22 @@ const UnstakePlenty = (props) => {
             }}
           />
         </div>
-      </div>
-      <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
-        <p className="wallet-token-balance" style={{ cursor: 'pointer' }}>
-          Balance: {props.xplentyBalance ? props.xplentyBalance.toFixed(3) : 0}{' '}
-          xPLENTY
-        </p>
-        <p className="wallet-token-balance">
-          1 xPLENTY ={' '}
-          {props.xPlentyData.data.plentyPerXplenty
-            ? props.xPlentyData.data.plentyPerXplenty.toFixed(3)
-            : 0}{' '}
-          PLENTY
-        </p>
-      </div>
-      <button className="swap-content-btn xplenty-btn" onClick={sellHandler}>
-        Unstake PLENTY
-      </button>
-
-      <div
-        className="swap-token-select-box bg-themed-light swap-content-box-wrapper"
-        style={{
-          minHeight: 0,
-          borderRadius: '6px',
-        }}
-      >
-        <div className="token-selector-balance-wrapper">
-          <p className="xplenty-staking-apr">Staking APR</p>
-        </div>
-
-        <div className="token-user-input-wrapper">
-          <p className="xplenty-staking-apr">
-            {props.xPlentyData.data.APR
-              ? props.xPlentyData.data.APR.toFixed(3)
-              : 0}
-            {'%'}
+        <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
+          <p className="wallet-token-balance" style={{ cursor: 'pointer' }}>
+            Balance:{' '}
+            {props.xplentyBalance ? props.xplentyBalance.toFixed(3) : 0} xPLENTY
+          </p>
+          <p className="wallet-token-balance">
+            1 xPLENTY ={' '}
+            {props.xPlentyData.data.plentyPerXplenty
+              ? props.xPlentyData.data.plentyPerXplenty.toFixed(3)
+              : 0}{' '}
+            PLENTY
           </p>
         </div>
-        <>
-          <div className="token-selector-balance-wrapper">
-            <p className="xplenty-staking-apr">Minimum Recieved</p>
-          </div>
-
-          <div className="token-user-input-wrapper">
-            <p className="xplenty-staking-apr">
-              {props.expectedPlenty ? props.expectedPlenty.toFixed(3) : 0}
-            </p>
-          </div>
-        </>
       </div>
+
+      {xplentyButton}
     </>
   );
 };
