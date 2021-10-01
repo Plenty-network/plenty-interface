@@ -80,12 +80,7 @@ const StakePlenty = (props) => {
         </div>
         <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
           <p className="wallet-token-balance" style={{ cursor: 'pointer' }}>
-            Balance:{' '}
-            {props.plentyBalance
-              ? props.plentyBalance
-                  .toString()
-                  .substring(0, props.plentyBalance.toString().length - 6)
-              : 0}{' '}
+            Balance: {props.plentyBalance ? props.plentyBalance.toFixed(4) : 0}{' '}
             PLENTY
           </p>
           <p className="wallet-token-balance">

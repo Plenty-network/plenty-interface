@@ -287,20 +287,11 @@ export const sellXPlenty = async (
       batch = Tezos.wallet
         .batch()
         .withContractCall(
-          xPlentyContractInstance.methods.approve(
-            xPlentyBuySellContract,
-            xPlentyAmount
-          )
-        )
-        .withContractCall(
           xPlentyBuySellContractInstance.methods.sell(
             minimumExpected,
             recipient,
             xPlentyAmount
           )
-        )
-        .withContractCall(
-          xPlentyContractInstance.methods.approve(xPlentyBuySellContract, 0)
         );
       const batchOperation = await batch.send();
       store.dispatch(opentransactionInjectionModal());

@@ -42,7 +42,7 @@ const UnstakePlenty = (props) => {
     } else if (xPlentyInput) {
       xplentyButton = (
         <button className="swap-content-btn xplenty-btn" onClick={sellHandler}>
-          Untake Plenty
+          Unstake Plenty
         </button>
       );
     } else {
@@ -83,12 +83,7 @@ const UnstakePlenty = (props) => {
         <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
           <p className="wallet-token-balance" style={{ cursor: 'pointer' }}>
             Balance:{' '}
-            {props.xplentyBalance
-              ? props.xplentyBalance
-                  .toString()
-                  .substring(0, props.xplentyBalance.toString().length - 6)
-              : 0}{' '}
-            xPLENTY
+            {props.xplentyBalance ? props.xplentyBalance.toFixed(4) : 0} xPLENTY
           </p>
           <p className="wallet-token-balance">
             1 xPLENTY ={' '}
