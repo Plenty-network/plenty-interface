@@ -8,9 +8,51 @@
       flex: 0 0 50%;
     }
   }
+  .xplenty-content-container-wrapper {
+    position: relative;
+    background: linear-gradient(
+      100.44deg,
+      #f8b67f 0%,
+      #ff5451 33.57%,
+      #ee1ec0 67.02%,
+      #a02cfc 103.97%
+    );
+    padding: 1px;
+    border-radius: 15px;
+  }
   .xplenty-content-container {
     margin: 0;
+    z-index: 2;
   }
+}
+.swap-token-select-box-wrapper {
+  background: linear-gradient(
+    100.44deg,
+    #f8b67f 0%,
+    #ff5451 33.57%,
+    #ee1ec0 67.02%,
+    #a02cfc 103.97%
+  );
+  padding: 1px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+.xplenty-content-container-shadow {
+  width: 200px;
+  background: linear-gradient(
+    100.44deg,
+    #f8b67f 0%,
+    #ff5451 33.57%,
+    #ee1ec0 67.02%,
+    #a02cfc 103.97%
+  );
+  filter: blur(60px);
+  height: 70px;
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 .xplenty-heading {
   font-weight: bold;

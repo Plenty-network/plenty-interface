@@ -83,7 +83,12 @@ const UnstakePlenty = (props) => {
         <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
           <p className="wallet-token-balance" style={{ cursor: 'pointer' }}>
             Balance:{' '}
-            {props.xplentyBalance ? props.xplentyBalance.toFixed(3) : 0} xPLENTY
+            {props.xplentyBalance
+              ? props.xplentyBalance
+                  .toString()
+                  .substring(0, props.xplentyBalance.toString().length - 6)
+              : 0}{' '}
+            xPLENTY
           </p>
           <p className="wallet-token-balance">
             1 xPLENTY ={' '}
@@ -96,23 +101,25 @@ const UnstakePlenty = (props) => {
       </div>
 
       {xplentyButton}
-      <div
-        className="swap-token-select-box bg-themed-light swap-content-box-wrapper"
-        style={{
-          minHeight: 0,
-          borderRadius: '6px',
-        }}
-      >
-        <div className="token-selector-balance-wrapper">
-          <p className="wallet-token-balance">Minimum received</p>
+      {xPlentyInput <= props.xplentyBalance && props.expectedPlenty ? (
+        <div
+          className="swap-token-select-box bg-themed-light swap-content-box-wrapper"
+          style={{
+            minHeight: 0,
+            borderRadius: '6px',
+          }}
+        >
+          <div className="token-selector-balance-wrapper">
+            <p className="wallet-token-balance">Minimum received</p>
+          </div>
+          <div className="token-user-input-wrapper">
+            <p className="xplenty-staking-apr">
+              {props.expectedPlenty ? props.expectedPlenty.toFixed(3) : 0}{' '}
+              {' Plenty'}
+            </p>
+          </div>
         </div>
-        <div className="token-user-input-wrapper">
-          <p className="xplenty-staking-apr">
-            {props.expectedPlenty ? props.expectedPlenty.toFixed(3) : 0}{' '}
-            {' Plenty'}
-          </p>
-        </div>
-      </div>
+      ) : null}
     </>
   );
 };

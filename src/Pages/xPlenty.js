@@ -107,56 +107,64 @@ const Stake = (props) => {
                 </ul>
               </div>
               <div>
-                <div
-                  className="swap-token-select-box bg-themed-light swap-content-box-wrapper"
-                  style={{
-                    minHeight: 0,
-                    borderRadius: '6px',
-                    padding: '22px',
-                    marginBottom: '15px',
-                    marginTop: 0,
-                  }}
-                >
-                  <div className="token-selector-balance-wrapper">
-                    <p className="xplenty-staking-apr">
-                      Rewards distribution start:
-                    </p>
-                  </div>
-                  <div className="token-user-input-wrapper">
-                    <p className="xplenty-staking-apr">
-                      {/* {props.xPlentyData.data.APR
+                <div className="swap-token-select-box-wrapper">
+                  <div
+                    className="swap-token-select-box bg-themed-light swap-content-box-wrapper"
+                    style={{
+                      minHeight: 0,
+                      borderRadius: '6px',
+                      padding: '22px',
+                      marginTop: 0,
+                    }}
+                  >
+                    <div className="token-selector-balance-wrapper">
+                      <p className="xplenty-staking-apr">
+                        Rewards distribution start:
+                      </p>
+                    </div>
+                    <div className="token-user-input-wrapper">
+                      <p className="xplenty-staking-apr">
+                        {/* {props.xPlentyData.data.APR
                       ? props.xPlentyData.data.APR.toFixed(3)
                       : 0}
                     {'%'} */}
-                      October 4
-                    </p>
+                        October 4
+                      </p>
+                    </div>
                   </div>
                 </div>
-                <div className="bg-themed swap-content-container xplenty-content-container">
-                  <Tabs defaultActiveKey="stake" className="swap-container-tab">
-                    <Tab eventKey="stake" title="Stake Plenty">
-                      <StakePlenty
-                        xPlentyData={props.xPlentyData}
-                        setExpectedxPlenty={props.setExpectedxPlenty}
-                        buyxPlenty={props.buyxPlenty}
-                        expectedxPlenty={props.expectedxPlenty}
-                        walletAddress={props.walletAddress}
-                        plentyBalance={props.walletBalances.PLENTY}
-                        setLoaderMessage={setLoaderMessage}
-                      />
-                    </Tab>
 
-                    <Tab eventKey="unstake" title="Unstake">
-                      <UnstakePlenty
-                        xPlentyData={props.xPlentyData}
-                        setExpectedPlenty={props.setExpectedPlenty}
-                        sellXPlenty={props.sellXPlenty}
-                        expectedPlenty={props.expectedPlenty}
-                        walletAddress={props.walletAddress}
-                        xplentyBalance={props.walletBalances.xPLENTY}
-                      />
-                    </Tab>
-                  </Tabs>
+                <div className="xplenty-content-container-wrapper">
+                  <div className="bg-themed swap-content-container xplenty-content-container">
+                    <Tabs
+                      defaultActiveKey="stake"
+                      className="swap-container-tab"
+                    >
+                      <Tab eventKey="stake" title="Stake Plenty">
+                        <StakePlenty
+                          xPlentyData={props.xPlentyData}
+                          setExpectedxPlenty={props.setExpectedxPlenty}
+                          buyxPlenty={props.buyxPlenty}
+                          expectedxPlenty={props.expectedxPlenty}
+                          walletAddress={props.walletAddress}
+                          plentyBalance={props.walletBalances.PLENTY}
+                          setLoaderMessage={setLoaderMessage}
+                        />
+                      </Tab>
+
+                      <Tab eventKey="unstake" title="Unstake">
+                        <UnstakePlenty
+                          xPlentyData={props.xPlentyData}
+                          setExpectedPlenty={props.setExpectedPlenty}
+                          sellXPlenty={props.sellXPlenty}
+                          expectedPlenty={props.expectedPlenty}
+                          walletAddress={props.walletAddress}
+                          xplentyBalance={props.walletBalances.xPLENTY}
+                        />
+                      </Tab>
+                    </Tabs>
+                  </div>
+                  <div className="xplenty-content-container-shadow"></div>
                 </div>
               </div>
             </div>
