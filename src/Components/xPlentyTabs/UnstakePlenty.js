@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import xplenty from '../../assets/images/xplenty-icon.png';
 
@@ -60,7 +60,7 @@ const UnstakePlenty = (props) => {
   }
   if (props.isProcessing) {
     xplentyButton = (
-      <button className="swap-content-btn loader-btn enter-amount">
+      <button className="swap-content-btn loader-btn xplenty-btn">
         <PuffLoader color={'#fff'} size={28} />
       </button>
     );
@@ -73,7 +73,11 @@ const UnstakePlenty = (props) => {
       }) ?? 0;
     xPlentyInputHandler(value.substring(0, value.length - 1));
   };
-
+  useEffect(() => {
+    if (props.isToastOpen) {
+      setxPlentyInput('');
+    }
+  }, [props.isToastOpen]);
   return (
     <>
       <div
@@ -84,9 +88,12 @@ const UnstakePlenty = (props) => {
         }}
       >
         <div className="token-selector-balance-wrapper">
-          <button className="token-selector dropdown-themed">
+          <button
+            className="token-selector dropdown-themed"
+            style={{ textTransform: 'none' }}
+          >
             <img src={xplenty} className="button-logo" />
-            <span className="span-themed">XPLENTY </span>
+            <span className="span-themed">xPLENTY </span>
           </button>
         </div>
 

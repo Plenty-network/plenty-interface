@@ -154,6 +154,7 @@ const Stake = (props) => {
                           setLoaderMessage={setLoaderMessage}
                           connectWallet={props.connectWallet}
                           isProcessing={props.isProcessing}
+                          isToastOpen={props.isToastOpen}
                         />
                       </Tab>
 
@@ -167,6 +168,7 @@ const Stake = (props) => {
                           xplentyBalance={props.walletBalances.xPLENTY}
                           connectWallet={props.connectWallet}
                           isProcessing={props.isProcessing}
+                          isToastOpen={props.isToastOpen}
                         />
                       </Tab>
                     </Tabs>

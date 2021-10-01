@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import plenty from '../../assets/images/logo_small.png';
 
@@ -71,11 +71,16 @@ const StakePlenty = (props) => {
   }
   if (props.isProcessing) {
     xplentyButton = (
-      <button className="swap-content-btn loader-btn enter-amount">
+      <button className="swap-content-btn loader-btn xplenty-btn">
         <PuffLoader color={'#fff'} size={28} />
       </button>
     );
   }
+  useEffect(() => {
+    if (props.isToastOpen) {
+      setPlentyInput('');
+    }
+  }, [props.isToastOpen]);
   return (
     <>
       <div
