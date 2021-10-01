@@ -17,8 +17,12 @@ import {
   buyXPlentyThunk,
   getExpectedPlentyThunk,
   sellXPlentyThunk,
+  closetransactionInjectionModalThunk,
+  closeToastThunk,
 } from '../redux/slices/xPlenty/xPlenty.thunk';
 import * as userActions from '../redux/actions/user/user.action';
+
+import InfoModal from '../Components/Ui/Modals/InfoModal';
 
 const Stake = (props) => {
   useEffect(() => {
@@ -29,6 +33,21 @@ const Stake = (props) => {
   const [loading, setLoading] = useState(false);
   const [loaderMessage, setLoaderMessage] = useState({});
 
+  useEffect(() => {
+    if (props.isToastOpen) {
+      setLoaderMessage({
+        type:
+          props.toastMessage === 'Transaction Successfull'
+            ? 'success'
+            : 'error',
+        message: props.toastMessage,
+      });
+      setTimeout(() => {
+        props.closeToast();
+        setLoaderMessage({});
+      }, 5000);
+    }
+  }, [props.isToastOpen]);
   return (
     <>
       <Container fluid>
@@ -123,7 +142,6 @@ const Stake = (props) => {
                         expectedxPlenty={props.expectedxPlenty}
                         walletAddress={props.walletAddress}
                         plentyBalance={props.walletBalances.PLENTY}
-                        setLoading={setLoading}
                         setLoaderMessage={setLoaderMessage}
                       />
                     </Tab>
@@ -139,31 +157,20 @@ const Stake = (props) => {
                       />
                     </Tab>
                   </Tabs>
-                  <div
-                    className="swap-token-select-box bg-themed-light swap-content-box-wrapper"
-                    style={{
-                      minHeight: 0,
-                      borderRadius: '6px',
-                    }}
-                  >
-                    <div className="token-selector-balance-wrapper">
-                      <p className="wallet-token-balance">Minimum received</p>
-                    </div>
-                    <div className="token-user-input-wrapper">
-                      <p className="xplenty-staking-apr">
-                        {props.xPlentyData.data.APR
-                          ? props.xPlentyData.data.APR.toFixed(3)
-                          : '7.2 xPlenty'}
-                      </p>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
           </Col>
         </Row>
       </Container>
-      <Loader loading={loading} loaderMessage={loaderMessage} />
+      <Loader loading={props.isProcessing} loaderMessage={loaderMessage} />
+      <InfoModal
+        open={props.isTransactionInjectionModalOpen}
+        onClose={props.closetransactionInjectionModal}
+        message={'Transaction submitted'}
+        buttonText={'View on Tezos'}
+      />
+      <Loader loading={false} loaderMessage={loaderMessage} />
     </>
   );
 };
@@ -175,6 +182,16 @@ const mapStateToProps = (state) => {
     expectedPlenty: state.xPlenty.expectedPlenty,
     userAddress: state.wallet.address,
     walletBalances: state.user.balances,
+    isProcessing:
+      state.xPlenty.xPlentyBuyingOperation.processing ||
+      state.xPlenty.xPlentySellingOperation.processing,
+    isTransactionInjectionModalOpen:
+      state.xPlenty.isTransactionInjectionModalOpen,
+    isToastOpen: state.xPlenty.isToastOpen,
+    toastMessage: state.xPlenty.toastMessage,
+    isInfoType: state.xPlenty.isInfoType,
+    //toastMessage
+    //isInfoType
   };
 };
 
@@ -195,6 +212,9 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(sellXPlentyThunk(xPlentyAmount, minimumExpected, recipient)),
     fetchUserBalances: (address) =>
       dispatch(userActions.fetchUserBalances(address)),
+    closetransactionInjectionModal: () =>
+      dispatch(closetransactionInjectionModalThunk()),
+    closeToast: () => dispatch(closeToastThunk()),
   };
 };
 

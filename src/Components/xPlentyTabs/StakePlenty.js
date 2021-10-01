@@ -13,7 +13,6 @@ const StakePlenty = (props) => {
     );
   };
   const buyHandler = () => {
-    props.setLoading(true);
     let plentyInputWithFormat = plentyInput * Math.pow(10, 18);
     plentyInputWithFormat = Math.floor(plentyInputWithFormat);
 
@@ -95,6 +94,23 @@ const StakePlenty = (props) => {
       </div>
 
       {xplentyButton}
+      <div
+        className="swap-token-select-box bg-themed-light swap-content-box-wrapper"
+        style={{
+          minHeight: 0,
+          borderRadius: '6px',
+        }}
+      >
+        <div className="token-selector-balance-wrapper">
+          <p className="wallet-token-balance">Minimum received</p>
+        </div>
+        <div className="token-user-input-wrapper">
+          <p className="xplenty-staking-apr">
+            {props.expectedxPlenty ? props.expectedxPlenty.toFixed(3) : 0}
+            {' xPlenty'}
+          </p>
+        </div>
+      </div>
     </>
   );
 };
