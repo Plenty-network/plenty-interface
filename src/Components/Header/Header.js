@@ -189,6 +189,25 @@ const Header = (props) => {
                     </Nav.Link>
                     <Nav.Link
                       className={clsx(
+                        splitLocation[1] === 'stake'
+                          ? 'menu-item-active'
+                          : undefined,
+                        'align-self-end align-self-lg-center d-flex align-items-center'
+                      )}
+                      as={Link}
+                      to="/stake"
+                      onClick={resetActiveTab}
+                    >
+                      <span
+                        className={clsx(
+                          props.isFrontPage ? 'text-white' : 'span-themed'
+                        )}
+                      >
+                        Stake
+                      </span>
+                    </Nav.Link>
+                    <Nav.Link
+                      className={clsx(
                         splitLocation[1] === 'pools'
                           ? 'menu-item-active'
                           : undefined,
@@ -204,25 +223,6 @@ const Header = (props) => {
                         )}
                       >
                         Pools
-                      </span>
-                    </Nav.Link>
-                    <Nav.Link
-                      className={clsx(
-                        splitLocation[1] === 'ponds'
-                          ? 'menu-item-active'
-                          : undefined,
-                        'align-self-end align-self-lg-center d-flex align-items-center'
-                      )}
-                      as={Link}
-                      to="/ponds"
-                      onClick={resetActiveTab}
-                    >
-                      <span
-                        className={clsx(
-                          props.isFrontPage ? 'text-white' : 'span-themed'
-                        )}
-                      >
-                        Ponds
                       </span>
                     </Nav.Link>
                   </div>

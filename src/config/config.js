@@ -11,21 +11,20 @@ module.exports = {
   },
   TZKT_NODES: {
     mainnet: 'https://api.tzkt.io',
-    testnet: 'https://api.florencenet.tzkt.io',
+    testnet: 'https://api.granadanet.tzkt.io',
   },
   STAKING_CONTRACTS: {
     POOLS: {
       mainnet: {
         PLENTY: {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1QqjR4Fj9YegB37PQEqXUPHmFbhz6VJtwE',
               mapId: 4494,
               decimal: 18,
               tokenDecimal: 18,
             },
-          ],
-          inactive: [
             {
               address: 'KT1UDe1YP963CQSb5xN7cQ1X8NJ2pUyjGw5T',
               mapId: 3949,
@@ -411,10 +410,26 @@ module.exports = {
     },
   },
   TOKEN_CONTRACTS: {
+    testnet: {
+      PLENTY: {
+        address: 'KT1PHbg4Dqmg9zWwuWQjo4dDTsgJ5svdyXdH',
+        mapId: 22612,
+        decimal: 18,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+    },
     mainnet: {
       PLENTY: {
         address: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
         mapId: 3943,
+        decimal: 18,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+      xPLENTY: {
+        address: 'KT1Rpviewjg82JgjGfAKFneSupjAR1kUhbza',
+        mapId: 18153,
         decimal: 18,
         type: 'FA1.2',
         tokenId: 0,
@@ -1282,7 +1297,8 @@ module.exports = {
   POOLS: {
     mainnet: {
       PLENTY: {
-        active: [
+        active: [],
+        inactive: [
           {
             TOKEN: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             CONTRACT: 'KT1QqjR4Fj9YegB37PQEqXUPHmFbhz6VJtwE',
@@ -1293,11 +1309,9 @@ module.exports = {
             DECIMAL: 18,
             CARD_TYPE: 'PLENTY',
             withdrawalFeeType: 'type1',
-            message: 'Staking disabled, xPLENTY launching soon',
+            message: 'Rewards ended October 1',
             bannerType: 'alert',
           },
-        ],
-        inactive: [
           {
             TOKEN: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             CONTRACT: 'KT1UDe1YP963CQSb5xN7cQ1X8NJ2pUyjGw5T',
@@ -2001,6 +2015,48 @@ module.exports = {
       { block: 24576, rate: 10, duration: '< 9 days' },
       { block: 24576, rate: 2, duration: '> 9 days' },
     ],
+  },
+  xPlenty: {
+    testnet: {
+      plentyTokenContract: {
+        address: 'KT1PHbg4Dqmg9zWwuWQjo4dDTsgJ5svdyXdH',
+        balancesMapId: 22612,
+        decimal: 18,
+      },
+      xPlentyTokenContract: {
+        address: 'KT1PP3YaYF4iNTyryjjKe5WrqnnMbQPLqd4E',
+        balancesMapId: 40509,
+        decimal: 18,
+      },
+      rewardManager: {
+        address: 'KT1M1uU6br1ijvZVGe6FYwqf3kHK4GmUfDso',
+      },
+      xPlentyCurve: {
+        address: 'KT1Luq2wvCFJ8zDCJmqWsyXLXeffhwcTExJe',
+        bigMapExpression:
+          'exprudLL27ekHKb2ZJCTRomMHjKqPK8CmJjDpk2cY2shwagF3woAnn',
+      },
+    },
+    mainnet: {
+      plentyTokenContract: {
+        address: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+        balancesMapId: 3943,
+        decimal: 18,
+      },
+      xPlentyTokenContract: {
+        address: 'KT1Rpviewjg82JgjGfAKFneSupjAR1kUhbza',
+        balancesMapId: 18153,
+        decimal: 18,
+      },
+      rewardManager: {
+        address: 'KT1MCgouivQ2rzam5hA2gqF1eMtY5i6ndJvT',
+      },
+      xPlentyCurve: {
+        address: 'KT1PxkrCckgh5fA5v2cZEE2bX5q2RV1rv8dj',
+        bigMapExpression:
+          'exprudkkDPkJ6KmqHyZ1VT7aZHYji3s7FnkKayYkDBrmUemSbsFwSJ',
+      },
+    },
   },
   NETWORK: 'mainnet',
   WALLET_NETWORK: 'mainnet',

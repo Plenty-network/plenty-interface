@@ -327,7 +327,8 @@ export const getBalanceAmount = async (
       mapId === 1777 ||
       mapId === 1772 ||
       mapId === 515 ||
-      mapId === 4178
+      mapId === 4178 ||
+      mapId === 18153
     ) {
       balance = response.data.int;
     }

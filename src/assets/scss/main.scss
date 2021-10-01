@@ -6,6 +6,7 @@
 @import './partials/swap';
 @import './partials/farms';
 @import './partials/poolCard';
+@import './partials/xplenty';
 @import './theme';
 
 .flex {
@@ -116,8 +117,12 @@ h1 {
 }
 
 .tooltip-inner {
-  background: linear-gradient(90deg, rgba(112, 40, 228) 0%, rgba(229, 178, 202) 100%);
-  color: #FFFFFF;
+  background: linear-gradient(
+    90deg,
+    rgba(112, 40, 228) 0%,
+    rgba(229, 178, 202) 100%
+  );
+  color: #ffffff;
   opacity: 1;
 }
 
@@ -126,14 +131,16 @@ h1 {
 }
 
 .shimmer {
-  background: var(--theme-bg-2) linear-gradient(
+  background: var(--theme-bg-2)
+    linear-gradient(
       to right,
-      var(--theme-bg-2)  0%,
+      var(--theme-bg-2) 0%,
       var(--theme-bg-4) 20%,
-      var(--theme-bg-2)  40%,
-      var(--theme-bg-2)  100%
-    ) no-repeat;
-  background-size: 800px 104px; 
+      var(--theme-bg-2) 40%,
+      var(--theme-bg-2) 100%
+    )
+    no-repeat;
+  background-size: 800px 104px;
   display: inline-block;
   position: relative;
   animation: 3s placeholderShimmer infinite;
@@ -145,7 +152,7 @@ h1 {
   0% {
     background-position: 100% 0;
   }
-  
+
   100% {
     background-position: -100% 0;
   }
