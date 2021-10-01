@@ -143,7 +143,7 @@ const Stake = (props) => {
                       defaultActiveKey="stake"
                       className="swap-container-tab"
                     >
-                      <Tab eventKey="stake" title="Stake Plenty">
+                      <Tab eventKey="stake" title="Stake PLENTY">
                         <StakePlenty
                           xPlentyData={props.xPlentyData}
                           setExpectedxPlenty={props.setExpectedxPlenty}
@@ -153,6 +153,7 @@ const Stake = (props) => {
                           plentyBalance={props.walletBalances.PLENTY}
                           setLoaderMessage={setLoaderMessage}
                           connectWallet={props.connectWallet}
+                          isProcessing={props.isProcessing}
                         />
                       </Tab>
 
@@ -165,6 +166,7 @@ const Stake = (props) => {
                           walletAddress={props.walletAddress}
                           xplentyBalance={props.walletBalances.xPLENTY}
                           connectWallet={props.connectWallet}
+                          isProcessing={props.isProcessing}
                         />
                       </Tab>
                     </Tabs>

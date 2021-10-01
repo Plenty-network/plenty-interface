@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import xplenty from '../../assets/images/xplenty-icon.png';
 
+import PuffLoader from 'react-spinners/PuffLoader';
+
 const UnstakePlenty = (props) => {
   const [xPlentyInput, setxPlentyInput] = useState('');
   const xPlentyInputHandler = (value) => {
@@ -45,7 +47,7 @@ const UnstakePlenty = (props) => {
     } else if (xPlentyInput) {
       xplentyButton = (
         <button className="swap-content-btn xplenty-btn" onClick={sellHandler}>
-          Unstake Plenty
+          Unstake
         </button>
       );
     } else {
@@ -56,7 +58,13 @@ const UnstakePlenty = (props) => {
       );
     }
   }
-
+  if (props.isProcessing) {
+    xplentyButton = (
+      <button className="swap-content-btn loader-btn enter-amount">
+        <PuffLoader color={'#fff'} size={28} />
+      </button>
+    );
+  }
   const onMaxClick = (value) => {
     value =
       value.toLocaleString('en-US', {

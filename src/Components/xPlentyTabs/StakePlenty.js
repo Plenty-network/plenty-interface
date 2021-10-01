@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import plenty from '../../assets/images/logo_small.png';
 
+import PuffLoader from 'react-spinners/PuffLoader';
+
 const StakePlenty = (props) => {
   const [plentyInput, setPlentyInput] = useState('');
   const plentyInputHandler = (value) => {
@@ -66,6 +68,13 @@ const StakePlenty = (props) => {
         </button>
       );
     }
+  }
+  if (props.isProcessing) {
+    xplentyButton = (
+      <button className="swap-content-btn loader-btn enter-amount">
+        <PuffLoader color={'#fff'} size={28} />
+      </button>
+    );
   }
   return (
     <>
