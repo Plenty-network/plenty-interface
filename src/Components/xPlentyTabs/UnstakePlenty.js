@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import xplenty from '../../assets/images/xplenty-icon.png';
 
 const UnstakePlenty = (props) => {
-  const [xPlentyInput, setxPlentyInput] = useState(0);
+  const [xPlentyInput, setxPlentyInput] = useState('');
   const xPlentyInputHandler = (value) => {
     if (value == '' || isNaN(value)) {
       setxPlentyInput('');
       return;
     }
-    setxPlentyInput(parseFloat(value));
+    setxPlentyInput(value);
     props.setExpectedPlenty(
       props.xPlentyData.data.plentyBalance,
       props.xPlentyData.data.totalSupply,
