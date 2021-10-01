@@ -9,12 +9,11 @@ import clsx from 'clsx';
 import dollar from '../../assets/images/frontpage/dollar.svg';
 import marketCap from '../../assets/images/frontpage/marketcap.svg';
 import farms from '../../assets/images/frontpage/farms.svg';
+import xplenty from '../../assets/images/frontpage/xplenty.svg';
 import totalBurned from '../../assets/images/frontpage/totalburned.svg';
 import circulatingSupply from '../../assets/images/frontpage/circulatingsupply.svg';
 import plentyBlock from '../../assets/images/frontpage/plentyblock.svg';
 import amm from '../../assets/images/frontpage/amm.svg';
-import pools from '../../assets/images/frontpage/pools.svg';
-import ponds from '../../assets/images/frontpage/ponds.svg';
 import plentyBig from '../../assets/images/frontpage/plentybig.svg';
 import { ReactComponent as Medium } from '../../assets/images/frontpage/medium.svg';
 import { ReactComponent as Twitter } from '../../assets/images/frontpage/twitter.svg';
@@ -65,6 +64,7 @@ const Frontpage = ({
   modalData,
   harvestAllOperations,
   rpcNode,
+  xplentyBalance,
 }) => {
   useEffect(() => {
     const getAllData = () => {
@@ -221,6 +221,7 @@ const Frontpage = ({
                     plentyInWallet={plentyBalance}
                     plentyToHarvest={plentyToHarvest}
                     harvestAllOperations={harvestAllOperations}
+                    xplentyBalance={xplentyBalance}
                   />
                 </div>
               </div>
@@ -317,47 +318,44 @@ const Frontpage = ({
           </Col>
         </Row>
         <Row className="mb-4 mx-lg-5">
-          <div className="col-xl-11 row m-auto">
+          <div
+            className="col-xl-11 row m-auto"
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
             <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
               <LinkTile
                 text={
-                  'Swap tokens and add liquidity on the first token-to-token Automated Market Maker on Tezos.'
+                  'Swap tokens and add liquidity on first token-to-token AMM on Tezos. Don’t look any further for the highest liquidity.'
                 }
                 linkTo={'/swap'}
                 linkText={'Enter Exchange'}
                 headerIcon={amm}
-                headerText={'AMM'}
+                headerText={'Token-to-token AMM'}
               />
             </Col>
             <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
               <LinkTile
                 text={
-                  'Earn extra rewards besides trading fees by locking Plenty Liquidity Provider (PLP) tokens into a farm.'
+                  'Earn PLENTY and other tokens by staking Plenty Liquidity Provider tokens in a farm.'
                 }
                 linkTo={'/farms'}
                 linkText={'Enter Farms'}
                 headerIcon={farms}
-                headerText={'Farms'}
+                headerText={'Yield farms'}
               />
             </Col>
             <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
               <LinkTile
                 text={
-                  'Pools are made for single asset staking and yield PLENTY. Pools are being phased out, except for PLENTY staking.'
+                  'Stake PLENTY, receive xPLENTY in return. xPLENTY is continuously compounding staking rewards and trading fees. '
                 }
-                linkTo={'/pools'}
-                linkText={'Enter Pools'}
-                headerIcon={pools}
-                headerText={'Pools'}
-              />
-            </Col>
-            <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
-              <LinkTile
-                text={'Earn different Tezos tokens in Ponds by staking PLENTY.'}
-                linkTo={'/ponds'}
-                linkText={'Enter Ponds'}
-                headerIcon={ponds}
-                headerText={'Ponds'}
+                linkTo={'/stake'}
+                linkText={'Enter Staking'}
+                headerIcon={xplenty}
+                headerText={'xPlenty staking'}
               />
             </Col>
           </div>
@@ -681,7 +679,12 @@ const mapStateToProps = (state) => ({
   tvl: state.home.tvl.data,
   wallet: state.wallet.address,
   plentyToHarvest: state.home.plentyToHarvest.data,
-  plentyBalance: state.home.plentyBalance.data,
+  plentyBalance: state.home.plentyBalance.data
+    ? state.home.plentyBalance.data.PLENTY
+    : 0,
+  xplentyBalance: state.home.plentyBalance.data
+    ? state.home.plentyBalance.data.xPLENTY
+    : 0,
   userTVL: state.home.userTVL.data,
   modalData: state.home.modals,
   harvestAllOperations: state.home.harvestAllOperation,

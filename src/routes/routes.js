@@ -15,6 +15,7 @@ const Farms = React.lazy(() => import('../Pages/Farms'));
 const Ponds = React.lazy(() => import('../Pages/Ponds'));
 const Pools = React.lazy(() => import('../Pages/Pools'));
 const Frontpage = React.lazy(() => import('../Pages/Frontpage/Frontpage'));
+const Stake = React.lazy(() => import('../Pages/xPlenty'));
 
 const Routes = (props) => {
   const { theme, toggleTheme } = useThemes();
@@ -79,6 +80,9 @@ const Routes = (props) => {
               </Route>
               <Route path="/ponds">
                 <Ponds walletAddress={props.userAddress} />
+              </Route>
+              <Route path="/stake">
+                <Stake walletAddress={props.userAddress} />
               </Route>
             </div>
           </Switch>
