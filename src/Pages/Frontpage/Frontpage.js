@@ -64,6 +64,7 @@ const Frontpage = ({
   modalData,
   harvestAllOperations,
   rpcNode,
+  xplentyBalance,
 }) => {
   useEffect(() => {
     const getAllData = () => {
@@ -220,6 +221,7 @@ const Frontpage = ({
                     plentyInWallet={plentyBalance}
                     plentyToHarvest={plentyToHarvest}
                     harvestAllOperations={harvestAllOperations}
+                    xplentyBalance={xplentyBalance}
                   />
                 </div>
               </div>
@@ -677,7 +679,12 @@ const mapStateToProps = (state) => ({
   tvl: state.home.tvl.data,
   wallet: state.wallet.address,
   plentyToHarvest: state.home.plentyToHarvest.data,
-  plentyBalance: state.home.plentyBalance.data,
+  plentyBalance: state.home.plentyBalance.data
+    ? state.home.plentyBalance.data.PLENTY
+    : 0,
+  xplentyBalance: state.home.plentyBalance.data
+    ? state.home.plentyBalance.data.xPLENTY
+    : 0,
   userTVL: state.home.userTVL.data,
   modalData: state.home.modals,
   harvestAllOperations: state.home.harvestAllOperation,

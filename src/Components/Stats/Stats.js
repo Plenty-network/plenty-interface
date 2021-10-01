@@ -87,7 +87,7 @@ const Stats = (props) => {
         </Col>
         <Col xs={6}>
           <Label
-            text={loading ? null : `${props.plentyToHarvest?.toFixed(5)}`}
+            text={loading ? null : `${props.xplentyBalance?.toFixed(5)}`}
             subText={'xPLENTY in wallet'}
             icon={xplentyIcon}
             iconClass={'mt-1'}
