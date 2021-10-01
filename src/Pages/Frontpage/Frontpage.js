@@ -328,29 +328,29 @@ const Frontpage = ({
             <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
               <LinkTile
                 text={
-                  'Swap tokens and add liquidity on the first token-to-token Automated Market Maker on Tezos.'
+                  'Swap tokens and add liquidity on first token-to-token AMM on Tezos. Don’t look any further for the highest liquidity.'
                 }
                 linkTo={'/swap'}
                 linkText={'Enter Exchange'}
                 headerIcon={amm}
-                headerText={'AMM'}
+                headerText={'Token-to-token AMM'}
               />
             </Col>
             <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
               <LinkTile
                 text={
-                  'Earn extra rewards besides trading fees by locking Plenty Liquidity Provider (PLP) tokens into a farm.'
+                  'Earn PLENTY and other tokens by staking Plenty Liquidity Provider tokens in a farm.'
                 }
                 linkTo={'/farms'}
                 linkText={'Enter Farms'}
                 headerIcon={farms}
-                headerText={'Farms'}
+                headerText={'Yield farms'}
               />
             </Col>
             <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
               <LinkTile
                 text={
-                  'The first token-to-token AMM on Tezos. Swap tokens and add liquidity.'
+                  'Stake PLENTY, receive xPLENTY in return. xPLENTY is continuously compounding staking rewards and trading fees. '
                 }
                 linkTo={'/stake'}
                 linkText={'Enter Staking'}

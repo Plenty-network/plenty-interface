@@ -5,6 +5,10 @@ import plenty from '../../assets/images/logo_small.png';
 const StakePlenty = (props) => {
   const [plentyInput, setPlentyInput] = useState(0);
   const plentyInputHandler = (value) => {
+    if (value == '' || isNaN(value)) {
+      setPlentyInput('');
+      return;
+    }
     setPlentyInput(parseFloat(value));
     props.setExpectedxPlenty(
       props.xPlentyData.data.plentyBalance,
@@ -23,6 +27,15 @@ const StakePlenty = (props) => {
       props.expectedxPlenty,
       props.walletAddress
     );
+  };
+
+  const onMaxClick = (value) => {
+    value =
+      value.toLocaleString('en-US', {
+        maximumFractionDigits: 20,
+        useGrouping: false,
+      }) ?? 0;
+    plentyInputHandler(value.substring(0, value.length - 1));
   };
 
   let xplentyButton = (
@@ -74,14 +87,19 @@ const StakePlenty = (props) => {
           <input
             type="text"
             onChange={(event) => plentyInputHandler(event.target.value)}
+            value={plentyInput}
             className="token-user-input"
             placeholder="0.0"
           />
         </div>
         <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
-          <p className="wallet-token-balance" style={{ cursor: 'pointer' }}>
+          <p
+            className="wallet-token-balance"
+            style={{ cursor: 'pointer' }}
+            onClick={() => onMaxClick(props.plentyBalance)}
+          >
             Balance: {props.plentyBalance ? props.plentyBalance.toFixed(4) : 0}{' '}
-            PLENTY
+            PLENTY <span className="max-btn">(Max)</span>
           </p>
           <p className="wallet-token-balance">
             1 xPLENTY ={' '}

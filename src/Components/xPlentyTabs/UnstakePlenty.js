@@ -5,7 +5,10 @@ import xplenty from '../../assets/images/xplenty-icon.png';
 const UnstakePlenty = (props) => {
   const [xPlentyInput, setxPlentyInput] = useState(0);
   const xPlentyInputHandler = (value) => {
-    console.log(value);
+    if (value == '' || isNaN(value)) {
+      setxPlentyInput('');
+      return;
+    }
     setxPlentyInput(parseFloat(value));
     props.setExpectedPlenty(
       props.xPlentyData.data.plentyBalance,
@@ -54,6 +57,15 @@ const UnstakePlenty = (props) => {
     }
   }
 
+  const onMaxClick = (value) => {
+    value =
+      value.toLocaleString('en-US', {
+        maximumFractionDigits: 20,
+        useGrouping: false,
+      }) ?? 0;
+    xPlentyInputHandler(value.substring(0, value.length - 1));
+  };
+
   return (
     <>
       <div
@@ -75,15 +87,21 @@ const UnstakePlenty = (props) => {
             type="text"
             className="token-user-input"
             placeholder="0.0"
+            value={xPlentyInput}
             onChange={(event) => {
               xPlentyInputHandler(event.target.value);
             }}
           />
         </div>
         <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
-          <p className="wallet-token-balance" style={{ cursor: 'pointer' }}>
+          <p
+            className="wallet-token-balance"
+            style={{ cursor: 'pointer' }}
+            onClick={() => onMaxClick(props.xplentyBalance)}
+          >
             Balance:{' '}
-            {props.xplentyBalance ? props.xplentyBalance.toFixed(4) : 0} xPLENTY
+            {props.xplentyBalance ? props.xplentyBalance.toFixed(4) : 0} xPLENTY{' '}
+            <span className="max-btn">(Max)</span>
           </p>
           <p className="wallet-token-balance">
             1 xPLENTY ={' '}

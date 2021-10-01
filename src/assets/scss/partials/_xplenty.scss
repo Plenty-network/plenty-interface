@@ -132,3 +132,29 @@
     }
   }
 }
+.max-btn {
+  color: #e35f5f;
+}
+.xplenty-content-section {
+  .swap-container-tab {
+    .nav-link.active {
+      border: 0 !important;
+      position: relative;
+      &:after {
+        content: '';
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(
+          100.44deg,
+          #f8b67f 0%,
+          #ff5451 33.57%,
+          #ee1ec0 67.02%,
+          #a02cfc 103.97%
+        );
+        position: absolute;
+        left: 0;
+        bottom: 0;
+      }
+    }
+  }
+}
