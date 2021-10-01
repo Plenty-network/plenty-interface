@@ -389,7 +389,7 @@ const calculateHarvestValueDual = async (
       success: true,
       totalRewards: [
         harvestValueResponse[0].totalRewards,
-        harvestValueResponse[0].totalRewards,
+        harvestValueResponse[1].totalRewards,
       ],
       address: stakingContract,
     };

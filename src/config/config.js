@@ -6,8 +6,8 @@ module.exports = {
     tezToolTokenPrice: 'https://api.teztools.io/token/prices',
   },
   RPC_NODES: {
-    testnet: 'https://testnet-tezos.giganode.io/',
-    mainnet: 'https://tezos-prod.cryptonomic-infra.tech',
+    testnet: 'https://testnet.tezster.tech/',
+    mainnet: 'https://tezos-prod.cryptonomic-infra.tech/',
   },
   TZKT_NODES: {
     mainnet: 'https://api.tzkt.io',
@@ -1951,9 +1951,9 @@ module.exports = {
             TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             DECIMAL: 18,
             withdrawalFeeType: 'type2',
-            message: '😍 Double reward rate until September 30',
+            message: '🥳 Earn PLENTY & GIF until October 19th',
             bannerType: 'info',
-            liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=uUSD',
+            liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=GIF',
             isDualFarm: true,
           },
         ],
