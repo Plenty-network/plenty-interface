@@ -127,6 +127,10 @@ const Pools = (props) => {
         modalData={props.unstakeModal}
       />
       <PoolModals />
+      <div style={{ textAlign: 'center' }}>
+        <p>No active pools</p>
+        <br />
+      </div>
     </div>
   );
 };

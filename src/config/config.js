@@ -17,15 +17,14 @@ module.exports = {
     POOLS: {
       mainnet: {
         PLENTY: {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1QqjR4Fj9YegB37PQEqXUPHmFbhz6VJtwE',
               mapId: 4494,
               decimal: 18,
               tokenDecimal: 18,
             },
-          ],
-          inactive: [
             {
               address: 'KT1UDe1YP963CQSb5xN7cQ1X8NJ2pUyjGw5T',
               mapId: 3949,
@@ -1298,7 +1297,8 @@ module.exports = {
   POOLS: {
     mainnet: {
       PLENTY: {
-        active: [
+        active: [],
+        inactive: [
           {
             TOKEN: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             CONTRACT: 'KT1QqjR4Fj9YegB37PQEqXUPHmFbhz6VJtwE',
@@ -1309,11 +1309,9 @@ module.exports = {
             DECIMAL: 18,
             CARD_TYPE: 'PLENTY',
             withdrawalFeeType: 'type1',
-            message: 'Staking disabled, xPLENTY launching soon',
+            message: 'Rewards ended October 1',
             bannerType: 'alert',
           },
-        ],
-        inactive: [
           {
             TOKEN: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             CONTRACT: 'KT1UDe1YP963CQSb5xN7cQ1X8NJ2pUyjGw5T',
