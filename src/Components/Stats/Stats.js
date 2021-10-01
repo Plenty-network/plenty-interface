@@ -11,6 +11,7 @@ import plentyMedium from '../../assets/images/frontpage/plentymedium.svg';
 import styles from './stats.module.scss';
 import Button from '../Ui/Buttons/Button';
 import NumericLabel from 'react-pretty-numbers';
+import xplentyIcon from '../../assets/images/stats/xplentyIcon.svg';
 
 const Stats = (props) => {
   const loading = useMemo(() => {
@@ -39,12 +40,17 @@ const Stats = (props) => {
   return (
     <div className={clsx('p-3', 'bg-themed', styles.container)}>
       <Row className="p-1">
-        <Col xs={7}>
+        <Col xs={10}>
           <span className="d-flex font-weight-bold m-0 py-3">
             Your Stats
             <Image className="ml-2" src={greenBullet} />
           </span>
           <hr />
+        </Col>
+      </Row>
+
+      <Row className="p-1">
+        <Col xs={6}>
           <Label
             text={
               loading ? null : (
@@ -59,8 +65,13 @@ const Stats = (props) => {
             className={'pt-1'}
           />
         </Col>
-        <Col xs={5} className="m-auto">
-          <Image className="mw-100" src={plentyMedium} />
+        <Col xs={6}>
+          <Label
+            text={loading ? null : `${props.plentyToHarvest?.toFixed(5)}`}
+            subText={'PLENTY to harvest'}
+            icon={plentyToHarvest}
+            iconClass={'mt-1'}
+          />
         </Col>
       </Row>
 
@@ -76,9 +87,9 @@ const Stats = (props) => {
         </Col>
         <Col xs={6}>
           <Label
-            text={loading ? null : `${props.plentyToHarvest?.toFixed(5)}`}
-            subText={'PLENTY to harvest'}
-            icon={plentyToHarvest}
+            text={loading ? null : `${props.xplentyBalance?.toFixed(5)}`}
+            subText={'xPLENTY in wallet'}
+            icon={xplentyIcon}
             iconClass={'mt-1'}
           />
         </Col>
