@@ -9,12 +9,11 @@ import clsx from 'clsx';
 import dollar from '../../assets/images/frontpage/dollar.svg';
 import marketCap from '../../assets/images/frontpage/marketcap.svg';
 import farms from '../../assets/images/frontpage/farms.svg';
+import xplenty from '../../assets/images/frontpage/xplenty.svg';
 import totalBurned from '../../assets/images/frontpage/totalburned.svg';
 import circulatingSupply from '../../assets/images/frontpage/circulatingsupply.svg';
 import plentyBlock from '../../assets/images/frontpage/plentyblock.svg';
 import amm from '../../assets/images/frontpage/amm.svg';
-import pools from '../../assets/images/frontpage/pools.svg';
-import ponds from '../../assets/images/frontpage/ponds.svg';
 import plentyBig from '../../assets/images/frontpage/plentybig.svg';
 import { ReactComponent as Medium } from '../../assets/images/frontpage/medium.svg';
 import { ReactComponent as Twitter } from '../../assets/images/frontpage/twitter.svg';
@@ -317,7 +316,13 @@ const Frontpage = ({
           </Col>
         </Row>
         <Row className="mb-4 mx-lg-5">
-          <div className="col-xl-11 row m-auto">
+          <div
+            className="col-xl-11 row m-auto"
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
             <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
               <LinkTile
                 text={
@@ -343,21 +348,12 @@ const Frontpage = ({
             <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
               <LinkTile
                 text={
-                  'Pools are made for single asset staking and yield PLENTY. Pools are being phased out, except for PLENTY staking.'
+                  'The first token-to-token AMM on Tezos. Swap tokens and add liquidity.'
                 }
-                linkTo={'/pools'}
-                linkText={'Enter Pools'}
-                headerIcon={pools}
-                headerText={'Pools'}
-              />
-            </Col>
-            <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
-              <LinkTile
-                text={'Earn different Tezos tokens in Ponds by staking PLENTY.'}
-                linkTo={'/ponds'}
-                linkText={'Enter Ponds'}
-                headerIcon={ponds}
-                headerText={'Ponds'}
+                linkTo={'/stake'}
+                linkText={'Enter Staking'}
+                headerIcon={xplenty}
+                headerText={'xPlenty staking'}
               />
             </Col>
           </div>
