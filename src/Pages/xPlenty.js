@@ -22,13 +22,15 @@ import {
 } from '../redux/slices/xPlenty/xPlenty.thunk';
 import * as userActions from '../redux/actions/user/user.action';
 
+import * as walletActions from '../redux/actions/wallet/wallet.action';
+
 import InfoModal from '../Components/Ui/Modals/InfoModal';
 
 const Stake = (props) => {
   useEffect(() => {
     props.getxPlentyData();
     props.fetchUserBalances(props.walletAddress);
-  }, []);
+  }, [props.walletAddress]);
 
   const [loading, setLoading] = useState(false);
   const [loaderMessage, setLoaderMessage] = useState({});
@@ -84,7 +86,8 @@ const Stake = (props) => {
                     <p>Value Locked</p>
                     <p className="xplenty-numbers">
                       {props.xPlentyData.data.ValueLockedToShow
-                        ? props.xPlentyData.data.ValueLockedToShow.toFixed(2)
+                        ? '$' +
+                          props.xPlentyData.data.ValueLockedToShow.toFixed(2)
                         : null}
                     </p>
                   </li>
@@ -149,6 +152,7 @@ const Stake = (props) => {
                           walletAddress={props.walletAddress}
                           plentyBalance={props.walletBalances.PLENTY}
                           setLoaderMessage={setLoaderMessage}
+                          connectWallet={props.connectWallet}
                         />
                       </Tab>
 
@@ -160,6 +164,7 @@ const Stake = (props) => {
                           expectedPlenty={props.expectedPlenty}
                           walletAddress={props.walletAddress}
                           xplentyBalance={props.walletBalances.xPLENTY}
+                          connectWallet={props.connectWallet}
                         />
                       </Tab>
                     </Tabs>
@@ -205,6 +210,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    connectWallet: () => dispatch(walletActions.connectWallet()),
     getxPlentyData: () => dispatch(xPlentyComputationsThunk()),
     setExpectedxPlenty: (plentyBalance, totalSupply, plentyAmount) =>
       dispatch(

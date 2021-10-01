@@ -28,7 +28,7 @@ const StakePlenty = (props) => {
   let xplentyButton = (
     <button
       className="swap-content-btn xplenty-btn"
-      onClick={props.connecthWallet}
+      onClick={props.connectWallet}
     >
       <span className="material-icons-round">add</span> Connect Wallet
     </button>
