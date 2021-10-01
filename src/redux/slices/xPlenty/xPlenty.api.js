@@ -232,7 +232,7 @@ export const buyXPlenty = async (plentyAmount, minimumExpected, recipient) => {
           plentyContractInstance.methods.approve(xPlentyBuySellContract, 0)
         );
       const batchOperation = await batch.send();
-      store.dispatch(opentransactionInjectionModal());
+      store.dispatch(opentransactionInjectionModal(batchOperation.opHash));
       await batchOperation.confirmation().then(() => batchOperation.opHash);
       store.dispatch(closetransactionInjectionModal());
       store.dispatch(openToastOnSuccess());
@@ -294,7 +294,7 @@ export const sellXPlenty = async (
           )
         );
       const batchOperation = await batch.send();
-      store.dispatch(opentransactionInjectionModal());
+      store.dispatch(opentransactionInjectionModal(batchOperation.opHash));
       await batchOperation.confirmation().then(() => batchOperation.opHash);
       store.dispatch(closetransactionInjectionModal());
       store.dispatch(openToastOnSuccess());

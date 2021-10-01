@@ -182,6 +182,12 @@ const Stake = (props) => {
         onClose={props.closetransactionInjectionModal}
         message={'Transaction submitted'}
         buttonText={'View on Tezos'}
+        onBtnClick={
+          props.currentOpHash
+            ? () =>
+                window.open(`https://tzkt.io/${props.currentOpHash}`, '_blank')
+            : null
+        }
       />
       <Loader loading={false} loaderMessage={loaderMessage} />
     </>
@@ -203,6 +209,7 @@ const mapStateToProps = (state) => {
     isToastOpen: state.xPlenty.isToastOpen,
     toastMessage: state.xPlenty.toastMessage,
     isInfoType: state.xPlenty.isInfoType,
+    currentOpHash: state.xPlenty.currentOpHash,
     //toastMessage
     //isInfoType
   };

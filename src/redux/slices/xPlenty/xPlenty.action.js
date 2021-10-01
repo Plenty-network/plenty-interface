@@ -35,8 +35,9 @@ export const expectedxPlentyActions = {
 };
 
 export const transactionInjectionModalActions = {
-  opentransactionInjectionModal: (state) => {
+  opentransactionInjectionModal: (state, action) => {
     state.isTransactionInjectionModalOpen = true;
+    state.currentOpHash = action.payload;
   },
   closetransactionInjectionModal: (state) => {
     state.isTransactionInjectionModalOpen = false;

@@ -13,6 +13,7 @@ const initialState = {
   expectedPlenty: 0,
   expectedxPlenty: 0,
   isTransactionInjectionModalOpen: false,
+  currentOpHash: null,
   toastMessage: '',
   isInfoType: true,
   isToastOpen: false,
