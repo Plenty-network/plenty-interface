@@ -37,7 +37,7 @@ const StakePlenty = (props) => {
         maximumFractionDigits: 20,
         useGrouping: false,
       }) ?? 0;
-    plentyInputHandler(value.substring(0, value.length - 1));
+    plentyInputHandler(value);
   };
 
   let xplentyButton = (

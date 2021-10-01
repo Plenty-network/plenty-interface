@@ -71,7 +71,7 @@ const UnstakePlenty = (props) => {
         maximumFractionDigits: 20,
         useGrouping: false,
       }) ?? 0;
-    xPlentyInputHandler(value.substring(0, value.length - 1));
+    xPlentyInputHandler(value);
   };
   useEffect(() => {
     if (props.isToastOpen) {
