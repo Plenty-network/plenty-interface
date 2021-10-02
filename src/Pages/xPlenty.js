@@ -87,7 +87,7 @@ const Stake = (props) => {
                     <p className="xplenty-numbers">
                       {props.xPlentyData.data.ValueLockedToShow
                         ? '$' +
-                          props.xPlentyData.data.ValueLockedToShow.toFixed(2)
+                          parseInt(props.xPlentyData.data.ValueLockedToShow)
                         : null}
                     </p>
                   </li>
@@ -95,7 +95,7 @@ const Stake = (props) => {
                     <p>xPlenty Supply</p>
                     <p className="xplenty-numbers">
                       {props.xPlentyData.data.xPlentySupplyToShow
-                        ? props.xPlentyData.data.xPlentySupplyToShow.toFixed(2)
+                        ? parseInt(props.xPlentyData.data.xPlentySupplyToShow)
                         : null}
                     </p>
                   </li>
@@ -103,7 +103,7 @@ const Stake = (props) => {
                     <p>Plenty Staked</p>
                     <p className="xplenty-numbers">
                       {props.xPlentyData.data.plentyStakedToShow
-                        ? props.xPlentyData.data.plentyStakedToShow.toFixed(2)
+                        ? parseInt(props.xPlentyData.data.plentyStakedToShow)
                         : null}
                     </p>
                   </li>
