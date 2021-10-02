@@ -6,6 +6,8 @@ import {
   SERVERLESS_BASE_URL,
   SERVERLESS_REQUEST,
 } from '../../../config/config';
+
+import { xPlentyComputations } from '../../slices/xPlenty/xPlenty.api';
 const CONFIG = require('../../../config/config');
 const axios = require('axios');
 
@@ -27,20 +29,34 @@ export const getHomeStatsDataApi = async () => {
 };
 
 export const getTVLHelper = async () => {
-  const res = await axios.get(
-    SERVERLESS_BASE_URL[CONFIG.NETWORK] +
-      SERVERLESS_REQUEST[CONFIG.NETWORK]['HOME-PAGE-TVL']
-  );
-  if (res.data.success) {
+  try {
+    const tvlPromises = [];
+    tvlPromises.push(
+      axios.get(
+        SERVERLESS_BASE_URL[CONFIG.NETWORK] +
+          SERVERLESS_REQUEST[CONFIG.NETWORK]['HOME-PAGE-TVL']
+      )
+    );
+    tvlPromises.push(xPlentyComputations());
+
+    const tvlResponses = await Promise.all(tvlPromises);
+    let tvl = 0;
+    tvl = tvlResponses[0].data.body + tvlResponses[1].ValueLockedToShow;
     return {
       success: true,
-      data: res.data.body,
+      data: tvl,
     };
-  } else {
+  } catch (e) {
+    console.log(e);
     return {
       success: false,
+      data: 0,
     };
   }
+  // const res = await axios.get(
+  //   SERVERLESS_BASE_URL[CONFIG.NETWORK] +
+  //     SERVERLESS_REQUEST[CONFIG.NETWORK]['HOME-PAGE-TVL']
+  // );
 };
 
 export const calculateHarvestValue = async (
