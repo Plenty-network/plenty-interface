@@ -41,7 +41,8 @@ export const getTVLHelper = async () => {
 
     const tvlResponses = await Promise.all(tvlPromises);
     let tvl = 0;
-    tvl = tvlResponses[0].data.body + tvlResponses[1].ValueLockedToShow;
+    tvl =
+      tvlResponses[0].data.body + parseInt(tvlResponses[1].ValueLockedToShow);
     return {
       success: true,
       data: tvl,
