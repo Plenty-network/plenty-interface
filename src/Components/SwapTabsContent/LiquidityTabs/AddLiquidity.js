@@ -3,7 +3,7 @@ import {
   addLiquidity,
   lpTokenOutput,
 } from '../../../apis/swap/swap';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import InfoModal from '../../Ui/Modals/InfoModal';
 import ConfirmAddLiquidity from './ConfirmAddLiquidity';
@@ -212,7 +212,7 @@ const AddLiquidity = (props) => {
                 style={{ cursor: 'pointer' }}
                 onClick={onClickAmount}
               >
-                Balance: {props.userBalances[props.tokenIn.name]}
+                Balance: {props.userBalances[props.tokenIn.name]} <span className="max-btn">(Max)</span>
               </p>
               <p className="wallet-token-balance">
                 ~$

@@ -35,6 +35,7 @@ import {
   getTVLOfUser,
   onModalOpenClose,
 } from '../../redux/actions/home/home.actions';
+import { currencyOptionsWithSymbol, currencyOptions } from '../../constants/global';
 import { FrontPageBottomGradientDiv, FrontPageGradientDiv } from '../../themes';
 import Footer from '../../Components/Footer/Footer';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
@@ -98,35 +99,6 @@ const Frontpage = ({
     }
     return {};
   }, [harvestAllOperations]);
-
-  let currencyOptions = {
-    justification: 'L',
-    locales: 'en-AU',
-    currency: false,
-    currencyIndicator: 'AUD',
-    percentage: false,
-    precision: 0,
-    wholenumber: null,
-    commafy: true,
-    shortFormat: false,
-    shortFormatMinValue: 100000,
-    shortFormatPrecision: 1,
-    title: false,
-  };
-  let currencyOptionsWithSymbol = {
-    justification: 'L',
-    locales: 'en-AU',
-    currency: true,
-    currencyIndicator: 'AUD',
-    percentage: false,
-    precision: 0,
-    wholenumber: null,
-    commafy: true,
-    shortFormat: false,
-    shortFormatMinValue: 100000,
-    shortFormatPrecision: 1,
-    title: false,
-  };
 
   return (
     <>

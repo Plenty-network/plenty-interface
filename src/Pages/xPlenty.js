@@ -5,6 +5,8 @@ import Col from 'react-bootstrap/Col';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Loader from '../Components/loader';
+import NumericLabel from 'react-pretty-numbers';
+import { currencyOptionsWithSymbol, currencyOptions } from '../constants/global';
 
 import StakePlenty from '../Components/xPlentyTabs/StakePlenty';
 import UnstakePlenty from '../Components/xPlentyTabs/UnstakePlenty';
@@ -39,7 +41,7 @@ const Stake = (props) => {
     if (props.isToastOpen) {
       setLoaderMessage({
         type:
-          props.toastMessage === 'Transaction Successfull'
+          props.toastMessage === 'Transaction Successful'
             ? 'success'
             : 'error',
         message: props.toastMessage,
@@ -59,8 +61,8 @@ const Stake = (props) => {
             md={10}
             className="swap-content-section xplenty-content-section"
           >
-            <div className="xplenty-content-wrapper">
-              <div className="xplenty-info-wrapper">
+            <div className="xplenty-content-wrapper row">
+              <div className="xplenty-info-wrapper col-12 col-md-12">
                 <h2 className="xplenty-heading">
                   Maximize yield by staking PLENTY for xPLENTY
                 </h2>
@@ -86,8 +88,10 @@ const Stake = (props) => {
                     <p>Value Locked</p>
                     <p className="xplenty-numbers">
                       {props.xPlentyData.data.ValueLockedToShow
-                        ? '$' +
-                          parseInt(props.xPlentyData.data.ValueLockedToShow)
+                        ?
+                          <NumericLabel params={currencyOptionsWithSymbol}>
+                            {parseInt(props.xPlentyData.data.ValueLockedToShow)}
+                          </NumericLabel>
                         : null}
                     </p>
                   </li>
@@ -95,7 +99,10 @@ const Stake = (props) => {
                     <p>xPlenty Supply</p>
                     <p className="xplenty-numbers">
                       {props.xPlentyData.data.xPlentySupplyToShow
-                        ? parseInt(props.xPlentyData.data.xPlentySupplyToShow)
+                        ?
+                          <NumericLabel params={currencyOptions}>
+                            {parseInt(props.xPlentyData.data.xPlentySupplyToShow)}
+                          </NumericLabel>
                         : null}
                     </p>
                   </li>
@@ -103,13 +110,16 @@ const Stake = (props) => {
                     <p>Plenty Staked</p>
                     <p className="xplenty-numbers">
                       {props.xPlentyData.data.plentyStakedToShow
-                        ? parseInt(props.xPlentyData.data.plentyStakedToShow)
+                        ?
+                          <NumericLabel params={currencyOptions}>
+                            {parseInt(props.xPlentyData.data.plentyStakedToShow)}
+                          </NumericLabel>
                         : null}
                     </p>
                   </li>
                 </ul>
               </div>
-              <div>
+              <div className="col-12 col-md-12">
                 <div className="swap-token-select-box-wrapper">
                   <div
                     className="swap-token-select-box bg-themed-light swap-content-box-wrapper"

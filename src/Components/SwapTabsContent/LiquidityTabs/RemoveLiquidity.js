@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { computeRemoveTokens, removeLiquidity } from '../../../apis/swap/swap';
 
 import ConfirmRemoveLiquidity from './ConfirmRemoveLiquidity';
@@ -155,6 +155,7 @@ const RemoveLiquidity = (props) => {
                     ].liquidityToken
                   ]
                 }
+                <span className="max-btn"> (Max)</span>
               </p>
             ) : null}
           </div>

@@ -12,6 +12,7 @@ import styles from './stats.module.scss';
 import Button from '../Ui/Buttons/Button';
 import NumericLabel from 'react-pretty-numbers';
 import xplentyIcon from '../../assets/images/stats/xplentyIcon.svg';
+import { currencyOptionsWithSymbol } from '../../constants/global';
 
 const Stats = (props) => {
   const loading = useMemo(() => {
@@ -21,21 +22,6 @@ const Stats = (props) => {
       props.plentyToHarvest == null
     );
   }, [props.plentyInWallet, props.plentyToHarvest, props.valueLocked]);
-
-  let currencyOptions = {
-    justification: 'L',
-    locales: 'en-AU',
-    currency: true,
-    currencyIndicator: 'AUD',
-    percentage: false,
-    precision: 0,
-    wholenumber: null,
-    commafy: true,
-    shortFormat: false,
-    shortFormatMinValue: 100000,
-    shortFormatPrecision: 1,
-    title: false,
-  };
 
   return (
     <div className={clsx('p-3', 'bg-themed', styles.container)}>
@@ -54,7 +40,7 @@ const Stats = (props) => {
           <Label
             text={
               loading ? null : (
-                <NumericLabel params={currencyOptions}>
+                <NumericLabel params={currencyOptionsWithSymbol}>
                   {props.valueLocked.toFixed(0)}
                 </NumericLabel>
               )
