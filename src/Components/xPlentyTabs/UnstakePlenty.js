@@ -109,7 +109,9 @@ const UnstakePlenty = (props) => {
           />
         </div>
         <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
-          <p
+          {props.walletAddress ? (
+
+                  <p
             className="wallet-token-balance"
             style={{ cursor: 'pointer' }}
             onClick={() => onMaxClick(props.xplentyBalance)}
@@ -118,16 +120,18 @@ const UnstakePlenty = (props) => {
             {props.xplentyBalance ? props.xplentyBalance.toFixed(4) : 0} xPLENTY{' '}
             <span className="max-btn">(Max)</span>
           </p>
-          <p className="wallet-token-balance">
-            1 xPLENTY ={' '}
-            {props.xPlentyData.data.plentyPerXplenty
-              ? props.xPlentyData.data.plentyPerXplenty.toFixed(3)
-              : 0}{' '}
-            PLENTY
-          </p>
+              ) : null }
         </div>
       </div>
-
+      <div className="flex">
+        <p className="wallet-token-balance ml-auto">
+          1 xPLENTY ={' '}
+          {props.xPlentyData.data.plentyPerXplenty
+              ? props.xPlentyData.data.plentyPerXplenty.toFixed(3)
+              : 0}{' '}
+          PLENTY
+        </p>
+      </div>
       {xplentyButton}
       {xPlentyInput <= props.xplentyBalance && props.expectedPlenty ? (
         <div

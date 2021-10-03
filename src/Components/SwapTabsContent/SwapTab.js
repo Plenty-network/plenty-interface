@@ -143,7 +143,7 @@ const SwapTab = (props) => {
                     onClick={onClickAmount}
                     style={{ cursor: 'pointer' }}
                   >
-                    Balance: {props.userBalances[props.tokenIn.name]}
+                    Balance: {props.userBalances[props.tokenIn.name]} <span className="max-btn">(Max)</span>
                   </p>
                 ) : (
                   <p className="wallet-token-balance">

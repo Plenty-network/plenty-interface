@@ -271,7 +271,7 @@ const Header = (props) => {
                           </span>
                         </a>
                         <a
-                          href={'https://medium.com/plenty-defi'}
+                          href={'https://plentydefi.medium.com/'}
                           className="align-self-end align-self-lg-center nav-link"
                         >
                           <span

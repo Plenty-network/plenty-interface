@@ -16,7 +16,6 @@ const LinkTile = (props) => {
         )}>
             <div className={clsx(
                 styles.header,
-                props.headerIcon && styles.headerIcon,
                 props.headerClassName && props.headerClassName,
                 "mb-2", "mt-4", "d-flex", "justify-content-center"
             )}>
