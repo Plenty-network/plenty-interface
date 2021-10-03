@@ -106,16 +106,18 @@ const StakePlenty = (props) => {
             placeholder="0.0"
           />
         </div>
-        <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
-          <p
-            className="wallet-token-balance"
-            style={{ cursor: 'pointer' }}
-            onClick={() => onMaxClick(props.plentyBalance)}
-          >
-            Balance: {props.plentyBalance ? props.plentyBalance : 0}{' '}
-            PLENTY <span className="max-btn">(Max)</span>
-          </p>
-        </div>
+        {props.walletAddress ? (
+            <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
+              <p
+                  className="wallet-token-balance"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => onMaxClick(props.plentyBalance)}
+              >
+                Balance: {props.plentyBalance ? props.plentyBalance : 0}{' '}
+                PLENTY <span className="max-btn">(Max)</span>
+              </p>
+            </div>
+        ): null}
       </div>
       <div className="flex">
         <p className="wallet-token-balance ml-auto">
