@@ -16,7 +16,9 @@ const Label = props => {
                 <Image src={props.icon}/>
             </div>
             }
-            <div className="text-left">
+            <div className={clsx(
+                props.divClassName ? props.divClassName : "text-left"
+            )}>
                 <p className={clsx("font-weight-bold", "m-0",
                 )}>{props.text === null ? <span className="shimmer">999999999</span> : props.text}</p>
                 {props.subText &&
@@ -34,6 +36,7 @@ Label.propTypes = {
     icon: PropTypes.string,
     iconClass: PropTypes.string,
     className: PropTypes.string,
+    divClassName: PropTypes.string,
 }
 
 export default Label;

@@ -37,7 +37,7 @@ const StakePlenty = (props) => {
         maximumFractionDigits: 20,
         useGrouping: false,
       }) ?? 0;
-    plentyInputHandler(value);
+    plentyInputHandler(value.substring(0, value.length - 1));
   };
 
   let xplentyButton = (
@@ -106,25 +106,28 @@ const StakePlenty = (props) => {
             placeholder="0.0"
           />
         </div>
-        <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
-          <p
-            className="wallet-token-balance"
-            style={{ cursor: 'pointer' }}
-            onClick={() => onMaxClick(props.plentyBalance)}
-          >
-            Balance: {props.plentyBalance ? props.plentyBalance.toFixed(4) : 0}{' '}
-            PLENTY <span className="max-btn">(Max)</span>
-          </p>
-          <p className="wallet-token-balance">
-            1 xPLENTY ={' '}
-            {props.xPlentyData.data.plentyPerXplenty
+        {props.walletAddress ? (
+            <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
+              <p
+                  className="wallet-token-balance"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => onMaxClick(props.plentyBalance)}
+              >
+                Balance: {props.plentyBalance ? props.plentyBalance : 0}{' '}
+                PLENTY <span className="max-btn">(Max)</span>
+              </p>
+            </div>
+        ): null}
+      </div>
+      <div className="flex">
+        <p className="wallet-token-balance ml-auto">
+          1 xPLENTY ={' '}
+          {props.xPlentyData.data.plentyPerXplenty
               ? props.xPlentyData.data.plentyPerXplenty.toFixed(3)
               : 0}{' '}
-            PLENTY
-          </p>
-        </div>
+          PLENTY
+        </p>
       </div>
-
       {xplentyButton}
       {plentyInput <= props.plentyBalance && props.expectedxPlenty ? (
         <div
