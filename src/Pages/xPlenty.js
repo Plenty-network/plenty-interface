@@ -63,7 +63,7 @@ const Stake = (props) => {
             xl={9}
             className="swap-content-section xplenty-content-section"
           >
-            <div className="xplenty-content-wrapper my-2 my-xl-5 row justify-content-center">
+            <div className="xplenty-content-wrapper xplenty-container row justify-content-center">
               <div className="xplenty-info-wrapper col-12 col-lg-5 col-xl-4">
                 <h2 className="xplenty-heading">
                   Maximize yield by staking PLENTY for xPLENTY
