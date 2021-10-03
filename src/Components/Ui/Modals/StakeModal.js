@@ -71,7 +71,7 @@ const StakeModal = (props) => {
           value={inputValue}
           onChange={(event) => setInputValue(event.target.value)}
           placeholder={'0.0'}
-          type="number"
+          type="text"
         />
 
         <span className="mr-2 ml-2 mt-auto mb-auto">

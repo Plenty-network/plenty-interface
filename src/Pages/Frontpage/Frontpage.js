@@ -300,7 +300,7 @@ const Frontpage = ({
             <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
               <LinkTile
                 text={
-                  'Swap tokens and add liquidity on first token-to-token AMM on Tezos. Don’t look any further for the highest liquidity.'
+                  'Swap tokens and add liquidity on the first token-to-token AMM on Tezos. Don’t look any further for the highest liquidity.'
                 }
                 linkTo={'/swap'}
                 linkText={'Enter Exchange'}
@@ -352,7 +352,7 @@ const Frontpage = ({
                 </span>
               </div>
               <a
-                href={'https://medium.com/plenty-defi'}
+                href={'https://plentydefi.medium.com/'}
                 target="_blank"
                 rel="noreferrer"
               >

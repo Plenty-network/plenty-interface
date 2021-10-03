@@ -13,8 +13,7 @@ const RemoveLiquidity = (props) => {
   const [transactionId, setTransactionId] = useState('');
 
   const removeLiquidityInput = (input) => {
-    props.setFirstTokenAmount(input);
-    let removeAmount = input;
+    let removeAmount = parseFloat(input);
     let computedRemoveTokens = computeRemoveTokens(
       removeAmount,
       props.swapData.lpTokenSupply,
@@ -133,9 +132,12 @@ const RemoveLiquidity = (props) => {
             <input
               type="text"
               className="token-user-input"
-              placeholder="0.00"
+              placeholder="0.0"
               value={props.firstTokenAmount}
-              onChange={(e) => removeLiquidityInput(parseFloat(e.target.value))}
+              onChange={(e) => {
+                props.setFirstTokenAmount(e.target.value);
+                removeLiquidityInput(e.target.value)
+              }}
             />
           </div>
           <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
