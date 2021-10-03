@@ -12,7 +12,7 @@ export const ExternalMenu = (props) => {
     },
     {
       title: 'Blog',
-      link: 'https://medium.com/plenty-defi',
+      link: 'https://plentydefi.medium.com/',
     },
     {
       title: 'GitHub',

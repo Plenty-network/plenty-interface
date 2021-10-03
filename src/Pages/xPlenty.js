@@ -5,7 +5,9 @@ import Col from 'react-bootstrap/Col';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Loader from '../Components/loader';
-
+import NumericLabel from 'react-pretty-numbers';
+import { currencyOptionsWithSymbol, currencyOptions } from '../constants/global';
+import xplenty from '../assets/images/x-plenty-medium.svg';
 import StakePlenty from '../Components/xPlentyTabs/StakePlenty';
 import UnstakePlenty from '../Components/xPlentyTabs/UnstakePlenty';
 import XplentyBalance from '../Components/xPlentyTabs/xPlentyBalance';
@@ -25,6 +27,8 @@ import * as userActions from '../redux/actions/user/user.action';
 import * as walletActions from '../redux/actions/wallet/wallet.action';
 
 import InfoModal from '../Components/Ui/Modals/InfoModal';
+import Label from "../Components/Ui/Label/Label";
+import Image from "react-bootstrap/Image";
 
 const Stake = (props) => {
   useEffect(() => {
@@ -39,7 +43,7 @@ const Stake = (props) => {
     if (props.isToastOpen) {
       setLoaderMessage({
         type:
-          props.toastMessage === 'Transaction Successfull'
+          props.toastMessage === 'Transaction Successful'
             ? 'success'
             : 'error',
         message: props.toastMessage,
@@ -56,60 +60,59 @@ const Stake = (props) => {
         <Row>
           <Col
             sm={12}
-            md={10}
+            xl={9}
             className="swap-content-section xplenty-content-section"
           >
-            <div className="xplenty-content-wrapper">
-              <div className="xplenty-info-wrapper">
+            <div className="xplenty-content-wrapper my-2 my-xl-5 row justify-content-center">
+              <div className="xplenty-info-wrapper col-12 col-lg-5 col-xl-4">
                 <h2 className="xplenty-heading">
                   Maximize yield by staking PLENTY for xPLENTY
                 </h2>
                 <p className="xplenty-info">
-                  For every swap on Plenty, 0.09% of the swap fees are
-                  distributed as PLENTY tokens to the staking pool, which are
-                  distributed among the holders proportionally to the amount of
-                  their staked tokens and stake duration.
+                  When you stake PLENTY, you automatically receive an equal amount of xPLENTY in return. The xPLENTY token is a flash loan resistant token and will be used for governance of the Plenty protocol. Furthermore, xPLENTY continuously compounds staking rewards and trading fees. By unstaking, your xPLENTY tokens are burned and you receive all of your originally deposited PLENTY tokens plus the rewards collected from staking and trading fees.
                 </p>
 
                 <p className="xplenty-info">
-                  When you stake PLENTY, you automatically receive xPLENTY in
-                  return. The xPLENTY token is a flash loan resistant token and
-                  will be used for governance. Furthermore, xPLENTY is
-                  continuously compounding staking rewards and trading fees. By
-                  unstaking, your xPLENTY tokens are burned and you receive all
-                  originally deposited PLENTY plus all rewards collected over
-                  time.
+                  For every swap on Plenty, 0.09% of the total value of the swap is distributed as PLENTY tokens to the xPLENTY staking pool. Such PLENTY tokens are proportionally distributed to the xPLENTY holders according to the amount of their staked tokens and stake duration.
                 </p>
 
-                <ul className="xplenty-number-info">
-                  <li>
-                    <p>Value Locked</p>
-                    <p className="xplenty-numbers">
-                      {props.xPlentyData.data.ValueLockedToShow
-                        ? '$' +
-                          parseInt(props.xPlentyData.data.ValueLockedToShow)
-                        : null}
-                    </p>
-                  </li>
-                  <li>
-                    <p>xPlenty Supply</p>
-                    <p className="xplenty-numbers">
-                      {props.xPlentyData.data.xPlentySupplyToShow
-                        ? parseInt(props.xPlentyData.data.xPlentySupplyToShow)
-                        : null}
-                    </p>
-                  </li>
-                  <li>
-                    <p>Plenty Staked</p>
-                    <p className="xplenty-numbers">
-                      {props.xPlentyData.data.plentyStakedToShow
-                        ? parseInt(props.xPlentyData.data.plentyStakedToShow)
-                        : null}
-                    </p>
-                  </li>
-                </ul>
+                {/*<ul className="xplenty-number-info">*/}
+                {/*  <li>*/}
+                {/*    <p>Value Locked</p>*/}
+                {/*    <p className="xplenty-numbers">*/}
+                {/*      {props.xPlentyData.data.ValueLockedToShow*/}
+                {/*        ?*/}
+                {/*          <NumericLabel params={currencyOptionsWithSymbol}>*/}
+                {/*            {parseInt(props.xPlentyData.data.ValueLockedToShow)}*/}
+                {/*          </NumericLabel>*/}
+                {/*        : null}*/}
+                {/*    </p>*/}
+                {/*  </li>*/}
+                {/*  <li>*/}
+                {/*    <p>xPlenty Supply</p>*/}
+                {/*    <p className="xplenty-numbers">*/}
+                {/*      {props.xPlentyData.data.xPlentySupplyToShow*/}
+                {/*        ?*/}
+                {/*          <NumericLabel params={currencyOptions}>*/}
+                {/*            {parseInt(props.xPlentyData.data.xPlentySupplyToShow)}*/}
+                {/*          </NumericLabel>*/}
+                {/*        : null}*/}
+                {/*    </p>*/}
+                {/*  </li>*/}
+                {/*  <li>*/}
+                {/*    <p>Plenty Staked</p>*/}
+                {/*    <p className="xplenty-numbers">*/}
+                {/*      {props.xPlentyData.data.plentyStakedToShow*/}
+                {/*        ?*/}
+                {/*          <NumericLabel params={currencyOptions}>*/}
+                {/*            {parseInt(props.xPlentyData.data.plentyStakedToShow)}*/}
+                {/*          </NumericLabel>*/}
+                {/*        : null}*/}
+                {/*    </p>*/}
+                {/*  </li>*/}
+                {/*</ul>*/}
               </div>
-              <div>
+              <div className="col-12 col-lg-5 col-xl-4">
                 <div className="swap-token-select-box-wrapper">
                   <div
                     className="swap-token-select-box bg-themed-light swap-content-box-wrapper"
@@ -138,7 +141,7 @@ const Stake = (props) => {
                 </div>
 
                 <div className="xplenty-content-container-wrapper">
-                  <div className="bg-themed swap-content-container xplenty-content-container">
+                  <div className="bg-themed position-relative xplenty-content xplenty-content-container">
                     <Tabs
                       defaultActiveKey="stake"
                       className="swap-container-tab"
@@ -173,7 +176,68 @@ const Stake = (props) => {
                       </Tab>
                     </Tabs>
                   </div>
-                  <div className="xplenty-content-container-shadow"></div>
+                </div>
+                <div className="xplenty-content-container-shadow"></div>
+              </div>
+              <div className="col-12 col-lg-2 col-xl-2">
+                <div className="xplenty-content-container-wrapper">
+                  <div className="bg-themed xplenty-content">
+                    <div className="flex flex-column">
+                      <div className="stats-item stats-item-border">
+                        <div className="flex flex-column">
+                          <div className="mx-auto mb-2">
+                            <Image src={xplenty}/>
+                          </div>
+                          <p className="mx-auto mb-3">Stats</p>
+                        </div>
+                      </div>
+                      <div className="stats-item stats-item-border">
+                        <Label
+                          className="justify-content-center"
+                          divClassName="text-center"
+                          text={
+                            props.xPlentyData.data.ValueLockedToShow
+                              ?
+                                <NumericLabel params={currencyOptionsWithSymbol}>
+                                  {parseInt(props.xPlentyData.data.ValueLockedToShow)}
+                                </NumericLabel>
+                              : null
+                          }
+                          subText={'Value Locked'}
+                        />
+                      </div>
+                      <div className="stats-item stats-item-border">
+                        <Label
+                          className="justify-content-center"
+                          divClassName="text-center"
+                          text={
+                            props.xPlentyData.data.xPlentySupplyToShow
+                              ?
+                                <NumericLabel params={currencyOptions}>
+                                  {parseInt(props.xPlentyData.data.xPlentySupplyToShow)}
+                                </NumericLabel>
+                              : null
+                          }
+                          subText={'xPLENTY Supply'}
+                        />
+                      </div>
+                      <div className="stats-item negative-margin-bottom">
+                        <Label
+                          className="justify-content-center"
+                          divClassName="text-center"
+                          text={
+                            props.xPlentyData.data.plentyStakedToShow
+                              ?
+                                <NumericLabel params={currencyOptions}>
+                                  {parseInt(props.xPlentyData.data.plentyStakedToShow)}
+                                </NumericLabel>
+                              : null
+                          }
+                          subText={'Plenty Staked'}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
