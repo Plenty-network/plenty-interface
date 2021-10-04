@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import plenty from '../../assets/images/logo_small.png';
 
 import PuffLoader from 'react-spinners/PuffLoader';
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 const StakePlenty = (props) => {
   const [plentyInput, setPlentyInput] = useState('');
@@ -120,12 +122,20 @@ const StakePlenty = (props) => {
         ): null}
       </div>
       <div className="flex">
-        <p className="wallet-token-balance ml-auto">
-          1 xPLENTY ={' '}
-          {props.xPlentyData.data.plentyPerXplenty
-              ? props.xPlentyData.data.plentyPerXplenty.toFixed(3)
-              : 0}{' '}
-          PLENTY
+        <p className="wallet-token-balance whitespace-prewrap ml-auto flex flex-row">
+          1 PLENTY = {' '}
+          <OverlayTrigger
+              placement="bottom"
+              overlay={
+                <Tooltip className="xplenty-tooltip" id="button-tooltip" {...props}>
+                  {props.xPlentyData.data.plentyPerXplenty}
+                </Tooltip>}>
+            <div>
+              {props.xPlentyData.data.plentyPerXplenty
+                  ? props.xPlentyData.data.plentyPerXplenty.toFixed(3)
+                  : 0}{' '}
+              xPLENTY</div>
+          </OverlayTrigger>
         </p>
       </div>
       {xplentyButton}

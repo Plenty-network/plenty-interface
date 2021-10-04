@@ -106,6 +106,7 @@ export const xPlentyComputations = async () => {
       plentyBalance += balanceUpdate * rewardManagerStorage.rewardRate;
     }
     let plentyPerXplenty = xPlentyCurveStorage.totalSupply / plentyBalance;
+    let xplentyPerPlenty = 1 / plentyPerXplenty;
     let APR =
       (rewardManagerStorage.rewardRate * 1051200) /
       xPlentyCurveStorage.totalSupply;
@@ -123,6 +124,7 @@ export const xPlentyComputations = async () => {
       plentyBalance,
       totalSupply: xPlentyCurveStorage.totalSupply,
       plentyPerXplenty: plentyPerXplenty,
+      xPlentyPerPlenty: xplentyPerPlenty,
       APR,
       xPlentySupplyToShow,
       plentyStakedToShow,
@@ -134,6 +136,7 @@ export const xPlentyComputations = async () => {
       plentyBalance: 0,
       totalSupply: 0,
       plentyPerXplenty: 0,
+      xPlentyPerPlenty: 0,
       APR: 0,
       xPlentySupplyToShow: 0,
       plentyStakedToShow: 0,

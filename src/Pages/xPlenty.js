@@ -137,10 +137,10 @@ const Stake = (props) => {
                       marginTop: 0,
                     }}
                   >
-                    <div className="token-selector-balance-wrapper">
+                    <div>
                       <p className="xplenty-staking-apr">Staking APR:</p>
                     </div>
-                    <div className="token-user-input-wrapper">
+                    <div>
                       <p className="xplenty-staking-apr">
                         {props.xPlentyData.data.APR
                           ? props.xPlentyData.data.APR.toFixed(2)
