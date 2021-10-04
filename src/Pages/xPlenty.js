@@ -6,7 +6,10 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Loader from '../Components/loader';
 import NumericLabel from 'react-pretty-numbers';
-import { currencyOptionsWithSymbol, currencyOptions } from '../constants/global';
+import {
+  currencyOptionsWithSymbol,
+  currencyOptions,
+} from '../constants/global';
 import xplenty from '../assets/images/x-plenty-medium.svg';
 import StakePlenty from '../Components/xPlentyTabs/StakePlenty';
 import UnstakePlenty from '../Components/xPlentyTabs/UnstakePlenty';
@@ -27,8 +30,8 @@ import * as userActions from '../redux/actions/user/user.action';
 import * as walletActions from '../redux/actions/wallet/wallet.action';
 
 import InfoModal from '../Components/Ui/Modals/InfoModal';
-import Label from "../Components/Ui/Label/Label";
-import Image from "react-bootstrap/Image";
+import Label from '../Components/Ui/Label/Label';
+import Image from 'react-bootstrap/Image';
 
 const Stake = (props) => {
   useEffect(() => {
@@ -43,7 +46,7 @@ const Stake = (props) => {
     if (props.isToastOpen) {
       setLoaderMessage({
         type:
-          props.toastMessage === 'Transaction Successful'
+          props.toastMessage === 'Transaction Successfull'
             ? 'success'
             : 'error',
         message: props.toastMessage,
@@ -69,11 +72,22 @@ const Stake = (props) => {
                   Maximize yield by staking PLENTY for xPLENTY
                 </h2>
                 <p className="xplenty-info">
-                  When you stake PLENTY, you automatically receive an equal amount of xPLENTY in return. The xPLENTY token is a flash loan resistant token and will be used for governance of the Plenty protocol. Furthermore, xPLENTY continuously compounds staking rewards and trading fees. By unstaking, your xPLENTY tokens are burned and you receive all of your originally deposited PLENTY tokens plus the rewards collected from staking and trading fees.
+                  When you stake PLENTY, you automatically receive an equal
+                  amount of xPLENTY in return. The xPLENTY token is a flash loan
+                  resistant token and will be used for governance of the Plenty
+                  protocol. Furthermore, xPLENTY continuously compounds staking
+                  rewards and trading fees. By unstaking, your xPLENTY tokens
+                  are burned and you receive all of your originally deposited
+                  PLENTY tokens plus the rewards collected from staking and
+                  trading fees.
                 </p>
 
                 <p className="xplenty-info">
-                  For every swap on Plenty, 0.09% of the total value of the swap is distributed as PLENTY tokens to the xPLENTY staking pool. Such PLENTY tokens are proportionally distributed to the xPLENTY holders according to the amount of their staked tokens and stake duration.
+                  For every swap on Plenty, 0.09% of the total value of the swap
+                  is distributed as PLENTY tokens to the xPLENTY staking pool.
+                  Such PLENTY tokens are proportionally distributed to the
+                  xPLENTY holders according to the amount of their staked tokens
+                  and stake duration.
                 </p>
 
                 {/*<ul className="xplenty-number-info">*/}
@@ -124,17 +138,14 @@ const Stake = (props) => {
                     }}
                   >
                     <div className="token-selector-balance-wrapper">
-                      <p className="xplenty-staking-apr">
-                        Rewards distribution start:
-                      </p>
+                      <p className="xplenty-staking-apr">Staking APR:</p>
                     </div>
                     <div className="token-user-input-wrapper">
                       <p className="xplenty-staking-apr">
-                        {/* {props.xPlentyData.data.APR
-                      ? props.xPlentyData.data.APR.toFixed(3)
-                      : 0}
-                    {'%'} */}
-                        October 4
+                        {props.xPlentyData.data.APR
+                          ? props.xPlentyData.data.APR.toFixed(3)
+                          : 0}
+                        {'%'}
                       </p>
                     </div>
                   </div>
@@ -186,7 +197,7 @@ const Stake = (props) => {
                       <div className="stats-item stats-item-border">
                         <div className="flex flex-column">
                           <div className="mx-auto mb-2">
-                            <Image src={xplenty}/>
+                            <Image src={xplenty} />
                           </div>
                           <p className="mx-auto mb-3">Stats</p>
                         </div>
@@ -196,12 +207,13 @@ const Stake = (props) => {
                           className="justify-content-center"
                           divClassName="text-center"
                           text={
-                            props.xPlentyData.data.ValueLockedToShow
-                              ?
-                                <NumericLabel params={currencyOptionsWithSymbol}>
-                                  {parseInt(props.xPlentyData.data.ValueLockedToShow)}
-                                </NumericLabel>
-                              : null
+                            props.xPlentyData.data.ValueLockedToShow ? (
+                              <NumericLabel params={currencyOptionsWithSymbol}>
+                                {parseInt(
+                                  props.xPlentyData.data.ValueLockedToShow
+                                )}
+                              </NumericLabel>
+                            ) : null
                           }
                           subText={'Value Locked'}
                         />
@@ -211,12 +223,13 @@ const Stake = (props) => {
                           className="justify-content-center"
                           divClassName="text-center"
                           text={
-                            props.xPlentyData.data.xPlentySupplyToShow
-                              ?
-                                <NumericLabel params={currencyOptions}>
-                                  {parseInt(props.xPlentyData.data.xPlentySupplyToShow)}
-                                </NumericLabel>
-                              : null
+                            props.xPlentyData.data.xPlentySupplyToShow ? (
+                              <NumericLabel params={currencyOptions}>
+                                {parseInt(
+                                  props.xPlentyData.data.xPlentySupplyToShow
+                                )}
+                              </NumericLabel>
+                            ) : null
                           }
                           subText={'xPLENTY Supply'}
                         />
@@ -226,12 +239,13 @@ const Stake = (props) => {
                           className="justify-content-center"
                           divClassName="text-center"
                           text={
-                            props.xPlentyData.data.plentyStakedToShow
-                              ?
-                                <NumericLabel params={currencyOptions}>
-                                  {parseInt(props.xPlentyData.data.plentyStakedToShow)}
-                                </NumericLabel>
-                              : null
+                            props.xPlentyData.data.plentyStakedToShow ? (
+                              <NumericLabel params={currencyOptions}>
+                                {parseInt(
+                                  props.xPlentyData.data.plentyStakedToShow
+                                )}
+                              </NumericLabel>
+                            ) : null
                           }
                           subText={'Plenty Staked'}
                         />
