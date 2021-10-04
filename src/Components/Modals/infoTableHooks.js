@@ -3,6 +3,18 @@ import { useEffect, useState } from 'react';
 const useInfoTableHooks = (props) => {
   const [values, setValues] = useState({});
 
+  const getTableHead = (secondToken) => {
+    return {
+      headerRow: [
+        'Time Frame',
+        'ROI',
+        'PLENTY per $1000',
+        `${secondToken} per $1000`,
+      ],
+      disclaimer:
+        'Calculated based on current rates. Rates are estimates provided for your convenience only, and by no means represent guaranteed returns.',
+    };
+  };
   useEffect(() => {
     const formatData = () => {
       if (props.type === 'withdrawal') {
@@ -34,7 +46,10 @@ const useInfoTableHooks = (props) => {
     } else {
       if (props.data.length) {
         if (props.data[0].tokenSecondPer1000dollar) {
-          setValues({ ...infoTableData.roiDual, formattedData: formatData() });
+          setValues({
+            ...getTableHead(props.secondToken),
+            formattedData: formatData(),
+          });
         } else {
           setValues({ ...infoTableData.roi, formattedData: formatData() });
         }

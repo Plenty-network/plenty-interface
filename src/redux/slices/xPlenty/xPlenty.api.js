@@ -110,6 +110,8 @@ export const xPlentyComputations = async () => {
       (rewardManagerStorage.rewardRate * 1051200) /
       xPlentyCurveStorage.totalSupply;
 
+    APR = APR * 100;
+
     let xPlentySupplyToShow =
       xPlentyCurveStorage.totalSupply / Math.pow(10, 18);
     let plentyStakedToShow = plentyBalance / Math.pow(10, 18);

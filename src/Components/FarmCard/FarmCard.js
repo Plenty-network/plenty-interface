@@ -78,6 +78,9 @@ const FarmCard = (props) => {
         open: FARM_PAGE_MODAL.ROI,
         contractAddress: farmData.CONTRACT,
         roiTable: values.roiTable,
+        secondToken: farmData.dualInfo
+          ? farmData.dualInfo.tokenSecond.symbol
+          : null,
       })
     );
   };
