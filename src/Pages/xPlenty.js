@@ -129,7 +129,7 @@ const Stake = (props) => {
               <div className="col-12 col-lg-5 col-xl-4">
                 <div className="swap-token-select-box-wrapper">
                   <div
-                    className="swap-token-select-box bg-themed-light swap-content-box-wrapper"
+                    className="swap-token-select-box bg-themed swap-content-box-wrapper"
                     style={{
                       minHeight: 0,
                       borderRadius: '6px',
@@ -143,7 +143,7 @@ const Stake = (props) => {
                     <div className="token-user-input-wrapper">
                       <p className="xplenty-staking-apr">
                         {props.xPlentyData.data.APR
-                          ? props.xPlentyData.data.APR.toFixed(3)
+                          ? props.xPlentyData.data.APR.toFixed(2)
                           : 0}
                         {'%'}
                       </p>
