@@ -9,6 +9,7 @@ const InfoTableModal = (props) => {
   const { headerRow, formattedData, disclaimer } = useInfoTableHooks({
     type: props.type,
     data: props.tableData,
+    secondToken: props.secondToken,
   });
 
   return (
