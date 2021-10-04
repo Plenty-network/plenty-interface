@@ -60,6 +60,13 @@
   border-radius: 6px;
   margin-bottom: 15px;
 }
+.xplenty-tooltip {
+  .tooltip-inner {
+    background: var(--theme-card-bg);
+    color: var(--theme-text-1);
+    opacity: 1;
+  }
+}
 .xplenty-content-container-shadow {
   width: 200px;
   background: linear-gradient(
