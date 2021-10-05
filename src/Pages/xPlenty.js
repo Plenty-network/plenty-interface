@@ -72,8 +72,7 @@ const Stake = (props) => {
                   Maximize yield by staking PLENTY for xPLENTY
                 </h2>
                 <p className="xplenty-info">
-                  When you stake PLENTY, you automatically receive an equal
-                  amount of xPLENTY in return. The xPLENTY token is a flash loan
+                  When you stake PLENTY, you automatically receive xPLENTY in return. The xPLENTY token is a flash loan
                   resistant token and will be used for governance of the Plenty
                   protocol. Furthermore, xPLENTY continuously compounds staking
                   rewards and trading fees. By unstaking, your xPLENTY tokens

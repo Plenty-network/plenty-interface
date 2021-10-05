@@ -93,7 +93,7 @@ const StakePlenty = (props) => {
         }}
       >
         <div className="token-selector-balance-wrapper">
-          <button className="token-selector dropdown-themed">
+          <button className="token-selector">
             <img src={plenty} className="button-logo" />
             <span className="span-themed">PLENTY </span>
           </button>

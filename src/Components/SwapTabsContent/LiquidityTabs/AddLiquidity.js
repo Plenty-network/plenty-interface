@@ -173,7 +173,7 @@ const AddLiquidity = (props) => {
         <div className="swap-token-select-box">
           <div className="token-selector-balance-wrapper">
             <button
-              className="token-selector"
+              className="token-selector dropdown-themed"
               onClick={() => props.handleTokenType('tokenIn')}
             >
               <img src={props.tokenIn.image} className="button-logo" />
@@ -237,7 +237,7 @@ const AddLiquidity = (props) => {
           <div className="token-selector-balance-wrapper">
             {props.tokenOut.name ? (
               <button
-                className="token-selector"
+                className="token-selector dropdown-themed"
                 onClick={() => props.handleTokenType('tokenOut')}
               >
                 <img src={props.tokenOut.image} className="button-logo" />
