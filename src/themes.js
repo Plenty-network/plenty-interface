@@ -21,6 +21,7 @@ export const lightTheme = {
   border: '1px solid rgba(44, 9, 11, 0.08)',
   btnFrontPage: '#823DE0',
   dropdownThemed: '#FFFFFF',
+  dropdownThemedHighlight: '#eeeeee',
   iconFill: '#4E5D78',
   iconHoverFill: '#FFFFFF',
   iconBgStartColor: '#D2D5DB',
@@ -49,7 +50,8 @@ export const darkTheme = {
   borderDarkNone: 'none',
   border: '1px solid rgba(44, 9, 11, 0.08)',
   btnFrontPage: '#19263A',
-  dropdownThemed: 'rgba(255, 255, 255, 0.14)',
+  dropdownThemed: '#59617A',
+  dropdownThemedHighlight: '#5e6884',
   iconFill: '#4E5D78',
   iconHoverFill: '#FFFFFF',
   iconBgStartColor: '#D2D5DB',
@@ -147,6 +149,10 @@ export const GlobalStyles = createGlobalStyle`
   
   .dropdown-themed {
     background: ${(props) => props.theme.dropdownThemed};
+    
+    &:hover {
+          background: ${(props) => props.theme.dropdownThemedHighlight};
+    };
   }
   
   .logo {
