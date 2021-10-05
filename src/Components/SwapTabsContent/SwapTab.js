@@ -169,7 +169,7 @@ const SwapTab = (props) => {
           className="swap-arrow-center bg-themed"
           onClick={props.changeTokenLocation}
         >
-          <span className="span-themed material-icons-round">south</span>
+          <span className="span-themed material-icons-round">arrow_downward</span>
         </div>
 
         <div className="swap-content-box">
