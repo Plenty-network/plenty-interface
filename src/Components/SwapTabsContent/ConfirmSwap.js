@@ -33,7 +33,7 @@ const ConfirmSwap = (props) => {
             </div>
 
             <div className="swap-arrow-center">
-              <span className="material-icons-round">south</span>
+              <span className="material-icons-round">arrow_downward</span>
             </div>
 
             <div className="swap-content-box">
