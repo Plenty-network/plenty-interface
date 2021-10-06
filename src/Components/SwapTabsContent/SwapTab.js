@@ -3,6 +3,8 @@ import SwapDetails from '../SwapDetails';
 import ConfirmSwap from './ConfirmSwap';
 import { swapTokens } from '../../apis/swap/swap';
 import PuffLoader from 'react-spinners/PuffLoader';
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 const SwapTab = (props) => {
   const callSwapToken = () => {
@@ -166,7 +168,7 @@ const SwapTab = (props) => {
         </div>
 
         <div
-          className="swap-arrow-center bg-themed"
+          className="swap-arrow-center bg-themed icon-animated"
           onClick={props.changeTokenLocation}
         >
           <span className="span-themed material-icons-round">arrow_downward</span>
@@ -244,10 +246,24 @@ const SwapTab = (props) => {
         </div>
 
         {props.walletAddress && props.swapData.success ? (
-          <p style={{ margin: 0, textAlign: 'right', fontSize: '10px' }}>
-            1 {props.tokenIn.name} = {props.swapData.tokenOutPerTokenIn}{' '}
-            {props.tokenOut.name}
-          </p>
+            <div className="flex">
+              <p className="wallet-token-balance whitespace-prewrap ml-auto flex flex-row">
+                1 {props.tokenIn.name} = {' '}
+                <OverlayTrigger
+                    placement="auto"
+                    overlay={
+                      <Tooltip id="swap-token-out-tooltip" {...props}>
+                        {props.swapData.tokenOutPerTokenIn}
+                      </Tooltip>}>
+                  <div>
+                    {props.swapData.tokenOutPerTokenIn
+                        ? props.swapData.tokenOutPerTokenIn.toFixed(3)
+                        : 0}{' '}
+                    {props.tokenOut.name}
+                  </div>
+                </OverlayTrigger>
+              </p>
+            </div>
         ) : null}
         {props.showRecepient ? (
           <input
