@@ -17,10 +17,10 @@ const ConfirmSwap = (props) => {
             <div className="swap-content-box">
               <div className="swap-token-select-box">
                 <div className="token-selector-balance-wrapper">
-                  <button className="token-selector">
+                  <div className="token-selector">
                     <img src={props.tokenIn.image} className="button-logo" />
                     {props.tokenIn.name}{' '}
-                  </button>
+                  </div>
                 </div>
 
                 <div
