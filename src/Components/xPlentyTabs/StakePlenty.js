@@ -125,7 +125,7 @@ const StakePlenty = (props) => {
         <p className="wallet-token-balance whitespace-prewrap ml-auto flex flex-row">
           1 PLENTY = {' '}
           <OverlayTrigger
-              placement="bottom"
+              placement="auto"
               overlay={
                 <Tooltip className="xplenty-tooltip" id="button-tooltip" {...props}>
                   {props.xPlentyData.data.plentyPerXplenty}
