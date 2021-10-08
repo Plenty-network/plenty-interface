@@ -6,8 +6,8 @@ module.exports = {
     tezToolTokenPrice: 'https://api.teztools.io/token/prices',
   },
   RPC_NODES: {
-    testnet: 'https://testnet.tezster.tech/',
-    mainnet: 'https://mifx20dfsr.windmill.tools/',
+    testnet: 'https://testnet.tezster.tech',
+    mainnet: 'https://mifx20dfsr.windmill.tools',
   },
   TZKT_NODES: {
     mainnet: 'https://api.tzkt.io',
