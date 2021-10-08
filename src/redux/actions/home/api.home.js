@@ -37,12 +37,10 @@ export const getTVLHelper = async () => {
           SERVERLESS_REQUEST[CONFIG.NETWORK]['HOME-PAGE-TVL']
       )
     );
-    tvlPromises.push(xPlentyComputations());
 
     const tvlResponses = await Promise.all(tvlPromises);
     let tvl = 0;
-    tvl =
-      tvlResponses[0].data.body + parseInt(tvlResponses[1].ValueLockedToShow);
+    tvl = tvlResponses[0].data.body;
     return {
       success: true,
       data: tvl,
