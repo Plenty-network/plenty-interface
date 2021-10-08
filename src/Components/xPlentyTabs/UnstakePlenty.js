@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import xplenty from '../../assets/images/xplenty-icon.png';
 
 import PuffLoader from 'react-spinners/PuffLoader';
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 const UnstakePlenty = (props) => {
   const [xPlentyInput, setxPlentyInput] = useState('');
@@ -68,12 +68,23 @@ const UnstakePlenty = (props) => {
     );
   }
   const onMaxClick = (value) => {
-    value =
-      value.toLocaleString('en-US', {
-        maximumFractionDigits: 20,
-        useGrouping: false,
-      }) ?? 0;
-    xPlentyInputHandler(value);
+    let withoutDecimals = Math.floor(value);
+    if (value === withoutDecimals) {
+      withoutDecimals =
+        withoutDecimals.toLocaleString('en-US', {
+          maximumFractionDigits: 20,
+          useGrouping: false,
+        }) ?? 0;
+      xPlentyInputHandler(withoutDecimals);
+    } else {
+      value =
+        value.toLocaleString('en-US', {
+          maximumFractionDigits: 20,
+          useGrouping: false,
+        }) ?? 0;
+      xPlentyInputHandler(value.substring(0, value.length - 1));
+      //xPlentyInputHandler(value);
+    }
   };
   useEffect(() => {
     if (props.isToastOpen) {
@@ -90,10 +101,7 @@ const UnstakePlenty = (props) => {
         }}
       >
         <div className="token-selector-balance-wrapper">
-          <button
-            className="token-selector"
-            style={{ textTransform: 'none' }}
-          >
+          <button className="token-selector" style={{ textTransform: 'none' }}>
             <img src={xplenty} className="button-logo" />
             <span className="span-themed">xPLENTY </span>
           </button>
@@ -112,33 +120,39 @@ const UnstakePlenty = (props) => {
         </div>
         <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
           {props.walletAddress ? (
-
-                  <p
-            className="wallet-token-balance"
-            style={{ cursor: 'pointer' }}
-            onClick={() => onMaxClick(props.xplentyBalance)}
-          >
-            Balance:{' '}
-            {props.xplentyBalance ? props.xplentyBalance.toFixed(4) : 0} xPLENTY{' '}
-            <span className="max-btn">(Max)</span>
-          </p>
-              ) : null }
+            <p
+              className="wallet-token-balance"
+              style={{ cursor: 'pointer' }}
+              onClick={() => onMaxClick(props.xplentyBalance)}
+            >
+              Balance:{' '}
+              {props.xplentyBalance ? props.xplentyBalance.toFixed(4) : 0}{' '}
+              xPLENTY <span className="max-btn">(Max)</span>
+            </p>
+          ) : null}
         </div>
       </div>
       <div className="flex">
         <p className="wallet-token-balance whitespace-prewrap ml-auto flex flex-row">
-          1 xPLENTY = {' '}
+          1 xPLENTY ={' '}
           <OverlayTrigger
-              placement="auto"
-              overlay={
-                <Tooltip className="xplenty-tooltip" id="button-tooltip" {...props}>
-                  {props.xPlentyData.data.xPlentyPerPlenty}
-                </Tooltip>}>
+            placement="auto"
+            overlay={
+              <Tooltip
+                className="xplenty-tooltip"
+                id="button-tooltip"
+                {...props}
+              >
+                {props.xPlentyData.data.xPlentyPerPlenty}
+              </Tooltip>
+            }
+          >
             <div>
               {props.xPlentyData.data.xPlentyPerPlenty
-                  ? props.xPlentyData.data.xPlentyPerPlenty.toFixed(3)
-                  : 0}{' '}
-              PLENTY</div>
+                ? props.xPlentyData.data.xPlentyPerPlenty.toFixed(3)
+                : 0}{' '}
+              PLENTY
+            </div>
           </OverlayTrigger>
         </p>
       </div>
