@@ -39,15 +39,10 @@ function NodeSelectorModal(props) {
     let RPCNodeInLS = localStorage.getItem(RPC_NODE);
 
     if (!RPCNodeInLS) {
-      Object.keys(LOCAL_RPC_NODES).forEach((ele) => {
-        if (LOCAL_RPC_NODES[ele] === CONFIG.RPC_NODES[CONFIG.NETWORK]) {
-          localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES[ele]);
-          props.setNode(LOCAL_RPC_NODES[ele]);
-          setCurrentRPC(ele);
-          RPCNodeInLS = LOCAL_RPC_NODES[ele];
-          return;
-        }
-      });
+      localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES['CRYPTONOMIC']);
+      props.setNode(LOCAL_RPC_NODES['CRYPTONOMIC']);
+      setCurrentRPC(LOCAL_RPC_NODES['CRYPTONOMIC']);
+      RPCNodeInLS = LOCAL_RPC_NODES['CRYPTONOMIC'];
     }
 
     const valid = await isValidURL(RPCNodeInLS);
