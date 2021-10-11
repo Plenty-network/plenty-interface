@@ -13,7 +13,7 @@ const ConfirmAddLiquidity = (props) => {
       <Modal.Header>
         <Modal.Title>You will receive</Modal.Title>
         <Modal.Title className={'float-right'}>
-          <span onClick={props.onHide} className="material-icons-round">
+          <span onClick={props.onHide} style={{ cursor: 'pointer' }} className="material-icons-round">
           close
           </span>
         </Modal.Title>

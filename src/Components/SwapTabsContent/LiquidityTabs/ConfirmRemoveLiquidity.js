@@ -10,8 +10,13 @@ const ConfirmRemoveLiquidity = (props) => {
       onHide={props.onHide}
       className="confirm-swap-modal"
     >
-      <Modal.Header closeButton>
+      <Modal.Header>
         <Modal.Title>You will receive</Modal.Title>
+        <Modal.Title className={'float-right'}>
+          <span onClick={props.onHide} style={{ cursor: 'pointer' }} className="material-icons-round">
+          close
+          </span>
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <>
