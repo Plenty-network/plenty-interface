@@ -153,7 +153,7 @@ const Header = (props) => {
                         splitLocation[1] === 'swap' ||
                           splitLocation[1] === 'liquidity'
                           ? 'menu-item-active'
-                          : undefined,
+                          : 'menu-item',
                         'align-self-end align-self-lg-center d-flex align-items-center'
                       )}
                       as={Link}
@@ -162,7 +162,7 @@ const Header = (props) => {
                     >
                       <span
                         className={clsx(
-                          props.isFrontPage ? 'text-white' : 'span-themed'
+                          props.isFrontPage ? 'text-white' : undefined
                         )}
                       >
                         Swap
@@ -172,7 +172,7 @@ const Header = (props) => {
                       className={clsx(
                         splitLocation[1] === 'farms'
                           ? 'menu-item-active'
-                          : undefined,
+                          : 'menu-item',
                         'align-self-end align-self-lg-center d-flex align-items-center'
                       )}
                       as={Link}
@@ -181,7 +181,7 @@ const Header = (props) => {
                     >
                       <span
                         className={clsx(
-                          props.isFrontPage ? 'text-white' : 'span-themed'
+                          props.isFrontPage ? 'text-white' : undefined
                         )}
                       >
                         Farms
@@ -191,7 +191,7 @@ const Header = (props) => {
                       className={clsx(
                         splitLocation[1] === 'stake'
                           ? 'menu-item-active'
-                          : undefined,
+                          : 'menu-item',
                         'align-self-end align-self-lg-center d-flex align-items-center'
                       )}
                       as={Link}
@@ -200,7 +200,7 @@ const Header = (props) => {
                     >
                       <span
                         className={clsx(
-                          props.isFrontPage ? 'text-white' : 'span-themed'
+                          props.isFrontPage ? 'text-white' : undefined
                         )}
                       >
                         Stake
@@ -210,7 +210,7 @@ const Header = (props) => {
                       className={clsx(
                         splitLocation[1] === 'pools'
                           ? 'menu-item-active'
-                          : undefined,
+                          : 'menu-item',
                         'align-self-end align-self-lg-center d-flex align-items-center'
                       )}
                       as={Link}
@@ -219,7 +219,7 @@ const Header = (props) => {
                     >
                       <span
                         className={clsx(
-                          props.isFrontPage ? 'text-white' : 'span-themed'
+                          props.isFrontPage ? 'text-white' : undefined
                         )}
                       >
                         Pools
@@ -312,7 +312,7 @@ const Header = (props) => {
                         title={
                           <span
                             className={clsx(
-                              'material-icons-round',
+                              'flex align-items-center material-icons-round',
                               props.isFrontPage ? 'text-white' : 'span-themed'
                             )}
                           >

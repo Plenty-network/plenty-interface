@@ -60,13 +60,7 @@
   border-radius: 6px;
   margin-bottom: 15px;
 }
-.xplenty-tooltip {
-  .tooltip-inner {
-    background: var(--theme-card-bg);
-    color: var(--theme-text-1);
-    opacity: 1;
-  }
-}
+
 .xplenty-content-container-shadow {
   width: 200px;
   background: linear-gradient(
@@ -98,6 +92,7 @@
   line-height: 21px;
 }
 .xplenty-btn {
+  border: none;
   color: #fff;
   background: linear-gradient(
     100.44deg,
@@ -115,7 +110,7 @@
 }
 .xplenty-total-balance-label {
   font-weight: bold;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 17px;
   margin: 0;
 }
@@ -142,7 +137,7 @@
     }
     p {
       font-weight: 500;
-      font-size: 10px;
+      font-size: 12px;
       line-height: 14px;
       margin: 0;
     }

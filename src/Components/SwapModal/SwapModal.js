@@ -28,9 +28,14 @@ const SwapModal = (props) => {
       onHide={props.onHide}
       className="swap-modal modal-themed"
     >
-      <Modal.Header closeButton className="border-bottom-themed">
+      <Modal.Header className="border-bottom-themed">
         <Modal.Title>
           <span className="span-themed">Select a token</span>
+        </Modal.Title>
+        <Modal.Title className={'float-right'}>
+          <span onClick={props.onHide} style={{ cursor: 'pointer' }} className="material-icons-round">
+          close
+          </span>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>

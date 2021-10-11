@@ -63,19 +63,33 @@
   color: #FFFFFF !important;
 }
 
-.menu-item-active {
-  position: relative;
+.menu-item {
 
   > span {
-    color: #2d323d;
+    color: var(--theme-text-3);
   }
+
+  &:hover {
+    > span {
+      color: var(--theme-text-4)
+    }
+  }
+}
+
+.menu-item-active {
+
+  position: relative;
 
   &:after {
     content: '';
     position: absolute;
     width: 8px;
     height: 8px;
-    background-color: #7d00ff;
+    background: linear-gradient(
+                    90deg,
+                    var(--theme-primary-gradient-1) 0%,
+                    var(--theme-primary-gradient-2) 100%
+    );
     border-radius: 100%;
     left: -15px;
     right: 0;
@@ -85,7 +99,11 @@
       left: 0;
       margin: auto;
     }
+  }
 
+  > span {
+    //color: #2d323d;
+    color: var(--theme-text-1);
   }
 }
 
@@ -192,7 +210,7 @@
   margin-top: -10px;
   font-style: normal;
   font-weight: 500;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 13px;
   color : var(--theme-text-1);
 }
