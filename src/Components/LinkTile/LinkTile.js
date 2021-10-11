@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import {Link} from "react-router-dom";
 import clsx from "clsx";
 import styles from "../LinkTile/linktile.module.scss";
+import Button from "../Ui/Buttons/Button";
 
 const LinkTile = (props) => {
 
@@ -30,15 +31,20 @@ const LinkTile = (props) => {
                 <p>{props.text}</p>
             </div>
             <div>
-                <Link to={props.linkTo}>
-                    <button className={clsx(
-                        styles.btn,
-                        styles[color],
-                        "w-100",
-                        "font-weight-bold"
-                    )}>
+                <Link to={props.linkTo} className="text-decoration-none">
+                    <Button
+                        onClick={() => null}
+                        color={'primary'}
+                        className={'w-100'}>
                         {props.linkText}
-                    </button>
+                    </Button>
+                    {/*<button className={clsx(*/}
+                    {/*    styles.btn,*/}
+                    {/*    styles[color],*/}
+                    {/*    "w-100",*/}
+                    {/*    "font-weight-bold"*/}
+                    {/*)}>*/}
+                    {/*</button>*/}
                 </Link>
             </div>
         </div>

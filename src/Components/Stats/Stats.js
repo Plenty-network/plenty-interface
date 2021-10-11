@@ -86,7 +86,7 @@ const Stats = (props) => {
             onClick={props.harvestAll}
             color={'primary'}
             className={'w-100'}
-            disabled={props.plentyToHarvest === 0}
+            disabled={false}
             loading={props.harvestAllOperations.loading}
           >
             Harvest all

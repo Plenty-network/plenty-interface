@@ -5,6 +5,7 @@ import ConfirmRemoveLiquidity from './ConfirmRemoveLiquidity';
 import InfoModal from '../../Ui/Modals/InfoModal';
 
 import CONFIG from '../../../config/config';
+import Button from "../../Ui/Buttons/Button";
 
 const RemoveLiquidity = (props) => {
   const [removableTokens, setRemovableTokens] = useState({});
@@ -70,21 +71,33 @@ const RemoveLiquidity = (props) => {
     });
   };
   let swapContentButton = (
-    <button className="swap-content-btn" onClick={props.connecthWallet}>
-      <span className="material-icons-round">add</span> Connect Wallet
-    </button>
+    <Button
+      onClick={props.connecthWallet}
+      color={'primary'}
+      startIcon={'add'}
+      className={'mt-4 w-100 flex align-items-center justify-content-center'}>
+      Connect Wallet
+    </Button>
   );
 
   if (props.walletAddress) {
     swapContentButton = (
-      <button className="swap-content-btn enter-amount">Enter an amount</button>
+      <Button
+        onClick={() => null}
+        color={'primary'}
+        className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}>
+        Enter an amount
+      </Button>
     );
   }
   if (props.walletAddress && props.firstTokenAmount) {
     swapContentButton = (
-      <button className="swap-content-btn" onClick={handleRemoveLiquidity}>
+      <Button
+        onClick={handleRemoveLiquidity}
+        color={'primary'}
+        className={'mt-4 w-100 flex align-items-center justify-content-center'}>
         Confirm Withdrawal
-      </button>
+      </Button>
     );
   }
   if (props.tokenIn.name && props.tokenOut.name) {
@@ -99,9 +112,12 @@ const RemoveLiquidity = (props) => {
         ]
     ) {
       swapContentButton = (
-        <button className="swap-content-btn enter-amount" disabled>
+        <Button
+          onClick={() => null}
+          color={'primary'}
+          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}>
           Insufficient Balance
-        </button>
+        </Button>
       );
     }
   }
