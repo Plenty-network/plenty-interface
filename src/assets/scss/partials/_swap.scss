@@ -346,6 +346,10 @@
     color: #b0b7c3;
   }
 }
+.enter-amount {
+  background: var(--theme-text-3);
+  cursor: not-allowed;
+}
 .swap-content-btn {
   width: 100%;
   background: linear-gradient(
@@ -387,7 +391,7 @@
 .wallet-token-balance {
   font-style: normal;
   font-weight: 500;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 14px;
   color: var(--theme-text-4);
   margin: 10px 0 0;
@@ -395,7 +399,7 @@
 .add-liquidity-tip {
   font-style: normal;
   font-weight: normal;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 14px;
   color: var(--theme-text-1);
   margin-bottom: 10px;
@@ -446,7 +450,7 @@
 .swap-detail-amt-details {
   font-style: normal;
   font-weight: 500;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 13px;
   color: var(--theme-text-4);
   margin: 0;
@@ -609,7 +613,7 @@ input:checked {
 .slippage-info {
   font-style: normal;
   font-weight: 500;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 13px;
   color: var(--theme-text-1);
   padding: 14px 34px;

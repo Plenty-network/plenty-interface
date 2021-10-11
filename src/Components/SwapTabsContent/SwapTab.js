@@ -5,6 +5,7 @@ import { swapTokens } from '../../apis/swap/swap';
 import PuffLoader from 'react-spinners/PuffLoader';
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
+import Button from "../Ui/Buttons/Button";
 
 const SwapTab = (props) => {
   const callSwapToken = () => {
@@ -67,34 +68,50 @@ const SwapTab = (props) => {
   };
 
   let swapContentButton = (
-    <button className="swap-content-btn" onClick={props.connecthWallet}>
-      <span className="material-icons-round">add</span> Connect Wallet
-    </button>
+    <Button
+      onClick={props.connecthWallet}
+      color={'primary'}
+      startIcon={'add'}
+      className={'mt-4 w-100 flex align-items-center justify-content-center'}>
+      Connect Wallet
+    </Button>
   );
   if (props.walletAddress) {
     if (props.tokenOut.name && props.firstTokenAmount) {
       swapContentButton = (
-        <button className="swap-content-btn" onClick={callSwapToken}>
+        <Button
+          onClick={callSwapToken}
+          color={'primary'}
+          className={'mt-4 w-100 flex align-items-center justify-content-center'}>
           Swap
-        </button>
+        </Button>
       );
     } else if (!props.tokenOut.name) {
       swapContentButton = (
-        <button className="swap-content-btn enter-amount">
+        <Button
+          onClick={() => null}
+          color={'primary'}
+          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}>
           Select a token
-        </button>
+        </Button>
       );
     } else if (props.loaderInButton) {
       swapContentButton = (
-        <button className="swap-content-btn loader-btn enter-amount">
-          <PuffLoader color={'#fff'} size={28} />
-        </button>
+        <Button
+          onClick={() => null}
+          color={'primary'}
+          loading={true}
+          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}>
+        </Button>
       );
     } else {
       swapContentButton = (
-        <button className="swap-content-btn enter-amount">
+        <Button
+          onClick={() => null}
+          color={'primary'}
+          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}>
           Enter an amount
-        </button>
+        </Button>
       );
     }
   }
