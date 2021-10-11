@@ -1,5 +1,7 @@
 import { Modal } from 'react-bootstrap';
 import PuffLoader from 'react-spinners/PuffLoader';
+import Button from "../../Ui/Buttons/Button";
+import React from "react";
 
 const ConfirmRemoveLiquidity = (props) => {
   return (
@@ -80,18 +82,13 @@ const ConfirmRemoveLiquidity = (props) => {
               </div>
             </div>
 
-            {props.loading ? (
-              <button className="swap-content-btn loader-btn">
-                <PuffLoader color={'#fff'} size={28} />
-              </button>
-            ) : (
-              <button
-                className="swap-content-btn"
-                onClick={props.confirmRemoveLiquidity}
-              >
-                Confirm Removal
-              </button>
-            )}
+            <Button
+              onClick={props.confirmRemoveLiquidity}
+              color={'primary'}
+              className={'mt-4 w-100'}
+              loading={props.loading}>
+              Confirm Removal
+            </Button>
           </div>
         </>
       </Modal.Body>

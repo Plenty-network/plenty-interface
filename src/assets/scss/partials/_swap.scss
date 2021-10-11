@@ -346,6 +346,10 @@
     color: #b0b7c3;
   }
 }
+.enter-amount {
+  background: var(--theme-text-3);
+  cursor: not-allowed;
+}
 .swap-content-btn {
   width: 100%;
   background: linear-gradient(

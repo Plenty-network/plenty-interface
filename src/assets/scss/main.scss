@@ -117,13 +117,10 @@ h1 {
 }
 
 .tooltip-inner {
-  background: linear-gradient(
-    90deg,
-    rgba(112, 40, 228) 0%,
-    rgba(229, 178, 202) 100%
-  );
-  color: #ffffff;
+  background: var(--theme-card-bg);
+  color: var(--theme-text-1);
   opacity: 1;
+  z-index: 10000000;
 }
 
 .tooltip > .arrow {

@@ -312,7 +312,7 @@ const Header = (props) => {
                         title={
                           <span
                             className={clsx(
-                              'material-icons-round',
+                              'flex align-items-center material-icons-round',
                               props.isFrontPage ? 'text-white' : 'span-themed'
                             )}
                           >

@@ -1,5 +1,7 @@
+import React from 'react';
 import { Modal } from 'react-bootstrap';
 import PuffLoader from 'react-spinners/PuffLoader';
+import Button from "../../Ui/Buttons/Button";
 
 const ConfirmAddLiquidity = (props) => {
   return (
@@ -8,8 +10,13 @@ const ConfirmAddLiquidity = (props) => {
       onHide={props.onHide}
       className="confirm-swap-modal confirm-add-liquidity-modal"
     >
-      <Modal.Header closeButton>
+      <Modal.Header>
         <Modal.Title>You will receive</Modal.Title>
+        <Modal.Title className={'float-right'}>
+          <span onClick={props.onHide} className="material-icons-round">
+          close
+          </span>
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <>
@@ -91,18 +98,13 @@ const ConfirmAddLiquidity = (props) => {
               </p>
             </div>
 
-            {props.loading ? (
-              <button className="swap-content-btn loader-btn">
-                <PuffLoader color={'#fff'} size={28} />
-              </button>
-            ) : (
-              <button
-                className="swap-content-btn"
-                onClick={props.CallConfirmAddLiquidity}
-              >
-                Confirm Supply
-              </button>
-            )}
+            <Button
+              onClick={props.CallConfirmAddLiquidity}
+              color={'primary'}
+              className={'mt-4 w-100'}
+              loading={props.loading}>
+              Confirm Supply
+            </Button>
           </div>
         </>
       </Modal.Body>

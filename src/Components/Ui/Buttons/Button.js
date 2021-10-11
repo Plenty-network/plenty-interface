@@ -10,7 +10,6 @@ const Button = props => {
 
   return (
     <button
-      {...props}
       className={clsx(
         isIconBtn ? styles.iconBtn : styles.btn,
         styles[color],
