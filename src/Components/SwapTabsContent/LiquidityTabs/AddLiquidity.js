@@ -316,6 +316,13 @@ const AddLiquidity = (props) => {
           ) : null}
         </div>
       </div>
+      <div className="swap-detail-wrapper bg-themed-light">
+        <div className="add-liquidity-tip">
+          When you add liquidity, you will receive pool tokens representing your
+          position. These tokens automatically earn fees proportional to your
+          share of the pool, and can be redeemed at any time.
+        </div>
+      </div>
       {swapContentButton}
       <ConfirmAddLiquidity
         {...props}
