@@ -38,6 +38,9 @@ import SMAK from '../assets/images/smak-swap.png';
 import tzBTC from '../assets/images/tzbtc-swap.png';
 import uUSD from '../assets/images/uUSD.png';
 import gif from '../assets/images/gif-dao-token.png';
+import youGov from '../assets/images/you-gov.png';
+import wUSDT from '../assets/images/wUSDT.png';
+import wDAI from '../assets/images/wdai.png';
 
 const Swap = (props) => {
   const tokens = [
@@ -49,7 +52,7 @@ const Swap = (props) => {
     {
       name: 'GIF',
       image: gif,
-      new: true,
+      new: false,
     },
     {
       name: 'hDAO',
@@ -59,7 +62,7 @@ const Swap = (props) => {
     {
       name: 'KALAM',
       image: KALAM,
-      new: true,
+      new: false,
     },
     {
       name: 'kUSD',
@@ -79,7 +82,7 @@ const Swap = (props) => {
     {
       name: 'SMAK',
       image: SMAK,
-      new: true,
+      new: false,
     },
     {
       name: 'USDtz',
@@ -89,12 +92,17 @@ const Swap = (props) => {
     {
       name: 'tzBTC',
       image: tzBTC,
-      new: true,
+      new: false,
     },
     {
       name: 'wBUSD',
       image: wbusd,
       new: false,
+    },
+    {
+      name: 'wDAI',
+      image: wDAI,
+      new: true,
     },
     {
       name: 'wLINK',
@@ -109,12 +117,17 @@ const Swap = (props) => {
     {
       name: 'WRAP',
       image: WRAP,
-      new: true,
+      new: false,
     },
     {
       name: 'wUSDC',
       image: wusdc,
       new: false,
+    },
+    {
+      name: 'wUSDT',
+      image: wUSDT,
+      new: true,
     },
     {
       name: 'wWBTC',
@@ -129,11 +142,16 @@ const Swap = (props) => {
     {
       name: 'UNO',
       image: UNO,
-      new: true,
+      new: false,
     },
     {
       name: 'uUSD',
       image: uUSD,
+      new: false,
+    },
+    {
+      name: 'YOU',
+      image: youGov,
       new: true,
     },
   ];

@@ -821,6 +821,20 @@ export const fetchWalletBalance = async (
           symbol: icon,
           contractInstance: contract,
         };
+      } else if (icon === 'YOU') {
+        const packedKey = getPackedKey(token_id, addressOfUser, 'FA2');
+        const balanceResponse = await axios.get(
+          `${rpcNode}chains/main/blocks/head/context/big_maps/7715/${packedKey}`
+        );
+        let balance = parseFloat(balanceResponse.data.int);
+        balance = balance / Math.pow(10, token_decimal);
+
+        return {
+          success: true,
+          balance,
+          symbol: icon,
+          contractInstance: contract,
+        };
       } else {
         const userDetails = await storage.assets.ledger.get({
           0: addressOfUser,
@@ -913,6 +927,8 @@ export const getTokenPrices = async () => {
       'tzBTC',
       'uUSD',
       'GIF',
+      'wUSDT',
+      'YOU',
     ];
     const tokenAddress = {
       PLENTY: {
@@ -940,6 +956,12 @@ export const getTokenPrices = async () => {
         contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
       },
       wWETH: {
+        contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+      },
+      wDAI: {
+        contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+      },
+      wUSDT: {
         contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
       },
       USDtz: {
@@ -974,6 +996,9 @@ export const getTokenPrices = async () => {
       },
       GIF: {
         contractAddress: 'KT1XTxpQvo7oRCqp85LikEZgAZ22uDxhbWJv',
+      },
+      YOU: {
+        contractAddress: 'KT1Xobej4mc6XgEjDoJoHtTKgbD1ELMvcQuL',
       },
     };
     for (let i in tokenPriceResponse.contracts) {
