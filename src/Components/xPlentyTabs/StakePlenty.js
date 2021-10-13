@@ -111,10 +111,6 @@ const StakePlenty = (props) => {
     <>
       <div
         className="swap-token-select-box bg-themed-light swap-content-box-wrapper"
-        style={{
-          borderRadius: '6px',
-          minHeight: 0,
-        }}
       >
         <div className="token-selector-balance-wrapper">
           <button className="token-selector">
@@ -139,7 +135,7 @@ const StakePlenty = (props) => {
               style={{ cursor: 'pointer' }}
               onClick={() => onMaxClick(props.plentyBalance)}
             >
-              Balance: {props.plentyBalance ? props.plentyBalance : 0} PLENTY{' '}
+              Balance: {props.plentyBalance ? props.plentyBalance : 0}{' '}
               <span className="max-btn">(Max)</span>
             </p>
           </div>

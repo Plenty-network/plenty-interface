@@ -155,7 +155,7 @@
 }
 
 .frontpage-light-wallet-btn {
-  background-color: rgba(86, 3, 173, 0.17);
+  background: rgba(86, 3, 173, 0.17);
 }
 
 .light-theme-text {
@@ -169,7 +169,7 @@
   line-height: 29px;
   //box-shadow: 0 0 30px rgba(138, 149, 158, 0.09);
   border: 0;
-  border-radius: 15px;
+  border-radius: 8px;
 
   > span {
     text-overflow: ellipsis;

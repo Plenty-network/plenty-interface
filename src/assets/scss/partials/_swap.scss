@@ -49,7 +49,7 @@
   padding: 12px;
   border: 1px solid var(--theme-border);
   box-sizing: border-box;
-  border-radius: 15px;
+  border-radius: 8px;
 
   &:hover {
     border: 1px solid var(--theme-border-light);
@@ -219,7 +219,7 @@
 .search-coin-input {
   width: 100%;
   background-color: var(--theme-input-bg);
-  border-radius: 15px;
+  border-radius: 8px;
   box-shadow: none;
   padding: 16px 30px;
   padding-left: 62px;
@@ -248,7 +248,7 @@
   }
   &::-webkit-scrollbar-thumb {
     background-color: #babac0;
-    border-radius: 5px;
+    border-radius: 8px;
     border: 5px solid #7a8699;
   }
 }
@@ -402,7 +402,6 @@
   font-size: 12px;
   line-height: 14px;
   color: var(--theme-text-1);
-  margin-bottom: 10px;
 }
 .liquidity-container-tab {
   display: flex;
@@ -435,11 +434,10 @@
   }
 }
 .swap-detail-wrapper {
-  background-color: var(--theme-card-bg);
   mix-blend-mode: normal;
   padding: 14px 20px;
-  border-radius: 4px;
-  margin-top: 8px;
+  border-radius: 8px;
+  margin-top: 12px;
 }
 .swap-detail-amt-wrapper {
   display: flex;

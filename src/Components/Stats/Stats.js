@@ -26,7 +26,7 @@ const Stats = (props) => {
   return (
     <div className={clsx('p-3', 'bg-themed', styles.container)}>
       <Row className="p-1">
-        <Col xs={10}>
+        <Col xs={12}>
           <span className="d-flex font-weight-bold m-0 py-3">
             Your Stats
             <Image className="ml-2" src={greenBullet} />
