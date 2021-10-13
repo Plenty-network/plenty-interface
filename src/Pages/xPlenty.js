@@ -131,7 +131,6 @@ const Stake = (props) => {
                     className="swap-token-select-box bg-themed swap-content-box-wrapper"
                     style={{
                       minHeight: 0,
-                      borderRadius: '6px',
                       padding: '22px',
                       marginTop: 0,
                     }}

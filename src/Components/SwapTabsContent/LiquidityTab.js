@@ -10,7 +10,7 @@ const LiquidityTab = (props) => {
   let defaultKey = 'add';
 
   const changeLiquidityType = () => {
-    if (window.location.pathname.replace('/liquidity/', '') == 'add') {
+    if (window.location.pathname.replace('/liquidity/', '') === 'add') {
       window.history.pushState(
         {
           path: `/liquidity/remove?tokenA=${props.tokenIn.name}&tokenB=${props.tokenOut.name}`,
@@ -31,7 +31,7 @@ const LiquidityTab = (props) => {
     }
   };
 
-  if (window.location.pathname.replace('/liquidity/', '') == 'remove') {
+  if (window.location.pathname.replace('/liquidity/', '') === 'remove') {
     defaultKey = 'remove';
   } else {
     defaultKey = 'add';
@@ -71,11 +71,6 @@ const LiquidityTab = (props) => {
   return (
     <>
       <div className="swap-content-box-wrapper">
-        <div className="add-liquidity-tip">
-          When you add liquidity, you will receive pool tokens representing your
-          position. These tokens automatically earn fees proportional to your
-          share of the pool, and can be redeemed at any time.
-        </div>
         <Tabs
           defaultActiveKey={defaultKey}
           className={

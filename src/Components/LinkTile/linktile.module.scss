@@ -12,12 +12,12 @@
 }
 
 .text {
-  min-height: 10em;
+  min-height: 8em;
   letter-spacing: -0.66px;
 }
 
 .tile {
-  border-radius: 1em;
+  border-radius: 15px;
   transition: box-shadow 0.15s;
 
   &:hover {
