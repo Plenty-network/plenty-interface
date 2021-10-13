@@ -117,7 +117,7 @@ const UnstakePlenty = (props) => {
         <div className="token-selector-balance-wrapper">
           <button className="token-selector" style={{ textTransform: 'none' }}>
             <img src={xplenty} className="button-logo" />
-            <span className="span-themed">xPLENTY </span>
+            <span className="span-themed">xPLENTY</span>
           </button>
         </div>
 

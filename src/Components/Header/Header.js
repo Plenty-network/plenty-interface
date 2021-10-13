@@ -18,6 +18,7 @@ import Loader from '../../Components/loader';
 import { RPC_NODE } from '../../constants/localStorage';
 import { setNode } from '../../redux/slices/settings/settings.slice';
 import { connect } from 'react-redux';
+import Button from "../Ui/Buttons/Button";
 
 const Header = (props) => {
   const location = useLocation();
@@ -36,51 +37,58 @@ const Header = (props) => {
   let connectWalletButton = () => {
     if (props.walletAddress) {
       return (
-        <button
-          className="disconnect-wallet-btn bg-themed py-1 px-2 py-lg-2 px-lg-4"
+        <Button
           onClick={props.disconnectWallet}
+          color={'primary'}
+          className={'bg-themed'}
         >
-          <span
-            className={clsx(
-              props.theme === 'light' ? 'light-theme-text' : 'span-themed'
-            )}
-          >
+           <span
+               className={clsx(
+                   props.theme === 'light' ? 'light-theme-text' : 'span-themed'
+               )}
+           >
             {truncateMiddle(props.walletAddress, 4, 4, '...')}
           </span>
-        </button>
+        </Button>
       );
     } else {
       return (
-        <button
-          className={clsx(
-            props.theme === 'light'
-              ? 'frontpage-light-wallet-btn'
-              : 'bg-themed',
-            'connect-wallet-btn',
-            'py-1',
-            'px-2',
-            'py-lg-2',
-            'px-lg-4'
-          )}
+        <Button
+          color={'primary'}
           onClick={props.connecthWallet}
-        >
-          <span
-            className={clsx(
-              'connect-wallet-btn d-lg-inline-block',
-              props.isFrontPage ? 'text-white' : 'span-themed'
-            )}
-          >
-            <span
+          className={clsx(
+              'px-md-3',
+              'connect-wallet-btn',
+              props.theme === 'light'
+                  ? 'frontpage-light-wallet-btn'
+                  : 'bg-themed')
+          }>
+          <div
               className={clsx(
-                'material-icons-round',
-                props.isFrontPage ? 'text-white' : 'span-themed'
+                  'connect-wallet-btn',
+                  props.isFrontPage ? 'text-white' : 'span-themed'
               )}
-            >
+          >
+            <div className="flex flex-row align-items-center">
+              <span
+                  className={clsx(
+                      'mr-1',
+                      'material-icons-round',
+                      props.isFrontPage ? 'text-white' : 'span-themed'
+                  )}
+              >
               add
             </span>
-            Connect to Wallet
-          </span>
-        </button>
+              <span
+                  className={clsx(
+                      props.isFrontPage ? 'text-white' : 'span-themed'
+                  )}
+              >
+              Connect to Wallet
+            </span>
+            </div>
+          </div>
+        </Button>
       );
     }
   };

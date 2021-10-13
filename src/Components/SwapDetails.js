@@ -1,6 +1,6 @@
 const SwapDetails = (props) => {
   return (
-    <div className="swap-detail-wrapper">
+    <div className="swap-detail-wrapper bg-themed-light">
       <div className="swap-detail-amt-wrapper">
         <p className="swap-detail-amt-details">Minimum received </p>
         <p className="swap-detail-amt-details">

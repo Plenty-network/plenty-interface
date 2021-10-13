@@ -10,6 +10,7 @@ import dollar from '../../assets/images/frontpage/dollar.svg';
 import marketCap from '../../assets/images/frontpage/marketcap.svg';
 import farms from '../../assets/images/frontpage/farms.svg';
 import xplenty from '../../assets/images/frontpage/xplenty.svg';
+import liquidity from '../../assets/images/frontpage/liquidity.svg';
 import totalBurned from '../../assets/images/frontpage/totalburned.svg';
 import circulatingSupply from '../../assets/images/frontpage/circulatingsupply.svg';
 import plentyBlock from '../../assets/images/frontpage/plentyblock.svg';
@@ -297,18 +298,29 @@ const Frontpage = ({
               justifyContent: 'center',
             }}
           >
-            <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
+            <Col xs={12} md={6} xl={3} className="mb-3 d-flex">
               <LinkTile
                 text={
-                  'Swap tokens and add liquidity on the first token-to-token AMM on Tezos. Don’t look any further for the highest liquidity.'
+                  'Swap tokens with high liquidity on the first token-to-token AMM on Tezos.'
                 }
                 linkTo={'/swap'}
                 linkText={'Enter Exchange'}
                 headerIcon={amm}
-                headerText={'Token-to-token AMM'}
+                headerText={'Trade'}
               />
             </Col>
-            <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
+            <Col xs={12} md={6} xl={3} className="mb-3 d-flex">
+              <LinkTile
+                  text={
+                    'Add liquidity for any trading pair and start earning trading fees.'
+                  }
+                  linkTo={'/liquidity'}
+                  linkText={'Add Liquidity'}
+                  headerIcon={liquidity}
+                  headerText={'Liquidity'}
+              />
+            </Col>
+            <Col xs={12} md={6} xl={3} className="mb-3 d-flex">
               <LinkTile
                 text={
                   'Earn PLENTY and other tokens by staking Plenty Liquidity Provider tokens in a farm.'
@@ -316,18 +328,18 @@ const Frontpage = ({
                 linkTo={'/farms'}
                 linkText={'Enter Farms'}
                 headerIcon={farms}
-                headerText={'Yield farms'}
+                headerText={'Farms'}
               />
             </Col>
-            <Col xs={12} md={6} lg={3} className="mb-3 d-flex">
+            <Col xs={12} md={6} xl={3} className="mb-3 d-flex">
               <LinkTile
                 text={
-                  'Stake PLENTY, receive xPLENTY in return. xPLENTY is continuously compounding staking rewards and trading fees. '
+                  'Stake PLENTY, receive xPLENTY. Rewards are compounding.'
                 }
                 linkTo={'/stake'}
                 linkText={'Enter Staking'}
                 headerIcon={xplenty}
-                headerText={'xPlenty staking'}
+                headerText={'Stake'}
               />
             </Col>
           </div>
