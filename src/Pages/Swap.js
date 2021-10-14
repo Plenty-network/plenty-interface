@@ -353,7 +353,7 @@ const Swap = (props) => {
     window.history.pushState({ path: `/${elem}` }, '', `/${elem}`);
   };
 
-  let showActiveTab = localStorage.getItem('activeTab');
+  let showActiveTab = localStorage.getItem('activeTab') ?? 'swap';
 
   if (
     window.location.pathname.replace('/', '') == 'liquidity' ||
