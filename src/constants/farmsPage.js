@@ -20,6 +20,10 @@ import wrapLpFarm from '../assets/images/farms/plenty-wrap.png';
 import uusdLpFarm from '../assets/images/farms/uusdLpFarm.png';
 import gifDualLpFarm from '../assets/images/plenty-gif-dual-lp.png';
 import gifIcon from '../assets/images/gif-dao-token.png';
+import wdaiLpFarm from '../assets/images/farms/wdaiLpFarm.png';
+import wusdtLpFarm from '../assets/images/farms/wusdtLpFarm.png';
+
+import youLpFarm from '../assets/images/farms/youLpFarm.png';
 
 import wbusd from '../assets/images/busd.png';
 
@@ -547,5 +551,65 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
     isDualFarm: true,
+  },
+  'PLENTY / YOU LP': {
+    image: youLpFarm,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'PLENTY / YOU LP',
+    apr: 0,
+    apy: '2621',
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'PLENTY / YOU LP',
+    liquidity: '5000',
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+  },
+  'PLENTY / wDAI LP': {
+    image: wdaiLpFarm,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'PLENTY / wDAI LP',
+    apr: 0,
+    apy: '2621',
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'PLENTY / wDAI LP',
+    liquidity: '5000',
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+  },
+  'PLENTY / wUSDT LP': {
+    image: wusdtLpFarm,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'PLENTY / wUSDT LP',
+    apr: 0,
+    apy: '2621',
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'PLENTY / wUSDT LP',
+    liquidity: '5000',
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
   },
 };
