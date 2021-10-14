@@ -20,6 +20,10 @@ import wrapLpFarm from '../assets/images/farms/plenty-wrap.png';
 import uusdLpFarm from '../assets/images/farms/uusdLpFarm.png';
 import gifDualLpFarm from '../assets/images/plenty-gif-dual-lp.png';
 import gifIcon from '../assets/images/gif-dao-token.png';
+import wdaiLpFarm from '../assets/images/farms/wdaiLpFarm.png';
+import wusdtLpFarm from '../assets/images/farms/wusdtLpFarm.png';
+
+import youLpFarm from '../assets/images/farms/youLpFarm.png';
 
 import wbusd from '../assets/images/busd.png';
 
@@ -549,7 +553,7 @@ export const FARMS_CARD_TYPE_LIST = {
     isDualFarm: true,
   },
   'PLENTY / YOU LP': {
-    image: uusdLpFarm,
+    image: youLpFarm,
     harvestImg: plentyToken,
     multi: '100',
     title: 'PLENTY / YOU LP',
@@ -569,7 +573,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'PLENTY / wDAI LP': {
-    image: uusdLpFarm,
+    image: wdaiLpFarm,
     harvestImg: plentyToken,
     multi: '100',
     title: 'PLENTY / wDAI LP',
@@ -589,7 +593,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'PLENTY / wUSDT LP': {
-    image: uusdLpFarm,
+    image: wusdtLpFarm,
     harvestImg: plentyToken,
     multi: '100',
     title: 'PLENTY / wUSDT LP',
