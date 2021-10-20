@@ -350,7 +350,8 @@ module.exports = {
           inactive: [],
         },
         'PLENTY - GIF': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1UH21n4iwXu7gGrh34RKZfRewpcgQLdbXq',
               mapId: 17071,
@@ -378,7 +379,6 @@ module.exports = {
               },
             },
           ],
-          inactive: [],
         },
         'PLENTY - YOU': {
           active: [
@@ -2062,7 +2062,8 @@ module.exports = {
         inactive: [],
       },
       'PLENTY - GIF': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1MVLRQ7K7275oHDvbtKcUzNJsPBstZGKUp',
             CONTRACT: 'KT1UH21n4iwXu7gGrh34RKZfRewpcgQLdbXq',
@@ -2093,13 +2094,12 @@ module.exports = {
             TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             DECIMAL: 18,
             withdrawalFeeType: 'type2',
-            message: '🥳 Earn PLENTY & GIF until October 19th',
-            bannerType: 'info',
+            message: 'Rewards ended October 19',
+            bannerType: 'alert',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=GIF',
             isDualFarm: true,
           },
         ],
-        inactive: [],
       },
       'PLENTY - YOU': {
         active: [
