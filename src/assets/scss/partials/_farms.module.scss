@@ -61,6 +61,10 @@
     &:hover {
       text-decoration: none;
     }
+    &:active {
+      transform: scale(0.95);
+      transform-origin: 50% 50%;
+    }
   }
 }
 
