@@ -138,7 +138,7 @@ const Header = (props) => {
               </Nav.Item>
               <Navbar.Toggle
                 aria-controls="responsive-navbar-nav"
-                className="ml-lg-auto"
+                className="ml-lg-auto flex header-click"
               >
                 <span
                   className={clsx(
@@ -237,7 +237,7 @@ const Header = (props) => {
                   <div className="col-lg-6 d-flex flex-column flex-lg-row align-items-end align-items-lg-center">
                     <Nav.Item className="ml-auto">
                       <a
-                        className="nav-menu-item-link px-lg-3 align-self-end align-self-lg-center"
+                        className="flex header-click nav-menu-item-link px-lg-3 align-self-end align-self-lg-center"
                         onClick={props.toggleTheme}
                       >
                         {props.theme === 'light' ? (
@@ -320,7 +320,7 @@ const Header = (props) => {
                         title={
                           <span
                             className={clsx(
-                              'flex align-items-center material-icons-round',
+                              'flex header-click align-items-center material-icons-round',
                               props.isFrontPage ? 'text-white' : 'span-themed'
                             )}
                           >

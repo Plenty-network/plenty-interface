@@ -10,6 +10,7 @@
   margin: 100px auto;
 }
 .swap-container-tab {
+  border-bottom: 1px solid var(--theme-border-light);
   > a {
     font-style: normal;
     font-weight: bold;
@@ -71,6 +72,10 @@
     padding: 10px 6px;
     background-color: var(--theme-secondary-1);
     color: var(--theme-primary-gradient-1);
+
+    &:hover {
+      opacity: 85%;
+    }
   }
   > span {
     font-size: 16px;
@@ -94,7 +99,6 @@
   border: 1px solid var(--theme-border);
   color: var(--theme-text-1);
   box-sizing: border-box;
-  box-shadow: 0px 30px 60px rgba(153, 161, 200, 0.34);
   padding: 20px 32px;
   border-radius: 15px;
   transform: translate(0px, 31px) !important;
@@ -164,7 +168,6 @@
   }
   .swap-content-box-wrapper {
     padding: 18px;
-    padding-bottom: 0;
     margin: 0;
     .swap-token-select-box {
       background-color: var(--theme-bg-1);
@@ -435,7 +438,7 @@
 }
 .swap-detail-wrapper {
   mix-blend-mode: normal;
-  padding: 14px 20px;
+  padding: 12px;
   border-radius: 8px;
   margin-top: 12px;
 }
