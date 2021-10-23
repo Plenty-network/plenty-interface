@@ -189,11 +189,19 @@
   //width: 152px;
 }
 
+.header-click {
+
+  &:active {
+    transform: scale(0.95);
+    transform-origin: 50% 50%;
+
+  }
+}
+
 .menu-dropdown {
   left: -100px;
   top: 60px;
   background-color: #ffffff;
-  box-shadow: 0px 23px 44px rgba(176, 183, 195, 0.14);
   border-radius: 15px;
   border: 0;
 
@@ -212,7 +220,7 @@
   font-weight: 500;
   font-size: 12px;
   line-height: 13px;
-  color : var(--theme-text-1);
+  color: var(--theme-text-1);
 }
 
 .node-selector-modal {
@@ -242,18 +250,18 @@
 
 }
 
-.node-selector-radio-container ul{
+.node-selector-radio-container ul {
   list-style: none;
   margin: 0;
   padding: 10px 0;
-	overflow: auto;
+  overflow: auto;
   max-height: fit-content;
 }
 
 .node-selector-list {
-   ul {
-     li {
-      color:var(--theme-text-1);
+  ul {
+    li {
+      color: var(--theme-text-1);
       display: block;
       position: relative;
       float: left;
@@ -261,21 +269,25 @@
       font-weight: 500;
       font-size: 12px;
       line-height: 23px;
-      
-       input[type=radio] {
+
+      input[type=radio] {
         position: absolute;
         visibility: hidden;
+
         &:checked ~ .check {
           border: 0px solid linear-gradient(94.97deg, var(--theme-primary-gradient-1) 4%, var(--theme-primary-gradient-2) 142.86%);
         }
-        &:checked ~ .check::before {    
+
+        &:checked ~ .check::before {
           background: linear-gradient(94.97deg, var(--theme-primary-gradient-1) 4%, var(--theme-primary-gradient-2) 142.86%);
         }
-        &:checked ~ label{
+
+        &:checked ~ label {
           color: linear-gradient(94.97deg, var(--theme-primary-gradient-1) 4%, var(--theme-primary-gradient-2) 142.86%);
         }
       }
-       label{
+
+      label {
         font-family: DM Sans;
         font-style: normal;
         font-weight: 500;
@@ -291,7 +303,8 @@
         cursor: pointer;
         -webkit-transition: all 0.25s linear;
       }
-      .check{
+
+      .check {
         display: block;
         position: absolute;
         border: 0;
@@ -316,10 +329,11 @@
           margin: auto;
           transition: background 0.25s linear;
           -webkit-transition: background 0.25s linear;
-          background : #C1C7D0;
-        
+          background: #C1C7D0;
+
         }
       }
+
       &:hover .check {
         border: 0px solid var(--theme-bg-4);
       }
@@ -327,7 +341,6 @@
     }
   }
 }
-
 
 
 .node-selector-modal-input {
