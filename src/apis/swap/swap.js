@@ -745,6 +745,18 @@ export const fetchWalletBalance = async (
           symbol: icon,
           contractInstance: contract,
         };
+      } else if (icon === 'cTez') {
+        const userDetails = await storage.tokens.get(addressOfUser);
+        let userBalance = userDetails;
+        userBalance =
+          userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
+        userBalance = parseFloat(userBalance);
+        return {
+          success: true,
+          balance: userBalance,
+          symbol: icon,
+          contractInstance: contract,
+        };
       } else if (icon === 'tzBTC') {
         let userBalance = 0;
         const packedAddress = packDataBytes(
