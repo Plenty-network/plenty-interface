@@ -24,7 +24,7 @@ import wdaiLpFarm from '../assets/images/farms/wdaiLpFarm.png';
 import wusdtLpFarm from '../assets/images/farms/wusdtLpFarm.png';
 
 import youLpFarm from '../assets/images/farms/youLpFarm.png';
-import ctezLpFarm from '../assets/images/farms/ctezLpFarm.png';
+import ctezFarmLpIcon from '../assets/images/farms/ctezFarmLpIcon.png';
 
 import wbusd from '../assets/images/busd.png';
 
@@ -614,7 +614,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'PLENTY / cTez LP': {
-    image: ctezLpFarm,
+    image: ctezFarmLpIcon,
     harvestImg: plentyToken,
     multi: '100',
     title: 'PLENTY / ctez LP',
