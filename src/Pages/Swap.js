@@ -49,6 +49,10 @@ const Swap = (props) => {
       name: 'ctez',
       image: ctez,
       new: true,
+      extra: {
+        text: 'Get ctez',
+        link: `https://ctez.app`,
+      },
     },
     {
       name: 'ETHtz',
