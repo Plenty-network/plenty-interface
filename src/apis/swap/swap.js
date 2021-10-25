@@ -745,6 +745,18 @@ export const fetchWalletBalance = async (
           symbol: icon,
           contractInstance: contract,
         };
+      } else if (icon === 'ctez') {
+        const userDetails = await storage.tokens.get(addressOfUser);
+        let userBalance = userDetails;
+        userBalance =
+          userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
+        userBalance = parseFloat(userBalance);
+        return {
+          success: true,
+          balance: userBalance,
+          symbol: icon,
+          contractInstance: contract,
+        };
       } else if (icon === 'tzBTC') {
         let userBalance = 0;
         const packedAddress = packDataBytes(
@@ -899,13 +911,46 @@ export const fetchAllWalletBalance = async (addressOfUser) => {
   }
 };
 
+const getCtezPrice = async () => {
+  try {
+    let rpcNode =
+      localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
+    let promises = [];
+    let cfmmStorageUrl = `${rpcNode}chains/main/blocks/head/context/contracts/KT1H5b7LxEExkFd2Tng77TfuWbM5aPvHstPr/storage`;
+    let xtzDollarValueUrl = CONFIG.API.url;
+    promises.push(axios.get(cfmmStorageUrl));
+    promises.push(axios.get(xtzDollarValueUrl));
+
+    const promisesResponse = await Promise.all(promises);
+    const tokenPool = parseFloat(promisesResponse[0].data.args[0].int);
+    const cashPool = parseFloat(promisesResponse[0].data.args[1].int);
+    const xtzPrice = promisesResponse[1].data.market_data.current_price.usd;
+    const ctezPriceInUSD = (cashPool / tokenPool) * xtzPrice;
+    return {
+      ctezPriceInUSD: ctezPriceInUSD,
+    };
+    //xtzPriceResponse.data.market_data.current_price.usd;
+  } catch (e) {
+    console.log({ e });
+    return {
+      ctezPriceInUSD: 0,
+    };
+  }
+};
+
 export const getTokenPrices = async () => {
   try {
-    let tokenPriceResponse = await axios.get(
-      'https://api.teztools.io/token/prices'
-    );
+    let promises = [];
+    promises.push(axios.get('https://api.teztools.io/token/prices'));
+    promises.push(getCtezPrice());
+    let promisesResponse = await Promise.all(promises);
+    console.log(promisesResponse);
+    // let tokenPriceResponse = await axios.get(
+    //   'https://api.teztools.io/token/prices'
+    // );
     let tokenPrice = {};
-    tokenPriceResponse = tokenPriceResponse.data;
+    let tokenPriceResponse = promisesResponse[0].data;
+    console.log({ tokenPriceResponse });
     const tokens = [
       'PLENTY',
       'wDAI',
@@ -1012,11 +1057,14 @@ export const getTokenPrices = async () => {
         }
       }
     }
+    tokenPrice['ctez'] = promisesResponse[1].ctezPriceInUSD;
+    console.log({ tokenPrice });
     return {
       success: true,
       tokenPrice,
     };
   } catch (error) {
+    console.log({ tokenPriceError: error });
     return {
       success: false,
       tokenPrice: {},

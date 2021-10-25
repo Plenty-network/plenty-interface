@@ -41,9 +41,19 @@ import gif from '../assets/images/gif-dao-token.png';
 import youGov from '../assets/images/you-gov.png';
 import wUSDT from '../assets/images/wUSDT.png';
 import wDAI from '../assets/images/wdai.png';
+import ctez from '../assets/images/ctez.png';
 
 const Swap = (props) => {
   const tokens = [
+    {
+      name: 'ctez',
+      image: ctez,
+      new: true,
+      extra: {
+        text: 'Get ctez',
+        link: `https://ctez.app`,
+      },
+    },
     {
       name: 'ETHtz',
       image: ETHtz,

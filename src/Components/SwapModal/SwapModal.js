@@ -56,6 +56,11 @@ const SwapModal = (props) => {
                 {token.new ? (
                   <span className="new-badge-icon">New!</span>
                 ) : null}
+                {token.extra && (
+                  <a className="extra-text" href={token.extra.link} target="_blank" rel="noreferrer">
+                    {token.extra.text}
+                  </a>
+                )}
               </button>
             );
           })}

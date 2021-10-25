@@ -127,10 +127,12 @@ const Pools = (props) => {
         modalData={props.unstakeModal}
       />
       <PoolModals />
-      <div style={{ textAlign: 'center' }}>
-        <p>No active pools</p>
-        <br />
-      </div>
+      {props.isActiveOpen ? (
+        <div style={{ textAlign: 'center' }}>
+          <p>No active pools</p>
+          <br />
+        </div>
+      ) : null}
     </div>
   );
 };
