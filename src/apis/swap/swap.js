@@ -745,7 +745,7 @@ export const fetchWalletBalance = async (
           symbol: icon,
           contractInstance: contract,
         };
-      } else if (icon === 'cTez') {
+      } else if (icon === 'ctez') {
         const userDetails = await storage.tokens.get(addressOfUser);
         let userBalance = userDetails;
         userBalance =
@@ -1057,7 +1057,7 @@ export const getTokenPrices = async () => {
         }
       }
     }
-    tokenPrice['cTez'] = promisesResponse[1].ctezPriceInUSD;
+    tokenPrice['ctez'] = promisesResponse[1].ctezPriceInUSD;
     console.log({ tokenPrice });
     return {
       success: true,

@@ -917,7 +917,7 @@ module.exports = {
             property: 'token2_pool',
             liquidityToken: 'PlentywDAIlp',
           },
-          cTez: {
+          ctez: {
             contract: 'KT1C9gJRfkpPbNdBn3XyYbrUHT6XgfPzZqXP',
             property: 'token2_pool',
             liquidityToken: 'PlentyCtezlp',
@@ -1169,7 +1169,7 @@ module.exports = {
           },
         },
       },
-      cTez: {
+      ctez: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4',
         READ_TYPE: 'FA1.2',
@@ -2229,7 +2229,7 @@ module.exports = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: '😍 TBD',
+            message: '😍 Double reward rate until November 11',
             bannerType: 'info',
           },
         ],

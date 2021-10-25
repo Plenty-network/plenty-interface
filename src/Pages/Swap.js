@@ -46,7 +46,7 @@ import ctez from '../assets/images/ctez.png';
 const Swap = (props) => {
   const tokens = [
     {
-      name: 'cTez',
+      name: 'ctez',
       image: ctez,
       new: true,
     },
