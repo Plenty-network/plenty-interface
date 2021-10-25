@@ -215,6 +215,33 @@ const getLpPriceFromDex = async (identifier, dexAddress) => {
   }
 };
 
+const getCtezPrice = async () => {
+  try {
+    let rpcNode =
+      localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
+    let promises = [];
+    let cfmmStorageUrl = `${rpcNode}chains/main/blocks/head/context/contracts/KT1H5b7LxEExkFd2Tng77TfuWbM5aPvHstPr/storage`;
+    let xtzDollarValueUrl = CONFIG.API.url;
+    promises.push(axios.get(cfmmStorageUrl));
+    promises.push(axios.get(xtzDollarValueUrl));
+
+    const promisesResponse = await Promise.all(promises);
+    const tokenPool = parseFloat(promisesResponse[0].data.args[0].int);
+    const cashPool = parseFloat(promisesResponse[0].data.args[1].int);
+    const xtzPrice = promisesResponse[1].data.market_data.current_price.usd;
+    const ctezPriceInUSD = (cashPool / tokenPool) * xtzPrice;
+    return {
+      ctezPriceInUSD: ctezPriceInUSD,
+    };
+    //xtzPriceResponse.data.market_data.current_price.usd;
+  } catch (e) {
+    console.log({ e });
+    return {
+      ctezPriceInUSD: 0,
+    };
+  }
+};
+
 const getPriceForPlentyLpTokens = async (
   identifier,
   lpTokenDecimal,
@@ -244,6 +271,15 @@ const getPriceForPlentyLpTokens = async (
     // );
     // const tokenPricesData = tokenPriceResponse.data.contracts;
     let tokenData = {};
+
+    if (token2Address === 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4') {
+      let ctezPriceInUSD = await getCtezPrice();
+      tokenData['token1'] = {
+        tokenName: 'cTez',
+        tokenValue: ctezPriceInUSD.ctezPriceInUSD,
+        tokenDecimal: 6,
+      };
+    }
 
     let token1Type;
     let token2Type;
@@ -310,7 +346,6 @@ const getPriceForPlentyLpTokens = async (
         }
       }
     }
-
     var token1Amount =
       (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
     token1Amount =
@@ -395,7 +430,8 @@ export const getFarmsDataAPI = async (isActive) => {
           key === 'PLENTY - GIF' ||
           key === 'PLENTY - YOU' ||
           key === 'PLENTY - wDAI' ||
-          key === 'PLENTY - wUSDT'
+          key === 'PLENTY - wUSDT' ||
+          key === 'PLENTY - cTez'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(
@@ -422,7 +458,6 @@ export const getFarmsDataAPI = async (isActive) => {
         lpPricesInUsd[response[i].identifier] = response[i].totalAmount;
       }
     }
-
     for (let key in CONFIG.FARMS[CONFIG.NETWORK]) {
       for (let i in CONFIG.FARMS[CONFIG.NETWORK][key][
         isActive === true ? 'active' : 'inactive'

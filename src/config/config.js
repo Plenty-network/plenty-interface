@@ -413,6 +413,17 @@ module.exports = {
           ],
           inactive: [],
         },
+        'PLENTY - cTez': {
+          active: [
+            {
+              address: 'KT1MfMMsYX34Q9cEaPtk4qkQ6pojA7D2nsgr',
+              mapId: 21513,
+              decimal: 18,
+              tokenDecimal: 12,
+            },
+          ],
+          inactive: [],
+        },
       },
     },
     PONDS: {
@@ -677,6 +688,13 @@ module.exports = {
         type: 'FA1.2',
         tokenId: 0,
       },
+      'PLENTY - cTez': {
+        address: 'KT1LdX5pUkZZGwYPePcAFSpETbqfbGCwJpfw',
+        mapId: 21490,
+        decimal: 12,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
       // PlentywUSDTlp: {
       //   ICON: '',
       //   TOKEN_CONTRACT: 'KT1PcM1LUqgVdkXqKvZ4CeC9aiwLgYYCEHMH',
@@ -898,6 +916,11 @@ module.exports = {
             contract: 'KT1KDmpYSDogNtEtEnEaHQLaySuqLr8aEfJW',
             property: 'token2_pool',
             liquidityToken: 'PlentywDAIlp',
+          },
+          ctez: {
+            contract: 'KT1C9gJRfkpPbNdBn3XyYbrUHT6XgfPzZqXP',
+            property: 'token2_pool',
+            liquidityToken: 'PlentyCtezlp',
           },
         },
       },
@@ -1143,6 +1166,21 @@ module.exports = {
             contract: 'KT1HaDP8fRW7kavK2beST7o4RvzuvZbn5VwV',
             property: 'token1_pool',
             liquidityToken: 'PlentytzBTClp',
+          },
+        },
+      },
+      ctez: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4',
+        READ_TYPE: 'FA1.2',
+        CALL_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 6,
+        DEX_PAIRS: {
+          PLENTY: {
+            contract: 'KT1C9gJRfkpPbNdBn3XyYbrUHT6XgfPzZqXP',
+            property: 'token1_pool',
+            liquidityToken: 'PlentyCtezlp',
           },
         },
       },
@@ -1438,6 +1476,14 @@ module.exports = {
         TOKEN_DECIMAL: 18,
         CALL_TYPE: 'FA1.2',
       },
+      PlentyCtezlp: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1LdX5pUkZZGwYPePcAFSpETbqfbGCwJpfw',
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 12,
+        CALL_TYPE: 'FA1.2',
+      },
     },
   },
   POOLS: {
@@ -1661,6 +1707,28 @@ module.exports = {
   },
   FARMS: {
     mainnet: {
+      'PLENTY - cTez': {
+        active: [
+          {
+            LP_TOKEN: 'KT1LdX5pUkZZGwYPePcAFSpETbqfbGCwJpfw',
+            CONTRACT: 'KT1MfMMsYX34Q9cEaPtk4qkQ6pojA7D2nsgr',
+            DEX: 'KT1C9gJRfkpPbNdBn3XyYbrUHT6XgfPzZqXP',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            CARD_TYPE: 'PLENTY / cTez LP',
+            TOKEN_DECIMAL: 12,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 12,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+            liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
+            isDualFarm: false,
+            message: '😍 Double reward rate until November 11',
+            bannerType: 'info',
+          },
+        ],
+        inactive: [],
+      },
       'PLENTY - XTZ': {
         active: [
           {
