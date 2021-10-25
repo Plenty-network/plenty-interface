@@ -413,6 +413,17 @@ module.exports = {
           ],
           inactive: [],
         },
+        'PLENTY - cTez': {
+          active: [
+            {
+              address: 'KT1MfMMsYX34Q9cEaPtk4qkQ6pojA7D2nsgr',
+              mapId: 21513,
+              decimal: 18,
+              tokenDecimal: 12,
+            },
+          ],
+          inactive: [],
+        },
       },
     },
     PONDS: {
@@ -673,6 +684,13 @@ module.exports = {
       'PLENTY - wUSDT': {
         address: 'KT1PcM1LUqgVdkXqKvZ4CeC9aiwLgYYCEHMH',
         mapId: 20024,
+        decimal: 12,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+      'PLENTY - cTez': {
+        address: 'KT1LdX5pUkZZGwYPePcAFSpETbqfbGCwJpfw',
+        mapId: 21490,
         decimal: 12,
         type: 'FA1.2',
         tokenId: 0,
@@ -2190,6 +2208,28 @@ module.exports = {
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
             message: '😍 Double reward rate until October 28',
+            bannerType: 'info',
+          },
+        ],
+        inactive: [],
+      },
+      'PLENTY - cTez': {
+        active: [
+          {
+            LP_TOKEN: 'KT1LdX5pUkZZGwYPePcAFSpETbqfbGCwJpfw',
+            CONTRACT: 'KT1MfMMsYX34Q9cEaPtk4qkQ6pojA7D2nsgr',
+            DEX: 'KT1C9gJRfkpPbNdBn3XyYbrUHT6XgfPzZqXP',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            CARD_TYPE: 'PLENTY / cTez LP',
+            TOKEN_DECIMAL: 12,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 12,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+            liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
+            isDualFarm: false,
+            message: '😍 TBD',
             bannerType: 'info',
           },
         ],
