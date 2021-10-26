@@ -1721,7 +1721,7 @@ module.exports = {
             TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             DECIMAL: 18,
             withdrawalFeeType: 'type2',
-            liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
+            liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=ctez',
             isDualFarm: false,
             message: '😍 Double reward rate until November 11',
             bannerType: 'info',
