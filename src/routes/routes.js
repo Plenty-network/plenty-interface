@@ -1,21 +1,22 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 //Components
-import Header from '../Components/Header/Header';
-import { ThemeProvider } from 'styled-components';
-import { lightTheme, darkTheme, GlobalStyles } from '../themes';
-import { useEffect } from 'react';
-import { connect } from 'react-redux';
-import * as walletActions from '../redux/actions/wallet/wallet.action';
-import useThemes from '../apis/hooks/theme';
+import Header from "../Components/Header/Header";
+import { ThemeProvider } from "styled-components";
+import { lightTheme, darkTheme, GlobalStyles } from "../themes";
+import { useEffect } from "react";
+import { connect } from "react-redux";
+import * as walletActions from "../redux/actions/wallet/wallet.action";
+import useThemes from "../apis/hooks/theme";
 
 // * Lazy loading
-const Swap = React.lazy(() => import('../Pages/Swap'));
-const Farms = React.lazy(() => import('../Pages/Farms'));
-const Ponds = React.lazy(() => import('../Pages/Ponds'));
-const Pools = React.lazy(() => import('../Pages/Pools'));
-const Frontpage = React.lazy(() => import('../Pages/Frontpage/Frontpage'));
-const Stake = React.lazy(() => import('../Pages/xPlenty'));
+const Swap = React.lazy(() => import("../Pages/Swap"));
+const Farms = React.lazy(() => import("../Pages/Farms"));
+const Ponds = React.lazy(() => import("../Pages/Ponds"));
+const Pools = React.lazy(() => import("../Pages/Pools"));
+const Tokens = React.lazy(() => import("../Pages/Tokens/Tokens"));
+const Frontpage = React.lazy(() => import("../Pages/Frontpage/Frontpage"));
+const Stake = React.lazy(() => import("../Pages/xPlenty"));
 
 const Routes = (props) => {
   const { theme, toggleTheme } = useThemes();
@@ -37,13 +38,22 @@ const Routes = (props) => {
   }, []);
 
   return (
-    <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+    <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
       <GlobalStyles />
       <React.Suspense fallback={<div />}>
         <Router>
           <Switch>
             <Route path="/" exact>
               <Frontpage
+                toggleTheme={toggleTheme}
+                theme={theme}
+                connecthWallet={connectWallet}
+                disconnectWallet={disconnectUserWallet}
+                walletAddress={props.userAddress}
+              />
+            </Route>
+            <Route path="/tokens">
+              <Tokens
                 toggleTheme={toggleTheme}
                 theme={theme}
                 connecthWallet={connectWallet}
