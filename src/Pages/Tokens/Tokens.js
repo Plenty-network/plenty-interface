@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Container from "react-bootstrap/Container";
 import TokensHeader from "../../Components/TokensPage/TokensHeader";
 import { tokenFetchingThunk } from "../../redux/slices/tokens/tokens.thunk";
@@ -7,31 +7,31 @@ import { connect } from "react-redux";
 import Table from "../../Components/Table/Table";
 import Button from "../../Components/Ui/Buttons/Button";
 import { PuffLoader } from "react-spinners";
-import { BsStar } from "react-icons/bs";
-import usePagination from "../../hooks/usePagination";
-import clsx from "clsx";
+import { BsSearch, BsStar } from "react-icons/bs";
+import { FormControl, InputGroup } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
+/* TODO
+1. Favorite Token
+2. Token Search
+3. Token symbol
+4. Token Picture
+ */
 const Tokens = (props) => {
   const columns = useMemo(
     () => [
       {
         Header: (
-          <div>
-            &nbsp;&nbsp;
-            <BsStar string={{ margin: "5px 0" }} />
+          <div className="d-flex pl-2 align-items-center">
+            <BsStar /> <span className="ml-2">Token</span>
           </div>
         ),
-        id: "1",
-        accessor: (x) => (
-          <div>
-            &nbsp;&nbsp;
-            <BsStar />
+        id: "token",
+        accessor: (row) => (
+          <div className="d-flex pl-2">
+            <BsStar /> <span className="ml-2">{row.symbol_token}</span>
           </div>
         ),
-      },
-      {
-        Header: "Token",
-        accessor: "symbol_token",
       },
       {
         Header: "Price",
@@ -53,9 +53,9 @@ const Tokens = (props) => {
         Header: "",
         id: "trade",
         accessor: (x) => (
-          <div>
+          <Link to={`/swap?from=${x.symbol_token}`}>
             <Button className={styles.tradeBtn}>Trade</Button>
-          </div>
+          </Link>
         ),
       },
     ],
@@ -66,9 +66,7 @@ const Tokens = (props) => {
     props.fetchTokensData();
   }, []);
 
-  const { dataInPage, page, totalPage, handleSetPage } = usePagination(
-    props.tokens.data
-  );
+  const [searchQuery, setSearchQuery] = useState("");
 
   return (
     <Container fluid className={styles.tokens}>
@@ -81,26 +79,21 @@ const Tokens = (props) => {
       />
 
       <div className="w-100 d-flex align-center flex-column">
-        <input className={styles.searchBar} />
+        <InputGroup className={styles.searchBar}>
+          <FormControl
+            value={searchQuery}
+            onChange={(ev) => setSearchQuery(ev.target.value)}
+          />
+          <InputGroup.Append>
+            <InputGroup.Text>
+              <BsSearch />
+            </InputGroup.Text>
+          </InputGroup.Append>
+        </InputGroup>
 
         {props.tokens.data.length > 0 ? (
-          <div>
-            <Table data={dataInPage} columns={columns} className="mb-5" />
-
-            <div className="d-flex justify-content-center mb-5">
-              {Array(totalPage)
-                .fill(0)
-                .map((x, i) => (
-                  <div
-                    className={clsx(styles.page, {
-                      [styles.selected]: i === page - 1,
-                    })}
-                    onClick={() => handleSetPage(i + 1)}
-                  >
-                    {i + 1}
-                  </div>
-                ))}
-            </div>
+          <div className="mb-5">
+            <Table data={props.tokens.data} columns={columns} />
           </div>
         ) : (
           <PuffLoader color={"#813CE1"} size={56} />
