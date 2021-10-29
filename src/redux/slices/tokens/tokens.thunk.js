@@ -1,24 +1,26 @@
-import {fetchTokensData} from './tokens.api'
+import { fetchTokensData } from "./tokens.api";
 
-import { startTokensDataFetching, tokensDataFetchingSuccessfull, tokensDataFetchingFailed } from './tokens.slice'
+import {
+  startTokensDataFetching,
+  tokensDataFetchingSuccessfull,
+  tokensDataFetchingFailed,
+} from "./tokens.slice";
 
 export const tokenFetchingThunk = () => (dispatch) => {
-  console.log('Thunk Called');
+  console.log("Thunk Called");
   dispatch(startTokensDataFetching());
-  
+
   fetchTokensData()
-    .then(response => {
-      if(response.success)
-      {
+    .then((response) => {
+      console.log({ response });
+      if (response.success) {
         dispatch(tokensDataFetchingSuccessfull(response.tokensData));
-      }
-      else
-      {
+      } else {
         dispatch(tokensDataFetchingFailed());
       }
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error);
       dispatch(tokensDataFetchingFailed());
-    })
-}
+    });
+};
