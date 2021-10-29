@@ -1,30 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-import {
-  tokensDataFetchingActions
-} from './tokens.action'
-
+import { tokensDataFetchingActions } from "./tokens.action";
 
 const initialState = {
-  tokensData : {
-    isLoading : false,
-    isPresent : false,
-    data : {}
-  }
-}
+  tokensData: {
+    isLoading: false,
+    isPresent: false,
+    data: [],
+  },
+};
 
 export const tokensSlice = createSlice({
-  name :'tokens',
+  name: "tokens",
   initialState,
-  reducers : {
-    ...tokensDataFetchingActions
-  }
+  reducers: {
+    ...tokensDataFetchingActions,
+  },
 });
 
 export const {
   startTokensDataFetching,
   tokensDataFetchingSuccessfull,
-  tokensDataFetchingFailed
+  tokensDataFetchingFailed,
 } = tokensSlice.actions;
 
-export default tokensSlice.reducer
+export default tokensSlice.reducer;

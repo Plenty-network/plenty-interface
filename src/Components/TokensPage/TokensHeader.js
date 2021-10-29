@@ -1,6 +1,5 @@
 import { FrontPageGradientDiv } from "../../themes";
 import Header from "../Header/Header";
-import React from "react";
 
 const TokensHeader = ({
   toggleTheme,

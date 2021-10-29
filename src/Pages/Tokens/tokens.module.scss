@@ -2,5 +2,14 @@
   .searchBar {
     width: 1200px;
     height: 56px;
+    margin-top: -28px;
+    margin-bottom: 36px;
+    box-shadow: 0 23px 44px rgba(176, 183, 195, 0.14);
+    border-radius: 9px;
+    border: 0;
+  }
+
+  .tradeBtn {
+    height: 36px;
   }
 }
