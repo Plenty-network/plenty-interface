@@ -5,6 +5,10 @@
 
   .thead {
     display: table-header-group;
+    text-transform: uppercase;
+    font-weight: bold;
+    height: 40px;
+    font-size: 0.8em;
 
     & > div > div {
       background: rgba(129, 60, 225, 0.15);
