@@ -13,6 +13,11 @@ module.exports = {
     mainnet: 'https://api.tzkt.io',
     testnet: 'https://api.granadanet.tzkt.io',
   },
+  TOKENS_PAGE: {
+    mainnet: {
+      API_URL: 'http://3.130.29.48:8080/data',
+    },
+  },
   STAKING_CONTRACTS: {
     POOLS: {
       mainnet: {
