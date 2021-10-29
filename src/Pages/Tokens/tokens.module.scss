@@ -12,4 +12,18 @@
   .tradeBtn {
     height: 36px;
   }
+
+  .page {
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 45px;
+    font-weight: bold;
+
+    &.selected {
+      background: #F6F3FB;
+      border-radius: 6px;
+    }
+  }
 }

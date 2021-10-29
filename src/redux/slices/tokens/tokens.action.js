@@ -3,21 +3,21 @@ export const tokensDataFetchingActions = {
     state.tokensData = {
       isLoading: true,
       isPresent: false,
-      data: {},
+      data: [],
     };
   },
-  tokensDataFetchingSuccessfull : (state,action) => {
+  tokensDataFetchingSuccessfull: (state, action) => {
     state.tokensData = {
-      isLoading : false,
-      isPresent : true,
-      data : action.payload
+      isLoading: false,
+      isPresent: true,
+      data: action.payload,
     };
   },
-  tokensDataFetchingFailed : (state) => {
+  tokensDataFetchingFailed: (state) => {
     state.tokensData = {
-      isLoading : false,
-      isPresent : false,
-      data : {}
-    }
-  }
+      isLoading: false,
+      isPresent: false,
+      data: [],
+    };
+  },
 };
