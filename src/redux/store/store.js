@@ -11,6 +11,7 @@ import settingsReducer from '../slices/settings/settings.slice';
 
 import farmsReducer from '../slices/farms/farms.slice';
 import xPlentyReducer from '../slices/xPlenty/xPlenty.slice';
+import tokenReducer from '../slices/tokens/tokens.slice';
 
 const rootReducer = {
   user: userReducer,
@@ -23,6 +24,7 @@ const rootReducer = {
   home: homeReducer,
   settings: settingsReducer,
   xPlenty: xPlentyReducer,
+  tokens : tokenReducer,
 };
 
 //const store = createStore(rootReducer);
