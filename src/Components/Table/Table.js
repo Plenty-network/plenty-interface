@@ -1,13 +1,14 @@
 import { useTable } from "react-table";
 import styles from "./table.module.scss";
-const Table = ({ columns, data }) => {
+import clsx from "clsx";
+const Table = ({ columns, data, className }) => {
   const { getTableProps, headerGroups, rows, prepareRow } = useTable({
     columns,
     data,
   });
 
   return (
-    <div {...getTableProps()} className={styles.table}>
+    <div {...getTableProps()} className={clsx(styles.table, className)}>
       <div className={styles.thead}>
         {headerGroups.map((headerGroup) => (
           <div {...headerGroup.getHeaderGroupProps()} className={styles.th}>
@@ -20,7 +21,7 @@ const Table = ({ columns, data }) => {
         ))}
       </div>
       <div className={styles.tbody}>
-        {rows.map((row, i) => {
+        {rows.map((row) => {
           prepareRow(row);
           return (
             <div {...row.getRowProps()} className={styles.tr}>

@@ -12,7 +12,6 @@ export const tokenFetchingThunk = () => (dispatch) => {
 
   fetchTokensData()
     .then((response) => {
-      console.log({ response });
       if (response.success) {
         dispatch(tokensDataFetchingSuccessfull(response.tokensData));
       } else {
