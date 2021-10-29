@@ -1,7 +1,12 @@
+.tableContainer {
+  max-width: calc(100vw - 32px);
+  overflow-x: auto;
+}
+
 .table {
   display: table;
   max-width: 1200px;
-  width: 1200px;
+  min-width: 1200px;
 
   .thead {
     display: table-header-group;
@@ -22,6 +27,8 @@
     display: table-row;
 
     & > div:first-child {
+      position: sticky;
+      left: 0;
       border-top-left-radius: 6px;
       border-bottom-left-radius: 6px;
     }
@@ -47,5 +54,18 @@
     vertical-align: middle;
     margin: 0 16px;
   }
+}
 
+.page {
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  text-align: center;
+  line-height: 45px;
+  font-weight: bold;
+
+  &.selected {
+    background: rgba(129, 60, 225, 0.15);
+    border-radius: 6px;
+  }
 }
