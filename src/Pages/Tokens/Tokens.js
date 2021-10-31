@@ -1,15 +1,15 @@
-import React, { useEffect, useMemo, useState } from "react";
-import Container from "react-bootstrap/Container";
-import TokensHeader from "../../Components/TokensPage/TokensHeader";
-import { tokenFetchingThunk } from "../../redux/slices/tokens/tokens.thunk";
-import styles from "./tokens.module.scss";
-import { connect } from "react-redux";
-import Table from "../../Components/Table/Table";
-import Button from "../../Components/Ui/Buttons/Button";
-import { PuffLoader } from "react-spinners";
-import { BsSearch, BsStar, BsStarFill } from "react-icons/bs";
-import { FormControl, InputGroup } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from 'react';
+import Container from 'react-bootstrap/Container';
+import TokensHeader from '../../Components/TokensPage/TokensHeader';
+import { tokenFetchingThunk } from '../../redux/slices/tokens/tokens.thunk';
+import styles from './tokens.module.scss';
+import { connect } from 'react-redux';
+import Table from '../../Components/Table/Table';
+import Button from '../../Components/Ui/Buttons/Button';
+import { PuffLoader } from 'react-spinners';
+import { BsSearch, BsStar } from 'react-icons/bs';
+import { FormControl, InputGroup } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 /* TODO
 1. Favorite Token
@@ -58,8 +58,8 @@ const Tokens = (props) => {
             <BsStar className="mx-3"/> <span className="ml-2">Token</span>
           </div>
         ),
-        id: "token",
-        accessor: "symbol_token",
+        id: 'token',
+        accessor: 'symbol_token',
         sortType: stringSort,
         Cell: (row) => (
           <div className="d-flex pl-2 align-items-center">
@@ -68,16 +68,16 @@ const Tokens = (props) => {
         ),
       },
       {
-        Header: "Price",
-        accessor: "token_price",
+        Header: 'Price',
+        accessor: 'token_price',
         sortType: numberSort,
         Cell: (row) => (
             <span>${valueFormat(row.value)}</span>
         ),
       },
       {
-        Header: "24H Change",
-        accessor: "price_change_percentage",
+        Header: '24H Change',
+        accessor: 'price_change_percentage',
         sortType: numberSort,
         Cell: (row) => (
           <span>
@@ -86,16 +86,16 @@ const Tokens = (props) => {
         ),
       },
       {
-        Header: "24H Volume",
-        accessor: "volume_token",
+        Header: '24H Volume',
+        accessor: 'volume_token',
         sortType: numberSort,
         Cell: (row) => (
           <span>${valueFormat(row.value)}</span>
         ),
       },
       {
-        Header: "Liquidity",
-        accessor: "liquidity",
+        Header: 'Liquidity',
+        accessor: 'liquidity',
         sortType: numberSort,
         Cell: (row) => (
           <span>${valueFormat(row.value)}</span>
@@ -103,8 +103,8 @@ const Tokens = (props) => {
       },
       {
         disableSortBy: true,
-        Header: "",
-        id: "trade",
+        Header: '',
+        id: 'trade',
         accessor: (x) => (
           <Link to={`/swap?from=${x.symbol_token}`}>
             <Button className={styles.tradeBtn}>Trade</Button>
@@ -116,14 +116,20 @@ const Tokens = (props) => {
   );
 
   useEffect(() => {
-    props.fetchTokensData();
+    const fetchDataContinuously = () => {
+      props.fetchTokensData();
+    };
+
+    fetchDataContinuously();
+    const backgroundRefresh = setInterval(() => {
+      fetchDataContinuously();
+    }, 30 * 1000);
+
+    return () => clearInterval(backgroundRefresh);
+    //props.fetchTokensData();
   }, []);
 
-  const [searchQuery, setSearchQuery] = useState("");
-
-  useEffect(() => {
-
-  }, [searchQuery])
+  const [searchQuery, setSearchQuery] = useState('');
 
   return (
     <Container fluid className={styles.tokens}>
@@ -134,6 +140,7 @@ const Tokens = (props) => {
         disconnectWallet={props.disconnectWallet}
         walletAddress={props.walletAddress}
       />
+
       <div className="w-100 d-flex align-center flex-column">
         <InputGroup className={styles.searchBar}>
           <FormControl
@@ -152,7 +159,7 @@ const Tokens = (props) => {
             <Table searchQuery={searchQuery} data={props.tokens.data} columns={columns} />
           </div>
         ) : (
-          <PuffLoader color={"#813CE1"} size={56} />
+          <PuffLoader color={'#813CE1'} size={56} />
         )}
       </div>
     </Container>
