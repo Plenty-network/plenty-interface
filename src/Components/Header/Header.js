@@ -177,6 +177,25 @@ const Header = (props) => {
                       </span>
                     </Nav.Link>
                     <Nav.Link
+                        className={clsx(
+                            splitLocation[1] === 'tokens'
+                                ? 'menu-item-active'
+                                : 'menu-item',
+                            'align-self-end align-self-lg-center d-flex align-items-center'
+                        )}
+                        as={Link}
+                        to="/tokens"
+                        onClick={resetActiveTab}
+                    >
+                      <span
+                          className={clsx(
+                              props.isFrontPage ? 'text-white' : undefined
+                          )}
+                      >
+                        Tokens
+                      </span>
+                    </Nav.Link>
+                    <Nav.Link
                       className={clsx(
                         splitLocation[1] === 'farms'
                           ? 'menu-item-active'
@@ -212,25 +231,6 @@ const Header = (props) => {
                         )}
                       >
                         Stake
-                      </span>
-                    </Nav.Link>
-                    <Nav.Link
-                      className={clsx(
-                        splitLocation[1] === 'tokens'
-                          ? 'menu-item-active'
-                          : 'menu-item',
-                        'align-self-end align-self-lg-center d-flex align-items-center'
-                      )}
-                      as={Link}
-                      to="/tokens"
-                      onClick={resetActiveTab}
-                    >
-                      <span
-                        className={clsx(
-                          props.isFrontPage ? 'text-white' : undefined
-                        )}
-                      >
-                        Tokens
                       </span>
                     </Nav.Link>
                     <Nav.Link

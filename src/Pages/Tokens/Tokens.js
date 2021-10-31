@@ -137,7 +137,8 @@ const Tokens = (props) => {
       <div className="w-100 d-flex align-center flex-column">
         <InputGroup className={styles.searchBar}>
           <FormControl
-            className="rounded-right"
+            placeholder="Search"
+            className={`rounded-right ${styles.placeholder}`}
             value={searchQuery}
             onChange={(ev) => setSearchQuery(ev.target.value)}
           />

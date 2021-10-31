@@ -1,4 +1,4 @@
-import { FrontPageGradientDiv } from "../../themes";
+import {FrontPageGradientDiv, TopGradientDiv} from "../../themes";
 import Header from "../Header/Header";
 
 const TokensHeader = ({
@@ -10,7 +10,7 @@ const TokensHeader = ({
 }) => {
   return (
     <div className={`d-flex flex-column`}>
-      <FrontPageGradientDiv className={`row`}>
+      <TopGradientDiv className={`row`}>
         <Header
           toggleTheme={toggleTheme}
           theme={theme}
@@ -22,10 +22,10 @@ const TokensHeader = ({
         <div
           className={`d-flex align-items-center flex-column my-5 mx-auto text-white`}
         >
-          <h1>Tokens</h1>
-          <div>Available on Plenty</div>
+          <h3>Tokens</h3>
+          <div>Tradable on Plenty</div>
         </div>
-      </FrontPageGradientDiv>
+      </TopGradientDiv>
     </div>
   );
 };

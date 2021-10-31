@@ -42,3 +42,10 @@
   color: #c4c3c3;
   z-index:3;
 }
+
+.placeholder {
+  &::placeholder {
+    color: #c4c3c3;
+    opacity: 1;
+  }
+}

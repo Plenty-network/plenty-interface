@@ -27,7 +27,15 @@ const Table = ({ searchQuery, columns, data, className }) => {
     {
       columns,
       data,
-      initialState: { pageIndex: 0, pageSize: 10 },
+      initialState: {
+          pageIndex: 0,
+          pageSize: 10,
+          sortBy: [
+              {
+                  id: 'liquidity',
+                  desc: true
+              }
+          ] },
     },
     useFilters,
     useSortBy,
