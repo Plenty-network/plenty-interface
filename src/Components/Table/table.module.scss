@@ -15,7 +15,7 @@
     height: 40px;
 
     & > div > div {
-      background: rgba(129, 60, 225, 0.15);
+      background: rgba(129, 60, 225, 0.03);
     }
   }
 
@@ -44,7 +44,7 @@
 
     &:nth-child(even) {
       & > div {
-        background: rgba(129, 60, 225, 0.15);
+        background: rgba(129, 60, 225, 0.03);
       }
     }
   }

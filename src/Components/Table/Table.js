@@ -1,13 +1,19 @@
-import { useTable, useSortBy, usePagination } from "react-table";
+import { useTable, useSortBy, useFilters, usePagination } from "react-table";
 import styles from "./table.module.scss";
 import clsx from "clsx";
+import {useEffect} from "react";
 
 /* TODO
  1. Sorted by indicator has to be added
  2. Table cell transparent to be removed (mobile view overlap occurs)
  3. CSS Tweaks
  */
-const Table = ({ columns, data, className }) => {
+const Table = ({ searchQuery, columns, data, className }) => {
+
+  useEffect(() => {
+    setFilter('token', searchQuery);
+  }, [searchQuery]);
+
   const {
     getTableProps,
     headerGroups,
@@ -16,14 +22,16 @@ const Table = ({ columns, data, className }) => {
     gotoPage,
     pageCount,
     state: { pageIndex },
+    setFilter,
   } = useTable(
     {
       columns,
       data,
       initialState: { pageIndex: 0, pageSize: 10 },
     },
+    useFilters,
     useSortBy,
-    usePagination
+    usePagination,
   );
 
   return (
@@ -38,7 +46,23 @@ const Table = ({ columns, data, className }) => {
                     {...column.getHeaderProps(column.getSortByToggleProps())}
                     className={styles.td}
                   >
-                    {column.render("Header")}
+                    <div className="flex flex-row align-items-center">
+                      {column.render("Header")}
+                      <span>
+                        {column.isSorted
+                          ? column.isSortedDesc
+                            ? <span className="material-icons flex">
+                              keyboard_arrow_down
+                              </span>
+                            : <span className="material-icons flex">
+                                keyboard_arrow_up
+                              </span>
+                          : <span className="material-icons invisible">
+                              keyboard_arrow_up
+                            </span>
+                        }
+                    </span>
+                    </div>
                   </div>
                 ))}
               </div>

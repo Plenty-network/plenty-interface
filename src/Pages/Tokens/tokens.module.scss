@@ -25,3 +25,20 @@
     text-decoration: none !important;
   }
 }
+
+.redText {
+  color: red;
+}
+
+.greenText {
+  color: green;
+}
+
+.iconInside {
+  position: absolute;
+  right: 20px;
+  top: calc(50% - 12px);
+  pointer-events: none;
+  color: #c4c3c3;
+  z-index:3;
+}
