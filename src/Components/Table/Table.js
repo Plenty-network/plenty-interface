@@ -1,7 +1,8 @@
-import { useTable, useSortBy, useFilters, usePagination } from "react-table";
-import styles from "./table.module.scss";
-import clsx from "clsx";
-import {useEffect} from "react";
+import { useTable, useSortBy, useFilters, usePagination } from 'react-table';
+
+import styles from './table.module.scss';
+import clsx from 'clsx';
+import { useEffect } from 'react';
 
 /* TODO
  1. Sorted by indicator has to be added
@@ -9,7 +10,6 @@ import {useEffect} from "react";
  3. CSS Tweaks
  */
 const Table = ({ searchQuery, columns, data, className }) => {
-
   useEffect(() => {
     setFilter('token', searchQuery);
   }, [searchQuery]);
@@ -28,18 +28,26 @@ const Table = ({ searchQuery, columns, data, className }) => {
       columns,
       data,
       initialState: {
-          pageIndex: 0,
-          pageSize: 10,
-          sortBy: [
-              {
-                  id: 'liquidity',
-                  desc: true
-              }
-          ] },
+        pageIndex: 0,
+        pageSize: 10,
+        sortBy: [
+          {
+            id: 'liquidity',
+            desc: true,
+          },
+        ],
+      },
+      autoResetPage: false,
+      autoResetExpanded: false,
+      autoResetGroupBy: false,
+      autoResetSelectedRows: false,
+      autoResetSortBy: false,
+      autoResetFilters: false,
+      autoResetRowState: false,
     },
     useFilters,
     useSortBy,
-    usePagination,
+    usePagination
   );
 
   return (
@@ -55,21 +63,24 @@ const Table = ({ searchQuery, columns, data, className }) => {
                     className={styles.td}
                   >
                     <div className="flex flex-row align-items-center">
-                      {column.render("Header")}
+                      {column.render('Header')}
                       <span>
-                        {column.isSorted
-                          ? column.isSortedDesc
-                            ? <span className="material-icons flex">
+                        {column.isSorted ? (
+                          column.isSortedDesc ? (
+                            <span className="material-icons flex">
                               keyboard_arrow_down
-                              </span>
-                            : <span className="material-icons flex">
-                                keyboard_arrow_up
-                              </span>
-                          : <span className="material-icons invisible">
+                            </span>
+                          ) : (
+                            <span className="material-icons flex">
                               keyboard_arrow_up
                             </span>
-                        }
-                    </span>
+                          )
+                        ) : (
+                          <span className="material-icons invisible">
+                            keyboard_arrow_up
+                          </span>
+                        )}
+                      </span>
                     </div>
                   </div>
                 ))}
@@ -84,7 +95,7 @@ const Table = ({ searchQuery, columns, data, className }) => {
                   {row.cells.map((cell) => {
                     return (
                       <div {...cell.getCellProps()} className={styles.td}>
-                        {cell.render("Cell")}
+                        {cell.render('Cell')}
                       </div>
                     );
                   })}

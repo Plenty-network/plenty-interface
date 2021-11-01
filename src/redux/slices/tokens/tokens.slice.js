@@ -1,17 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
-import { tokensDataFetchingActions } from "./tokens.action";
+import { tokensDataFetchingActions } from './tokens.action';
 
 const initialState = {
   tokensData: {
     isLoading: false,
     isPresent: false,
+    isError: false,
     data: [],
   },
 };
 
 export const tokensSlice = createSlice({
-  name: "tokens",
+  name: 'tokens',
   initialState,
   reducers: {
     ...tokensDataFetchingActions,
