@@ -1,23 +1,13 @@
 .tokens {
+  width: calc(100vw - 32px);
+  max-width: 1200px;
+  background: var(--theme-card-bg);
+  border-radius: 10px;
+  padding: 20px 0;
+
   .searchBar {
-    max-width: 1200px;
-    height: 56px;
-    margin-top: -28px;
-    margin-bottom: 36px;
-    box-shadow: 0 23px 44px rgba(176, 183, 195, 0.14);
-    border-radius: 9px;
-    border: 0;
-
-    & input {
-      border: 0;
-      height: 100%;
-    }
-
-    & > .input-group-append > .input-group-text {
-      background: #FFFFFF;
-      overflow: hidden;
-      border: 0;
-    }
+    max-width: 140px;
+    height: 40px;
    }
 
   .tradeBtn {
@@ -36,8 +26,8 @@
 
 .iconInside {
   position: absolute;
-  right: 20px;
-  top: calc(50% - 12px);
+  left: 20px;
+  top: calc(50% - 14px);
   pointer-events: none;
   color: #c4c3c3;
   z-index:3;
