@@ -1,6 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Container from 'react-bootstrap/Container';
-import TokensHeader from '../../Components/TokensPage/TokensHeader';
 import { tokenFetchingThunk } from '../../redux/slices/tokens/tokens.thunk';
 import styles from './tokens.module.scss';
 import { connect } from 'react-redux';
@@ -8,16 +7,51 @@ import Table from '../../Components/Table/Table';
 import Button from '../../Components/Ui/Buttons/Button';
 import { PuffLoader } from 'react-spinners';
 import { BsSearch, BsStar } from 'react-icons/bs';
-import { FormControl, InputGroup } from 'react-bootstrap';
+import { FormControl, Image, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 /* TODO
 1. Favorite Token
 2. Token Search
 3. Token symbol
-4. Token Picture
  */
 const Tokens = (props) => {
+  const [imgPaths, setImgPath] = useState({});
+
+  const loadImageFor = useCallback(
+    (token) => {
+      // ? if token exists, abort
+      if (!!imgPaths[token]) {
+        return;
+      }
+
+      setImgPath((prev) => ({
+        ...prev,
+        [token]: {
+          ...prev[token],
+          loading: true,
+        },
+      }));
+
+      import(`../../assets/images/tokens/${token}.png`).then((image) => {
+        setImgPath((prev) => ({
+          ...prev,
+          [token]: {
+            url: image['default'] ?? image,
+            loading: false,
+          },
+        }));
+      });
+    },
+    [imgPaths],
+  );
+
+  useEffect(() => {
+    props.tokens.data.forEach((datum) => {
+      loadImageFor(datum.symbol_token);
+    });
+  }, [loadImageFor, props.tokens.data]);
+
   const positiveOrNegative = (value) => {
     if (Number(value) > 0) {
       return <span className={styles.greenText}>+{value}%</span>;
@@ -44,7 +78,7 @@ const Tokens = (props) => {
       const b = String(rowB.values[columnId]).toLowerCase();
       return a.localeCompare(b);
     },
-    []
+    [],
   );
 
   const numberSort = useMemo(
@@ -53,7 +87,7 @@ const Tokens = (props) => {
       const b = parseFloat(rowB.values[columnId]);
       return a > b ? 1 : -1;
     },
-    []
+    [],
   );
 
   const columns = useMemo(
@@ -70,9 +104,11 @@ const Tokens = (props) => {
         Cell: (row) => (
           <div className="d-flex pl-2 align-items-center">
             <BsStar className="mx-3" />{' '}
+            <Image src={imgPaths[row.value]?.url} height={32} width={32} alt={''} />
             <span className="ml-2">{row.value}</span>
           </div>
         ),
+        width: 120,
       },
       {
         Header: 'Price',
@@ -84,9 +120,7 @@ const Tokens = (props) => {
         Header: '24H Change',
         accessor: 'price_change_percentage',
         sortType: numberSort,
-        Cell: (row) => (
-          <span>{positiveOrNegative(valueFormat(row.value))}</span>
-        ),
+        Cell: (row) => <span>{positiveOrNegative(valueFormat(row.value))}</span>,
       },
       {
         Header: '24H Volume',
@@ -109,9 +143,10 @@ const Tokens = (props) => {
             <Button className={styles.tradeBtn}>Trade</Button>
           </Link>
         ),
+        width: 120,
       },
     ],
-    []
+    [imgPaths, numberSort, stringSort],
   );
 
   useEffect(() => {
@@ -132,39 +167,28 @@ const Tokens = (props) => {
 
   return (
     <Container fluid className={styles.tokens}>
-      <TokensHeader
-        toggleTheme={props.toggleTheme}
-        theme={props.theme}
-        connecthWallet={props.connectWallet}
-        disconnectWallet={props.disconnectWallet}
-        walletAddress={props.walletAddress}
-      />
-
-      <div className="w-100 d-flex align-center flex-column">
+      <div className="w-100 d-flex justify-content-between px-5">
+        <h5 className="font-weight-bolder">Tokens</h5>
         <InputGroup className={styles.searchBar}>
-          <FormControl
-            placeholder="Search"
-            className={`rounded-right ${styles.placeholder}`}
-            value={searchQuery}
-            onChange={(ev) => setSearchQuery(ev.target.value)}
-          />
           <span className={styles.iconInside}>
             <BsSearch />
           </span>
+          <FormControl
+            placeholder="        Search"
+            className={`rounded ${styles.placeholder}`}
+            value={searchQuery}
+            onChange={(ev) => setSearchQuery(ev.target.value)}
+          />
         </InputGroup>
-
-        {props.tokens.data.length > 0 ? (
-          <div className="mb-5">
-            <Table
-              searchQuery={searchQuery}
-              data={props.tokens.data}
-              columns={columns}
-            />
-          </div>
-        ) : (
-          <PuffLoader color={'#813CE1'} size={56} />
-        )}
       </div>
+
+      {props.tokens.data.length > 0 ? (
+        <div>
+          <Table searchQuery={searchQuery} data={props.tokens.data} columns={columns} />
+        </div>
+      ) : (
+        <PuffLoader color={'#813CE1'} size={56} />
+      )}
     </Container>
   );
 };

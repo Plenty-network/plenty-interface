@@ -52,15 +52,6 @@ const Routes = (props) => {
                 walletAddress={props.userAddress}
               />
             </Route>
-            <Route path="/tokens">
-              <Tokens
-                toggleTheme={toggleTheme}
-                theme={theme}
-                connecthWallet={connectWallet}
-                disconnectWallet={disconnectUserWallet}
-                walletAddress={props.userAddress}
-              />
-            </Route>
             <div>
               <Header
                 toggleTheme={toggleTheme}
@@ -93,6 +84,9 @@ const Routes = (props) => {
               </Route>
               <Route path="/stake">
                 <Stake walletAddress={props.userAddress} />
+              </Route>
+              <Route path="/tokens">
+                <Tokens walletAddress={props.userAddress} />
               </Route>
             </div>
           </Switch>

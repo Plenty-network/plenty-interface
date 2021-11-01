@@ -1,8 +1,7 @@
-import { useTable, useSortBy, useFilters, usePagination } from 'react-table';
-
-import styles from './table.module.scss';
-import clsx from 'clsx';
-import { useEffect } from 'react';
+import { useTable, useSortBy, useFilters, usePagination } from "react-table";
+import styles from "./table.module.scss";
+import clsx from "clsx";
+import { useEffect } from "react";
 
 /* TODO
  1. Sorted by indicator has to be added
@@ -11,7 +10,7 @@ import { useEffect } from 'react';
  */
 const Table = ({ searchQuery, columns, data, className }) => {
   useEffect(() => {
-    setFilter('token', searchQuery);
+    setFilter("token", searchQuery);
   }, [searchQuery]);
 
   const {
