@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-import { tokensDataFetchingActions } from './tokens.action';
+import { tokensDataFetchingActions } from "./tokens.action";
 
 const initialState = {
   tokensData: {
@@ -8,11 +8,12 @@ const initialState = {
     isPresent: false,
     isError: false,
     data: [],
+    update: 0,
   },
 };
 
 export const tokensSlice = createSlice({
-  name: 'tokens',
+  name: "tokens",
   initialState,
   reducers: {
     ...tokensDataFetchingActions,
