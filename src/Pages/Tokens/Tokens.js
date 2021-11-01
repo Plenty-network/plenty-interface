@@ -31,7 +31,7 @@ const Tokens = (props) => {
     if (value >= 100) {
       return Math.round(value).toLocaleString("en-US");
     }
-    return value.toLocaleString("en-US", {
+    return value.toLocaleString('en-US', {
       maximumFractionDigits: 2,
       minimumFractionDigits: 2,
     });
@@ -68,7 +68,7 @@ const Tokens = (props) => {
         sortType: stringSort,
         Cell: (row) => (
           <div className="d-flex pl-2 align-items-center">
-            <BsStar className="mx-3" />{" "}
+            <BsStar className="mx-3" />{' '}
             <span className="ml-2">{row.value}</span>
           </div>
         ),
@@ -148,17 +148,18 @@ const Tokens = (props) => {
         </InputGroup>
       </div>
 
-      {props.tokens.data.length > 0 ? (
-        <div>
-          <Table
-            searchQuery={searchQuery}
-            data={props.tokens.data}
-            columns={columns}
-          />
-        </div>
-      ) : (
-        <PuffLoader color={"#813CE1"} size={56} />
-      )}
+        {props.tokens.data.length > 0 ? (
+          <div className="mb-5">
+            <Table
+              searchQuery={searchQuery}
+              data={props.tokens.data}
+              columns={columns}
+            />
+          </div>
+        ) : (
+          <PuffLoader color={'#813CE1'} size={56} />
+        )}
+      </div>
     </Container>
   );
 };

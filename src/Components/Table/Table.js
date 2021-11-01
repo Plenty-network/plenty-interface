@@ -31,11 +31,18 @@ const Table = ({ searchQuery, columns, data, className }) => {
         pageSize: 10,
         sortBy: [
           {
-            id: "liquidity",
+            id: 'liquidity',
             desc: true,
           },
         ],
       },
+      autoResetPage: false,
+      autoResetExpanded: false,
+      autoResetGroupBy: false,
+      autoResetSelectedRows: false,
+      autoResetSortBy: false,
+      autoResetFilters: false,
+      autoResetRowState: false,
     },
     useFilters,
     useSortBy,
@@ -55,7 +62,7 @@ const Table = ({ searchQuery, columns, data, className }) => {
                     className={styles.td}
                   >
                     <div className="flex flex-row align-items-center">
-                      {column.render("Header")}
+                      {column.render('Header')}
                       <span>
                         {column.isSorted ? (
                           column.isSortedDesc ? (
@@ -87,7 +94,7 @@ const Table = ({ searchQuery, columns, data, className }) => {
                   {row.cells.map((cell) => {
                     return (
                       <div {...cell.getCellProps()} className={styles.td}>
-                        {cell.render("Cell")}
+                        {cell.render('Cell')}
                       </div>
                     );
                   })}
