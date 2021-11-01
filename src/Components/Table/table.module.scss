@@ -1,6 +1,6 @@
 .tableContainer {
   overflow-x: auto;
-  margin: 24px;
+  margin: 24px 0;
 }
 
 .table {
@@ -63,7 +63,7 @@
   font-weight: bold;
 
   &.selected {
-    background: rgba(129, 60, 225, 0.15);
+    background: var(--theme-table-header-hover-bg);
     border-radius: 6px;
   }
 }
