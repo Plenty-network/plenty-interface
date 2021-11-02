@@ -15,7 +15,7 @@ module.exports = {
   },
   TOKENS_PAGE: {
     mainnet: {
-      API_URL: 'http://3.130.29.48:8080/data',
+      API_URL: 'https://indexer.plentydefi.com/',
     },
   },
   STAKING_CONTRACTS: {
@@ -2316,8 +2316,7 @@ module.exports = {
       },
       xPlentyCurve: {
         address: 'KT1Luq2wvCFJ8zDCJmqWsyXLXeffhwcTExJe',
-        bigMapExpression:
-          'exprudLL27ekHKb2ZJCTRomMHjKqPK8CmJjDpk2cY2shwagF3woAnn',
+        bigMapExpression: 'exprudLL27ekHKb2ZJCTRomMHjKqPK8CmJjDpk2cY2shwagF3woAnn',
       },
     },
     mainnet: {
@@ -2336,8 +2335,7 @@ module.exports = {
       },
       xPlentyCurve: {
         address: 'KT1PxkrCckgh5fA5v2cZEE2bX5q2RV1rv8dj',
-        bigMapExpression:
-          'exprudkkDPkJ6KmqHyZ1VT7aZHYji3s7FnkKayYkDBrmUemSbsFwSJ',
+        bigMapExpression: 'exprudkkDPkJ6KmqHyZ1VT7aZHYji3s7FnkKayYkDBrmUemSbsFwSJ',
       },
     },
   },
