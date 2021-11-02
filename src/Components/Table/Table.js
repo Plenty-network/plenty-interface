@@ -1,7 +1,7 @@
-import { useTable, useSortBy, useFilters, usePagination } from "react-table";
-import styles from "./table.module.scss";
-import clsx from "clsx";
-import { useEffect } from "react";
+import { useTable, useSortBy, useFilters, usePagination } from 'react-table';
+import styles from './table.module.scss';
+import clsx from 'clsx';
+import { useEffect } from 'react';
 
 /* TODO
  1. Sorted by indicator has to be added
@@ -10,7 +10,7 @@ import { useEffect } from "react";
  */
 const Table = ({ searchQuery, columns, data, className }) => {
   useEffect(() => {
-    setFilter("token", searchQuery);
+    setFilter('token', searchQuery);
   }, [searchQuery]);
 
   const {
@@ -46,7 +46,7 @@ const Table = ({ searchQuery, columns, data, className }) => {
     },
     useFilters,
     useSortBy,
-    usePagination
+    usePagination,
   );
 
   return (
@@ -63,23 +63,20 @@ const Table = ({ searchQuery, columns, data, className }) => {
                   >
                     <div className="flex flex-row align-items-center">
                       {column.render('Header')}
-                      <span>
-                        {column.isSorted ? (
-                          column.isSortedDesc ? (
-                            <span className="material-icons flex">
-                              keyboard_arrow_down
-                            </span>
+
+                      {column.id !== 'favorite' && (
+                        <span>
+                          {column.isSorted ? (
+                            column.isSortedDesc ? (
+                              <span className="material-icons flex">keyboard_arrow_down</span>
+                            ) : (
+                              <span className="material-icons flex">keyboard_arrow_up</span>
+                            )
                           ) : (
-                            <span className="material-icons flex">
-                              keyboard_arrow_up
-                            </span>
-                          )
-                        ) : (
-                          <span className="material-icons invisible">
-                            keyboard_arrow_up
-                          </span>
-                        )}
-                      </span>
+                            <span className="material-icons invisible">keyboard_arrow_up</span>
+                          )}
+                        </span>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -105,7 +102,7 @@ const Table = ({ searchQuery, columns, data, className }) => {
         </div>
       </div>
 
-      <div className="d-flex justify-content-center mt-5">
+      <div className="d-flex justify-content-center mt-2">
         {Array(pageCount)
           .fill(0)
           .map((x, i) => (

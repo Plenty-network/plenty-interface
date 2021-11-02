@@ -6,9 +6,12 @@ import { connect } from 'react-redux';
 import Table from '../../Components/Table/Table';
 import Button from '../../Components/Ui/Buttons/Button';
 import { PuffLoader } from 'react-spinners';
-import { BsSearch, BsStar } from 'react-icons/bs';
+import { BsSearch } from 'react-icons/bs';
 import { FormControl, Image, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useFavoriteToken } from './useTokensPage';
+import { TokensSymbol, TokensSymbolHeader } from '../../Components/TokensPage/TokensSymbol';
+import { ReactComponent as FavoriteIconGradient } from '../../assets/images/tokens/favorite-icon-fill.svg';
 
 /* TODO
 1. Favorite Token
@@ -90,22 +93,51 @@ const Tokens = (props) => {
     [],
   );
 
+  const { isOnlyFavTokens, setIsOnlyFavTokens, favoriteTokens, editFavoriteTokenList } =
+    useFavoriteToken();
+
+  // ? Move to React Table filter later
+  const finalData = useMemo(() => {
+    if (isOnlyFavTokens) {
+      return (
+        props.tokens.data?.filter((datum) => favoriteTokens.includes(datum.symbol_token)) ?? []
+      );
+    }
+
+    return props.tokens.data ?? [];
+  }, [favoriteTokens, isOnlyFavTokens, props.tokens.data]);
+
   const columns = useMemo(
     () => [
       {
         Header: (
-          <div className="d-flex pl-2 align-items-center">
-            <BsStar className="mx-3" /> <span className="ml-2">Token</span>
-          </div>
+          <TokensSymbolHeader
+            className={styles.favoriteIcon}
+            isOnlyFavTokens={isOnlyFavTokens}
+            setIsOnlyFavTokens={setIsOnlyFavTokens}
+          />
         ),
+        id: 'favorite',
+        accessor: 'symbol_token',
+        disableSortBy: true,
+        Cell: (row) => (
+          <TokensSymbol
+            tokenSymbol={row.value}
+            className={styles.favoriteIcon}
+            favoriteTokens={favoriteTokens}
+            editFavoriteTokenList={editFavoriteTokenList}
+          />
+        ),
+      },
+      {
+        Header: <span className="ml-2">Name</span>,
         id: 'token',
         accessor: 'symbol_token',
         sortType: stringSort,
         Cell: (row) => (
           <div className="d-flex pl-2 align-items-center">
-            <BsStar className="mx-3" />{' '}
             <Image src={imgPaths[row.value]?.url} height={32} width={32} alt={''} />
-            <span className="ml-2">{row.value}</span>
+            <span className="ml-2 mr-4">{row.value}</span>
           </div>
         ),
         width: 120,
@@ -117,13 +149,13 @@ const Tokens = (props) => {
         Cell: (row) => <span>${valueFormat(row.value)}</span>,
       },
       {
-        Header: '24H Change',
+        Header: '24h Change',
         accessor: 'price_change_percentage',
         sortType: numberSort,
         Cell: (row) => <span>{positiveOrNegative(valueFormat(row.value))}</span>,
       },
       {
-        Header: '24H Volume',
+        Header: '24h Volume',
         accessor: 'volume_token',
         sortType: numberSort,
         Cell: (row) => <span>${valueFormat(row.value)}</span>,
@@ -140,13 +172,23 @@ const Tokens = (props) => {
         id: 'trade',
         accessor: (x) => (
           <Link to={`/swap?from=${x.symbol_token}`}>
-            <Button className={styles.tradeBtn}>Trade</Button>
+            <Button color="primary" className={styles.tradeBtn}>
+              Trade
+            </Button>
           </Link>
         ),
         width: 120,
       },
     ],
-    [imgPaths, numberSort, stringSort],
+    [
+      isOnlyFavTokens,
+      setIsOnlyFavTokens,
+      stringSort,
+      numberSort,
+      imgPaths,
+      favoriteTokens,
+      editFavoriteTokenList,
+    ],
   );
 
   useEffect(() => {
@@ -166,30 +208,38 @@ const Tokens = (props) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   return (
-    <Container fluid className={styles.tokens}>
-      <div className="w-100 d-flex justify-content-between px-5">
-        <h5 className="font-weight-bolder">Tokens</h5>
-        <InputGroup className={styles.searchBar}>
-          <span className={styles.iconInside}>
-            <BsSearch />
-          </span>
-          <FormControl
-            placeholder="        Search"
-            className={`rounded ${styles.placeholder}`}
-            value={searchQuery}
-            onChange={(ev) => setSearchQuery(ev.target.value)}
-          />
-        </InputGroup>
-      </div>
-
-      {props.tokens.data.length > 0 ? (
-        <div>
-          <Table searchQuery={searchQuery} data={props.tokens.data} columns={columns} />
+    <>
+      <Container fluid className={styles.tokens}>
+        <div className="w-100 d-flex justify-content-between px-5 align-items-center">
+          <h5 className="font-weight-bolder">Tokens</h5>
+          <InputGroup className={styles.searchBar}>
+            <span className={styles.iconInside}>
+              <BsSearch />
+            </span>
+            <FormControl
+              placeholder="        Search"
+              className={`rounded ${styles.placeholder}`}
+              value={searchQuery}
+              onChange={(ev) => setSearchQuery(ev.target.value)}
+            />
+          </InputGroup>
         </div>
-      ) : (
-        <PuffLoader color={'#813CE1'} size={56} />
-      )}
-    </Container>
+
+        {props.tokens.data.length > 0 ? (
+          <div>
+            <Table searchQuery={searchQuery} data={finalData} columns={columns} />
+          </div>
+        ) : (
+          <div className="d-flex justify-content-between w-100" style={{ height: 800 }}>
+            <div className="m-auto">
+              <PuffLoader color={'#813CE1'} size={56} />
+            </div>
+          </div>
+        )}
+      </Container>
+
+      <FavoriteIconGradient />
+    </>
   );
 };
 

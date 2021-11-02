@@ -9,11 +9,26 @@
   .searchBar {
     max-width: 140px;
     height: 40px;
+    font-size: 14px;
+
+    & input {
+      background: var(--theme-input-bg);
+      color: var(--theme-text-1)
+    }
    }
 
   .tradeBtn {
     height: 36px;
     text-decoration: none !important;
+  }
+
+  .favoriteIcon {
+    cursor: pointer;
+    margin: auto 20px auto 44px;
+
+    &:global(.selected) {
+      fill: url(#favorite-token-fill);
+    }
   }
 }
 
