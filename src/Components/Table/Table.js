@@ -62,7 +62,7 @@ const Table = ({ searchQuery, columns, data, className }) => {
                     className={styles.td}
                   >
                     <div className="flex flex-row align-items-center">
-                      {column.render('Header')}
+                      <span className="mx-1">{column.render('Header')}</span>
 
                       {column.id !== 'favorite' && (
                         <span>
@@ -91,7 +91,7 @@ const Table = ({ searchQuery, columns, data, className }) => {
                   {row.cells.map((cell) => {
                     return (
                       <div {...cell.getCellProps()} className={styles.td}>
-                        {cell.render('Cell')}
+                        <span className="mx-1">{cell.render('Cell')}</span>
                       </div>
                     );
                   })}
