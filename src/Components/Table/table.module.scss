@@ -44,7 +44,7 @@
 
 
     & > div:last-child {
-      width: calc(112px + 44px);
+      min-width: 120px;
     }
   }
 
