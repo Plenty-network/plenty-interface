@@ -102,7 +102,7 @@ const Table = ({ searchQuery, columns, data, className }) => {
         </div>
       </div>
 
-      <div className="d-flex justify-content-center mt-5">
+      <div className="d-flex justify-content-center mt-2">
         {Array(pageCount)
           .fill(0)
           .map((x, i) => (

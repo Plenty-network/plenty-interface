@@ -9,6 +9,12 @@
   .searchBar {
     max-width: 140px;
     height: 40px;
+    font-size: 14px;
+
+    & input {
+      background: var(--theme-input-bg);
+      color: var(--theme-text-1)
+    }
    }
 
   .tradeBtn {

@@ -130,14 +130,14 @@ const Tokens = (props) => {
         ),
       },
       {
-        Header: <span className="ml-2">Tokens</span>,
+        Header: <span className="ml-2">Name</span>,
         id: 'token',
         accessor: 'symbol_token',
         sortType: stringSort,
         Cell: (row) => (
           <div className="d-flex pl-2 align-items-center">
             <Image src={imgPaths[row.value]?.url} height={32} width={32} alt={''} />
-            <span className="ml-2">{row.value}</span>
+            <span className="ml-2 mr-4">{row.value}</span>
           </div>
         ),
         width: 120,
@@ -149,13 +149,13 @@ const Tokens = (props) => {
         Cell: (row) => <span>${valueFormat(row.value)}</span>,
       },
       {
-        Header: '24H Change',
+        Header: '24h Change',
         accessor: 'price_change_percentage',
         sortType: numberSort,
         Cell: (row) => <span>{positiveOrNegative(valueFormat(row.value))}</span>,
       },
       {
-        Header: '24H Volume',
+        Header: '24h Volume',
         accessor: 'volume_token',
         sortType: numberSort,
         Cell: (row) => <span>${valueFormat(row.value)}</span>,
@@ -172,7 +172,9 @@ const Tokens = (props) => {
         id: 'trade',
         accessor: (x) => (
           <Link to={`/swap?from=${x.symbol_token}`}>
-            <Button className={styles.tradeBtn}>Trade</Button>
+            <Button color="primary" className={styles.tradeBtn}>
+              Trade
+            </Button>
           </Link>
         ),
         width: 120,
@@ -208,7 +210,7 @@ const Tokens = (props) => {
   return (
     <>
       <Container fluid className={styles.tokens}>
-        <div className="w-100 d-flex justify-content-between px-5">
+        <div className="w-100 d-flex justify-content-between px-5 align-items-center">
           <h5 className="font-weight-bolder">Tokens</h5>
           <InputGroup className={styles.searchBar}>
             <span className={styles.iconInside}>
@@ -228,7 +230,11 @@ const Tokens = (props) => {
             <Table searchQuery={searchQuery} data={finalData} columns={columns} />
           </div>
         ) : (
-          <PuffLoader color={'#813CE1'} size={56} />
+          <div className="d-flex justify-content-between w-100" style={{ height: 800 }}>
+            <div className="m-auto">
+              <PuffLoader color={'#813CE1'} size={56} />
+            </div>
+          </div>
         )}
       </Container>
 
