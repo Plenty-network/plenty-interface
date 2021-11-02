@@ -9,12 +9,13 @@
 
   .thead {
     display: table-header-group;
-    text-transform: uppercase;
-    font-weight: bold;
+    text-transform: capitalize;
+    color: var(--theme-text-3);
     height: 40px;
     background: var(--theme-table-header-hover-bg);
 
-    & > div > div:first-child {
+    & > div > div:first-child,
+    & > div > div:nth-child(2), {
       background: var(--theme-table-header-hover-bg);
     }
   }
@@ -26,10 +27,24 @@
   .th, .tr {
     display: table-row;
 
-    & > div:first-child {
+    @mixin sticky-cell($left){
       position: sticky;
-      left: 0;
+      left: $left;
       z-index: 1000;
+    }
+
+    & > div:first-child {
+      @include sticky-cell(0px);
+      width: 20px
+    }
+
+    & > div:nth-child(2) {
+      @include sticky-cell(60px)
+    }
+
+
+    & > div:last-child {
+      width: calc(112px + 44px);
     }
   }
 
@@ -37,7 +52,8 @@
     height: 72px;
     background: var(--theme-card-bg);
 
-    & > div:first-child {
+    & > div:nth-child(1),
+    & > div:nth-child(2), {
       background: var(--theme-card-bg);
     }
 

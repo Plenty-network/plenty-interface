@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { FAVORITE_TOKENS } from '../../constants/localStorage';
 
 const useFavoriteToken = () => {
+  const [isFavoriteTokens, setIsFavTokens] = useState(false);
   const [favoriteTokens, setFavoriteTokens] = useState([]);
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const useFavoriteToken = () => {
     [favoriteTokens, setFavoriteTokens],
   );
 
-  return { favoriteTokens, editFavoriteTokenList };
+  return { isFavoriteTokens, setIsFavTokens, favoriteTokens, editFavoriteTokenList };
 };
 
 export { useFavoriteToken };

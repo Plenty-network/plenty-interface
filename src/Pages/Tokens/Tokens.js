@@ -6,11 +6,11 @@ import { connect } from 'react-redux';
 import Table from '../../Components/Table/Table';
 import Button from '../../Components/Ui/Buttons/Button';
 import { PuffLoader } from 'react-spinners';
-import { BsSearch, BsStar } from 'react-icons/bs';
-import { FormControl, InputGroup } from 'react-bootstrap';
+import { BsSearch } from 'react-icons/bs';
+import { FormControl, Image, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useFavoriteToken } from './useTokensPage';
-import { TokensSymbol } from '../../Components/TokensPage/TokensSymbol';
+import { TokensSymbol, TokensSymbolHeader } from '../../Components/TokensPage/TokensSymbol';
 import { ReactComponent as FavoriteIconGradient } from '../../assets/images/tokens/favorite-icon-fill.svg';
 
 /* TODO
@@ -93,27 +93,41 @@ const Tokens = (props) => {
     [],
   );
 
-  const { favoriteTokens, editFavoriteTokenList } = useFavoriteToken();
+  const { isFavoriteTokens, setIsFavTokens, favoriteTokens, editFavoriteTokenList } =
+    useFavoriteToken();
 
   const columns = useMemo(
     () => [
       {
         Header: (
-          <div className="d-flex pl-2 align-items-center">
-            <BsStar className="mx-3" /> <span className="ml-2">Token</span>
-          </div>
+          <TokensSymbolHeader
+            className={styles.favoriteIcon}
+            isFavoriteTokens={isFavoriteTokens}
+            setIsFavTokens={setIsFavTokens}
+          />
         ),
+        id: 'favorite',
+        accessor: 'symbol_token',
+        disableSortBy: true,
+        Cell: (row) => (
+          <TokensSymbol
+            tokenSymbol={row.value}
+            className={styles.favoriteIcon}
+            favoriteTokens={favoriteTokens}
+            editFavoriteTokenList={editFavoriteTokenList}
+          />
+        ),
+      },
+      {
+        Header: <span className="ml-2">Tokens</span>,
         id: 'token',
         accessor: 'symbol_token',
         sortType: stringSort,
         Cell: (row) => (
-          <TokensSymbol
-            row={row}
-            className={styles.favoriteIcon}
-            imgPath={imgPaths[row.value]}
-            favoriteTokens={favoriteTokens}
-            editFavoriteTokenList={editFavoriteTokenList}
-          />
+          <div className="d-flex pl-2 align-items-center">
+            <Image src={imgPaths[row.value]?.url} height={32} width={32} alt={''} />
+            <span className="ml-2">{row.value}</span>
+          </div>
         ),
         width: 120,
       },
@@ -153,7 +167,15 @@ const Tokens = (props) => {
         width: 120,
       },
     ],
-    [favoriteTokens, imgPaths, numberSort, stringSort, editFavoriteTokenList],
+    [
+      isFavoriteTokens,
+      setIsFavTokens,
+      stringSort,
+      numberSort,
+      imgPaths,
+      favoriteTokens,
+      editFavoriteTokenList,
+    ],
   );
 
   useEffect(() => {

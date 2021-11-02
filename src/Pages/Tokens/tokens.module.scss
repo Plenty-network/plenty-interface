@@ -18,6 +18,7 @@
 
   .favoriteIcon {
     cursor: pointer;
+    margin: auto 20px auto 44px;
 
     &:global(.selected) {
       fill: url(#favorite-token-fill);
