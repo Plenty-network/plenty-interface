@@ -171,7 +171,7 @@ const Tokens = (props) => {
         Header: '',
         id: 'trade',
         accessor: (x) => (
-          <Link to={`/swap?from=${x.symbol_token}`}>
+          <Link style={{ textDecoration: 'none' }}  to={`/swap?from=${x.symbol_token}`}>
             <Button color="primary" className={styles.tradeBtn}>
               Trade
             </Button>
