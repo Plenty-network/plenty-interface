@@ -15,14 +15,17 @@ const TokensSymbol = ({ tokenSymbol, editFavoriteTokenList, favoriteTokens, clas
   return <BsStar onClick={() => editFavoriteTokenList(tokenSymbol)} className={clsx(className)} />;
 };
 
-const TokensSymbolHeader = ({ isFavoriteTokens, setIsFavTokens, className }) => {
-  if (isFavoriteTokens) {
+const TokensSymbolHeader = ({ isOnlyFavTokens, setIsOnlyFavTokens, className }) => {
+  if (isOnlyFavTokens) {
     return (
-      <BsStarFill onClick={() => setIsFavTokens(false)} className={clsx(className, 'selected')} />
+      <BsStarFill
+        onClick={() => setIsOnlyFavTokens(false)}
+        className={clsx(className, 'selected')}
+      />
     );
   }
 
-  return <BsStar onClick={() => setIsFavTokens(true)} className={clsx(className)} />;
+  return <BsStar onClick={() => setIsOnlyFavTokens(true)} className={clsx(className)} />;
 };
 
 export { TokensSymbol, TokensSymbolHeader };

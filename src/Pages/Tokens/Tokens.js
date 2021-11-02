@@ -93,8 +93,19 @@ const Tokens = (props) => {
     [],
   );
 
-  const { isFavoriteTokens, setIsFavTokens, favoriteTokens, editFavoriteTokenList } =
+  const { isOnlyFavTokens, setIsOnlyFavTokens, favoriteTokens, editFavoriteTokenList } =
     useFavoriteToken();
+
+  // ? Move to React Table filter later
+  const finalData = useMemo(() => {
+    if (isOnlyFavTokens) {
+      return (
+        props.tokens.data?.filter((datum) => favoriteTokens.includes(datum.symbol_token)) ?? []
+      );
+    }
+
+    return props.tokens.data ?? [];
+  }, [favoriteTokens, isOnlyFavTokens, props.tokens.data]);
 
   const columns = useMemo(
     () => [
@@ -102,8 +113,8 @@ const Tokens = (props) => {
         Header: (
           <TokensSymbolHeader
             className={styles.favoriteIcon}
-            isFavoriteTokens={isFavoriteTokens}
-            setIsFavTokens={setIsFavTokens}
+            isOnlyFavTokens={isOnlyFavTokens}
+            setIsOnlyFavTokens={setIsOnlyFavTokens}
           />
         ),
         id: 'favorite',
@@ -168,8 +179,8 @@ const Tokens = (props) => {
       },
     ],
     [
-      isFavoriteTokens,
-      setIsFavTokens,
+      isOnlyFavTokens,
+      setIsOnlyFavTokens,
       stringSort,
       numberSort,
       imgPaths,
@@ -214,7 +225,7 @@ const Tokens = (props) => {
 
         {props.tokens.data.length > 0 ? (
           <div>
-            <Table searchQuery={searchQuery} data={props.tokens.data} columns={columns} />
+            <Table searchQuery={searchQuery} data={finalData} columns={columns} />
           </div>
         ) : (
           <PuffLoader color={'#813CE1'} size={56} />
