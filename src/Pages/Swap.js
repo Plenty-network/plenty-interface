@@ -42,6 +42,7 @@ import youGov from '../assets/images/you-gov.png';
 import wUSDT from '../assets/images/wUSDT.png';
 import wDAI from '../assets/images/wdai.png';
 import ctez from '../assets/images/ctez.png';
+import uDEFI from '../assets/images/uDEFI.png';
 
 const Swap = (props) => {
   const tokens = [
@@ -150,6 +151,11 @@ const Swap = (props) => {
       new: false,
     },
     {
+      name: 'uDEFI',
+      image: uDEFI,
+      new: true,
+    },
+    {
       name: 'UNO',
       image: UNO,
       new: false,
@@ -256,7 +262,7 @@ const Swap = (props) => {
         swapData.tokenIn_supply,
         swapData.tokenOut_supply,
         swapData.exchangeFee,
-        slippage
+        slippage,
       );
       setComputedOutDetails(computedData);
       setLoading(false);
@@ -280,7 +286,7 @@ const Swap = (props) => {
         swapData.tokenIn_supply,
         swapData.tokenOut_supply,
         swapData.exchangeFee,
-        slippage
+        slippage,
       );
       setFirstTokenAmount(computedData.tokenIn_amount);
       setComputedOutDetails(computedData);
@@ -346,8 +352,7 @@ const Swap = (props) => {
     setRecepient(elem);
   };
 
-  const [showTransactionSubmitModal, setShowTransactionSubmitModal] =
-    useState(false);
+  const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const [transactionId, setTransactionId] = useState('');
 
   const transactionSubmitModal = (id) => {
@@ -365,10 +370,7 @@ const Swap = (props) => {
 
   let showActiveTab = localStorage.getItem('activeTab') ?? 'swap';
 
-  if (
-    window.location.pathname.replace('/', '') == 'liquidity' ||
-    activeTab == 'liquidity'
-  ) {
+  if (window.location.pathname.replace('/', '') == 'liquidity' || activeTab == 'liquidity') {
     showActiveTab = 'liquidity';
   }
 
@@ -395,13 +397,13 @@ const Swap = (props) => {
               path: `/swap?from=${token.name}&to=${tokenOut.name}`,
             },
             '',
-            `/swap?from=${token.name}&to=${tokenOut.name}`
+            `/swap?from=${token.name}&to=${tokenOut.name}`,
           );
         } else {
           window.history.pushState(
             { path: `/swap?from=${token.name}` },
             '',
-            `/swap?from=${token.name}`
+            `/swap?from=${token.name}`,
           );
         }
       } else {
@@ -411,13 +413,13 @@ const Swap = (props) => {
               path: `/liquidity/add?tokenA=${token.name}&tokenB=${tokenOut.name}`,
             },
             '',
-            `/liquidity/add?tokenA=${token.name}&tokenB=${tokenOut.name}`
+            `/liquidity/add?tokenA=${token.name}&tokenB=${tokenOut.name}`,
           );
         } else {
           window.history.pushState(
             { path: `/liquidity/add?tokenA=${token.name}` },
             '',
-            `/liquidity/add?tokenA=${token.name}`
+            `/liquidity/add?tokenA=${token.name}`,
           );
         }
       }
@@ -440,7 +442,7 @@ const Swap = (props) => {
             path: `/swap?from=${tokenIn.name}&to=${token.name}`,
           },
           '',
-          `/swap?from=${tokenIn.name}&to=${token.name}`
+          `/swap?from=${tokenIn.name}&to=${token.name}`,
         );
       } else {
         window.history.pushState(
@@ -448,7 +450,7 @@ const Swap = (props) => {
             path: `/liquidity/add?tokenA=${tokenIn.name}&tokenB=${token.name}`,
           },
           '',
-          `/liquidity/add?tokenA=${tokenIn.name}&tokenB=${token.name}`
+          `/liquidity/add?tokenA=${tokenIn.name}&tokenB=${token.name}`,
         );
       }
 
@@ -627,9 +629,7 @@ const Swap = (props) => {
         message={'Transaction submitted'}
         buttonText={'View on Tezos'}
         onBtnClick={
-          transactionId
-            ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank')
-            : null
+          transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
         }
       />
 
