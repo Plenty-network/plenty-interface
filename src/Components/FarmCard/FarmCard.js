@@ -36,8 +36,8 @@ const FarmCard = (props) => {
     if (farmData.isDualFarm) {
       return (
         <>
-          {`${(values?.rewardRate[0] ?? 0) * 2880} PLENTY | ${
-            (values?.rewardRate[1] ?? 0) * 2880
+          {`${parseInt((values?.rewardRate[0] ?? 0) * 2880)} PLENTY | ${
+            parseInt((values?.rewardRate[1] ?? 0) * 2880)
           } GIF`}{' '}
           <span
             style={{
@@ -55,9 +55,9 @@ const FarmCard = (props) => {
       farmData.CARD_TYPE === 'uUSD / wUSDC LP' ||
       farmData.CARD_TYPE === 'uUSD / uDEFI LP'
     ) {
-      return `${(values?.rewardRate ?? 0) * 2880} YOU / DAY`;
+      return `${parseInt((values?.rewardRate ?? 0) * 2880)} YOU / DAY`;
     } else {
-      return `${(values?.rewardRate ?? 0) * 2880} PLENTY / DAY`;
+      return `${parseInt((values?.rewardRate ?? 0) * 2880)} PLENTY / DAY`;
     }
   };
 
