@@ -5,12 +5,7 @@ const useInfoTableHooks = (props) => {
 
   const getTableHead = (secondToken) => {
     return {
-      headerRow: [
-        'Time Frame',
-        'ROI',
-        'PLENTY per $1000',
-        `${secondToken} per $1000`,
-      ],
+      headerRow: ['Time Frame', 'ROI', 'PLENTY per $1000', `${secondToken} per $1000`],
       disclaimer:
         'Calculated based on current rates. Rates are estimates provided for your convenience only, and by no means represent guaranteed returns.',
     };
@@ -50,6 +45,12 @@ const useInfoTableHooks = (props) => {
             ...getTableHead(props.secondToken),
             formattedData: formatData(),
           });
+        } else if (
+          props.contractAddress === 'KT1KGKzNGX1NDP3hGcipzyqVMCkwWbH76NJU' ||
+          props.contractAddress === 'KT1DfYVe4CaE9S6Sm3SEfhFYVZ9XzJbkQDqs' ||
+          props.contractAddress === 'KT1RENb4rWNFPP5QJSYT4rRGGsk1tPgLLwu2'
+        ) {
+          setValues({ ...infoTableData.youRoi, formattedData: formatData() });
         } else {
           setValues({ ...infoTableData.roi, formattedData: formatData() });
         }
@@ -68,6 +69,11 @@ const infoTableData = {
   },
   roi: {
     headerRow: ['Time Frame', 'ROI', 'PLENTY per $1000'],
+    disclaimer:
+      'Calculated based on current rates. Rates are estimates provided for your convenience only, and by no means represent guaranteed returns.',
+  },
+  youRoi: {
+    headerRow: ['Time Frame', 'ROI', 'YOU per $1000'],
     disclaimer:
       'Calculated based on current rates. Rates are estimates provided for your convenience only, and by no means represent guaranteed returns.',
   },

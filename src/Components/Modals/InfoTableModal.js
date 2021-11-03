@@ -10,6 +10,7 @@ const InfoTableModal = (props) => {
     type: props.type,
     data: props.tableData,
     secondToken: props.secondToken,
+    contractAddress: props.contractAddress,
   });
 
   return (
@@ -28,7 +29,7 @@ const InfoTableModal = (props) => {
 
         {formattedData?.map(
           (
-            x // TODO add props.tableData
+            x, // TODO add props.tableData
           ) => (
             <div key={x.col1}>
               <div>{x.col1}</div>
@@ -36,7 +37,7 @@ const InfoTableModal = (props) => {
               <div>{x.col3}</div>
               {x.col4 ?? <div>{x.col4}</div>}
             </div>
-          )
+          ),
         )}
       </div>
 
