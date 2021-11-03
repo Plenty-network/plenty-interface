@@ -11,9 +11,7 @@ const FarmModals = () => {
   const dispatch = useDispatch();
 
   const stakeOperations = useSelector((state) => state.farms.stakeOperation);
-  const unstakeOperations = useSelector(
-    (state) => state.farms.unstakeOperation
-  );
+  const unstakeOperations = useSelector((state) => state.farms.unstakeOperation);
 
   const tableData = useMemo(() => {
     if (modalData.open === FARM_PAGE_MODAL.WITHDRAWAL) {
@@ -30,18 +28,14 @@ const FarmModals = () => {
   const loaderMessage = useMemo(() => {
     if (stakeOperations.completed || stakeOperations.failed) {
       return {
-        message: stakeOperations.completed
-          ? 'Transaction confirmed'
-          : 'Transaction failed',
+        message: stakeOperations.completed ? 'Transaction confirmed' : 'Transaction failed',
         type: stakeOperations.completed ? 'success' : 'error',
       };
     }
 
     if (unstakeOperations.completed || unstakeOperations.failed) {
       return {
-        message: unstakeOperations.completed
-          ? 'Transaction confirmed'
-          : 'Transaction failed',
+        message: unstakeOperations.completed ? 'Transaction confirmed' : 'Transaction failed',
         type: unstakeOperations.completed ? 'success' : 'error',
       };
     }
@@ -50,16 +44,8 @@ const FarmModals = () => {
   }, [stakeOperations, unstakeOperations]);
 
   const showSnackbar = useMemo(() => {
-    return (
-      modalData.snackbar ||
-      stakeOperations.processing ||
-      unstakeOperations.processing
-    );
-  }, [
-    modalData.snackbar,
-    stakeOperations.processing,
-    unstakeOperations.processing,
-  ]);
+    return modalData.snackbar || stakeOperations.processing || unstakeOperations.processing;
+  }, [modalData.snackbar, stakeOperations.processing, unstakeOperations.processing]);
 
   const onClose = () => {
     dispatch(
@@ -68,7 +54,7 @@ const FarmModals = () => {
         contractAddress: null,
         withdrawalFeeType: [],
         roiTable: [],
-      })
+      }),
     );
   };
 
@@ -77,12 +63,12 @@ const FarmModals = () => {
       <InfoTableModal
         type={modalData.open}
         open={
-          modalData.open === FARM_PAGE_MODAL.ROI ||
-          modalData.open === FARM_PAGE_MODAL.WITHDRAWAL
+          modalData.open === FARM_PAGE_MODAL.ROI || modalData.open === FARM_PAGE_MODAL.WITHDRAWAL
         }
         onClose={onClose}
         tableData={tableData}
         secondToken={modalData.secondToken}
+        contractAddress={modalData.contractAddress}
       />
       <InfoModal
         open={modalData.open === FARM_PAGE_MODAL.TRANSACTION_SUCCESS}
@@ -92,11 +78,7 @@ const FarmModals = () => {
         onBtnClick={
           !modalData.transactionId
             ? undefined
-            : () =>
-                window.open(
-                  `https://tzkt.io/${modalData.transactionId}`,
-                  '_blank'
-                )
+            : () => window.open(`https://tzkt.io/${modalData.transactionId}`, '_blank')
         }
       />
       {showSnackbar && (

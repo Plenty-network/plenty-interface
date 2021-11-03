@@ -25,8 +25,12 @@ import wusdtLpFarm from '../assets/images/farms/wusdtLpFarm.png';
 
 import youLpFarm from '../assets/images/farms/youLpFarm.png';
 import ctezFarmLpIcon from '../assets/images/farms/ctezFarmLpIcon.png';
+import uUSDYOULp from '../assets/images/farms/uUSDYOULp.png';
+import uUSDwUSDC from '../assets/images/farms/uUSDwUSDCLp.png';
+import uUSDuDEFI from '../assets/images/farms/uUSDuDEFILp.png';
 
 import wbusd from '../assets/images/busd.png';
+import YOU from '../assets/images/you-gov.png';
 
 import PropTypes from 'prop-types';
 
@@ -74,7 +78,7 @@ export const FARMS_CARD_DATA_PROPTYPES = PropTypes.shape({
       PropTypes.shape({
         roi: PropTypes.number,
         PlentyPer1000dollar: PropTypes.number,
-      })
+      }),
     ),
     totalSupply: PropTypes.number,
     rewardRate: PropTypes.number,
@@ -624,6 +628,66 @@ export const FARMS_CARD_TYPE_LIST = {
     fee: '0%',
     earned: 0,
     deposit: 'PLENTY / ctez LP',
+    liquidity: '5000',
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+  },
+  'uUSD / YOU LP': {
+    image: uUSDYOULp,
+    harvestImg: YOU,
+    multi: '100',
+    title: 'uUSD / YOU LP',
+    apr: 0,
+    apy: '2621',
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'uUSD / YOU LP',
+    liquidity: '5000',
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+  },
+  'uUSD / wUSDC LP': {
+    image: uUSDwUSDC,
+    harvestImg: YOU,
+    multi: '100',
+    title: 'uUSD / wUSDC LP',
+    apr: 0,
+    apy: '2621',
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'uUSD / wUSDC LP',
+    liquidity: '5000',
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+  },
+  'uUSD / uDEFI LP': {
+    image: uUSDuDEFI,
+    harvestImg: YOU,
+    multi: '100',
+    title: 'uUSD / uDEFI LP',
+    apr: 0,
+    apy: '2621',
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'uUSD / uDEFI LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,

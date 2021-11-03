@@ -429,6 +429,40 @@ module.exports = {
           ],
           inactive: [],
         },
+        'uUSD - YOU': {
+          active: [
+            {
+              address: 'KT1KGKzNGX1NDP3hGcipzyqVMCkwWbH76NJU',
+              mapId: 22800,
+              decimal: 12,
+              tokenDecimal: 12,
+            },
+          ],
+          inactive: [],
+        },
+        'uUSD - wUSDC': {
+          active: [
+            {
+              address: 'KT1DfYVe4CaE9S6Sm3SEfhFYVZ9XzJbkQDqs',
+              mapId: 22814,
+              decimal: 12,
+              tokenDecimal: 9,
+            },
+          ],
+          inactive: [],
+        },
+        'uUSD - uDEFI': {
+          active: [
+            {
+              address: 'KT1RENb4rWNFPP5QJSYT4rRGGsk1tPgLLwu2',
+              mapId: 22813,
+              decimal: 12,
+              tokenDecimal: 12,
+            },
+          ],
+          inactive: [],
+        },
+        // KT1DfYVe4CaE9S6Sm3SEfhFYVZ9XzJbkQDqs
       },
     },
     PONDS: {
@@ -700,6 +734,27 @@ module.exports = {
         type: 'FA1.2',
         tokenId: 0,
       },
+      'uUSD - wUSDC': {
+        address: 'KT1A2W6mBjn49yqzjJbt9T7xNVD9gDeL45qD',
+        mapId: 22767,
+        decimal: 9,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+      'uUSD - YOU': {
+        address: 'KT1Tmncfgpp4ZSp6aEogL7uhBqHTiKsSPegK',
+        mapId: 22770,
+        decimal: 12,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+      'uUSD - uDEFI': {
+        address: 'KT1RQvdYD9yc763j8FiVLyXbKPVVbZqGRx5m',
+        mapId: 22802,
+        decimal: 12,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
       // PlentywUSDTlp: {
       //   ICON: '',
       //   TOKEN_CONTRACT: 'KT1PcM1LUqgVdkXqKvZ4CeC9aiwLgYYCEHMH',
@@ -947,6 +1002,11 @@ module.exports = {
             property: 'token2_pool',
             liquidityToken: 'wUSDC-USDtz-LP',
           },
+          uUSD: {
+            contract: 'KT1JbUFVGrMCpW39UtH97dMkG2nMMrefQLLa',
+            property: 'token1_pool',
+            liquidityToken: 'uusd-wusdc-LP',
+          },
         },
       },
       wBUSD: {
@@ -1087,6 +1147,36 @@ module.exports = {
             property: 'token1_pool',
             liquidityToken: 'Plenty-uUSD-LP',
           },
+          wUSDC: {
+            contract: 'KT1JbUFVGrMCpW39UtH97dMkG2nMMrefQLLa',
+            property: 'token2_pool',
+            liquidityToken: 'uusd-wusdc-LP',
+          },
+          YOU: {
+            contract: 'KT1TnrLFrdemNZ1AnnWNfi21rXg7eknS484C',
+            property: 'token2_pool',
+            liquidityToken: 'uusd-you-LP',
+          },
+          uDEFI: {
+            contract: 'KT1EAw8hL5zseB3SLpJhBqPQfP9aWrWh8iMW',
+            property: 'token2_pool',
+            liquidityToken: 'uusd-udefi-LP',
+          },
+        },
+      },
+      uDEFI: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1XRPEPXbZK25r3Htzp2o1x7xdMMmfocKNW',
+        READ_TYPE: 'FA2',
+        CALL_TYPE: 'FA2',
+        TOKEN_ID: 1,
+        TOKEN_DECIMAL: 12,
+        DEX_PAIRS: {
+          uUSD: {
+            contract: 'KT1EAw8hL5zseB3SLpJhBqPQfP9aWrWh8iMW',
+            property: 'token1_pool',
+            liquidityToken: 'uusd-udefi-LP',
+          },
         },
       },
       YOU: {
@@ -1101,6 +1191,11 @@ module.exports = {
             contract: 'KT1EM6NjJdJXmz3Pj13pfu3MWVDwXEQnoH3N',
             property: 'token1_pool',
             liquidityToken: 'Plenty-YOU-LP',
+          },
+          uUSD: {
+            contract: 'KT1TnrLFrdemNZ1AnnWNfi21rXg7eknS484C',
+            property: 'token1_pool',
+            liquidityToken: 'uusd-you-LP',
           },
         },
       },
@@ -1489,6 +1584,30 @@ module.exports = {
         TOKEN_DECIMAL: 12,
         CALL_TYPE: 'FA1.2',
       },
+      'uusd-wusdc-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1A2W6mBjn49yqzjJbt9T7xNVD9gDeL45qD',
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 9,
+        CALL_TYPE: 'FA1.2',
+      },
+      'uusd-you-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1Tmncfgpp4ZSp6aEogL7uhBqHTiKsSPegK',
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 12,
+        CALL_TYPE: 'FA1.2',
+      },
+      'uusd-udefi-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1RQvdYD9yc763j8FiVLyXbKPVVbZqGRx5m',
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 12,
+        CALL_TYPE: 'FA1.2',
+      },
     },
   },
   POOLS: {
@@ -1712,6 +1831,72 @@ module.exports = {
   },
   FARMS: {
     mainnet: {
+      'uUSD - YOU': {
+        active: [
+          {
+            LP_TOKEN: 'KT1Tmncfgpp4ZSp6aEogL7uhBqHTiKsSPegK',
+            CONTRACT: 'KT1KGKzNGX1NDP3hGcipzyqVMCkwWbH76NJU',
+            DEX: 'KT1TnrLFrdemNZ1AnnWNfi21rXg7eknS484C',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            CARD_TYPE: 'uUSD / YOU LP',
+            TOKEN_DECIMAL: 12,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 12,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+            liquidityLink: '/liquidity/add?tokenA=uUSD&tokenB=YOU',
+            isDualFarm: false,
+            message: 'YOU rewards 😍',
+            bannerType: 'info',
+          },
+        ],
+        inactive: [],
+      },
+      'uUSD - wUSDC': {
+        active: [
+          {
+            LP_TOKEN: 'KT1A2W6mBjn49yqzjJbt9T7xNVD9gDeL45qD',
+            CONTRACT: 'KT1DfYVe4CaE9S6Sm3SEfhFYVZ9XzJbkQDqs',
+            DEX: 'KT1JbUFVGrMCpW39UtH97dMkG2nMMrefQLLa',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            CARD_TYPE: 'uUSD / wUSDC LP',
+            TOKEN_DECIMAL: 9,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 12,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+            liquidityLink: '/liquidity/add?tokenA=uUSD&tokenB=wUSDC',
+            isDualFarm: false,
+            message: 'YOU rewards 😍',
+            bannerType: 'info',
+          },
+        ],
+        inactive: [],
+      },
+      'uUSD - uDEFI': {
+        active: [
+          {
+            LP_TOKEN: 'KT1RQvdYD9yc763j8FiVLyXbKPVVbZqGRx5m',
+            CONTRACT: 'KT1RENb4rWNFPP5QJSYT4rRGGsk1tPgLLwu2',
+            DEX: 'KT1EAw8hL5zseB3SLpJhBqPQfP9aWrWh8iMW',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            CARD_TYPE: 'uUSD / uDEFI LP',
+            TOKEN_DECIMAL: 12,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 12,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+            liquidityLink: '/liquidity/add?tokenA=uUSD&tokenB=uDEFI',
+            isDualFarm: false,
+            message: 'YOU rewards 😍',
+            bannerType: 'info',
+          },
+        ],
+        inactive: [],
+      },
       'PLENTY - cTez': {
         active: [
           {
