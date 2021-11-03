@@ -120,7 +120,15 @@ const fetchStorageOfStakingContract = async (
     const response = await axios.get(url);
 
     let totalSupply = response.data.args[3].int;
-    totalSupply = (totalSupply / Math.pow(10, 18)).toFixed(2);
+    if (
+      identifier === 'uUSD - YOU' ||
+      identifier === 'uUSD - wUSDC' ||
+      identifier === 'uUSD - uDEFI'
+    ) {
+      totalSupply = (totalSupply / Math.pow(10, 12)).toFixed(2);
+    } else {
+      totalSupply = (totalSupply / Math.pow(10, 18)).toFixed(2);
+    }
     totalSupply = parseFloat(totalSupply);
 
     let rewardRate = response.data.args[1].args[1].int;
@@ -134,7 +142,6 @@ const fetchStorageOfStakingContract = async (
       rewardRate = (rewardRate / Math.pow(10, 18)).toFixed(18);
     }
     rewardRate = parseFloat(rewardRate);
-
     let DPY = (rewardRate * 2880 * priceOfPlentyInUSD) / (totalSupply * priceOfStakeTokenInUsd);
     DPY = DPY * 100;
 
@@ -373,12 +380,19 @@ export const getFarmsDataAPI = async (isActive) => {
     const tokenPrices = initialDataResponse[1];
     const tokenPricesData = tokenPrices.data.contracts;
     let priceOfPlenty = 0;
+    let priceOfYou = 0;
     for (let i in tokenPricesData) {
       if (
         tokenPricesData[i].symbol === 'PLENTY' &&
         tokenPricesData[i].tokenAddress === 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b'
       ) {
         priceOfPlenty = tokenPricesData[i].usdValue;
+      }
+      if (
+        tokenPricesData[i].symbol === 'YOU' &&
+        tokenPricesData[i].tokenAddress === 'KT1Xobej4mc6XgEjDoJoHtTKgbD1ELMvcQuL'
+      ) {
+        priceOfYou = tokenPricesData[i].usdValue;
       }
     }
     for (let key in CONFIG.FARMS[CONFIG.NETWORK]) {
@@ -413,7 +427,9 @@ export const getFarmsDataAPI = async (isActive) => {
           key === 'PLENTY - wDAI' ||
           key === 'PLENTY - wUSDT' ||
           key === 'PLENTY - cTez' ||
-          key === 'uUSD - YOU'
+          key === 'uUSD - YOU' ||
+          key === 'uUSD - uDEFI' ||
+          key === 'uUSD - wUSDC'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(
@@ -443,15 +459,27 @@ export const getFarmsDataAPI = async (isActive) => {
           CONFIG.FARMS[CONFIG.NETWORK][key][isActive === true ? 'active' : 'inactive'][i]
             .isDualFarm === false
         ) {
-          promises.push(
-            fetchStorageOfStakingContract(
-              key,
-              CONFIG.FARMS[CONFIG.NETWORK][key][isActive === true ? 'active' : 'inactive'][i]
-                .CONTRACT,
-              lpPricesInUsd[key],
-              priceOfPlenty,
-            ),
-          );
+          if (key === 'uUSD - YOU' || key === 'uUSD - uDEFI' || key === 'uUSD - wUSDC') {
+            promises.push(
+              fetchStorageOfStakingContract(
+                key,
+                CONFIG.FARMS[CONFIG.NETWORK][key][isActive === true ? 'active' : 'inactive'][i]
+                  .CONTRACT,
+                lpPricesInUsd[key],
+                priceOfYou,
+              ),
+            );
+          } else {
+            promises.push(
+              fetchStorageOfStakingContract(
+                key,
+                CONFIG.FARMS[CONFIG.NETWORK][key][isActive === true ? 'active' : 'inactive'][i]
+                  .CONTRACT,
+                lpPricesInUsd[key],
+                priceOfPlenty,
+              ),
+            );
+          }
         } else {
           promises.push(
             fetchStorageForDualStakingContract(
@@ -470,6 +498,7 @@ export const getFarmsDataAPI = async (isActive) => {
     let farmsData = {};
 
     const farmResponse = await Promise.all(promises);
+    console.log({ farmResponse });
     for (let i in farmResponse) {
       farmsData[farmResponse[i].address] = {
         identifier: farmResponse[i].identifier,

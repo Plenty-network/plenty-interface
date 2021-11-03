@@ -33,7 +33,6 @@ const FarmCard = (props) => {
   };
 
   const getReward = () => {
-    console.log({ farmData });
     if (farmData.isDualFarm) {
       return (
         <>

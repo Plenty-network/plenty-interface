@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
 const useInfoTableHooks = (props) => {
-  console.log('table props', props);
   const [values, setValues] = useState({});
 
   const getTableHead = (secondToken) => {
