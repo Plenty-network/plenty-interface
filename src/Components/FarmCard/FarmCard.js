@@ -7,10 +7,7 @@ import Button from '../Ui/Buttons/Button';
 import CalculatorSvg from '../../assets/images/icons/calculator.svg';
 import { numberWithCommas } from '../../utils/formatNumbers';
 import { useDispatch } from 'react-redux';
-import {
-  FARM_PAGE_MODAL,
-  FARMS_CARD_DATA_PROPTYPES,
-} from '../../constants/farmsPage';
+import { FARM_PAGE_MODAL, FARMS_CARD_DATA_PROPTYPES } from '../../constants/farmsPage';
 import { openCloseFarmsModal } from '../../redux/slices/farms/farms.slice';
 import { useEffect } from 'react';
 
@@ -18,8 +15,7 @@ const FarmCard = (props) => {
   const dispatch = useDispatch();
   const { farmData, properties, values } = props.farmCardData;
 
-  const apyCalculate = (apr) =>
-    ((Math.pow(1 + apr / 100 / 365, 365) - 1) * 100).toFixed(0);
+  const apyCalculate = (apr) => ((Math.pow(1 + apr / 100 / 365, 365) - 1) * 100).toFixed(0);
 
   const getAPR = () => {
     try {
@@ -54,6 +50,12 @@ const FarmCard = (props) => {
           </span>
         </>
       );
+    } else if (
+      farmData.CARD_TYPE === 'uUSD / YOU LP' ||
+      farmData.CARD_TYPE === 'uUSD / wUSDC LP' ||
+      farmData.CARD_TYPE === 'uUSD / uDEFI LP'
+    ) {
+      return `${(values?.rewardRate ?? 0) * 2880} YOU / DAY`;
     } else {
       return `${(values?.rewardRate ?? 0) * 2880} PLENTY / DAY`;
     }
@@ -78,10 +80,8 @@ const FarmCard = (props) => {
         open: FARM_PAGE_MODAL.ROI,
         contractAddress: farmData.CONTRACT,
         roiTable: values.roiTable,
-        secondToken: farmData.dualInfo
-          ? farmData.dualInfo.tokenSecond.symbol
-          : null,
-      })
+        secondToken: farmData.dualInfo ? farmData.dualInfo.tokenSecond.symbol : null,
+      }),
     );
   };
 
@@ -98,7 +98,7 @@ const FarmCard = (props) => {
           <div
             className={clsx(
               styles.plentyCardHeader,
-              'flex justify-between align-center p-26 pb-20'
+              'flex justify-between align-center p-26 pb-20',
             )}
           >
             <div className={styles.imageWrapper}>
@@ -111,9 +111,7 @@ const FarmCard = (props) => {
                 target="_blank"
                 className={clsx(
                   styles.titleBadge,
-                  properties.source === 'Plenty LP'
-                    ? styles.badgePlenty
-                    : styles.badgeOther
+                  properties.source === 'Plenty LP' ? styles.badgePlenty : styles.badgeOther,
                 )}
               >
                 {properties.source}
@@ -124,27 +122,13 @@ const FarmCard = (props) => {
 
           {/* * Content */}
           <div className={clsx(styles.plentyCardContent, 'pb-0')}>
-            <div
-              className={clsx(
-                styles.plentyCardContentInfo,
-                'flex justify-between'
-              )}
-            >
+            <div className={clsx(styles.plentyCardContentInfo, 'flex justify-between')}>
               <p className={styles.plentyCardContentTag}>APY:</p>
               <p className={styles.plentyCardContentTag}>
-                {values == null ? (
-                  <span className="shimmer">99999999</span>
-                ) : (
-                  `${getAPY(props)}%`
-                )}
+                {values == null ? <span className="shimmer">99999999</span> : `${getAPY(props)}%`}
               </p>
             </div>
-            <div
-              className={clsx(
-                styles.plentyCardContentInfo,
-                'flex justify-between'
-              )}
-            >
+            <div className={clsx(styles.plentyCardContentInfo, 'flex justify-between')}>
               <p className={styles.plentyCardContentTag}>APR:</p>
               <p className={styles.plentyCardContentTag}>
                 {values && (
@@ -155,34 +139,18 @@ const FarmCard = (props) => {
                     onClick={onRoiClick}
                   />
                 )}
-                {values == null ? (
-                  <span className="shimmer">99999999</span>
-                ) : (
-                  `${getAPR(props)}%`
-                )}
+                {values == null ? <span className="shimmer">99999999</span> : `${getAPR(props)}%`}
               </p>
             </div>
-            <div
-              className={clsx(
-                styles.plentyCardContentInfo,
-                'flex justify-between'
-              )}
-            >
+            <div className={clsx(styles.plentyCardContentInfo, 'flex justify-between')}>
               <p className={styles.plentyCardContentTag}>Rewards:</p>
               <p className={styles.plentyCardContentTag}>
-                {values == null ? (
-                  <span className="shimmer">99999999</span>
-                ) : (
-                  getReward()
-                )}
+                {values == null ? <span className="shimmer">99999999</span> : getReward()}
               </p>
             </div>
 
             <div
-              className={clsx(
-                styles.plentyCardTvlInfo,
-                'flex justify-between align-center mb-4'
-              )}
+              className={clsx(styles.plentyCardTvlInfo, 'flex justify-between align-center mb-4')}
             >
               <p className={styles.plentyCardContentTag}>TVL:</p>
               <p className={styles.plentyCardContentTag}>
@@ -203,7 +171,7 @@ const FarmCard = (props) => {
                       props.farmCardData.identifier,
                       properties.title,
                       farmData.CONTRACT,
-                      props.farmCardData.position
+                      props.farmCardData.position,
                     )
                   }
                   color={'primary'}
