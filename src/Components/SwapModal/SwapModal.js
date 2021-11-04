@@ -1,42 +1,71 @@
-import React from 'react';
-import { Modal } from 'react-bootstrap';
+import React, {useEffect, useState} from 'react';
+import {FormControl, InputGroup, Modal} from 'react-bootstrap';
+import {BsSearch} from "react-icons/bs";
 const config = require('../../config/config');
 
 const SwapModal = (props) => {
-  const tokensToShow = props.tokens.filter((token) => {
-    if (props.tokenType == 'tokenOut') {
-      if (
-        config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[token.name]
-      ) {
-        return token;
-      }
-    } else {
-      if (props.tokenOut.name) {
-        if (
-          config.AMM[config.NETWORK][props.tokenOut.name].DEX_PAIRS[token.name]
-        ) {
-          return token;
+  const [tokensToShow, setTokensToShow] = useState([])
+
+  useEffect(() => {
+    filterTokens();
+  }, [props.tokens, props.searchQuery]);
+
+  const filterTokens = () => {
+    setTokensToShow(props.tokens.filter((token) => {
+      if (props.searchQuery.length === 0 || (token.name.toLowerCase().includes(props.searchQuery.toLowerCase()))) {
+        if (props.tokenType === 'tokenOut') {
+          if (
+              config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[token.name]
+          ) {
+            return token;
+          }
+        } else {
+          if (props.tokenOut.name) {
+            if (
+                config.AMM[config.NETWORK][props.tokenOut.name].DEX_PAIRS[token.name]
+            ) {
+              return token;
+            }
+          } else {
+            return token;
+          }
         }
-      } else {
-        return token;
       }
-    }
-  });
+    }));
+  };
+
   return (
     <Modal
       show={props.show}
       onHide={props.onHide}
       className="swap-modal modal-themed"
     >
-      <Modal.Header className="border-bottom-themed">
-        <Modal.Title>
-          <span className="span-themed">Select a token</span>
-        </Modal.Title>
-        <Modal.Title className={'float-right'}>
-          <span onClick={props.onHide} style={{ cursor: 'pointer' }} className="material-icons-round">
-          close
-          </span>
-        </Modal.Title>
+      <Modal.Header className="border-bottom-themed flex-column">
+        <div className="flex flex-row w-100">
+          <Modal.Title className="flex align-items-center">
+            <span className="span-themed">Select a token</span>
+          </Modal.Title>
+          <Modal.Title className="ml-auto flex align-items-center">
+            <span onClick={props.onHide} style={{ cursor: 'pointer' }} className="material-icons-round">
+            close
+            </span>
+          </Modal.Title>
+        </div>
+        <div className="mt-1 flex flex-row w-100">
+          <InputGroup>
+            <InputGroup.Prepend>
+              <InputGroup.Text className="search-icon border-right-0">
+                <BsSearch />
+              </InputGroup.Text>
+            </InputGroup.Prepend>
+            <FormControl
+              placeholder="Search"
+              className={`shadow-none border-left-0 search-box`}
+              value={props.searchQuery}
+              onChange={(ev) => props.setSearchQuery(ev.target.value)}
+            />
+        </InputGroup>
+        </div>
       </Modal.Header>
       <Modal.Body>
         <div className="coin-selection-table">
