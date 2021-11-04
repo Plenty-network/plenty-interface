@@ -154,6 +154,10 @@ const Swap = (props) => {
       name: 'uDEFI',
       image: uDEFI,
       new: true,
+      extra: {
+        text: 'Get uDEFI',
+        link: 'https://app.youves.com/udefi/minting/start'
+      },
     },
     {
       name: 'UNO',
@@ -172,6 +176,7 @@ const Swap = (props) => {
     },
   ];
 
+  const [searchQuery, setSearchQuery] = useState('');
   const [show, setShow] = useState(false);
   const [showConfirmSwap, setShowConfirmSwap] = useState(false);
   const [showConfirmAddSupply, setShowConfirmAddSupply] = useState(false);
@@ -208,6 +213,7 @@ const Swap = (props) => {
     setShowConfirmAddSupply(false);
     setShowConfirmRemoveSupply(false);
     setHideContent('');
+    setSearchQuery('');
     //setLoading(false);
   };
 
@@ -622,6 +628,8 @@ const Swap = (props) => {
         tokenIn={tokenIn}
         tokenOut={tokenOut}
         tokenType={tokenType}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
       ></SwapModal>
       <InfoModal
         open={showTransactionSubmitModal}
