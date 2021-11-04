@@ -213,14 +213,16 @@ const Tokens = (props) => {
         <div className="w-100 d-flex justify-content-between px-5 align-items-center">
           <h5 className="font-weight-bolder">Tokens</h5>
           <InputGroup className={styles.searchBar}>
-            <span className={styles.iconInside}>
-              <BsSearch />
-            </span>
+            <InputGroup.Prepend>
+              <InputGroup.Text className={`${styles.searchIcon} border-right-0`}>
+                <BsSearch />
+              </InputGroup.Text>
+            </InputGroup.Prepend>
             <FormControl
-              placeholder="        Search"
-              className={`rounded ${styles.placeholder}`}
-              value={searchQuery}
-              onChange={(ev) => setSearchQuery(ev.target.value)}
+                placeholder="Search"
+                className={`shadow-none border-left-0 ${styles.searchBox}`}
+                value={searchQuery}
+                onChange={(ev) => setSearchQuery(ev.target.value)}
             />
           </InputGroup>
         </div>

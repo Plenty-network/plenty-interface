@@ -8,7 +8,6 @@
 
   .searchBar {
     max-width: 140px;
-    height: 40px;
     font-size: 14px;
 
     & input {
@@ -38,6 +37,35 @@
 
 .greenText {
   color: #4FBF67;
+}
+
+.searchIcon {
+  background: var(--theme-input-bg);
+  color: #c4c3c3;
+}
+
+.searchBox {
+  overflow: auto;
+  outline: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+
+  resize: none;
+
+  background: var(--theme-input-bg);
+  color: var(--theme-text-1);
+
+  &:focus {
+    background: var(--theme-input-bg);
+    color: var(--theme-text-1);
+    border: 1px solid #ced4da;
+  }
+  &::placeholder {
+    color: #c4c3c3;
+    opacity: 1;
+  }
 }
 
 .iconInside {

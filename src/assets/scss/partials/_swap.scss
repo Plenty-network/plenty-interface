@@ -655,3 +655,33 @@ input:checked {
   font-weight: 500;
   text-align: center;
 }
+
+.search-icon {
+  background: var(--theme-input-bg);
+  color: #c4c3c3;
+}
+
+.search-box {
+
+  overflow: auto;
+  outline: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+
+  resize: none;
+
+  background: var(--theme-input-bg);
+  color: var(--theme-text-1);
+
+  &:focus {
+    background: var(--theme-input-bg);
+    color: var(--theme-text-1);
+    border: 1px solid #ced4da;
+  }
+  &::placeholder {
+    color: #c4c3c3;
+    opacity: 1;
+  }
+}
