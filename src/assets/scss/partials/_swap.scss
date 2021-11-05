@@ -106,7 +106,8 @@
 .swap-modal,
 .confirm-swap-modal {
   .modal-dialog {
-    left: 50px;
+    display: flex;
+    justify-content: center;
     top: 157px;
   }
   .modal-content {
