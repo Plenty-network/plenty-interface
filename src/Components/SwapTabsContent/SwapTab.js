@@ -281,7 +281,7 @@ const SwapTab = (props) => {
           ''
         )}
         {swapContentButton}
-        {props.walletAddress && props.firstTokenAmount && props.tokenOut.name && (
+        {props.walletAddress && props.tokenIn.name && props.tokenOut.name && (
           <SwapDetails
             computedOutDetails={props.computedOutDetails}
             tokenIn={props.tokenIn}

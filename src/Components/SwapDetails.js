@@ -12,33 +12,43 @@ const SwapDetails = (props) => {
     return [props.tokenIn, props.tokenMiddle, props.tokenOut];
   }, [props.tokenIn, props.tokenMiddle, props.tokenOut]);
 
+  if (!props.firstTokenAmount && !swapRoute) {
+    return null;
+  }
+
   return (
     <div className="swap-detail-wrapper bg-themed-light">
-      <div className="swap-detail-amt-wrapper">
-        <p className="swap-detail-amt-details">Minimum received </p>
-        <p className="swap-detail-amt-details">
-          {props.computedOutDetails.minimum_Out
-            ? props.computedOutDetails.minimum_Out.toFixed(8)
-            : '0.00'}{' '}
-          {props.tokenOut.name}
-        </p>
-      </div>
-      <div className="swap-detail-amt-wrapper">
-        <p className="swap-detail-amt-details">Price Impact </p>
-        <p className="swap-detail-amt-details">
-          {props.computedOutDetails.priceImpact ? props.computedOutDetails.priceImpact : '0.00'} %
-        </p>
-      </div>
-      <div className="swap-detail-amt-wrapper">
-        <p className="swap-detail-amt-details">Fee </p>
-        <p className="swap-detail-amt-details">
-          {props.firstTokenAmount / 400} {props.tokenIn.name}
-        </p>
-      </div>
+      {props.firstTokenAmount && (
+        <>
+          <div className="swap-detail-amt-wrapper">
+            <p className="swap-detail-amt-details">Minimum received </p>
+            <p className="swap-detail-amt-details">
+              {props.computedOutDetails.minimum_Out
+                ? props.computedOutDetails.minimum_Out.toFixed(8)
+                : '0.00'}{' '}
+              {props.tokenOut.name}
+            </p>
+          </div>
+          <div className="swap-detail-amt-wrapper">
+            <p className="swap-detail-amt-details">Price Impact </p>
+            <p className="swap-detail-amt-details">
+              {props.computedOutDetails.priceImpact ? props.computedOutDetails.priceImpact : '0.00'}{' '}
+              %
+            </p>
+          </div>
+          <div className="swap-detail-amt-wrapper">
+            <p className="swap-detail-amt-details">Fee </p>
+            <p className="swap-detail-amt-details">
+              {props.firstTokenAmount / 400} {props.tokenIn.name}
+            </p>
+          </div>
+        </>
+      )}
+
+      {props.firstTokenAmount && swapRoute && <hr />}
+
       {swapRoute && (
         <>
-          <hr />
-
           <p className="swap-detail-amt-details">Route </p>
 
           <div className="swap-detail-route-container mt-3">
