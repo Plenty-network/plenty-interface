@@ -134,7 +134,7 @@ const SwapTab = (props) => {
             </div>
 
             <div className="token-user-input-wrapper">
-              {props.swapData.tokenOutPerTokenIn ? (
+              {props.swapData.success ? (
                 <input
                   type="text"
                   className="token-user-input"
@@ -206,7 +206,7 @@ const SwapTab = (props) => {
             </div>
 
             <div className="token-user-input-wrapper">
-              {props.swapData.tokenOutPerTokenIn && props.tokenOut.name ? (
+              {props.swapData.success && props.tokenOut.name ? (
                 <input
                   type="text"
                   className="token-user-input"
