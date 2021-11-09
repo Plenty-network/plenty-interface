@@ -156,7 +156,7 @@ const Swap = (props) => {
       new: true,
       extra: {
         text: 'Get uDEFI',
-        link: 'https://app.youves.com/udefi/minting/start'
+        link: 'https://app.youves.com/udefi/minting/start',
       },
     },
     {
@@ -538,6 +538,7 @@ const Swap = (props) => {
                   connecthWallet={props.connecthWallet}
                   tokenIn={tokenIn}
                   tokenOut={tokenOut}
+                  tokens={tokens}
                   handleTokenType={handleTokenType}
                   swapData={swapData}
                   computedOutDetails={computedOutDetails}
@@ -622,6 +623,7 @@ const Swap = (props) => {
       </Row>
       <SwapModal
         show={show}
+        activeTab={activeTab}
         onHide={handleClose}
         selectToken={selectToken}
         tokens={tokens}
@@ -630,7 +632,7 @@ const Swap = (props) => {
         tokenType={tokenType}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-      ></SwapModal>
+      />
       <InfoModal
         open={showTransactionSubmitModal}
         onClose={() => setShowTransactionSubmitModal(false)}

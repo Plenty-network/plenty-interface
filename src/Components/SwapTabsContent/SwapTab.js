@@ -3,9 +3,9 @@ import SwapDetails from '../SwapDetails';
 import ConfirmSwap from './ConfirmSwap';
 import { swapTokens } from '../../apis/swap/swap';
 import PuffLoader from 'react-spinners/PuffLoader';
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
-import Button from "../Ui/Buttons/Button";
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+import Button from '../Ui/Buttons/Button';
 
 const SwapTab = (props) => {
   const callSwapToken = () => {
@@ -16,9 +16,7 @@ const SwapTab = (props) => {
   const confirmSwapToken = () => {
     props.setLoading(true);
     props.setLoaderInButton(true);
-    let recepientAddress = props.recepient
-      ? props.recepient
-      : props.walletAddress;
+    let recepientAddress = props.recepient ? props.recepient : props.walletAddress;
     swapTokens(
       props.tokenIn.name,
       props.tokenOut.name,
@@ -28,7 +26,7 @@ const SwapTab = (props) => {
       props.walletAddress,
       props.tokenContractInstances[props.tokenIn.name],
       props.swapData.dexContractInstance,
-      props.transactionSubmitModal
+      props.transactionSubmitModal,
     ).then((swapResp) => {
       if (swapResp.success) {
         props.setLoading(false);
@@ -72,7 +70,8 @@ const SwapTab = (props) => {
       onClick={props.connecthWallet}
       color={'primary'}
       startIcon={'add'}
-      className={'mt-4 w-100 flex align-items-center justify-content-center'}>
+      className={'mt-4 w-100 flex align-items-center justify-content-center'}
+    >
       Connect Wallet
     </Button>
   );
@@ -82,7 +81,8 @@ const SwapTab = (props) => {
         <Button
           onClick={callSwapToken}
           color={'primary'}
-          className={'mt-4 w-100 flex align-items-center justify-content-center'}>
+          className={'mt-4 w-100 flex align-items-center justify-content-center'}
+        >
           Swap
         </Button>
       );
@@ -91,7 +91,8 @@ const SwapTab = (props) => {
         <Button
           onClick={() => null}
           color={'primary'}
-          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}>
+          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+        >
           Select a token
         </Button>
       );
@@ -101,15 +102,16 @@ const SwapTab = (props) => {
           onClick={() => null}
           color={'primary'}
           loading={true}
-          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}>
-        </Button>
+          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+        ></Button>
       );
     } else {
       swapContentButton = (
         <Button
           onClick={() => null}
           color={'primary'}
-          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}>
+          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+        >
           Enter an amount
         </Button>
       );
@@ -127,9 +129,7 @@ const SwapTab = (props) => {
               >
                 <img src={props.tokenIn.image} className="button-logo" />
                 <span className="span-themed">{props.tokenIn.name} </span>
-                <span className="span-themed material-icons-round">
-                  expand_more
-                </span>
+                <span className="span-themed material-icons-round">expand_more</span>
               </button>
             </div>
 
@@ -143,26 +143,19 @@ const SwapTab = (props) => {
                   onChange={(e) => props.setFirstTokenAmount(e.target.value)}
                 />
               ) : (
-                <input
-                  type="text"
-                  className="token-user-input"
-                  placeholder="0.0"
-                  disabled
-                />
+                <input type="text" className="token-user-input" placeholder="0.0" disabled />
               )}
             </div>
             {props.walletAddress ? (
-              <div
-                className="flex justify-between"
-                style={{ flex: '0 0 100%' }}
-              >
+              <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
                 {props.tokenOut.name ? (
                   <p
                     className="wallet-token-balance"
                     onClick={onClickAmount}
                     style={{ cursor: 'pointer' }}
                   >
-                    Balance: {props.userBalances[props.tokenIn.name]} <span className="max-btn">(Max)</span>
+                    Balance: {props.userBalances[props.tokenIn.name]}{' '}
+                    <span className="max-btn">(Max)</span>
                   </p>
                 ) : (
                   <p className="wallet-token-balance">
@@ -174,8 +167,7 @@ const SwapTab = (props) => {
                   ~$
                   {props.getTokenPrice.success && props.firstTokenAmount
                     ? (
-                        props.firstTokenAmount *
-                        props.getTokenPrice.tokenPrice[props.tokenIn.name]
+                        props.firstTokenAmount * props.getTokenPrice.tokenPrice[props.tokenIn.name]
                       ).toFixed(5)
                     : '0.00'}
                 </p>
@@ -201,17 +193,14 @@ const SwapTab = (props) => {
                 >
                   <img src={props.tokenOut.image} className="button-logo" />
                   <span className="span-themed">{props.tokenOut.name} </span>
-                  <span className="span-themed material-icons-round">
-                    expand_more
-                  </span>
+                  <span className="span-themed material-icons-round">expand_more</span>
                 </button>
               ) : (
                 <button
                   className="token-selector not-selected"
                   onClick={() => props.handleTokenType('tokenOut')}
                 >
-                  Select a token{' '}
-                  <span className="material-icons-round">expand_more</span>
+                  Select a token <span className="material-icons-round">expand_more</span>
                 </button>
               )}
             </div>
@@ -240,17 +229,13 @@ const SwapTab = (props) => {
               )}
             </div>
             {props.walletAddress && props.tokenOut.name ? (
-              <div
-                className="flex justify-between"
-                style={{ flex: '0 0 100%' }}
-              >
+              <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
                 <p className="wallet-token-balance">
                   Balance: {props.userBalances[props.tokenOut.name]}
                 </p>
                 <p className="wallet-token-balance">
                   ~$
-                  {props.getTokenPrice.success &&
-                  props.computedOutDetails.tokenOut_amount
+                  {props.getTokenPrice.success && props.computedOutDetails.tokenOut_amount
                     ? (
                         props.computedOutDetails.tokenOut_amount *
                         props.getTokenPrice.tokenPrice[props.tokenOut.name]
@@ -263,24 +248,26 @@ const SwapTab = (props) => {
         </div>
 
         {props.walletAddress && props.swapData.success ? (
-            <div className="flex">
-              <p className="wallet-token-balance whitespace-prewrap ml-auto flex flex-row">
-                1 {props.tokenIn.name} = {' '}
-                <OverlayTrigger
-                    placement="auto"
-                    overlay={
-                      <Tooltip id="swap-token-out-tooltip" {...props}>
-                        {props.swapData.tokenOutPerTokenIn}
-                      </Tooltip>}>
-                  <div>
-                    {props.swapData.tokenOutPerTokenIn
-                        ? props.swapData.tokenOutPerTokenIn.toFixed(3)
-                        : 0}{' '}
-                    {props.tokenOut.name}
-                  </div>
-                </OverlayTrigger>
-              </p>
-            </div>
+          <div className="flex">
+            <p className="wallet-token-balance whitespace-prewrap ml-auto flex flex-row">
+              1 {props.tokenIn.name} ={' '}
+              <OverlayTrigger
+                placement="auto"
+                overlay={
+                  <Tooltip id="swap-token-out-tooltip" {...props}>
+                    {props.swapData.tokenOutPerTokenIn}
+                  </Tooltip>
+                }
+              >
+                <div>
+                  {props.swapData.tokenOutPerTokenIn
+                    ? props.swapData.tokenOutPerTokenIn.toFixed(3)
+                    : 0}{' '}
+                  {props.tokenOut.name}
+                </div>
+              </OverlayTrigger>
+            </p>
+          </div>
         ) : null}
         {props.showRecepient ? (
           <input
@@ -294,16 +281,15 @@ const SwapTab = (props) => {
           ''
         )}
         {swapContentButton}
-        {props.walletAddress &&
-        props.firstTokenAmount &&
-        props.tokenOut.name ? (
+        {props.walletAddress && props.firstTokenAmount && props.tokenOut.name && (
           <SwapDetails
             computedOutDetails={props.computedOutDetails}
             tokenIn={props.tokenIn}
             tokenOut={props.tokenOut}
+            tokenMiddle={props.tokens.find((token) => token.name === 'PLENTY')}
             firstTokenAmount={props.firstTokenAmount}
           />
-        ) : null}
+        )}
       </div>
 
       <ConfirmSwap

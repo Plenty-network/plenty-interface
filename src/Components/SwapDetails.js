@@ -1,61 +1,16 @@
 import { MdChevronRight } from 'react-icons/all';
 import { Image } from 'react-bootstrap';
-import React, { useCallback, useEffect, useState } from 'react';
-
-const tokenRoute = [
-  {
-    name: 'PLENTY',
-  },
-  {
-    name: 'PLENTY',
-  },
-  {
-    name: 'PLENTY',
-  },
-  {
-    name: 'PLENTY',
-  },
-  {
-    name: 'PLENTY',
-  },
-];
+import React, { useMemo } from 'react';
+import config from '../config/config';
 
 const SwapDetails = (props) => {
-  const [imgPaths, setImgPath] = useState({});
+  const swapRoute = useMemo(() => {
+    if (config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]) {
+      return null;
+    }
 
-  const loadImageFor = useCallback(
-    (token) => {
-      // ? if token exists, abort
-      if (!!imgPaths[token]) {
-        return;
-      }
-
-      setImgPath((prev) => ({
-        ...prev,
-        [token]: {
-          ...prev[token],
-          loading: true,
-        },
-      }));
-
-      import(`../assets/images/tokens/${token}.png`).then((image) => {
-        setImgPath((prev) => ({
-          ...prev,
-          [token]: {
-            url: image['default'] ?? image,
-            loading: false,
-          },
-        }));
-      });
-    },
-    [imgPaths],
-  );
-
-  useEffect(() => {
-    tokenRoute.forEach((token) => {
-      loadImageFor(token.name);
-    });
-  }, []);
+    return [props.tokenIn, props.tokenMiddle, props.tokenOut];
+  }, [props.tokenIn, props.tokenMiddle, props.tokenOut]);
 
   return (
     <div className="swap-detail-wrapper bg-themed-light">
@@ -68,34 +23,35 @@ const SwapDetails = (props) => {
           {props.tokenOut.name}
         </p>
       </div>
-
       <div className="swap-detail-amt-wrapper">
         <p className="swap-detail-amt-details">Price Impact </p>
         <p className="swap-detail-amt-details">
           {props.computedOutDetails.priceImpact ? props.computedOutDetails.priceImpact : '0.00'} %
         </p>
       </div>
-
       <div className="swap-detail-amt-wrapper">
         <p className="swap-detail-amt-details">Fee </p>
         <p className="swap-detail-amt-details">
           {props.firstTokenAmount / 400} {props.tokenIn.name}
         </p>
       </div>
+      {swapRoute && (
+        <>
+          <hr />
 
-      <hr />
+          <p className="swap-detail-amt-details">Route </p>
 
-      <p className="swap-detail-amt-details">Route </p>
-
-      <div className="swap-detail-route-container mt-3">
-        {tokenRoute.map((token, idx) => (
-          <div className="d-flex my-2">
-            <Image src={imgPaths[token.name]?.url} height={20} width={20} alt={''} />
-            <span className="mx-1 my-auto">{token.name}</span>
-            {tokenRoute[idx + 1] && <MdChevronRight className="mr-1" fontSize={20} />}
+          <div className="swap-detail-route-container mt-3">
+            {swapRoute.map((token, idx) => (
+              <div className="d-flex my-2">
+                <Image src={token.image} height={20} width={20} alt={''} />
+                <span className="mx-1 my-auto">{token.name}</span>
+                {idx < 2 && <MdChevronRight className="mr-1" fontSize={20} />}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </>
+      )}
     </div>
   );
 };
