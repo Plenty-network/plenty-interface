@@ -204,6 +204,96 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
   }
 };
 
+export const getRouteSwapData = async (tokenIn, tokenOut) => {
+  try {
+    const response = await Promise.all([
+      loadSwapData(tokenIn, 'PLENTY'),
+      loadSwapData('PLENTY', tokenOut),
+    ]);
+    return {
+      success: true,
+      inToMid: response[0],
+      midToOut: response[1],
+    };
+  } catch (error) {
+    return {
+      success: false,
+      inToMid: null,
+      midToOut: null,
+    };
+  }
+};
+
+export const computeTokenOutForRouteBase = (inputAmount, swapData, slippage) => {
+  try {
+    let inToMidOutput = computeTokenOutput(
+      inputAmount,
+      swapData.inToMid.tokenIn_supply,
+      swapData.inToMid.tokenOut_supply,
+      swapData.inToMid.exchangeFee,
+      slippage,
+    );
+
+    let midToOutOutput = computeTokenOutput(
+      inToMidOutput.tokenOut_amount,
+      swapData.midToOut.tokenIn_supply,
+      swapData.midToOut.tokenOut_supply,
+      swapData.midToOut.exchangeFee,
+      slippage,
+    );
+
+    return {
+      tokenOut_amount: midToOutOutput.tokenOut_amount,
+      fees: inToMidOutput.fees,
+      minimum_Out: midToOutOutput.minimum_Out,
+      priceImpact: 0,
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      tokenOut_amount: 0,
+      fees: 0,
+      minimum_Out: 0,
+      priceImpact: 0,
+    };
+  }
+};
+
+export const computeTokenOutForRouteBaseByOutAmount = (outputAmount, swapData, slippage) => {
+  try {
+    let inToMidOutput = computeTokenOutput(
+      outputAmount,
+      swapData.midToOut.tokenIn_supply,
+      swapData.midToOut.tokenOut_supply,
+      swapData.midToOut.exchangeFee,
+      slippage,
+    );
+
+    let midToOutOutput = computeTokenOutput(
+      inToMidOutput.tokenOut_amount,
+      swapData.inToMid.tokenIn_supply,
+      swapData.inToMid.tokenOut_supply,
+      swapData.inToMid.exchangeFee,
+      slippage,
+    );
+
+    return {
+      tokenOut_amount: midToOutOutput.tokenOut_amount,
+      fees: inToMidOutput.fees + midToOutOutput.fees,
+      minimum_Out: midToOutOutput.minimum_Out,
+      priceImpact: 0,
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      tokenOut_amount: 0,
+      fees: 0,
+      minimum_Out: 0,
+      priceImpact: 0,
+    };
+  }
+};
+
 export const computeTokenOutput = (
   tokenIn_amount,
   tokenIn_supply,
