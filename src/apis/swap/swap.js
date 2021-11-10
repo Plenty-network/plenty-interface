@@ -210,16 +210,21 @@ export const getRouteSwapData = async (tokenIn, tokenOut) => {
       loadSwapData(tokenIn, 'PLENTY'),
       loadSwapData('PLENTY', tokenOut),
     ]);
+    let tokenOutPerTokenIn =
+      (response[0].tokenOut_supply / response[0].tokenIn_supply) *
+      (response[1].tokenOut_supply / response[1].tokenIn_supply);
     return {
       success: true,
       inToMid: response[0],
       midToOut: response[1],
+      tokenOutPerTokenIn: tokenOutPerTokenIn,
     };
   } catch (error) {
     return {
       success: false,
       inToMid: null,
       midToOut: null,
+      tokenOutPerTokenIn: 0,
     };
   }
 };
@@ -246,7 +251,7 @@ export const computeTokenOutForRouteBase = (inputAmount, swapData, slippage) => 
       tokenOut_amount: midToOutOutput.tokenOut_amount,
       fees: inToMidOutput.fees,
       minimum_Out: midToOutOutput.minimum_Out,
-      priceImpact: 0,
+      priceImpact: inToMidOutput.priceImpact + midToOutOutput.priceImpact,
     };
   } catch (err) {
     console.log(err);
