@@ -188,6 +188,7 @@ export const swapTokenUsingRoute = async (
     minimum_Out = Math.floor(
       minimum_Out * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_DECIMAL),
     );
+
     var DataMap = MichelsonMap.fromLiteral({
       0: {
         exchangeAddress: inputDexAddress,
@@ -208,6 +209,7 @@ export const swapTokenUsingRoute = async (
     );
 
     let batch = null;
+    console.log({ swapAmount, minimum_Out_Plenty, minimum_Out });
     if (tokenInCallType === 'FA1.2') {
       batch = Tezos.wallet
         .batch()
@@ -387,11 +389,29 @@ export const computeTokenOutForRouteBaseByOutAmount = (outputAmount, swapData, s
       slippage,
     );
 
+    let forPlenty = computeTokenOutput(
+      midToOutOutput.tokenOut_amount,
+      swapData.inToMid.tokenIn_supply,
+      swapData.inToMid.tokenOut_supply,
+      swapData.inToMid.exchangeFee,
+      slippage,
+    );
+
+    let minimum_Out;
+    minimum_Out = outputAmount - (slippage * outputAmount) / 100;
+
+    // let minimum_Out_Plenty;
+    // minimum_Out_Plenty =
+    //   inToMidOutput.tokenOut_amount - (slippage * inToMidOutput.tokenOut_amount) / 100;
+
+    // console.log({ minimum_Out_Plenty, actual: inToMidOutput.minimum_Out });
     return {
       tokenIn_amount: midToOutOutput.tokenOut_amount,
+      tokenOut_amount: outputAmount,
       fees: midToOutOutput.fees,
-      minimum_Out: midToOutOutput.minimum_Out,
-      minimum_Out_Plenty: inToMidOutput.minimum_Out,
+      minimum_Out: minimum_Out,
+      //minimum_Out_Plenty: inToMidOutput.minimum_Out,
+      minimum_Out_Plenty: forPlenty.minimum_Out,
       priceImpact: inToMidOutput.priceImpact + midToOutOutput.priceImpact,
     };
   } catch (err) {
