@@ -11,7 +11,7 @@ import settingsReducer from '../slices/settings/settings.slice';
 
 import farmsReducer from '../slices/farms/farms.slice';
 import xPlentyReducer from '../slices/xPlenty/xPlenty.slice';
-import tokenReducer from '../slices/tokens/tokens.slice';
+import tokensApi from '../slices/tokens/tokens.query';
 
 const rootReducer = {
   user: userReducer,
@@ -24,10 +24,13 @@ const rootReducer = {
   home: homeReducer,
   settings: settingsReducer,
   xPlenty: xPlentyReducer,
-  tokens : tokenReducer,
+  [tokensApi.reducerPath]: tokensApi.reducer,
 };
 
 //const store = createStore(rootReducer);
-const store = configureStore({ reducer: rootReducer });
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(tokensApi.middleware),
+});
 
 export default store;
