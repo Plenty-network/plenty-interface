@@ -189,7 +189,7 @@ const Tokens = () => {
           return (
             <SimpleLineChart
               data={value}
-              color={changePositive ? '#0FC7A6' : '#FF3F56'}
+              color={changePositive ? '#4FBF67' : '#FF7A68'}
               className="mx-2"
             />
           );
