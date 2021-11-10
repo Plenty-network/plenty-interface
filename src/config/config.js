@@ -1913,8 +1913,6 @@ module.exports = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=ctez',
             isDualFarm: false,
-            message: '😍 Double reward rate until November 11',
-            bannerType: 'info',
           },
         ],
         inactive: [],
