@@ -21,7 +21,7 @@ const Tokens = () => {
     isLoading,
     error,
   } = useGetTokensQuery(undefined, {
-    pollingInterval: 3_000,
+    pollingInterval: 30_000,
   });
 
   const { data: priceChangeData = {}, isLoading: priceChangeLoading } = useGet7DaysChangeQuery(
