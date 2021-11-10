@@ -13,11 +13,9 @@ import { useFavoriteToken } from './useTokensPage';
 import { TokensSymbol, TokensSymbolHeader } from '../../Components/TokensPage/TokensSymbol';
 import { ReactComponent as FavoriteIconGradient } from '../../assets/images/tokens/favorite-icon-fill.svg';
 
-/* TODO
-1. Favorite Token
-2. Token Search
-3. Token symbol
- */
+import priceChangeMock from './mockData';
+import SimpleLineChart from '../../Components/Charts/SimpleLineChart';
+
 const Tokens = (props) => {
   const [imgPaths, setImgPath] = useState({});
 
@@ -167,11 +165,33 @@ const Tokens = (props) => {
         Cell: (row) => <span>${valueFormat(row.value)}</span>,
       },
       {
+        id: 'price7d',
+        Header: 'Last 7 Days',
+        accessor: 'price_history_7d',
+        Cell: () => {
+          // ! Mock Data
+          const value = priceChangeMock;
+
+          if (value.length === 0) return <div>N/A</div>;
+
+          const changePositive = value[value.length - 1].value >= value[0].value;
+          return (
+            <SimpleLineChart
+              data={value}
+              color={changePositive ? '#0FC7A6' : '#FF3F56'}
+              className="mx-2"
+            />
+          );
+        },
+        minWidth: 170,
+        disableSortBy: true,
+      },
+      {
         disableSortBy: true,
         Header: '',
         id: 'trade',
         accessor: (x) => (
-          <Link style={{ textDecoration: 'none' }}  to={`/swap?from=${x.symbol_token}`}>
+          <Link style={{ textDecoration: 'none' }} to={`/swap?from=${x.symbol_token}`}>
             <Button color="primary" className={styles.tradeBtn}>
               Trade
             </Button>
@@ -219,10 +239,10 @@ const Tokens = (props) => {
               </InputGroup.Text>
             </InputGroup.Prepend>
             <FormControl
-                placeholder="Search"
-                className={`shadow-none border-left-0 ${styles.searchBox}`}
-                value={searchQuery}
-                onChange={(ev) => setSearchQuery(ev.target.value)}
+              placeholder="Search"
+              className={`shadow-none border-left-0 ${styles.searchBox}`}
+              value={searchQuery}
+              onChange={(ev) => setSearchQuery(ev.target.value)}
             />
           </InputGroup>
         </div>
