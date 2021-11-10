@@ -1,23 +1,31 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Container from 'react-bootstrap/Container';
-import { tokenFetchingThunk } from '../../redux/slices/tokens/tokens.thunk';
 import styles from './tokens.module.scss';
-import { connect } from 'react-redux';
 import Table from '../../Components/Table/Table';
 import Button from '../../Components/Ui/Buttons/Button';
 import { PuffLoader } from 'react-spinners';
 import { BsSearch } from 'react-icons/bs';
 import { FormControl, Image, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import SimpleLineChart from '../../Components/Charts/SimpleLineChart';
 import { useFavoriteToken } from './useTokensPage';
 import { TokensSymbol, TokensSymbolHeader } from '../../Components/TokensPage/TokensSymbol';
 import { ReactComponent as FavoriteIconGradient } from '../../assets/images/tokens/favorite-icon-fill.svg';
+import { useGet7DaysChangeQuery, useGetTokensQuery } from '../../redux/slices/tokens/tokens.query';
 
-import priceChangeMock from './mockData';
-import SimpleLineChart from '../../Components/Charts/SimpleLineChart';
-
-const Tokens = (props) => {
+const Tokens = () => {
   const [imgPaths, setImgPath] = useState({});
+
+  const { data = [] } = useGetTokensQuery(undefined, {
+    pollingInterval: 30_000,
+  });
+
+  const { data: priceChangeData = {}, isLoading: priceChangeLoading } = useGet7DaysChangeQuery(
+    undefined,
+    {
+      pollingInterval: 30_000,
+    },
+  );
 
   const loadImageFor = useCallback(
     (token) => {
@@ -48,10 +56,10 @@ const Tokens = (props) => {
   );
 
   useEffect(() => {
-    props.tokens.data.forEach((datum) => {
+    data.forEach((datum) => {
       loadImageFor(datum.symbol_token);
     });
-  }, [loadImageFor, props.tokens.data]);
+  }, [loadImageFor, data]);
 
   const positiveOrNegative = (value) => {
     if (Number(value) > 0) {
@@ -97,13 +105,11 @@ const Tokens = (props) => {
   // ? Move to React Table filter later
   const finalData = useMemo(() => {
     if (isOnlyFavTokens) {
-      return (
-        props.tokens.data?.filter((datum) => favoriteTokens.includes(datum.symbol_token)) ?? []
-      );
+      return data?.filter((datum) => favoriteTokens.includes(datum.symbol_token)) ?? [];
     }
 
-    return props.tokens.data ?? [];
-  }, [favoriteTokens, isOnlyFavTokens, props.tokens.data]);
+    return data;
+  }, [favoriteTokens, isOnlyFavTokens, data]);
 
   const columns = useMemo(
     () => [
@@ -169,8 +175,9 @@ const Tokens = (props) => {
         Header: 'Last 7 Days',
         accessor: 'symbol_token',
         Cell: (row) => {
-          // ! Mock Data
-          const value = [...priceChangeMock[row.value]].reverse();
+          const value = [...(priceChangeData[row.value] ?? [])].reverse();
+
+          if (priceChangeLoading) return <div />;
 
           if (value.length === 0) return <div>N/A</div>;
 
@@ -205,25 +212,13 @@ const Tokens = (props) => {
       setIsOnlyFavTokens,
       stringSort,
       numberSort,
-      imgPaths,
       favoriteTokens,
       editFavoriteTokenList,
+      imgPaths,
+      priceChangeData,
+      priceChangeLoading,
     ],
   );
-
-  useEffect(() => {
-    const fetchDataContinuously = () => {
-      props.fetchTokensData();
-    };
-
-    fetchDataContinuously();
-    const backgroundRefresh = setInterval(() => {
-      fetchDataContinuously();
-    }, 30 * 1000);
-
-    return () => clearInterval(backgroundRefresh);
-    //props.fetchTokensData();
-  }, []);
 
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -247,7 +242,7 @@ const Tokens = (props) => {
           </InputGroup>
         </div>
 
-        {props.tokens.data.length > 0 ? (
+        {data.length > 0 ? (
           <div>
             <Table searchQuery={searchQuery} data={finalData} columns={columns} />
           </div>
@@ -265,16 +260,4 @@ const Tokens = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    tokens: state.tokens.tokensData,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchTokensData: () => dispatch(tokenFetchingThunk()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Tokens);
+export default Tokens;
