@@ -210,7 +210,7 @@ export const getRouteSwapData = async (tokenIn, tokenOut) => {
       loadSwapData(tokenIn, 'PLENTY'),
       loadSwapData('PLENTY', tokenOut),
     ]);
-    let tokenOutPerTokenIn =
+    const tokenOutPerTokenIn =
       (response[0].tokenOut_supply / response[0].tokenIn_supply) *
       (response[1].tokenOut_supply / response[1].tokenIn_supply);
     return {
