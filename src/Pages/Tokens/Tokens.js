@@ -167,10 +167,10 @@ const Tokens = (props) => {
       {
         id: 'price7d',
         Header: 'Last 7 Days',
-        accessor: 'price_history_7d',
-        Cell: () => {
+        accessor: 'symbol_token',
+        Cell: (row) => {
           // ! Mock Data
-          const value = priceChangeMock;
+          const value = [...priceChangeMock[row.value]].reverse();
 
           if (value.length === 0) return <div>N/A</div>;
 
