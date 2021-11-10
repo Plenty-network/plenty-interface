@@ -1,25 +1,35 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Container from 'react-bootstrap/Container';
-import { tokenFetchingThunk } from '../../redux/slices/tokens/tokens.thunk';
 import styles from './tokens.module.scss';
-import { connect } from 'react-redux';
 import Table from '../../Components/Table/Table';
 import Button from '../../Components/Ui/Buttons/Button';
 import { PuffLoader } from 'react-spinners';
 import { BsSearch } from 'react-icons/bs';
 import { FormControl, Image, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import SimpleLineChart from '../../Components/Charts/SimpleLineChart';
 import { useFavoriteToken } from './useTokensPage';
 import { TokensSymbol, TokensSymbolHeader } from '../../Components/TokensPage/TokensSymbol';
 import { ReactComponent as FavoriteIconGradient } from '../../assets/images/tokens/favorite-icon-fill.svg';
+import { useGet7DaysChangeQuery, useGetTokensQuery } from '../../redux/slices/tokens/tokens.query';
 
-/* TODO
-1. Favorite Token
-2. Token Search
-3. Token symbol
- */
-const Tokens = (props) => {
+const Tokens = () => {
   const [imgPaths, setImgPath] = useState({});
+
+  const {
+    data = [],
+    isLoading,
+    error,
+  } = useGetTokensQuery(undefined, {
+    pollingInterval: 30_000,
+  });
+
+  const { data: priceChangeData = {}, isLoading: priceChangeLoading } = useGet7DaysChangeQuery(
+    undefined,
+    {
+      pollingInterval: 30_000,
+    },
+  );
 
   const loadImageFor = useCallback(
     (token) => {
@@ -50,10 +60,10 @@ const Tokens = (props) => {
   );
 
   useEffect(() => {
-    props.tokens.data.forEach((datum) => {
+    data.forEach((datum) => {
       loadImageFor(datum.symbol_token);
     });
-  }, [loadImageFor, props.tokens.data]);
+  }, [loadImageFor, data]);
 
   const positiveOrNegative = (value) => {
     if (Number(value) > 0) {
@@ -99,13 +109,11 @@ const Tokens = (props) => {
   // ? Move to React Table filter later
   const finalData = useMemo(() => {
     if (isOnlyFavTokens) {
-      return (
-        props.tokens.data?.filter((datum) => favoriteTokens.includes(datum.symbol_token)) ?? []
-      );
+      return data?.filter((datum) => favoriteTokens.includes(datum.symbol_token)) ?? [];
     }
 
-    return props.tokens.data ?? [];
-  }, [favoriteTokens, isOnlyFavTokens, props.tokens.data]);
+    return data;
+  }, [favoriteTokens, isOnlyFavTokens, data]);
 
   const columns = useMemo(
     () => [
@@ -167,11 +175,34 @@ const Tokens = (props) => {
         Cell: (row) => <span>${valueFormat(row.value)}</span>,
       },
       {
+        id: 'price7d',
+        Header: 'Last 7 Days',
+        accessor: 'symbol_token',
+        Cell: (row) => {
+          const value = [...(priceChangeData[row.value] ?? [])].reverse();
+
+          if (priceChangeLoading) return <div />;
+
+          if (value.length === 0) return <div>N/A</div>;
+
+          const changePositive = value[value.length - 1].value >= value[0].value;
+          return (
+            <SimpleLineChart
+              data={value}
+              color={changePositive ? '#0FC7A6' : '#FF3F56'}
+              className="mx-2"
+            />
+          );
+        },
+        minWidth: 170,
+        disableSortBy: true,
+      },
+      {
         disableSortBy: true,
         Header: '',
         id: 'trade',
         accessor: (x) => (
-          <Link style={{ textDecoration: 'none' }}  to={`/swap?from=${x.symbol_token}`}>
+          <Link style={{ textDecoration: 'none' }} to={`/swap?from=${x.symbol_token}`}>
             <Button color="primary" className={styles.tradeBtn}>
               Trade
             </Button>
@@ -185,25 +216,13 @@ const Tokens = (props) => {
       setIsOnlyFavTokens,
       stringSort,
       numberSort,
-      imgPaths,
       favoriteTokens,
       editFavoriteTokenList,
+      imgPaths,
+      priceChangeData,
+      priceChangeLoading,
     ],
   );
-
-  useEffect(() => {
-    const fetchDataContinuously = () => {
-      props.fetchTokensData();
-    };
-
-    fetchDataContinuously();
-    const backgroundRefresh = setInterval(() => {
-      fetchDataContinuously();
-    }, 30 * 1000);
-
-    return () => clearInterval(backgroundRefresh);
-    //props.fetchTokensData();
-  }, []);
 
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -219,22 +238,24 @@ const Tokens = (props) => {
               </InputGroup.Text>
             </InputGroup.Prepend>
             <FormControl
-                placeholder="Search"
-                className={`shadow-none border-left-0 ${styles.searchBox}`}
-                value={searchQuery}
-                onChange={(ev) => setSearchQuery(ev.target.value)}
+              placeholder="Search"
+              className={`shadow-none border-left-0 ${styles.searchBox}`}
+              value={searchQuery}
+              onChange={(ev) => setSearchQuery(ev.target.value)}
             />
           </InputGroup>
         </div>
 
-        {props.tokens.data.length > 0 ? (
+        {data.length > 0 && (
           <div>
             <Table searchQuery={searchQuery} data={finalData} columns={columns} />
           </div>
-        ) : (
+        )}
+
+        {data.length === 0 && (isLoading || error) && (
           <div className="d-flex justify-content-between w-100" style={{ height: 800 }}>
             <div className="m-auto">
-              <PuffLoader color={'#813CE1'} size={56} />
+              {error ? <div>Something went wrong</div> : <PuffLoader color={'#813CE1'} size={56} />}
             </div>
           </div>
         )}
@@ -245,16 +266,4 @@ const Tokens = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    tokens: state.tokens.tokensData,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchTokensData: () => dispatch(tokenFetchingThunk()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Tokens);
+export default Tokens;
