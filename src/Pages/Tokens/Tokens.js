@@ -16,8 +16,12 @@ import { useGet7DaysChangeQuery, useGetTokensQuery } from '../../redux/slices/to
 const Tokens = () => {
   const [imgPaths, setImgPath] = useState({});
 
-  const { data = [] } = useGetTokensQuery(undefined, {
-    pollingInterval: 30_000,
+  const {
+    data = [],
+    isLoading,
+    error,
+  } = useGetTokensQuery(undefined, {
+    pollingInterval: 3_000,
   });
 
   const { data: priceChangeData = {}, isLoading: priceChangeLoading } = useGet7DaysChangeQuery(
@@ -242,14 +246,16 @@ const Tokens = () => {
           </InputGroup>
         </div>
 
-        {data.length > 0 ? (
+        {data.length > 0 && (
           <div>
             <Table searchQuery={searchQuery} data={finalData} columns={columns} />
           </div>
-        ) : (
+        )}
+
+        {data.length === 0 && (isLoading || error) && (
           <div className="d-flex justify-content-between w-100" style={{ height: 800 }}>
             <div className="m-auto">
-              <PuffLoader color={'#813CE1'} size={56} />
+              {error ? <div>Something went wrong</div> : <PuffLoader color={'#813CE1'} size={56} />}
             </div>
           </div>
         )}
