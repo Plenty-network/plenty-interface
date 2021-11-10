@@ -318,7 +318,7 @@ const Swap = (props) => {
           slippage,
         );
       }
-
+      console.log({ computedData });
       setFirstTokenAmount(computedData.tokenIn_amount);
       setComputedOutDetails(computedData);
     }

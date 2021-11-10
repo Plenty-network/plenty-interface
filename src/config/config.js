@@ -776,6 +776,9 @@ module.exports = {
     },
     testnet: {},
   },
+  ROUTER: {
+    mainnet: 'KT1FHZYKVJ8bhrKWTxfjYbFuVhVeWiXLxZq1',
+  },
   AMM: {
     testnet: {
       PLENTY: {
