@@ -2,7 +2,9 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const tokensApi = createApi({
   reducerPath: 'tokens',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://indexer.plentydefi.com/' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'https://indexer.plentydefi.com/',
+  }),
   tagTypes: ['tokens', '7day-price'],
   endpoints: (builder) => ({
     getTokens: builder.query({
