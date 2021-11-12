@@ -373,7 +373,7 @@ export const computeTokenOutForRouteBase = (inputAmount, swapData, slippage) => 
 
 export const computeTokenOutForRouteBaseByOutAmount = (outputAmount, swapData, slippage) => {
   try {
-    let inToMidOutput = computeTokenOutput(
+    const inToMidOutput = computeTokenOutput(
       outputAmount,
       swapData.midToOut.tokenOut_supply,
       swapData.midToOut.tokenIn_supply,
@@ -381,7 +381,7 @@ export const computeTokenOutForRouteBaseByOutAmount = (outputAmount, swapData, s
       slippage,
     );
 
-    let midToOutOutput = computeTokenOutput(
+    const midToOutOutput = computeTokenOutput(
       inToMidOutput.tokenOut_amount,
       swapData.inToMid.tokenOut_supply,
       swapData.inToMid.tokenIn_supply,
@@ -389,7 +389,7 @@ export const computeTokenOutForRouteBaseByOutAmount = (outputAmount, swapData, s
       slippage,
     );
 
-    let forPlenty = computeTokenOutput(
+    const forPlenty = computeTokenOutput(
       midToOutOutput.tokenOut_amount,
       swapData.inToMid.tokenIn_supply,
       swapData.inToMid.tokenOut_supply,

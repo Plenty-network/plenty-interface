@@ -18,6 +18,28 @@ const SwapTab = (props) => {
     return !!config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name];
   }, [props.tokenIn, props.tokenOut]);
 
+  const handleSwapResponse = (status) => {
+    if (status) {
+      props.setLoading(false);
+      props.handleLoaderMessage('success', 'Transaction confirmed');
+      props.setShowConfirmSwap(false);
+      props.setHideContent('');
+      props.setSecondTokenAmount('');
+      props.resetAllValues();
+      props.fetchUserWalletBalance();
+      props.setLoaderInButton(false);
+    } else {
+      props.setLoading(false);
+      props.handleLoaderMessage('error', 'Transaction failed');
+      props.setShowConfirmSwap(false);
+      props.setHideContent('');
+      props.resetAllValues();
+      props.setSecondTokenAmount('');
+      props.fetchUserWalletBalance();
+      props.setLoaderInButton(false);
+    }
+  };
+
   const confirmSwapToken = () => {
     props.setLoading(true);
     props.setLoaderInButton(true);
@@ -35,31 +57,31 @@ const SwapTab = (props) => {
         props.swapData.dexContractInstance,
         props.transactionSubmitModal,
       ).then((swapResp) => {
-        if (swapResp.success) {
-          props.setLoading(false);
-          props.handleLoaderMessage('success', 'Transaction confirmed');
-          props.setShowConfirmSwap(false);
-          props.setHideContent('');
-          props.setSecondTokenAmount('');
-          props.resetAllValues();
-          props.fetchUserWalletBalance();
-          props.setLoaderInButton(false);
-          setTimeout(() => {
-            props.setLoaderMessage({});
-          }, 5000);
-        } else {
-          props.setLoading(false);
-          props.handleLoaderMessage('error', 'Transaction failed');
-          props.setShowConfirmSwap(false);
-          props.setHideContent('');
-          props.resetAllValues();
-          props.setSecondTokenAmount('');
-          props.fetchUserWalletBalance();
-          props.setLoaderInButton(false);
-          setTimeout(() => {
-            props.setLoaderMessage({});
-          }, 5000);
-        }
+        // if (swapResp.success) {
+        //   props.setLoading(false);
+        //   props.handleLoaderMessage('success', 'Transaction confirmed');
+        //   props.setShowConfirmSwap(false);
+        //   props.setHideContent('');
+        //   props.setSecondTokenAmount('');
+        //   props.resetAllValues();
+        //   props.fetchUserWalletBalance();
+        //   props.setLoaderInButton(false);
+        //   setTimeout(() => {
+        //     props.setLoaderMessage({});
+        //   }, 5000);
+        // } else {
+        //   props.setLoading(false);
+        //   props.handleLoaderMessage('error', 'Transaction failed');
+        //   props.setShowConfirmSwap(false);
+        //   props.setHideContent('');
+        //   props.resetAllValues();
+        //   props.setSecondTokenAmount('');
+        //   props.fetchUserWalletBalance();
+        //   props.setLoaderInButton(false);
+        handleSwapResponse(swapResp.success);
+        setTimeout(() => {
+          props.setLoaderMessage({});
+        }, 5000);
       });
     } else {
       swapTokenUsingRoute(
@@ -70,31 +92,31 @@ const SwapTab = (props) => {
         props.computedOutDetails.minimum_Out,
         props.computedOutDetails.minimum_Out_Plenty,
       ).then((swapResp) => {
-        if (swapResp.success) {
-          props.setLoading(false);
-          props.handleLoaderMessage('success', 'Transaction confirmed');
-          props.setShowConfirmSwap(false);
-          props.setHideContent('');
-          props.setSecondTokenAmount('');
-          props.resetAllValues();
-          props.fetchUserWalletBalance();
-          props.setLoaderInButton(false);
-          setTimeout(() => {
-            props.setLoaderMessage({});
-          }, 5000);
-        } else {
-          props.setLoading(false);
-          props.handleLoaderMessage('error', 'Transaction failed');
-          props.setShowConfirmSwap(false);
-          props.setHideContent('');
-          props.resetAllValues();
-          props.setSecondTokenAmount('');
-          props.fetchUserWalletBalance();
-          props.setLoaderInButton(false);
-          setTimeout(() => {
-            props.setLoaderMessage({});
-          }, 5000);
-        }
+        // if (swapResp.success) {
+        //   props.setLoading(false);
+        //   props.handleLoaderMessage('success', 'Transaction confirmed');
+        //   props.setShowConfirmSwap(false);
+        //   props.setHideContent('');
+        //   props.setSecondTokenAmount('');
+        //   props.resetAllValues();
+        //   props.fetchUserWalletBalance();
+        //   props.setLoaderInButton(false);
+        //   setTimeout(() => {
+        //     props.setLoaderMessage({});
+        //   }, 5000);
+        // } else {
+        //   props.setLoading(false);
+        //   props.handleLoaderMessage('error', 'Transaction failed');
+        //   props.setShowConfirmSwap(false);
+        //   props.setHideContent('');
+        //   props.resetAllValues();
+        //   props.setSecondTokenAmount('');
+        //   props.fetchUserWalletBalance();
+        //   props.setLoaderInButton(false);
+        handleSwapResponse(swapResp.success);
+        setTimeout(() => {
+          props.setLoaderMessage({});
+        }, 5000);
       });
     }
   };
