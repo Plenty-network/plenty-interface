@@ -186,8 +186,8 @@ const Swap = (props) => {
   const [recepient, setRecepient] = useState('');
   const [tokenType, setTokenType] = useState('tokenIn');
   const [tokenOut, setTokenOut] = useState({});
-  const [firstTokenAmount, setFirstTokenAmount] = useState();
-  const [secondTokenAmount, setSecondTokenAmount] = useState();
+  const [firstTokenAmount, setFirstTokenAmount] = useState('');
+  const [secondTokenAmount, setSecondTokenAmount] = useState('');
   const [swapData, setSwapData] = useState({});
   const [computedOutDetails, setComputedOutDetails] = useState({});
   const [getTokenPrice, setGetTokenPrice] = useState({});
@@ -261,7 +261,6 @@ const Swap = (props) => {
         tokenOut_amount: '',
         fees: 0,
       });
-      return;
     } else {
       const computedData = computeTokenOutput(
         parseFloat(input),
@@ -285,7 +284,6 @@ const Swap = (props) => {
         tokenOut_amount: '',
         fees: 0,
       });
-      return;
     } else {
       const computedData = computeOutputBasedOnTokenOutAmount(
         parseFloat(input),
@@ -341,17 +339,13 @@ const Swap = (props) => {
     setTokenType('tokenIn');
     setFirstTokenAmount('');
     setSecondTokenAmount('');
-    setSwapData({});
     setComputedOutDetails({
       tokenOut_amount: '',
     });
-    setGetTokenPrice({});
-    setTokenContractInstances({});
     setTokenIn({
       name: 'PLENTY',
       image: plenty,
     });
-    setTokenOut({});
   };
   const [showRecepient, setShowRecepient] = useState(false);
   const handleRecepient = (elem) => {
@@ -376,7 +370,7 @@ const Swap = (props) => {
 
   let showActiveTab = localStorage.getItem('activeTab') ?? 'swap';
 
-  if (window.location.pathname.replace('/', '') == 'liquidity' || activeTab == 'liquidity') {
+  if (window.location.pathname.replace('/', '') === 'liquidity' || activeTab === 'liquidity') {
     showActiveTab = 'liquidity';
   }
 
@@ -396,7 +390,7 @@ const Swap = (props) => {
         image: token.image,
       });
 
-      if (window.location.pathname.replace('/', '') == 'swap') {
+      if (window.location.pathname.replace('/', '') === 'swap') {
         if (tokenOut.name) {
           window.history.pushState(
             {
@@ -442,7 +436,7 @@ const Swap = (props) => {
         name: token.name,
         image: token.image,
       });
-      if (window.location.pathname.replace('/', '') == 'swap') {
+      if (window.location.pathname.replace('/', '') === 'swap') {
         window.history.pushState(
           {
             path: `/swap?from=${tokenIn.name}&to=${token.name}`,
@@ -478,7 +472,7 @@ const Swap = (props) => {
     if (params.from !== params.to) {
       if (params.from) {
         tokens.map((token) => {
-          if (token.name == params.from) {
+          if (token.name === params.from) {
             setTokenIn({
               name: params.from,
               image: token.image,
@@ -489,7 +483,7 @@ const Swap = (props) => {
 
       if (params.to) {
         tokens.map((token) => {
-          if (token.name == params.to) {
+          if (token.name === params.to) {
             setTokenOut({
               name: params.to,
               image: token.image,
@@ -630,7 +624,7 @@ const Swap = (props) => {
         tokenType={tokenType}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-      ></SwapModal>
+      />
       <InfoModal
         open={showTransactionSubmitModal}
         onClose={() => setShowTransactionSubmitModal(false)}
