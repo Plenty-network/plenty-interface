@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   loadSwapData,
   computeTokenOutput,
   fetchAllWalletBalance,
   getTokenPrices,
   computeOutputBasedOnTokenOutAmount,
+  getRouteSwapData,
+  computeTokenOutForRouteBase,
+  computeTokenOutForRouteBaseByOutAmount,
 } from '../apis/swap/swap';
+import config from '../config/config';
 
 import TransactionSettings from '../Components/TransactionSettings/TransactionSettings';
 import SwapModal from '../Components/SwapModal/SwapModal';
@@ -156,7 +160,7 @@ const Swap = (props) => {
       new: true,
       extra: {
         text: 'Get uDEFI',
-        link: 'https://app.youves.com/udefi/minting/start'
+        link: 'https://app.youves.com/udefi/minting/start',
       },
     },
     {
@@ -206,6 +210,10 @@ const Swap = (props) => {
   if (parameters.tokenA && parameters.tokenB) {
     localStorage.setItem('activeTab', 'liquidity');
   }
+
+  const pairExist = useMemo(() => {
+    return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
+  }, [tokenIn, tokenOut]);
 
   const handleClose = () => {
     setShow(false);
@@ -262,13 +270,20 @@ const Swap = (props) => {
         fees: 0,
       });
     } else {
-      const computedData = computeTokenOutput(
-        parseFloat(input),
-        swapData.tokenIn_supply,
-        swapData.tokenOut_supply,
-        swapData.exchangeFee,
-        slippage,
-      );
+      let computedData;
+
+      if (pairExist) {
+        computedData = computeTokenOutput(
+          parseFloat(input),
+          swapData.tokenIn_supply,
+          swapData.tokenOut_supply,
+          swapData.exchangeFee,
+          slippage,
+        );
+      } else {
+        computedData = computeTokenOutForRouteBase(parseFloat(input), swapData, slippage);
+      }
+
       setComputedOutDetails(computedData);
       setLoading(false);
     }
@@ -285,13 +300,22 @@ const Swap = (props) => {
         fees: 0,
       });
     } else {
-      const computedData = computeOutputBasedOnTokenOutAmount(
-        parseFloat(input),
-        swapData.tokenIn_supply,
-        swapData.tokenOut_supply,
-        swapData.exchangeFee,
-        slippage,
-      );
+      let computedData;
+      if (pairExist) {
+        computedData = computeOutputBasedOnTokenOutAmount(
+          parseFloat(input),
+          swapData.tokenIn_supply,
+          swapData.tokenOut_supply,
+          swapData.exchangeFee,
+          slippage,
+        );
+      } else {
+        computedData = computeTokenOutForRouteBaseByOutAmount(
+          parseFloat(input),
+          swapData,
+          slippage,
+        );
+      }
       setFirstTokenAmount(computedData.tokenIn_amount);
       setComputedOutDetails(computedData);
     }
@@ -424,13 +448,22 @@ const Swap = (props) => {
         }
       }
 
-      loadSwapData(token.name, tokenOut.name).then((data) => {
-        if (data.success) {
-          setSwapData(data);
-          //setLoading(false);
-          setLoaderInButton(false);
-        }
-      });
+      if (!pairExist) {
+        getRouteSwapData(tokenIn.name, token.name).then((data) => {
+          if (data.success) {
+            //setLoading(false);
+            setLoaderInButton(false);
+          }
+        });
+      } else {
+        loadSwapData(token.name, tokenOut.name).then((data) => {
+          if (data.success) {
+            setSwapData(data);
+            //setLoading(false);
+            setLoaderInButton(false);
+          }
+        });
+      }
     } else {
       setTokenOut({
         name: token.name,
@@ -454,13 +487,23 @@ const Swap = (props) => {
         );
       }
 
-      loadSwapData(tokenIn.name, token.name).then((data) => {
-        if (data.success) {
-          setSwapData(data);
-          //setLoading(false);
-          setLoaderInButton(false);
-        }
-      });
+      if (!pairExist) {
+        getRouteSwapData(tokenIn.name, token.name).then((data) => {
+          if (data.success) {
+            setSwapData(data);
+            //setLoading(false);
+            setLoaderInButton(false);
+          }
+        });
+      } else {
+        loadSwapData(tokenIn.name, token.name).then((data) => {
+          if (data.success) {
+            setSwapData(data);
+            //setLoading(false);
+            setLoaderInButton(false);
+          }
+        });
+      }
     }
     handleClose();
   };
@@ -522,6 +565,8 @@ const Swap = (props) => {
               defaultActiveKey={showActiveTab}
               className="swap-container-tab"
               onSelect={(e) => storeActiveTab(e)}
+              mountOnEnter={true}
+              unmountOnExit={true}
             >
               <Tab eventKey="swap" title="Swap">
                 <SwapTab
@@ -532,6 +577,7 @@ const Swap = (props) => {
                   connecthWallet={props.connecthWallet}
                   tokenIn={tokenIn}
                   tokenOut={tokenOut}
+                  tokens={tokens}
                   handleTokenType={handleTokenType}
                   swapData={swapData}
                   computedOutDetails={computedOutDetails}
@@ -616,6 +662,7 @@ const Swap = (props) => {
       </Row>
       <SwapModal
         show={show}
+        activeTab={activeTab}
         onHide={handleClose}
         selectToken={selectToken}
         tokens={tokens}
