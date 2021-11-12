@@ -57,27 +57,6 @@ const SwapTab = (props) => {
         props.swapData.dexContractInstance,
         props.transactionSubmitModal,
       ).then((swapResp) => {
-        // if (swapResp.success) {
-        //   props.setLoading(false);
-        //   props.handleLoaderMessage('success', 'Transaction confirmed');
-        //   props.setShowConfirmSwap(false);
-        //   props.setHideContent('');
-        //   props.setSecondTokenAmount('');
-        //   props.resetAllValues();
-        //   props.fetchUserWalletBalance();
-        //   props.setLoaderInButton(false);
-        //   setTimeout(() => {
-        //     props.setLoaderMessage({});
-        //   }, 5000);
-        // } else {
-        //   props.setLoading(false);
-        //   props.handleLoaderMessage('error', 'Transaction failed');
-        //   props.setShowConfirmSwap(false);
-        //   props.setHideContent('');
-        //   props.resetAllValues();
-        //   props.setSecondTokenAmount('');
-        //   props.fetchUserWalletBalance();
-        //   props.setLoaderInButton(false);
         handleSwapResponse(swapResp.success);
         setTimeout(() => {
           props.setLoaderMessage({});
@@ -92,27 +71,6 @@ const SwapTab = (props) => {
         props.computedOutDetails.minimum_Out,
         props.computedOutDetails.minimum_Out_Plenty,
       ).then((swapResp) => {
-        // if (swapResp.success) {
-        //   props.setLoading(false);
-        //   props.handleLoaderMessage('success', 'Transaction confirmed');
-        //   props.setShowConfirmSwap(false);
-        //   props.setHideContent('');
-        //   props.setSecondTokenAmount('');
-        //   props.resetAllValues();
-        //   props.fetchUserWalletBalance();
-        //   props.setLoaderInButton(false);
-        //   setTimeout(() => {
-        //     props.setLoaderMessage({});
-        //   }, 5000);
-        // } else {
-        //   props.setLoading(false);
-        //   props.handleLoaderMessage('error', 'Transaction failed');
-        //   props.setShowConfirmSwap(false);
-        //   props.setHideContent('');
-        //   props.resetAllValues();
-        //   props.setSecondTokenAmount('');
-        //   props.fetchUserWalletBalance();
-        //   props.setLoaderInButton(false);
         handleSwapResponse(swapResp.success);
         setTimeout(() => {
           props.setLoaderMessage({});
