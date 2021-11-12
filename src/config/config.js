@@ -777,7 +777,7 @@ module.exports = {
     testnet: {},
   },
   ROUTER: {
-    mainnet: 'KT1FHZYKVJ8bhrKWTxfjYbFuVhVeWiXLxZq1',
+    mainnet: 'KT1QzuJg2dJZVSoDf56BmvPGMduWzjYggkf5',
   },
   AMM: {
     testnet: {
@@ -1000,11 +1000,11 @@ module.exports = {
             property: 'token1_pool',
             liquidityToken: 'PlentywUSDClp',
           },
-          USDtz: {
-            contract: 'KT1EJMMismkf6TQdMzgx8hb1HpiiRVV8ZSm4',
-            property: 'token2_pool',
-            liquidityToken: 'wUSDC-USDtz-LP',
-          },
+          // USDtz: {
+          //   contract: 'KT1EJMMismkf6TQdMzgx8hb1HpiiRVV8ZSm4',
+          //   property: 'token2_pool',
+          //   liquidityToken: 'wUSDC-USDtz-LP',
+          // },
           uUSD: {
             contract: 'KT1JbUFVGrMCpW39UtH97dMkG2nMMrefQLLa',
             property: 'token1_pool',
@@ -1115,11 +1115,11 @@ module.exports = {
             property: 'token1_pool',
             liquidityToken: 'Plenty-wWETH-LP',
           },
-          ETHtz: {
-            contract: 'KT196bPdVJqY1DF3y7aQ9Cn5tcGQeMrrjWTp',
-            property: 'token2_pool',
-            liquidityToken: 'wWETH-ETHtz-LP',
-          },
+          // ETHtz: {
+          //   contract: 'KT196bPdVJqY1DF3y7aQ9Cn5tcGQeMrrjWTp',
+          //   property: 'token2_pool',
+          //   liquidityToken: 'wWETH-ETHtz-LP',
+          // },
         },
       },
       UNO: {
@@ -1215,16 +1215,16 @@ module.exports = {
             property: 'token1_pool',
             liquidityToken: 'Plentyusdtzlp',
           },
-          kUSD: {
-            contract: 'KT1TnsQ6JqzyTz5PHMsGj28WwJyBtgc146aJ',
-            property: 'token1_pool',
-            liquidityToken: 'kUSD-USDtz-LP',
-          },
-          wUSDC: {
-            contract: 'KT1EJMMismkf6TQdMzgx8hb1HpiiRVV8ZSm4',
-            property: 'token1_pool',
-            liquidityToken: 'wUSDC-USDtz-LP',
-          },
+          // kUSD: {
+          //   contract: 'KT1TnsQ6JqzyTz5PHMsGj28WwJyBtgc146aJ',
+          //   property: 'token1_pool',
+          //   liquidityToken: 'kUSD-USDtz-LP',
+          // },
+          // wUSDC: {
+          //   contract: 'KT1EJMMismkf6TQdMzgx8hb1HpiiRVV8ZSm4',
+          //   property: 'token1_pool',
+          //   liquidityToken: 'wUSDC-USDtz-LP',
+          // },
         },
       },
       WRAP: {
@@ -1310,11 +1310,11 @@ module.exports = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 18,
         DEX_PAIRS: {
-          USDtz: {
-            contract: 'KT1TnsQ6JqzyTz5PHMsGj28WwJyBtgc146aJ',
-            property: 'token2_pool',
-            liquidityToken: 'kUSD-USDtz-LP',
-          },
+          // USDtz: {
+          //   contract: 'KT1TnsQ6JqzyTz5PHMsGj28WwJyBtgc146aJ',
+          //   property: 'token2_pool',
+          //   liquidityToken: 'kUSD-USDtz-LP',
+          // },
           PLENTY: {
             contract: 'KT1UNBvCJXiwJY6tmHM7CJUVwNPew53XkSfh',
             property: 'token1_pool',
@@ -1350,11 +1350,11 @@ module.exports = {
             property: 'token1_pool',
             liquidityToken: 'Plenty-ETHtz-LP',
           },
-          wWETH: {
-            contract: 'KT196bPdVJqY1DF3y7aQ9Cn5tcGQeMrrjWTp',
-            property: 'token1_pool',
-            liquidityToken: 'wWETH-ETHtz-LP',
-          },
+          // wWETH: {
+          //   contract: 'KT196bPdVJqY1DF3y7aQ9Cn5tcGQeMrrjWTp',
+          //   property: 'token1_pool',
+          //   liquidityToken: 'wWETH-ETHtz-LP',
+          // },
         },
       },
       SMAK: {

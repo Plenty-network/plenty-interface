@@ -409,9 +409,10 @@ export const computeTokenOutForRouteBaseByOutAmount = (outputAmount, swapData, s
       tokenIn_amount: midToOutOutput.tokenOut_amount,
       tokenOut_amount: outputAmount,
       fees: midToOutOutput.fees,
-      minimum_Out: minimum_Out,
+      minimum_Out: 0,
       //minimum_Out_Plenty: inToMidOutput.minimum_Out,
-      minimum_Out_Plenty: forPlenty.minimum_Out,
+      //minimum_Out_Plenty: forPlenty.minimum_Out,
+      minimum_Out_Plenty: 0,
       priceImpact: inToMidOutput.priceImpact + midToOutOutput.priceImpact,
     };
   } catch (err) {
