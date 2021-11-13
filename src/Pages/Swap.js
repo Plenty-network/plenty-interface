@@ -190,8 +190,8 @@ const Swap = (props) => {
   const [recepient, setRecepient] = useState('');
   const [tokenType, setTokenType] = useState('tokenIn');
   const [tokenOut, setTokenOut] = useState({});
-  const [firstTokenAmount, setFirstTokenAmount] = useState();
-  const [secondTokenAmount, setSecondTokenAmount] = useState();
+  const [firstTokenAmount, setFirstTokenAmount] = useState('');
+  const [secondTokenAmount, setSecondTokenAmount] = useState('');
   const [swapData, setSwapData] = useState({});
   const [computedOutDetails, setComputedOutDetails] = useState({});
   const [getTokenPrice, setGetTokenPrice] = useState({});
@@ -214,6 +214,29 @@ const Swap = (props) => {
   const pairExist = useMemo(() => {
     return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
   }, [tokenIn, tokenOut]);
+
+  useEffect(() => {
+    if (tokenIn.hasOwnProperty('name') && tokenOut.hasOwnProperty('name')) {
+      const pairExists = !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
+      if (!pairExists) {
+        getRouteSwapData(tokenIn.name, tokenOut.name).then((data) => {
+          if (data.success) {
+            //setLoading(false);
+            setSwapData(data);
+            setLoaderInButton(false);
+          }
+        });
+      } else {
+        loadSwapData(tokenIn.name, tokenOut.name).then((data) => {
+          if (data.success) {
+            setSwapData(data);
+            //setLoading(false);
+            setLoaderInButton(false);
+          }
+        });
+      }
+    }
+  }, [tokenIn, tokenOut])
 
   const handleClose = () => {
     setShow(false);
@@ -269,7 +292,6 @@ const Swap = (props) => {
         tokenOut_amount: '',
         fees: 0,
       });
-      return;
     } else {
       let computedData;
 
@@ -300,7 +322,6 @@ const Swap = (props) => {
         tokenOut_amount: '',
         fees: 0,
       });
-      return;
     } else {
       let computedData;
       if (pairExist) {
@@ -365,17 +386,9 @@ const Swap = (props) => {
     setTokenType('tokenIn');
     setFirstTokenAmount('');
     setSecondTokenAmount('');
-    setSwapData({});
     setComputedOutDetails({
       tokenOut_amount: '',
     });
-    setGetTokenPrice({});
-    setTokenContractInstances({});
-    setTokenIn({
-      name: 'PLENTY',
-      image: plenty,
-    });
-    setTokenOut({});
   };
   const [showRecepient, setShowRecepient] = useState(false);
   const handleRecepient = (elem) => {
@@ -400,7 +413,7 @@ const Swap = (props) => {
 
   let showActiveTab = localStorage.getItem('activeTab') ?? 'swap';
 
-  if (window.location.pathname.replace('/', '') == 'liquidity' || activeTab == 'liquidity') {
+  if (window.location.pathname.replace('/', '') === 'liquidity' || activeTab === 'liquidity') {
     showActiveTab = 'liquidity';
   }
 
@@ -420,7 +433,7 @@ const Swap = (props) => {
         image: token.image,
       });
 
-      if (window.location.pathname.replace('/', '') == 'swap') {
+      if (window.location.pathname.replace('/', '') === 'swap') {
         if (tokenOut.name) {
           window.history.pushState(
             {
@@ -453,29 +466,12 @@ const Swap = (props) => {
           );
         }
       }
-
-      if (!pairExist) {
-        getRouteSwapData(tokenIn.name, token.name).then((data) => {
-          if (data.success) {
-            //setLoading(false);
-            setLoaderInButton(false);
-          }
-        });
-      } else {
-        loadSwapData(token.name, tokenOut.name).then((data) => {
-          if (data.success) {
-            setSwapData(data);
-            //setLoading(false);
-            setLoaderInButton(false);
-          }
-        });
-      }
     } else {
       setTokenOut({
         name: token.name,
         image: token.image,
       });
-      if (window.location.pathname.replace('/', '') == 'swap') {
+      if (window.location.pathname.replace('/', '') === 'swap') {
         window.history.pushState(
           {
             path: `/swap?from=${tokenIn.name}&to=${token.name}`,
@@ -492,24 +488,6 @@ const Swap = (props) => {
           `/liquidity/add?tokenA=${tokenIn.name}&tokenB=${token.name}`,
         );
       }
-
-      if (!pairExist) {
-        getRouteSwapData(tokenIn.name, token.name).then((data) => {
-          if (data.success) {
-            setSwapData(data);
-            //setLoading(false);
-            setLoaderInButton(false);
-          }
-        });
-      } else {
-        loadSwapData(tokenIn.name, token.name).then((data) => {
-          if (data.success) {
-            setSwapData(data);
-            //setLoading(false);
-            setLoaderInButton(false);
-          }
-        });
-      }
     }
     handleClose();
   };
@@ -517,11 +495,10 @@ const Swap = (props) => {
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const params = Object.fromEntries(urlSearchParams.entries());
-
     if (params.from !== params.to) {
       if (params.from) {
         tokens.map((token) => {
-          if (token.name == params.from) {
+          if (token.name === params.from) {
             setTokenIn({
               name: params.from,
               image: token.image,
@@ -532,7 +509,7 @@ const Swap = (props) => {
 
       if (params.to) {
         tokens.map((token) => {
-          if (token.name == params.to) {
+          if (token.name === params.to) {
             setTokenOut({
               name: params.to,
               image: token.image,
@@ -540,25 +517,6 @@ const Swap = (props) => {
           }
         });
       }
-    }
-
-    if (params.from && params.to) {
-      loadSwapData(params.from, params.to).then((data) => {
-        if (data.success) {
-          setSwapData(data);
-          //setLoading(false);
-          setLoaderInButton(false);
-        }
-      });
-    }
-    if (params.tokenA && params.tokenB) {
-      loadSwapData(params.tokenA, params.tokenB).then((data) => {
-        if (data.success) {
-          setSwapData(data);
-          //setLoading(false);
-          setLoaderInButton(false);
-        }
-      });
     }
   }, []);
 
