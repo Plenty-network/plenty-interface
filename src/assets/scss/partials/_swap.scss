@@ -462,6 +462,16 @@
     cursor: pointer;
   }
 }
+
+.swap-detail-route-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid var(--theme-border);
+  font-size: 14px;
+}
+
 .remove-liquidity-token-info {
   font-style: normal;
   font-weight: 500;

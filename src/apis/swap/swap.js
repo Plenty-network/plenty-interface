@@ -1,4 +1,4 @@
-import { TezosToolkit } from '@taquito/taquito';
+import { TezosToolkit, MichelsonMap } from '@taquito/taquito';
 import { BeaconWallet } from '@taquito/beacon-wallet';
 import { CheckIfWalletConnected } from '../wallet/wallet';
 import CONFIG from '../../config/config';
@@ -136,6 +136,114 @@ export const swapTokens = async (
   }
 };
 
+export const swapTokenUsingRoute = async (
+  tokenIn,
+  tokenOut,
+  caller,
+  amount,
+  minimum_Out,
+  minimum_Out_Plenty,
+  transactionSubmitModal,
+) => {
+  let connectedNetwork = CONFIG.NETWORK;
+  let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+  try {
+    const network = {
+      type: CONFIG.WALLET_NETWORK,
+    };
+    const options = {
+      name: CONFIG.NAME,
+    };
+    const wallet = new BeaconWallet(options);
+    const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
+    if (!WALLET_RESP.success) {
+      throw new Error('Wallet connection failed');
+    }
+
+    const Tezos = new TezosToolkit(rpcNode);
+    Tezos.setRpcProvider(rpcNode);
+    Tezos.setWalletProvider(wallet);
+    console.log({ wallet });
+    const tokenInAddress = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_CONTRACT;
+    const tokenOutAddress = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_CONTRACT;
+    const tokenInId = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_ID;
+    const tokenOutId = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_ID;
+    const tokenInCallType = CONFIG.AMM[connectedNetwork][tokenIn].CALL_TYPE;
+
+    const tokenInInstance = await Tezos.wallet.at(tokenInAddress);
+
+    const routerAddress = CONFIG.ROUTER[CONFIG.NETWORK];
+
+    const routerInstance = await Tezos.wallet.at(routerAddress);
+
+    const plentyContractAddress = CONFIG.AMM[connectedNetwork]['PLENTY'].TOKEN_CONTRACT;
+
+    // const plentyContractInstance = await Tezos.contract.at(
+    //   plentyContractAddress
+    // );
+
+    const inputDexAddress = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS['PLENTY'].contract;
+    const outputDexAddress = CONFIG.AMM[connectedNetwork]['PLENTY'].DEX_PAIRS[tokenOut].contract;
+
+    minimum_Out_Plenty = Math.floor(minimum_Out_Plenty * Math.pow(10, 18));
+    minimum_Out = Math.floor(
+      minimum_Out * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_DECIMAL),
+    );
+
+    var DataMap = MichelsonMap.fromLiteral({
+      0: {
+        exchangeAddress: inputDexAddress,
+        minimumOutput: minimum_Out_Plenty,
+        requiredTokenAddress: plentyContractAddress,
+        requiredTokenId: 0,
+      },
+      1: {
+        exchangeAddress: outputDexAddress,
+        minimumOutput: minimum_Out,
+        requiredTokenAddress: tokenOutAddress,
+        requiredTokenId: tokenOutId,
+      },
+    });
+    console.log({ DataMap });
+    let swapAmount = Math.floor(
+      amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL),
+    );
+
+    let batch = null;
+    console.log({ swapAmount, minimum_Out_Plenty, minimum_Out });
+    if (tokenInCallType === 'FA1.2') {
+      batch = Tezos.wallet
+        .batch()
+        .withContractCall(tokenInInstance.methods.transfer(caller, routerAddress, swapAmount))
+        .withContractCall(routerInstance.methods.routerSwap(DataMap, swapAmount, caller));
+    } else {
+      //console.log({ caller, routerAddress, tokenInId, swapAmount });
+      batch = Tezos.wallet
+        .batch()
+        .withContractCall(
+          tokenInInstance.methods.transfer([
+            {
+              from_: caller,
+              txs: [{ to_: routerAddress, token_id: tokenInId, amount: swapAmount }],
+            },
+          ]),
+        )
+        .withContractCall(routerInstance.methods.routerSwap(DataMap, swapAmount, caller));
+    }
+    const batchOp = await batch.send();
+    transactionSubmitModal(batchOp.opHash);
+    await batchOp.confirmation();
+    return {
+      success: true,
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      success: false,
+    };
+  }
+};
+
 export const loadSwapData = async (tokenIn, tokenOut) => {
   try {
     let connectedNetwork = CONFIG.NETWORK;
@@ -203,6 +311,157 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
     };
   }
 };
+
+export const getRouteSwapData = async (tokenIn, tokenOut) => {
+  try {
+    const response = await Promise.all([
+      loadSwapData(tokenIn, 'PLENTY'),
+      loadSwapData('PLENTY', tokenOut),
+    ]);
+    const tokenOutPerTokenIn =
+      (response[0].tokenOut_supply / response[0].tokenIn_supply) *
+      (response[1].tokenOut_supply / response[1].tokenIn_supply);
+    return {
+      success: true,
+      inToMid: response[0],
+      midToOut: response[1],
+      tokenOutPerTokenIn: tokenOutPerTokenIn,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      inToMid: null,
+      midToOut: null,
+      tokenOutPerTokenIn: 0,
+    };
+  }
+};
+
+export const computeTokenOutForRouteBase = (inputAmount, swapData, slippage) => {
+  try {
+    let inToMidOutput = computeTokenOutput(
+      inputAmount,
+      swapData.inToMid.tokenIn_supply,
+      swapData.inToMid.tokenOut_supply,
+      swapData.inToMid.exchangeFee,
+      slippage,
+    );
+
+    let midToOutOutput = computeTokenOutput(
+      inToMidOutput.tokenOut_amount,
+      swapData.midToOut.tokenIn_supply,
+      swapData.midToOut.tokenOut_supply,
+      swapData.midToOut.exchangeFee,
+      slippage,
+    );
+
+    return {
+      tokenOut_amount: midToOutOutput.tokenOut_amount,
+      fees: inToMidOutput.fees,
+      minimum_Out: midToOutOutput.minimum_Out,
+      minimum_Out_Plenty: inToMidOutput.minimum_Out,
+      priceImpact: inToMidOutput.priceImpact + midToOutOutput.priceImpact,
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      tokenOut_amount: 0,
+      fees: 0,
+      minimum_Out: 0,
+      priceImpact: 0,
+    };
+  }
+};
+
+export const computeTokenOutForRouteBaseByOutAmount = (outputAmount, swapData, slippage) => {
+  try {
+    const inToMidOutput = computeTokenOutput(
+      outputAmount,
+      swapData.midToOut.tokenOut_supply,
+      swapData.midToOut.tokenIn_supply,
+      swapData.midToOut.exchangeFee,
+      slippage,
+    );
+
+    const midToOutOutput = computeTokenOutput(
+      inToMidOutput.tokenOut_amount,
+      swapData.inToMid.tokenOut_supply,
+      swapData.inToMid.tokenIn_supply,
+      swapData.inToMid.exchangeFee,
+      slippage,
+    );
+
+    const forPlenty = computeTokenOutput(
+      midToOutOutput.tokenOut_amount,
+      swapData.inToMid.tokenIn_supply,
+      swapData.inToMid.tokenOut_supply,
+      swapData.inToMid.exchangeFee,
+      slippage,
+    );
+
+    let minimum_Out;
+    minimum_Out = outputAmount - (slippage * outputAmount) / 100;
+
+    // let minimum_Out_Plenty;
+    // minimum_Out_Plenty =
+    //   inToMidOutput.tokenOut_amount - (slippage * inToMidOutput.tokenOut_amount) / 100;
+
+    // console.log({ minimum_Out_Plenty, actual: inToMidOutput.minimum_Out });
+    return {
+      tokenIn_amount: midToOutOutput.tokenOut_amount,
+      tokenOut_amount: outputAmount,
+      fees: midToOutOutput.fees,
+      minimum_Out: 0,
+      //minimum_Out_Plenty: inToMidOutput.minimum_Out,
+      //minimum_Out_Plenty: forPlenty.minimum_Out,
+      minimum_Out_Plenty: 0,
+      priceImpact: inToMidOutput.priceImpact + midToOutOutput.priceImpact,
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      tokenOut_amount: 0,
+      fees: 0,
+      minimum_Out: 0,
+      priceImpact: 0,
+    };
+  }
+};
+
+// export const computeTokenOutForRouteBaseByOutAmount = (outputAmount, swapData, slippage) => {
+//   try {
+//     let inToMidOutput = computeTokenOutput(
+//       outputAmount,
+//       swapData.midToOut.tokenIn_supply,
+//       swapData.midToOut.tokenOut_supply,
+//       swapData.midToOut.exchangeFee,
+//       slippage,
+//     );
+
+//     let midToOutOutput = computeTokenOutput(
+//       inToMidOutput.tokenOut_amount,
+//       swapData.inToMid.tokenIn_supply,
+//       swapData.inToMid.tokenOut_supply,
+//       swapData.inToMid.exchangeFee,
+//       slippage,
+//     );
+
+//     return {
+//       tokenOut_amount: midToOutOutput.tokenOut_amount,
+//       fees: inToMidOutput.fees + midToOutOutput.fees,
+//       minimum_Out: midToOutOutput.minimum_Out,
+//       priceImpact: 0,
+//     };
+//   } catch (err) {
+//     console.log(err);
+//     return {
+//       tokenOut_amount: 0,
+//       fees: 0,
+//       minimum_Out: 0,
+//       priceImpact: 0,
+//     };
+//   }
+// };
 
 export const computeTokenOutput = (
   tokenIn_amount,
