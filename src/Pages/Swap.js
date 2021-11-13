@@ -399,7 +399,7 @@ const Swap = (props) => {
     window.history.pushState({ path: `/${elem}` }, '', `/${elem}`);
 
     if (elem === 'liquidity' && !pairExist) {
-      setTokenOut(tokens.find((x) => x.name === 'PLENTY'));
+      setTokenOut({});
     }
   };
 
