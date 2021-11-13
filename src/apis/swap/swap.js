@@ -399,6 +399,14 @@ export const computeTokenOutForRouteBaseByOutAmount = (outputAmount, swapData, s
       slippage,
     );
 
+    const forMinimumOut = computeTokenOutput(
+      forPlenty.minimum_Out,
+      swapData.midToOut.tokenIn_supply,
+      swapData.midToOut.tokenOut_supply,
+      swapData.midToOut.exchangeFee,
+      slippage,
+    );
+
     let minimum_Out;
     minimum_Out = outputAmount - (slippage * outputAmount) / 100;
 
@@ -411,9 +419,9 @@ export const computeTokenOutForRouteBaseByOutAmount = (outputAmount, swapData, s
       tokenIn_amount: midToOutOutput.tokenOut_amount,
       tokenOut_amount: outputAmount,
       fees: midToOutOutput.fees,
-      minimum_Out: 0,
+      minimum_Out: forMinimumOut.minimum_Out,
       //minimum_Out_Plenty: inToMidOutput.minimum_Out,
-      //minimum_Out_Plenty: forPlenty.minimum_Out,
+      minimum_Out_Plenty: forPlenty.minimum_Out,
       minimum_Out_Plenty: 0,
       priceImpact: inToMidOutput.priceImpact + midToOutOutput.priceImpact,
     };
