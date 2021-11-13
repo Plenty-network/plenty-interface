@@ -70,6 +70,7 @@ const SwapTab = (props) => {
         props.firstTokenAmount,
         props.computedOutDetails.minimum_Out,
         props.computedOutDetails.minimum_Out_Plenty,
+        props.transactionSubmitModal,
       ).then((swapResp) => {
         handleSwapResponse(swapResp.success);
         setTimeout(() => {

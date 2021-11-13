@@ -215,6 +215,29 @@ const Swap = (props) => {
     return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
   }, [tokenIn, tokenOut]);
 
+  useEffect(() => {
+    if (tokenIn.hasOwnProperty('name') && tokenOut.hasOwnProperty('name')) {
+      const pairExists = !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
+      if (!pairExists) {
+        getRouteSwapData(tokenIn.name, tokenOut.name).then((data) => {
+          if (data.success) {
+            //setLoading(false);
+            setSwapData(data);
+            setLoaderInButton(false);
+          }
+        });
+      } else {
+        loadSwapData(tokenIn.name, tokenOut.name).then((data) => {
+          if (data.success) {
+            setSwapData(data);
+            //setLoading(false);
+            setLoaderInButton(false);
+          }
+        });
+      }
+    }
+  }, [tokenIn, tokenOut])
+
   const handleClose = () => {
     setShow(false);
     setShowConfirmSwap(false);
@@ -366,10 +389,6 @@ const Swap = (props) => {
     setComputedOutDetails({
       tokenOut_amount: '',
     });
-    setTokenIn({
-      name: 'PLENTY',
-      image: plenty,
-    });
   };
   const [showRecepient, setShowRecepient] = useState(false);
   const handleRecepient = (elem) => {
@@ -447,23 +466,6 @@ const Swap = (props) => {
           );
         }
       }
-
-      if (!pairExist) {
-        getRouteSwapData(tokenIn.name, token.name).then((data) => {
-          if (data.success) {
-            //setLoading(false);
-            setLoaderInButton(false);
-          }
-        });
-      } else {
-        loadSwapData(token.name, tokenOut.name).then((data) => {
-          if (data.success) {
-            setSwapData(data);
-            //setLoading(false);
-            setLoaderInButton(false);
-          }
-        });
-      }
     } else {
       setTokenOut({
         name: token.name,
@@ -486,24 +488,6 @@ const Swap = (props) => {
           `/liquidity/add?tokenA=${tokenIn.name}&tokenB=${token.name}`,
         );
       }
-
-      if (!pairExist) {
-        getRouteSwapData(tokenIn.name, token.name).then((data) => {
-          if (data.success) {
-            setSwapData(data);
-            //setLoading(false);
-            setLoaderInButton(false);
-          }
-        });
-      } else {
-        loadSwapData(tokenIn.name, token.name).then((data) => {
-          if (data.success) {
-            setSwapData(data);
-            //setLoading(false);
-            setLoaderInButton(false);
-          }
-        });
-      }
     }
     handleClose();
   };
@@ -511,7 +495,6 @@ const Swap = (props) => {
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const params = Object.fromEntries(urlSearchParams.entries());
-
     if (params.from !== params.to) {
       if (params.from) {
         tokens.map((token) => {
@@ -534,25 +517,6 @@ const Swap = (props) => {
           }
         });
       }
-    }
-
-    if (params.from && params.to) {
-      loadSwapData(params.from, params.to).then((data) => {
-        if (data.success) {
-          setSwapData(data);
-          //setLoading(false);
-          setLoaderInButton(false);
-        }
-      });
-    }
-    if (params.tokenA && params.tokenB) {
-      loadSwapData(params.tokenA, params.tokenB).then((data) => {
-        if (data.success) {
-          setSwapData(data);
-          //setLoading(false);
-          setLoaderInButton(false);
-        }
-      });
     }
   }, []);
 

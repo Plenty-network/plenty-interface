@@ -143,6 +143,7 @@ export const swapTokenUsingRoute = async (
   amount,
   minimum_Out,
   minimum_Out_Plenty,
+  transactionSubmitModal,
 ) => {
   let connectedNetwork = CONFIG.NETWORK;
   let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
@@ -230,6 +231,7 @@ export const swapTokenUsingRoute = async (
         .withContractCall(routerInstance.methods.routerSwap(DataMap, swapAmount, caller));
     }
     const batchOp = await batch.send();
+    transactionSubmitModal(batchOp.opHash);
     await batchOp.confirmation();
     return {
       success: true,
