@@ -397,11 +397,15 @@ const Swap = (props) => {
     setActiveTab(elem);
     localStorage.setItem('activeTab', elem);
     window.history.pushState({ path: `/${elem}` }, '', `/${elem}`);
+
+    if (elem === 'liquidity' && !pairExist) {
+      setTokenOut(tokens.find((x) => x.name === 'PLENTY'));
+    }
   };
 
   let showActiveTab = localStorage.getItem('activeTab') ?? 'swap';
 
-  if (window.location.pathname.replace('/', '') == 'liquidity' || activeTab == 'liquidity') {
+  if (window.location.pathname.replace('/', '') === 'liquidity' || activeTab === 'liquidity') {
     showActiveTab = 'liquidity';
   }
 
