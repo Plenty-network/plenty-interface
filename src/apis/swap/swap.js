@@ -358,6 +358,7 @@ export const computeTokenOutForRouteBase = (inputAmount, swapData, slippage) => 
     return {
       tokenOut_amount: midToOutOutput.tokenOut_amount,
       fees: inToMidOutput.fees,
+      addtPlentyFee: inToMidOutput.tokenOut_amount / 400,
       minimum_Out: midToOutOutput.minimum_Out,
       minimum_Out_Plenty: inToMidOutput.minimum_Out,
       priceImpact: inToMidOutput.priceImpact + midToOutOutput.priceImpact,
@@ -422,7 +423,8 @@ export const computeTokenOutForRouteBaseByOutAmount = (outputAmount, swapData, s
       minimum_Out: forMinimumOut.minimum_Out,
       //minimum_Out_Plenty: inToMidOutput.minimum_Out,
       minimum_Out_Plenty: forPlenty.minimum_Out,
-      minimum_Out_Plenty: 0,
+      //minimum_Out_Plenty: 0,
+      addtPlentyFee: forPlenty.minimum_Out / 400,
       priceImpact: inToMidOutput.priceImpact + midToOutOutput.priceImpact,
     };
   } catch (err) {

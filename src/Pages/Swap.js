@@ -409,6 +409,10 @@ const Swap = (props) => {
     setActiveTab(elem);
     localStorage.setItem('activeTab', elem);
     window.history.pushState({ path: `/${elem}` }, '', `/${elem}`);
+
+    if (elem === 'liquidity' && !pairExist) {
+      setTokenOut({});
+    }
   };
 
   let showActiveTab = localStorage.getItem('activeTab') ?? 'swap';

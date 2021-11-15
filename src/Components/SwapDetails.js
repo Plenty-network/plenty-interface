@@ -42,6 +42,14 @@ const SwapDetails = (props) => {
               {props.firstTokenAmount / 400} {props.tokenIn.name}
             </p>
           </div>
+          {props.computedOutDetails.addtPlentyFee ? (
+            <div className="swap-detail-amt-wrapper">
+              <p className="swap-detail-amt-details">Addt. Plenty Fee </p>
+              <p className="swap-detail-amt-details">
+                {props.computedOutDetails.addtPlentyFee.toFixed(5)} {'PLENTY'}
+              </p>
+            </div>
+          ) : null}
         </>
       )}
 
