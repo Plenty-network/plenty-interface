@@ -44,7 +44,7 @@ const SwapDetails = (props) => {
           </div>
           {props.computedOutDetails.addtPlentyFee ? (
             <div className="swap-detail-amt-wrapper">
-              <p className="swap-detail-amt-details">Addt. Plenty Fee </p>
+              <p className="swap-detail-amt-details">Router Fee </p>
               <p className="swap-detail-amt-details">
                 {props.computedOutDetails.addtPlentyFee.toFixed(5)} {'PLENTY'}
               </p>
