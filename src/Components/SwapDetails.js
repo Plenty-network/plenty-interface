@@ -9,8 +9,12 @@ const SwapDetails = (props) => {
       return null;
     }
 
-    return [props.tokenIn, props.tokenMiddle, props.tokenOut];
-  }, [props.tokenIn, props.tokenMiddle, props.tokenOut]);
+    if (props.midTokens === null) {
+      return null;
+    }
+
+    return [props.tokenIn, ...props.midTokens, props.tokenOut];
+  }, [props.tokenIn, props.midTokens, props.tokenOut]);
 
   if (!props.firstTokenAmount && !swapRoute) {
     return null;

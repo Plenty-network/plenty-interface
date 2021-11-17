@@ -89,48 +89,56 @@ const SwapTab = (props) => {
     props.setFirstTokenAmount(value.substring(0, value.length - 1));
   };
 
-  let swapContentButton = (
-    <Button
-      onClick={props.connecthWallet}
-      color={'primary'}
-      startIcon={'add'}
-      className={'mt-4 w-100 flex align-items-center justify-content-center'}
-    >
-      Connect Wallet
-    </Button>
-  );
-  if (props.walletAddress) {
-    if (props.tokenOut.name && props.firstTokenAmount) {
-      swapContentButton = (
-        <Button
-          onClick={callSwapToken}
-          color={'primary'}
-          className={'mt-4 w-100 flex align-items-center justify-content-center'}
-        >
-          Swap
-        </Button>
-      );
-    } else if (!props.tokenOut.name) {
-      swapContentButton = (
-        <Button
-          onClick={() => null}
-          color={'primary'}
-          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
-        >
-          Select a token
-        </Button>
-      );
-    } else if (props.loaderInButton) {
-      swapContentButton = (
-        <Button
-          onClick={() => null}
-          color={'primary'}
-          loading={true}
-          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
-        ></Button>
-      );
-    } else {
-      swapContentButton = (
+  // TODO Refactor once again
+  const swapContentButton = useMemo(() => {
+    if (props.walletAddress) {
+      if (props.tokenOut.name && props.firstTokenAmount) {
+        return (
+          <Button
+            onClick={callSwapToken}
+            color={'primary'}
+            className={'mt-4 w-100 flex align-items-center justify-content-center'}
+          >
+            Swap
+          </Button>
+        );
+      }
+
+      if (!props.tokenOut.name) {
+        return (
+          <Button
+            onClick={() => null}
+            color={'primary'}
+            className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+          >
+            Select a token
+          </Button>
+        );
+      }
+
+      if (!pairExist && props.midTokens === null) {
+        return (
+          <Button
+            disabled
+            color={'primary'}
+            className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+          >
+            Route does not exist
+          </Button>
+        );
+      }
+
+      if (props.loaderInButton) {
+        return (
+          <Button
+            onClick={() => null}
+            color={'primary'}
+            loading={true}
+            className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+          />
+        );
+      }
+      return (
         <Button
           onClick={() => null}
           color={'primary'}
@@ -140,7 +148,28 @@ const SwapTab = (props) => {
         </Button>
       );
     }
-  }
+
+    return (
+      <Button
+        onClick={props.connecthWallet}
+        color={'primary'}
+        startIcon={'add'}
+        className={'mt-4 w-100 flex align-items-center justify-content-center'}
+      >
+        Connect Wallet
+      </Button>
+    );
+  }, [
+    callSwapToken,
+    pairExist,
+    props.connecthWallet,
+    props.firstTokenAmount,
+    props.loaderInButton,
+    props.midTokens,
+    props.tokenOut.name,
+    props.walletAddress,
+  ]);
+
   return (
     <>
       <div className="swap-content-box-wrapper">
@@ -310,7 +339,7 @@ const SwapTab = (props) => {
             computedOutDetails={props.computedOutDetails}
             tokenIn={props.tokenIn}
             tokenOut={props.tokenOut}
-            tokenMiddle={props.tokens.find((token) => token.name === 'PLENTY')}
+            midTokens={props.midTokens}
             firstTokenAmount={props.firstTokenAmount}
           />
         )}
