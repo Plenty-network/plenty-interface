@@ -177,7 +177,8 @@ export const swapTokenUsingRoute = async (
 
     const routerInstance = await Tezos.wallet.at(routerAddress);
 
-    const plentyContractAddress = CONFIG.AMM[connectedNetwork][middleToken[0].name].TOKEN_CONTRACT;
+    const middleTokenContractAddress =
+      CONFIG.AMM[connectedNetwork][middleToken[0].name].TOKEN_CONTRACT;
 
     // const plentyContractInstance = await Tezos.contract.at(
     //   plentyContractAddress
@@ -201,7 +202,7 @@ export const swapTokenUsingRoute = async (
       0: {
         exchangeAddress: inputDexAddress,
         minimumOutput: minimum_Out_Plenty,
-        requiredTokenAddress: plentyContractAddress,
+        requiredTokenAddress: middleTokenContractAddress,
         requiredTokenId: middleTokenId,
       },
       1: {
