@@ -86,7 +86,7 @@ const Swap = (props) => {
     if (tokenIn.hasOwnProperty('name') && tokenOut.hasOwnProperty('name')) {
       const pairExists = !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
       if (!pairExists) {
-        getRouteSwapData(tokenIn.name, tokenOut.name).then((data) => {
+        getRouteSwapData(tokenIn.name, tokenOut.name, midTokens).then((data) => {
           if (data.success) {
             //setLoading(false);
             setSwapData(data);
