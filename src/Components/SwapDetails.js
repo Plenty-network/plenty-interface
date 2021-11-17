@@ -9,8 +9,12 @@ const SwapDetails = (props) => {
       return null;
     }
 
-    return [props.tokenIn, props.tokenMiddle, props.tokenOut];
-  }, [props.tokenIn, props.tokenMiddle, props.tokenOut]);
+    if (props.midTokens === null) {
+      return null;
+    }
+
+    return [props.tokenIn, ...props.midTokens, props.tokenOut];
+  }, [props.tokenIn, props.midTokens, props.tokenOut]);
 
   if (!props.firstTokenAmount && !swapRoute) {
     return null;
@@ -42,6 +46,14 @@ const SwapDetails = (props) => {
               {props.firstTokenAmount / 400} {props.tokenIn.name}
             </p>
           </div>
+          {props.computedOutDetails.addtPlentyFee ? (
+            <div className="swap-detail-amt-wrapper">
+              <p className="swap-detail-amt-details">Router Fee </p>
+              <p className="swap-detail-amt-details">
+                {props.computedOutDetails.addtPlentyFee.toFixed(5)} {props.midTokens[0].name}
+              </p>
+            </div>
+          ) : null}
         </>
       )}
 

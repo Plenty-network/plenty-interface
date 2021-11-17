@@ -1,20 +1,20 @@
 import { Modal } from 'react-bootstrap';
 import PuffLoader from 'react-spinners/PuffLoader';
-import React from "react";
-import Button from "../Ui/Buttons/Button";
+import React from 'react';
+import Button from '../Ui/Buttons/Button';
 
 const ConfirmSwap = (props) => {
   return (
-    <Modal
-      show={props.show}
-      onHide={props.onHide}
-      className="confirm-swap-modal"
-    >
+    <Modal show={props.show} onHide={props.onHide} className="confirm-swap-modal">
       <Modal.Header>
         <Modal.Title>Confirm Swap</Modal.Title>
         <Modal.Title className={'float-right'}>
-          <span onClick={props.onHide} style={{ cursor: 'pointer' }} className="material-icons-round">
-          close
+          <span
+            onClick={props.onHide}
+            style={{ cursor: 'pointer' }}
+            className="material-icons-round"
+          >
+            close
           </span>
         </Modal.Title>
       </Modal.Header>
@@ -30,10 +30,7 @@ const ConfirmSwap = (props) => {
                   </div>
                 </div>
 
-                <div
-                  className="token-user-input-wrapper"
-                  style={{ textAlign: 'right' }}
-                >
+                <div className="token-user-input-wrapper" style={{ textAlign: 'right' }}>
                   {props.firstTokenAmount}
                 </div>
               </div>
@@ -52,10 +49,7 @@ const ConfirmSwap = (props) => {
                   </button>
                 </div>
 
-                <div
-                  className="token-user-input-wrapper"
-                  style={{ textAlign: 'right' }}
-                >
+                <div className="token-user-input-wrapper" style={{ textAlign: 'right' }}>
                   {props.computedOutDetails.tokenOut_amount}
                 </div>
               </div>
@@ -89,6 +83,15 @@ const ConfirmSwap = (props) => {
                   {props.firstTokenAmount / 400} {props.tokenIn.name}
                 </p>
               </div>
+
+              {props.computedOutDetails.addtPlentyFee ? (
+                <div className="swap-detail-amt-wrapper">
+                  <p className="swap-detail-amt-details">Router Fee </p>
+                  <p className="swap-detail-amt-details">
+                    {props.computedOutDetails.addtPlentyFee.toFixed(5)} {props.midTokens[0].name}
+                  </p>
+                </div>
+              ) : null}
 
               <div className="swap-detail-amt-wrapper">
                 <p className="swap-detail-amt-details">xPlenty Fee </p>
