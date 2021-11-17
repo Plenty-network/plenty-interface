@@ -71,6 +71,7 @@ const SwapTab = (props) => {
         props.computedOutDetails.minimum_Out,
         props.computedOutDetails.minimum_Out_Plenty,
         props.transactionSubmitModal,
+        props.midTokens,
       ).then((swapResp) => {
         handleSwapResponse(swapResp.success);
         setTimeout(() => {
@@ -341,6 +342,7 @@ const SwapTab = (props) => {
             tokenOut={props.tokenOut}
             midTokens={props.midTokens}
             firstTokenAmount={props.firstTokenAmount}
+            midTokens={props.midTokens}
           />
         )}
       </div>
@@ -354,6 +356,7 @@ const SwapTab = (props) => {
         slippage={props.slippage}
         confirmSwapToken={confirmSwapToken}
         onHide={props.handleClose}
+        midTokens={props.midTokens}
         {...props}
       />
     </>

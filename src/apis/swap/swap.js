@@ -144,6 +144,7 @@ export const swapTokenUsingRoute = async (
   minimum_Out,
   minimum_Out_Plenty,
   transactionSubmitModal,
+  middleToken,
 ) => {
   let connectedNetwork = CONFIG.NETWORK;
   let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
@@ -176,16 +177,22 @@ export const swapTokenUsingRoute = async (
 
     const routerInstance = await Tezos.wallet.at(routerAddress);
 
-    const plentyContractAddress = CONFIG.AMM[connectedNetwork]['PLENTY'].TOKEN_CONTRACT;
+    const plentyContractAddress = CONFIG.AMM[connectedNetwork][middleToken[0].name].TOKEN_CONTRACT;
 
     // const plentyContractInstance = await Tezos.contract.at(
     //   plentyContractAddress
     // );
 
-    const inputDexAddress = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS['PLENTY'].contract;
-    const outputDexAddress = CONFIG.AMM[connectedNetwork]['PLENTY'].DEX_PAIRS[tokenOut].contract;
+    const inputDexAddress =
+      CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[middleToken[0].name].contract;
+    const outputDexAddress =
+      CONFIG.AMM[connectedNetwork][middleToken[0].name].DEX_PAIRS[tokenOut].contract;
 
-    minimum_Out_Plenty = Math.floor(minimum_Out_Plenty * Math.pow(10, 18));
+    const middleTokenId = CONFIG.AMM[connectedNetwork][middleToken[0].name].TOKEN_ID;
+    minimum_Out_Plenty = Math.floor(
+      minimum_Out_Plenty *
+        Math.pow(10, CONFIG.AMM[connectedNetwork][middleToken[0].name].TOKEN_DECIMAL),
+    );
     minimum_Out = Math.floor(
       minimum_Out * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_DECIMAL),
     );
@@ -195,7 +202,7 @@ export const swapTokenUsingRoute = async (
         exchangeAddress: inputDexAddress,
         minimumOutput: minimum_Out_Plenty,
         requiredTokenAddress: plentyContractAddress,
-        requiredTokenId: 0,
+        requiredTokenId: middleTokenId,
       },
       1: {
         exchangeAddress: outputDexAddress,
@@ -312,11 +319,11 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
   }
 };
 
-export const getRouteSwapData = async (tokenIn, tokenOut) => {
+export const getRouteSwapData = async (tokenIn, tokenOut, middleToken) => {
   try {
     const response = await Promise.all([
-      loadSwapData(tokenIn, 'PLENTY'),
-      loadSwapData('PLENTY', tokenOut),
+      loadSwapData(tokenIn, middleToken[0].name),
+      loadSwapData(middleToken[0].name, tokenOut),
     ]);
     const tokenOutPerTokenIn =
       (response[0].tokenOut_supply / response[0].tokenIn_supply) *

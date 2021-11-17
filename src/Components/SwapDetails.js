@@ -50,7 +50,7 @@ const SwapDetails = (props) => {
             <div className="swap-detail-amt-wrapper">
               <p className="swap-detail-amt-details">Router Fee </p>
               <p className="swap-detail-amt-details">
-                {props.computedOutDetails.addtPlentyFee.toFixed(5)} {'PLENTY'}
+                {props.computedOutDetails.addtPlentyFee.toFixed(5)} {props.midTokens[0].name}
               </p>
             </div>
           ) : null}
