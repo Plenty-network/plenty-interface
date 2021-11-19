@@ -504,6 +504,7 @@ export const computeTokenOutput = (
     priceImpact = priceImpact * 100;
     priceImpact = priceImpact.toFixed(5);
     priceImpact = Math.abs(priceImpact);
+    priceImpact = priceImpact * 100;
 
     return {
       tokenOut_amount,
@@ -1322,6 +1323,7 @@ export const computeOutputBasedOnTokenOutAmount = (
     priceImpact = priceImpact * 100;
     priceImpact = priceImpact.toFixed(5);
     priceImpact = Math.abs(priceImpact);
+    priceImpact = priceImpact * 100;
     return {
       tokenIn_amount,
       tokenOut_amount,
