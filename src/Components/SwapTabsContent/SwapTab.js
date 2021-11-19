@@ -14,6 +14,14 @@ const SwapTab = (props) => {
     props.setHideContent('content-hide');
   };
 
+  const getDollarValue = (amount, price) => {
+    const calculatedValue = amount * price;
+    if (calculatedValue < 100) {
+      return calculatedValue.toFixed(2);
+    }
+    return Math.floor(calculatedValue);
+  };
+
   const pairExist = useMemo(() => {
     return !!config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name];
   }, [props.tokenIn, props.tokenOut]);
@@ -220,9 +228,10 @@ const SwapTab = (props) => {
                 <p className="wallet-token-balance">
                   ~$
                   {props.getTokenPrice.success && props.firstTokenAmount
-                    ? (
-                        props.firstTokenAmount * props.getTokenPrice.tokenPrice[props.tokenIn.name]
-                      ).toFixed(5)
+                    ? getDollarValue(
+                        props.firstTokenAmount,
+                        props.getTokenPrice.tokenPrice[props.tokenIn.name],
+                      )
                     : '0.00'}
                 </p>
               </div>
@@ -290,10 +299,10 @@ const SwapTab = (props) => {
                 <p className="wallet-token-balance">
                   ~$
                   {props.getTokenPrice.success && props.computedOutDetails.tokenOut_amount
-                    ? (
-                        props.computedOutDetails.tokenOut_amount *
-                        props.getTokenPrice.tokenPrice[props.tokenOut.name]
-                      ).toFixed(5)
+                    ? getDollarValue(
+                        props.computedOutDetails.tokenOut_amount,
+                        props.getTokenPrice.tokenPrice[props.tokenOut.name],
+                      )
                     : '0.00'}
                 </p>
               </div>
