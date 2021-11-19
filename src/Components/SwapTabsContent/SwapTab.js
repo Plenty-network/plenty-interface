@@ -15,12 +15,11 @@ const SwapTab = (props) => {
   };
 
   const getDollarValue = (amount, price) => {
-    let calculatedValue = amount * price;
+    const calculatedValue = amount * price;
     if (calculatedValue < 100) {
       return calculatedValue.toFixed(2);
-    } else {
-      return Math.floor(calculatedValue);
     }
+    return Math.floor(calculatedValue);
   };
 
   const pairExist = useMemo(() => {
