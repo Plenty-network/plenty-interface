@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { THEME } from "../../constants/localStorage";
+import { useEffect, useState } from 'react';
+import { THEME } from '../constants/localStorage';
 
 const useThemes = () => {
   const [theme, setTheme] = useState('light');
@@ -7,14 +7,11 @@ const useThemes = () => {
   useEffect(() => {
     const localTheme = localStorage.getItem(THEME);
     // ? Setting default theme as light
-    toggleTheme({defaultTheme: localTheme ?? 'light'})
-  }, [])
+    toggleTheme({ defaultTheme: localTheme ?? 'light' });
+  }, []);
 
-
-  const toggleTheme = ({ defaultTheme = null}) => {
-    const newTheme = defaultTheme != null
-      ? defaultTheme
-      : theme === 'light' ? 'dark' : 'light';
+  const toggleTheme = ({ defaultTheme = null }) => {
+    const newTheme = defaultTheme != null ? defaultTheme : theme === 'light' ? 'dark' : 'light';
 
     setTheme(newTheme);
 
@@ -23,10 +20,10 @@ const useThemes = () => {
 
     setTimeout(() => {
       document.documentElement.className = `${newTheme}`;
-    }, 1000)
-  }
+    }, 1000);
+  };
 
-  return { theme, toggleTheme }
-}
+  return { theme, toggleTheme };
+};
 
 export default useThemes;
