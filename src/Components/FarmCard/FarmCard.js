@@ -36,9 +36,9 @@ const FarmCard = (props) => {
     if (farmData.isDualFarm) {
       return (
         <>
-          {`${parseInt((values?.rewardRate[0] ?? 0) * 2880)} PLENTY | ${
-            parseInt((values?.rewardRate[1] ?? 0) * 2880)
-          } GIF`}{' '}
+          {`${parseInt((values?.rewardRate[0] ?? 0) * 2880)} PLENTY | ${parseInt(
+            (values?.rewardRate[1] ?? 0) * 2880,
+          )} GIF`}{' '}
           <span
             style={{
               display: 'block',

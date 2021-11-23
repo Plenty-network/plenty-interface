@@ -19,8 +19,7 @@ const getPlentyPrice = (tokenPriceData) => {
     for (let i in tokenPriceData.contracts) {
       if (
         tokenPriceData.contracts[i].symbol === 'PLENTY' &&
-        tokenPriceData.contracts[i].tokenAddress ===
-          'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b'
+        tokenPriceData.contracts[i].tokenAddress === 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b'
       ) {
         plentyPrice = tokenPriceData.contracts[i].usdValue;
       }
@@ -39,35 +38,32 @@ const getPlentyPrice = (tokenPriceData) => {
 export const xPlentyComputations = async () => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode =
-      localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
 
     let axiosPromises = [];
 
     // Getting Plenty Curve Balance
     axiosPromises.push(
       Axios.get(
-        `${rpcNode}chains/main/blocks/head/context/big_maps/${CONFIG.xPlenty[connectedNetwork].plentyTokenContract.balancesMapId}/${CONFIG.xPlenty[connectedNetwork].xPlentyCurve.bigMapExpression}`
-      )
+        `${rpcNode}chains/main/blocks/head/context/big_maps/${CONFIG.xPlenty[connectedNetwork].plentyTokenContract.balancesMapId}/${CONFIG.xPlenty[connectedNetwork].xPlentyCurve.bigMapExpression}`,
+      ),
     );
 
     // Getting Current Block
-    axiosPromises.push(
-      Axios.get('https://api.mainnet.tzkt.io/v1/blocks/count')
-    );
+    axiosPromises.push(Axios.get('https://api.mainnet.tzkt.io/v1/blocks/count'));
 
     // Getting Reward Manager Storage
     axiosPromises.push(
       Axios.get(
-        `${rpcNode}chains/main/blocks/head/context/contracts/${CONFIG.xPlenty[connectedNetwork].rewardManager.address}/storage`
-      )
+        `${rpcNode}chains/main/blocks/head/context/contracts/${CONFIG.xPlenty[connectedNetwork].rewardManager.address}/storage`,
+      ),
     );
 
     // Getting Plenty Curve Storage
     axiosPromises.push(
       Axios.get(
-        `${rpcNode}chains/main/blocks/head/context/contracts/${CONFIG.xPlenty[connectedNetwork].xPlentyCurve.address}/storage`
-      )
+        `${rpcNode}chains/main/blocks/head/context/contracts/${CONFIG.xPlenty[connectedNetwork].xPlentyCurve.address}/storage`,
+      ),
     );
 
     // Teztools
@@ -84,19 +80,15 @@ export const xPlentyComputations = async () => {
 
     let rewardManagerStorage = {};
     rewardManagerStorage['periodFinish'] = parseInt(
-      rewardManagerStorageResponse.data.args[1].args[1].int
+      rewardManagerStorageResponse.data.args[1].args[1].int,
     );
     rewardManagerStorage['lastUpdate'] = parseInt(
-      rewardManagerStorageResponse.data.args[0].args[2].int
+      rewardManagerStorageResponse.data.args[0].args[2].int,
     );
-    rewardManagerStorage['rewardRate'] = parseInt(
-      rewardManagerStorageResponse.data.args[3].int
-    );
+    rewardManagerStorage['rewardRate'] = parseInt(rewardManagerStorageResponse.data.args[3].int);
 
     let xPlentyCurveStorage = {};
-    xPlentyCurveStorage['totalSupply'] = parseInt(
-      xPlentyCurveStorageResponse.data.args[3].int
-    );
+    xPlentyCurveStorage['totalSupply'] = parseInt(xPlentyCurveStorageResponse.data.args[3].int);
 
     let balanceUpdate =
       Math.min(currentBlockLevel, rewardManagerStorage.periodFinish) -
@@ -107,19 +99,15 @@ export const xPlentyComputations = async () => {
     }
     let plentyPerXplenty = xPlentyCurveStorage.totalSupply / plentyBalance;
     let xplentyPerPlenty = 1 / plentyPerXplenty;
-    let APR =
-      (rewardManagerStorage.rewardRate * 1051200) /
-      xPlentyCurveStorage.totalSupply;
+    let APR = (rewardManagerStorage.rewardRate * 1051200) / xPlentyCurveStorage.totalSupply;
 
     APR = APR * 100;
 
-    let xPlentySupplyToShow =
-      xPlentyCurveStorage.totalSupply / Math.pow(10, 18);
+    let xPlentySupplyToShow = xPlentyCurveStorage.totalSupply / Math.pow(10, 18);
     let plentyStakedToShow = plentyBalance / Math.pow(10, 18);
     let plentyPrice = getPlentyPrice(tokenPricesData);
     console.log({ plentyPrice });
-    let ValueLockedToShow =
-      (plentyBalance / Math.pow(10, 18)) * plentyPrice.plentyPrice;
+    let ValueLockedToShow = (plentyBalance / Math.pow(10, 18)) * plentyPrice.plentyPrice;
     return {
       plentyBalance,
       totalSupply: xPlentyCurveStorage.totalSupply,
@@ -145,22 +133,14 @@ export const xPlentyComputations = async () => {
   }
 };
 
-export const getExpectedPlenty = (
-  plentyBalance,
-  totalSupply,
-  xplentyAmount
-) => {
+export const getExpectedPlenty = (plentyBalance, totalSupply, xplentyAmount) => {
   if (totalSupply < xplentyAmount) {
     return 0;
   }
   return ((xplentyAmount * plentyBalance) / totalSupply) * 0.995;
 };
 
-export const getExpectedxPlenty = (
-  plentyBalance,
-  totalSupply,
-  plentyAmount
-) => {
+export const getExpectedxPlenty = (plentyBalance, totalSupply, plentyAmount) => {
   return ((plentyAmount * totalSupply) / plentyBalance) * 0.995;
 };
 
@@ -199,8 +179,7 @@ export const buyXPlenty = async (plentyAmount, minimumExpected, recipient) => {
     minimumExpected = minimumExpected * Math.pow(10, 18);
     minimumExpected = Math.floor(minimumExpected);
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode =
-      localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const wallet = new BeaconWallet(options);
     const WALLET_RESP = await CheckIfWalletConnected(wallet);
     if (WALLET_RESP.success) {
@@ -208,34 +187,21 @@ export const buyXPlenty = async (plentyAmount, minimumExpected, recipient) => {
       Tezos.setRpcProvider(rpcNode);
       Tezos.setWalletProvider(wallet);
       let batch = null;
-      let plentyContractAddress =
-        CONFIG.xPlenty[connectedNetwork].plentyTokenContract.address;
-      let xPlentyBuySellContract =
-        CONFIG.xPlenty[connectedNetwork].xPlentyCurve.address;
+      let plentyContractAddress = CONFIG.xPlenty[connectedNetwork].plentyTokenContract.address;
+      let xPlentyBuySellContract = CONFIG.xPlenty[connectedNetwork].xPlentyCurve.address;
       let plentyContractInstance = await Tezos.wallet.at(plentyContractAddress);
-      let xPlentyBuySellContractInstance = await Tezos.wallet.at(
-        xPlentyBuySellContract
-      );
+      let xPlentyBuySellContractInstance = await Tezos.wallet.at(xPlentyBuySellContract);
 
       batch = Tezos.wallet
         .batch()
         .withContractCall(
-          plentyContractInstance.methods.approve(
-            xPlentyBuySellContract,
-            plentyAmount
-          )
+          plentyContractInstance.methods.approve(xPlentyBuySellContract, plentyAmount),
         )
         // 0 -> minimum
         .withContractCall(
-          xPlentyBuySellContractInstance.methods.buy(
-            minimumExpected,
-            plentyAmount,
-            recipient
-          )
+          xPlentyBuySellContractInstance.methods.buy(minimumExpected, plentyAmount, recipient),
         )
-        .withContractCall(
-          plentyContractInstance.methods.approve(xPlentyBuySellContract, 0)
-        );
+        .withContractCall(plentyContractInstance.methods.approve(xPlentyBuySellContract, 0));
       const batchOperation = await batch.send();
       store.dispatch(opentransactionInjectionModal(batchOperation.opHash));
       await batchOperation.confirmation().then(() => batchOperation.opHash);
@@ -253,11 +219,7 @@ export const buyXPlenty = async (plentyAmount, minimumExpected, recipient) => {
   }
 };
 
-export const sellXPlenty = async (
-  xPlentyAmount,
-  minimumExpected,
-  recipient
-) => {
+export const sellXPlenty = async (xPlentyAmount, minimumExpected, recipient) => {
   try {
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -268,8 +230,7 @@ export const sellXPlenty = async (
     minimumExpected = minimumExpected * Math.pow(10, 18);
     minimumExpected = Math.floor(minimumExpected);
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode =
-      localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const wallet = new BeaconWallet(options);
     const WALLET_RESP = await CheckIfWalletConnected(wallet);
     if (WALLET_RESP.success) {
@@ -277,26 +238,16 @@ export const sellXPlenty = async (
       Tezos.setRpcProvider(rpcNode);
       Tezos.setWalletProvider(wallet);
       let batch = null;
-      let xPlentyContractAddress =
-        CONFIG.xPlenty[connectedNetwork].xPlentyTokenContract.address;
-      let xPlentyBuySellContract =
-        CONFIG.xPlenty[connectedNetwork].xPlentyCurve.address;
+      let xPlentyContractAddress = CONFIG.xPlenty[connectedNetwork].xPlentyTokenContract.address;
+      let xPlentyBuySellContract = CONFIG.xPlenty[connectedNetwork].xPlentyCurve.address;
 
-      let xPlentyContractInstance = await Tezos.wallet.at(
-        xPlentyContractAddress
-      );
-      let xPlentyBuySellContractInstance = await Tezos.wallet.at(
-        xPlentyBuySellContract
-      );
+      let xPlentyContractInstance = await Tezos.wallet.at(xPlentyContractAddress);
+      let xPlentyBuySellContractInstance = await Tezos.wallet.at(xPlentyBuySellContract);
 
       batch = Tezos.wallet
         .batch()
         .withContractCall(
-          xPlentyBuySellContractInstance.methods.sell(
-            minimumExpected,
-            recipient,
-            xPlentyAmount
-          )
+          xPlentyBuySellContractInstance.methods.sell(minimumExpected, recipient, xPlentyAmount),
         );
       const batchOperation = await batch.send();
       store.dispatch(opentransactionInjectionModal(batchOperation.opHash));

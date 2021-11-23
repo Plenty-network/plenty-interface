@@ -77,8 +77,8 @@ export const getPlentyBalanceOfUser = (userAddress) => {
         CONFIG.TOKEN_CONTRACTS[connectedNetwork]['PLENTY'].mapId,
         packedKey,
         'PLENTY',
-        CONFIG.TOKEN_CONTRACTS[connectedNetwork]['PLENTY'].decimal
-      )
+        CONFIG.TOKEN_CONTRACTS[connectedNetwork]['PLENTY'].decimal,
+      ),
     );
 
     balancePromises.push(
@@ -86,8 +86,8 @@ export const getPlentyBalanceOfUser = (userAddress) => {
         CONFIG.TOKEN_CONTRACTS[connectedNetwork]['xPLENTY'].mapId,
         packedKey,
         'xPLENTY',
-        CONFIG.TOKEN_CONTRACTS[connectedNetwork]['xPLENTY'].decimal
-      )
+        CONFIG.TOKEN_CONTRACTS[connectedNetwork]['xPLENTY'].decimal,
+      ),
     );
     Promise.all(balancePromises)
       .then((res) => {

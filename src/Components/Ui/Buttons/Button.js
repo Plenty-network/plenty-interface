@@ -1,12 +1,12 @@
-import PropTypes from 'prop-types'
-import clsx from "clsx";
+import PropTypes from 'prop-types';
+import clsx from 'clsx';
 
-import styles from './button.module.scss'
-import PuffLoader from "react-spinners/PuffLoader";
+import styles from './button.module.scss';
+import PuffLoader from 'react-spinners/PuffLoader';
 
-const Button = props => {
+const Button = (props) => {
   // ? Destructing and setting default props if any
-  const { color = 'default', size = 'default', isIconBtn = false } = props
+  const { color = 'default', size = 'default', isIconBtn = false } = props;
 
   return (
     <button
@@ -21,12 +21,14 @@ const Button = props => {
       )}
       onClick={!props.loading ? props.onClick : undefined}
     >
-      {props.loading && <PuffLoader color={"#fff"} size={28} />}
-      {!props.loading && props.startIcon && <span className="material-icons-round mr-1">{props.startIcon}</span>}
+      {props.loading && <PuffLoader color={'#fff'} size={28} />}
+      {!props.loading && props.startIcon && (
+        <span className="material-icons-round mr-1">{props.startIcon}</span>
+      )}
       {!props.loading && !isIconBtn && <span>{props.children}</span>}
     </button>
-  )
-}
+  );
+};
 
 Button.propTypes = {
   color: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'default', 'mute']),
@@ -37,6 +39,6 @@ Button.propTypes = {
   startIcon: PropTypes.string,
   onClick: PropTypes.func,
   children: PropTypes.string,
-}
+};
 
 export default Button;

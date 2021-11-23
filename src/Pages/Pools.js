@@ -39,9 +39,9 @@ const Pools = (props) => {
       ]) {
         poolsToBeRendered.push({
           poolData:
-            CONFIG.POOLS[CONFIG.NETWORK][key][
-              props.isActiveOpen === true ? 'active' : 'inactive'
-            ][i],
+            CONFIG.POOLS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][
+              i
+            ],
           properties:
             POOLS_CARDS_TYPE_LIST[
               CONFIG.POOLS[CONFIG.NETWORK][key][
@@ -57,9 +57,9 @@ const Pools = (props) => {
               ][i].withdrawalFeeType
             ],
           title:
-            CONFIG.POOLS[CONFIG.NETWORK][key][
-              props.isActiveOpen === true ? 'active' : 'inactive'
-            ][i].CARD_TYPE,
+            CONFIG.POOLS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][
+              i
+            ].CARD_TYPE,
         });
       }
     }
@@ -108,9 +108,7 @@ const Pools = (props) => {
         modalData={props.stakeModal}
       />
       <UnstakeModal
-        unstakeModalwithdrawalFeeStructure={
-          props.unstakeModalwithdrawalFeeStructure
-        }
+        unstakeModalwithdrawalFeeStructure={props.unstakeModalwithdrawalFeeStructure}
         unstakeOperation={props.unstakeOperation}
         unstakeModalTitle={props.unstakeModalTitle}
         unstakeModalFarmPosition={props.unstakeModalPoolPosition}
@@ -162,8 +160,7 @@ const mapStateToProps = (state) => {
     unstakeModalContractAddress: state.pools.unstakeModalContractAddress,
     unstakeModalPoolPosition: state.pools.unstakeModalPoolPosition,
     unstakeModalTitle: state.pools.unstakeModalTitle,
-    unstakeModalwithdrawalFeeStructure:
-      state.pools.unstakeModalwithdrawalFeeStructure,
+    unstakeModalwithdrawalFeeStructure: state.pools.unstakeModalwithdrawalFeeStructure,
     harvestOperation: state.pools.harvestOperation,
     currentBlock: state.user.currentBlock,
     rpcNode: state.settings.rpcNode,
@@ -173,14 +170,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     connectWallet: () => dispatch(walletActions.connectWallet()),
-    togglePoolsType: (isActive) =>
-      dispatch(poolsAction.togglePoolsType(isActive)),
-    setPoolsToRender: (poolsToBeRender) =>
-      dispatch(poolsAction.setPoolsToRender(poolsToBeRender)),
-    getPoolsData: (isActiveOpen) =>
-      dispatch(poolsAction.getPoolsData(isActiveOpen)),
-    fetchUserBalances: (address) =>
-      dispatch(userActions.fetchUserBalances(address)),
+    togglePoolsType: (isActive) => dispatch(poolsAction.togglePoolsType(isActive)),
+    setPoolsToRender: (poolsToBeRender) => dispatch(poolsAction.setPoolsToRender(poolsToBeRender)),
+    getPoolsData: (isActiveOpen) => dispatch(poolsAction.getPoolsData(isActiveOpen)),
+    fetchUserBalances: (address) => dispatch(userActions.fetchUserBalances(address)),
     getUserStakes: (address, type, isActive) =>
       dispatch(userActions.getUserStakes(address, type, isActive)),
     getHarvestValues: (address, type, isActive) =>
@@ -188,48 +181,25 @@ const mapDispatchToProps = (dispatch) => {
     harvestOnPools: (poolIdentifier, isActive, position) =>
       dispatch(poolsAction.harvestOnPool(poolIdentifier, isActive, position)),
     openPoolsStakeModal: (identifier, title, position, contractAddress) =>
-      dispatch(
-        poolsAction.openPoolsStakeModal(
-          identifier,
-          title,
-          position,
-          contractAddress
-        )
-      ),
+      dispatch(poolsAction.openPoolsStakeModal(identifier, title, position, contractAddress)),
     closePoolsStakeModal: () => dispatch(poolsAction.closePoolsStakeModal()),
     handleStakeOfPoolInputValue: (value) =>
       dispatch(poolsAction.handleStakeOfPoolInputValue(value)),
     stakeOnPool: (amount, poolIdentifier, isActive, position) =>
-      dispatch(
-        poolsAction.stakeOnPool(amount, poolIdentifier, isActive, position)
-      ),
-    openPoolsUnstakeModal: (
-      identifier,
-      contractAddress,
-      title,
-      withdrawalFeeStructure,
-      position
-    ) =>
+      dispatch(poolsAction.stakeOnPool(amount, poolIdentifier, isActive, position)),
+    openPoolsUnstakeModal: (identifier, contractAddress, title, withdrawalFeeStructure, position) =>
       dispatch(
         poolsAction.openPoolsUnstakeModal(
           identifier,
           contractAddress,
           title,
           withdrawalFeeStructure,
-          position
-        )
+          position,
+        ),
       ),
-    closePoolsUnstakeModal: () =>
-      dispatch(poolsAction.closePoolsUnstakeModal()),
+    closePoolsUnstakeModal: () => dispatch(poolsAction.closePoolsUnstakeModal()),
     unstakeOnPool: (stakesToUnstake, poolIdentifier, isActive, position) =>
-      dispatch(
-        poolsAction.unstakeOnPool(
-          stakesToUnstake,
-          poolIdentifier,
-          isActive,
-          position
-        )
-      ),
+      dispatch(poolsAction.unstakeOnPool(stakesToUnstake, poolIdentifier, isActive, position)),
   };
 };
 

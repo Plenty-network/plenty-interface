@@ -236,7 +236,7 @@ const Swap = (props) => {
         });
       }
     }
-  }, [tokenIn, tokenOut])
+  }, [tokenIn, tokenOut]);
 
   const handleClose = () => {
     setShow(false);

@@ -92,9 +92,7 @@ const Frontpage = ({
   const loaderMessage = useMemo(() => {
     if (harvestAllOperations.completed || harvestAllOperations.failed) {
       return {
-        message: harvestAllOperations.completed
-          ? 'Transaction confirmed'
-          : 'Transaction failed',
+        message: harvestAllOperations.completed ? 'Transaction confirmed' : 'Transaction failed',
         type: harvestAllOperations.completed ? 'success' : 'error',
       };
     }
@@ -105,9 +103,7 @@ const Frontpage = ({
     <>
       <Container fluid>
         <div className={`d-flex flex-column ${styles.fullScreen}`}>
-          <FrontPageGradientDiv
-            className={`row flex-grow-1 ${styles.homePageBanner}`}
-          >
+          <FrontPageGradientDiv className={`row flex-grow-1 ${styles.homePageBanner}`}>
             <Header
               toggleTheme={toggleTheme}
               theme={theme}
@@ -119,9 +115,7 @@ const Frontpage = ({
             <div
               className={clsx(
                 'py-5',
-                walletConnected
-                  ? ['col-lg-6', 'col-sm-12', 'col-md-12']
-                  : 'col-sm-12 col-md-12'
+                walletConnected ? ['col-lg-6', 'col-sm-12', 'col-md-12'] : 'col-sm-12 col-md-12',
               )}
             >
               <div
@@ -150,24 +144,20 @@ const Frontpage = ({
                         'text-center',
                         'flex-column',
                         'py-lg-5',
-                      ]
+                      ],
                 )}
               >
-                <h5
-                  className={`mb-3 text-white font-weight-light ${styles.textMulish}`}
-                >
+                <h5 className={`mb-3 text-white font-weight-light ${styles.textMulish}`}>
                   Total Value Locked
                 </h5>
                 <h1 className="mb-3 text-white font-weight-bold">
-                  <NumericLabel params={currencyOptionsWithSymbol}>
-                    {tvl}
-                  </NumericLabel>
+                  <NumericLabel params={currencyOptionsWithSymbol}>{tvl}</NumericLabel>
                 </h1>
                 <h5
                   className={`mb-4 text-white text-mulish font-weight-light ${styles.textMulish}`}
                 >
-                  Trade tokens and earn interest by staking. There is plenty of
-                  DeFi to explore on Tezos.
+                  Trade tokens and earn interest by staking. There is plenty of DeFi to explore on
+                  Tezos.
                 </h5>
                 <Link to={'swap'} className="text-decoration-none">
                   <Button
@@ -205,9 +195,7 @@ const Frontpage = ({
               <Label
                 text={
                   homeStats.price ? (
-                    <NumericLabel params={currencyOptions}>
-                      {homeStats.price}
-                    </NumericLabel>
+                    <NumericLabel params={currencyOptions}>{homeStats.price}</NumericLabel>
                   ) : (
                     '0'
                   )
@@ -300,9 +288,7 @@ const Frontpage = ({
           >
             <Col xs={12} md={6} xl={3} className="mb-3 d-flex">
               <LinkTile
-                text={
-                  'Swap tokens with high liquidity on the first token-to-token AMM on Tezos.'
-                }
+                text={'Swap tokens with high liquidity on the first token-to-token AMM on Tezos.'}
                 linkTo={'/swap'}
                 linkText={'Enter Exchange'}
                 headerIcon={amm}
@@ -311,13 +297,11 @@ const Frontpage = ({
             </Col>
             <Col xs={12} md={6} xl={3} className="mb-3 d-flex">
               <LinkTile
-                  text={
-                    'Add liquidity for any trading pair and start earning trading fees.'
-                  }
-                  linkTo={'/liquidity'}
-                  linkText={'Add Liquidity'}
-                  headerIcon={liquidity}
-                  headerText={'Liquidity'}
+                text={'Add liquidity for any trading pair and start earning trading fees.'}
+                linkTo={'/liquidity'}
+                linkText={'Add Liquidity'}
+                headerIcon={liquidity}
+                headerText={'Liquidity'}
               />
             </Col>
             <Col xs={12} md={6} xl={3} className="mb-3 d-flex">
@@ -333,9 +317,7 @@ const Frontpage = ({
             </Col>
             <Col xs={12} md={6} xl={3} className="mb-3 d-flex">
               <LinkTile
-                text={
-                  'Stake PLENTY, receive xPLENTY. Rewards are compounding.'
-                }
+                text={'Stake PLENTY, receive xPLENTY. Rewards are compounding.'}
                 linkTo={'/stake'}
                 linkText={'Enter Staking'}
                 headerIcon={xplenty}
@@ -356,39 +338,22 @@ const Frontpage = ({
               <div className={`mb-3 ${styles.aboutSubtext}`}>
                 <span>
                   <p>
-                    Plenty is expanding DeFi use cases on Tezos towards a full
-                    scale decentralized financial ecosystem. Empowering traders,
-                    liquidity providers & developers to participate in an open
-                    financial marketplace.
+                    Plenty is expanding DeFi use cases on Tezos towards a full scale decentralized
+                    financial ecosystem. Empowering traders, liquidity providers & developers to
+                    participate in an open financial marketplace.
                   </p>
                 </span>
               </div>
-              <a
-                href={'https://plentydefi.medium.com/'}
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a href={'https://plentydefi.medium.com/'} target="_blank" rel="noreferrer">
                 <Medium className="mr-2 icon-themed" />
               </a>
-              <a
-                href={'https://discord.gg/9wZ4CuvkuJ'}
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a href={'https://discord.gg/9wZ4CuvkuJ'} target="_blank" rel="noreferrer">
                 <Discord className="mr-2 icon-themed" />
               </a>
-              <a
-                href={'https://t.me/PlentyDeFi'}
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a href={'https://t.me/PlentyDeFi'} target="_blank" rel="noreferrer">
                 <Telegram className="mr-2 icon-themed" />
               </a>
-              <a
-                href={'https://twitter.com/PlentyDeFi'}
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a href={'https://twitter.com/PlentyDeFi'} target="_blank" rel="noreferrer">
                 <Twitter className="mr-2 icon-themed" />
               </a>
             </div>
@@ -407,9 +372,7 @@ const Frontpage = ({
                   className="col-10 col-xl-8 m-auto pb-5 py-lg-3 px-0
                                     align-items-start text-left"
                 >
-                  <h2 className="text-white font-weight-bold">
-                    Frequently asked questions
-                  </h2>
+                  <h2 className="text-white font-weight-bold">Frequently asked questions</h2>
                 </div>
               </Col>
             </Row>
@@ -419,40 +382,30 @@ const Frontpage = ({
                   className="col-10 col-xl-8 m-auto py-lg-5 px-0
                                     align-items-start text-left"
                 >
-                  <Accordion
-                    isOpen={true}
-                    text={'What is Plenty?'}
-                    className={styles.divider}
-                  >
+                  <Accordion isOpen={true} text={'What is Plenty?'} className={styles.divider}>
                     <div>
                       <p className="text-white">
-                        Plenty is a platform for creating liquidity and trading
-                        FA 1.2 and FA 2 tokens on Tezos.
+                        Plenty is a platform for creating liquidity and trading FA 1.2 and FA 2
+                        tokens on Tezos.
                       </p>
                       <p className="text-white">
-                        You can only swap tokens on Plenty if there is enough
-                        liquidity for those tokens. Providing liquidity will get
-                        you Plenty Liquidity Provider (PLP) tokens, which will
-                        generate rewards in the form of trading fees for making
+                        You can only swap tokens on Plenty if there is enough liquidity for those
+                        tokens. Providing liquidity will get you Plenty Liquidity Provider (PLP)
+                        tokens, which will generate rewards in the form of trading fees for making
                         sure there's always liquidity for the exchange to use.
                       </p>
                       <p className="text-white">
-                        Yield farming lets users that are providing liquidity
-                        earn PLENTY rewards by locking their PLP tokens into a
-                        farm.
+                        Yield farming lets users that are providing liquidity earn PLENTY rewards by
+                        locking their PLP tokens into a farm.
                       </p>
                     </div>
                   </Accordion>
-                  <Accordion
-                    text={'How does Plenty work?'}
-                    className={styles.divider}
-                  >
+                  <Accordion text={'How does Plenty work?'} className={styles.divider}>
                     <div>
                       <p className="text-white">
-                        Plenty is a collection of smart contracts to make
-                        liquidity pools and corresponding markets that are
-                        compatible with each other. The architecture is based
-                        on&nbsp;
+                        Plenty is a collection of smart contracts to make liquidity pools and
+                        corresponding markets that are compatible with each other. The architecture
+                        is based on&nbsp;
                         <a
                           href={
                             'https://docs.uniswap.org/protocol/V2/concepts/protocol-overview/how-uniswap-works'
@@ -465,29 +418,22 @@ const Frontpage = ({
                         .
                       </p>
                       <p className="text-white">
-                        Each pool is defined by a smart contract that includes a
-                        few functions to enable swapping tokens, adding
-                        liquidity and more. At its core each pool uses the
-                        function x*y=k to maintain a curve along which trades
-                        can happen. The pools keep track of reserves (liquidity)
-                        and update those reserves every single time someone
-                        trades. Because the reserves are automatically
-                        rebalanced, a Plenty liquidity pool can always be used
-                        to buy or sell a token without requiring a counterparty
-                        on the other side of a trade.
+                        Each pool is defined by a smart contract that includes a few functions to
+                        enable swapping tokens, adding liquidity and more. At its core each pool
+                        uses the function x*y=k to maintain a curve along which trades can happen.
+                        The pools keep track of reserves (liquidity) and update those reserves every
+                        single time someone trades. Because the reserves are automatically
+                        rebalanced, a Plenty liquidity pool can always be used to buy or sell a
+                        token without requiring a counterparty on the other side of a trade.
                       </p>
                     </div>
                   </Accordion>
-                  <Accordion
-                    text={'Why can’t I trade XTZ?'}
-                    className={styles.divider}
-                  >
+                  <Accordion text={'Why can’t I trade XTZ?'} className={styles.divider}>
                     <div>
                       <p className="text-white">
-                        Plenty is the first token-to-token Automated Market
-                        Maker (AMM) on Tezos. This means that XTZ trading is not
-                        supported. However, trading with a tokenized version of
-                        XTZ called&nbsp;
+                        Plenty is the first token-to-token Automated Market Maker (AMM) on Tezos.
+                        This means that XTZ trading is not supported. However, trading with a
+                        tokenized version of XTZ called&nbsp;
                         <a
                           href={
                             'https://forum.tezosagora.org/t/ctez-a-synthetic-tez-backed-by-tez-for-better-composability-as-an-alternative-to-the-virtual-baker/2612'
@@ -497,10 +443,9 @@ const Frontpage = ({
                         >
                           CTEZ
                         </a>
-                        &nbsp;will be supported in the near future. CTEZ solves
-                        the issue of using XTZ inside DeFi contracts without
-                        worrying about the governance matter of "who should be
-                        the baker" and without the opportunity cost of not
+                        &nbsp;will be supported in the near future. CTEZ solves the issue of using
+                        XTZ inside DeFi contracts without worrying about the governance matter of
+                        "who should be the baker" and without the opportunity cost of not
                         delegating.
                       </p>
                     </div>
@@ -512,35 +457,20 @@ const Frontpage = ({
                   className="col-10 col-xl-8 m-auto py-lg-5 px-0
                                     align-items-start text-left"
                 >
-                  <Accordion
-                    text={'How do I use Plenty?'}
-                    className={styles.divider}
-                  >
+                  <Accordion text={'How do I use Plenty?'} className={styles.divider}>
                     <div>
                       <p className="text-white">
-                        First you’ll need a Tezos wallet and some XTZ. XTZ is
-                        available at all big crypto exchanges like&nbsp;
-                        <a
-                          href={'https://www.coinbase.com/'}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
+                        First you’ll need a Tezos wallet and some XTZ. XTZ is available at all big
+                        crypto exchanges like&nbsp;
+                        <a href={'https://www.coinbase.com/'} target="_blank" rel="noreferrer">
                           Coinbase
                         </a>
                         ,&nbsp;
-                        <a
-                          href={'https://www.kraken.com/'}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
+                        <a href={'https://www.kraken.com/'} target="_blank" rel="noreferrer">
                           Kraken
                         </a>
                         &nbsp; and&nbsp;
-                        <a
-                          href={'https://www.binance.com/'}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
+                        <a href={'https://www.binance.com/'} target="_blank" rel="noreferrer">
                           Binance
                         </a>
                         . Do you hold XTZ? Go to&nbsp;
@@ -553,53 +483,38 @@ const Frontpage = ({
                         >
                           Quipuswap
                         </a>
-                        &nbsp;to swap it for PLENTY! Each transaction on Tezos
-                        comes with a small gas fee, paid in XTZ, which is a fee
-                        for the bakers to keep the Proof of Stake network
-                        running.
+                        &nbsp;to swap it for PLENTY! Each transaction on Tezos comes with a small
+                        gas fee, paid in XTZ, which is a fee for the bakers to keep the Proof of
+                        Stake network running.
                       </p>
                       <p className="text-white">
-                        If you are a DeFi user from another blockchain, you can
-                        wrap your assets using the&nbsp;
-                        <a
-                          href={'https://www.benderlabs.io/wrap'}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
+                        If you are a DeFi user from another blockchain, you can wrap your assets
+                        using the&nbsp;
+                        <a href={'https://www.benderlabs.io/wrap'} target="_blank" rel="noreferrer">
                           Wrap Protocol
                         </a>
-                        .&nbsp;Wrap tokens like USDC, BUSD, LINK, MATIC, or
-                        WBTC, and use them on Plenty to trade and earn yield.
+                        .&nbsp;Wrap tokens like USDC, BUSD, LINK, MATIC, or WBTC, and use them on
+                        Plenty to trade and earn yield.
                       </p>
                     </div>
                   </Accordion>
-                  <Accordion
-                    text={'How are prices determined?'}
-                    className={styles.divider}
-                    s
-                  >
+                  <Accordion text={'How are prices determined?'} className={styles.divider} s>
                     <div>
                       <p className="text-white">
-                        Prices are determined by the amount of each token in a
-                        pool. The smart contract maintains a constant using the
-                        following function: x*y=k. For example, x = tokenABC, y
-                        = tokenXYZ, and k = constant. During each trade, a
-                        certain amount of one token is removed from the pool for
-                        an amount of the other token. To maintain k, the
-                        balances held by the smart contract are adjusted during
-                        the execution of the trade, thereby changing the price.
+                        Prices are determined by the amount of each token in a pool. The smart
+                        contract maintains a constant using the following function: x*y=k. For
+                        example, x = tokenABC, y = tokenXYZ, and k = constant. During each trade, a
+                        certain amount of one token is removed from the pool for an amount of the
+                        other token. To maintain k, the balances held by the smart contract are
+                        adjusted during the execution of the trade, thereby changing the price.
                       </p>
                     </div>
                   </Accordion>
-                  <Accordion
-                    text={'Are there risks?'}
-                    className={styles.divider}
-                  >
+                  <Accordion text={'Are there risks?'} className={styles.divider}>
                     <div>
                       <p className="text-white">
-                        Using smart contracts always brings risk. To reduce this
-                        risk, the Plenty smart contracts are audited. Both the
-                        AMM and staking smart contracts&nbsp;
+                        Using smart contracts always brings risk. To reduce this risk, the Plenty
+                        smart contracts are audited. Both the AMM and staking smart contracts&nbsp;
                         <a
                           href={
                             'https://plenty-defi.notion.site/Audits-70fdccf107ec42feb0bcf720cb6c5ba5'
@@ -612,12 +527,11 @@ const Frontpage = ({
                         &nbsp;successfully.
                       </p>
                       <p className="text-white">
-                        For liquidity providers there is the risk of Impermanent
-                        loss. This is a price difference that can occur when
-                        holding tokens in an AMM liquidity pool instead of
-                        holding them in your wallet. It occurs when the price of
-                        tokens inside an AMM diverge in any direction. The more
-                        divergence, the greater the impermanent loss.
+                        For liquidity providers there is the risk of Impermanent loss. This is a
+                        price difference that can occur when holding tokens in an AMM liquidity pool
+                        instead of holding them in your wallet. It occurs when the price of tokens
+                        inside an AMM diverge in any direction. The more divergence, the greater the
+                        impermanent loss.
                       </p>
                     </div>
                   </Accordion>
@@ -633,26 +547,17 @@ const Frontpage = ({
       </Container>
       <InfoModal
         open={modalData.open === HOME_PAGE_MODAL.TRANSACTION_SUCCESS}
-        onClose={() =>
-          openCloseModal({ open: HOME_PAGE_MODAL.NULL, transactionId: '' })
-        }
+        onClose={() => openCloseModal({ open: HOME_PAGE_MODAL.NULL, transactionId: '' })}
         message={'Transaction submitted'}
         buttonText={'View on Tezos'}
         onBtnClick={
           !modalData.transactionId
             ? undefined
-            : () =>
-                window.open(
-                  `https://tzkt.io/${modalData.transactionId}`,
-                  '_blank'
-                )
+            : () => window.open(`https://tzkt.io/${modalData.transactionId}`, '_blank')
         }
       />
       {modalData.snackbar && (
-        <Loader
-          loading={harvestAllOperations.processing}
-          loaderMessage={loaderMessage}
-        />
+        <Loader loading={harvestAllOperations.processing} loaderMessage={loaderMessage} />
       )}
     </>
   );
@@ -663,12 +568,8 @@ const mapStateToProps = (state) => ({
   tvl: state.home.tvl.data,
   wallet: state.wallet.address,
   plentyToHarvest: state.home.plentyToHarvest.data,
-  plentyBalance: state.home.plentyBalance.data
-    ? state.home.plentyBalance.data.PLENTY
-    : 0,
-  xplentyBalance: state.home.plentyBalance.data
-    ? state.home.plentyBalance.data.xPLENTY
-    : 0,
+  plentyBalance: state.home.plentyBalance.data ? state.home.plentyBalance.data.PLENTY : 0,
+  xplentyBalance: state.home.plentyBalance.data ? state.home.plentyBalance.data.xPLENTY : 0,
   userTVL: state.home.userTVL.data,
   modalData: state.home.modals,
   harvestAllOperations: state.home.harvestAllOperation,

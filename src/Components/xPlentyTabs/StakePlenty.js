@@ -5,7 +5,7 @@ import plenty from '../../assets/images/logo_small.png';
 import PuffLoader from 'react-spinners/PuffLoader';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-import Button from "../Ui/Buttons/Button";
+import Button from '../Ui/Buttons/Button';
 
 const StakePlenty = (props) => {
   const [plentyInput, setPlentyInput] = useState('');
@@ -18,7 +18,7 @@ const StakePlenty = (props) => {
     props.setExpectedxPlenty(
       props.xPlentyData.data.plentyBalance,
       props.xPlentyData.data.totalSupply,
-      parseFloat(value)
+      parseFloat(value),
     );
   };
   const buyHandler = () => {
@@ -27,11 +27,7 @@ const StakePlenty = (props) => {
 
     let expectedxPlentyWithFormat = props.expectedxPlenty * Math.pow(10, 18);
     expectedxPlentyWithFormat = Math.floor(expectedxPlentyWithFormat);
-    props.buyxPlenty(
-      plentyInputWithFormat,
-      props.expectedxPlenty,
-      props.walletAddress
-    );
+    props.buyxPlenty(plentyInputWithFormat, props.expectedxPlenty, props.walletAddress);
   };
 
   const onMaxClick = (value) => {
@@ -58,7 +54,8 @@ const StakePlenty = (props) => {
       onClick={props.connectWallet}
       color={'primary'}
       startIcon={'add'}
-      className={'xplenty-btn mt-4 w-100 flex align-items-center justify-content-center'}>
+      className={'xplenty-btn mt-4 w-100 flex align-items-center justify-content-center'}
+    >
       Connect Wallet
     </Button>
   );
@@ -68,7 +65,8 @@ const StakePlenty = (props) => {
         <Button
           onClick={() => null}
           color={'primary'}
-          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}>
+          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+        >
           Insufficient Balance
         </Button>
       );
@@ -77,7 +75,8 @@ const StakePlenty = (props) => {
         <Button
           color={'primary'}
           onClick={buyHandler}
-          className={'xplenty-btn mt-4 w-100 flex align-items-center justify-content-center'}>
+          className={'xplenty-btn mt-4 w-100 flex align-items-center justify-content-center'}
+        >
           Stake Plenty
         </Button>
       );
@@ -86,7 +85,8 @@ const StakePlenty = (props) => {
         <Button
           onClick={() => null}
           color={'primary'}
-          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}>
+          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+        >
           Enter an amount
         </Button>
       );
@@ -98,8 +98,8 @@ const StakePlenty = (props) => {
         onClick={() => null}
         color={'primary'}
         loading={true}
-        className={'xplenty-btn mt-4 w-100 flex align-items-center justify-content-center'}>
-      </Button>
+        className={'xplenty-btn mt-4 w-100 flex align-items-center justify-content-center'}
+      ></Button>
     );
   }
   useEffect(() => {
@@ -109,9 +109,7 @@ const StakePlenty = (props) => {
   }, [props.isToastOpen]);
   return (
     <>
-      <div
-        className="swap-token-select-box bg-themed-light swap-content-box-wrapper"
-      >
+      <div className="swap-token-select-box bg-themed-light swap-content-box-wrapper">
         <div className="token-selector-balance-wrapper">
           <button className="token-selector">
             <img src={plenty} className="button-logo" />
@@ -147,10 +145,7 @@ const StakePlenty = (props) => {
           <OverlayTrigger
             placement="auto"
             overlay={
-              <Tooltip
-                id="button-tooltip"
-                {...props}
-              >
+              <Tooltip id="button-tooltip" {...props}>
                 {props.xPlentyData.data.plentyPerXplenty}
               </Tooltip>
             }

@@ -5,4 +5,4 @@ export const POND_PAGE_MODAL = {
   UNSTAKE: 'unstake',
   WITHDRAWAL: 'withdrawal',
   TRANSACTION_SUCCESS: 'transaction-success',
-}
+};

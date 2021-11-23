@@ -16,7 +16,6 @@ import Switch from '../Components/Ui/Switch/Switch';
 import PondModals from '../Components/PondPage/PondModals';
 
 const Ponds = (props) => {
-
   useEffect(() => {
     const fetchData = () => {
       renderPonds();
@@ -24,7 +23,7 @@ const Ponds = (props) => {
 
     fetchData();
     const backgroundRefresh = setInterval(() => {
-      fetchData()
+      fetchData();
     }, 60 * 1000);
 
     return () => clearInterval(backgroundRefresh);
@@ -109,9 +108,9 @@ const Ponds = (props) => {
       ]) {
         pondsToBeRendered.push({
           pondData:
-            CONFIG.PONDS[CONFIG.NETWORK][key][
-              props.isActiveOpen === true ? 'active' : 'inactive'
-            ][i],
+            CONFIG.PONDS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][
+              i
+            ],
           properties:
             pondsCardListType[
               CONFIG.PONDS[CONFIG.NETWORK][key][
@@ -127,9 +126,9 @@ const Ponds = (props) => {
               ][i].withdrawalFeeType
             ],
           title:
-            CONFIG.PONDS[CONFIG.NETWORK][key][
-              props.isActiveOpen === true ? 'active' : 'inactive'
-            ][i].CARD_TYPE,
+            CONFIG.PONDS[CONFIG.NETWORK][key][props.isActiveOpen === true ? 'active' : 'inactive'][
+              i
+            ].CARD_TYPE,
         });
       }
     }
@@ -196,10 +195,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     connectWallet: () => dispatch(walletActions.connectWallet()),
-    togglePondsType: (isActive) =>
-      dispatch(pondsAction.togglePondsType(isActive)),
-    setPondsToRender: (pondsToBeRender) =>
-      dispatch(pondsAction.setPondsToRender(pondsToBeRender)),
+    togglePondsType: (isActive) => dispatch(pondsAction.togglePondsType(isActive)),
+    setPondsToRender: (pondsToBeRender) => dispatch(pondsAction.setPondsToRender(pondsToBeRender)),
   };
 };
 

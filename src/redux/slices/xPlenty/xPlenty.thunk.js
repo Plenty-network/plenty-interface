@@ -34,51 +34,39 @@ export const xPlentyComputationsThunk = () => (dispatch) => {
     });
 };
 
-export const getExpectedPlentyThunk =
-  (plentyBalance, totalSupply, xplentyAmount) => (dispatch) => {
-    const expectedPlenty = getExpectedPlenty(
-      plentyBalance,
-      totalSupply,
-      xplentyAmount
-    );
-    dispatch(setExpectedPlenty(expectedPlenty));
-  };
+export const getExpectedPlentyThunk = (plentyBalance, totalSupply, xplentyAmount) => (dispatch) => {
+  const expectedPlenty = getExpectedPlenty(plentyBalance, totalSupply, xplentyAmount);
+  dispatch(setExpectedPlenty(expectedPlenty));
+};
 
-export const getExpectedxPlentyThunk =
-  (plentyBalance, totalSupply, plentyAmount) => (dispatch) => {
-    const expectedxPlenty = getExpectedxPlenty(
-      plentyBalance,
-      totalSupply,
-      plentyAmount
-    );
-    dispatch(setExpectedxPlenty(expectedxPlenty));
-  };
+export const getExpectedxPlentyThunk = (plentyBalance, totalSupply, plentyAmount) => (dispatch) => {
+  const expectedxPlenty = getExpectedxPlenty(plentyBalance, totalSupply, plentyAmount);
+  dispatch(setExpectedxPlenty(expectedxPlenty));
+};
 
-export const buyXPlentyThunk =
-  (plentyAmount, minimumExpected, recipient) => (dispatch) => {
-    dispatch(initiateBuying());
-    buyXPlenty(plentyAmount, minimumExpected, recipient)
-      .then((response) => {
-        dispatch(buyingSuccessfull(response));
-      })
-      .catch((error) => {
-        console.log(error);
-        dispatch(buyingFailed());
-      });
-  };
+export const buyXPlentyThunk = (plentyAmount, minimumExpected, recipient) => (dispatch) => {
+  dispatch(initiateBuying());
+  buyXPlenty(plentyAmount, minimumExpected, recipient)
+    .then((response) => {
+      dispatch(buyingSuccessfull(response));
+    })
+    .catch((error) => {
+      console.log(error);
+      dispatch(buyingFailed());
+    });
+};
 
-export const sellXPlentyThunk =
-  (xPlentyAmount, minimumExpected, recipient) => (dispatch) => {
-    dispatch(initiateSelling());
-    sellXPlenty(xPlentyAmount, minimumExpected, recipient)
-      .then((response) => {
-        dispatch(sellingSuccessfull(response));
-      })
-      .catch((error) => {
-        console.log(error);
-        dispatch(sellingFailed());
-      });
-  };
+export const sellXPlentyThunk = (xPlentyAmount, minimumExpected, recipient) => (dispatch) => {
+  dispatch(initiateSelling());
+  sellXPlenty(xPlentyAmount, minimumExpected, recipient)
+    .then((response) => {
+      dispatch(sellingSuccessfull(response));
+    })
+    .catch((error) => {
+      console.log(error);
+      dispatch(sellingFailed());
+    });
+};
 
 export const closetransactionInjectionModalThunk = () => (dispatch) => {
   dispatch(closetransactionInjectionModal());

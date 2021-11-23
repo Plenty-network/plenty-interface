@@ -16,7 +16,7 @@ const LiquidityTab = (props) => {
           path: `/liquidity/remove?tokenA=${props.tokenIn.name}&tokenB=${props.tokenOut.name}`,
         },
         '',
-        `/liquidity/remove?tokenA=${props.tokenIn.name}&tokenB=${props.tokenOut.name}`
+        `/liquidity/remove?tokenA=${props.tokenIn.name}&tokenB=${props.tokenOut.name}`,
       );
       defaultKey = 'remove';
     } else {
@@ -25,7 +25,7 @@ const LiquidityTab = (props) => {
           path: `/liquidity/add?tokenA=${props.tokenIn.name}&tokenB=${props.tokenOut.name}`,
         },
         '',
-        `/liquidity/add?tokenA=${props.tokenIn.name}&tokenB=${props.tokenOut.name}`
+        `/liquidity/add?tokenA=${props.tokenIn.name}&tokenB=${props.tokenOut.name}`,
       );
       defaultKey = 'add';
     }

@@ -13,15 +13,13 @@ import { openClosePoolsModal } from '../../redux/actions/pools/pools.actions';
 const PoolCard = (props) => {
   const dispatch = useDispatch();
 
-  const apyCalculate = (apr) =>
-    ((Math.pow(1 + apr / 100 / 365, 365) - 1) * 100).toFixed(0);
+  const apyCalculate = (apr) => ((Math.pow(1 + apr / 100 / 365, 365) - 1) * 100).toFixed(0);
 
   const getAPR = (props) => {
     try {
       if (props.isActiveOpen === true) {
         if (props.activePoolsData.isPresent === true) {
-          const apr =
-            props.activePoolsData.data.response[props.CONTRACT]?.APR ?? 0;
+          const apr = props.activePoolsData.data.response[props.CONTRACT]?.APR ?? 0;
           return Math.round(apr);
         }
 
@@ -40,9 +38,7 @@ const PoolCard = (props) => {
     if (props.isActiveOpen === true) {
       if (props.activePoolsData.isPresent === true) {
         const apy = apyCalculate(
-          props.activePoolsData.data.response[props.CONTRACT]?.APR?.toFixed(
-            2
-          ) ?? 0
+          props.activePoolsData.data.response[props.CONTRACT]?.APR?.toFixed(2) ?? 0,
         );
 
         return numberWithCommas(Math.round(apy));
@@ -57,10 +53,7 @@ const PoolCard = (props) => {
   const getReward = () => {
     if (props.isActiveOpen === true) {
       if (props.activePoolsData.isPresent === true) {
-        return (
-          (props.activePoolsData.data.response[props.CONTRACT]?.rewardRate ??
-            0) * 2880
-        );
+        return (props.activePoolsData.data.response[props.CONTRACT]?.rewardRate ?? 0) * 2880;
       }
 
       return 0;
@@ -73,10 +66,8 @@ const PoolCard = (props) => {
     if (props.isActiveOpen === true) {
       if (props.activePoolsData.isPresent === true) {
         return numberWithCommas(
-          props.activePoolsData.data.response[
-            props.CONTRACT
-          ]?.totalLiquidty?.toFixed(0) ?? 0,
-          { plain: true }
+          props.activePoolsData.data.response[props.CONTRACT]?.totalLiquidty?.toFixed(0) ?? 0,
+          { plain: true },
         );
       }
 
@@ -85,10 +76,8 @@ const PoolCard = (props) => {
 
     if (props.inactivePoolsData.isPresent === true) {
       return numberWithCommas(
-        props.inactivePoolsData.data.response[
-          props.CONTRACT
-        ]?.totalLiquidty?.toFixed(0) ?? 0,
-        { plain: true }
+        props.inactivePoolsData.data.response[props.CONTRACT]?.totalLiquidty?.toFixed(0) ?? 0,
+        { plain: true },
       );
     }
 
@@ -107,7 +96,7 @@ const PoolCard = (props) => {
       openClosePoolsModal({
         open: POOL_PAGE_MODAL.ROI,
         contractAddress: props.CONTRACT,
-      })
+      }),
     );
   };
 
@@ -124,7 +113,7 @@ const PoolCard = (props) => {
           <div
             className={clsx(
               styles.plentyCardHeader,
-              'flex justify-content-center align-center p-26 pb-20'
+              'flex justify-content-center align-center p-26 pb-20',
             )}
           >
             <div className={clsx(styles.imageWrapperSingle, 'mr-2')}>
@@ -138,21 +127,11 @@ const PoolCard = (props) => {
 
           {/* * Content */}
           <div className={clsx(styles.plentyCardContent, 'pb-0')}>
-            <div
-              className={clsx(
-                styles.plentyCardContentInfo,
-                'flex justify-between'
-              )}
-            >
+            <div className={clsx(styles.plentyCardContentInfo, 'flex justify-between')}>
               <p className={styles.plentyCardContentTag}>APY:</p>
               <p className={styles.plentyCardContentTag}>{getAPY(props)}%</p>
             </div>
-            <div
-              className={clsx(
-                styles.plentyCardContentInfo,
-                'flex justify-between'
-              )}
-            >
+            <div className={clsx(styles.plentyCardContentInfo, 'flex justify-between')}>
               <p className={styles.plentyCardContentTag}>APR:</p>
               <p className={styles.plentyCardContentTag}>
                 <img
@@ -164,28 +143,16 @@ const PoolCard = (props) => {
                 {getAPR(props)}%
               </p>
             </div>
-            <div
-              className={clsx(
-                styles.plentyCardContentInfo,
-                'flex justify-between'
-              )}
-            >
+            <div className={clsx(styles.plentyCardContentInfo, 'flex justify-between')}>
               <p className={styles.plentyCardContentTag}>Rewards:</p>
-              <p className={styles.plentyCardContentTag}>
-                {getReward()} PLENTY / DAY
-              </p>
+              <p className={styles.plentyCardContentTag}>{getReward()} PLENTY / DAY</p>
             </div>
 
             <div
-              className={clsx(
-                styles.plentyCardTvlInfo,
-                'flex justify-between align-center mb-4'
-              )}
+              className={clsx(styles.plentyCardTvlInfo, 'flex justify-between align-center mb-4')}
             >
               <p className={styles.plentyCardContentTag}>TVL:</p>
-              <p className={styles.plentyCardContentTag}>
-                ${getTotalLiquidity()}
-              </p>
+              <p className={styles.plentyCardContentTag}>${getTotalLiquidity()}</p>
             </div>
 
             {props.userAddress ? (
@@ -197,7 +164,7 @@ const PoolCard = (props) => {
                       props.identifier,
                       props.title,
                       props.position,
-                      props.CONTRACT
+                      props.CONTRACT,
                     )
                   }
                   color={'primary'}

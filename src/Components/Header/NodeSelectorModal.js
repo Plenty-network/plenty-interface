@@ -54,7 +54,7 @@ function NodeSelectorModal(props) {
     }
 
     const matchedNode = Object.keys(LOCAL_RPC_NODES).find(
-      (key) => LOCAL_RPC_NODES[key] === RPCNodeInLS
+      (key) => LOCAL_RPC_NODES[key] === RPCNodeInLS,
     );
 
     if (!matchedNode) {
@@ -105,8 +105,8 @@ function NodeSelectorModal(props) {
       className="node-selector-modal"
     >
       <div className="node-selector-text">
-        The Plenty node can be overloaded sometimes. When your data doesn’t load
-        properly, try switching to a different node, or use a custom node.
+        The Plenty node can be overloaded sometimes. When your data doesn’t load properly, try
+        switching to a different node, or use a custom node.
       </div>
       <div className="node-selector-radio-container node-selector-list">
         <ul>

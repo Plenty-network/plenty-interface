@@ -29,15 +29,14 @@ const SimpleModal = (props) => {
       {/* * Header */}
 
       {/* * Body */}
-        <div
-          className={clsx(styles.content, {
-            [styles.noTopPadding]: !props.title,
-          })}
-        >
-          {props.children}
-        </div>
-        {/* * Body */}
-
+      <div
+        className={clsx(styles.content, {
+          [styles.noTopPadding]: !props.title,
+        })}
+      >
+        {props.children}
+      </div>
+      {/* * Body */}
     </Modal>
   );
 };

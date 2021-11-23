@@ -6,10 +6,7 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Loader from '../Components/loader';
 import NumericLabel from 'react-pretty-numbers';
-import {
-  currencyOptionsWithSymbol,
-  currencyOptions,
-} from '../constants/global';
+import { currencyOptionsWithSymbol, currencyOptions } from '../constants/global';
 import xplenty from '../assets/images/x-plenty-medium.svg';
 import StakePlenty from '../Components/xPlentyTabs/StakePlenty';
 import UnstakePlenty from '../Components/xPlentyTabs/UnstakePlenty';
@@ -45,10 +42,7 @@ const Stake = (props) => {
   useEffect(() => {
     if (props.isToastOpen) {
       setLoaderMessage({
-        type:
-          props.toastMessage === 'Transaction Successfull'
-            ? 'success'
-            : 'error',
+        type: props.toastMessage === 'Transaction Successfull' ? 'success' : 'error',
         message: props.toastMessage,
       });
       setTimeout(() => {
@@ -61,31 +55,23 @@ const Stake = (props) => {
     <>
       <Container fluid>
         <Row>
-          <Col
-            sm={12}
-            xl={9}
-            className="swap-content-section xplenty-content-section"
-          >
+          <Col sm={12} xl={9} className="swap-content-section xplenty-content-section">
             <div className="xplenty-content-wrapper xplenty-container row justify-content-center">
               <div className="xplenty-info-wrapper col-12 col-lg-5 col-xl-4">
-                <h2 className="xplenty-heading">
-                  Maximize yield by staking PLENTY for xPLENTY
-                </h2>
+                <h2 className="xplenty-heading">Maximize yield by staking PLENTY for xPLENTY</h2>
                 <p className="xplenty-info">
-                  When you stake PLENTY, you automatically receive xPLENTY in return. The xPLENTY token is a flash loan
-                  resistant token and will be used for governance of the Plenty
-                  protocol. Furthermore, xPLENTY continuously compounds staking
-                  rewards and trading fees. By unstaking, your xPLENTY tokens
-                  are burned and you receive all of your originally deposited
-                  PLENTY tokens plus the rewards collected from staking and
-                  trading fees.
+                  When you stake PLENTY, you automatically receive xPLENTY in return. The xPLENTY
+                  token is a flash loan resistant token and will be used for governance of the
+                  Plenty protocol. Furthermore, xPLENTY continuously compounds staking rewards and
+                  trading fees. By unstaking, your xPLENTY tokens are burned and you receive all of
+                  your originally deposited PLENTY tokens plus the rewards collected from staking
+                  and trading fees.
                 </p>
 
                 <p className="xplenty-info">
-                  For every swap on Plenty, 0.09% of the total value of the swap
-                  is distributed as PLENTY tokens to the xPLENTY staking pool.
-                  Such PLENTY tokens are proportionally distributed to the
-                  xPLENTY holders according to the amount of their staked tokens
+                  For every swap on Plenty, 0.09% of the total value of the swap is distributed as
+                  PLENTY tokens to the xPLENTY staking pool. Such PLENTY tokens are proportionally
+                  distributed to the xPLENTY holders according to the amount of their staked tokens
                   and stake duration.
                 </p>
 
@@ -140,9 +126,7 @@ const Stake = (props) => {
                     </div>
                     <div>
                       <p className="xplenty-staking-apr">
-                        {props.xPlentyData.data.APR
-                          ? props.xPlentyData.data.APR.toFixed(2)
-                          : 0}
+                        {props.xPlentyData.data.APR ? props.xPlentyData.data.APR.toFixed(2) : 0}
                         {'%'}
                       </p>
                     </div>
@@ -151,10 +135,7 @@ const Stake = (props) => {
 
                 <div className="xplenty-content-container-wrapper">
                   <div className="bg-themed position-relative xplenty-content xplenty-content-container">
-                    <Tabs
-                      defaultActiveKey="stake"
-                      className="swap-container-tab"
-                    >
+                    <Tabs defaultActiveKey="stake" className="swap-container-tab">
                       <Tab eventKey="stake" title="Stake PLENTY">
                         <StakePlenty
                           xPlentyData={props.xPlentyData}
@@ -207,9 +188,7 @@ const Stake = (props) => {
                           text={
                             props.xPlentyData.data.ValueLockedToShow ? (
                               <NumericLabel params={currencyOptionsWithSymbol}>
-                                {parseInt(
-                                  props.xPlentyData.data.ValueLockedToShow
-                                )}
+                                {parseInt(props.xPlentyData.data.ValueLockedToShow)}
                               </NumericLabel>
                             ) : null
                           }
@@ -223,9 +202,7 @@ const Stake = (props) => {
                           text={
                             props.xPlentyData.data.xPlentySupplyToShow ? (
                               <NumericLabel params={currencyOptions}>
-                                {parseInt(
-                                  props.xPlentyData.data.xPlentySupplyToShow
-                                )}
+                                {parseInt(props.xPlentyData.data.xPlentySupplyToShow)}
                               </NumericLabel>
                             ) : null
                           }
@@ -239,9 +216,7 @@ const Stake = (props) => {
                           text={
                             props.xPlentyData.data.plentyStakedToShow ? (
                               <NumericLabel params={currencyOptions}>
-                                {parseInt(
-                                  props.xPlentyData.data.plentyStakedToShow
-                                )}
+                                {parseInt(props.xPlentyData.data.plentyStakedToShow)}
                               </NumericLabel>
                             ) : null
                           }
@@ -264,8 +239,7 @@ const Stake = (props) => {
         buttonText={'View on Tezos'}
         onBtnClick={
           props.currentOpHash
-            ? () =>
-                window.open(`https://tzkt.io/${props.currentOpHash}`, '_blank')
+            ? () => window.open(`https://tzkt.io/${props.currentOpHash}`, '_blank')
             : null
         }
       />
@@ -284,8 +258,7 @@ const mapStateToProps = (state) => {
     isProcessing:
       state.xPlenty.xPlentyBuyingOperation.processing ||
       state.xPlenty.xPlentySellingOperation.processing,
-    isTransactionInjectionModalOpen:
-      state.xPlenty.isTransactionInjectionModalOpen,
+    isTransactionInjectionModalOpen: state.xPlenty.isTransactionInjectionModalOpen,
     isToastOpen: state.xPlenty.isToastOpen,
     toastMessage: state.xPlenty.toastMessage,
     isInfoType: state.xPlenty.isInfoType,
@@ -300,21 +273,15 @@ const mapDispatchToProps = (dispatch) => {
     connectWallet: () => dispatch(walletActions.connectWallet()),
     getxPlentyData: () => dispatch(xPlentyComputationsThunk()),
     setExpectedxPlenty: (plentyBalance, totalSupply, plentyAmount) =>
-      dispatch(
-        getExpectedxPlentyThunk(plentyBalance, totalSupply, plentyAmount)
-      ),
+      dispatch(getExpectedxPlentyThunk(plentyBalance, totalSupply, plentyAmount)),
     buyxPlenty: (plentyBalance, totalSupply, plentyAmount) =>
       dispatch(buyXPlentyThunk(plentyBalance, totalSupply, plentyAmount)),
     setExpectedPlenty: (plentyBalance, totalSupply, xplentyAmount) =>
-      dispatch(
-        getExpectedPlentyThunk(plentyBalance, totalSupply, xplentyAmount)
-      ),
+      dispatch(getExpectedPlentyThunk(plentyBalance, totalSupply, xplentyAmount)),
     sellXPlenty: (xPlentyAmount, minimumExpected, recipient) =>
       dispatch(sellXPlentyThunk(xPlentyAmount, minimumExpected, recipient)),
-    fetchUserBalances: (address) =>
-      dispatch(userActions.fetchUserBalances(address)),
-    closetransactionInjectionModal: () =>
-      dispatch(closetransactionInjectionModalThunk()),
+    fetchUserBalances: (address) => dispatch(userActions.fetchUserBalances(address)),
+    closetransactionInjectionModal: () => dispatch(closetransactionInjectionModalThunk()),
     closeToast: () => dispatch(closeToastThunk()),
   };
 };
