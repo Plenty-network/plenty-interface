@@ -1,32 +1,121 @@
+import { MdChevronRight } from 'react-icons/all';
+import {Image, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import React, { useMemo } from 'react';
+import config from '../config/config';
+
 const SwapDetails = (props) => {
+  const swapRoute = useMemo(() => {
+    if (config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]) {
+      return null;
+    }
+
+    if (props.midTokens === null) {
+      return null;
+    }
+
+    return [props.tokenIn, ...props.midTokens, props.tokenOut];
+  }, [props.tokenIn, props.midTokens, props.tokenOut]);
+
+  if (!props.firstTokenAmount && !swapRoute) {
+    return null;
+  }
+
   return (
     <div className="swap-detail-wrapper bg-themed-light">
-      <div className="swap-detail-amt-wrapper">
-        <p className="swap-detail-amt-details">Minimum received </p>
-        <p className="swap-detail-amt-details">
-          {props.computedOutDetails.minimum_Out
-            ? props.computedOutDetails.minimum_Out.toFixed(8)
-            : '0.00'}{' '}
-          {props.tokenOut.name}
-        </p>
-      </div>
+      {props.firstTokenAmount && (
+        <>
+          <div className="flex flex-row align-items-center">
+            <p className="swap-detail-amt-details">Minimum received </p>
+            <OverlayTrigger
+                key="top"
+                placement="top"
+                overlay={
+                  <Tooltip
+                      id={`minimum-received-tooltip`}
+                      arrowProps={{ styles: { display: 'none' } }}
+                  >
+                    Your transaction will revert if there is a large, unfavorable price movement before it is confirmed.
+                  </Tooltip>
+                }
+            >
+              <span style={{ cursor: 'pointer' }} className="material-icons-round ml-1 swap-detail-amt-details">help_outline</span>
+            </OverlayTrigger>
+            <p className="swap-detail-amt-details ml-auto">
+              {props.computedOutDetails.minimum_Out
+                ? props.computedOutDetails.minimum_Out.toFixed(8)
+                : '0.00'}{' '}
+              {props.tokenOut.name}
+            </p>
+          </div>
+          <div className="flex flex-row align-items-center">
+            <p className="swap-detail-amt-details">Price Impact </p>
+            <OverlayTrigger
+                key="top"
+                placement="top"
+                overlay={
+                  <Tooltip
+                      id={`price-impact-tooltip`}
+                      arrowProps={{ styles: { display: 'none' } }}
+                  >
+                    The difference between the market price and estimated price due to trade size.
+                  </Tooltip>
+                }
+            >
+              <span style={{ cursor: 'pointer' }} className="material-icons-round ml-1 swap-detail-amt-details">help_outline</span>
+            </OverlayTrigger>
+            <p className="swap-detail-amt-details ml-auto">
+              {props.computedOutDetails.priceImpact ? props.computedOutDetails.priceImpact : '0.00'}{' '}
+              %
+            </p>
+          </div>
+          <div className="flex flex-row align-items-center">
+            <p className="swap-detail-amt-details">Fee </p>
+            <OverlayTrigger
+                key="top"
+                placement="top"
+                overlay={
+                  <Tooltip
+                      id={`fee-tooltip`}
+                      arrowProps={{ styles: { display: 'none' } }}
+                  >
+                    A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive.
+                  </Tooltip>
+                }
+            >
+              <span style={{ cursor: 'pointer' }} className="material-icons-round ml-1 swap-detail-amt-details">help_outline</span>
+            </OverlayTrigger>
+            <p className="swap-detail-amt-details ml-auto">
+              {props.firstTokenAmount / 400} {props.tokenIn.name}
+            </p>
+          </div>
+          {props.computedOutDetails.addtPlentyFee ? (
+            <div className="swap-detail-amt-wrapper">
+              <p className="swap-detail-amt-details">Router Fee </p>
+              <p className="swap-detail-amt-details">
+                {props.computedOutDetails.addtPlentyFee.toFixed(5)} {props.midTokens[0].name}
+              </p>
+            </div>
+          ) : null}
+        </>
+      )}
 
-      <div className="swap-detail-amt-wrapper">
-        <p className="swap-detail-amt-details">Price Impact </p>
-        <p className="swap-detail-amt-details">
-          {props.computedOutDetails.priceImpact
-            ? props.computedOutDetails.priceImpact
-            : '0.00'}{' '}
-          %
-        </p>
-      </div>
+      {props.firstTokenAmount && swapRoute && <hr />}
 
-      <div className="swap-detail-amt-wrapper">
-        <p className="swap-detail-amt-details">Fee </p>
-        <p className="swap-detail-amt-details">
-          {props.firstTokenAmount / 400} {props.tokenIn.name}
-        </p>
-      </div>
+      {swapRoute && (
+        <>
+          <p className="swap-detail-amt-details">Route </p>
+
+          <div className="swap-detail-route-container mt-3">
+            {swapRoute.map((token, idx) => (
+              <div className="d-flex my-2">
+                <Image src={token.image} height={20} width={20} alt={''} />
+                <span className="mx-1 my-auto">{token.name}</span>
+                {idx < 2 && <MdChevronRight className="mr-1" fontSize={20} />}
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -1,181 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   loadSwapData,
   computeTokenOutput,
   fetchAllWalletBalance,
   getTokenPrices,
   computeOutputBasedOnTokenOutAmount,
+  getRouteSwapData,
+  computeTokenOutForRouteBase,
+  computeTokenOutForRouteBaseByOutAmount,
 } from '../apis/swap/swap';
+import config from '../config/config';
 
 import TransactionSettings from '../Components/TransactionSettings/TransactionSettings';
 import SwapModal from '../Components/SwapModal/SwapModal';
 import SwapTab from '../Components/SwapTabsContent/SwapTab';
 import LiquidityTab from '../Components/SwapTabsContent/LiquidityTab';
 import Loader from '../Components/loader';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
+import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import InfoModal from '../Components/Ui/Modals/InfoModal';
 
 import plenty from '../assets/images/logo_small.png';
-import wusdc from '../assets/images/wusdc.png';
-import wbusd from '../assets/images/wBUSD.png';
-import wwbtc from '../assets/images/wwbtc.png';
-import wmatic from '../assets/images/wmatic.png';
-import wlink from '../assets/images/wlink.png';
-import usdtz from '../assets/images/usdtz.png';
-import kusd from '../assets/images/kusd.png';
-import hDAO from '../assets/images/hdao.png';
-import ETHtz from '../assets/images/ethtz.png';
-import wWETH from '../assets/images/wweth.png';
-import QUIPU from '../assets/images/quipu.png';
-import WRAP from '../assets/images/wrap.png';
-import UNO from '../assets/images/uno.png';
-import KALAM from '../assets/images/kalam-swap.png';
-import SMAK from '../assets/images/smak-swap.png';
-import tzBTC from '../assets/images/tzbtc-swap.png';
-import uUSD from '../assets/images/uUSD.png';
-import gif from '../assets/images/gif-dao-token.png';
-import youGov from '../assets/images/you-gov.png';
-import wUSDT from '../assets/images/wUSDT.png';
-import wDAI from '../assets/images/wdai.png';
-import ctez from '../assets/images/ctez.png';
-import uDEFI from '../assets/images/uDEFI.png';
+import { tokens } from '../constants/swapPage';
 
 const Swap = (props) => {
-  const tokens = [
-    {
-      name: 'ctez',
-      image: ctez,
-      new: true,
-      extra: {
-        text: 'Get ctez',
-        link: `https://ctez.app`,
-      },
-    },
-    {
-      name: 'ETHtz',
-      image: ETHtz,
-      new: false,
-    },
-    {
-      name: 'GIF',
-      image: gif,
-      new: false,
-    },
-    {
-      name: 'hDAO',
-      image: hDAO,
-      new: false,
-    },
-    {
-      name: 'KALAM',
-      image: KALAM,
-      new: false,
-    },
-    {
-      name: 'kUSD',
-      image: kusd,
-      new: false,
-    },
-    {
-      name: 'PLENTY',
-      image: plenty,
-      new: false,
-    },
-    {
-      name: 'QUIPU',
-      image: QUIPU,
-      new: false,
-    },
-    {
-      name: 'SMAK',
-      image: SMAK,
-      new: false,
-    },
-    {
-      name: 'USDtz',
-      image: usdtz,
-      new: false,
-    },
-    {
-      name: 'tzBTC',
-      image: tzBTC,
-      new: false,
-    },
-    {
-      name: 'wBUSD',
-      image: wbusd,
-      new: false,
-    },
-    {
-      name: 'wDAI',
-      image: wDAI,
-      new: true,
-    },
-    {
-      name: 'wLINK',
-      image: wlink,
-      new: false,
-    },
-    {
-      name: 'wMATIC',
-      image: wmatic,
-      new: false,
-    },
-    {
-      name: 'WRAP',
-      image: WRAP,
-      new: false,
-    },
-    {
-      name: 'wUSDC',
-      image: wusdc,
-      new: false,
-    },
-    {
-      name: 'wUSDT',
-      image: wUSDT,
-      new: true,
-    },
-    {
-      name: 'wWBTC',
-      image: wwbtc,
-      new: false,
-    },
-    {
-      name: 'wWETH',
-      image: wWETH,
-      new: false,
-    },
-    {
-      name: 'uDEFI',
-      image: uDEFI,
-      new: true,
-      extra: {
-        text: 'Get uDEFI',
-        link: 'https://app.youves.com/udefi/minting/start'
-      },
-    },
-    {
-      name: 'UNO',
-      image: UNO,
-      new: false,
-    },
-    {
-      name: 'uUSD',
-      image: uUSD,
-      new: false,
-    },
-    {
-      name: 'YOU',
-      image: youGov,
-      new: true,
-    },
-  ];
-
   const [searchQuery, setSearchQuery] = useState('');
   const [show, setShow] = useState(false);
   const [showConfirmSwap, setShowConfirmSwap] = useState(false);
@@ -186,8 +33,8 @@ const Swap = (props) => {
   const [recepient, setRecepient] = useState('');
   const [tokenType, setTokenType] = useState('tokenIn');
   const [tokenOut, setTokenOut] = useState({});
-  const [firstTokenAmount, setFirstTokenAmount] = useState();
-  const [secondTokenAmount, setSecondTokenAmount] = useState();
+  const [firstTokenAmount, setFirstTokenAmount] = useState('');
+  const [secondTokenAmount, setSecondTokenAmount] = useState('');
   const [swapData, setSwapData] = useState({});
   const [computedOutDetails, setComputedOutDetails] = useState({});
   const [getTokenPrice, setGetTokenPrice] = useState({});
@@ -206,6 +53,57 @@ const Swap = (props) => {
   if (parameters.tokenA && parameters.tokenB) {
     localStorage.setItem('activeTab', 'liquidity');
   }
+
+  const pairExist = useMemo(() => {
+    return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
+  }, [tokenIn, tokenOut]);
+
+  const midTokens = useMemo(() => {
+    if (!tokenIn.name || !tokenOut.name || pairExist) {
+      return null;
+    }
+
+    const AMM = config.AMM[config.NETWORK];
+
+    if (AMM[tokenIn.name].DEX_PAIRS[tokenOut.name]) {
+      return null;
+    }
+
+    const tokenInPairs = Object.keys(AMM[tokenIn.name].DEX_PAIRS);
+    const tokenOutPairs = Object.keys(AMM[tokenOut.name].DEX_PAIRS);
+
+    const intersectionArray = tokenInPairs.filter((x) => tokenOutPairs.includes(x));
+
+    // TODO Implement Two Step Swap
+    if (intersectionArray.length === 0) {
+      return null;
+    }
+
+    return intersectionArray.map((x) => tokens.find((token) => token.name === x));
+  }, [pairExist, tokenIn, tokenOut]);
+
+  useEffect(() => {
+    if (tokenIn.hasOwnProperty('name') && tokenOut.hasOwnProperty('name')) {
+      const pairExists = !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
+      if (!pairExists) {
+        getRouteSwapData(tokenIn.name, tokenOut.name, midTokens).then((data) => {
+          if (data.success) {
+            //setLoading(false);
+            setSwapData(data);
+            setLoaderInButton(false);
+          }
+        });
+      } else {
+        loadSwapData(tokenIn.name, tokenOut.name).then((data) => {
+          if (data.success) {
+            setSwapData(data);
+            //setLoading(false);
+            setLoaderInButton(false);
+          }
+        });
+      }
+    }
+  }, [tokenIn, tokenOut]);
 
   const handleClose = () => {
     setShow(false);
@@ -261,15 +159,21 @@ const Swap = (props) => {
         tokenOut_amount: '',
         fees: 0,
       });
-      return;
     } else {
-      const computedData = computeTokenOutput(
-        parseFloat(input),
-        swapData.tokenIn_supply,
-        swapData.tokenOut_supply,
-        swapData.exchangeFee,
-        slippage,
-      );
+      let computedData;
+
+      if (pairExist) {
+        computedData = computeTokenOutput(
+          parseFloat(input),
+          swapData.tokenIn_supply,
+          swapData.tokenOut_supply,
+          swapData.exchangeFee,
+          slippage,
+        );
+      } else {
+        computedData = computeTokenOutForRouteBase(parseFloat(input), swapData, slippage);
+      }
+
       setComputedOutDetails(computedData);
       setLoading(false);
     }
@@ -285,15 +189,23 @@ const Swap = (props) => {
         tokenOut_amount: '',
         fees: 0,
       });
-      return;
     } else {
-      const computedData = computeOutputBasedOnTokenOutAmount(
-        parseFloat(input),
-        swapData.tokenIn_supply,
-        swapData.tokenOut_supply,
-        swapData.exchangeFee,
-        slippage,
-      );
+      let computedData;
+      if (pairExist) {
+        computedData = computeOutputBasedOnTokenOutAmount(
+          parseFloat(input),
+          swapData.tokenIn_supply,
+          swapData.tokenOut_supply,
+          swapData.exchangeFee,
+          slippage,
+        );
+      } else {
+        computedData = computeTokenOutForRouteBaseByOutAmount(
+          parseFloat(input),
+          swapData,
+          slippage,
+        );
+      }
       setFirstTokenAmount(computedData.tokenIn_amount);
       setComputedOutDetails(computedData);
     }
@@ -341,17 +253,9 @@ const Swap = (props) => {
     setTokenType('tokenIn');
     setFirstTokenAmount('');
     setSecondTokenAmount('');
-    setSwapData({});
     setComputedOutDetails({
       tokenOut_amount: '',
     });
-    setGetTokenPrice({});
-    setTokenContractInstances({});
-    setTokenIn({
-      name: 'PLENTY',
-      image: plenty,
-    });
-    setTokenOut({});
   };
   const [showRecepient, setShowRecepient] = useState(false);
   const handleRecepient = (elem) => {
@@ -372,11 +276,15 @@ const Swap = (props) => {
     setActiveTab(elem);
     localStorage.setItem('activeTab', elem);
     window.history.pushState({ path: `/${elem}` }, '', `/${elem}`);
+
+    if (elem === 'liquidity' && !pairExist) {
+      setTokenOut({});
+    }
   };
 
   let showActiveTab = localStorage.getItem('activeTab') ?? 'swap';
 
-  if (window.location.pathname.replace('/', '') == 'liquidity' || activeTab == 'liquidity') {
+  if (window.location.pathname.replace('/', '') === 'liquidity' || activeTab === 'liquidity') {
     showActiveTab = 'liquidity';
   }
 
@@ -396,7 +304,7 @@ const Swap = (props) => {
         image: token.image,
       });
 
-      if (window.location.pathname.replace('/', '') == 'swap') {
+      if (window.location.pathname.replace('/', '') === 'swap') {
         if (tokenOut.name) {
           window.history.pushState(
             {
@@ -429,20 +337,12 @@ const Swap = (props) => {
           );
         }
       }
-
-      loadSwapData(token.name, tokenOut.name).then((data) => {
-        if (data.success) {
-          setSwapData(data);
-          //setLoading(false);
-          setLoaderInButton(false);
-        }
-      });
     } else {
       setTokenOut({
         name: token.name,
         image: token.image,
       });
-      if (window.location.pathname.replace('/', '') == 'swap') {
+      if (window.location.pathname.replace('/', '') === 'swap') {
         window.history.pushState(
           {
             path: `/swap?from=${tokenIn.name}&to=${token.name}`,
@@ -459,14 +359,6 @@ const Swap = (props) => {
           `/liquidity/add?tokenA=${tokenIn.name}&tokenB=${token.name}`,
         );
       }
-
-      loadSwapData(tokenIn.name, token.name).then((data) => {
-        if (data.success) {
-          setSwapData(data);
-          //setLoading(false);
-          setLoaderInButton(false);
-        }
-      });
     }
     handleClose();
   };
@@ -474,11 +366,10 @@ const Swap = (props) => {
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const params = Object.fromEntries(urlSearchParams.entries());
-
     if (params.from !== params.to) {
       if (params.from) {
-        tokens.map((token) => {
-          if (token.name == params.from) {
+        tokens.forEach((token) => {
+          if (token.name === params.from) {
             setTokenIn({
               name: params.from,
               image: token.image,
@@ -488,8 +379,8 @@ const Swap = (props) => {
       }
 
       if (params.to) {
-        tokens.map((token) => {
-          if (token.name == params.to) {
+        tokens.forEach((token) => {
+          if (token.name === params.to) {
             setTokenOut({
               name: params.to,
               image: token.image,
@@ -497,25 +388,6 @@ const Swap = (props) => {
           }
         });
       }
-    }
-
-    if (params.from && params.to) {
-      loadSwapData(params.from, params.to).then((data) => {
-        if (data.success) {
-          setSwapData(data);
-          //setLoading(false);
-          setLoaderInButton(false);
-        }
-      });
-    }
-    if (params.tokenA && params.tokenB) {
-      loadSwapData(params.tokenA, params.tokenB).then((data) => {
-        if (data.success) {
-          setSwapData(data);
-          //setLoading(false);
-          setLoaderInButton(false);
-        }
-      });
     }
   }, []);
 
@@ -528,6 +400,8 @@ const Swap = (props) => {
               defaultActiveKey={showActiveTab}
               className="swap-container-tab"
               onSelect={(e) => storeActiveTab(e)}
+              mountOnEnter={true}
+              unmountOnExit={true}
             >
               <Tab eventKey="swap" title="Swap">
                 <SwapTab
@@ -538,6 +412,7 @@ const Swap = (props) => {
                   connecthWallet={props.connecthWallet}
                   tokenIn={tokenIn}
                   tokenOut={tokenOut}
+                  tokens={tokens}
                   handleTokenType={handleTokenType}
                   swapData={swapData}
                   computedOutDetails={computedOutDetails}
@@ -566,6 +441,7 @@ const Swap = (props) => {
                   fetchUserWalletBalance={fetchUserWalletBalance}
                   loaderInButton={loaderInButton}
                   setLoaderInButton={setLoaderInButton}
+                  midTokens={midTokens}
                 />
               </Tab>
               <Tab eventKey="liquidity" title="Liquidity">
@@ -622,6 +498,7 @@ const Swap = (props) => {
       </Row>
       <SwapModal
         show={show}
+        activeTab={activeTab}
         onHide={handleClose}
         selectToken={selectToken}
         tokens={tokens}
@@ -630,7 +507,7 @@ const Swap = (props) => {
         tokenType={tokenType}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-      ></SwapModal>
+      />
       <InfoModal
         open={showTransactionSubmitModal}
         onClose={() => setShowTransactionSubmitModal(false)}
