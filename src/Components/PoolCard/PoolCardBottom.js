@@ -28,7 +28,7 @@ const PoolCardBottom = (props) => {
       openClosePoolsModal({
         open: POOL_PAGE_MODAL.WITHDRAWAL,
         contractAddress: props.CONTRACT,
-      })
+      }),
     );
   };
 
@@ -50,29 +50,14 @@ const PoolCardBottom = (props) => {
       >
         {(hasStakedAmount() || isExpanded) && (
           <div className="d-flex">
-            <div
-              className={clsx(
-                styles.harvestStakeAmt,
-                'mr-2 justify-content-between'
-              )}
-            >
-              <Image
-                height={31}
-                src={props.harvestImg}
-                fuild
-                className="mt-auto mb-auto ml-2"
-              />
+            <div className={clsx(styles.harvestStakeAmt, 'mr-2 justify-content-between')}>
+              <Image height={31} src={props.harvestImg} fuild className="mt-auto mb-auto ml-2" />
               <span>
                 {
                   props.userAddress !== null &&
-                  props.harvestValueOnPools.hasOwnProperty(
-                    props.isActiveOpen
-                  ) &&
-                  props.harvestValueOnPools[props.isActiveOpen].hasOwnProperty(
-                    props.CONTRACT
-                  ) &&
-                  props.harvestValueOnPools[props.isActiveOpen][props.CONTRACT]
-                    .totalRewards > 0
+                  props.harvestValueOnPools.hasOwnProperty(props.isActiveOpen) &&
+                  props.harvestValueOnPools[props.isActiveOpen].hasOwnProperty(props.CONTRACT) &&
+                  props.harvestValueOnPools[props.isActiveOpen][props.CONTRACT].totalRewards > 0
                     ? props.harvestValueOnPools[props.isActiveOpen][
                         props.CONTRACT
                       ].totalRewards.toFixed(6)
@@ -84,11 +69,7 @@ const PoolCardBottom = (props) => {
 
             <Button
               onClick={() =>
-                props.harvestOnPools(
-                  props.identifier,
-                  props.isActiveOpen,
-                  props.position
-                )
+                props.harvestOnPools(props.identifier, props.isActiveOpen, props.position)
               }
               color={hasStakedAmount() ? 'primary' : 'default'}
               loading={
@@ -106,12 +87,7 @@ const PoolCardBottom = (props) => {
             <div className="mt-3 mb-2">{props.title}</div>
 
             <div className="d-flex">
-              <div
-                className={clsx(
-                  styles.harvestStakeAmt,
-                  'mr-2 justify-content-end'
-                )}
-              >
+              <div className={clsx(styles.harvestStakeAmt, 'mr-2 justify-content-end')}>
                 <span>{stakedAmount?.toFixed(5)}</span>
               </div>
               <span />
@@ -124,7 +100,7 @@ const PoolCardBottom = (props) => {
                       props.identifier,
                       props.title,
                       props.position,
-                      props.CONTRACT
+                      props.CONTRACT,
                     )
                   }
                   onRemove={() =>
@@ -133,7 +109,7 @@ const PoolCardBottom = (props) => {
                       props.CONTRACT,
                       props.title,
                       props.withdrawalFeeStructure,
-                      props.position
+                      props.position,
                     )
                   }
                 />
@@ -145,7 +121,7 @@ const PoolCardBottom = (props) => {
                         props.identifier,
                         props.title,
                         props.position,
-                        props.CONTRACT
+                        props.CONTRACT,
                       )
                     }
                     color={'default'}
@@ -161,23 +137,14 @@ const PoolCardBottom = (props) => {
 
       {isExpanded && (
         <>
-          <div
-            className={clsx(
-              styles.plentyCardContent,
-              styles.bottomBorder,
-              'd-flex'
-            )}
-          >
+          <div className={clsx(styles.plentyCardContent, styles.bottomBorder, 'd-flex')}>
             <div className={clsx(styles.rightBorder, 'w-50 text-center')}>
               <div>Deposit Fee</div>
               <OverlayTrigger
                 key="top"
                 placement="top"
                 overlay={
-                  <Tooltip
-                    id={`deposit-fee-tooltip`}
-                    arrowProps={{ styles: { display: 'none' } }}
-                  >
+                  <Tooltip id={`deposit-fee-tooltip`} arrowProps={{ styles: { display: 'none' } }}>
                     No deposit fee
                   </Tooltip>
                 }

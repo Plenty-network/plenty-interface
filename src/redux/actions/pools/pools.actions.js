@@ -90,9 +90,9 @@ const initiateStakingOperationOnPool = () => {
 export const stakingOnPoolProcessing = (batchOperation) => {
   return {
     type: actions.PROCESSING_STAKING_ON_POOL,
-    payload: batchOperation
-  }
-}
+    payload: batchOperation,
+  };
+};
 
 const stakingOnPoolSuccessFull = (operationHash) => {
   return {
@@ -119,10 +119,7 @@ export const stakeOnPool = (amount, poolIdentifier, isActive, position) => {
         dispatch(stakingOnPoolFailed());
       })
       .finally(() => {
-        setTimeout(
-          () => dispatch(dismissSnackbar()),
-          5000
-        )
+        setTimeout(() => dispatch(dismissSnackbar()), 5000);
       });
   };
 };
@@ -146,9 +143,9 @@ const initiateUnstakingOperationOnPool = () => {
 export const unstakingOnPoolProcessing = (batchOperation) => {
   return {
     type: actions.PROCESSING_UNSTAKING_ON_POOL,
-    payload: batchOperation
-  }
-}
+    payload: batchOperation,
+  };
+};
 
 const unstakingOnPoolSuccessFull = (operationHash) => {
   return {
@@ -163,12 +160,7 @@ const unstakingOnPoolFailed = () => {
   };
 };
 
-export const unstakeOnPool = (
-  stakesToUnstake,
-  poolIdentifier,
-  isActive,
-  position
-) => {
+export const unstakeOnPool = (stakesToUnstake, poolIdentifier, isActive, position) => {
   return (dispatch) => {
     dispatch(initiateUnstakingOperationOnPool());
     poolsApis
@@ -180,10 +172,7 @@ export const unstakeOnPool = (
         dispatch(unstakingOnPoolFailed());
       })
       .finally(() => {
-        setTimeout(
-          () => dispatch(dismissSnackbar()),
-          5000
-        )
+        setTimeout(() => dispatch(dismissSnackbar()), 5000);
       });
   };
 };
@@ -201,7 +190,7 @@ export const clearUntakePoolResponse = () => {
 const initiateHarvestingOperationOnPool = (tokenPair) => {
   return {
     type: actions.INITIATE_HARVESTING_ON_POOL,
-    payload: { tokenPair }
+    payload: { tokenPair },
   };
 };
 
@@ -245,7 +234,6 @@ export const openClosePoolsModal = (payload) => ({
   payload,
 });
 
-
 export const togglePoolsType = (isActive) => {
   return (dispatch) => {
     if (isActive) {
@@ -269,7 +257,7 @@ export const setPoolsToRender = (poolsToRender) => {
   };
 };
 
-export const clearRenderedPools= () => {
+export const clearRenderedPools = () => {
   return (dispatch) => {
     dispatch({
       type: actions.CLEAR_RENDERED_POOLS,
@@ -277,13 +265,7 @@ export const clearRenderedPools= () => {
   };
 };
 
-
-export const openPoolsStakeModal = (
-  identifier,
-  title,
-  position,
-  contractAddress
-) => {
+export const openPoolsStakeModal = (identifier, title, position, contractAddress) => {
   return (dispatch) => {
     dispatch({
       type: actions.OPEN_POOLS_STAKE_MODAL,
@@ -321,7 +303,7 @@ export const openPoolsUnstakeModal = (
   contractAddress,
   title,
   withdrawalFeeStructure,
-  position
+  position,
 ) => {
   return (dispatch) => {
     dispatch({
@@ -347,4 +329,4 @@ export const closePoolsUnstakeModal = () => {
 
 const dismissSnackbar = () => ({
   type: actions.DISMISS_POOLS_SNACKBAR,
-})
+});

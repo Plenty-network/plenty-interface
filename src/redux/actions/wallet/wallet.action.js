@@ -6,11 +6,7 @@ import {
   WALLET_GET_ADDRESS,
 } from '../index.action';
 
-import {
-  ConnectWalletAPI,
-  DisconnectWalletAPI,
-  FetchWalletAPI,
-} from './api.wallet';
+import { ConnectWalletAPI, DisconnectWalletAPI, FetchWalletAPI } from './api.wallet';
 
 const walletConnectionStart = () => {
   return {

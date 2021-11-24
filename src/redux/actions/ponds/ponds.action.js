@@ -90,9 +90,9 @@ const initiateStakingOperationOnPond = () => {
 export const stakingOnPondProcessing = (batchOperation) => {
   return {
     type: actions.PROCESSING_STAKING_ON_POND,
-    payload: batchOperation
-  }
-}
+    payload: batchOperation,
+  };
+};
 
 const stakingOnPondSuccessFull = (operationHash) => {
   return {
@@ -119,10 +119,7 @@ export const stakeOnPond = (amount, pondIdentifier, isActive, position) => {
         dispatch(stakingOnPondFailed());
       })
       .finally(() => {
-        setTimeout(
-          () => dispatch(dismissSnackbar()),
-          5000
-        );
+        setTimeout(() => dispatch(dismissSnackbar()), 5000);
       });
   };
 };
@@ -146,9 +143,9 @@ const initiateUnstakingOperationOnPond = () => {
 export const unstakingOnPondProcessing = (batchOperation) => {
   return {
     type: actions.PROCESSING_UNSTAKING_ON_POND,
-    payload: batchOperation
-  }
-}
+    payload: batchOperation,
+  };
+};
 
 const unstakingOnPondSuccessFull = (operationHash) => {
   return {
@@ -163,13 +160,7 @@ const unstakingOnPondFailed = () => {
   };
 };
 
-export const unstakeOnPond = (
-  amount,
-  mapKey,
-  pondIdentifier,
-  isActive,
-  position
-) => {
+export const unstakeOnPond = (amount, mapKey, pondIdentifier, isActive, position) => {
   return (dispatch) => {
     dispatch(initiateUnstakingOperationOnPond());
     pondsApis
@@ -181,10 +172,7 @@ export const unstakeOnPond = (
         dispatch(unstakingOnPondFailed());
       })
       .finally(() => {
-        setTimeout(
-          () => dispatch(dismissSnackbar()),
-          5000
-        );
+        setTimeout(() => dispatch(dismissSnackbar()), 5000);
       });
   };
 };
@@ -245,7 +233,6 @@ export const openClosePondsModal = (payload) => ({
   payload,
 });
 
-
 export const togglePondsType = (isActive) => {
   return (dispatch) => {
     if (isActive) {
@@ -269,7 +256,7 @@ export const setPondsToRender = (poolsToRender) => {
   };
 };
 
-export const clearRenderedPonds= () => {
+export const clearRenderedPonds = () => {
   return (dispatch) => {
     dispatch({
       type: actions.CLEAR_RENDERED_PONDS,
@@ -278,4 +265,4 @@ export const clearRenderedPonds= () => {
 };
 const dismissSnackbar = () => ({
   type: actions.DISMISS_PONDS_SNACKBAR,
-})
+});

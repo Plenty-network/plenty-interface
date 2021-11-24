@@ -5,12 +5,11 @@ import ConfirmRemoveLiquidity from './ConfirmRemoveLiquidity';
 import InfoModal from '../../Ui/Modals/InfoModal';
 
 import CONFIG from '../../../config/config';
-import Button from "../../Ui/Buttons/Button";
+import Button from '../../Ui/Buttons/Button';
 
 const RemoveLiquidity = (props) => {
   const [removableTokens, setRemovableTokens] = useState({});
-  const [showTransactionSubmitModal, setShowTransactionSubmitModal] =
-    useState(false);
+  const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const [transactionId, setTransactionId] = useState('');
 
   const removeLiquidityInput = (input) => {
@@ -20,7 +19,7 @@ const RemoveLiquidity = (props) => {
       props.swapData.lpTokenSupply,
       props.swapData.tokenIn_supply,
       props.swapData.tokenOut_supply,
-      props.slippage
+      props.slippage,
     );
     computedRemoveTokens = {
       ...computedRemoveTokens,
@@ -47,7 +46,7 @@ const RemoveLiquidity = (props) => {
       removableTokens.removeAmount,
       props.walletAddress,
       props.swapData.dexContractInstance,
-      transactionSubmitModal
+      transactionSubmitModal,
     ).then((data) => {
       if (data.success) {
         props.setLoading(false);
@@ -75,7 +74,8 @@ const RemoveLiquidity = (props) => {
       onClick={props.connecthWallet}
       color={'primary'}
       startIcon={'add'}
-      className={'mt-4 w-100 flex align-items-center justify-content-center'}>
+      className={'mt-4 w-100 flex align-items-center justify-content-center'}
+    >
       Connect Wallet
     </Button>
   );
@@ -85,7 +85,8 @@ const RemoveLiquidity = (props) => {
       <Button
         onClick={() => null}
         color={'primary'}
-        className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}>
+        className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+      >
         Enter an amount
       </Button>
     );
@@ -95,7 +96,8 @@ const RemoveLiquidity = (props) => {
       <Button
         onClick={handleRemoveLiquidity}
         color={'primary'}
-        className={'mt-4 w-100 flex align-items-center justify-content-center'}>
+        className={'mt-4 w-100 flex align-items-center justify-content-center'}
+      >
         Confirm Withdrawal
       </Button>
     );
@@ -106,16 +108,16 @@ const RemoveLiquidity = (props) => {
       props.firstTokenAmount &&
       props.firstTokenAmount >
         props.userBalances[
-          CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
-            props.tokenOut.name
-          ].liquidityToken
+          CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
+            .liquidityToken
         ]
     ) {
       swapContentButton = (
         <Button
           onClick={() => null}
           color={'primary'}
-          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}>
+          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+        >
           Insufficient Balance
         </Button>
       );
@@ -125,9 +127,7 @@ const RemoveLiquidity = (props) => {
   const onClickAmount = () => {
     const value =
       props.userBalances[
-        CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
-          props.tokenOut.name
-        ].liquidityToken
+        CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name].liquidityToken
       ].toLocaleString('en-US', {
         maximumFractionDigits: 20,
         useGrouping: false,
@@ -152,14 +152,12 @@ const RemoveLiquidity = (props) => {
               value={props.firstTokenAmount}
               onChange={(e) => {
                 props.setFirstTokenAmount(e.target.value);
-                removeLiquidityInput(e.target.value)
+                removeLiquidityInput(e.target.value);
               }}
             />
           </div>
           <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
-            {CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
-              props.tokenOut.name
-            ] ? (
+            {CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name] ? (
               <p
                 className="wallet-token-balance"
                 style={{ cursor: 'pointer' }}
@@ -168,9 +166,8 @@ const RemoveLiquidity = (props) => {
                 Balance:{' '}
                 {
                   props.userBalances[
-                    CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
-                      props.tokenOut.name
-                    ].liquidityToken
+                    CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
+                      .liquidityToken
                   ]
                 }
                 <span className="max-btn"> (Max)</span>
@@ -193,12 +190,8 @@ const RemoveLiquidity = (props) => {
           <div className="token-user-input-wrapper remove-liquidity-pair-wrapper flex">
             <button className="token-selector">
               <img src={props.tokenIn.image} className="button-logo" />
-              {removableTokens.tokenFirst_Out
-                ? removableTokens.tokenFirst_Out.toFixed(4)
-                : '0.00'}
-              <span className="remove-liquidity-token-name">
-                {props.tokenIn.name}
-              </span>
+              {removableTokens.tokenFirst_Out ? removableTokens.tokenFirst_Out.toFixed(4) : '0.00'}
+              <span className="remove-liquidity-token-name">{props.tokenIn.name}</span>
             </button>
 
             <button className="token-selector">
@@ -206,9 +199,7 @@ const RemoveLiquidity = (props) => {
               {removableTokens.tokenSecond_Out
                 ? removableTokens.tokenSecond_Out.toFixed(4)
                 : '0.00'}
-              <span className="remove-liquidity-token-name">
-                {props.tokenOut.name}
-              </span>
+              <span className="remove-liquidity-token-name">{props.tokenOut.name}</span>
             </button>
           </div>
           {props.walletConnected ? (
@@ -231,9 +222,7 @@ const RemoveLiquidity = (props) => {
         message={'Transaction submitted'}
         buttonText={'View on Tezos'}
         onBtnClick={
-          transactionId
-            ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank')
-            : null
+          transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
         }
       />
     </>

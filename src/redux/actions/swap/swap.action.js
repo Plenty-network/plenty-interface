@@ -45,7 +45,7 @@ export const setSwapTokenOutput = (
   tokenIn_supply,
   tokenOut_supply,
   exchangeFee,
-  slippage
+  slippage,
 ) => {
   return (dispatch) => {
     let tokenOutputDetails = swapApis.computeTokenOutput(
@@ -53,7 +53,7 @@ export const setSwapTokenOutput = (
       tokenIn_supply,
       tokenOut_supply,
       exchangeFee,
-      slippage
+      slippage,
     );
     dispatch({
       type: actions.SET_SWAP_OUTPUT_DETAILS,
@@ -70,16 +70,12 @@ export const clearSwapTokenOutput = () => {
   };
 };
 
-export const setEstimateOtherToken = (
-  tokenIn_amount,
-  tokenIn_supply,
-  tokenOut_supply
-) => {
+export const setEstimateOtherToken = (tokenIn_amount, tokenIn_supply, tokenOut_supply) => {
   return (dispatch) => {
     let estimateOtherToken = swapApis.estimateOtherToken(
       tokenIn_amount,
       tokenIn_supply,
-      tokenOut_supply
+      tokenOut_supply,
     );
     dispatch({
       type: actions.SET_OTHER_TOKEN_ESTIMATE_FOR_ADD_LIQUIDITY,
@@ -101,14 +97,14 @@ export const computeRemoveTokens = (
   lpTotalSupply,
   tokenFirst_Supply,
   tokenSecond_Supply,
-  slippage
+  slippage,
 ) => {
   let removeTokensOutput = swapApis.computeRemoveTokens(
     burnAmount,
     lpTotalSupply,
     tokenFirst_Supply,
     tokenSecond_Supply,
-    slippage
+    slippage,
   );
   return (dispatch) => {
     dispatch({
@@ -131,14 +127,14 @@ export const setLpTokenOutput = (
   tokenOut_amount,
   tokenIn_supply,
   tokenOut_supply,
-  lpTokenSupply
+  lpTokenSupply,
 ) => {
   let lpOutput = swapApis.lpTokenOutput(
     tokenIn_amount,
     tokenOut_amount,
     tokenIn_supply,
     tokenOut_supply,
-    lpTokenSupply
+    lpTokenSupply,
   );
   return (dispatch) => {
     dispatch({
@@ -182,27 +178,13 @@ export const swapOperationInjected = (operationHash) => {
   };
 };
 
-export const swap = (
-  tokenIn,
-  tokenOut,
-  minimumTokenOut,
-  recipent,
-  tokenInAmount,
-  caller
-) => {
+export const swap = (tokenIn, tokenOut, minimumTokenOut, recipent, tokenInAmount, caller) => {
   return (dispatch) => {
     dispatch(initiateSwap());
     swapApis
-      .swapTokens(
-        tokenIn,
-        tokenOut,
-        minimumTokenOut,
-        recipent,
-        tokenInAmount,
-        caller
-      )
+      .swapTokens(tokenIn, tokenOut, minimumTokenOut, recipent, tokenInAmount, caller)
       .then((resp) => {
-        dipatch(swapSuccessfull(resp));
+        dispatch(swapSuccessfull(resp));
       })
       .catch((err) => {
         dispatch(swapFailed());
@@ -243,13 +225,7 @@ const addLiquidityFailed = () => {
   };
 };
 
-export const addLiquidity = (
-  tokenA,
-  tokenB,
-  tokenA_Amount,
-  tokenB_Amount,
-  caller
-) => {
+export const addLiquidity = (tokenA, tokenB, tokenA_Amount, tokenB_Amount, caller) => {
   return (dispatch) => {
     dispatch(initiateAddLiquidity());
     addLiquidity(tokenA, tokenB, tokenA_Amount, tokenB_Amount, caller)
@@ -304,7 +280,7 @@ export const removeLiquidity = (
   tokenA_MinimumRecieve,
   tokenB_MinimumRecieve,
   lpToken_Amount,
-  caller
+  caller,
 ) => {
   return (dispatch) => {
     dispatch(initiateRemoveLiquidity());
@@ -315,7 +291,7 @@ export const removeLiquidity = (
         tokenA_MinimumRecieve,
         tokenB_MinimumRecieve,
         lpToken_Amount,
-        caller
+        caller,
       )
       .then((resp) => {
         dispatch(removeLiquiditySuccessfull(resp));

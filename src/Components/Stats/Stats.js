@@ -17,9 +17,7 @@ import { currencyOptionsWithSymbol } from '../../constants/global';
 const Stats = (props) => {
   const loading = useMemo(() => {
     return (
-      props.valueLocked == null ||
-      props.plentyInWallet == null ||
-      props.plentyToHarvest == null
+      props.valueLocked == null || props.plentyInWallet == null || props.plentyToHarvest == null
     );
   }, [props.plentyInWallet, props.plentyToHarvest, props.valueLocked]);
 

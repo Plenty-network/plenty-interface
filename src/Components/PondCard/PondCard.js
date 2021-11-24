@@ -13,8 +13,7 @@ import { POND_PAGE_MODAL } from '../../constants/pondsPage';
 const PondCard = (props) => {
   const dispatch = useDispatch();
 
-  const apyCalculate = (apr) =>
-    ((Math.pow(1 + apr / 100 / 365, 365) - 1) * 100).toFixed(0);
+  const apyCalculate = (apr) => ((Math.pow(1 + apr / 100 / 365, 365) - 1) * 100).toFixed(0);
 
   const getAPR = (props) => {
     return 0;
@@ -41,7 +40,7 @@ const PondCard = (props) => {
       openClosePondsModal({
         open: POND_PAGE_MODAL.ROI,
         contractAddress: props.CONTRACT,
-      })
+      }),
     );
   };
 
@@ -51,14 +50,12 @@ const PondCard = (props) => {
         <div className={styles.plentyCard}>
           {/* * Header */}
           <div className="pool-card-top-banner alert">
-            <p className="pool-card-top-banner-text">
-              Visit old.plentydefi.com to unstake
-            </p>
+            <p className="pool-card-top-banner-text">Visit old.plentydefi.com to unstake</p>
           </div>
           <div
             className={clsx(
               styles.plentyCardHeader,
-              'flex justify-content-center align-center p-26 pb-20'
+              'flex justify-content-center align-center p-26 pb-20',
             )}
           >
             <div className={clsx(styles.imageWrapperSingle, 'mr-2')}>
@@ -72,21 +69,11 @@ const PondCard = (props) => {
 
           {/* * Content */}
           <div className={clsx(styles.plentyCardContent, 'pb-0')}>
-            <div
-              className={clsx(
-                styles.plentyCardContentInfo,
-                'flex justify-between'
-              )}
-            >
+            <div className={clsx(styles.plentyCardContentInfo, 'flex justify-between')}>
               <p className={styles.plentyCardContentTag}>APY:</p>
               <p className={styles.plentyCardContentTag}>{getAPY(props)}%</p>
             </div>
-            <div
-              className={clsx(
-                styles.plentyCardContentInfo,
-                'flex justify-between'
-              )}
-            >
+            <div className={clsx(styles.plentyCardContentInfo, 'flex justify-between')}>
               <p className={styles.plentyCardContentTag}>APR:</p>
               <p className={styles.plentyCardContentTag}>
                 <img
@@ -98,37 +85,21 @@ const PondCard = (props) => {
                 {getAPR(props)}%
               </p>
             </div>
-            <div
-              className={clsx(
-                styles.plentyCardContentInfo,
-                'flex justify-between'
-              )}
-            >
+            <div className={clsx(styles.plentyCardContentInfo, 'flex justify-between')}>
               <p className={styles.plentyCardContentTag}>Rewards:</p>
-              <p className={styles.plentyCardContentTag}>
-                {getReward()} PLENTY / DAY
-              </p>
+              <p className={styles.plentyCardContentTag}>{getReward()} PLENTY / DAY</p>
             </div>
 
             <div
-              className={clsx(
-                styles.plentyCardTvlInfo,
-                'flex justify-between align-center mb-4'
-              )}
+              className={clsx(styles.plentyCardTvlInfo, 'flex justify-between align-center mb-4')}
             >
               <p className={styles.plentyCardContentTag}>TVL:</p>
-              <p className={styles.plentyCardContentTag}>
-                ${getTotalLiquidity()}
-              </p>
+              <p className={styles.plentyCardContentTag}>${getTotalLiquidity()}</p>
             </div>
 
             {props.userAddress ? (
               !hasStakedAmount() ? (
-                <Button
-                  onClick={() => null}
-                  color={'primary'}
-                  className="w-100"
-                >
+                <Button onClick={() => null} color={'primary'} className="w-100">
                   Stake
                 </Button>
               ) : null

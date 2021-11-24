@@ -74,9 +74,7 @@ export const getUserStakes = (addressOfUser, type, isActive) => {
     userApis
       .getStakedAmountForAllContracts(addressOfUser, type, isActive)
       .then((response) => {
-        dispatch(
-          userStakesFetchSuccessfull(response.response, response.currentBlock)
-        );
+        dispatch(userStakesFetchSuccessfull(response.response, response.currentBlock));
       })
       .catch((error) => {
         dispatch(userStakesFetchFailed());
@@ -130,9 +128,7 @@ export const getHarvestValues = (addressOfUser, type, isActive) => {
     userApis
       .getHarvestValue(addressOfUser, type, isActive)
       .then((response) => {
-        dispatch(
-          harvestValueFetchSuccessfull(response.response, type, isActive)
-        );
+        dispatch(harvestValueFetchSuccessfull(response.response, type, isActive));
       })
       .catch((error) => {
         dispatch(harvestValueFetchFailed());

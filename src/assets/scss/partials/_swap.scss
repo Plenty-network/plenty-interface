@@ -312,11 +312,9 @@
     font-weight: bold;
     color: var(--theme-text-1);
   }
-
-
 }
 .icon-animated {
-  transition: transform .3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
 
   &:hover {
     transition: 0.3s;
@@ -462,6 +460,16 @@
     cursor: pointer;
   }
 }
+
+.swap-detail-route-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid var(--theme-border);
+  font-size: 14px;
+}
+
 .remove-liquidity-token-info {
   font-style: normal;
   font-weight: 500;
@@ -663,7 +671,6 @@ input:checked {
 }
 
 .search-box {
-
   overflow: auto;
   outline: none;
 

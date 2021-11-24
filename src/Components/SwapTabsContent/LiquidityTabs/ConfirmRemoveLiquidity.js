@@ -1,7 +1,7 @@
 import { Modal } from 'react-bootstrap';
 import PuffLoader from 'react-spinners/PuffLoader';
-import Button from "../../Ui/Buttons/Button";
-import React from "react";
+import Button from '../../Ui/Buttons/Button';
+import React from 'react';
 
 const ConfirmRemoveLiquidity = (props) => {
   return (
@@ -13,8 +13,12 @@ const ConfirmRemoveLiquidity = (props) => {
       <Modal.Header>
         <Modal.Title>You will receive</Modal.Title>
         <Modal.Title className={'float-right'}>
-          <span onClick={props.onHide} style={{ cursor: 'pointer' }} className="material-icons-round">
-          close
+          <span
+            onClick={props.onHide}
+            style={{ cursor: 'pointer' }}
+            className="material-icons-round"
+          >
+            close
           </span>
         </Modal.Title>
       </Modal.Header>
@@ -60,8 +64,8 @@ const ConfirmRemoveLiquidity = (props) => {
             </div>
           </div>
           <div className="slippage-info">
-            Output is estimated. If the price changes by more than{' '}
-            {props.slippage}% your transaction will revert.
+            Output is estimated. If the price changes by more than {props.slippage}% your
+            transaction will revert.
           </div>
 
           <div className="swap-detail-wrapper">
@@ -77,12 +81,11 @@ const ConfirmRemoveLiquidity = (props) => {
               <p className="swap-detail-amt-details">Rates</p>
               <div className="token-user-input-wrapper">
                 <p className="swap-detail-amt-details">
-                  1 {props.tokenIn.name} = {props.swapData.tokenOutPerTokenIn}{' '}
-                  {props.tokenOut.name}
+                  1 {props.tokenIn.name} = {props.swapData.tokenOutPerTokenIn} {props.tokenOut.name}
                 </p>
                 <p className="swap-detail-amt-details">
-                  1 {props.tokenOut.name} ={' '}
-                  {1 / props.swapData.tokenOutPerTokenIn} {props.tokenIn.name}
+                  1 {props.tokenOut.name} = {1 / props.swapData.tokenOutPerTokenIn}{' '}
+                  {props.tokenIn.name}
                 </p>
               </div>
             </div>
@@ -91,7 +94,8 @@ const ConfirmRemoveLiquidity = (props) => {
               onClick={props.confirmRemoveLiquidity}
               color={'primary'}
               className={'mt-4 w-100'}
-              loading={props.loading}>
+              loading={props.loading}
+            >
               Confirm Removal
             </Button>
           </div>

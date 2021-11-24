@@ -79,9 +79,7 @@ const Farms = (props) => {
             {farmsToRender?.map((farm) => {
               return (
                 <FarmCard
-                  key={`${farm.identifier}${
-                    props.isActiveOpen ? ' active' : ''
-                  }`}
+                  key={`${farm.identifier}${props.isActiveOpen ? ' active' : ''}`}
                   harvestOnFarm={props.harvestOnFarm}
                   stakeOnFarm={props.stakeOnFarm}
                   openFarmsStakeModal={props.openFarmsStakeModal}
@@ -173,16 +171,10 @@ const mapDispatchToProps = (dispatch) => {
           title,
           contractAddress,
           position,
-        })
+        }),
       ),
     closeFarmsStakeModal: () => dispatch(closeFarmsStakeModal()),
-    openFarmsUnstakeModal: (
-      identifier,
-      contractAddress,
-      title,
-      withdrawalFeeStructure,
-      position
-    ) =>
+    openFarmsUnstakeModal: (identifier, contractAddress, title, withdrawalFeeStructure, position) =>
       dispatch(
         openFarmsUnstakeModal({
           identifier,
@@ -190,15 +182,12 @@ const mapDispatchToProps = (dispatch) => {
           title,
           withdrawalFeeStructure,
           position,
-        })
+        }),
       ),
     closeFarmsUnstakeModal: () => dispatch(closeFarmsUnstakeModal()),
     unstakeOnFarm: (stakesToUnstake, farmIdentifier, isActive, position) =>
-      dispatch(
-        unstakeOnFarmThunk(stakesToUnstake, farmIdentifier, isActive, position)
-      ),
-    fetchUserBalances: (address) =>
-      dispatch(userActions.fetchUserBalances(address)),
+      dispatch(unstakeOnFarmThunk(stakesToUnstake, farmIdentifier, isActive, position)),
+    fetchUserBalances: (address) => dispatch(userActions.fetchUserBalances(address)),
   };
 };
 

@@ -1,5 +1,4 @@
 .simpleModal {
-
   & > :global(.modal-content) {
     background: var(--theme-card-bg);
     box-shadow: 0 16.9px 32.3304px rgba(176, 183, 195, 0.14);
@@ -22,7 +21,7 @@
     font-weight: bold;
     font-size: 18px;
   }
-  
+
   .closeBtn {
     cursor: pointer;
     color: var(--theme-text-4);
@@ -80,14 +79,14 @@
       color: var(--theme-text-1);
     }
 
-    & input[type=number]::-webkit-outer-spin-button,
-    & input[type=number]::-webkit-inner-spin-button {
+    & input[type='number']::-webkit-outer-spin-button,
+    & input[type='number']::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0;
     }
 
-    & input[type=number] {
-      -moz-appearance:textfield;
+    & input[type='number'] {
+      -moz-appearance: textfield;
     }
 
     & span {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
 import PuffLoader from 'react-spinners/PuffLoader';
-import Button from "../../Ui/Buttons/Button";
+import Button from '../../Ui/Buttons/Button';
 
 const ConfirmAddLiquidity = (props) => {
   return (
@@ -13,8 +13,12 @@ const ConfirmAddLiquidity = (props) => {
       <Modal.Header>
         <Modal.Title>You will receive</Modal.Title>
         <Modal.Title className={'float-right'}>
-          <span onClick={props.onHide} style={{ cursor: 'pointer' }} className="material-icons-round">
-          close
+          <span
+            onClick={props.onHide}
+            style={{ cursor: 'pointer' }}
+            className="material-icons-round"
+          >
+            close
           </span>
         </Modal.Title>
       </Modal.Header>
@@ -31,9 +35,7 @@ const ConfirmAddLiquidity = (props) => {
                 </div>
 
                 <div className="token-user-input-wrapper">
-                  <p className="lp-token-info-desc">
-                    {props.lpTokenAmount.estimatedLpOutput}
-                  </p>
+                  <p className="lp-token-info-desc">{props.lpTokenAmount.estimatedLpOutput}</p>
                   <p className="lp-token-info-desc">
                     {props.tokenIn.name}/{props.tokenOut.name} LP Tokens
                   </p>
@@ -48,16 +50,14 @@ const ConfirmAddLiquidity = (props) => {
               <div className="token-user-input-wrapper">
                 {props.swapData.tokenOutPerTokenIn ? (
                   <p className="swap-detail-amt-details">
-                    1 {props.tokenIn.name} ={' '}
-                    {props.swapData.tokenOutPerTokenIn.toFixed(10)}{' '}
+                    1 {props.tokenIn.name} = {props.swapData.tokenOutPerTokenIn.toFixed(10)}{' '}
                     {props.tokenOut.name}
                   </p>
                 ) : null}
 
                 {props.swapData.tokenOutPerTokenIn ? (
                   <p className="swap-detail-amt-details">
-                    1 {props.tokenOut.name} ={' '}
-                    {(1 / props.swapData.tokenOutPerTokenIn).toFixed(10)}{' '}
+                    1 {props.tokenOut.name} = {(1 / props.swapData.tokenOutPerTokenIn).toFixed(10)}{' '}
                     {props.tokenIn.name}
                   </p>
                 ) : null}
@@ -65,18 +65,14 @@ const ConfirmAddLiquidity = (props) => {
             </div>
 
             <div className="swap-detail-amt-wrapper">
-              <p className="swap-detail-amt-details">
-                {props.tokenIn.name} deposited{' '}
-              </p>
+              <p className="swap-detail-amt-details">{props.tokenIn.name} deposited </p>
               <p className="swap-detail-amt-details">
                 {props.firstTokenAmount} {props.tokenIn.name}
               </p>
             </div>
 
             <div className="swap-detail-amt-wrapper">
-              <p className="swap-detail-amt-details">
-                {props.tokenOut.name} deposited{' '}
-              </p>
+              <p className="swap-detail-amt-details">{props.tokenOut.name} deposited </p>
               <p className="swap-detail-amt-details">
                 {props.secondTokenAmount
                   ? props.secondTokenAmount
@@ -90,8 +86,7 @@ const ConfirmAddLiquidity = (props) => {
               <p className="swap-detail-amt-details">
                 {(
                   (props.lpTokenAmount.estimatedLpOutput /
-                    (props.swapData.lpTokenSupply +
-                      props.lpTokenAmount.estimatedLpOutput)) *
+                    (props.swapData.lpTokenSupply + props.lpTokenAmount.estimatedLpOutput)) *
                   100
                 ).toFixed(5)}{' '}
                 %
@@ -102,7 +97,8 @@ const ConfirmAddLiquidity = (props) => {
               onClick={props.CallConfirmAddLiquidity}
               color={'primary'}
               className={'mt-4 w-100'}
-              loading={props.loading}>
+              loading={props.loading}
+            >
               Confirm Supply
             </Button>
           </div>

@@ -11,8 +11,6 @@
   }
 }
 
-
-
 .slider {
   position: absolute;
   cursor: pointer;
@@ -22,12 +20,12 @@
   bottom: 0;
   background-color: var(--theme-secondary-1);
   border-radius: 28px;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 
   &:before {
     position: absolute;
-    content: "";
+    content: '';
     height: 18px;
     width: 18px;
     left: 5px;

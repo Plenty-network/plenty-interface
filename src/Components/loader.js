@@ -1,4 +1,4 @@
-import { PuffLoader } from "react-spinners";
+import { PuffLoader } from 'react-spinners';
 
 const Loader = (props) => {
   if (props.loading) {
@@ -6,7 +6,7 @@ const Loader = (props) => {
       <div className="loading-data-wrapper">
         <PuffLoader color="var(--theme-primary-1)" size={36} />
       </div>
-    )
+    );
   }
 
   if (props.loaderMessage.type) {

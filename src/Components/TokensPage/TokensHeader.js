@@ -1,13 +1,7 @@
-import {FrontPageGradientDiv, TopGradientDiv} from "../../themes";
-import Header from "../Header/Header";
+import { FrontPageGradientDiv, TopGradientDiv } from '../../themes';
+import Header from '../Header/Header';
 
-const TokensHeader = ({
-  toggleTheme,
-  theme,
-  connectWallet,
-  disconnectWallet,
-  walletAddress,
-}) => {
+const TokensHeader = ({ toggleTheme, theme, connectWallet, disconnectWallet, walletAddress }) => {
   return (
     <div className={`d-flex flex-column`}>
       <TopGradientDiv className={`row`}>
@@ -19,9 +13,7 @@ const TokensHeader = ({
           walletAddress={walletAddress}
           isFrontPage={true}
         />
-        <div
-          className={`d-flex align-items-center flex-column my-5 mx-auto text-white`}
-        >
+        <div className={`d-flex align-items-center flex-column my-5 mx-auto text-white`}>
           <h3>Tokens</h3>
           <div>Tradable on Plenty</div>
         </div>
