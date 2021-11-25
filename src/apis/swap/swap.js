@@ -421,7 +421,7 @@ export const computeTokenOutForRouteBaseByOutAmount = (outputAmount, swapData, s
       fees: midToOutOutput.fees,
       minimum_Out: forMinimumOut.minimum_Out,
       //minimum_Out_Plenty: inToMidOutput.minimum_Out,
-      minimum_Out_Plenty: forPlenty.minimum_Out,
+      // minimum_Out_Plenty: forPlenty.minimum_Out,
       minimum_Out_Plenty: 0,
       priceImpact: inToMidOutput.priceImpact + midToOutOutput.priceImpact,
     };
@@ -1170,9 +1170,6 @@ export const getTokenPrices = async () => {
       },
       WRAP: {
         contractAddress: 'KT1LRboPna9yQY9BrjtQYDS1DVxhKESK4VVd',
-      },
-      wDAI: {
-        contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
       },
       wWBTC: {
         contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
