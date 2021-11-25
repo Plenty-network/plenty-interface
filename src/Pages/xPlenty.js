@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -6,21 +7,20 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Loader from '../Components/loader';
 import NumericLabel from 'react-pretty-numbers';
-import { currencyOptionsWithSymbol, currencyOptions } from '../constants/global';
+import { currencyOptions, currencyOptionsWithSymbol } from '../constants/global';
 import xplenty from '../assets/images/x-plenty-medium.svg';
 import StakePlenty from '../Components/xPlentyTabs/StakePlenty';
 import UnstakePlenty from '../Components/xPlentyTabs/UnstakePlenty';
-import XplentyBalance from '../Components/xPlentyTabs/xPlentyBalance';
 
 import { connect } from 'react-redux';
 import {
-  xPlentyComputationsThunk,
-  getExpectedxPlentyThunk,
   buyXPlentyThunk,
-  getExpectedPlentyThunk,
-  sellXPlentyThunk,
-  closetransactionInjectionModalThunk,
   closeToastThunk,
+  closetransactionInjectionModalThunk,
+  getExpectedPlentyThunk,
+  getExpectedxPlentyThunk,
+  sellXPlentyThunk,
+  xPlentyComputationsThunk,
 } from '../redux/slices/xPlenty/xPlenty.thunk';
 import * as userActions from '../redux/actions/user/user.action';
 
@@ -36,7 +36,6 @@ const Stake = (props) => {
     props.fetchUserBalances(props.walletAddress);
   }, [props.walletAddress]);
 
-  const [loading, setLoading] = useState(false);
   const [loaderMessage, setLoaderMessage] = useState({});
 
   useEffect(() => {
@@ -287,3 +286,25 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stake);
+
+Stake.propTypes = {
+  buyxPlenty: PropTypes.any,
+  closeToast: PropTypes.any,
+  closetransactionInjectionModal: PropTypes.any,
+  connectWallet: PropTypes.any,
+  currentOpHash: PropTypes.any,
+  expectedPlenty: PropTypes.any,
+  expectedxPlenty: PropTypes.any,
+  fetchUserBalances: PropTypes.any,
+  getxPlentyData: PropTypes.any,
+  isProcessing: PropTypes.any,
+  isToastOpen: PropTypes.any,
+  isTransactionInjectionModalOpen: PropTypes.any,
+  sellXPlenty: PropTypes.any,
+  setExpectedPlenty: PropTypes.any,
+  setExpectedxPlenty: PropTypes.any,
+  toastMessage: PropTypes.any,
+  walletAddress: PropTypes.any,
+  walletBalances: PropTypes.any,
+  xPlentyData: PropTypes.any,
+};

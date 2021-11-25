@@ -1,18 +1,14 @@
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import truncateMiddle from 'truncate-middle';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Navbar from 'react-bootstrap/Navbar';
+import { Col, Container, Nav, Navbar, NavDropdown, Row } from 'react-bootstrap';
+
 import clsx from 'clsx';
-import Dropdown from 'react-bootstrap/Dropdown';
-import { ExternalMenu, NavigationMenu } from './Menu';
+import { ExternalMenu } from './Menu';
 import { ReactComponent as Logo } from '../../assets/images/logo.svg';
 import { ReactComponent as LogoWhite } from '../../assets/images/logo-white.svg';
 import { Link, useLocation } from 'react-router-dom';
-import Nav from 'react-bootstrap/Nav';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import SimpleModal from '../../Components/Ui/Modals/SimpleModal';
+
 import NodeSelectorModal from './NodeSelectorModal';
 import Loader from '../../Components/loader';
 import { RPC_NODE } from '../../constants/localStorage';
@@ -34,7 +30,7 @@ const Header = (props) => {
     }
   }, []);
 
-  let connectWalletButton = () => {
+  const connectWalletButton = () => {
     if (props.walletAddress) {
       return (
         <Button onClick={props.disconnectWallet} color={'primary'} className={'bg-themed'}>
@@ -76,20 +72,6 @@ const Header = (props) => {
       );
     }
   };
-
-  const CustomToggle = React.forwardRef(({ onClick }, ref) => (
-    <a
-      href=""
-      className="nav-menu-item-link"
-      ref={ref}
-      onClick={(e) => {
-        e.preventDefault();
-        onClick(e);
-      }}
-    >
-      <span className="span-themed material-icons-round">more_vert</span>
-    </a>
-  ));
 
   const resetActiveTab = () => {
     localStorage.setItem('activeTab', 'swap');
@@ -312,5 +294,15 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setNode: (rpcNode) => dispatch(setNode(rpcNode)),
 });
+
+Header.propTypes = {
+  connecthWallet: PropTypes.func,
+  disconnectWallet: PropTypes.func,
+  isFrontPage: PropTypes.bool,
+  setNode: PropTypes.func,
+  theme: PropTypes.string,
+  toggleTheme: PropTypes.func,
+  walletAddress: PropTypes.oneOf(),
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

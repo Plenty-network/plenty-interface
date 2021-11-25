@@ -1,13 +1,12 @@
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React, { useMemo } from 'react';
-import { Row, Col, Image } from 'react-bootstrap';
+import { Col, Image, Row } from 'react-bootstrap';
 import Label from '../Ui/Label/Label';
 import greenBullet from '../../assets/images/stats/greenbullet.svg';
 import dollar from '../../assets/images/stats/dollar.svg';
 import plentyInWallet from '../../assets/images/stats/plentyinwallet.svg';
 import plentyToHarvest from '../../assets/images/stats/plentytoharvest.svg';
-import plentyMedium from '../../assets/images/frontpage/plentymedium.svg';
 import styles from './stats.module.scss';
 import Button from '../Ui/Buttons/Button';
 import NumericLabel from 'react-pretty-numbers';
@@ -96,10 +95,13 @@ const Stats = (props) => {
 };
 
 Stats.propTypes = {
-  valueLocked: PropTypes.number,
+  harvestAll: PropTypes.any,
+  harvestAllOperations: PropTypes.any,
   plentyEarned: PropTypes.number,
   plentyInWallet: PropTypes.number,
   plentyToHarvest: PropTypes.number,
+  valueLocked: PropTypes.number,
+  xplentyBalance: PropTypes.any,
 };
 
 export default Stats;

@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+import React from 'react';
 import { Modal } from 'react-bootstrap';
 
 const ConfirmSwap = (props) => {
@@ -87,6 +89,12 @@ const ConfirmSwap = (props) => {
       </Modal.Body>
     </Modal>
   );
+};
+
+ConfirmSwap.propTypes = {
+  onHide: PropTypes.func,
+  show: PropTypes.bool,
+  tokenIn: PropTypes.object,
 };
 
 export default ConfirmSwap;

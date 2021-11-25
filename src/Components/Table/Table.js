@@ -1,13 +1,9 @@
+import PropTypes from 'prop-types';
 import { useTable, useSortBy, useFilters, usePagination } from 'react-table';
 import styles from './table.module.scss';
 import clsx from 'clsx';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-/* TODO
- 1. Sorted by indicator has to be added
- 2. Table cell transparent to be removed (mobile view overlap occurs)
- 3. CSS Tweaks
- */
 const Table = ({ searchQuery, columns, data, className }) => {
   useEffect(() => {
     setFilter('token', searchQuery);
@@ -55,9 +51,14 @@ const Table = ({ searchQuery, columns, data, className }) => {
         <div {...getTableProps()} className={clsx(styles.table, className)}>
           <div className={styles.thead}>
             {headerGroups.map((headerGroup) => (
-              <div {...headerGroup.getHeaderGroupProps()} className={styles.th}>
+              <div
+                key={'will be overridden'}
+                {...headerGroup.getHeaderGroupProps()}
+                className={styles.th}
+              >
                 {headerGroup.headers.map((column) => (
                   <div
+                    key={'will be overridden'}
                     {...column.getHeaderProps(column.getSortByToggleProps())}
                     className={styles.td}
                   >
@@ -87,10 +88,14 @@ const Table = ({ searchQuery, columns, data, className }) => {
             {page.map((row) => {
               prepareRow(row);
               return (
-                <div {...row.getRowProps()} className={styles.tr}>
+                <div key={'will be overridden'} {...row.getRowProps()} className={styles.tr}>
                   {row.cells.map((cell) => {
                     return (
-                      <div {...cell.getCellProps()} className={styles.td}>
+                      <div
+                        key={'will be overridden'}
+                        {...cell.getCellProps()}
+                        className={styles.td}
+                      >
                         <span className="mx-1">{cell.render('Cell')}</span>
                       </div>
                     );
@@ -107,6 +112,7 @@ const Table = ({ searchQuery, columns, data, className }) => {
           .fill(0)
           .map((x, i) => (
             <div
+              key={i}
               className={clsx(styles.page, {
                 [styles.selected]: i === pageIndex,
               })}
@@ -118,6 +124,13 @@ const Table = ({ searchQuery, columns, data, className }) => {
       </div>
     </>
   );
+};
+
+Table.propTypes = {
+  className: PropTypes.any,
+  columns: PropTypes.any,
+  data: PropTypes.any,
+  searchQuery: PropTypes.any,
 };
 
 export default Table;

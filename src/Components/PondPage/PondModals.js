@@ -1,7 +1,7 @@
 import InfoTableModal from '../Modals/InfoTableModal';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import InfoModal from '../Ui/Modals/InfoModal';
 import Loader from '../loader';
 import { POND_PAGE_MODAL } from '../../constants/pondsPage';

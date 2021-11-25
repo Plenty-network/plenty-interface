@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import PropTypes from 'prop-types';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
-  loadSwapData,
-  computeTokenOutput,
-  fetchAllWalletBalance,
-  getTokenPrices,
   computeOutputBasedOnTokenOutAmount,
-  getRouteSwapData,
   computeTokenOutForRouteBase,
   computeTokenOutForRouteBaseByOutAmount,
+  computeTokenOutput,
+  fetchAllWalletBalance,
+  getRouteSwapData,
+  getTokenPrices,
+  loadSwapData,
 } from '../apis/swap/swap';
 import config from '../config/config';
 
@@ -83,7 +84,10 @@ const Swap = (props) => {
   }, [pairExist, tokenIn, tokenOut]);
 
   useEffect(() => {
-    if (tokenIn.hasOwnProperty('name') && tokenOut.hasOwnProperty('name')) {
+    if (
+      Object.prototype.hasOwnProperty.call(tokenIn, 'name') &&
+      Object.prototype.hasOwnProperty.call(tokenOut, 'name')
+    ) {
       const pairExists = !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
       if (!pairExists) {
         getRouteSwapData(tokenIn.name, tokenOut.name, midTokens).then((data) => {
@@ -524,3 +528,8 @@ const Swap = (props) => {
 };
 
 export default Swap;
+
+Swap.propTypes = {
+  connecthWallet: PropTypes.any,
+  walletAddress: PropTypes.any,
+};

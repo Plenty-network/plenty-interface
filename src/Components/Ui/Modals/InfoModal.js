@@ -1,3 +1,4 @@
+import React from 'react';
 import SimpleModal from './SimpleModal';
 import PropTypes from 'prop-types';
 

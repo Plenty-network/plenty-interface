@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Button from '../Ui/Buttons/Button';
 import PropTypes from 'prop-types';
 
@@ -6,12 +6,10 @@ import styles from '../../assets/scss/partials/_farms.module.scss';
 import clsx from 'clsx';
 import QuantityButton from '../Ui/Buttons/QuantityButton';
 import { Image, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
 
-const FarmCardBottom = (props) => {
+const PondCardBottom = (props) => {
   const [isExpanded, toggleExpand] = useState(false);
   const target = useRef(null);
-  const dispatch = useDispatch();
 
   const hasStakedAmount = () => {
     // return props.userStakes.hasOwnProperty(props.CONTRACT) && props.userStakes[props.CONTRACT].stakedAmount > 0;
@@ -92,13 +90,13 @@ const FarmCardBottom = (props) => {
                 key="top"
                 placement="top"
                 overlay={
-                  <Tooltip id={`deposit-fee-tooltip`} arrowProps={{ styles: { display: 'none' } }}>
+                  <Tooltip id={'deposit-fee-tooltip'} arrowProps={{ styles: { display: 'none' } }}>
                     No deposit fee
                   </Tooltip>
                 }
               >
                 <Button
-                  id={`deposit-fee`}
+                  id={'deposit-fee'}
                   ref={target}
                   size="small"
                   color="mute"
@@ -146,8 +144,10 @@ const FarmCardBottom = (props) => {
   );
 };
 
-FarmCardBottom.propTypes = {
+PondCardBottom.propTypes = {
+  harvestImg: PropTypes.string,
+  stakedAmount: PropTypes.string,
   title: PropTypes.string.isRequired,
 };
 
-export default FarmCardBottom;
+export default PondCardBottom;

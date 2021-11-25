@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 //Components
@@ -88,6 +89,13 @@ const Routes = (props) => {
       </React.Suspense>
     </ThemeProvider>
   );
+};
+
+Routes.propTypes = {
+  connectWallet: PropTypes.any,
+  disconnectWallet: PropTypes.any,
+  fetchWalletAddress: PropTypes.any,
+  userAddress: PropTypes.any,
 };
 
 const mapStateToProps = (state) => {

@@ -1,9 +1,9 @@
-import { estimateOtherToken, addLiquidity, lpTokenOutput } from '../../../apis/swap/swap';
-import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { addLiquidity, estimateOtherToken, lpTokenOutput } from '../../../apis/swap/swap';
+import React, { useEffect, useState } from 'react';
 
 import InfoModal from '../../Ui/Modals/InfoModal';
 import ConfirmAddLiquidity from './ConfirmAddLiquidity';
-import PuffLoader from 'react-spinners/PuffLoader';
 import Button from '../../Ui/Buttons/Button';
 
 const AddLiquidity = (props) => {
@@ -39,7 +39,6 @@ const AddLiquidity = (props) => {
       setEstimatedTokenAmout({
         otherTokenAmount: '',
       });
-      return;
     } else {
       const estimatedTokenAmout = estimateOtherToken(
         input,
@@ -113,7 +112,7 @@ const AddLiquidity = (props) => {
   };
 
   useEffect(() => {
-    if (props.firstTokenAmount == '' || props.firstTokenAmount == 0) {
+    if (props.firstTokenAmount === '' || props.firstTokenAmount === 0) {
       setSecondTokenAmount('');
       setEstimatedTokenAmout({
         otherTokenAmount: '',
@@ -336,3 +335,26 @@ const AddLiquidity = (props) => {
 };
 
 export default AddLiquidity;
+
+AddLiquidity.propTypes = {
+  connecthWallet: PropTypes.any,
+  fetchUserWalletBalance: PropTypes.any,
+  firstTokenAmount: PropTypes.any,
+  getTokenPrice: PropTypes.any,
+  handleClose: PropTypes.any,
+  handleLoaderMessage: PropTypes.any,
+  handleTokenType: PropTypes.any,
+  loaderInButton: PropTypes.any,
+  resetAllValues: PropTypes.any,
+  setFirstTokenAmount: PropTypes.any,
+  setHideContent: PropTypes.any,
+  setLoaderMessage: PropTypes.any,
+  setLoading: PropTypes.any,
+  setShowConfirmAddSupply: PropTypes.any,
+  swapData: PropTypes.any,
+  tokenContractInstances: PropTypes.any,
+  tokenIn: PropTypes.any,
+  tokenOut: PropTypes.any,
+  userBalances: PropTypes.any,
+  walletAddress: PropTypes.any,
+};

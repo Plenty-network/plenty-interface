@@ -1,5 +1,5 @@
+import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap';
-import PuffLoader from 'react-spinners/PuffLoader';
 import Button from '../../Ui/Buttons/Button';
 import React from 'react';
 
@@ -103,6 +103,18 @@ const ConfirmRemoveLiquidity = (props) => {
       </Modal.Body>
     </Modal>
   );
+};
+
+ConfirmRemoveLiquidity.propTypes = {
+  confirmRemoveLiquidity: PropTypes.any,
+  loading: PropTypes.any,
+  onHide: PropTypes.any,
+  removableTokens: PropTypes.any,
+  showConfirmRemoveSupply: PropTypes.any,
+  slippage: PropTypes.any,
+  swapData: PropTypes.any,
+  tokenIn: PropTypes.any,
+  tokenOut: PropTypes.any,
 };
 
 export default ConfirmRemoveLiquidity;

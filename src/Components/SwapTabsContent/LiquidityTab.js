@@ -1,14 +1,16 @@
+import PropTypes from 'prop-types';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
 import AddLiquidity from './LiquidityTabs/AddLiquidity';
 import RemoveLiquidity from './LiquidityTabs/RemoveLiquidity';
 
-import { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 const LiquidityTab = (props) => {
   let defaultKey = 'add';
 
+  // ! Refactor this
   const changeLiquidityType = () => {
     if (window.location.pathname.replace('/liquidity/', '') === 'add') {
       window.history.pushState(
@@ -44,7 +46,7 @@ const LiquidityTab = (props) => {
     if (params.tokenA !== params.tokenB) {
       if (params.tokenA) {
         props.tokens.map((token) => {
-          if (token.name == params.tokenA) {
+          if (token.name === params.tokenA) {
             props.setTokenIn({
               name: params.tokenA,
               image: token.image,
@@ -55,7 +57,7 @@ const LiquidityTab = (props) => {
 
       if (params.tokenB) {
         props.tokens.map((token) => {
-          if (token.name == params.tokenB) {
+          if (token.name === params.tokenB) {
             props.setTokenOut({
               name: params.tokenB,
               image: token.image,
@@ -63,8 +65,6 @@ const LiquidityTab = (props) => {
           }
         });
       }
-    } else {
-      return;
     }
   }, []);
 
@@ -90,6 +90,14 @@ const LiquidityTab = (props) => {
       </div>
     </>
   );
+};
+
+LiquidityTab.propTypes = {
+  setTokenIn: PropTypes.any,
+  setTokenOut: PropTypes.any,
+  tokenIn: PropTypes.any,
+  tokenOut: PropTypes.any,
+  tokens: PropTypes.any,
 };
 
 export default LiquidityTab;

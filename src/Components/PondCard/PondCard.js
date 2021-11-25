@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+import React from 'react';
 import styles from '../../assets/scss/partials/_farms.module.scss';
 import Image from 'react-bootstrap/Image';
 import clsx from 'clsx';
@@ -5,7 +7,6 @@ import PondCardBottom from './PondCardBottom';
 import Button from '../Ui/Buttons/Button';
 
 import CalculatorSvg from '../../assets/images/icons/calculator.svg';
-import { numberWithCommas } from '../../utils/formatNumbers';
 import { useDispatch } from 'react-redux';
 import { openClosePondsModal } from '../../redux/actions/ponds/ponds.action';
 import { POND_PAGE_MODAL } from '../../constants/pondsPage';
@@ -13,13 +14,11 @@ import { POND_PAGE_MODAL } from '../../constants/pondsPage';
 const PondCard = (props) => {
   const dispatch = useDispatch();
 
-  const apyCalculate = (apr) => ((Math.pow(1 + apr / 100 / 365, 365) - 1) * 100).toFixed(0);
-
-  const getAPR = (props) => {
+  const getAPR = () => {
     return 0;
   };
 
-  const getAPY = (props) => {
+  const getAPY = () => {
     return 0;
   };
 
@@ -122,6 +121,14 @@ const PondCard = (props) => {
       {/* <StakeModal open={props.isStakeModalOpen} onClose={() => props.closePondsStakeModal()} tokenData={{title: props.title}} /> */}
     </>
   );
+};
+
+PondCard.propTypes = {
+  CONTRACT: PropTypes.string,
+  connectWallet: PropTypes.func,
+  image: PropTypes.string,
+  title: PropTypes.string,
+  userAddress: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]).isRequired,
 };
 
 export default PondCard;

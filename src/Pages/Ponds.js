@@ -1,15 +1,11 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import wdaiImg from '../assets/images/wdai.png';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
 import kalamimg from '../assets/images/kalam.png';
 import wrapimg from '../assets/images/wrap.png';
 import { connect } from 'react-redux';
 import * as pondsAction from '../redux/actions/ponds/ponds.action';
 import * as walletActions from '../redux/actions/wallet/wallet.action';
 import CONFIG from '../config/config';
-import { throttle } from 'lodash/function';
 import PondCard from '../Components/PondCard/PondCard';
 import styles from '../assets/scss/partials/_farms.module.scss';
 import Switch from '../Components/Ui/Switch/Switch';
@@ -40,70 +36,11 @@ const Ponds = (props) => {
       title: 'WRAP',
     },
   };
-  const pondsList = [
-    {
-      image: wdaiImg,
-      multi: '100',
-      title: 'PLENTY',
-      apr: 0,
-      apy: '2621',
-      earn: 'PLENTY',
-      fee: '0%',
-      earned: 0,
-      deposit: 'PLENTY - XTZ LP',
-      liquidity: '100000',
-      withdrawalFee: '0%',
-      balance: 0,
-      userBalance: 0,
-      URL: '',
-      active: true,
-      source: 'Quipuswap LP',
-      rewards: '1000 PLENTY / DAY',
-    },
-    {
-      image: wdaiImg,
-      multi: '100',
-      title: 'hDAO',
-      apr: 0,
-      apy: '2621',
-      earn: 'PLENTY',
-      fee: '0%',
-      earned: 0,
-      deposit: 'PLENTY - XTZ LP',
-      liquidity: '1000',
-      withdrawalFee: '0%',
-      balance: 0,
-      userBalance: 0,
-      URL: '',
-      active: true,
-      source: 'Plenty',
-      rewards: '1000 PLENTY / DAY',
-    },
-    {
-      image: wdaiImg,
-      multi: '100',
-      title: 'KALAM',
-      apr: 0,
-      apy: '2621',
-      earn: 'PLENTY',
-      fee: '0%',
-      earned: 0,
-      deposit: 'PLENTY - XTZ LP',
-      liquidity: '5000',
-      withdrawalFee: '0%',
-      balance: 0,
-      userBalance: 0,
-      URL: '',
-      active: true,
-      source: 'Plenty',
-      rewards: '1000 PLENTY / DAY',
-    },
-  ];
 
   const renderPonds = () => {
-    let pondsToBeRendered = [];
-    for (let key in CONFIG.PONDS[CONFIG.NETWORK]) {
-      for (let i in CONFIG.PONDS[CONFIG.NETWORK][key][
+    const pondsToBeRendered = [];
+    for (const key in CONFIG.PONDS[CONFIG.NETWORK]) {
+      for (const i in CONFIG.PONDS[CONFIG.NETWORK][key][
         props.isActiveOpen === true ? 'active' : 'inactive'
       ]) {
         pondsToBeRendered.push({
@@ -166,7 +103,7 @@ const Ponds = (props) => {
             <br />
             <p>
               Stake not visible? Visit{' '}
-              <a href="https://old.plentydefi.com/ponds" target="_blank">
+              <a href="https://old.plentydefi.com/ponds" target="_blank" rel="noreferrer">
                 {' '}
                 old.plentydefi.com
               </a>{' '}
@@ -201,6 +138,12 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 Ponds.propTypes = {
+  isActiveOpen: PropTypes.any,
+  pondsToRender: PropTypes.any,
+  rpcNode: PropTypes.any,
+  setPondsToRender: PropTypes.any,
+  togglePondsType: PropTypes.any,
+  userAddress: PropTypes.any,
   walletAddress: PropTypes.string.isRequired,
 };
 
