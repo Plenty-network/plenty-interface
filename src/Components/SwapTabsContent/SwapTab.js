@@ -14,6 +14,14 @@ const SwapTab = (props) => {
     props.setHideContent('content-hide');
   };
 
+  const getDollarValue = (amount, price) => {
+    const calculatedValue = amount * price;
+    if (calculatedValue < 100) {
+      return calculatedValue.toFixed(2);
+    }
+    return Math.floor(calculatedValue);
+  };
+
   const pairExist = useMemo(() => {
     return !!config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name];
   }, [props.tokenIn, props.tokenOut]);
@@ -71,6 +79,7 @@ const SwapTab = (props) => {
         props.computedOutDetails.minimum_Out,
         props.computedOutDetails.minimum_Out_Plenty,
         props.transactionSubmitModal,
+        props.midTokens,
       ).then((swapResp) => {
         handleSwapResponse(swapResp.success);
         setTimeout(() => {
@@ -89,48 +98,56 @@ const SwapTab = (props) => {
     props.setFirstTokenAmount(value.substring(0, value.length - 1));
   };
 
-  let swapContentButton = (
-    <Button
-      onClick={props.connecthWallet}
-      color={'primary'}
-      startIcon={'add'}
-      className={'mt-4 w-100 flex align-items-center justify-content-center'}
-    >
-      Connect Wallet
-    </Button>
-  );
-  if (props.walletAddress) {
-    if (props.tokenOut.name && props.firstTokenAmount) {
-      swapContentButton = (
-        <Button
-          onClick={callSwapToken}
-          color={'primary'}
-          className={'mt-4 w-100 flex align-items-center justify-content-center'}
-        >
-          Swap
-        </Button>
-      );
-    } else if (!props.tokenOut.name) {
-      swapContentButton = (
-        <Button
-          onClick={() => null}
-          color={'primary'}
-          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
-        >
-          Select a token
-        </Button>
-      );
-    } else if (props.loaderInButton) {
-      swapContentButton = (
-        <Button
-          onClick={() => null}
-          color={'primary'}
-          loading={true}
-          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
-        ></Button>
-      );
-    } else {
-      swapContentButton = (
+  // TODO Refactor once again
+  const swapContentButton = useMemo(() => {
+    if (props.walletAddress) {
+      if (props.tokenOut.name && props.firstTokenAmount) {
+        return (
+          <Button
+            onClick={callSwapToken}
+            color={'primary'}
+            className={'mt-4 w-100 flex align-items-center justify-content-center'}
+          >
+            Swap
+          </Button>
+        );
+      }
+
+      if (!props.tokenOut.name) {
+        return (
+          <Button
+            onClick={() => null}
+            color={'primary'}
+            className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+          >
+            Select a token
+          </Button>
+        );
+      }
+
+      if (!pairExist && props.midTokens === null) {
+        return (
+          <Button
+            disabled
+            color={'primary'}
+            className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+          >
+            Route does not exist
+          </Button>
+        );
+      }
+
+      if (props.loaderInButton) {
+        return (
+          <Button
+            onClick={() => null}
+            color={'primary'}
+            loading={true}
+            className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+          />
+        );
+      }
+      return (
         <Button
           onClick={() => null}
           color={'primary'}
@@ -140,7 +157,28 @@ const SwapTab = (props) => {
         </Button>
       );
     }
-  }
+
+    return (
+      <Button
+        onClick={props.connecthWallet}
+        color={'primary'}
+        startIcon={'add'}
+        className={'mt-4 w-100 flex align-items-center justify-content-center'}
+      >
+        Connect Wallet
+      </Button>
+    );
+  }, [
+    callSwapToken,
+    pairExist,
+    props.connecthWallet,
+    props.firstTokenAmount,
+    props.loaderInButton,
+    props.midTokens,
+    props.tokenOut.name,
+    props.walletAddress,
+  ]);
+
   return (
     <>
       <div className="swap-content-box-wrapper">
@@ -190,9 +228,10 @@ const SwapTab = (props) => {
                 <p className="wallet-token-balance">
                   ~$
                   {props.getTokenPrice.success && props.firstTokenAmount
-                    ? (
-                        props.firstTokenAmount * props.getTokenPrice.tokenPrice[props.tokenIn.name]
-                      ).toFixed(5)
+                    ? getDollarValue(
+                        props.firstTokenAmount,
+                        props.getTokenPrice.tokenPrice[props.tokenIn.name],
+                      )
                     : '0.00'}
                 </p>
               </div>
@@ -260,10 +299,10 @@ const SwapTab = (props) => {
                 <p className="wallet-token-balance">
                   ~$
                   {props.getTokenPrice.success && props.computedOutDetails.tokenOut_amount
-                    ? (
-                        props.computedOutDetails.tokenOut_amount *
-                        props.getTokenPrice.tokenPrice[props.tokenOut.name]
-                      ).toFixed(5)
+                    ? getDollarValue(
+                        props.computedOutDetails.tokenOut_amount,
+                        props.getTokenPrice.tokenPrice[props.tokenOut.name],
+                      )
                     : '0.00'}
                 </p>
               </div>
@@ -310,8 +349,9 @@ const SwapTab = (props) => {
             computedOutDetails={props.computedOutDetails}
             tokenIn={props.tokenIn}
             tokenOut={props.tokenOut}
-            tokenMiddle={props.tokens.find((token) => token.name === 'PLENTY')}
+            midTokens={props.midTokens}
             firstTokenAmount={props.firstTokenAmount}
+            midTokens={props.midTokens}
           />
         )}
       </div>
@@ -325,6 +365,7 @@ const SwapTab = (props) => {
         slippage={props.slippage}
         confirmSwapToken={confirmSwapToken}
         onHide={props.handleClose}
+        midTokens={props.midTokens}
         {...props}
       />
     </>

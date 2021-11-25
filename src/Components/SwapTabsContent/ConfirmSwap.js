@@ -1,4 +1,4 @@
-import { Modal } from 'react-bootstrap';
+import {Modal, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import PuffLoader from 'react-spinners/PuffLoader';
 import React from 'react';
 import Button from '../Ui/Buttons/Button';
@@ -56,10 +56,23 @@ const ConfirmSwap = (props) => {
             </div>
 
             <div className="swap-detail-wrapper bg-themed-light">
-              <div className="swap-detail-amt-wrapper">
-                {/*<span className="material-icons-round">help_outline</span>*/}
+              <div className="flex flex-row align-items-center">
                 <p className="swap-detail-amt-details">Minimum received </p>
-                <p className="swap-detail-amt-details">
+                <OverlayTrigger
+                    key="top"
+                    placement="top"
+                    overlay={
+                      <Tooltip
+                          id={`minimum-received-tooltip`}
+                          arrowProps={{ styles: { display: 'none' } }}
+                      >
+                        Your transaction will revert if there is a large, unfavorable price movement before it is confirmed.
+                      </Tooltip>
+                    }
+                >
+                  <span style={{ cursor: 'pointer' }} className="material-icons-round ml-1 swap-detail-amt-details">help_outline</span>
+                </OverlayTrigger>
+                <p className="swap-detail-amt-details ml-auto">
                   {props.computedOutDetails.minimum_Out
                     ? props.computedOutDetails.minimum_Out.toFixed(8)
                     : '0.00'}{' '}
@@ -67,9 +80,23 @@ const ConfirmSwap = (props) => {
                 </p>
               </div>
 
-              <div className="swap-detail-amt-wrapper">
+              <div className="flex flex-row align-items-center">
                 <p className="swap-detail-amt-details">Price Impact </p>
-                <p className="swap-detail-amt-details">
+                <OverlayTrigger
+                    key="top"
+                    placement="top"
+                    overlay={
+                      <Tooltip
+                          id={`price-impact-tooltip`}
+                          arrowProps={{ styles: { display: 'none' } }}
+                      >
+                        The difference between the market price and estimated price due to trade size.
+                      </Tooltip>
+                    }
+                >
+                  <span style={{ cursor: 'pointer' }} className="material-icons-round ml-1 swap-detail-amt-details">help_outline</span>
+                </OverlayTrigger>
+                <p className="swap-detail-amt-details ml-auto">
                   {props.computedOutDetails.priceImpact
                     ? props.computedOutDetails.priceImpact
                     : '0.00'}{' '}
@@ -77,23 +104,74 @@ const ConfirmSwap = (props) => {
                 </p>
               </div>
 
-              <div className="swap-detail-amt-wrapper">
+              <div className="flex flex-row align-items-center">
                 <p className="swap-detail-amt-details">Fee </p>
-                <p className="swap-detail-amt-details">
+                <OverlayTrigger
+                    key="top"
+                    placement="top"
+                    overlay={
+                      <Tooltip
+                          id={`fee-tooltip`}
+                          arrowProps={{ styles: { display: 'none' } }}
+                      >
+                        A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive.
+                      </Tooltip>
+                    }
+                >
+                  <span style={{ cursor: 'pointer' }} className="material-icons-round ml-1 swap-detail-amt-details">help_outline</span>
+                </OverlayTrigger>
+                <p className="swap-detail-amt-details ml-auto">
                   {props.firstTokenAmount / 400} {props.tokenIn.name}
                 </p>
               </div>
 
-              <div className="swap-detail-amt-wrapper">
+              {props.computedOutDetails.addtPlentyFee ? (
+                <div className="flex flex-row align-items-center">
+                  <p className="swap-detail-amt-details">Router Fee </p>
+                  <p className="swap-detail-amt-details ml-auto">
+                    {props.computedOutDetails.addtPlentyFee.toFixed(5)} {props.midTokens[0].name}
+                  </p>
+                </div>
+              ) : null}
+
+              <div className="flex flex-row align-items-center">
                 <p className="swap-detail-amt-details">xPlenty Fee </p>
-                <p className="swap-detail-amt-details">
+                <OverlayTrigger
+                    key="top"
+                    placement="top"
+                    overlay={
+                      <Tooltip
+                          id={`xplenty-fee-tooltip`}
+                          arrowProps={{ styles: { display: 'none' } }}
+                      >
+                        A portion of each trade (0.09%) goes to xPLENTY holders as a protocol incentive.
+                      </Tooltip>
+                    }
+                >
+                  <span style={{ cursor: 'pointer' }} className="material-icons-round ml-1 swap-detail-amt-details">help_outline</span>
+                </OverlayTrigger>
+                <p className="swap-detail-amt-details ml-auto">
                   {props.firstTokenAmount / 1000} {props.tokenIn.name}
                 </p>
               </div>
 
-              <div className="swap-detail-amt-wrapper">
+              <div className="flex flex-row align-items-center">
                 <p className="swap-detail-amt-details">Slippage tolerance </p>
-                <p className="swap-detail-amt-details">{props.slippage} %</p>
+                <OverlayTrigger
+                    key="top"
+                    placement="top"
+                    overlay={
+                      <Tooltip
+                          id={`slippage-tolerance-tooltip`}
+                          arrowProps={{ styles: { display: 'none' } }}
+                      >
+                        Change the slippage tolerance in the transaction settings.
+                      </Tooltip>
+                    }
+                >
+                  <span style={{ cursor: 'pointer' }} className="material-icons-round ml-1 swap-detail-amt-details">help_outline</span>
+                </OverlayTrigger>
+                <p className="swap-detail-amt-details ml-auto">{props.slippage} %</p>
               </div>
             </div>
             <Button

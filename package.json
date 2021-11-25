@@ -59,6 +59,8 @@
     ]
   },
   "devDependencies": {
+    "eslint": "^8.3.0",
+    "eslint-plugin-react": "^7.27.1",
     "prettier": "^2.4.1",
     "prop-types": "^15.7.2"
   }
