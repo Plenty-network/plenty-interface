@@ -34,7 +34,7 @@ export const getSwapDetails = (tokenIn, tokenOut) => {
       .then((response) => {
         dispatch(swapDetailsFetchSuccessfull(response));
       })
-      .catch((swapDetailsError) => {
+      .catch(() => {
         dispatch(swapDetailsFetchFailed());
       });
   };
@@ -48,7 +48,7 @@ export const setSwapTokenOutput = (
   slippage,
 ) => {
   return (dispatch) => {
-    let tokenOutputDetails = swapApis.computeTokenOutput(
+    const tokenOutputDetails = swapApis.computeTokenOutput(
       tokenIn_amount,
       tokenIn_supply,
       tokenOut_supply,
@@ -72,7 +72,7 @@ export const clearSwapTokenOutput = () => {
 
 export const setEstimateOtherToken = (tokenIn_amount, tokenIn_supply, tokenOut_supply) => {
   return (dispatch) => {
-    let estimateOtherToken = swapApis.estimateOtherToken(
+    const estimateOtherToken = swapApis.estimateOtherToken(
       tokenIn_amount,
       tokenIn_supply,
       tokenOut_supply,
@@ -99,7 +99,7 @@ export const computeRemoveTokens = (
   tokenSecond_Supply,
   slippage,
 ) => {
-  let removeTokensOutput = swapApis.computeRemoveTokens(
+  const removeTokensOutput = swapApis.computeRemoveTokens(
     burnAmount,
     lpTotalSupply,
     tokenFirst_Supply,
@@ -129,7 +129,7 @@ export const setLpTokenOutput = (
   tokenOut_supply,
   lpTokenSupply,
 ) => {
-  let lpOutput = swapApis.lpTokenOutput(
+  const lpOutput = swapApis.lpTokenOutput(
     tokenIn_amount,
     tokenOut_amount,
     tokenIn_supply,
@@ -186,7 +186,7 @@ export const swap = (tokenIn, tokenOut, minimumTokenOut, recipent, tokenInAmount
       .then((resp) => {
         dispatch(swapSuccessfull(resp));
       })
-      .catch((err) => {
+      .catch(() => {
         dispatch(swapFailed());
       });
   };
@@ -232,7 +232,7 @@ export const addLiquidity = (tokenA, tokenB, tokenA_Amount, tokenB_Amount, calle
       .then((resp) => {
         dispatch(addLiquiditySuccessfull(resp));
       })
-      .catch((err) => {
+      .catch(() => {
         dispatch(addLiquidityFailed());
       });
   };
@@ -296,7 +296,7 @@ export const removeLiquidity = (
       .then((resp) => {
         dispatch(removeLiquiditySuccessfull(resp));
       })
-      .catch((err) => {
+      .catch(() => {
         dispatch(removeLiquidityFailed());
       });
   };

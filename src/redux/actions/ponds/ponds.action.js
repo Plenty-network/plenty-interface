@@ -48,7 +48,7 @@ export const getPondsData = (isActive) => {
         .then((response) => {
           dispatch(activePondDataFetchingSuccesfull(response));
         })
-        .catch((error) => {
+        .catch(() => {
           dispatch(activePondDataFetchingFailed());
         });
     } else {
@@ -58,7 +58,7 @@ export const getPondsData = (isActive) => {
         .then((response) => {
           dispatch(inactivePondDataFetchingSuccesfull(response));
         })
-        .catch((error) => {
+        .catch(() => {
           dispatch(inactivePondDataFetchingFailed());
         });
     }
@@ -115,7 +115,7 @@ export const stakeOnPond = (amount, pondIdentifier, isActive, position) => {
       .then((response) => {
         dispatch(stakingOnPondSuccessFull(response));
       })
-      .catch((error) => {
+      .catch(() => {
         dispatch(stakingOnPondFailed());
       })
       .finally(() => {
@@ -168,7 +168,7 @@ export const unstakeOnPond = (amount, mapKey, pondIdentifier, isActive, position
       .then((response) => {
         dispatch(unstakingOnPondSuccessFull(response));
       })
-      .catch((error) => {
+      .catch(() => {
         dispatch(unstakingOnPondFailed());
       })
       .finally(() => {
@@ -214,7 +214,7 @@ export const harvestOnPond = (pondIdentifier, isActive, position) => {
       .then((response) => {
         dispatch(harvestingOnPondSuccessFull(response));
       })
-      .catch((error) => {
+      .catch(() => {
         dispatch(harvestingOnPondFailed());
       });
   };

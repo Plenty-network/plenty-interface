@@ -18,7 +18,7 @@ export const getHomeStatsData = () => {
           throw 'Error in home stats api';
         }
       })
-      .catch((error) => {
+      .catch(() => {
         // console.log(error)
         dispatch({ type: actions.HOME_STATS_FETCH_FAILED });
       });
@@ -37,7 +37,7 @@ export const getTVL = () => {
           throw 'Error in TVL api';
         }
       })
-      .catch((error) => {
+      .catch(() => {
         // console.log(error)
         dispatch({ type: actions.TVL_FETCH_FAILED });
       });
@@ -60,7 +60,7 @@ export const getPlentyToHarvest = (addressOfUser) => {
           throw errorMessage;
         }
       })
-      .catch((err) => {
+      .catch(() => {
         dispatch({ type: actions.PLENTY_TO_HARVEST_FETCH_FAILED });
       });
   };
@@ -71,7 +71,7 @@ export const getPlentyBalanceOfUser = (userAddress) => {
     dispatch({ type: actions.PLENTY_BALANCE_FETCH });
     const packedKey = homeApis.getPackedKey(0, userAddress, 'FA1.2');
     const connectedNetwork = CONFIG.NETWORK;
-    let balancePromises = [];
+    const balancePromises = [];
     balancePromises.push(
       homeApis.getBalanceAmount(
         CONFIG.TOKEN_CONTRACTS[connectedNetwork]['PLENTY'].mapId,
@@ -97,7 +97,7 @@ export const getPlentyBalanceOfUser = (userAddress) => {
           data: { PLENTY: res[0].balance, xPLENTY: res[1].balance },
         });
       })
-      .catch((error) => {
+      .catch(() => {
         dispatch({ type: actions.PLENTY_BALANCE_FETCH_FAILED });
       });
   };
@@ -153,7 +153,7 @@ export const getTVLOfUser = (userAddress) => {
           throw res.error;
         }
       })
-      .catch((error) => {
+      .catch(() => {
         // console.log(error)
         dispatch({ type: actions.USER_TVL_FETCH_FAILED });
       });

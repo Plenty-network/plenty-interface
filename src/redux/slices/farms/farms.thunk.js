@@ -38,7 +38,7 @@ export const getFarmsDataThunk = (isActive) => (dispatch) => {
     .then((response) => {
       dispatch(dataFetchingSuccessful(response.response));
     })
-    .catch((error) => {
+    .catch(() => {
       dispatch(dataFetchingFailed());
     });
 };
@@ -50,7 +50,7 @@ export const stakeOnFarmThunk = (amount, farmIdentifier, isActive, position) => 
     .then((response) => {
       dispatch(stakingOnFarmSuccessFull(response));
     })
-    .catch((error) => {
+    .catch(() => {
       dispatch(stakingOnFarmFailed());
     })
     .finally(() => {
@@ -65,7 +65,7 @@ export const unstakeOnFarmThunk =
       .then((response) => {
         dispatch(unstakingOnFarmSuccessFull(response));
       })
-      .catch((error) => {
+      .catch(() => {
         dispatch(unstakingOnFarmFailed());
       })
       .finally(() => {
@@ -80,7 +80,7 @@ export const harvestOnFarmThunk = (farmIdentifier, isActive, position) => {
       .then((response) => {
         dispatch(harvestingOnFarmSuccessFull(response));
       })
-      .catch((error) => {
+      .catch(() => {
         dispatch(harvestingOnFarmFailed());
       });
   };

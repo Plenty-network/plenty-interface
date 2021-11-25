@@ -51,7 +51,7 @@ export const connectWallet = () => {
           dispatch(walletConnectionFailed());
         }
       })
-      .catch((err) => {
+      .catch(() => {
         dispatch(walletConnectionFailed());
       });
   };
@@ -65,7 +65,7 @@ export const disconnectWallet = () => {
           dispatch(walletDisconnection());
         }
       })
-      .catch((err) => {});
+      .catch(() => {});
   };
 };
 
@@ -77,6 +77,6 @@ export const fetchWalletAddress = () => {
           dispatch(fetchWallet(resp.wallet));
         }
       })
-      .catch((err) => {});
+      .catch(() => {});
   };
 };

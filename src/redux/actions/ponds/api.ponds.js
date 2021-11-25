@@ -1,5 +1,5 @@
 import { BeaconWallet } from '@taquito/beacon-wallet';
-import { TezosToolkit, OpKind } from '@taquito/taquito';
+import { TezosToolkit } from '@taquito/taquito';
 import axios from 'axios';
 import CONFIG from '../../../config/config';
 import { CheckIfWalletConnected } from '../../../apis/wallet/wallet';
@@ -58,7 +58,7 @@ export const stake = async (amount, pondIdentifier, isActive, position) => {
           position
         ].LP_TOKEN,
       );
-      let tokenAmount =
+      const tokenAmount =
         amount *
         Math.pow(
           10,
@@ -173,7 +173,7 @@ export const unstake = async (amount, mapKey, pondIdentifier, isActive, position
           position
         ].CONTRACT,
       );
-      let tokenAmount =
+      const tokenAmount =
         amount *
         Math.pow(
           10,

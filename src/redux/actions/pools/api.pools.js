@@ -1,5 +1,5 @@
 import { BeaconWallet } from '@taquito/beacon-wallet';
-import { TezosToolkit, OpKind } from '@taquito/taquito';
+import { OpKind, TezosToolkit } from '@taquito/taquito';
 import axios from 'axios';
 import CONFIG from '../../../config/config';
 import { CheckIfWalletConnected } from '../../../apis/wallet/wallet';
@@ -31,10 +31,10 @@ const fetchStorage = async (
     let DPY = (rewardRate * 2880 * priceOfPlentyInUSD) / (totalSupply * priceOfTokenInUsd);
     DPY = DPY * 100;
 
-    let intervalList = [1, 7, 30, 365];
-    let roiTable = [];
+    const intervalList = [1, 7, 30, 365];
+    const roiTable = [];
 
-    for (let interval of intervalList) {
+    for (const interval of intervalList) {
       roiTable.push({
         roi: DPY * interval,
         PlentyPer1000dollar: (10 * DPY * interval) / priceOfPlentyInUSD,
@@ -44,7 +44,7 @@ const fetchStorage = async (
     let APR = (rewardRate * 1051200 * priceOfPlentyInUSD) / (totalSupply * priceOfTokenInUsd);
     APR = APR * 100;
 
-    let totalLiquidty = totalSupply * priceOfTokenInUsd;
+    const totalLiquidty = totalSupply * priceOfTokenInUsd;
 
     return {
       success: true,
@@ -65,17 +65,17 @@ const fetchStorage = async (
 
 export const getPoolsData = async (isActive) => {
   try {
-    let promises = [];
+    const promises = [];
     // let dexPromises = [];
     // const xtzPriceResponse = await axios.get('https://api.coingecko.com/api/v3/coins/tezos?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false');
     // const xtzPriceInUsd = xtzPriceResponse.data.market_data.current_price.usd;
     const tokenPrices = await axios.get('https://api.teztools.io/token/prices');
     const tokenPricesData = tokenPrices.data.contracts;
     let priceOfPlenty = 0;
-    let priceOfToken = [];
-    let tokenData = {};
+    const priceOfToken = [];
+    const tokenData = {};
 
-    for (let i in tokenPricesData) {
+    for (const i in tokenPricesData) {
       if (
         tokenPricesData[i].symbol === 'PLENTY' &&
         tokenPricesData[i].tokenAddress === 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b'
@@ -95,8 +95,8 @@ export const getPoolsData = async (isActive) => {
       }
     }
 
-    for (let key in CONFIG.POOLS[CONFIG.NETWORK]) {
-      for (let key1 in CONFIG.POOLS[CONFIG.NETWORK][key][
+    for (const key in CONFIG.POOLS[CONFIG.NETWORK]) {
+      for (const key1 in CONFIG.POOLS[CONFIG.NETWORK][key][
         isActive === true ? 'active' : 'inactive'
       ]) {
         if (
@@ -121,8 +121,8 @@ export const getPoolsData = async (isActive) => {
     }
 
     const poolResponse = await Promise.all(promises);
-    let poolsData = {};
-    for (let i in poolResponse) {
+    const poolsData = {};
+    for (const i in poolResponse) {
       poolsData[poolResponse[i].address] = {
         APR: poolResponse[i].APR,
         totalLiquidty: poolResponse[i].totalLiquidty,
@@ -202,7 +202,7 @@ export const stake = async (amount, poolIdentifier, isActive, position) => {
           position
         ].TOKEN,
       );
-      let tokenAmount =
+      const tokenAmount =
         amount *
         Math.pow(
           10,
@@ -317,7 +317,7 @@ export const unstake = async (stakesToUnstake, poolIdentifier, isActive, positio
           position
         ].CONTRACT,
       );
-      let unstakeBatch = [];
+      const unstakeBatch = [];
       let amount;
       stakesToUnstake.map((stake) => {
         amount =
@@ -333,8 +333,8 @@ export const unstake = async (stakesToUnstake, poolIdentifier, isActive, positio
           ...contractInstance.methods.unstake(amount, stake.mapId).toTransferParams(),
         });
       });
-      let batch = await Tezos.wallet.batch(unstakeBatch);
-      let batchOperation = await batch.send();
+      const batch = await Tezos.wallet.batch(unstakeBatch);
+      const batchOperation = await batch.send();
       store.dispatch(unstakingOnPoolProcessing(batchOperation));
       await batchOperation.confirmation().then(() => batchOperation.hash);
       return {

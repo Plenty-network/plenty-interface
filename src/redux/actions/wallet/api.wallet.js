@@ -1,5 +1,6 @@
 import { BeaconWallet } from '@taquito/beacon-wallet';
-const CONFIG = require('../../../config/config');
+
+import CONFIG from '../../../config/config';
 
 export const ConnectWalletAPI = async () => {
   try {
@@ -57,7 +58,7 @@ export const FetchWalletAPI = async () => {
       name: CONFIG.NAME,
     };
     const wallet = new BeaconWallet(options);
-    let account = await wallet.client.getActiveAccount();
+    const account = await wallet.client.getActiveAccount();
     if (!account) {
       return {
         success: false,

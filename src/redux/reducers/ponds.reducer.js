@@ -1,5 +1,4 @@
 import * as actions from '../actions/index.action';
-import { FARM_PAGE_MODAL } from '../../constants/farmsPage';
 import { POND_PAGE_MODAL } from '../../constants/pondsPage';
 
 const initialState = {

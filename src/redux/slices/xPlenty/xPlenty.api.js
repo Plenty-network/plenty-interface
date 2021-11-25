@@ -1,22 +1,21 @@
 import Axios from 'axios';
 import { BeaconWallet } from '@taquito/beacon-wallet';
-import { OpKind, TezosToolkit } from '@taquito/taquito';
+import { TezosToolkit } from '@taquito/taquito';
 import CONFIG from '../../../config/config';
 import { RPC_NODE } from '../../../constants/localStorage';
 
 import store from '../../store/store';
 import {
-  opentransactionInjectionModal,
   closetransactionInjectionModal,
   openToastOnFail,
   openToastOnSuccess,
-  closeToast,
+  opentransactionInjectionModal,
 } from './xPlenty.slice';
 
 const getPlentyPrice = (tokenPriceData) => {
   try {
     let plentyPrice = 0;
-    for (let i in tokenPriceData.contracts) {
+    for (const i in tokenPriceData.contracts) {
       if (
         tokenPriceData.contracts[i].symbol === 'PLENTY' &&
         tokenPriceData.contracts[i].tokenAddress === 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b'
@@ -40,7 +39,7 @@ export const xPlentyComputations = async () => {
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
 
-    let axiosPromises = [];
+    const axiosPromises = [];
 
     // Getting Plenty Curve Balance
     axiosPromises.push(
@@ -67,18 +66,18 @@ export const xPlentyComputations = async () => {
     );
 
     // Teztools
-    axiosPromises.push(Axios.get(`https://api.teztools.io/token/prices`));
+    axiosPromises.push(Axios.get('https://api.teztools.io/token/prices'));
 
-    let axiosResponse = await Promise.all(axiosPromises);
+    const axiosResponse = await Promise.all(axiosPromises);
     const xPlentyPlentyBalanceResponse = axiosResponse[0];
-    let currentBlockLevel = axiosResponse[1];
+    const currentBlockLevel = axiosResponse[1];
     const rewardManagerStorageResponse = axiosResponse[2];
     const xPlentyCurveStorageResponse = axiosResponse[3];
     const tokenPricesData = axiosResponse[4].data;
 
     let plentyBalance = parseInt(xPlentyPlentyBalanceResponse.data.args[1].int);
 
-    let rewardManagerStorage = {};
+    const rewardManagerStorage = {};
     rewardManagerStorage['periodFinish'] = parseInt(
       rewardManagerStorageResponse.data.args[1].args[1].int,
     );
@@ -87,27 +86,27 @@ export const xPlentyComputations = async () => {
     );
     rewardManagerStorage['rewardRate'] = parseInt(rewardManagerStorageResponse.data.args[3].int);
 
-    let xPlentyCurveStorage = {};
+    const xPlentyCurveStorage = {};
     xPlentyCurveStorage['totalSupply'] = parseInt(xPlentyCurveStorageResponse.data.args[3].int);
 
-    let balanceUpdate =
+    const balanceUpdate =
       Math.min(currentBlockLevel, rewardManagerStorage.periodFinish) -
       rewardManagerStorage.lastUpdate;
 
     if (balanceUpdate > 0) {
       plentyBalance += balanceUpdate * rewardManagerStorage.rewardRate;
     }
-    let plentyPerXplenty = xPlentyCurveStorage.totalSupply / plentyBalance;
-    let xplentyPerPlenty = 1 / plentyPerXplenty;
+    const plentyPerXplenty = xPlentyCurveStorage.totalSupply / plentyBalance;
+    const xplentyPerPlenty = 1 / plentyPerXplenty;
     let APR = (rewardManagerStorage.rewardRate * 1051200) / xPlentyCurveStorage.totalSupply;
 
     APR = APR * 100;
 
-    let xPlentySupplyToShow = xPlentyCurveStorage.totalSupply / Math.pow(10, 18);
-    let plentyStakedToShow = plentyBalance / Math.pow(10, 18);
-    let plentyPrice = getPlentyPrice(tokenPricesData);
-    console.log({ plentyPrice });
-    let ValueLockedToShow = (plentyBalance / Math.pow(10, 18)) * plentyPrice.plentyPrice;
+    const xPlentySupplyToShow = xPlentyCurveStorage.totalSupply / Math.pow(10, 18);
+    const plentyStakedToShow = plentyBalance / Math.pow(10, 18);
+    const plentyPrice = getPlentyPrice(tokenPricesData);
+
+    const ValueLockedToShow = (plentyBalance / Math.pow(10, 18)) * plentyPrice.plentyPrice;
     return {
       plentyBalance,
       totalSupply: xPlentyCurveStorage.totalSupply,
@@ -170,9 +169,6 @@ const CheckIfWalletConnected = async (wallet) => {
 export const buyXPlenty = async (plentyAmount, minimumExpected, recipient) => {
   console.log({ plentyAmount, minimumExpected, recipient });
   try {
-    const network = {
-      type: CONFIG.WALLET_NETWORK,
-    };
     const options = {
       name: CONFIG.NAME,
     };
@@ -187,10 +183,10 @@ export const buyXPlenty = async (plentyAmount, minimumExpected, recipient) => {
       Tezos.setRpcProvider(rpcNode);
       Tezos.setWalletProvider(wallet);
       let batch = null;
-      let plentyContractAddress = CONFIG.xPlenty[connectedNetwork].plentyTokenContract.address;
-      let xPlentyBuySellContract = CONFIG.xPlenty[connectedNetwork].xPlentyCurve.address;
-      let plentyContractInstance = await Tezos.wallet.at(plentyContractAddress);
-      let xPlentyBuySellContractInstance = await Tezos.wallet.at(xPlentyBuySellContract);
+      const plentyContractAddress = CONFIG.xPlenty[connectedNetwork].plentyTokenContract.address;
+      const xPlentyBuySellContract = CONFIG.xPlenty[connectedNetwork].xPlentyCurve.address;
+      const plentyContractInstance = await Tezos.wallet.at(plentyContractAddress);
+      const xPlentyBuySellContractInstance = await Tezos.wallet.at(xPlentyBuySellContract);
 
       batch = Tezos.wallet
         .batch()
@@ -221,9 +217,6 @@ export const buyXPlenty = async (plentyAmount, minimumExpected, recipient) => {
 
 export const sellXPlenty = async (xPlentyAmount, minimumExpected, recipient) => {
   try {
-    const network = {
-      type: CONFIG.WALLET_NETWORK,
-    };
     const options = {
       name: CONFIG.NAME,
     };
@@ -238,11 +231,11 @@ export const sellXPlenty = async (xPlentyAmount, minimumExpected, recipient) => 
       Tezos.setRpcProvider(rpcNode);
       Tezos.setWalletProvider(wallet);
       let batch = null;
-      let xPlentyContractAddress = CONFIG.xPlenty[connectedNetwork].xPlentyTokenContract.address;
-      let xPlentyBuySellContract = CONFIG.xPlenty[connectedNetwork].xPlentyCurve.address;
+      // const xPlentyContractAddress = CONFIG.xPlenty[connectedNetwork].xPlentyTokenContract.address;
+      const xPlentyBuySellContract = CONFIG.xPlenty[connectedNetwork].xPlentyCurve.address;
 
-      let xPlentyContractInstance = await Tezos.wallet.at(xPlentyContractAddress);
-      let xPlentyBuySellContractInstance = await Tezos.wallet.at(xPlentyBuySellContract);
+      // const xPlentyContractInstance = await Tezos.wallet.at(xPlentyContractAddress);
+      const xPlentyBuySellContractInstance = await Tezos.wallet.at(xPlentyBuySellContract);
 
       batch = Tezos.wallet
         .batch()

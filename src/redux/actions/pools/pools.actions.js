@@ -48,7 +48,7 @@ export const getPoolsData = (isActive) => {
         .then((response) => {
           dispatch(activePoolDataFetchingSuccesfull(response));
         })
-        .catch((error) => {
+        .catch(() => {
           dispatch(activePoolDataFetchingFailed());
         });
     } else {
@@ -58,7 +58,7 @@ export const getPoolsData = (isActive) => {
         .then((response) => {
           dispatch(inactivePoolDataFetchingSuccesfull(response));
         })
-        .catch((error) => {
+        .catch(() => {
           dispatch(inactivePoolDataFetchingFailed());
         });
     }
@@ -115,7 +115,7 @@ export const stakeOnPool = (amount, poolIdentifier, isActive, position) => {
       .then((response) => {
         dispatch(stakingOnPoolSuccessFull(response));
       })
-      .catch((error) => {
+      .catch(() => {
         dispatch(stakingOnPoolFailed());
       })
       .finally(() => {
@@ -168,7 +168,7 @@ export const unstakeOnPool = (stakesToUnstake, poolIdentifier, isActive, positio
       .then((response) => {
         dispatch(unstakingOnPoolSuccessFull(response));
       })
-      .catch((error) => {
+      .catch(() => {
         dispatch(unstakingOnPoolFailed());
       })
       .finally(() => {
@@ -215,7 +215,7 @@ export const harvestOnPool = (poolIdentifier, isActive, position) => {
       .then((response) => {
         dispatch(harvestingOnPoolSuccessFull(response));
       })
-      .catch((error) => {
+      .catch(() => {
         dispatch(harvestingOnPoolFailed());
       });
   };

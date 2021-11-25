@@ -1,14 +1,14 @@
-import { TezosParameterFormat, TezosMessageUtils } from 'conseiljs';
+import { TezosMessageUtils, TezosParameterFormat } from 'conseiljs';
 import { RPC_NODE } from '../../../constants/localStorage';
-const CONFIG = require('../../../config/config');
-const TezosToolkit = require('@taquito/taquito').TezosToolkit;
-const axios = require('axios');
+import CONFIG from '../../../config/config';
+import axios from 'axios';
 
 const getPackedKey = (tokenId, address, type) => {
   const accountHex = `0x${TezosMessageUtils.writeAddress(address)}`;
   let packedKey = null;
   if (type === 'FA2') {
     packedKey = TezosMessageUtils.encodeBigMapKey(
+      // eslint-disable-next-line no-undef
       Buffer.from(
         TezosMessageUtils.writePackedData(
           `(Pair ${accountHex} ${tokenId})`,
@@ -20,6 +20,7 @@ const getPackedKey = (tokenId, address, type) => {
     );
   } else {
     packedKey = TezosMessageUtils.encodeBigMapKey(
+      // eslint-disable-next-line no-undef
       Buffer.from(
         TezosMessageUtils.writePackedData(`${accountHex}`, '', TezosParameterFormat.Michelson),
         'hex',
@@ -37,7 +38,7 @@ const getStakedAmount = async (mapId, packedKey, identifier, decimal, address, t
     let balance = response.data.args[0].args[1].int;
     balance = parseInt(balance);
     balance = balance / Math.pow(10, decimal);
-    let singularStakes = [];
+    const singularStakes = [];
     for (let i = 0; i < response.data.args[0].args[0].length; i++) {
       let amount = parseInt(response.data.args[0].args[0][i].args[1].args[0].int);
       amount = parseFloat(
@@ -83,10 +84,10 @@ const getStakedAmountDual = async (
     let balance = response.data.args[1].int;
     balance = parseInt(balance);
     balance = balance / Math.pow(10, tokenDecimal);
-    let singularStakes = [];
+    const singularStakes = [];
     //amt - args[0][0].args[1].args[0]
     for (let i = 0; i < response.data.args[0].length; i++) {
-      let amount = parseFloat(
+      const amount = parseFloat(
         response.data.args[0][i].args[1].args[0].int / Math.pow(10, tokenDecimal),
       );
       singularStakes.push({
@@ -135,7 +136,7 @@ const getBalanceAmount = async (mapId, packedKey, identifier, decimal) => {
       mapId === 18153
     ) {
       balance = response.data.int;
-    } else if ((mapId = 10749)) {
+    } else if (mapId === 10749) {
       balance = response.data.args[1].int;
     }
 
@@ -159,9 +160,9 @@ const getBalanceAmount = async (mapId, packedKey, identifier, decimal) => {
 export const getBalanceAmountForAllContracts = async (address) => {
   try {
     let packedKey;
-    let promises = [];
+    const promises = [];
 
-    for (let key in CONFIG.TOKEN_CONTRACTS[CONFIG.NETWORK]) {
+    for (const key in CONFIG.TOKEN_CONTRACTS[CONFIG.NETWORK]) {
       if (CONFIG.TOKEN_CONTRACTS[CONFIG.NETWORK][key].type === 'FA1.2') {
         packedKey = getPackedKey(0, address, 'FA1.2');
       } else {
@@ -181,8 +182,8 @@ export const getBalanceAmountForAllContracts = async (address) => {
       );
     }
     const response = await Promise.all(promises);
-    let balancesResponse = {};
-    for (let i in response) {
+    const balancesResponse = {};
+    for (const i in response) {
       balancesResponse[response[i].identifier] = response[i].balance;
     }
     return {
@@ -199,13 +200,13 @@ export const getBalanceAmountForAllContracts = async (address) => {
 
 export const getStakedAmountForAllContracts = async (address, type, isActive) => {
   try {
-    let packedKey = getPackedKey(0, address, 'FA1.2');
+    const packedKey = getPackedKey(0, address, 'FA1.2');
 
-    let promises = [];
-    let blockData = await axios.get(`${CONFIG.TZKT_NODES[CONFIG.NETWORK]}/v1/blocks/count`);
+    const promises = [];
+    const blockData = await axios.get(`${CONFIG.TZKT_NODES[CONFIG.NETWORK]}/v1/blocks/count`);
 
-    for (let identifier in CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK]) {
-      for (let i in CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
+    for (const identifier in CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK]) {
+      for (const i in CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
         isActive === true ? 'active' : 'inactive'
       ]) {
         if (identifier === 'PLENTY - GIF') {
@@ -250,8 +251,8 @@ export const getStakedAmountForAllContracts = async (address, type, isActive) =>
       }
     }
     const response = await Promise.all(promises);
-    let stakedAmountResponse = {};
-    for (let i in response) {
+    const stakedAmountResponse = {};
+    for (const i in response) {
       stakedAmountResponse[response[i].address] = {
         stakedAmount: response[i].balance,
         identifier: response[i].identifier,
@@ -284,17 +285,17 @@ const calculateHarvestValueDualEntity = async (
     let url = `${rpcNode}chains/main/blocks/head/context/contracts/${stakingContractAddress}/storage`;
     const smartContractResponse = await axios.get(url);
 
-    let periodFinish = smartContractResponse.data.args[1].args[0].int;
+    const periodFinish = smartContractResponse.data.args[1].args[0].int;
 
-    let lastUpdateTime = smartContractResponse.data.args[0].args[2].int;
+    const lastUpdateTime = smartContractResponse.data.args[0].args[2].int;
 
-    let rewardRate = smartContractResponse.data.args[1].args[2].int;
+    const rewardRate = smartContractResponse.data.args[1].args[2].int;
 
-    let totalSupply = smartContractResponse.data.args[4].int;
+    const totalSupply = smartContractResponse.data.args[4].int;
 
-    let rewardPerTokenStored = smartContractResponse.data.args[1].args[1].int;
+    const rewardPerTokenStored = smartContractResponse.data.args[1].args[1].int;
 
-    if (totalSupply == 0) {
+    if (totalSupply === 0) {
       throw 'No One Staked';
     }
 
@@ -303,11 +304,11 @@ const calculateHarvestValueDualEntity = async (
     rewardPerToken *= parseInt(rewardRate) * Math.pow(10, DECIMAL);
     rewardPerToken = rewardPerToken / totalSupply + parseInt(rewardPerTokenStored);
     url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedAddress}`;
-    let bigMapResponse = await axios.get(url);
+    const bigMapResponse = await axios.get(url);
 
-    let userBalance = bigMapResponse.data.args[0].int;
-    let userRewardPaid = bigMapResponse.data.args[2].int;
-    let rewards = bigMapResponse.data.args[1].int;
+    const userBalance = bigMapResponse.data.args[0].int;
+    const userRewardPaid = bigMapResponse.data.args[2].int;
+    const rewards = bigMapResponse.data.args[1].int;
     let totalRewards = parseInt(userBalance) * (rewardPerToken - parseInt(userRewardPaid));
     totalRewards = totalRewards / Math.pow(10, DECIMAL) + parseInt(rewards);
     totalRewards = totalRewards / Math.pow(10, DECIMAL);
@@ -336,7 +337,7 @@ const calculateHarvestValueDual = async (
   packedAddress,
 ) => {
   try {
-    let harvestValuePromises = [];
+    const harvestValuePromises = [];
     harvestValuePromises.push(
       calculateHarvestValueDualEntity(
         dualInfo.tokenFirst.rewardContract,
@@ -357,7 +358,7 @@ const calculateHarvestValueDual = async (
       ),
     );
 
-    let harvestValueResponse = await Promise.all(harvestValuePromises);
+    const harvestValueResponse = await Promise.all(harvestValuePromises);
     return {
       success: true,
       totalRewards: [harvestValueResponse[0].totalRewards, harvestValueResponse[1].totalRewards],
@@ -384,12 +385,12 @@ const calculateHarvestValue = async (
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
     let url = `${rpcNode}chains/main/blocks/head/context/contracts/${stakingContractAddress}/storage`;
     const smartContractResponse = await axios.get(url);
-    let periodFinish = smartContractResponse.data.args[1].args[0].args[0].int;
-    let lastUpdateTime = smartContractResponse.data.args[0].args[2].int;
-    let rewardRate = smartContractResponse.data.args[1].args[1].int;
-    let totalSupply = smartContractResponse.data.args[3].int;
-    let rewardPerTokenStored = smartContractResponse.data.args[1].args[0].args[1].int;
-    if (totalSupply == 0) {
+    const periodFinish = smartContractResponse.data.args[1].args[0].args[0].int;
+    const lastUpdateTime = smartContractResponse.data.args[0].args[2].int;
+    const rewardRate = smartContractResponse.data.args[1].args[1].int;
+    const totalSupply = smartContractResponse.data.args[3].int;
+    const rewardPerTokenStored = smartContractResponse.data.args[1].args[0].args[1].int;
+    if (totalSupply === 0) {
       throw 'No One Staked';
     }
     let rewardPerToken = Math.min(currentBlockLevel, parseInt(periodFinish));
@@ -397,11 +398,11 @@ const calculateHarvestValue = async (
     rewardPerToken *= parseInt(rewardRate) * Math.pow(10, DECIMAL);
     rewardPerToken = rewardPerToken / totalSupply + parseInt(rewardPerTokenStored);
     url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedAddress}`;
-    let bigMapResponse = await axios.get(url);
+    const bigMapResponse = await axios.get(url);
 
-    let userBalance = bigMapResponse.data.args[0].args[1].int;
-    let userRewardPaid = bigMapResponse.data.args[3].int;
-    let rewards = bigMapResponse.data.args[2].int;
+    const userBalance = bigMapResponse.data.args[0].args[1].int;
+    const userRewardPaid = bigMapResponse.data.args[3].int;
+    const rewards = bigMapResponse.data.args[2].int;
     let totalRewards = parseInt(userBalance) * (rewardPerToken - parseInt(userRewardPaid));
     totalRewards = totalRewards / Math.pow(10, DECIMAL) + parseInt(rewards);
     totalRewards = totalRewards / Math.pow(10, DECIMAL);
@@ -428,12 +429,12 @@ export const getHarvestValue = async (address, type, isActive) => {
     // dualInfo,
     // currentBlock,
     // packedAddress
-    let packedKey = getPackedKey(0, address, 'FA1.2');
-    let blockData = await axios.get(`${CONFIG.TZKT_NODES[CONFIG.NETWORK]}/v1/blocks/count`);
-    let promises = [];
-    let harvestResponse = {};
-    for (let identifier in CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK]) {
-      for (let i in CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
+    const packedKey = getPackedKey(0, address, 'FA1.2');
+    const blockData = await axios.get(`${CONFIG.TZKT_NODES[CONFIG.NETWORK]}/v1/blocks/count`);
+    const promises = [];
+    const harvestResponse = {};
+    for (const identifier in CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK]) {
+      for (const i in CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
         isActive === true ? 'active' : 'inactive'
       ]) {
         if (identifier === 'PLENTY - GIF') {
@@ -470,7 +471,7 @@ export const getHarvestValue = async (address, type, isActive) => {
     }
     const response = await Promise.all(promises);
 
-    for (let i in response) {
+    for (const i in response) {
       harvestResponse[response[i].address] = {
         totalRewards: response[i].totalRewards,
       };
