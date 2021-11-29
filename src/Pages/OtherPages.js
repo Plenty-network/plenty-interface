@@ -27,7 +27,7 @@ OtherPages.propTypes = {
   disconnectUserWallet: PropTypes.func.isRequired,
   theme: PropTypes.string.isRequired,
   toggleTheme: PropTypes.func.isRequired,
-  userAddress: PropTypes.func.isRequired,
+  userAddress: PropTypes.string,
 };
 
 export default OtherPages;
