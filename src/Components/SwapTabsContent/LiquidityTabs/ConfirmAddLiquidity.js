@@ -1,6 +1,6 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Modal } from 'react-bootstrap';
-import PuffLoader from 'react-spinners/PuffLoader';
 import Button from '../../Ui/Buttons/Button';
 
 const ConfirmAddLiquidity = (props) => {
@@ -106,6 +106,20 @@ const ConfirmAddLiquidity = (props) => {
       </Modal.Body>
     </Modal>
   );
+};
+
+ConfirmAddLiquidity.propTypes = {
+  CallConfirmAddLiquidity: PropTypes.any,
+  estimatedTokenAmout: PropTypes.any,
+  firstTokenAmount: PropTypes.any,
+  loading: PropTypes.any,
+  lpTokenAmount: PropTypes.any,
+  onHide: PropTypes.any,
+  secondTokenAmount: PropTypes.any,
+  showConfirmAddSupply: PropTypes.any,
+  swapData: PropTypes.any,
+  tokenIn: PropTypes.any,
+  tokenOut: PropTypes.any,
 };
 
 export default ConfirmAddLiquidity;

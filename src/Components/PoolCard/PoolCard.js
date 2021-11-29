@@ -1,3 +1,5 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import styles from '../../assets/scss/partials/_farms.module.scss';
 import Image from 'react-bootstrap/Image';
 import clsx from 'clsx';
@@ -86,7 +88,7 @@ const PoolCard = (props) => {
 
   const hasStakedAmount = () => {
     return (
-      props.userStakes.hasOwnProperty(props.CONTRACT) &&
+      Object.prototype.hasOwnProperty.call(props.userStakes, props.CONTRACT) &&
       props.userStakes[props.CONTRACT]?.stakedAmount > 0
     );
   };
@@ -194,3 +196,20 @@ const PoolCard = (props) => {
 };
 
 export default PoolCard;
+
+PoolCard.propTypes = {
+  CONTRACT: PropTypes.any,
+  activePoolsData: PropTypes.any,
+  bannerType: PropTypes.any,
+  connectWallet: PropTypes.any,
+  identifier: PropTypes.any,
+  image: PropTypes.any,
+  inactivePoolsData: PropTypes.any,
+  isActiveOpen: PropTypes.any,
+  message: PropTypes.any,
+  openPoolsStakeModal: PropTypes.any,
+  position: PropTypes.any,
+  title: PropTypes.any,
+  userAddress: PropTypes.any,
+  userStakes: PropTypes.any,
+};

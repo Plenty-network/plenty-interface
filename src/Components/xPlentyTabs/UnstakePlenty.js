@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 
 import xplenty from '../../assets/images/xplenty-icon.png';
-
-import PuffLoader from 'react-spinners/PuffLoader';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Button from '../Ui/Buttons/Button';
@@ -78,7 +77,7 @@ const UnstakePlenty = (props) => {
         color={'primary'}
         loading={true}
         className={'xplenty-btn mt-4 w-100 flex align-items-center justify-content-center'}
-      ></Button>
+      />
     );
   }
   const onMaxClick = (value) => {
@@ -168,6 +167,18 @@ const UnstakePlenty = (props) => {
       {xplentyButton}
     </>
   );
+};
+
+UnstakePlenty.propTypes = {
+  connectWallet: PropTypes.any,
+  expectedPlenty: PropTypes.any,
+  isProcessing: PropTypes.any,
+  isToastOpen: PropTypes.any,
+  sellXPlenty: PropTypes.any,
+  setExpectedPlenty: PropTypes.any,
+  walletAddress: PropTypes.any,
+  xPlentyData: PropTypes.any,
+  xplentyBalance: PropTypes.any,
 };
 
 export default UnstakePlenty;

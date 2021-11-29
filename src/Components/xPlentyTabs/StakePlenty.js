@@ -1,8 +1,7 @@
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 
 import plenty from '../../assets/images/logo_small.png';
-
-import PuffLoader from 'react-spinners/PuffLoader';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Button from '../Ui/Buttons/Button';
@@ -25,8 +24,6 @@ const StakePlenty = (props) => {
     let plentyInputWithFormat = plentyInput * Math.pow(10, 18);
     plentyInputWithFormat = Math.floor(plentyInputWithFormat);
 
-    let expectedxPlentyWithFormat = props.expectedxPlenty * Math.pow(10, 18);
-    expectedxPlentyWithFormat = Math.floor(expectedxPlentyWithFormat);
     props.buyxPlenty(plentyInputWithFormat, props.expectedxPlenty, props.walletAddress);
   };
 
@@ -165,3 +162,15 @@ const StakePlenty = (props) => {
 };
 
 export default StakePlenty;
+
+StakePlenty.propTypes = {
+  buyxPlenty: PropTypes.any,
+  connectWallet: PropTypes.any,
+  expectedxPlenty: PropTypes.any,
+  isProcessing: PropTypes.any,
+  isToastOpen: PropTypes.any,
+  plentyBalance: PropTypes.any,
+  setExpectedxPlenty: PropTypes.any,
+  walletAddress: PropTypes.any,
+  xPlentyData: PropTypes.any,
+};

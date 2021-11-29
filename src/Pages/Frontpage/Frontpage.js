@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useEffect, useMemo } from 'react';
 import styles from './frontpage.module.scss';
 import Button from '../../Components/Ui/Buttons/Button';
@@ -28,20 +29,19 @@ import Header from '../../Components/Header/Header';
 import Loader from '../../Components/loader';
 import { connect } from 'react-redux';
 import {
-  getTVL,
   getHomeStatsData,
-  getPlentyToHarvest,
   getPlentyBalanceOfUser,
-  harvestAll,
+  getPlentyToHarvest,
+  getTVL,
   getTVLOfUser,
+  harvestAll,
   onModalOpenClose,
 } from '../../redux/actions/home/home.actions';
-import { currencyOptionsWithSymbol, currencyOptions } from '../../constants/global';
+import { currencyOptions, currencyOptionsWithSymbol } from '../../constants/global';
 import { FrontPageBottomGradientDiv, FrontPageGradientDiv } from '../../themes';
 import Footer from '../../Components/Footer/Footer';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import { HOME_PAGE_MODAL } from '../../constants/homePage';
-import { numberWithCommas } from '../../utils/formatNumbers';
 import NumericLabel from 'react-pretty-numbers';
 
 const Frontpage = ({
@@ -72,7 +72,7 @@ const Frontpage = ({
     const getAllData = () => {
       getHomeStats();
       getTVL();
-      if (!!wallet) {
+      if (wallet) {
         getPlentyToHarvest(wallet);
         getPlentyBalanceOfUser(wallet);
         getTVLOfUser(wallet);
@@ -392,7 +392,7 @@ const Frontpage = ({
                         You can only swap tokens on Plenty if there is enough liquidity for those
                         tokens. Providing liquidity will get you Plenty Liquidity Provider (PLP)
                         tokens, which will generate rewards in the form of trading fees for making
-                        sure there's always liquidity for the exchange to use.
+                        sure there&apos;s always liquidity for the exchange to use.
                       </p>
                       <p className="text-white">
                         Yield farming lets users that are providing liquidity earn PLENTY rewards by
@@ -445,7 +445,7 @@ const Frontpage = ({
                         </a>
                         &nbsp;will be supported in the near future. CTEZ solves the issue of using
                         XTZ inside DeFi contracts without worrying about the governance matter of
-                        "who should be the baker" and without the opportunity cost of not
+                        &quot;who should be the baker&quot; and without the opportunity cost of not
                         delegating.
                       </p>
                     </div>
@@ -587,3 +587,28 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Frontpage);
+
+Frontpage.propTypes = {
+  connecthWallet: PropTypes.any,
+  disconnectWallet: PropTypes.any,
+  getHomeStats: PropTypes.any,
+  getPlentyBalanceOfUser: PropTypes.any,
+  getPlentyToHarvest: PropTypes.any,
+  getTVL: PropTypes.any,
+  getTVLOfUser: PropTypes.any,
+  harvestAll: PropTypes.any,
+  harvestAllOperations: PropTypes.any,
+  homeStats: PropTypes.any,
+  modalData: PropTypes.any,
+  openCloseModal: PropTypes.any,
+  plentyBalance: PropTypes.any,
+  plentyToHarvest: PropTypes.any,
+  rpcNode: PropTypes.any,
+  theme: PropTypes.any,
+  toggleTheme: PropTypes.any,
+  tvl: PropTypes.any,
+  userTVL: PropTypes.any,
+  wallet: PropTypes.any,
+  walletAddress: PropTypes.any,
+  xplentyBalance: PropTypes.any,
+};

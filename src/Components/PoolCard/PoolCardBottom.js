@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import Button from '../Ui/Buttons/Button';
 import PropTypes from 'prop-types';
 
@@ -17,7 +17,7 @@ const PoolCardBottom = (props) => {
 
   const hasStakedAmount = () => {
     return (
-      props.userStakes.hasOwnProperty(props.CONTRACT) &&
+      Object.prototype.hasOwnProperty.call(props.userStakes, props.CONTRACT) &&
       props.userStakes[props.CONTRACT].stakedAmount > 0
     );
     //return false
@@ -33,7 +33,7 @@ const PoolCardBottom = (props) => {
   };
 
   const stakedAmount = useMemo(() => {
-    return props.userStakes.hasOwnProperty(props.CONTRACT)
+    return Object.prototype.hasOwnProperty.call(props.userStakes, props.CONTRACT)
       ? props.userStakes[props.CONTRACT].stakedAmount
       : 0;
   }, [props.CONTRACT, props.userStakes, props.userAddress]);
@@ -55,12 +55,18 @@ const PoolCardBottom = (props) => {
               <span>
                 {
                   props.userAddress !== null &&
-                  props.harvestValueOnPools.hasOwnProperty(props.isActiveOpen) &&
-                  props.harvestValueOnPools[props.isActiveOpen].hasOwnProperty(props.CONTRACT) &&
+                  Object.prototype.hasOwnProperty.call(
+                    props.harvestValueOnPools,
+                    props.isActiveOpen,
+                  ) &&
+                  Object.prototype.hasOwnProperty.call(
+                    props.harvestValueOnPools[props.isActiveOpen],
+                    props.CONTRACT,
+                  ) &&
                   props.harvestValueOnPools[props.isActiveOpen][props.CONTRACT].totalRewards > 0
                     ? props.harvestValueOnPools[props.isActiveOpen][
-                        props.CONTRACT
-                      ].totalRewards.toFixed(6)
+                      props.CONTRACT
+                    ].totalRewards.toFixed(6)
                     : 0
                   //0
                 }
@@ -144,13 +150,13 @@ const PoolCardBottom = (props) => {
                 key="top"
                 placement="top"
                 overlay={
-                  <Tooltip id={`deposit-fee-tooltip`} arrowProps={{ styles: { display: 'none' } }}>
+                  <Tooltip id={'deposit-fee-tooltip'} arrowProps={{ styles: { display: 'none' } }}>
                     No deposit fee
                   </Tooltip>
                 }
               >
                 <Button
-                  id={`deposit-fee`}
+                  id={'deposit-fee'}
                   ref={target}
                   size="small"
                   color="mute"
@@ -199,7 +205,20 @@ const PoolCardBottom = (props) => {
 };
 
 PoolCardBottom.propTypes = {
+  CONTRACT: PropTypes.any,
+  harvestImg: PropTypes.any,
+  harvestOnPools: PropTypes.any,
+  harvestOperation: PropTypes.any,
+  harvestValueOnPools: PropTypes.any,
+  identifier: PropTypes.any,
+  isActiveOpen: PropTypes.any,
+  openPoolsStakeModal: PropTypes.any,
+  openPoolsUnstakeModal: PropTypes.any,
+  position: PropTypes.any,
   title: PropTypes.string.isRequired,
+  userAddress: PropTypes.any,
+  userStakes: PropTypes.any,
+  withdrawalFeeStructure: PropTypes.any,
 };
 
 export default PoolCardBottom;

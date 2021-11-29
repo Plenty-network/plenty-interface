@@ -1,7 +1,7 @@
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import Routes from './routes';
-//import configureStore from "../store/index";
 import FirstTimeDisclaimer from '../Pages/FirstTimeDisclaimer/FirstTimeDisclaimer';
 import { FIRST_TIME_DISCLAIMER } from '../constants/localStorage';
 
@@ -19,6 +19,10 @@ const WrappedRoute = (props) => {
       {isDisclaimerAccepted ? <Routes /> : <FirstTimeDisclaimer />}
     </Provider>
   );
+};
+
+WrappedRoute.propTypes = {
+  store: PropTypes.object,
 };
 
 export default WrappedRoute;

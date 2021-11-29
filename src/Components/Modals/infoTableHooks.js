@@ -14,7 +14,7 @@ const useInfoTableHooks = (props) => {
     const formatData = () => {
       if (props.type === 'withdrawal') {
         return props.data.map((datum) => ({
-          col1: datum.duration, // !! Hard coded
+          col1: datum.duration,
           col2: datum.block,
           col3: datum.rate + '%',
         }));

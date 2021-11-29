@@ -1,5 +1,5 @@
 import Button from '../../Components/Ui/Buttons/Button';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import styles from './first-time-disclaimer.module.scss';
 import clsx from 'clsx';

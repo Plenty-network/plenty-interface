@@ -36,7 +36,7 @@ export const fetchUserBalances = (addressOfUser) => {
           dispatch(userBalancesFetchFail());
         }
       })
-      .catch((err) => {
+      .catch(() => {
         dispatch(userBalancesFetchFail());
       });
   };
@@ -76,7 +76,7 @@ export const getUserStakes = (addressOfUser, type, isActive) => {
       .then((response) => {
         dispatch(userStakesFetchSuccessfull(response.response, response.currentBlock));
       })
-      .catch((error) => {
+      .catch(() => {
         dispatch(userStakesFetchFailed());
       });
   };
@@ -130,7 +130,7 @@ export const getHarvestValues = (addressOfUser, type, isActive) => {
       .then((response) => {
         dispatch(harvestValueFetchSuccessfull(response.response, type, isActive));
       })
-      .catch((error) => {
+      .catch(() => {
         dispatch(harvestValueFetchFailed());
       });
   };

@@ -4,7 +4,7 @@ import Button from '../Buttons/Button';
 
 import styles from './modal.module.scss';
 import clsx from 'clsx';
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Collapse } from 'react-bootstrap';
 
 const BUTTON_TEXT = {
@@ -54,7 +54,7 @@ const UnstakeModal = (props) => {
   }, [selected, open]);
 
   const calculateFee = (difference, obj) => {
-    let feeObj = { mapId: obj.mapId };
+    const feeObj = { mapId: obj.mapId };
     let fee;
 
     const matchingFeeType = props.modalData.withdrawalFeeStructure.find(
@@ -84,8 +84,8 @@ const UnstakeModal = (props) => {
 
   const onStakeSelect = (obj) => {
     if (selected.findIndex((sel) => sel.mapId === obj.mapId) === -1) {
-      let difference = props.currentBlock - parseInt(obj.block);
-      let calculatedFee = calculateFee(difference, obj);
+      const difference = props.currentBlock - parseInt(obj.block);
+      const calculatedFee = calculateFee(difference, obj);
       setSelected([...selected, calculatedFee]);
     } else {
       setSelected(selected.filter((x) => x.mapId !== obj.mapId));
@@ -196,15 +196,19 @@ const UnstakeModal = (props) => {
 };
 
 UnstakeModal.propTypes = {
+  currentBlock: PropTypes.any,
+  isActiveOpen: PropTypes.any,
+  modalData: PropTypes.any,
+  onClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  unstakeOnFarm: PropTypes.any,
   unstakeOperation: PropTypes.shape({
     isLoading: PropTypes.bool,
     processing: PropTypes.bool,
     completed: PropTypes.bool,
     failed: PropTypes.bool,
-    operationHash: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]),
   }),
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
+  userStakes: PropTypes.any,
 };
 
 export default UnstakeModal;

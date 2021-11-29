@@ -32,9 +32,9 @@ const Pools = (props) => {
   }, [props.isActiveOpen, props.userAddress, props.rpcNode]);
 
   const renderPools = () => {
-    let poolsToBeRendered = [];
-    for (let key in CONFIG.POOLS[CONFIG.NETWORK]) {
-      for (let i in CONFIG.POOLS[CONFIG.NETWORK][key][
+    const poolsToBeRendered = [];
+    for (const key in CONFIG.POOLS[CONFIG.NETWORK]) {
+      for (const i in CONFIG.POOLS[CONFIG.NETWORK][key][
         props.isActiveOpen === true ? 'active' : 'inactive'
       ]) {
         poolsToBeRendered.push({
@@ -204,7 +204,39 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 Pools.propTypes = {
+  closePoolsStakeModal: PropTypes.any,
+  closePoolsUnstakeModal: PropTypes.any,
+  currentBlock: PropTypes.any,
+  fetchUserBalances: PropTypes.any,
+  getHarvestValues: PropTypes.any,
+  getPoolsData: PropTypes.any,
+  getUserStakes: PropTypes.any,
+  handleStakeOfPoolInputValue: PropTypes.any,
+  isActiveOpen: PropTypes.any,
+  poolsToRender: PropTypes.any,
+  rpcNode: PropTypes.any,
+  setPoolsToRender: PropTypes.any,
+  stakeInputValue: PropTypes.any,
+  stakeModal: PropTypes.any,
+  stakeModalContractAddress: PropTypes.any,
+  stakeModalIdentifier: PropTypes.any,
+  stakeModalPoolPosition: PropTypes.any,
+  stakeModalTitle: PropTypes.any,
+  stakeOnPool: PropTypes.any,
+  stakeOperation: PropTypes.any,
+  togglePoolsType: PropTypes.any,
+  unstakeModal: PropTypes.any,
+  unstakeModalContractAddress: PropTypes.any,
+  unstakeModalIdentifier: PropTypes.any,
+  unstakeModalPoolPosition: PropTypes.any,
+  unstakeModalTitle: PropTypes.any,
+  unstakeModalwithdrawalFeeStructure: PropTypes.any,
+  unstakeOnPool: PropTypes.any,
+  unstakeOperation: PropTypes.any,
+  userAddress: PropTypes.any,
+  userStakes: PropTypes.any,
   walletAddress: PropTypes.string.isRequired,
+  walletBalances: PropTypes.any,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Pools);

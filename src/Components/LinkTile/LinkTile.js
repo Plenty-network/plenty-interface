@@ -7,8 +7,6 @@ import styles from '../LinkTile/linktile.module.scss';
 import Button from '../Ui/Buttons/Button';
 
 const LinkTile = (props) => {
-  const { color = 'default' } = props;
-
   return (
     <div
       className={clsx(

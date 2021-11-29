@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import SimpleModal from './SimpleModal';
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Button from '../Buttons/Button';
 
 import styles from './modal.module.scss';
@@ -98,15 +98,18 @@ const StakeModal = (props) => {
 };
 
 StakeModal.propTypes = {
+  isActiveOpen: PropTypes.any,
+  modalData: PropTypes.any,
+  onClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  stakeOnFarm: PropTypes.any,
   stakeOperation: PropTypes.shape({
     isLoading: PropTypes.bool,
     processing: PropTypes.bool,
     completed: PropTypes.bool,
     failed: PropTypes.bool,
-    operationHash: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]),
   }),
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
+  walletBalances: PropTypes.any,
 };
 
 export default StakeModal;

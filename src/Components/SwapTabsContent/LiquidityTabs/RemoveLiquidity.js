@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { computeRemoveTokens, removeLiquidity } from '../../../apis/swap/swap';
 
@@ -13,7 +14,7 @@ const RemoveLiquidity = (props) => {
   const [transactionId, setTransactionId] = useState('');
 
   const removeLiquidityInput = (input) => {
-    let removeAmount = parseFloat(input);
+    const removeAmount = parseFloat(input);
     let computedRemoveTokens = computeRemoveTokens(
       removeAmount,
       props.swapData.lpTokenSupply,
@@ -230,3 +231,23 @@ const RemoveLiquidity = (props) => {
 };
 
 export default RemoveLiquidity;
+
+RemoveLiquidity.propTypes = {
+  connecthWallet: PropTypes.any,
+  firstTokenAmount: PropTypes.any,
+  handleClose: PropTypes.any,
+  handleLoaderMessage: PropTypes.any,
+  resetAllValues: PropTypes.any,
+  setFirstTokenAmount: PropTypes.any,
+  setHideContent: PropTypes.any,
+  setLoaderMessage: PropTypes.any,
+  setLoading: PropTypes.any,
+  setShowConfirmRemoveSupply: PropTypes.any,
+  slippage: PropTypes.any,
+  swapData: PropTypes.any,
+  tokenIn: PropTypes.any,
+  tokenOut: PropTypes.any,
+  userBalances: PropTypes.any,
+  walletAddress: PropTypes.any,
+  walletConnected: PropTypes.any,
+};

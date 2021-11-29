@@ -1,14 +1,11 @@
+import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FormControl, InputGroup, Modal } from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
-const config = require('../../config/config');
+import config from '../../config/config';
 
 const SwapModal = (props) => {
   const [tokensToShow, setTokensToShow] = useState([]);
-
-  useEffect(() => {
-    filterTokens();
-  }, [props.tokens, props.searchQuery]);
 
   const doesPairExist = useCallback(
     (token) => {
@@ -41,31 +38,53 @@ const SwapModal = (props) => {
     [props.searchQuery],
   );
 
-  const filterTokens = () => {
-    if (props.activeTab === 'swap') {
-      const filterTokens = props.tokens
-        .filter(searchHits)
-        .filter((token) => {
-          if (props.tokenType === 'tokenOut') {
-            return props.tokenIn.name !== token.name;
-          }
+  useEffect(() => {
+    const filterTokens = () => {
+      if (props.activeTab === 'swap') {
+        const filterTokens = props.tokens
+          .filter(searchHits)
+          .filter((token) => {
+            // ? Plenty - uDefi pair doesn't exist
+            const isPlentyUDEFIPair = (token1, token2) =>
+              ['uDEFI', 'PLENTY'].includes(token1) && ['uDEFI', 'PLENTY'].includes(token2);
 
-          return props.tokenOut.name !== token.name;
-        })
-        .map((token) => {
-          if (doesPairExist(token)) {
-            return { ...token, routerNeeded: false };
-          }
+            if (props.tokenType === 'tokenOut') {
+              return (
+                props.tokenIn.name !== token.name &&
+                !isPlentyUDEFIPair(props.tokenIn.name, token.name)
+              );
+            }
 
-          return { ...token, routerNeeded: true };
-        });
+            return (
+              props.tokenOut.name !== token.name &&
+              !isPlentyUDEFIPair(props.tokenOut.name, token.name)
+            );
+          })
+          .map((token) => {
+            if (doesPairExist(token)) {
+              return { ...token, routerNeeded: false };
+            }
 
-      setTokensToShow(filterTokens);
-    } else {
-      const filteredTokens = props.tokens.filter(searchHits).filter(doesPairExist);
-      setTokensToShow(filteredTokens);
-    }
-  };
+            return { ...token, routerNeeded: true };
+          });
+
+        setTokensToShow(filterTokens);
+      } else {
+        const filteredTokens = props.tokens.filter(searchHits).filter(doesPairExist);
+        setTokensToShow(filteredTokens);
+      }
+    };
+    filterTokens();
+  }, [
+    props.tokens,
+    props.searchQuery,
+    props.activeTab,
+    props.tokenType,
+    props.tokenIn.name,
+    props.tokenOut.name,
+    searchHits,
+    doesPairExist,
+  ]);
 
   return (
     <Modal show={props.show} onHide={props.onHide} className="swap-modal modal-themed">
@@ -93,7 +112,7 @@ const SwapModal = (props) => {
             </InputGroup.Prepend>
             <FormControl
               placeholder="Search"
-              className={`shadow-none border-left-0 search-box`}
+              className={'shadow-none border-left-0 search-box'}
               value={props.searchQuery}
               onChange={(ev) => props.setSearchQuery(ev.target.value)}
             />
@@ -129,6 +148,19 @@ const SwapModal = (props) => {
       </Modal.Body>
     </Modal>
   );
+};
+
+SwapModal.propTypes = {
+  activeTab: PropTypes.any,
+  onHide: PropTypes.any,
+  searchQuery: PropTypes.any,
+  selectToken: PropTypes.any,
+  setSearchQuery: PropTypes.any,
+  show: PropTypes.any,
+  tokenIn: PropTypes.any,
+  tokenOut: PropTypes.any,
+  tokenType: PropTypes.any,
+  tokens: PropTypes.any,
 };
 
 export default SwapModal;

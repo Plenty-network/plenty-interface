@@ -1,4 +1,5 @@
-import { createRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import React, { createRef, useEffect } from 'react';
 import { createChart } from 'lightweight-charts';
 
 const seriesOptDefault = {
@@ -72,6 +73,15 @@ const SimpleLineChart = ({
   }, [data, seriesOptions, chartOptions, size, chartDiv, color]);
 
   return <div className={className} ref={chartDiv} />;
+};
+
+SimpleLineChart.propTypes = {
+  chartOptions: PropTypes.object,
+  className: PropTypes.string,
+  color: PropTypes.string,
+  data: PropTypes.array,
+  seriesOptions: PropTypes.object,
+  size: PropTypes.object,
 };
 
 export default SimpleLineChart;
