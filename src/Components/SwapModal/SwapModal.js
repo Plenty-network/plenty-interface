@@ -6,10 +6,6 @@ const config = require('../../config/config');
 const SwapModal = (props) => {
   const [tokensToShow, setTokensToShow] = useState([]);
 
-  useEffect(() => {
-    filterTokens();
-  }, [props.tokens, props.searchQuery]);
-
   const doesPairExist = useCallback(
     (token) => {
       if (props.tokenType === 'tokenOut') {
@@ -41,41 +37,53 @@ const SwapModal = (props) => {
     [props.searchQuery],
   );
 
-  const filterTokens = () => {
-    if (props.activeTab === 'swap') {
-      const filterTokens = props.tokens
-        .filter(searchHits)
-        .filter((token) => {
-          // ? Plenty - uDefi pair doesn't exist
-          const isPlentyUDEFIPair = (token1, token2) =>
-            ['uDEFI', 'PLENTY'].includes(token1) && ['uDEFI', 'PLENTY'].includes(token2);
+  useEffect(() => {
+    const filterTokens = () => {
+      if (props.activeTab === 'swap') {
+        const filterTokens = props.tokens
+          .filter(searchHits)
+          .filter((token) => {
+            // ? Plenty - uDefi pair doesn't exist
+            const isPlentyUDEFIPair = (token1, token2) =>
+              ['uDEFI', 'PLENTY'].includes(token1) && ['uDEFI', 'PLENTY'].includes(token2);
 
-          if (props.tokenType === 'tokenOut') {
+            if (props.tokenType === 'tokenOut') {
+              return (
+                props.tokenIn.name !== token.name &&
+                !isPlentyUDEFIPair(props.tokenIn.name, token.name)
+              );
+            }
+
             return (
-              props.tokenIn.name !== token.name &&
-              !isPlentyUDEFIPair(props.tokenIn.name, token.name)
+              props.tokenOut.name !== token.name &&
+              !isPlentyUDEFIPair(props.tokenOut.name, token.name)
             );
-          }
+          })
+          .map((token) => {
+            if (doesPairExist(token)) {
+              return { ...token, routerNeeded: false };
+            }
 
-          return (
-            props.tokenOut.name !== token.name &&
-            !isPlentyUDEFIPair(props.tokenOut.name, token.name)
-          );
-        })
-        .map((token) => {
-          if (doesPairExist(token)) {
-            return { ...token, routerNeeded: false };
-          }
+            return { ...token, routerNeeded: true };
+          });
 
-          return { ...token, routerNeeded: true };
-        });
-
-      setTokensToShow(filterTokens);
-    } else {
-      const filteredTokens = props.tokens.filter(searchHits).filter(doesPairExist);
-      setTokensToShow(filteredTokens);
-    }
-  };
+        setTokensToShow(filterTokens);
+      } else {
+        const filteredTokens = props.tokens.filter(searchHits).filter(doesPairExist);
+        setTokensToShow(filteredTokens);
+      }
+    };
+    filterTokens();
+  }, [
+    props.tokens,
+    props.searchQuery,
+    props.activeTab,
+    props.tokenType,
+    props.tokenIn.name,
+    props.tokenOut.name,
+    searchHits,
+    doesPairExist,
+  ]);
 
   return (
     <Modal show={props.show} onHide={props.onHide} className="swap-modal modal-themed">
