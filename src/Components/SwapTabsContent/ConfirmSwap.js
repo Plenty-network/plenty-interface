@@ -143,7 +143,7 @@ const ConfirmSwap = (props) => {
                 <div className="flex flex-row align-items-center">
                   <p className="swap-detail-amt-details">Router Fee </p>
                   <p className="swap-detail-amt-details ml-auto">
-                    {props.computedOutDetails.addtPlentyFee.toFixed(5)} {props.midTokens[0].name}
+                    {props.computedOutDetails.addtPlentyFee.toFixed(5)} {props.midTokens?.[0].name}
                   </p>
                 </div>
               ) : null}

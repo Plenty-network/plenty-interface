@@ -136,7 +136,7 @@ const getBalanceAmount = async (mapId, packedKey, identifier, decimal) => {
       mapId === 18153
     ) {
       balance = response.data.int;
-    } else if (mapId === 10749) {
+    } else {
       balance = response.data.args[1].int;
     }
 
@@ -182,6 +182,7 @@ export const getBalanceAmountForAllContracts = async (address) => {
       );
     }
     const response = await Promise.all(promises);
+    console.log({ response });
     const balancesResponse = {};
     for (const i in response) {
       balancesResponse[response[i].identifier] = response[i].balance;
