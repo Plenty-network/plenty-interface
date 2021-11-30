@@ -327,8 +327,8 @@ const Swap = (props) => {
 
   useEffect(() => {
     setTokenParams({
-      from: tokenIn.name,
       ...(tokenParams.get('from') ? { from: tokenParams.get('from') } : {}),
+      to: tokenOut.name,
     });
   }, [tokenOut]);
 
@@ -351,7 +351,7 @@ const Swap = (props) => {
       const tokenOutDatum = tokens.find((token) => token.name === tokenOutFromParam);
 
       if (tokenOutDatum) {
-        setTokenIn({
+        setTokenOut({
           name: tokenOutDatum.name,
           image: tokenOutDatum.image,
         });
