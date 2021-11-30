@@ -1,12 +1,9 @@
 import { BeaconWallet } from '@taquito/beacon-wallet';
-import { TezosToolkit, OpKind } from '@taquito/taquito';
+import { OpKind, TezosToolkit } from '@taquito/taquito';
 import axios from 'axios';
 import CONFIG from '../../../config/config';
 import { CheckIfWalletConnected } from '../../../apis/wallet/wallet';
-import {
-  stakingOnPoolProcessing,
-  unstakingOnPoolProcessing,
-} from './pools.actions';
+import { stakingOnPoolProcessing, unstakingOnPoolProcessing } from './pools.actions';
 import store from '../../store/store';
 import { RPC_NODE } from '../../../constants/localStorage';
 
@@ -15,10 +12,12 @@ const fetchStorage = async (
   address,
   decimal,
   priceOfTokenInUsd,
-  priceOfPlentyInUSD
+  priceOfPlentyInUSD,
 ) => {
   try {
-    const url = CONFIG.RPC_NODES[CONFIG.NETWORK] + `/chains/main/blocks/head/context/contracts/${address}/storage`;
+    const url =
+      CONFIG.RPC_NODES[CONFIG.NETWORK] +
+      `/chains/main/blocks/head/context/contracts/${address}/storage`;
     const response = await axios.get(url);
 
     let totalSupply = response.data.args[3].int;
@@ -29,27 +28,23 @@ const fetchStorage = async (
     rewardRate = (rewardRate / Math.pow(10, decimal)).toFixed(18);
     rewardRate = parseFloat(rewardRate);
 
-    let DPY =
-      (rewardRate * 2880 * priceOfPlentyInUSD) /
-      (totalSupply * priceOfTokenInUsd);
+    let DPY = (rewardRate * 2880 * priceOfPlentyInUSD) / (totalSupply * priceOfTokenInUsd);
     DPY = DPY * 100;
 
-    let intervalList = [1, 7, 30, 365];
-    let roiTable = [];
+    const intervalList = [1, 7, 30, 365];
+    const roiTable = [];
 
-    for (let interval of intervalList) {
+    for (const interval of intervalList) {
       roiTable.push({
         roi: DPY * interval,
         PlentyPer1000dollar: (10 * DPY * interval) / priceOfPlentyInUSD,
       });
     }
 
-    let APR =
-      (rewardRate * 1051200 * priceOfPlentyInUSD) /
-      (totalSupply * priceOfTokenInUsd);
+    let APR = (rewardRate * 1051200 * priceOfPlentyInUSD) / (totalSupply * priceOfTokenInUsd);
     APR = APR * 100;
 
-    let totalLiquidty = totalSupply * priceOfTokenInUsd;
+    const totalLiquidty = totalSupply * priceOfTokenInUsd;
 
     return {
       success: true,
@@ -70,21 +65,20 @@ const fetchStorage = async (
 
 export const getPoolsData = async (isActive) => {
   try {
-    let promises = [];
+    const promises = [];
     // let dexPromises = [];
     // const xtzPriceResponse = await axios.get('https://api.coingecko.com/api/v3/coins/tezos?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false');
     // const xtzPriceInUsd = xtzPriceResponse.data.market_data.current_price.usd;
     const tokenPrices = await axios.get('https://api.teztools.io/token/prices');
     const tokenPricesData = tokenPrices.data.contracts;
     let priceOfPlenty = 0;
-    let priceOfToken = [];
-    let tokenData = {};
+    const priceOfToken = [];
+    const tokenData = {};
 
-    for (let i in tokenPricesData) {
+    for (const i in tokenPricesData) {
       if (
         tokenPricesData[i].symbol === 'PLENTY' &&
-        tokenPricesData[i].tokenAddress ===
-          'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b'
+        tokenPricesData[i].tokenAddress === 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b'
       ) {
         priceOfPlenty = tokenPricesData[i].usdValue;
         tokenData['PLENTY'] = {
@@ -92,10 +86,7 @@ export const getPoolsData = async (isActive) => {
           tokenAddress: tokenPricesData[i].tokenAddress,
           tokenValue: tokenPricesData[i].usdValue,
         };
-      } else if (
-        tokenPricesData[i].tokenAddress !==
-        'KT1CU9BhZZ7zXJKwZ264xhzNx2eMNoUGVyCy'
-      ) {
+      } else if (tokenPricesData[i].tokenAddress !== 'KT1CU9BhZZ7zXJKwZ264xhzNx2eMNoUGVyCy') {
         tokenData[tokenPricesData[i].symbol] = {
           tokenName: tokenPricesData[i].symbol,
           tokenAddress: tokenPricesData[i].tokenAddress,
@@ -104,38 +95,34 @@ export const getPoolsData = async (isActive) => {
       }
     }
 
-    for (let key in CONFIG.POOLS[CONFIG.NETWORK]) {
-      for (let key1 in CONFIG.POOLS[CONFIG.NETWORK][key][
+    for (const key in CONFIG.POOLS[CONFIG.NETWORK]) {
+      for (const key1 in CONFIG.POOLS[CONFIG.NETWORK][key][
         isActive === true ? 'active' : 'inactive'
       ]) {
         if (
           tokenData[key].tokenName === key &&
           tokenData[key].tokenAddress ===
-            CONFIG.POOLS[CONFIG.NETWORK][key][
-              isActive === true ? 'active' : 'inactive'
-            ][key1].TOKEN
+            CONFIG.POOLS[CONFIG.NETWORK][key][isActive === true ? 'active' : 'inactive'][key1].TOKEN
         ) {
           priceOfToken[key] = tokenData[key].tokenValue;
         }
         promises.push(
           fetchStorage(
             key,
-            CONFIG.POOLS[CONFIG.NETWORK][key][
-              isActive === true ? 'active' : 'inactive'
-            ][key1].CONTRACT,
-            CONFIG.POOLS[CONFIG.NETWORK][key][
-              isActive === true ? 'active' : 'inactive'
-            ][key1].DECIMAL,
+            CONFIG.POOLS[CONFIG.NETWORK][key][isActive === true ? 'active' : 'inactive'][key1]
+              .CONTRACT,
+            CONFIG.POOLS[CONFIG.NETWORK][key][isActive === true ? 'active' : 'inactive'][key1]
+              .DECIMAL,
             priceOfToken[key],
-            priceOfPlenty
-          )
+            priceOfPlenty,
+          ),
         );
       }
     }
 
     const poolResponse = await Promise.all(promises);
-    let poolsData = {};
-    for (let i in poolResponse) {
+    const poolsData = {};
+    for (const i in poolResponse) {
       poolsData[poolResponse[i].address] = {
         APR: poolResponse[i].APR,
         totalLiquidty: poolResponse[i].totalLiquidty,
@@ -194,7 +181,7 @@ export const stake = async (amount, poolIdentifier, isActive, position) => {
       name: CONFIG.NAME,
     };
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const wallet = new BeaconWallet(options);
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (WALLET_RESP.success) {
@@ -205,31 +192,31 @@ export const stake = async (amount, poolIdentifier, isActive, position) => {
       Tezos.setWalletProvider(wallet);
       const poolContractInstance = await Tezos.wallet.at(
         //CONFIG.CONTRACT[connectedNetwork].POOLS[poolIdentifier].CONTRACT
-        CONFIG.POOLS[connectedNetwork][poolIdentifier][
-          isActive === true ? 'active' : 'inactive'
-        ][position].CONTRACT
+        CONFIG.POOLS[connectedNetwork][poolIdentifier][isActive === true ? 'active' : 'inactive'][
+          position
+        ].CONTRACT,
       );
       const tokenContractInstance = await Tezos.wallet.at(
         //CONFIG.CONTRACT[connectedNetwork].POOLS[poolIdentifier].LP_TOKEN
-        CONFIG.POOLS[connectedNetwork][poolIdentifier][
-          isActive === true ? 'active' : 'inactive'
-        ][position].TOKEN
+        CONFIG.POOLS[connectedNetwork][poolIdentifier][isActive === true ? 'active' : 'inactive'][
+          position
+        ].TOKEN,
       );
-      let tokenAmount =
+      const tokenAmount =
         amount *
         Math.pow(
           10,
           //CONFIG.CONTRACT[connectedNetwork].POOLS[poolIdentifier].TOKEN_DECIMAL
-          CONFIG.POOLS[connectedNetwork][poolIdentifier][
-            isActive === true ? 'active' : 'inactive'
-          ][position].TOKEN_DECIMAL
+          CONFIG.POOLS[connectedNetwork][poolIdentifier][isActive === true ? 'active' : 'inactive'][
+            position
+          ].TOKEN_DECIMAL,
         );
       let batch = null;
       if (
         //CONFIG.CONTRACT[connectedNetwork].POOLS[poolIdentifier].TYPE === 'FA1.2'
-        CONFIG.POOLS[connectedNetwork][poolIdentifier][
-          isActive === true ? 'active' : 'inactive'
-        ][position].TYPE === 'FA1.2'
+        CONFIG.POOLS[connectedNetwork][poolIdentifier][isActive === true ? 'active' : 'inactive'][
+          position
+        ].TYPE === 'FA1.2'
       ) {
         batch = await Tezos.wallet
           .batch()
@@ -239,8 +226,8 @@ export const stake = async (amount, poolIdentifier, isActive, position) => {
               CONFIG.POOLS[connectedNetwork][poolIdentifier][
                 isActive === true ? 'active' : 'inactive'
               ][position].CONTRACT,
-              tokenAmount
-            )
+              tokenAmount,
+            ),
           )
           .withContractCall(poolContractInstance.methods.stake(tokenAmount));
       } else {
@@ -263,7 +250,7 @@ export const stake = async (amount, poolIdentifier, isActive, position) => {
                     ][position].TOKEN_ID,
                 },
               },
-            ])
+            ]),
           )
           .withContractCall(poolContractInstance.methods.stake(tokenAmount))
           .withContractCall(
@@ -283,7 +270,7 @@ export const stake = async (amount, poolIdentifier, isActive, position) => {
                     ][position].TOKEN_ID,
                 },
               },
-            ])
+            ]),
           );
       }
       const batchOperation = await batch.send();
@@ -307,12 +294,7 @@ export const stake = async (amount, poolIdentifier, isActive, position) => {
   }
 };
 
-export const unstake = async (
-  stakesToUnstake,
-  poolIdentifier,
-  isActive,
-  position
-) => {
+export const unstake = async (stakesToUnstake, poolIdentifier, isActive, position) => {
   try {
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -322,7 +304,7 @@ export const unstake = async (
     };
     const wallet = new BeaconWallet(options);
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (WALLET_RESP.success) {
       const Tezos = new TezosToolkit(rpcNode);
@@ -331,11 +313,11 @@ export const unstake = async (
 
       const contractInstance = await Tezos.wallet.at(
         //CONFIG.CONTRACT[connectedNetwork].PLENTY_POOLS_CONTRACT
-        CONFIG.POOLS[connectedNetwork][poolIdentifier][
-          isActive === true ? 'active' : 'inactive'
-        ][position].CONTRACT
+        CONFIG.POOLS[connectedNetwork][poolIdentifier][isActive === true ? 'active' : 'inactive'][
+          position
+        ].CONTRACT,
       );
-      let unstakeBatch = [];
+      const unstakeBatch = [];
       let amount;
       stakesToUnstake.map((stake) => {
         amount =
@@ -344,17 +326,15 @@ export const unstake = async (
             10,
             CONFIG.POOLS[connectedNetwork][poolIdentifier][
               isActive === true ? 'active' : 'inactive'
-            ][position].TOKEN_DECIMAL
+            ][position].TOKEN_DECIMAL,
           );
         unstakeBatch.push({
           kind: OpKind.TRANSACTION,
-          ...contractInstance.methods
-            .unstake(amount, stake.mapId)
-            .toTransferParams(),
+          ...contractInstance.methods.unstake(amount, stake.mapId).toTransferParams(),
         });
       });
-      let batch = await Tezos.wallet.batch(unstakeBatch);
-      let batchOperation = await batch.send();
+      const batch = await Tezos.wallet.batch(unstakeBatch);
+      const batchOperation = await batch.send();
       store.dispatch(unstakingOnPoolProcessing(batchOperation));
       await batchOperation.confirmation().then(() => batchOperation.hash);
       return {
@@ -385,7 +365,7 @@ export const harvest = async (poolIdentifier, isActive, position) => {
     };
     const wallet = new BeaconWallet(options);
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork]
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     const Tezos = new TezosToolkit(rpcNode);
     if (WALLET_RESP.success) {
@@ -393,9 +373,9 @@ export const harvest = async (poolIdentifier, isActive, position) => {
       Tezos.setWalletProvider(wallet);
       const contractInstance = await Tezos.wallet.at(
         //CONFIG.CONTRACT[connectedNetwork].PLENTY_POOLS_CONTRACT
-        CONFIG.POOLS[connectedNetwork][poolIdentifier][
-          isActive === true ? 'active' : 'inactive'
-        ][position].CONTRACT
+        CONFIG.POOLS[connectedNetwork][poolIdentifier][isActive === true ? 'active' : 'inactive'][
+          position
+        ].CONTRACT,
       );
       const operation = await contractInstance.methods.GetReward(1).send();
       await operation.confirmation().then(() => operation.opHash);

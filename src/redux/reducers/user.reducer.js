@@ -68,30 +68,33 @@ const userReducer = (state = initialState, action) => {
         ...state,
         harvestValuesLoading: true,
       };
-    case actions.HARVEST_VALUE_FARMS_FETCH_SUCCESSFULL:
-      let duplicateDataFarms = state.harvestValueOnFarms;
+    case actions.HARVEST_VALUE_FARMS_FETCH_SUCCESSFULL: {
+      const duplicateDataFarms = state.harvestValueOnFarms;
       duplicateDataFarms[action.data.isActive] = action.data.data;
       return {
         ...state,
         harvestValuesLoading: false,
         harvestValueOnFarms: duplicateDataFarms,
       };
-    case actions.HARVEST_VALUE_POOLS_FETCH_SUCCESSFULL:
-      let duplicateDataPools = state.harvestValueOnPools;
+    }
+    case actions.HARVEST_VALUE_POOLS_FETCH_SUCCESSFULL: {
+      const duplicateDataPools = state.harvestValueOnPools;
       duplicateDataPools[action.data.isActive] = action.data.data;
       return {
         ...state,
         harvestValuesLoading: false,
         harvestValueOnPools: duplicateDataPools,
       };
-    case actions.HARVEST_VALUE_PONDS_FETCH_SUCCESSFULL:
-      let duplicateDataPonds = state.harvestValueOnPonds;
+    }
+    case actions.HARVEST_VALUE_PONDS_FETCH_SUCCESSFULL: {
+      const duplicateDataPonds = state.harvestValueOnPonds;
       duplicateDataPonds[action.data.isActive] = action.data.data;
       return {
         ...state,
         harvestValuesLoading: false,
         harvestValueOnPonds: duplicateDataPonds,
       };
+    }
     case actions.HARVEST_VALUE_FETCH_FAILED:
       return {
         ...state,

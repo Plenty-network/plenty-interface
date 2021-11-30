@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+import React from 'react';
 import { Modal } from 'react-bootstrap';
 
 const ConfirmSwap = (props) => {
@@ -49,40 +51,35 @@ const ConfirmSwap = (props) => {
           <div className="swap-detail-wrapper">
             <div className="swap-detail-amt-wrapper">
               <p className="swap-detail-amt-details">
-                Minimum received{' '}
-                <span className="material-icons-round">help_outline</span>
+                Minimum received <span className="material-icons-round">help_outline</span>
               </p>
               <p className="swap-detail-amt-details">1 kalam</p>
             </div>
 
             <div className="swap-detail-amt-wrapper">
               <p className="swap-detail-amt-details">
-                Price Impact{' '}
-                <span className="material-icons-round">help_outline</span>
+                Price Impact <span className="material-icons-round">help_outline</span>
               </p>
               <p className="swap-detail-amt-details">0%</p>
             </div>
 
             <div className="swap-detail-amt-wrapper">
               <p className="swap-detail-amt-details">
-                Liquidity Provider Fee{' '}
-                <span className="material-icons-round">help_outline</span>
+                Liquidity Provider Fee <span className="material-icons-round">help_outline</span>
               </p>
               <p className="swap-detail-amt-details">0.16plenty</p>
             </div>
 
             <div className="swap-detail-amt-wrapper">
               <p className="swap-detail-amt-details">
-                xPlenty Fee{' '}
-                <span className="material-icons-round">help_outline</span>
+                xPlenty Fee <span className="material-icons-round">help_outline</span>
               </p>
               <p className="swap-detail-amt-details">0.16 plenty</p>
             </div>
 
             <div className="swap-detail-amt-wrapper">
               <p className="swap-detail-amt-details">
-                Slippage tolerance Fee{' '}
-                <span className="material-icons-round">help_outline</span>
+                Slippage tolerance Fee <span className="material-icons-round">help_outline</span>
               </p>
               <p className="swap-detail-amt-details">0.50%</p>
             </div>
@@ -92,6 +89,12 @@ const ConfirmSwap = (props) => {
       </Modal.Body>
     </Modal>
   );
+};
+
+ConfirmSwap.propTypes = {
+  onHide: PropTypes.func,
+  show: PropTypes.bool,
+  tokenIn: PropTypes.object,
 };
 
 export default ConfirmSwap;

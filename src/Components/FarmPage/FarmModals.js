@@ -1,7 +1,7 @@
 import InfoTableModal from '../Modals/InfoTableModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { FARM_PAGE_MODAL } from '../../constants/farmsPage';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import InfoModal from '../Ui/Modals/InfoModal';
 import Loader from '../loader';
 import { openCloseFarmsModal } from '../../redux/slices/farms/farms.slice';

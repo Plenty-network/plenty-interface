@@ -48,7 +48,7 @@ export const getPondsData = (isActive) => {
         .then((response) => {
           dispatch(activePondDataFetchingSuccesfull(response));
         })
-        .catch((error) => {
+        .catch(() => {
           dispatch(activePondDataFetchingFailed());
         });
     } else {
@@ -58,7 +58,7 @@ export const getPondsData = (isActive) => {
         .then((response) => {
           dispatch(inactivePondDataFetchingSuccesfull(response));
         })
-        .catch((error) => {
+        .catch(() => {
           dispatch(inactivePondDataFetchingFailed());
         });
     }
@@ -90,9 +90,9 @@ const initiateStakingOperationOnPond = () => {
 export const stakingOnPondProcessing = (batchOperation) => {
   return {
     type: actions.PROCESSING_STAKING_ON_POND,
-    payload: batchOperation
-  }
-}
+    payload: batchOperation,
+  };
+};
 
 const stakingOnPondSuccessFull = (operationHash) => {
   return {
@@ -115,14 +115,11 @@ export const stakeOnPond = (amount, pondIdentifier, isActive, position) => {
       .then((response) => {
         dispatch(stakingOnPondSuccessFull(response));
       })
-      .catch((error) => {
+      .catch(() => {
         dispatch(stakingOnPondFailed());
       })
       .finally(() => {
-        setTimeout(
-          () => dispatch(dismissSnackbar()),
-          5000
-        );
+        setTimeout(() => dispatch(dismissSnackbar()), 5000);
       });
   };
 };
@@ -146,9 +143,9 @@ const initiateUnstakingOperationOnPond = () => {
 export const unstakingOnPondProcessing = (batchOperation) => {
   return {
     type: actions.PROCESSING_UNSTAKING_ON_POND,
-    payload: batchOperation
-  }
-}
+    payload: batchOperation,
+  };
+};
 
 const unstakingOnPondSuccessFull = (operationHash) => {
   return {
@@ -163,13 +160,7 @@ const unstakingOnPondFailed = () => {
   };
 };
 
-export const unstakeOnPond = (
-  amount,
-  mapKey,
-  pondIdentifier,
-  isActive,
-  position
-) => {
+export const unstakeOnPond = (amount, mapKey, pondIdentifier, isActive, position) => {
   return (dispatch) => {
     dispatch(initiateUnstakingOperationOnPond());
     pondsApis
@@ -177,14 +168,11 @@ export const unstakeOnPond = (
       .then((response) => {
         dispatch(unstakingOnPondSuccessFull(response));
       })
-      .catch((error) => {
+      .catch(() => {
         dispatch(unstakingOnPondFailed());
       })
       .finally(() => {
-        setTimeout(
-          () => dispatch(dismissSnackbar()),
-          5000
-        );
+        setTimeout(() => dispatch(dismissSnackbar()), 5000);
       });
   };
 };
@@ -226,7 +214,7 @@ export const harvestOnPond = (pondIdentifier, isActive, position) => {
       .then((response) => {
         dispatch(harvestingOnPondSuccessFull(response));
       })
-      .catch((error) => {
+      .catch(() => {
         dispatch(harvestingOnPondFailed());
       });
   };
@@ -244,7 +232,6 @@ export const openClosePondsModal = (payload) => ({
   type: actions.OPEN_CLOSE_PONDS_MODAL,
   payload,
 });
-
 
 export const togglePondsType = (isActive) => {
   return (dispatch) => {
@@ -269,7 +256,7 @@ export const setPondsToRender = (poolsToRender) => {
   };
 };
 
-export const clearRenderedPonds= () => {
+export const clearRenderedPonds = () => {
   return (dispatch) => {
     dispatch({
       type: actions.CLEAR_RENDERED_PONDS,
@@ -278,4 +265,4 @@ export const clearRenderedPonds= () => {
 };
 const dismissSnackbar = () => ({
   type: actions.DISMISS_PONDS_SNACKBAR,
-})
+});

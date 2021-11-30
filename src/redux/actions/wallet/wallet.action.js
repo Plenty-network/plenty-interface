@@ -6,11 +6,7 @@ import {
   WALLET_GET_ADDRESS,
 } from '../index.action';
 
-import {
-  ConnectWalletAPI,
-  DisconnectWalletAPI,
-  FetchWalletAPI,
-} from './api.wallet';
+import { ConnectWalletAPI, DisconnectWalletAPI, FetchWalletAPI } from './api.wallet';
 
 const walletConnectionStart = () => {
   return {
@@ -55,7 +51,7 @@ export const connectWallet = () => {
           dispatch(walletConnectionFailed());
         }
       })
-      .catch((err) => {
+      .catch(() => {
         dispatch(walletConnectionFailed());
       });
   };
@@ -69,7 +65,7 @@ export const disconnectWallet = () => {
           dispatch(walletDisconnection());
         }
       })
-      .catch((err) => {});
+      .catch(() => {});
   };
 };
 
@@ -81,6 +77,6 @@ export const fetchWalletAddress = () => {
           dispatch(fetchWallet(resp.wallet));
         }
       })
-      .catch((err) => {});
+      .catch(() => {});
   };
 };

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Button from '../Ui/Buttons/Button';
 import React, { useEffect, useState } from 'react';
 import SimpleModal from '../Ui/Modals/SimpleModal';
@@ -5,7 +6,6 @@ import { RPC_NODE } from '../../constants/localStorage';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { setNode } from '../../redux/slices/settings/settings.slice';
-import CONFIG from '../../config/config';
 
 async function isValidURL(userInput) {
   try {
@@ -54,7 +54,7 @@ function NodeSelectorModal(props) {
     }
 
     const matchedNode = Object.keys(LOCAL_RPC_NODES).find(
-      (key) => LOCAL_RPC_NODES[key] === RPCNodeInLS
+      (key) => LOCAL_RPC_NODES[key] === RPCNodeInLS,
     );
 
     if (!matchedNode) {
@@ -88,7 +88,6 @@ function NodeSelectorModal(props) {
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
-        return;
       } else {
         localStorage.setItem(RPC_NODE, _customRPC);
         props.setNode(_customRPC);
@@ -105,14 +104,14 @@ function NodeSelectorModal(props) {
       className="node-selector-modal"
     >
       <div className="node-selector-text">
-        The Plenty node can be overloaded sometimes. When your data doesn’t load
-        properly, try switching to a different node, or use a custom node.
+        The Plenty node can be overloaded sometimes. When your data doesn’t load properly, try
+        switching to a different node, or use a custom node.
       </div>
       <div className="node-selector-radio-container node-selector-list">
         <ul>
           {Object.entries(nodeNames).map(([identifier, name]) => (
-            <li>
-              <label for={identifier} onClick={() => setCurrentRPC(identifier)}>
+            <li key={identifier}>
+              <label htmlFor={identifier} onClick={() => setCurrentRPC(identifier)}>
                 <input
                   defaultChecked={currentRPC === identifier}
                   type="radio"
@@ -121,12 +120,12 @@ function NodeSelectorModal(props) {
                   name="selector"
                 />
                 {name}
-                <div class="check"></div>
+                <div className="check" />
               </label>
             </li>
           ))}
           <li>
-            <label for="w-option" onClick={() => setCurrentRPC('CUSTOM')}>
+            <label htmlFor="w-option" onClick={() => setCurrentRPC('CUSTOM')}>
               <input
                 defaultChecked={currentRPC === 'CUSTOM'}
                 type="radio"
@@ -134,12 +133,13 @@ function NodeSelectorModal(props) {
                 checked={currentRPC === 'CUSTOM'}
                 name="selector"
               />
-              Custom<div class="check"></div>
+              Custom
+              <div className="check"></div>
             </label>
             <input
               disabled={currentRPC !== 'CUSTOM'}
               type="url"
-              for="w-option"
+              htmlFor="w-option"
               className="node-selector-modal-input"
               placeholder="https://custom.tezos.node"
               value={customRPC}
@@ -169,5 +169,13 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setNode: (rpcNode) => dispatch(setNode(rpcNode)),
 });
+
+NodeSelectorModal.propTypes = {
+  closeNodeSelectorModal: PropTypes.func.isRequired,
+  nodeSelector: PropTypes.func.isRequired,
+  setLoaderMessage: PropTypes.func.isRequired,
+  setNode: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(NodeSelectorModal);

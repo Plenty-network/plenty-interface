@@ -68,7 +68,7 @@ export const FrontPageGradientDiv = styled.div`
 
 export const TopGradientDiv = styled.div`
   background-image: ${(props) => props.theme.topGradient};
-`
+`;
 
 export const FrontPageBottomGradientDiv = styled.div`
   background-image: ${(props) => props.theme.frontPageBottomGradient};

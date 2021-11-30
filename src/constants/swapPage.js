@@ -30,7 +30,7 @@ export const tokens = [
     new: true,
     extra: {
       text: 'Get ctez',
-      link: `https://ctez.app`,
+      link: 'https://ctez.app',
     },
   },
   {

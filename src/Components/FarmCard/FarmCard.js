@@ -1,3 +1,5 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import styles from '../../assets/scss/partials/_farms.module.scss';
 import Image from 'react-bootstrap/Image';
 import clsx from 'clsx';
@@ -7,9 +9,8 @@ import Button from '../Ui/Buttons/Button';
 import CalculatorSvg from '../../assets/images/icons/calculator.svg';
 import { numberWithCommas } from '../../utils/formatNumbers';
 import { useDispatch } from 'react-redux';
-import { FARM_PAGE_MODAL, FARMS_CARD_DATA_PROPTYPES } from '../../constants/farmsPage';
+import { FARM_PAGE_MODAL } from '../../constants/farmsPage';
 import { openCloseFarmsModal } from '../../redux/slices/farms/farms.slice';
-import { useEffect } from 'react';
 
 const FarmCard = (props) => {
   const dispatch = useDispatch();
@@ -36,9 +37,9 @@ const FarmCard = (props) => {
     if (farmData.isDualFarm) {
       return (
         <>
-          {`${parseInt((values?.rewardRate[0] ?? 0) * 2880)} PLENTY | ${
-            parseInt((values?.rewardRate[1] ?? 0) * 2880)
-          } GIF`}{' '}
+          {`${parseInt((values?.rewardRate[0] ?? 0) * 2880)} PLENTY | ${parseInt(
+            (values?.rewardRate[1] ?? 0) * 2880,
+          )} GIF`}{' '}
           <span
             style={{
               display: 'block',
@@ -69,7 +70,7 @@ const FarmCard = (props) => {
 
   const hasStakedAmount = () => {
     return (
-      props.userStakes.hasOwnProperty(farmData.CONTRACT) &&
+      Object.prototype.hasOwnProperty.call(props.userStakes, farmData.CONTRACT) &&
       props.userStakes[farmData.CONTRACT]?.stakedAmount > 0
     );
   };
@@ -113,6 +114,7 @@ const FarmCard = (props) => {
                   styles.titleBadge,
                   properties.source === 'Plenty LP' ? styles.badgePlenty : styles.badgeOther,
                 )}
+                rel="noreferrer"
               >
                 {properties.source}
               </a>
@@ -202,7 +204,12 @@ const FarmCard = (props) => {
 };
 
 FarmCard.propTypes = {
-  farmCardData: FARMS_CARD_DATA_PROPTYPES,
+  connectWallet: PropTypes.func.isRequired,
+  farmCardData: PropTypes.object.isRequired,
+  isActiveOpen: PropTypes.bool.isRequired,
+  openFarmsStakeModal: PropTypes.func.isRequired,
+  userAddress: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]).isRequired,
+  userStakes: PropTypes.number.isRequired,
 };
 
 export default FarmCard;

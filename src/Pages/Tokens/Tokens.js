@@ -34,7 +34,7 @@ const Tokens = () => {
   const loadImageFor = useCallback(
     (token) => {
       // ? if token exists, abort
-      if (!!imgPaths[token]) {
+      if (imgPaths[token]) {
         return;
       }
 

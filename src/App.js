@@ -1,8 +1,8 @@
-import React from "react";
-import WrappedRoute from "./routes/routeWrapper";
-import store from "./redux/store/store";
+import React from 'react';
+import WrappedRoute from './routes/routeWrapper';
+import store from './redux/store/store';
 
-import "./App.scss";
+import './App.scss';
 
 function App() {
   return (

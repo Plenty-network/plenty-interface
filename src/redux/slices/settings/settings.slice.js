@@ -1,17 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
 export const settingsSlice = createSlice({
   name: 'settings',
   initialState: {
-    rpcNode: ""
+    rpcNode: '',
   },
   reducers: {
     setNode: (state, action) => {
-      state.rpcNode = action.payload
-    }
+      state.rpcNode = action.payload;
+    },
   },
-})
+});
 
-export const { setNode } = settingsSlice.actions
+export const { setNode } = settingsSlice.actions;
 
-export default settingsSlice.reducer
+export default settingsSlice.reducer;
