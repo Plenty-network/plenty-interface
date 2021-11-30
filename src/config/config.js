@@ -2181,7 +2181,8 @@ module.exports = {
         inactive: [],
       },
       'PLENTY - QUIPU': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1VDSyTqS95wkB4tRGy6saMa4izRKwrEg26',
             CONTRACT: 'KT1FsMiweyRTog9GGNC22hiMTFVRPrGs3eto',
@@ -2193,12 +2194,13 @@ module.exports = {
             LP_DECIMAL: 12,
             TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             DECIMAL: 18,
+            message: 'Rewards ended November 29',
+            bannerType: 'alert',
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=QUIPU',
             isDualFarm: false,
           },
         ],
-        inactive: [],
       },
       'PLENTY - WRAP': {
         active: [
@@ -2221,7 +2223,8 @@ module.exports = {
         inactive: [],
       },
       'PLENTY - UNO': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1B6ALzWXQp5wUavuo2VTMNjRdTGm8wx37w',
             CONTRACT: 'KT1CWNVmHs6RRbLzwA3P19h7Wa9smnDrAgpS',
@@ -2233,15 +2236,17 @@ module.exports = {
             LP_DECIMAL: 12,
             TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             DECIMAL: 18,
+            message: 'Rewards ended November 29',
+            bannerType: 'alert',
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=UNO',
             isDualFarm: false,
           },
         ],
-        inactive: [],
       },
       'PLENTY - SMAK': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1NLZah1MKeWuveQvdsCqAUCjksKw8J296z',
             CONTRACT: 'KT1VwZPZ4bcPQYS1C4yRvmU4giQDXhEV81WD',
@@ -2253,12 +2258,13 @@ module.exports = {
             LP_DECIMAL: 12,
             TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             DECIMAL: 18,
+            message: 'Rewards ended November 29',
+            bannerType: 'alert',
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=SMAK',
             isDualFarm: false,
           },
         ],
-        inactive: [],
       },
       'PLENTY - KALAM': {
         active: [
