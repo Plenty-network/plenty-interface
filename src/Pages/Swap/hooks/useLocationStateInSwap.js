@@ -5,7 +5,7 @@ import config from '../../../config/config';
 import { SWAP_PAGE_ACTIVE_TAB } from '../../../constants/localStorage';
 import { tokens } from '../../../constants/swapPage';
 
-export const useRouterStateInSwap = () => {
+export const useLocationStateInSwap = () => {
   const [tokenParams, setTokenParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();

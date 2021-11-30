@@ -1,1 +1,1 @@
-export { useRouterStateInSwap } from './useRouterStateInSwap';
+export { useLocationStateInSwap } from './useLocationStateInSwap';

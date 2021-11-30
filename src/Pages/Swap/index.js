@@ -21,11 +21,11 @@ import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import { tokens } from '../../constants/swapPage';
 
-import { useRouterStateInSwap } from './hooks';
+import { useLocationStateInSwap } from './hooks';
 
 const Swap = (props) => {
   const { activeTab, setActiveTab, tokenIn, setTokenIn, tokenOut, setTokenOut } =
-    useRouterStateInSwap();
+    useLocationStateInSwap();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [show, setShow] = useState(false);
