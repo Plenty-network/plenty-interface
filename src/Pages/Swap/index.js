@@ -9,34 +9,23 @@ import {
   getRouteSwapData,
   getTokenPrices,
   loadSwapData,
-} from '../apis/swap/swap';
-import config from '../config/config';
+} from '../../apis/swap/swap';
+import config from '../../config/config';
 
-import TransactionSettings from '../Components/TransactionSettings/TransactionSettings';
-import SwapModal from '../Components/SwapModal/SwapModal';
-import SwapTab from '../Components/SwapTabsContent/SwapTab';
-import LiquidityTab from '../Components/SwapTabsContent/LiquidityTab';
-import Loader from '../Components/loader';
+import TransactionSettings from '../../Components/TransactionSettings/TransactionSettings';
+import SwapModal from '../../Components/SwapModal/SwapModal';
+import SwapTab from '../../Components/SwapTabsContent/SwapTab';
+import LiquidityTab from '../../Components/SwapTabsContent/LiquidityTab';
+import Loader from '../../Components/loader';
 import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
-import InfoModal from '../Components/Ui/Modals/InfoModal';
+import InfoModal from '../../Components/Ui/Modals/InfoModal';
+import { tokens } from '../../constants/swapPage';
 
-import plenty from '../assets/images/logo_small.png';
-import { tokens } from '../constants/swapPage';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { SWAP_PAGE_ACTIVE_TAB } from '../constants/localStorage';
+import { useRouterStateInSwap } from './hooks';
 
 const Swap = (props) => {
-  const [tokenParams, setTokenParams] = useSearchParams();
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const activeTab = useMemo(() => {
-    if (location.pathname === '/swap') {
-      return 'swap';
-    }
-
-    return 'liquidity';
-  }, [location.pathname]);
+  const { activeTab, setActiveTab, tokenIn, setTokenIn, tokenOut, setTokenOut } =
+    useRouterStateInSwap();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [show, setShow] = useState(false);
@@ -47,7 +36,7 @@ const Swap = (props) => {
   const [slippage, setSlippage] = useState(0.5);
   const [recepient, setRecepient] = useState('');
   const [tokenType, setTokenType] = useState('tokenIn');
-  const [tokenOut, setTokenOut] = useState({});
+
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
   const [secondTokenAmount, setSecondTokenAmount] = useState('');
   const [swapData, setSwapData] = useState({});
@@ -58,10 +47,6 @@ const Swap = (props) => {
   const [loaderMessage, setLoaderMessage] = useState({});
   const [tokenContractInstances, setTokenContractInstances] = useState({});
   const [loaderInButton, setLoaderInButton] = useState(false);
-  const [tokenIn, setTokenIn] = useState({
-    name: 'PLENTY',
-    image: plenty,
-  });
 
   const pairExist = useMemo(() => {
     return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
@@ -282,18 +267,6 @@ const Swap = (props) => {
     setShowTransactionSubmitModal(true);
   };
 
-  const storeActiveTab = (elem) => {
-    if (elem) {
-      navigate(`/${elem}`);
-
-      if (elem === 'liquidity' && !pairExist) {
-        setTokenOut({});
-      }
-
-      localStorage.setItem(SWAP_PAGE_ACTIVE_TAB, elem);
-    }
-  };
-
   const selectToken = (token) => {
     setLoaderInButton(true);
     setFirstTokenAmount('');
@@ -318,53 +291,6 @@ const Swap = (props) => {
     handleClose();
   };
 
-  useEffect(() => {
-    setTokenParams({
-      from: tokenIn.name,
-      ...(tokenParams.get('to') ? { to: tokenParams.get('to') } : {}),
-    });
-  }, [tokenIn]);
-
-  useEffect(() => {
-    setTokenParams({
-      ...(tokenParams.get('from') ? { from: tokenParams.get('from') } : {}),
-      to: tokenOut.name,
-    });
-  }, [tokenOut]);
-
-  useEffect(() => {
-    const tokenInFromParam = tokenParams.get('from');
-    const tokenOutFromParam = tokenParams.get('to');
-
-    if (tokenInFromParam) {
-      const tokenInDatum = tokens.find((token) => token.name === tokenInFromParam);
-
-      if (tokenInDatum) {
-        setTokenIn({
-          name: tokenInDatum.name,
-          image: tokenInDatum.image,
-        });
-      }
-    }
-
-    if (tokenOutFromParam) {
-      const tokenOutDatum = tokens.find((token) => token.name === tokenOutFromParam);
-
-      if (tokenOutDatum) {
-        setTokenOut({
-          name: tokenOutDatum.name,
-          image: tokenOutDatum.image,
-        });
-      }
-    }
-
-    const activeTabFromLS = localStorage.getItem(SWAP_PAGE_ACTIVE_TAB);
-
-    if (activeTabFromLS) {
-      navigate(`/${activeTabFromLS}`);
-    }
-  }, []);
-
   return (
     <Container fluid>
       <Row>
@@ -373,7 +299,7 @@ const Swap = (props) => {
             <Tabs
               activeKey={activeTab}
               className="swap-container-tab"
-              onSelect={(e) => storeActiveTab(e)}
+              onSelect={(e) => setActiveTab(e)}
               mountOnEnter={true}
               unmountOnExit={true}
             >
