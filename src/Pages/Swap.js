@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import PropTypes from 'prop-types';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
-  loadSwapData,
-  computeTokenOutput,
-  fetchAllWalletBalance,
-  getTokenPrices,
   computeOutputBasedOnTokenOutAmount,
-  getRouteSwapData,
   computeTokenOutForRouteBase,
   computeTokenOutForRouteBaseByOutAmount,
+  computeTokenOutput,
+  fetchAllWalletBalance,
+  getRouteSwapData,
+  getTokenPrices,
+  loadSwapData,
 } from '../apis/swap/swap';
 import config from '../config/config';
 
@@ -21,8 +22,22 @@ import InfoModal from '../Components/Ui/Modals/InfoModal';
 
 import plenty from '../assets/images/logo_small.png';
 import { tokens } from '../constants/swapPage';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { SWAP_PAGE_ACTIVE_TAB } from '../constants/localStorage';
 
 const Swap = (props) => {
+  const [tokenParams, setTokenParams] = useSearchParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const activeTab = useMemo(() => {
+    if (location.pathname === '/swap') {
+      return 'swap';
+    }
+
+    return 'liquidity';
+  }, [location.pathname]);
+
   const [searchQuery, setSearchQuery] = useState('');
   const [show, setShow] = useState(false);
   const [showConfirmSwap, setShowConfirmSwap] = useState(false);
@@ -47,12 +62,6 @@ const Swap = (props) => {
     name: 'PLENTY',
     image: plenty,
   });
-  const urlSearchParameters = new URLSearchParams(window.location.search);
-  const parameters = Object.fromEntries(urlSearchParameters.entries());
-
-  if (parameters.tokenA && parameters.tokenB) {
-    localStorage.setItem('activeTab', 'liquidity');
-  }
 
   const pairExist = useMemo(() => {
     return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
@@ -83,7 +92,10 @@ const Swap = (props) => {
   }, [pairExist, tokenIn, tokenOut]);
 
   useEffect(() => {
-    if (tokenIn.hasOwnProperty('name') && tokenOut.hasOwnProperty('name')) {
+    if (
+      Object.prototype.hasOwnProperty.call(tokenIn, 'name') &&
+      Object.prototype.hasOwnProperty.call(tokenOut, 'name')
+    ) {
       const pairExists = !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
       if (!pairExists) {
         getRouteSwapData(tokenIn.name, tokenOut.name, midTokens).then((data) => {
@@ -270,23 +282,17 @@ const Swap = (props) => {
     setShowTransactionSubmitModal(true);
   };
 
-  const [activeTab, setActiveTab] = useState(localStorage.getItem('activeTab'));
-
   const storeActiveTab = (elem) => {
-    setActiveTab(elem);
-    localStorage.setItem('activeTab', elem);
-    window.history.pushState({ path: `/${elem}` }, '', `/${elem}`);
+    if (elem) {
+      navigate(`/${elem}`);
 
-    if (elem === 'liquidity' && !pairExist) {
-      setTokenOut({});
+      if (elem === 'liquidity' && !pairExist) {
+        setTokenOut({});
+      }
+
+      localStorage.setItem(SWAP_PAGE_ACTIVE_TAB, elem);
     }
   };
-
-  let showActiveTab = localStorage.getItem('activeTab') ?? 'swap';
-
-  if (window.location.pathname.replace('/', '') === 'liquidity' || activeTab === 'liquidity') {
-    showActiveTab = 'liquidity';
-  }
 
   const selectToken = (token) => {
     setLoaderInButton(true);
@@ -303,91 +309,59 @@ const Swap = (props) => {
         name: token.name,
         image: token.image,
       });
-
-      if (window.location.pathname.replace('/', '') === 'swap') {
-        if (tokenOut.name) {
-          window.history.pushState(
-            {
-              path: `/swap?from=${token.name}&to=${tokenOut.name}`,
-            },
-            '',
-            `/swap?from=${token.name}&to=${tokenOut.name}`,
-          );
-        } else {
-          window.history.pushState(
-            { path: `/swap?from=${token.name}` },
-            '',
-            `/swap?from=${token.name}`,
-          );
-        }
-      } else {
-        if (tokenOut.name) {
-          window.history.pushState(
-            {
-              path: `/liquidity/add?tokenA=${token.name}&tokenB=${tokenOut.name}`,
-            },
-            '',
-            `/liquidity/add?tokenA=${token.name}&tokenB=${tokenOut.name}`,
-          );
-        } else {
-          window.history.pushState(
-            { path: `/liquidity/add?tokenA=${token.name}` },
-            '',
-            `/liquidity/add?tokenA=${token.name}`,
-          );
-        }
-      }
     } else {
       setTokenOut({
         name: token.name,
         image: token.image,
       });
-      if (window.location.pathname.replace('/', '') === 'swap') {
-        window.history.pushState(
-          {
-            path: `/swap?from=${tokenIn.name}&to=${token.name}`,
-          },
-          '',
-          `/swap?from=${tokenIn.name}&to=${token.name}`,
-        );
-      } else {
-        window.history.pushState(
-          {
-            path: `/liquidity/add?tokenA=${tokenIn.name}&tokenB=${token.name}`,
-          },
-          '',
-          `/liquidity/add?tokenA=${tokenIn.name}&tokenB=${token.name}`,
-        );
-      }
     }
     handleClose();
   };
 
   useEffect(() => {
-    const urlSearchParams = new URLSearchParams(window.location.search);
-    const params = Object.fromEntries(urlSearchParams.entries());
-    if (params.from !== params.to) {
-      if (params.from) {
-        tokens.forEach((token) => {
-          if (token.name === params.from) {
-            setTokenIn({
-              name: params.from,
-              image: token.image,
-            });
-          }
-        });
-      }
+    setTokenParams({
+      from: tokenIn.name,
+      ...(tokenParams.get('to') ? { to: tokenParams.get('to') } : {}),
+    });
+  }, [tokenIn]);
 
-      if (params.to) {
-        tokens.forEach((token) => {
-          if (token.name === params.to) {
-            setTokenOut({
-              name: params.to,
-              image: token.image,
-            });
-          }
+  useEffect(() => {
+    setTokenParams({
+      ...(tokenParams.get('from') ? { from: tokenParams.get('from') } : {}),
+      to: tokenOut.name,
+    });
+  }, [tokenOut]);
+
+  useEffect(() => {
+    const tokenInFromParam = tokenParams.get('from');
+    const tokenOutFromParam = tokenParams.get('to');
+
+    if (tokenInFromParam) {
+      const tokenInDatum = tokens.find((token) => token.name === tokenInFromParam);
+
+      if (tokenInDatum) {
+        setTokenIn({
+          name: tokenInDatum.name,
+          image: tokenInDatum.image,
         });
       }
+    }
+
+    if (tokenOutFromParam) {
+      const tokenOutDatum = tokens.find((token) => token.name === tokenOutFromParam);
+
+      if (tokenOutDatum) {
+        setTokenOut({
+          name: tokenOutDatum.name,
+          image: tokenOutDatum.image,
+        });
+      }
+    }
+
+    const activeTabFromLS = localStorage.getItem(SWAP_PAGE_ACTIVE_TAB);
+
+    if (activeTabFromLS) {
+      navigate(`/${activeTabFromLS}`);
     }
   }, []);
 
@@ -397,7 +371,7 @@ const Swap = (props) => {
         <Col sm={8} md={6} className="swap-content-section">
           <div className={`bg-themed swap-content-container ${hideContent}`}>
             <Tabs
-              defaultActiveKey={showActiveTab}
+              activeKey={activeTab}
               className="swap-container-tab"
               onSelect={(e) => storeActiveTab(e)}
               mountOnEnter={true}
@@ -524,3 +498,8 @@ const Swap = (props) => {
 };
 
 export default Swap;
+
+Swap.propTypes = {
+  connecthWallet: PropTypes.any,
+  walletAddress: PropTypes.any,
+};

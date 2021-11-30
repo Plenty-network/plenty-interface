@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import SimpleModal from './SimpleModal';
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Button from '../Buttons/Button';
 
 import styles from './modal.module.scss';
@@ -26,19 +26,16 @@ const StakeModal = (props) => {
       parseFloat(inputValue),
       props.modalData.identifier,
       props.isActiveOpen,
-      props.modalData.position
+      props.modalData.position,
     );
   };
 
   const onMaxClick = () => {
     const value =
-      props.walletBalances?.[props.modalData.identifier].toLocaleString(
-        'en-US',
-        {
-          maximumFractionDigits: 20,
-          useGrouping: false,
-        }
-      ) ?? 0;
+      props.walletBalances?.[props.modalData.identifier].toLocaleString('en-US', {
+        maximumFractionDigits: 20,
+        useGrouping: false,
+      }) ?? 0;
     setInputValue(value.substring(0, value.length - 1));
   };
 
@@ -74,25 +71,16 @@ const StakeModal = (props) => {
           type="text"
         />
 
-        <span className="mr-2 ml-2 mt-auto mb-auto">
-          {props.modalData.title}
-        </span>
+        <span className="mr-2 ml-2 mt-auto mb-auto">{props.modalData.title}</span>
 
-        <Button
-          onClick={onMaxClick}
-          size="small"
-          color="secondary"
-          className="rounded-pill"
-        >
+        <Button onClick={onMaxClick} size="small" color="secondary" className="rounded-pill">
           max
         </Button>
       </div>
 
       <div className="d-flex flex-row-reverse">
         <div className="mb-3 mr-3">
-          <span>
-            Balance: {props.walletBalances[props.modalData.identifier]}
-          </span>
+          <span>Balance: {props.walletBalances[props.modalData.identifier]}</span>
         </div>
       </div>
 
@@ -110,18 +98,18 @@ const StakeModal = (props) => {
 };
 
 StakeModal.propTypes = {
+  isActiveOpen: PropTypes.any,
+  modalData: PropTypes.any,
+  onClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  stakeOnFarm: PropTypes.any,
   stakeOperation: PropTypes.shape({
     isLoading: PropTypes.bool,
     processing: PropTypes.bool,
     completed: PropTypes.bool,
     failed: PropTypes.bool,
-    operationHash: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.oneOf([null]),
-    ]),
   }),
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
+  walletBalances: PropTypes.any,
 };
 
 export default StakeModal;

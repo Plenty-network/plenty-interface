@@ -11,7 +11,7 @@ export const swapTokens = async (
   minimumTokenOut,
   recipent,
   tokenInAmount,
-  caller
+  caller,
 ) => {
   try {
     const network = {
@@ -20,8 +20,8 @@ export const swapTokens = async (
     const options = {
       name: CONFIG.NAME,
     };
-    let connectedNetwork = CONFIG.NETWORK;
-    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const wallet = new BeaconWallet(options);
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (!WALLET_RESP.success) {
@@ -30,36 +30,31 @@ export const swapTokens = async (
     const Tezos = new TezosToolkit(rpcNode);
     Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
-    let dexContractAddress =
-      CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
-    let tokenInAddress = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_CONTRACT;
-    let tokenOutAddress = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_CONTRACT;
-    let tokenOutId = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_ID;
-    let tokenInInstance = await Tezos.wallet.at(tokenInAddress);
-    
-    let dexContractInstance = await Tezos.wallet.at(dexContractAddress);
+    const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
+    const tokenInAddress = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_CONTRACT;
+    const tokenOutAddress = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_CONTRACT;
+    const tokenOutId = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_ID;
+    const tokenInInstance = await Tezos.wallet.at(tokenInAddress);
+
+    const dexContractInstance = await Tezos.wallet.at(dexContractAddress);
     tokenInAmount =
-      tokenInAmount *
-      Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+      tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
     minimumTokenOut =
-      minimumTokenOut *
-      Math.pow(10, CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_DECIMAL);
+      minimumTokenOut * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_DECIMAL);
     minimumTokenOut = Math.floor(minimumTokenOut);
     let batch = null;
     if (CONFIG.AMM[connectedNetwork][tokenIn].CALL_TYPE === 'FA1.2') {
       batch = Tezos.wallet
         .batch()
-        .withContractCall(
-          tokenInInstance.methods.approve(dexContractAddress, tokenInAmount)
-        )
+        .withContractCall(tokenInInstance.methods.approve(dexContractAddress, tokenInAmount))
         .withContractCall(
           dexContractInstance.methods.Swap(
             minimumTokenOut,
             recipent,
             tokenOutAddress,
             tokenOutId,
-            tokenInAmount
-          )
+            tokenInAmount,
+          ),
         );
     } else {
       batch = Tezos.wallet
@@ -73,7 +68,7 @@ export const swapTokens = async (
                 token_id: tokenOutId,
               },
             },
-          ])
+          ]),
         )
         .withContractCall(
           dexContractInstance.methods.Swap(
@@ -81,8 +76,8 @@ export const swapTokens = async (
             recipent,
             tokenOutAddress,
             tokenOutId,
-            tokenInAmount
-          )
+            tokenInAmount,
+          ),
         )
         .withContractCall(
           tokenInInstance.methods.update_operators([
@@ -93,7 +88,7 @@ export const swapTokens = async (
                 token_id: tokenOutId,
               },
             },
-          ])
+          ]),
         );
     }
     const batchOperation = await batch.send();
@@ -103,7 +98,6 @@ export const swapTokens = async (
       operationId: batchOperation.hash,
     };
   } catch (error) {
-    
     return {
       success: false,
       error,
@@ -113,13 +107,12 @@ export const swapTokens = async (
 
 export const loadSwapData = async (tokenIn, tokenOut) => {
   try {
-    let connectedNetwork = CONFIG.NETWORK;
-    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
-    let dexContractAddress =
-      CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
+    const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
     const Tezos = new TezosToolkit(rpcNode);
-    let dexContractInstance = await Tezos.contract.at(dexContractAddress);
-    let dexStorage = await dexContractInstance.storage();
+    const dexContractInstance = await Tezos.contract.at(dexContractAddress);
+    const dexStorage = await dexContractInstance.storage();
     let systemFee = await dexStorage.systemFee;
     systemFee = systemFee.toNumber();
     let lpFee = await dexStorage.lpFee;
@@ -130,31 +123,27 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
     token2_pool = token2_pool.toNumber();
     let lpTokenSupply = await dexStorage.totalSupply;
     lpTokenSupply = lpTokenSupply.toNumber();
-    let lpToken =
-      CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
+    const lpToken = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
     let tokenIn_supply = 0;
     let tokenOut_supply = 0;
-    if (
-      CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].property ===
-      'token2_pool'
-    ) {
+    if (CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].property === 'token2_pool') {
       tokenOut_supply = token2_pool;
       tokenIn_supply = token1_pool;
     } else {
       tokenOut_supply = token1_pool;
       tokenIn_supply = token2_pool;
     }
-    let tokenIn_Decimal = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL;
-    let tokenOut_Decimal = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_DECIMAL;
-    let liquidityToken_Decimal =
+    const tokenIn_Decimal = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL;
+    const tokenOut_Decimal = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_DECIMAL;
+    const liquidityToken_Decimal =
       CONFIG.AMM[connectedNetwork][
         CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken
       ].TOKEN_DECIMAL;
     tokenIn_supply = tokenIn_supply / Math.pow(10, tokenIn_Decimal);
     tokenOut_supply = tokenOut_supply / Math.pow(10, tokenOut_Decimal);
     lpTokenSupply = lpTokenSupply / Math.pow(10, liquidityToken_Decimal);
-    let exchangeFee = 1 / lpFee + 1 / systemFee;
-    let tokenOutPerTokenIn = tokenOut_supply / tokenIn_supply;
+    const exchangeFee = 1 / lpFee + 1 / systemFee;
+    const tokenOutPerTokenIn = tokenOut_supply / tokenIn_supply;
     return {
       success: true,
       tokenIn,
@@ -167,7 +156,6 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
       lpToken,
     };
   } catch (error) {
-    
     return {
       success: true,
       tokenIn,
@@ -210,15 +198,14 @@ export const computeTokenOutput = (
   tokenIn_supply,
   tokenOut_supply,
   exchangeFee,
-  slippage
+  slippage,
 ) => {
   try {
     let tokenOut_amount = 0;
     tokenOut_amount = (1 - exchangeFee) * tokenOut_supply * tokenIn_amount;
     tokenOut_amount /= tokenIn_supply + (1 - exchangeFee) * tokenIn_amount;
-    let fees = tokenIn_amount * exchangeFee;
-    let minimum_Out;
-    minimum_Out = tokenOut_amount - (slippage * tokenOut_amount) / 100;
+    const fees = tokenIn_amount * exchangeFee;
+    const minimum_Out = tokenOut_amount - (slippage * tokenOut_amount) / 100;
     // let priceImpact =
     //   Math.abs(
     //     tokenIn_amount / tokenOut_amount - tokenIn_supply / tokenOut_supply
@@ -228,14 +215,11 @@ export const computeTokenOutput = (
     // priceImpact = priceImpact * 100;
     // priceImpact = Math.max(priceImpact, 0.01);
 
-    let updated_TokenIn_Supply = tokenIn_supply - tokenIn_amount;
-    let updated_TokenOut_Supply = tokenOut_supply - tokenOut_amount;
-    let next_tokenOut_Amount =
-      (1 - exchangeFee) * updated_TokenOut_Supply * tokenIn_amount;
-    next_tokenOut_Amount /=
-      updated_TokenIn_Supply + (1 - exchangeFee) * tokenIn_amount;
-    let priceImpact =
-      (tokenOut_amount - next_tokenOut_Amount) / tokenOut_amount;
+    const updated_TokenIn_Supply = tokenIn_supply - tokenIn_amount;
+    const updated_TokenOut_Supply = tokenOut_supply - tokenOut_amount;
+    let next_tokenOut_Amount = (1 - exchangeFee) * updated_TokenOut_Supply * tokenIn_amount;
+    next_tokenOut_Amount /= updated_TokenIn_Supply + (1 - exchangeFee) * tokenIn_amount;
+    let priceImpact = (tokenOut_amount - next_tokenOut_Amount) / tokenOut_amount;
     priceImpact = priceImpact * 100;
     priceImpact = priceImpact.toFixed(5);
     priceImpact = Math.abs(priceImpact);
@@ -255,13 +239,9 @@ export const computeTokenOutput = (
     };
   }
 };
-export const estimateOtherToken = (
-  tokenIn_amount,
-  tokenIn_supply,
-  tokenOut_supply
-) => {
+export const estimateOtherToken = (tokenIn_amount, tokenIn_supply, tokenOut_supply) => {
   try {
-    let otherTokenAmount = (tokenIn_amount * tokenOut_supply) / tokenIn_supply;
+    const otherTokenAmount = (tokenIn_amount * tokenOut_supply) / tokenIn_supply;
     return {
       otherTokenAmount,
     };
@@ -272,13 +252,7 @@ export const estimateOtherToken = (
   }
 };
 
-export const addLiquidity = async (
-  tokenA,
-  tokenB,
-  tokenA_Amount,
-  tokenB_Amount,
-  caller
-) => {
+export const addLiquidity = async (tokenA, tokenB, tokenA_Amount, tokenB_Amount, caller) => {
   try {
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -295,51 +269,36 @@ export const addLiquidity = async (
     let tokenSecond = null;
     let tokenFirst_Amount = 0;
     let tokenSecond_Amount = 0;
-    let connectedNetwork = CONFIG.NETWORK;
-    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const Tezos = new TezosToolkit(rpcNode);
     Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
-    if (
-      CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].property ===
-      'token2_pool'
-    ) {
+    if (CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].property === 'token2_pool') {
       tokenFirst = tokenA;
       tokenFirst_Amount =
-        tokenA_Amount *
-        Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL);
+        tokenA_Amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL);
       tokenSecond = tokenB;
       tokenSecond_Amount =
-        tokenB_Amount *
-        Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL);
+        tokenB_Amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL);
     } else {
       tokenFirst = tokenB;
       tokenFirst_Amount =
-        tokenB_Amount *
-        Math.pow(10, CONFIG.AMM[connectedNetwork][tokenB].TOKEN_DECIMAL);
+        tokenB_Amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenB].TOKEN_DECIMAL);
       tokenSecond = tokenA;
       tokenSecond_Amount =
-        tokenA_Amount *
-        Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL);
+        tokenA_Amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL);
     }
-    let dexContractAddress =
+    const dexContractAddress =
       CONFIG.AMM[connectedNetwork][tokenFirst].DEX_PAIRS[tokenSecond].contract;
-    let tokenFirstAddress =
-      CONFIG.AMM[connectedNetwork][tokenFirst].TOKEN_CONTRACT;
-    let tokenSecondAddress =
-      CONFIG.AMM[connectedNetwork][tokenSecond].TOKEN_CONTRACT;
-    let tokenFirstId = CONFIG.AMM[connectedNetwork][tokenFirst].TOKEN_ID;
-    let tokenSecondId = CONFIG.AMM[connectedNetwork][tokenSecond].TOKEN_ID;
-    
-      dexContractAddress,
-      tokenFirstAddress,
-      tokenSecondAddress,
-      tokenFirst_Amount,
-      tokenSecond_Amount,
-    });
-    let tokenFirstInstance = await Tezos.wallet.at(tokenFirstAddress);
-    let tokenSecondInstance = await Tezos.wallet.at(tokenSecondAddress);
-    let dexContractInstance = await Tezos.wallet.at(dexContractAddress);
+    const tokenFirstAddress = CONFIG.AMM[connectedNetwork][tokenFirst].TOKEN_CONTRACT;
+    const tokenSecondAddress = CONFIG.AMM[connectedNetwork][tokenSecond].TOKEN_CONTRACT;
+    const tokenFirstId = CONFIG.AMM[connectedNetwork][tokenFirst].TOKEN_ID;
+    const tokenSecondId = CONFIG.AMM[connectedNetwork][tokenSecond].TOKEN_ID;
+
+    const tokenFirstInstance = await Tezos.wallet.at(tokenFirstAddress);
+    const tokenSecondInstance = await Tezos.wallet.at(tokenSecondAddress);
+    const dexContractInstance = await Tezos.wallet.at(dexContractAddress);
     let batch = null;
     if (
       CONFIG.AMM[connectedNetwork][tokenFirst].CALL_TYPE === 'FA1.2' &&
@@ -347,12 +306,7 @@ export const addLiquidity = async (
     ) {
       batch = Tezos.wallet
         .batch()
-        .withContractCall(
-          tokenFirstInstance.methods.approve(
-            dexContractAddress,
-            tokenFirst_Amount
-          )
-        )
+        .withContractCall(tokenFirstInstance.methods.approve(dexContractAddress, tokenFirst_Amount))
         .withContractCall(
           tokenSecondInstance.methods.update_operators([
             {
@@ -362,13 +316,10 @@ export const addLiquidity = async (
                 token_id: tokenSecondId,
               },
             },
-          ])
+          ]),
         )
         .withContractCall(
-          dexContractInstance.methods.AddLiquidity(
-            tokenFirst_Amount,
-            tokenSecond_Amount
-          )
+          dexContractInstance.methods.AddLiquidity(tokenFirst_Amount, tokenSecond_Amount),
         )
         .withContractCall(
           tokenSecondInstance.methods.update_operators([
@@ -379,7 +330,7 @@ export const addLiquidity = async (
                 token_id: tokenSecondId,
               },
             },
-          ])
+          ]),
         );
     } else if (
       CONFIG.AMM[connectedNetwork][tokenFirst].CALL_TYPE === 'FA2' &&
@@ -396,16 +347,11 @@ export const addLiquidity = async (
                 token_id: tokenFirstId,
               },
             },
-          ])
+          ]),
         )
+        .withContractCall(tokenSecond.methods.approve(dexContractAddress, tokenSecond_Amount))
         .withContractCall(
-          tokenSecond.methods.approve(dexContractAddress, tokenSecond_Amount)
-        )
-        .withContractCall(
-          dexContractInstance.methods.AddLiquidity(
-            tokenFirst_Amount,
-            tokenSecond_Amount
-          )
+          dexContractInstance.methods.AddLiquidity(tokenFirst_Amount, tokenSecond_Amount),
         )
         .withContractCall(
           tokenFirstInstance.methods.update_operators([
@@ -416,7 +362,7 @@ export const addLiquidity = async (
                 token_id: tokenFirstId,
               },
             },
-          ])
+          ]),
         );
     } else if (
       CONFIG.AMM[connectedNetwork][tokenFirst].CALL_TYPE === 'FA2' &&
@@ -433,7 +379,7 @@ export const addLiquidity = async (
                 token_id: tokenFirstId,
               },
             },
-          ])
+          ]),
         )
         .withContractCall(
           tokenSecondInstance.methods.update_operators([
@@ -444,13 +390,10 @@ export const addLiquidity = async (
                 token_id: tokenSecondId,
               },
             },
-          ])
+          ]),
         )
         .withContractCall(
-          dexContractInstance.methods.AddLiquidity(
-            tokenFirst_Amount,
-            tokenSecond_Amount
-          )
+          dexContractInstance.methods.AddLiquidity(tokenFirst_Amount, tokenSecond_Amount),
         )
         .withContractCall(
           tokenFirstInstance.methods.update_operators([
@@ -461,7 +404,7 @@ export const addLiquidity = async (
                 token_id: tokenFirstId,
               },
             },
-          ])
+          ]),
         )
         .withContractCall(
           tokenSecondInstance.methods.update_operators([
@@ -472,7 +415,7 @@ export const addLiquidity = async (
                 token_id: tokenSecondId,
               },
             },
-          ])
+          ]),
         );
     } else if (
       CONFIG.AMM[connectedNetwork][tokenFirst].CALL_TYPE === 'FA1.2' &&
@@ -480,23 +423,12 @@ export const addLiquidity = async (
     ) {
       batch = Tezos.wallet
         .batch()
+        .withContractCall(tokenFirstInstance.methods.approve(dexContractAddress, tokenFirst_Amount))
         .withContractCall(
-          tokenFirstInstance.methods.approve(
-            dexContractAddress,
-            tokenFirst_Amount
-          )
+          tokenSecondInstance.methods.approve(dexContractAddress, tokenSecond_Amount),
         )
         .withContractCall(
-          tokenSecondInstance.methods.approve(
-            dexContractAddress,
-            tokenSecond_Amount
-          )
-        )
-        .withContractCall(
-          dexContractInstance.methods.AddLiquidity(
-            tokenFirst_Amount,
-            tokenSecond_Amount
-          )
+          dexContractInstance.methods.AddLiquidity(tokenFirst_Amount, tokenSecond_Amount),
         );
     }
     const batchOperation = await batch.send();
@@ -537,7 +469,7 @@ export const computeRemoveTokens = (
   lpTotalSupply,
   tokenFirst_Supply,
   tokenSecond_Supply,
-  slippage
+  slippage,
 ) => {
   try {
     let tokenFirst_Out = (burnAmount * tokenFirst_Supply) / lpTotalSupply;
@@ -616,7 +548,7 @@ export const computeRemoveTokens = (
 //       ].TOKEN_DECIMAL;
 //     lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
 //     let dexContractInstance = await Tezos.wallet.at(dexContractAddress);
-//     
+//
 //       lpToken_Amount,
 //     });
 //     let batch = Tezos.wallet
@@ -626,7 +558,7 @@ export const computeRemoveTokens = (
 //       );
 //     const batchOperation = await batch.send();
 //     await batchOperation.confirmation().then(() => batchOperation.opHash);
-//     
+//
 //     return {
 //       success: true,
 //       operationId: batchOperation.hash,
@@ -645,7 +577,7 @@ export const removeLiquidity = async (
   tokenA_MinimumRecieve,
   tokenB_MinimumRecieve,
   lpToken_Amount,
-  caller
+  // caller,
 ) => {
   try {
     let tokenFirst = null;
@@ -658,8 +590,8 @@ export const removeLiquidity = async (
     const options = {
       name: CONFIG.NAME,
     };
-    let connectedNetwork = CONFIG.NETWORK;
-    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const wallet = new BeaconWallet(options);
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (!WALLET_RESP.success) {
@@ -668,59 +600,49 @@ export const removeLiquidity = async (
     const Tezos = new TezosToolkit(rpcNode);
     Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
-    let tokenFirst_MinimumRecieve;
-    let tokenSecond_MinimumRecieve;
-    if (
-      CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].property ===
-      'token2_pool'
-    ) {
+    // let tokenFirst_MinimumRecieve;
+    // let tokenSecond_MinimumRecieve;
+    if (CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].property === 'token2_pool') {
       tokenFirst = tokenA;
       tokenFirst_Amount = Math.floor(
-        tokenA_MinimumRecieve *
-          Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL)
+        tokenA_MinimumRecieve * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL),
       );
 
       tokenSecond = tokenB;
       tokenSecond_Amount = Math.floor(
-        tokenB_MinimumRecieve *
-          Math.pow(10, CONFIG.AMM[connectedNetwork][tokenB].TOKEN_DECIMAL)
+        tokenB_MinimumRecieve * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenB].TOKEN_DECIMAL),
       );
     } else {
       tokenFirst = tokenB;
       tokenFirst_Amount = Math.floor(
-        tokenB_MinimumRecieve *
-          Math.pow(10, CONFIG.AMM[connectedNetwork][tokenB].TOKEN_DECIMAL)
+        tokenB_MinimumRecieve * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenB].TOKEN_DECIMAL),
       );
       tokenSecond = tokenA;
       tokenSecond_Amount = Math.floor(
-        tokenA_MinimumRecieve *
-          Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL)
+        tokenA_MinimumRecieve * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL),
       );
     }
-    let dexContractAddress =
+    const dexContractAddress =
       CONFIG.AMM[connectedNetwork][tokenFirst].DEX_PAIRS[tokenSecond].contract;
-    let lpTokenDecimal =
+    const lpTokenDecimal =
       CONFIG.AMM[connectedNetwork][
-        CONFIG.AMM[connectedNetwork][tokenFirst].DEX_PAIRS[tokenSecond]
-          .liquidityToken
+        CONFIG.AMM[connectedNetwork][tokenFirst].DEX_PAIRS[tokenSecond].liquidityToken
       ].TOKEN_DECIMAL;
     lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
-    let dexContractInstance = await Tezos.wallet.at(dexContractAddress);
-    
-      lpToken_Amount,
-    });
-    let batch = Tezos.wallet
+    const dexContractInstance = await Tezos.wallet.at(dexContractAddress);
+
+    const batch = Tezos.wallet
       .batch()
       .withContractCall(
         dexContractInstance.methods.RemoveLiquidity(
           lpToken_Amount,
           tokenFirst_Amount,
-          tokenSecond_Amount
-        )
+          tokenSecond_Amount,
+        ),
       );
     const batchOperation = await batch.send();
     await batchOperation.confirmation().then(() => batchOperation.opHash);
-    
+
     return {
       success: true,
       operationId: batchOperation.hash,
@@ -738,11 +660,11 @@ export const fetchWalletBalance = async (
   icon,
   type,
   token_id,
-  token_decimal
+  token_decimal,
 ) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    let rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const Tezos = new TezosToolkit(rpcNode);
     Tezos.setProvider(rpcNode);
     const contract = await Tezos.contract.at(tokenContractAddress);
@@ -752,8 +674,7 @@ export const fetchWalletBalance = async (
       if (icon === 'WRAP') {
         const userDetails = await storage.assets.ledger.get(addressOfUser);
         let userBalance = userDetails;
-        userBalance =
-          userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
+        userBalance = userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
         userBalance = parseFloat(userBalance);
         return {
           success: true,
@@ -763,8 +684,7 @@ export const fetchWalletBalance = async (
       } else if (icon === 'KALAM') {
         const userDetails = await storage.ledger.get(addressOfUser);
         let userBalance = userDetails;
-        userBalance =
-          userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
+        userBalance = userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
         userBalance = parseFloat(userBalance);
         return {
           success: true,
@@ -774,8 +694,7 @@ export const fetchWalletBalance = async (
       } else {
         const userDetails = await storage.balances.get(addressOfUser);
         let userBalance = userDetails.balance;
-        userBalance =
-          userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
+        userBalance = userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
         userBalance = parseFloat(userBalance);
         return {
           success: true,
@@ -788,9 +707,7 @@ export const fetchWalletBalance = async (
         0: addressOfUser,
         1: token_id,
       });
-      userBalance = (
-        userDetails.toNumber() / Math.pow(10, token_decimal)
-      ).toFixed(3);
+      userBalance = (userDetails.toNumber() / Math.pow(10, token_decimal)).toFixed(3);
       userBalance = parseFloat(userBalance);
       return {
         success: true,
@@ -810,8 +727,8 @@ export const fetchWalletBalance = async (
 export const fetchAllWalletBalance = async (addressOfUser) => {
   try {
     const network = CONFIG.NETWORK;
-    let promises = [];
-    for (let identifier in CONFIG.AMM[network]) {
+    const promises = [];
+    for (const identifier in CONFIG.AMM[network]) {
       promises.push(
         fetchWalletBalance(
           addressOfUser,
@@ -819,13 +736,13 @@ export const fetchAllWalletBalance = async (addressOfUser) => {
           identifier,
           CONFIG.AMM[network][identifier].READ_TYPE,
           CONFIG.AMM[network][identifier].TOKEN_ID,
-          CONFIG.AMM[network][identifier].TOKEN_DECIMAL
-        )
+          CONFIG.AMM[network][identifier].TOKEN_DECIMAL,
+        ),
       );
     }
-    let response = await Promise.all(promises);
-    let userBalances = {};
-    for (let i in response) {
+    const response = await Promise.all(promises);
+    const userBalances = {};
+    for (const i in response) {
       userBalances[response[i].symbol] = response[i].balance;
     }
     return {
@@ -848,7 +765,7 @@ export const fetchAllWalletBalance = async (addressOfUser) => {
 //     tokenPriceResponse = tokenPriceResponse.data;
 //     const tokens = ['PLENTY', 'KALAM', 'wDAI', 'WRAP'];
 //     for (let i in tokenPriceResponse.contracts) {
-//       
+//
 //       if (tokens.includes(tokenPriceResponse.contracts[i].symbol)) {
 //         tokenPrice[tokenPriceResponse.contracts[i].symbol] =
 //           tokenPriceResponse.contracts[i].usdValue;
@@ -859,7 +776,7 @@ export const fetchAllWalletBalance = async (addressOfUser) => {
 //       tokenPrice,
 //     };
 //   } catch (error) {
-//     
+//
 //     return {
 //       success: false,
 //       tokenPrice: {},
@@ -868,13 +785,11 @@ export const fetchAllWalletBalance = async (addressOfUser) => {
 // };
 export const getTokenPrices = async () => {
   try {
-    let tokenPriceResponse = await axios.get(
-      'https://api.teztools.io/token/prices'
-    );
-    let tokenPrice = {};
+    let tokenPriceResponse = await axios.get('https://api.teztools.io/token/prices');
+    const tokenPrice = {};
     tokenPriceResponse = tokenPriceResponse.data;
     const tokens = ['PLENTY', 'KALAM', 'wDAI', 'WRAP'];
-    for (let i in tokenPriceResponse.contracts) {
+    for (const i in tokenPriceResponse.contracts) {
       if (tokens.includes(tokenPriceResponse.contracts[i].symbol)) {
         tokenPrice[tokenPriceResponse.contracts[i].symbol] =
           tokenPriceResponse.contracts[i].usdValue;
@@ -885,7 +800,6 @@ export const getTokenPrices = async () => {
       tokenPrice,
     };
   } catch (error) {
-    
     return {
       success: false,
       tokenPrice: {},
@@ -897,13 +811,11 @@ export const lpTokenOutput = (
   tokenOut_amount,
   tokenIn_supply,
   tokenOut_supply,
-  lpTokenSupply
+  lpTokenSupply,
 ) => {
   try {
-    let lpOutputBasedOnTokenIn =
-      (tokenIn_amount * lpTokenSupply) / tokenIn_supply;
-    let lpOutputBasedOnTokenOut =
-      (tokenOut_amount * lpTokenSupply) / tokenOut_supply;
+    const lpOutputBasedOnTokenIn = (tokenIn_amount * lpTokenSupply) / tokenIn_supply;
+    const lpOutputBasedOnTokenOut = (tokenOut_amount * lpTokenSupply) / tokenOut_supply;
     let estimatedLpOutput = 0;
     estimatedLpOutput =
       lpOutputBasedOnTokenIn < lpOutputBasedOnTokenOut

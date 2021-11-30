@@ -1,7 +1,8 @@
+import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FormControl, InputGroup, Modal } from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
-const config = require('../../config/config');
+import config from '../../config/config';
 
 const SwapModal = (props) => {
   const [tokensToShow, setTokensToShow] = useState([]);
@@ -111,7 +112,7 @@ const SwapModal = (props) => {
             </InputGroup.Prepend>
             <FormControl
               placeholder="Search"
-              className={`shadow-none border-left-0 search-box`}
+              className={'shadow-none border-left-0 search-box'}
               value={props.searchQuery}
               onChange={(ev) => props.setSearchQuery(ev.target.value)}
             />
@@ -147,6 +148,19 @@ const SwapModal = (props) => {
       </Modal.Body>
     </Modal>
   );
+};
+
+SwapModal.propTypes = {
+  activeTab: PropTypes.any,
+  onHide: PropTypes.any,
+  searchQuery: PropTypes.any,
+  selectToken: PropTypes.any,
+  setSearchQuery: PropTypes.any,
+  show: PropTypes.any,
+  tokenIn: PropTypes.any,
+  tokenOut: PropTypes.any,
+  tokenType: PropTypes.any,
+  tokens: PropTypes.any,
 };
 
 export default SwapModal;

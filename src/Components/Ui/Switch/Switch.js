@@ -1,22 +1,27 @@
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './switch.module.scss';
-import clsx from "clsx";
+import clsx from 'clsx';
 
-const Switch = props => {
+const Switch = (props) => {
   const getValue = () => {
     return props.inverted ? !props.value : props.value;
-  }
+  };
 
-  const getLabelFor = side => {
-    return side === "left"
-      ? props.inverted ? props.trueLabel : props.falseLabel
-      : props.inverted ? props.falseLabel : props.trueLabel
-  }
+  const getLabelFor = (side) => {
+    return side === 'left'
+      ? props.inverted
+        ? props.trueLabel
+        : props.falseLabel
+      : props.inverted
+      ? props.falseLabel
+      : props.trueLabel;
+  };
 
-  return  (
+  return (
     <div>
-      <span className={clsx(styles.label, "mr-1", { [styles.active]: !getValue() })}>
-        {getLabelFor("left")}
+      <span className={clsx(styles.label, 'mr-1', { [styles.active]: !getValue() })}>
+        {getLabelFor('left')}
       </span>
 
       <label className={styles.switch}>
@@ -24,19 +29,19 @@ const Switch = props => {
         <span className={styles.slider} />
       </label>
 
-      <span className={clsx(styles.label, "ml-1", { [styles.active]: getValue() })}>
-        {getLabelFor("right")}
+      <span className={clsx(styles.label, 'ml-1', { [styles.active]: getValue() })}>
+        {getLabelFor('right')}
       </span>
     </div>
-  )
-}
+  );
+};
 
 Switch.propTypes = {
   value: PropTypes.bool,
   trueLabel: PropTypes.string.isRequired,
-  falseLabel:PropTypes.string.isRequired,
+  falseLabel: PropTypes.string.isRequired,
   onChange: PropTypes.func,
   inverted: PropTypes.bool,
-}
+};
 
 export default Switch;

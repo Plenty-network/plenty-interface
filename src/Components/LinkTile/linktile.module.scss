@@ -1,4 +1,4 @@
-@use "../../assets/scss/constants" as const;
+@use '../../assets/scss/constants' as const;
 
 .btn {
   border-radius: 7.35px;
@@ -21,12 +21,12 @@
   transition: box-shadow 0.15s;
 
   &:hover {
-    box-shadow: 5px 5px 10px rgba(128,128,128, 0.3);
+    box-shadow: 5px 5px 10px rgba(128, 128, 128, 0.3);
   }
 }
 
 .tile::after {
-  box-shadow: 5px 5px 15px rgba(255,3,3,0.3);
+  box-shadow: 5px 5px 15px rgba(255, 3, 3, 0.3);
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
 }
@@ -36,6 +36,6 @@
 }
 
 .default {
-  color: #FFFFFF;
+  color: #ffffff;
   background: const.$bgGradient;
 }

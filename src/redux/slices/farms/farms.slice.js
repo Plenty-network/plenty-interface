@@ -1,13 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { FARM_PAGE_MODAL } from "../../../constants/farmsPage";
+import { createSlice } from '@reduxjs/toolkit';
+import { FARM_PAGE_MODAL } from '../../../constants/farmsPage';
 import {
-  activeFarmsActions, commonFarmsAction,
+  activeFarmsActions,
+  commonFarmsAction,
   harvestFarmsAction,
   inactiveFarmsActions,
   otherFarmsActions,
   stakingFarmsActions,
-  unstakingFarmsAction
-} from "./farms.action";
+  unstakingFarmsAction,
+} from './farms.action';
 
 const initialState = {
   data: {
@@ -27,21 +28,21 @@ const initialState = {
     processing: false,
     completed: false,
     failed: false,
-    operationHash: null
+    operationHash: null,
   },
   unstakeOperation: {
     isLoading: false,
     processing: false,
     completed: false,
     failed: false,
-    operationHash: null
+    operationHash: null,
   },
   harvestOperation: {
     isLoading: false,
     completed: false,
     failed: false,
     operationHash: null,
-    tokenPair: null
+    tokenPair: null,
   },
   modals: {
     open: FARM_PAGE_MODAL.NULL,
@@ -49,7 +50,7 @@ const initialState = {
     transactionId: '',
     snackbar: false,
     withdrawalFeeType: [],
-    roiTable: []
+    roiTable: [],
   },
   stakeModal: {
     open: false,
@@ -66,7 +67,7 @@ const initialState = {
     withdrawalFeeStructure: [],
   },
   isActiveOpen: true,
-}
+};
 
 export const farmsSlice = createSlice({
   name: 'farms',
@@ -79,8 +80,8 @@ export const farmsSlice = createSlice({
     ...unstakingFarmsAction,
     ...harvestFarmsAction,
     ...otherFarmsActions,
-  }
-})
+  },
+});
 
 export const {
   // * Common Farms
@@ -127,6 +128,6 @@ export const {
   closeFarmsUnstakeModal,
   openCloseFarmsModal,
   dismissSnackbar,
-} = farmsSlice.actions
+} = farmsSlice.actions;
 
 export default farmsSlice.reducer;

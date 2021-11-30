@@ -1,5 +1,6 @@
+import PropTypes from 'prop-types';
 import { MdChevronRight } from 'react-icons/all';
-import {Image, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import { Image, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import React, { useMemo } from 'react';
 import config from '../config/config';
 
@@ -27,18 +28,24 @@ const SwapDetails = (props) => {
           <div className="flex flex-row align-items-center">
             <p className="swap-detail-amt-details">Minimum received </p>
             <OverlayTrigger
-                key="top"
-                placement="top"
-                overlay={
-                  <Tooltip
-                      id={`minimum-received-tooltip`}
-                      arrowProps={{ styles: { display: 'none' } }}
-                  >
-                    Your transaction will revert if there is a large, unfavorable price movement before it is confirmed.
-                  </Tooltip>
-                }
+              key="top"
+              placement="top"
+              overlay={
+                <Tooltip
+                  id={'minimum-received-tooltip'}
+                  arrowProps={{ styles: { display: 'none' } }}
+                >
+                  Your transaction will revert if there is a large, unfavorable price movement
+                  before it is confirmed.
+                </Tooltip>
+              }
             >
-              <span style={{ cursor: 'pointer' }} className="material-icons-round ml-1 swap-detail-amt-details">help_outline</span>
+              <span
+                style={{ cursor: 'pointer' }}
+                className="material-icons-round ml-1 swap-detail-amt-details"
+              >
+                help_outline
+              </span>
             </OverlayTrigger>
             <p className="swap-detail-amt-details ml-auto">
               {props.computedOutDetails.minimum_Out
@@ -50,18 +57,20 @@ const SwapDetails = (props) => {
           <div className="flex flex-row align-items-center">
             <p className="swap-detail-amt-details">Price Impact </p>
             <OverlayTrigger
-                key="top"
-                placement="top"
-                overlay={
-                  <Tooltip
-                      id={`price-impact-tooltip`}
-                      arrowProps={{ styles: { display: 'none' } }}
-                  >
-                    The difference between the market price and estimated price due to trade size.
-                  </Tooltip>
-                }
+              key="top"
+              placement="top"
+              overlay={
+                <Tooltip id={'price-impact-tooltip'} arrowProps={{ styles: { display: 'none' } }}>
+                  The difference between the market price and estimated price due to trade size.
+                </Tooltip>
+              }
             >
-              <span style={{ cursor: 'pointer' }} className="material-icons-round ml-1 swap-detail-amt-details">help_outline</span>
+              <span
+                style={{ cursor: 'pointer' }}
+                className="material-icons-round ml-1 swap-detail-amt-details"
+              >
+                help_outline
+              </span>
             </OverlayTrigger>
             <p className="swap-detail-amt-details ml-auto">
               {props.computedOutDetails.priceImpact ? props.computedOutDetails.priceImpact : '0.00'}{' '}
@@ -71,18 +80,21 @@ const SwapDetails = (props) => {
           <div className="flex flex-row align-items-center">
             <p className="swap-detail-amt-details">Fee </p>
             <OverlayTrigger
-                key="top"
-                placement="top"
-                overlay={
-                  <Tooltip
-                      id={`fee-tooltip`}
-                      arrowProps={{ styles: { display: 'none' } }}
-                  >
-                    A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive.
-                  </Tooltip>
-                }
+              key="top"
+              placement="top"
+              overlay={
+                <Tooltip id={'fee-tooltip'} arrowProps={{ styles: { display: 'none' } }}>
+                  A portion of each trade (0.25%) goes to liquidity providers as a protocol
+                  incentive.
+                </Tooltip>
+              }
             >
-              <span style={{ cursor: 'pointer' }} className="material-icons-round ml-1 swap-detail-amt-details">help_outline</span>
+              <span
+                style={{ cursor: 'pointer' }}
+                className="material-icons-round ml-1 swap-detail-amt-details"
+              >
+                help_outline
+              </span>
             </OverlayTrigger>
             <p className="swap-detail-amt-details ml-auto">
               {props.firstTokenAmount / 400} {props.tokenIn.name}
@@ -107,7 +119,7 @@ const SwapDetails = (props) => {
 
           <div className="swap-detail-route-container mt-3">
             {swapRoute.map((token, idx) => (
-              <div className="d-flex my-2">
+              <div key={token.name} className="d-flex my-2">
                 <Image src={token.image} height={20} width={20} alt={''} />
                 <span className="mx-1 my-auto">{token.name}</span>
                 {idx < 2 && <MdChevronRight className="mr-1" fontSize={20} />}
@@ -118,6 +130,14 @@ const SwapDetails = (props) => {
       )}
     </div>
   );
+};
+
+SwapDetails.propTypes = {
+  computedOutDetails: PropTypes.any,
+  firstTokenAmount: PropTypes.any,
+  midTokens: PropTypes.any,
+  tokenIn: PropTypes.any,
+  tokenOut: PropTypes.any,
 };
 
 export default SwapDetails;

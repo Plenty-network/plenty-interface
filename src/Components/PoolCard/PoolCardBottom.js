@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import Button from '../Ui/Buttons/Button';
 import PropTypes from 'prop-types';
 
@@ -17,7 +17,7 @@ const PoolCardBottom = (props) => {
 
   const hasStakedAmount = () => {
     return (
-      props.userStakes.hasOwnProperty(props.CONTRACT) &&
+      Object.prototype.hasOwnProperty.call(props.userStakes, props.CONTRACT) &&
       props.userStakes[props.CONTRACT].stakedAmount > 0
     );
     //return false
@@ -28,12 +28,12 @@ const PoolCardBottom = (props) => {
       openClosePoolsModal({
         open: POOL_PAGE_MODAL.WITHDRAWAL,
         contractAddress: props.CONTRACT,
-      })
+      }),
     );
   };
 
   const stakedAmount = useMemo(() => {
-    return props.userStakes.hasOwnProperty(props.CONTRACT)
+    return Object.prototype.hasOwnProperty.call(props.userStakes, props.CONTRACT)
       ? props.userStakes[props.CONTRACT].stakedAmount
       : 0;
   }, [props.CONTRACT, props.userStakes, props.userAddress]);
@@ -50,32 +50,23 @@ const PoolCardBottom = (props) => {
       >
         {(hasStakedAmount() || isExpanded) && (
           <div className="d-flex">
-            <div
-              className={clsx(
-                styles.harvestStakeAmt,
-                'mr-2 justify-content-between'
-              )}
-            >
-              <Image
-                height={31}
-                src={props.harvestImg}
-                fuild
-                className="mt-auto mb-auto ml-2"
-              />
+            <div className={clsx(styles.harvestStakeAmt, 'mr-2 justify-content-between')}>
+              <Image height={31} src={props.harvestImg} fuild className="mt-auto mb-auto ml-2" />
               <span>
                 {
                   props.userAddress !== null &&
-                  props.harvestValueOnPools.hasOwnProperty(
-                    props.isActiveOpen
+                  Object.prototype.hasOwnProperty.call(
+                    props.harvestValueOnPools,
+                    props.isActiveOpen,
                   ) &&
-                  props.harvestValueOnPools[props.isActiveOpen].hasOwnProperty(
-                    props.CONTRACT
+                  Object.prototype.hasOwnProperty.call(
+                    props.harvestValueOnPools[props.isActiveOpen],
+                    props.CONTRACT,
                   ) &&
-                  props.harvestValueOnPools[props.isActiveOpen][props.CONTRACT]
-                    .totalRewards > 0
+                  props.harvestValueOnPools[props.isActiveOpen][props.CONTRACT].totalRewards > 0
                     ? props.harvestValueOnPools[props.isActiveOpen][
-                        props.CONTRACT
-                      ].totalRewards.toFixed(6)
+                      props.CONTRACT
+                    ].totalRewards.toFixed(6)
                     : 0
                   //0
                 }
@@ -84,11 +75,7 @@ const PoolCardBottom = (props) => {
 
             <Button
               onClick={() =>
-                props.harvestOnPools(
-                  props.identifier,
-                  props.isActiveOpen,
-                  props.position
-                )
+                props.harvestOnPools(props.identifier, props.isActiveOpen, props.position)
               }
               color={hasStakedAmount() ? 'primary' : 'default'}
               loading={
@@ -106,12 +93,7 @@ const PoolCardBottom = (props) => {
             <div className="mt-3 mb-2">{props.title}</div>
 
             <div className="d-flex">
-              <div
-                className={clsx(
-                  styles.harvestStakeAmt,
-                  'mr-2 justify-content-end'
-                )}
-              >
+              <div className={clsx(styles.harvestStakeAmt, 'mr-2 justify-content-end')}>
                 <span>{stakedAmount?.toFixed(5)}</span>
               </div>
               <span />
@@ -124,7 +106,7 @@ const PoolCardBottom = (props) => {
                       props.identifier,
                       props.title,
                       props.position,
-                      props.CONTRACT
+                      props.CONTRACT,
                     )
                   }
                   onRemove={() =>
@@ -133,7 +115,7 @@ const PoolCardBottom = (props) => {
                       props.CONTRACT,
                       props.title,
                       props.withdrawalFeeStructure,
-                      props.position
+                      props.position,
                     )
                   }
                 />
@@ -145,7 +127,7 @@ const PoolCardBottom = (props) => {
                         props.identifier,
                         props.title,
                         props.position,
-                        props.CONTRACT
+                        props.CONTRACT,
                       )
                     }
                     color={'default'}
@@ -161,29 +143,20 @@ const PoolCardBottom = (props) => {
 
       {isExpanded && (
         <>
-          <div
-            className={clsx(
-              styles.plentyCardContent,
-              styles.bottomBorder,
-              'd-flex'
-            )}
-          >
+          <div className={clsx(styles.plentyCardContent, styles.bottomBorder, 'd-flex')}>
             <div className={clsx(styles.rightBorder, 'w-50 text-center')}>
               <div>Deposit Fee</div>
               <OverlayTrigger
                 key="top"
                 placement="top"
                 overlay={
-                  <Tooltip
-                    id={`deposit-fee-tooltip`}
-                    arrowProps={{ styles: { display: 'none' } }}
-                  >
+                  <Tooltip id={'deposit-fee-tooltip'} arrowProps={{ styles: { display: 'none' } }}>
                     No deposit fee
                   </Tooltip>
                 }
               >
                 <Button
-                  id={`deposit-fee`}
+                  id={'deposit-fee'}
                   ref={target}
                   size="small"
                   color="mute"
@@ -232,7 +205,20 @@ const PoolCardBottom = (props) => {
 };
 
 PoolCardBottom.propTypes = {
+  CONTRACT: PropTypes.any,
+  harvestImg: PropTypes.any,
+  harvestOnPools: PropTypes.any,
+  harvestOperation: PropTypes.any,
+  harvestValueOnPools: PropTypes.any,
+  identifier: PropTypes.any,
+  isActiveOpen: PropTypes.any,
+  openPoolsStakeModal: PropTypes.any,
+  openPoolsUnstakeModal: PropTypes.any,
+  position: PropTypes.any,
   title: PropTypes.string.isRequired,
+  userAddress: PropTypes.any,
+  userStakes: PropTypes.any,
+  withdrawalFeeStructure: PropTypes.any,
 };
 
 export default PoolCardBottom;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 
@@ -15,6 +16,10 @@ const TransactionSettings = (props) => {
       <span className="span-themed material-icons-outlined">tune</span>
     </a>
   ));
+  CustomToggle.displayName = 'CustomToggle';
+  CustomToggle.propTypes = {
+    onClick: PropTypes.func,
+  };
 
   const [recepient, setRecepient] = useState(false);
 
@@ -25,20 +30,14 @@ const TransactionSettings = (props) => {
 
   return (
     <Dropdown className="transaction-setting">
-      <Dropdown.Toggle
-        as={CustomToggle}
-        id="transaction-setting"
-      ></Dropdown.Toggle>
+      <Dropdown.Toggle as={CustomToggle} id="transaction-setting" />
 
       <Dropdown.Menu className="menu-dropdown transaction-settings-dropdown bg-themed bg-themed-transcation-settings">
         <p className="transaction-setting-menu-label">Transaction Settings</p>
         <p className="transaction-setting-sub-label">Slippage tolerance </p>
 
         <div className="slipping-tolerance-detail-wrapper flex justify-between align-center">
-          <button
-            className="slipping-tolerance-btn"
-            onClick={(e) => props.setSlippage(0.5)}
-          >
+          <button className="slipping-tolerance-btn" onClick={() => props.setSlippage(0.5)}>
             Auto
           </button>
           <input
@@ -59,14 +58,9 @@ const TransactionSettings = (props) => {
           <div className="flex align-center">
             <p className="transaction-setting-sub-label">Add Recipient </p>
             <div className="toggleWrapper">
-              <input
-                type="checkbox"
-                className="dn"
-                id="dn"
-                onChange={handleShowRecepient}
-              />
+              <input type="checkbox" className="dn" id="dn" onChange={handleShowRecepient} />
               <label htmlFor="dn" className="toggle">
-                <span className="toggle__handler"></span>
+                <span className="toggle__handler" />
               </label>
             </div>
           </div>
@@ -74,6 +68,12 @@ const TransactionSettings = (props) => {
       </Dropdown.Menu>
     </Dropdown>
   );
+};
+
+TransactionSettings.propTypes = {
+  setShowRecepient: PropTypes.any,
+  setSlippage: PropTypes.any,
+  slippage: PropTypes.any,
 };
 
 export default TransactionSettings;

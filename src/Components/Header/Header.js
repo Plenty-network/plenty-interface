@@ -1,24 +1,20 @@
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import truncateMiddle from 'truncate-middle';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Navbar from 'react-bootstrap/Navbar';
+import { Col, Container, Nav, Navbar, NavDropdown, Row } from 'react-bootstrap';
+
 import clsx from 'clsx';
-import Dropdown from 'react-bootstrap/Dropdown';
-import { ExternalMenu, NavigationMenu } from './Menu';
+import { ExternalMenu } from './Menu';
 import { ReactComponent as Logo } from '../../assets/images/logo.svg';
 import { ReactComponent as LogoWhite } from '../../assets/images/logo-white.svg';
 import { Link, useLocation } from 'react-router-dom';
-import Nav from 'react-bootstrap/Nav';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import SimpleModal from '../../Components/Ui/Modals/SimpleModal';
+
 import NodeSelectorModal from './NodeSelectorModal';
 import Loader from '../../Components/loader';
 import { RPC_NODE } from '../../constants/localStorage';
 import { setNode } from '../../redux/slices/settings/settings.slice';
 import { connect } from 'react-redux';
-import Button from "../Ui/Buttons/Button";
+import Button from '../Ui/Buttons/Button';
 
 const Header = (props) => {
   const location = useLocation();
@@ -34,19 +30,11 @@ const Header = (props) => {
     }
   }, []);
 
-  let connectWalletButton = () => {
+  const connectWalletButton = () => {
     if (props.walletAddress) {
       return (
-        <Button
-          onClick={props.disconnectWallet}
-          color={'primary'}
-          className={'bg-themed'}
-        >
-           <span
-               className={clsx(
-                   props.theme === 'light' ? 'light-theme-text' : 'span-themed'
-               )}
-           >
+        <Button onClick={props.disconnectWallet} color={'primary'} className={'bg-themed'}>
+          <span className={clsx(props.theme === 'light' ? 'light-theme-text' : 'span-themed')}>
             {truncateMiddle(props.walletAddress, 4, 4, '...')}
           </span>
         </Button>
@@ -57,55 +45,33 @@ const Header = (props) => {
           color={'primary'}
           onClick={props.connecthWallet}
           className={clsx(
-              'px-md-3',
-              'connect-wallet-btn',
-              props.theme === 'light'
-                  ? 'frontpage-light-wallet-btn'
-                  : 'bg-themed')
-          }>
+            'px-md-3',
+            'connect-wallet-btn',
+            props.theme === 'light' ? 'frontpage-light-wallet-btn' : 'bg-themed',
+          )}
+        >
           <div
-              className={clsx(
-                  'connect-wallet-btn',
-                  props.isFrontPage ? 'text-white' : 'span-themed'
-              )}
+            className={clsx('connect-wallet-btn', props.isFrontPage ? 'text-white' : 'span-themed')}
           >
             <div className="flex flex-row align-items-center">
               <span
-                  className={clsx(
-                      'mr-1',
-                      'material-icons-round',
-                      props.isFrontPage ? 'text-white' : 'span-themed'
-                  )}
+                className={clsx(
+                  'mr-1',
+                  'material-icons-round',
+                  props.isFrontPage ? 'text-white' : 'span-themed',
+                )}
               >
-              add
-            </span>
-              <span
-                  className={clsx(
-                      props.isFrontPage ? 'text-white' : 'span-themed'
-                  )}
-              >
-              Connect to Wallet
-            </span>
+                add
+              </span>
+              <span className={clsx(props.isFrontPage ? 'text-white' : 'span-themed')}>
+                Connect to Wallet
+              </span>
             </div>
           </div>
         </Button>
       );
     }
   };
-
-  const CustomToggle = React.forwardRef(({ onClick }, ref) => (
-    <a
-      href=""
-      className="nav-menu-item-link"
-      ref={ref}
-      onClick={(e) => {
-        e.preventDefault();
-        onClick(e);
-      }}
-    >
-      <span className="span-themed material-icons-round">more_vert</span>
-    </a>
-  ));
 
   const resetActiveTab = () => {
     localStorage.setItem('activeTab', 'swap');
@@ -143,7 +109,7 @@ const Header = (props) => {
                 <span
                   className={clsx(
                     'material-icons-round',
-                    props.isFrontPage ? 'text-white' : 'span-themed'
+                    props.isFrontPage ? 'text-white' : 'span-themed',
                   )}
                 >
                   more_vert
@@ -151,104 +117,72 @@ const Header = (props) => {
               </Navbar.Toggle>
 
               <Navbar.Collapse id="responsive-navbar-nav">
-                <Nav
-                  activeKey={location.pathname}
-                  className="align-items-lg-center w-100"
-                >
+                <Nav activeKey={location.pathname} className="align-items-lg-center w-100">
                   <div className="col-lg-6 d-flex flex-lg-row flex-column justify-content-lg-center align-items-center">
                     <Nav.Link
                       className={clsx(
-                        splitLocation[1] === 'swap' ||
-                          splitLocation[1] === 'liquidity'
+                        splitLocation[1] === 'swap' || splitLocation[1] === 'liquidity'
                           ? 'menu-item-active'
                           : 'menu-item',
-                        'align-self-end align-self-lg-center d-flex align-items-center'
+                        'align-self-end align-self-lg-center d-flex align-items-center',
                       )}
                       as={Link}
                       to="/swap"
                       onClick={resetActiveTab}
                     >
-                      <span
-                        className={clsx(
-                          props.isFrontPage ? 'text-white' : undefined
-                        )}
-                      >
+                      <span className={clsx(props.isFrontPage ? 'text-white' : undefined)}>
                         Swap
                       </span>
                     </Nav.Link>
                     <Nav.Link
-                        className={clsx(
-                            splitLocation[1] === 'tokens'
-                                ? 'menu-item-active'
-                                : 'menu-item',
-                            'align-self-end align-self-lg-center d-flex align-items-center'
-                        )}
-                        as={Link}
-                        to="/tokens"
-                        onClick={resetActiveTab}
+                      className={clsx(
+                        splitLocation[1] === 'tokens' ? 'menu-item-active' : 'menu-item',
+                        'align-self-end align-self-lg-center d-flex align-items-center',
+                      )}
+                      as={Link}
+                      to="/tokens"
+                      onClick={resetActiveTab}
                     >
-                      <span
-                          className={clsx(
-                              props.isFrontPage ? 'text-white' : undefined
-                          )}
-                      >
+                      <span className={clsx(props.isFrontPage ? 'text-white' : undefined)}>
                         Tokens
                       </span>
                     </Nav.Link>
                     <Nav.Link
                       className={clsx(
-                        splitLocation[1] === 'farms'
-                          ? 'menu-item-active'
-                          : 'menu-item',
-                        'align-self-end align-self-lg-center d-flex align-items-center'
+                        splitLocation[1] === 'farms' ? 'menu-item-active' : 'menu-item',
+                        'align-self-end align-self-lg-center d-flex align-items-center',
                       )}
                       as={Link}
                       to="/farms"
                       onClick={resetActiveTab}
                     >
-                      <span
-                        className={clsx(
-                          props.isFrontPage ? 'text-white' : undefined
-                        )}
-                      >
+                      <span className={clsx(props.isFrontPage ? 'text-white' : undefined)}>
                         Farms
                       </span>
                     </Nav.Link>
                     <Nav.Link
                       className={clsx(
-                        splitLocation[1] === 'stake'
-                          ? 'menu-item-active'
-                          : 'menu-item',
-                        'align-self-end align-self-lg-center d-flex align-items-center'
+                        splitLocation[1] === 'stake' ? 'menu-item-active' : 'menu-item',
+                        'align-self-end align-self-lg-center d-flex align-items-center',
                       )}
                       as={Link}
                       to="/stake"
                       onClick={resetActiveTab}
                     >
-                      <span
-                        className={clsx(
-                          props.isFrontPage ? 'text-white' : undefined
-                        )}
-                      >
+                      <span className={clsx(props.isFrontPage ? 'text-white' : undefined)}>
                         Stake
                       </span>
                     </Nav.Link>
                     <Nav.Link
                       className={clsx(
-                        splitLocation[1] === 'pools'
-                          ? 'menu-item-active'
-                          : 'menu-item',
-                        'align-self-end align-self-lg-center d-flex align-items-center'
+                        splitLocation[1] === 'pools' ? 'menu-item-active' : 'menu-item',
+                        'align-self-end align-self-lg-center d-flex align-items-center',
                       )}
                       as={Link}
                       to="/pools"
                       onClick={resetActiveTab}
                     >
-                      <span
-                        className={clsx(
-                          props.isFrontPage ? 'text-white' : undefined
-                        )}
-                      >
+                      <span className={clsx(props.isFrontPage ? 'text-white' : undefined)}>
                         Pools
                       </span>
                     </Nav.Link>
@@ -264,7 +198,7 @@ const Header = (props) => {
                             className={clsx(
                               'theme-icon',
                               'material-icons-round',
-                              props.isFrontPage ? 'icon-white' : 'span-themed'
+                              props.isFrontPage ? 'icon-white' : 'span-themed',
                             )}
                           >
                             dark_mode
@@ -289,11 +223,7 @@ const Header = (props) => {
                           }
                           className="align-self-end align-self-lg-center nav-link"
                         >
-                          <span
-                            className={clsx(
-                              props.isFrontPage ? 'text-white' : 'span-themed'
-                            )}
-                          >
+                          <span className={clsx(props.isFrontPage ? 'text-white' : 'span-themed')}>
                             Docs
                           </span>
                         </a>
@@ -301,11 +231,7 @@ const Header = (props) => {
                           href={'https://plentydefi.medium.com/'}
                           className="align-self-end align-self-lg-center nav-link"
                         >
-                          <span
-                            className={clsx(
-                              props.isFrontPage ? 'text-white' : 'span-themed'
-                            )}
-                          >
+                          <span className={clsx(props.isFrontPage ? 'text-white' : 'span-themed')}>
                             Blog
                           </span>
                         </a>
@@ -313,11 +239,7 @@ const Header = (props) => {
                           href={'https://github.com/Plenty-DeFi'}
                           className="align-self-end align-self-lg-center nav-link"
                         >
-                          <span
-                            className={clsx(
-                              props.isFrontPage ? 'text-white' : 'span-themed'
-                            )}
-                          >
+                          <span className={clsx(props.isFrontPage ? 'text-white' : 'span-themed')}>
                             GitHub
                           </span>
                         </a>
@@ -325,11 +247,7 @@ const Header = (props) => {
                           onClick={toggleNodeSelectorHandler}
                           className="align-self-end align-self-lg-center nav-link"
                         >
-                          <span
-                            className={clsx(
-                              props.isFrontPage ? 'text-white' : 'span-themed'
-                            )}
-                          >
+                          <span className={clsx(props.isFrontPage ? 'text-white' : 'span-themed')}>
                             Node Selector
                           </span>
                         </a>
@@ -340,7 +258,7 @@ const Header = (props) => {
                           <span
                             className={clsx(
                               'flex header-click align-items-center material-icons-round',
-                              props.isFrontPage ? 'text-white' : 'span-themed'
+                              props.isFrontPage ? 'text-white' : 'span-themed',
                             )}
                           >
                             more_vert
@@ -348,9 +266,7 @@ const Header = (props) => {
                         }
                         id="basic-nav-dropdown"
                       >
-                        <ExternalMenu
-                          toggleNodeSelectorHandler={toggleNodeSelectorHandler}
-                        />
+                        <ExternalMenu toggleNodeSelectorHandler={toggleNodeSelectorHandler} />
                       </NavDropdown>
                     </Nav.Item>
                   </div>
@@ -378,5 +294,15 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setNode: (rpcNode) => dispatch(setNode(rpcNode)),
 });
+
+Header.propTypes = {
+  connecthWallet: PropTypes.func,
+  disconnectWallet: PropTypes.func,
+  isFrontPage: PropTypes.bool,
+  setNode: PropTypes.func,
+  theme: PropTypes.string,
+  toggleTheme: PropTypes.func,
+  walletAddress: PropTypes.oneOf(),
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

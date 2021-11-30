@@ -1,3 +1,4 @@
+import React from 'react';
 import SimpleModal from '../Ui/Modals/SimpleModal';
 import PropTypes from 'prop-types';
 
@@ -47,8 +48,10 @@ const InfoTableModal = (props) => {
 };
 
 InfoTableModal.propTypes = {
-  open: PropTypes.bool.isRequired,
+  contractAddress: PropTypes.any,
   onClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  secondToken: PropTypes.any,
   tableData: PropTypes.array.isRequired,
   type: PropTypes.oneOf(['roi', 'withdrawal']),
 };

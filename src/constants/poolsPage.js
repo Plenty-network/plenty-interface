@@ -1,11 +1,11 @@
-import plentyPoolIcon from "../assets/images/logo-icon.png";
-import plentyToken from "../assets/images/logo_small.png";
-import hdao from "../assets/images/hdao.png";
-import ethtz from "../assets/images/ethtz.png";
-import wmatic from "../assets/images/wmatic.png";
-import wlink from "../assets/images/wlink.png";
-import usdtz from "../assets/images/usdtz.png";
-import wrap from "../assets/images/wrap.png";
+import plentyPoolIcon from '../assets/images/logo-icon.png';
+import plentyToken from '../assets/images/logo_small.png';
+import hdao from '../assets/images/hdao.png';
+import ethtz from '../assets/images/ethtz.png';
+import wmatic from '../assets/images/wmatic.png';
+import wlink from '../assets/images/wlink.png';
+import usdtz from '../assets/images/usdtz.png';
+import wrap from '../assets/images/wrap.png';
 
 export const POOL_PAGE_MODAL = {
   NULL: null,
@@ -14,7 +14,7 @@ export const POOL_PAGE_MODAL = {
   UNSTAKE: 'unstake',
   WITHDRAWAL: 'withdrawal',
   TRANSACTION_SUCCESS: 'transaction-success',
-}
+};
 
 export const POOLS_CARDS_TYPE_LIST = {
   PLENTY: {
