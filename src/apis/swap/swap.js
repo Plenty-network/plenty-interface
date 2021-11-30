@@ -12,6 +12,7 @@ const getPackedKey = (tokenId, address, type) => {
   let packedKey = null;
   if (type === 'FA2') {
     packedKey = TezosMessageUtils.encodeBigMapKey(
+      // eslint-disable-next-line no-undef
       Buffer.from(
         TezosMessageUtils.writePackedData(
           `(Pair ${accountHex} ${tokenId})`,
@@ -23,6 +24,7 @@ const getPackedKey = (tokenId, address, type) => {
     );
   } else {
     packedKey = TezosMessageUtils.encodeBigMapKey(
+      // eslint-disable-next-line no-undef
       Buffer.from(
         TezosMessageUtils.writePackedData(`${accountHex}`, '', TezosParameterFormat.Michelson),
         'hex',
@@ -197,7 +199,7 @@ export const swapTokenUsingRoute = async (
       minimum_Out * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_DECIMAL),
     );
 
-    var DataMap = MichelsonMap.fromLiteral({
+    const DataMap = MichelsonMap.fromLiteral({
       0: {
         exchangeAddress: inputDexAddress,
         minimumOutput: minimum_Out_Plenty,

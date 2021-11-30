@@ -626,12 +626,12 @@ const getPriceForPlentyLpTokens = async (
       }
     }
 
-    var token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
+    let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
     token1Amount =
       (token1Amount * tokenData['token0'].tokenValue) /
       Math.pow(10, tokenData['token0'].tokenDecimal);
 
-    var token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
+    let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
     token2Amount =
       (token2Amount * tokenData['token1'].tokenValue) /
       Math.pow(10, tokenData['token1'].tokenDecimal);
