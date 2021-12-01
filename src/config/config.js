@@ -278,7 +278,8 @@ export default {
           inactive: [],
         },
         'PLENTY - QUIPU': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1FsMiweyRTog9GGNC22hiMTFVRPrGs3eto',
               mapId: 13085,
@@ -286,7 +287,6 @@ export default {
               tokenDecimal: 12,
             },
           ],
-          inactive: [],
         },
         'PLENTY - WRAP': {
           active: [
@@ -300,7 +300,8 @@ export default {
           inactive: [],
         },
         'PLENTY - UNO': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1CWNVmHs6RRbLzwA3P19h7Wa9smnDrAgpS',
               mapId: 14293,
@@ -308,10 +309,10 @@ export default {
               tokenDecimal: 13,
             },
           ],
-          inactive: [],
         },
         'PLENTY - SMAK': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1VwZPZ4bcPQYS1C4yRvmU4giQDXhEV81WD',
               mapId: 14299,
@@ -319,7 +320,6 @@ export default {
               tokenDecimal: 10,
             },
           ],
-          inactive: [],
         },
         'PLENTY - KALAM': {
           active: [
