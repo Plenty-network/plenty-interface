@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+import React from 'react';
 import SwapTab from './SwapTab';
 import LiquidityTab from './LiquidityTab';
 import Tab from 'react-bootstrap/Tab';
@@ -13,6 +15,10 @@ const SwapTabContent = (props) => {
       </Tab>
     </>
   );
+};
+
+SwapTabContent.propTypes = {
+  handleShow: PropTypes.any,
 };
 
 export default SwapTabContent;

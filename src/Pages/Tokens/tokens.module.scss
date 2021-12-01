@@ -12,9 +12,9 @@
 
     & input {
       background: var(--theme-input-bg);
-      color: var(--theme-text-1)
+      color: var(--theme-text-1);
     }
-   }
+  }
 
   .tradeBtn {
     height: 36px;
@@ -32,11 +32,11 @@
 }
 
 .redText {
-  color: #FF7A68;
+  color: #ff7a68;
 }
 
 .greenText {
-  color: #4FBF67;
+  color: #4fbf67;
 }
 
 .searchIcon {
@@ -74,7 +74,7 @@
   top: calc(50% - 14px);
   pointer-events: none;
   color: #c4c3c3;
-  z-index:3;
+  z-index: 3;
 }
 
 .placeholder {

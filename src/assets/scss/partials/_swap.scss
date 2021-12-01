@@ -312,11 +312,9 @@
     font-weight: bold;
     color: var(--theme-text-1);
   }
-
-
 }
 .icon-animated {
-  transition: transform .3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
 
   &:hover {
     transition: 0.3s;
@@ -673,7 +671,6 @@ input:checked {
 }
 
 .search-box {
-
   overflow: auto;
   outline: none;
 

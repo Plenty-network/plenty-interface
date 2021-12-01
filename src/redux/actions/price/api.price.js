@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 
 export const getTokensPrice = async () => {
   try {
@@ -18,17 +18,15 @@ export const getTokensPrice = async () => {
 const getLpPriceFromDex = async (identifier, dexAddress) => {
   try {
     const response = await axios.get(
-      `https://mainnet.tezster.tech/chains/main/blocks/head/context/contracts/${dexAddress}/storage`
+      `https://mainnet.tezster.tech/chains/main/blocks/head/context/contracts/${dexAddress}/storage`,
     );
     //let token_pool = response.data.args[1].args[0].args[3];
 
-    let tez_pool = parseInt(response.data.args[1].args[0].args[1].args[2].int);
+    const tez_pool = parseInt(response.data.args[1].args[0].args[1].args[2].int);
 
-    let total_Supply = parseInt(
-      response.data.args[1].args[1].args[0].args[0].int
-    );
+    const total_Supply = parseInt(response.data.args[1].args[1].args[0].args[0].int);
 
-    let lpPriceInXtz = (tez_pool * 2) / total_Supply;
+    const lpPriceInXtz = (tez_pool * 2) / total_Supply;
     return {
       success: true,
       identifier,
@@ -48,19 +46,15 @@ const getLpPriceFromDex = async (identifier, dexAddress) => {
 
 export const getLpPriceInXtz = async () => {
   try {
-    let promises = [];
+    const promises = [];
     //let dexAddresses = ['KT1X1LgNkQShpF9nRLYw3Dgdy4qp38MX617z','KT1J3wTYb4xk5BsSBkg6ML55bX1xq7desS34'];
     // for(let address in dexAddresses)
     // {
     //     //promises.push(axios.get(`https://mainnet.tezster.tech/chains/main/blocks/head/context/contracts/${address}/storage`))
     //     promises.push(getLpPriceFromDex())
     // }
-    promises.push(
-      getLpPriceFromDex('PLENTY - XTZ', 'KT1X1LgNkQShpF9nRLYw3Dgdy4qp38MX617z')
-    );
-    promises.push(
-      getLpPriceFromDex('KALAM - XTZ', 'KT1J3wTYb4xk5BsSBkg6ML55bX1xq7desS34')
-    );
+    promises.push(getLpPriceFromDex('PLENTY - XTZ', 'KT1X1LgNkQShpF9nRLYw3Dgdy4qp38MX617z'));
+    promises.push(getLpPriceFromDex('KALAM - XTZ', 'KT1J3wTYb4xk5BsSBkg6ML55bX1xq7desS34'));
     const response = await Promise.all(promises);
     return {
       success: true,

@@ -6,10 +6,7 @@ import styles from '../../assets/scss/partials/_farms.module.scss';
 import clsx from 'clsx';
 import QuantityButton from '../Ui/Buttons/QuantityButton';
 import { Image, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import {
-  FARM_PAGE_MODAL,
-  FARMS_CARD_DATA_PROPTYPES,
-} from '../../constants/farmsPage';
+import { FARM_PAGE_MODAL } from '../../constants/farmsPage';
 import { useDispatch } from 'react-redux';
 import { openCloseFarmsModal } from '../../redux/slices/farms/farms.slice';
 
@@ -25,12 +22,12 @@ const FarmCardBottom = (props) => {
         open: FARM_PAGE_MODAL.WITHDRAWAL,
         contractAddress: farmData.CONTRACT,
         withdrawalFeeType: farmData.withdrawalFeeType,
-      })
+      }),
     );
   };
 
   const stakedAmount = useMemo(() => {
-    return props.userStakes.hasOwnProperty(farmData.CONTRACT)
+    return Object.prototype.hasOwnProperty.call(props.userStakes,farmData.CONTRACT)
       ? props.userStakes[farmData.CONTRACT].stakedAmount
       : 0;
   }, [farmData.CONTRACT, props.userStakes, props.userAddress]);
@@ -67,21 +64,18 @@ const FarmCardBottom = (props) => {
                   <span style={{ fontSize: '10px', marginLeft: '6px' }}>
                     {values &&
                     props.userAddress !== null &&
-                    props.harvestValueOnFarms.hasOwnProperty(
-                      props.isActiveOpen
+                    Object.prototype.hasOwnProperty.call(props.harvestValueOnFarms, props.isActiveOpen) &&
+                    Object.prototype.hasOwnProperty.call(props.harvestValueOnFarms[props.isActiveOpen],
+                      farmData.CONTRACT,
                     ) &&
-                    props.harvestValueOnFarms[
-                      props.isActiveOpen
-                    ].hasOwnProperty(farmData.CONTRACT) &&
-                    props.harvestValueOnFarms[props.isActiveOpen][
-                      farmData.CONTRACT
-                    ].totalRewards[0] > 0 ? (
-                      props.harvestValueOnFarms[props.isActiveOpen][
-                        farmData.CONTRACT
-                      ].totalRewards[0].toFixed(4)
-                    ) : (
-                      <span className="shimmer">99999</span>
-                    )}
+                    props.harvestValueOnFarms[props.isActiveOpen][farmData.CONTRACT]
+                      .totalRewards[0] > 0 ? (
+                        props.harvestValueOnFarms[props.isActiveOpen][
+                          farmData.CONTRACT
+                        ].totalRewards[0].toFixed(4)
+                      ) : (
+                        <span className="shimmer">99999</span>
+                      )}
                   </span>
                 </div>
 
@@ -95,31 +89,27 @@ const FarmCardBottom = (props) => {
                   <span style={{ fontSize: '10px', marginLeft: '6px' }}>
                     {values &&
                     props.userAddress !== null &&
-                    props.harvestValueOnFarms.hasOwnProperty(
-                      props.isActiveOpen
+                    Object.prototype.hasOwnProperty.call(
+                      props.harvestValueOnFarms,
+                      props.isActiveOpen,
                     ) &&
-                    props.harvestValueOnFarms[
-                      props.isActiveOpen
-                    ].hasOwnProperty(farmData.CONTRACT) &&
-                    props.harvestValueOnFarms[props.isActiveOpen][
-                      farmData.CONTRACT
-                    ].totalRewards[1] > 0 ? (
-                      props.harvestValueOnFarms[props.isActiveOpen][
-                        farmData.CONTRACT
-                      ].totalRewards[1].toFixed(4)
-                    ) : (
-                      <span className="shimmer">99999</span>
-                    )}
+                    Object.prototype.hasOwnProperty.call(
+                      props.harvestValueOnFarms[props.isActiveOpen],
+                      farmData.CONTRACT,
+                    ) &&
+                    props.harvestValueOnFarms[props.isActiveOpen][farmData.CONTRACT]
+                      .totalRewards[1] > 0 ? (
+                        props.harvestValueOnFarms[props.isActiveOpen][
+                          farmData.CONTRACT
+                        ].totalRewards[1].toFixed(4)
+                      ) : (
+                        <span className="shimmer">99999</span>
+                      )}
                   </span>
                 </div>
               </div>
             ) : (
-              <div
-                className={clsx(
-                  styles.harvestStakeAmt,
-                  'mr-2 justify-content-between'
-                )}
-              >
+              <div className={clsx(styles.harvestStakeAmt, 'mr-2 justify-content-between')}>
                 <Image
                   height={31}
                   src={properties.harvestImg}
@@ -129,21 +119,22 @@ const FarmCardBottom = (props) => {
                 <span>
                   {values &&
                   props.userAddress !== null &&
-                  props.harvestValueOnFarms.hasOwnProperty(
-                    props.isActiveOpen
+                  Object.prototype.hasOwnProperty.call(
+                    props.harvestValueOnFarms,
+                    props.isActiveOpen,
                   ) &&
-                  props.harvestValueOnFarms[props.isActiveOpen].hasOwnProperty(
-                    farmData.CONTRACT
+                  Object.prototype.hasOwnProperty.call(
+                    props.harvestValueOnFarms[props.isActiveOpen],
+                    farmData.CONTRACT,
                   ) &&
-                  props.harvestValueOnFarms[props.isActiveOpen][
-                    farmData.CONTRACT
-                  ].totalRewards > 0 ? (
-                    props.harvestValueOnFarms[props.isActiveOpen][
-                      farmData.CONTRACT
-                    ].totalRewards.toFixed(6)
-                  ) : (
-                    <span className="shimmer">99999999</span>
-                  )}
+                  props.harvestValueOnFarms[props.isActiveOpen][farmData.CONTRACT].totalRewards >
+                    0 ? (
+                      props.harvestValueOnFarms[props.isActiveOpen][
+                        farmData.CONTRACT
+                      ].totalRewards.toFixed(6)
+                    ) : (
+                      <span className="shimmer">99999999</span>
+                    )}
                 </span>
               </div>
             )}
@@ -153,7 +144,7 @@ const FarmCardBottom = (props) => {
                 props.harvestOnFarm(
                   props.farmCardData.identifier,
                   props.isActiveOpen,
-                  props.farmCardData.position
+                  props.farmCardData.position,
                 );
               }}
               color={stakedAmount > 0 ? 'primary' : 'default'}
@@ -173,13 +164,9 @@ const FarmCardBottom = (props) => {
 
             <div className="d-flex">
               <div
-                className={clsx(
-                  styles.harvestStakeAmt,
-                  'mr-2 justify-content-end',
-                  {
-                    [styles.empty]: !stakedAmount,
-                  }
-                )}
+                className={clsx(styles.harvestStakeAmt, 'mr-2 justify-content-end', {
+                  [styles.empty]: !stakedAmount,
+                })}
               >
                 <span>{stakedAmount?.toFixed(5)}</span>
               </div>
@@ -193,7 +180,7 @@ const FarmCardBottom = (props) => {
                       props.farmCardData.identifier,
                       properties.title,
                       farmData.CONTRACT,
-                      props.farmCardData.position
+                      props.farmCardData.position,
                     )
                   }
                   onRemove={() =>
@@ -202,7 +189,7 @@ const FarmCardBottom = (props) => {
                       farmData.CONTRACT,
                       properties.title,
                       farmData.withdrawalFeeType,
-                      props.farmCardData.position
+                      props.farmCardData.position,
                     )
                   }
                 />
@@ -214,7 +201,7 @@ const FarmCardBottom = (props) => {
                         props.farmCardData.identifier,
                         properties.title,
                         farmData.CONTRACT,
-                        props.farmCardData.position
+                        props.farmCardData.position,
                       )
                     }
                     color={'default'}
@@ -230,29 +217,20 @@ const FarmCardBottom = (props) => {
 
       {isExpanded && (
         <>
-          <div
-            className={clsx(
-              styles.plentyCardContent,
-              styles.bottomBorder,
-              'd-flex'
-            )}
-          >
+          <div className={clsx(styles.plentyCardContent, styles.bottomBorder, 'd-flex')}>
             <div className={clsx(styles.rightBorder, 'w-50 text-center')}>
               <div>Deposit Fee</div>
               <OverlayTrigger
                 key="top"
                 placement="top"
                 overlay={
-                  <Tooltip
-                    id={`deposit-fee-tooltip`}
-                    arrowProps={{ styles: { display: 'none' } }}
-                  >
+                  <Tooltip id={'deposit-fee-tooltip'} arrowProps={{ styles: { display: 'none' } }}>
                     No deposit fee
                   </Tooltip>
                 }
               >
                 <Button
-                  id={`deposit-fee`}
+                  id={'deposit-fee'}
                   ref={target}
                   size="small"
                   color="mute"
@@ -288,7 +266,7 @@ const FarmCardBottom = (props) => {
               onClick={() =>
                 window.open(
                   `https://better-call.dev/mainnet/${farmData.CONTRACT}/operations`,
-                  '_blank'
+                  '_blank',
                 )
               }
             >
@@ -310,8 +288,17 @@ const FarmCardBottom = (props) => {
 };
 
 FarmCardBottom.propTypes = {
+  farmCardData: PropTypes.object.isRequired,
+  harvestOnFarm: PropTypes.func.isRequired,
+  harvestOperation: PropTypes.any.isRequired,
+  harvestValueOnFarms: PropTypes.any.isRequired,
+  identifier: PropTypes.any.isRequired,
+  isActiveOpen: PropTypes.bool.isRequired,
+  openFarmsStakeModal: PropTypes.func.isRequired,
+  openFarmsUnstakeModal: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
-  farmCardData: FARMS_CARD_DATA_PROPTYPES,
+  userAddress: PropTypes.oneOf().isRequired,
+  userStakes: PropTypes.string.isRequired,
 };
 
 export default FarmCardBottom;

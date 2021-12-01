@@ -1,3 +1,5 @@
+import React from 'react';
+
 const XplentyBalance = () => {
   return (
     <>
@@ -5,9 +7,7 @@ const XplentyBalance = () => {
         <p className="xplenty-total-balance-label">Balance</p>
         <div className="xplenty-token-balance-wrapper flex align-center">
           <img src="" />
-          <span style={{ display: 'inline-block', marginLeft: '6px' }}>
-            0.00 xPLENTY
-          </span>
+          <span style={{ display: 'inline-block', marginLeft: '6px' }}>0.00 xPLENTY</span>
         </div>
       </div>
 
@@ -15,9 +15,7 @@ const XplentyBalance = () => {
         <p className="xplenty-total-balance-label">Unstaked</p>
         <div className="xplenty-token-balance-wrapper flex align-center">
           <img src="" />
-          <span style={{ display: 'inline-block', marginLeft: '6px' }}>
-            0.00 PLENTY
-          </span>
+          <span style={{ display: 'inline-block', marginLeft: '6px' }}>0.00 PLENTY</span>
         </div>
       </div>
     </>

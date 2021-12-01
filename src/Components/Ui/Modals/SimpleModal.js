@@ -1,3 +1,4 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap';
 
@@ -29,24 +30,24 @@ const SimpleModal = (props) => {
       {/* * Header */}
 
       {/* * Body */}
-        <div
-          className={clsx(styles.content, {
-            [styles.noTopPadding]: !props.title,
-          })}
-        >
-          {props.children}
-        </div>
-        {/* * Body */}
-
+      <div
+        className={clsx(styles.content, {
+          [styles.noTopPadding]: !props.title,
+        })}
+      >
+        {props.children}
+      </div>
+      {/* * Body */}
     </Modal>
   );
 };
 
 SimpleModal.propTypes = {
-  title: PropTypes.string,
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
+  children: PropTypes.element.isRequired,
   className: PropTypes.string,
+  onClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  title: PropTypes.string,
 };
 
 export default SimpleModal;
