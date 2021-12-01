@@ -876,7 +876,7 @@ export const fetchWalletBalance = async (
     const storage = await contract.storage();
     let userBalance = 0;
     if (type === 'FA1.2') {
-      if (icon === 'WRAP') {
+      if (icon === 'WRAP' || icon === 'PXL' || icon === 'CRUNCH' || icon === 'crDAO') {
         const userDetails = await storage.assets.ledger.get(addressOfUser);
         let userBalance = userDetails;
         userBalance = userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
@@ -898,7 +898,7 @@ export const fetchWalletBalance = async (
           symbol: icon,
           contractInstance: contract,
         };
-      } else if (icon === 'ETHtz') {
+      } else if (icon === 'ETHtz' || icon === 'FLAME') {
         const userDetails = await storage.ledger.get(addressOfUser);
         let userBalance = userDetails.balance;
         userBalance = userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
@@ -909,7 +909,7 @@ export const fetchWalletBalance = async (
           symbol: icon,
           contractInstance: contract,
         };
-      } else if (icon === 'KALAM' || icon === 'GIF') {
+      } else if (icon === 'KALAM' || icon === 'GIF' || icon === 'INSTA') {
         const userDetails = await storage.ledger.get(addressOfUser);
         let userBalance = userDetails;
         userBalance = userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
@@ -961,6 +961,18 @@ export const fetchWalletBalance = async (
             userBalance = +bigmapValData.args[0].int / Math.pow(10, 8);
           }
         }
+        return {
+          success: true,
+          balance: userBalance,
+          symbol: icon,
+          contractInstance: contract,
+        };
+      } else if (icon === 'kDAO') {
+        const userDetails = await storage.balances.get(addressOfUser);
+        let userBalance = userDetails;
+
+        userBalance = userBalance.toNumber() / Math.pow(10, token_decimal);
+        userBalance = parseFloat(userBalance);
         return {
           success: true,
           balance: userBalance,
