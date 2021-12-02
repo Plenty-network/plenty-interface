@@ -164,7 +164,7 @@ const SwapTab = (props) => {
       swapTokens(
         props.tokenIn.name,
         props.tokenOut.name,
-        props.computedOutDetails.minimum_Out,
+        computedData.data.finalMinimumOut,
         recepientAddress,
         firstTokenAmount,
         props.walletAddress,
@@ -177,14 +177,10 @@ const SwapTab = (props) => {
       });
     } else {
       swapTokenUsingRouteV2(
-        props.tokenIn.name,
-        props.tokenOut.name,
+        props.routeData.bestRoute.path,
+        computedData.data.minimumOut,
         props.walletAddress,
         firstTokenAmount,
-        props.computedOutDetails.minimum_Out,
-        props.computedOutDetails.minimum_Out_Plenty,
-        props.transactionSubmitModal,
-        props.midTokens,
       ).then((swapResp) => {
         handleSwapResponse(swapResp.success);
         setTimeout(() => {
@@ -460,15 +456,14 @@ const SwapTab = (props) => {
 
       <ConfirmSwap
         show={props.showConfirmSwap}
-        computedOutDetails={computedData}
+        computedData={computedData}
         tokenIn={props.tokenIn}
         firstTokenAmount={firstTokenAmount}
-        tokenOut={secondTokenAmount}
+        tokenOut={props.tokenOut}
         slippage={props.slippage}
         confirmSwapToken={confirmSwapToken}
         onHide={props.handleClose}
         midTokens={props.midTokens}
-        {...props}
       />
     </>
   );

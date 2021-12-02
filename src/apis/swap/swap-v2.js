@@ -345,6 +345,7 @@ getBestRouteAPI('kUSD', 'USDtz')
   });
 
 export const swapTokenUsingRouteV2 = async (path, minimum_Out_All, caller, amount) => {
+  console.log({ path, minimum_Out_All, caller, amount });
   try {
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
@@ -371,6 +372,7 @@ export const swapTokenUsingRouteV2 = async (path, minimum_Out_All, caller, amoun
 
     const DataLiteral = {};
     for (let i = 0; i < path.length - 1; i++) {
+      console.log(CONFIG.AMM[connectedNetwork][path[i]].DEX_PAIRS[path[i + 1]]);
       const dexAddress = CONFIG.AMM[connectedNetwork][path[i]].DEX_PAIRS[path[i + 1]].contract;
       const minOut = Math.floor(
         minimum_Out_All[i] * Math.pow(10, CONFIG.AMM[connectedNetwork][path[i + 1]].TOKEN_DECIMAL),
@@ -397,7 +399,7 @@ export const swapTokenUsingRouteV2 = async (path, minimum_Out_All, caller, amoun
         .withContractCall(tokenInInstance.methods.transfer(caller, routerAddress, swapAmount))
         .withContractCall(routerInstance.methods.routerSwap(DataMap, swapAmount, caller));
     } else {
-      batch = Tezos.contract
+      batch = Tezos.wallet
         .batch()
         .withContractCall(
           tokenInInstance.methods.transfer([
@@ -415,7 +417,7 @@ export const swapTokenUsingRouteV2 = async (path, minimum_Out_All, caller, amoun
       success: true,
     };
   } catch (err) {
-    console.log(err);
+    console.trace(err);
     return {
       success: false,
     };

@@ -50,7 +50,7 @@ const ConfirmSwap = (props) => {
                 </div>
 
                 <div className="token-user-input-wrapper" style={{ textAlign: 'right' }}>
-                  {props.computedOutDetails?.data?.tokenOutAmount}
+                  {props.computedData?.data?.tokenOutAmount}
                 </div>
               </div>
             </div>
@@ -79,8 +79,8 @@ const ConfirmSwap = (props) => {
                   </span>
                 </OverlayTrigger>
                 <p className="swap-detail-amt-details ml-auto">
-                  {props.computedOutDetails?.data?.minimumOut
-                    ? props.computedOutDetails.data.minimumOut.toFixed(8)
+                  {props.computedData?.data?.finalMinimumOut
+                    ? props.computedData.data.finalMinimumOut.toFixed(8)
                     : '0.00'}{' '}
                   {props.tokenOut.name}
                 </p>
@@ -108,8 +108,8 @@ const ConfirmSwap = (props) => {
                   </span>
                 </OverlayTrigger>
                 <p className="swap-detail-amt-details ml-auto">
-                  {props.computedOutDetails?.data?.priceImpact
-                    ? props.computedOutDetails.data.priceImpact
+                  {props.computedData?.data?.priceImpact
+                    ? props.computedData.data.priceImpact
                     : '0.00'}{' '}
                   %
                 </p>
@@ -139,12 +139,11 @@ const ConfirmSwap = (props) => {
                 </p>
               </div>
 
-              {props.computedOutDetails?.data?.totalFees && props.midTokens?.[0].name ? (
+              {props.computedData?.data?.totalFees && props.midTokens?.[0].name ? (
                 <div className="flex flex-row align-items-center">
                   <p className="swap-detail-amt-details">Router Fee </p>
                   <p className="swap-detail-amt-details ml-auto">
-                    {props.computedOutDetails?.data.totalFees.toFixed(5)}{' '}
-                    {props.midTokens?.[0].name}
+                    {props.computedData?.data.totalFees.toFixed(5)} {props.midTokens?.[0].name}
                   </p>
                 </div>
               ) : null}
@@ -218,7 +217,8 @@ const ConfirmSwap = (props) => {
 export default ConfirmSwap;
 
 ConfirmSwap.propTypes = {
-  computedOutDetails: PropTypes.any,
+  // computedOutDetails: PropTypes.any,
+  computedData: PropTypes.any,
   confirmSwapToken: PropTypes.any,
   firstTokenAmount: PropTypes.any,
   loading: PropTypes.any,
