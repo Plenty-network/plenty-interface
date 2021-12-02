@@ -6,7 +6,6 @@ import {
   computeTokenOutForRouteBaseByOutAmount,
   computeTokenOutput,
   fetchAllWalletBalance,
-  getRouteSwapData,
   getTokenPrices,
   loadSwapData,
 } from '../../apis/swap/swap';
@@ -21,11 +20,13 @@ import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import { tokens } from '../../constants/swapPage';
 
-import { useLocationStateInSwap } from './hooks';
+import { useLocationStateInSwap, useSwapRouter } from './hooks';
 
 const Swap = (props) => {
   const { activeTab, setActiveTab, tokenIn, setTokenIn, tokenOut, setTokenOut } =
     useLocationStateInSwap();
+
+  const { getBestRoute } = useSwapRouter();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [show, setShow] = useState(false);
@@ -76,31 +77,48 @@ const Swap = (props) => {
     return intersectionArray.map((x) => tokens.find((token) => token.name === x));
   }, [pairExist, tokenIn, tokenOut]);
 
+  // useEffect(() => {
+  //   if (
+  //     Object.prototype.hasOwnProperty.call(tokenIn, 'name') &&
+  //     Object.prototype.hasOwnProperty.call(tokenOut, 'name')
+  //   ) {
+  //     const pairExists = !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
+  //     if (!pairExists) {
+  //       getRouteSwapData(tokenIn.name, tokenOut.name, midTokens).then((data) => {
+  //         if (data.success) {
+  //           //setLoading(false);
+  //           setSwapData(data);
+  //           setLoaderInButton(false);
+  //         }
+  //       });
+  //     } else {
+  //       loadSwapData(tokenIn.name, tokenOut.name).then((data) => {
+  //         if (data.success) {
+  //           setSwapData(data);
+  //           //setLoading(false);
+  //           setLoaderInButton(false);
+  //         }
+  //       });
+  //     }
+  //   }
+  // }, [tokenIn, tokenOut]);
+
   useEffect(() => {
-    if (
-      Object.prototype.hasOwnProperty.call(tokenIn, 'name') &&
-      Object.prototype.hasOwnProperty.call(tokenOut, 'name')
-    ) {
-      const pairExists = !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
-      if (!pairExists) {
-        getRouteSwapData(tokenIn.name, tokenOut.name, midTokens).then((data) => {
-          if (data.success) {
-            //setLoading(false);
-            setSwapData(data);
-            setLoaderInButton(false);
-          }
-        });
-      } else {
-        loadSwapData(tokenIn.name, tokenOut.name).then((data) => {
-          if (data.success) {
-            setSwapData(data);
-            //setLoading(false);
-            setLoaderInButton(false);
+    if (activeTab === 'swap') {
+      if (
+        Object.prototype.hasOwnProperty.call(tokenIn, 'name') &&
+        Object.prototype.hasOwnProperty.call(tokenOut, 'name')
+      ) {
+        getBestRoute(tokenIn, tokenOut).then((route) => {
+          if (route?.bestRoute.path?.length > 2) {
+            //
+          } else {
+            //
           }
         });
       }
     }
-  }, [tokenIn, tokenOut]);
+  }, [tokenIn, tokenOut, activeTab]);
 
   const handleClose = () => {
     setShow(false);
