@@ -920,7 +920,7 @@ export const fetchWalletBalance = async (
           symbol: icon,
           contractInstance: contract,
         };
-      } else if (icon === 'USDtz') {
+      } else if (icon === 'USDtz' || icon === 'PAUL') {
         const userDetails = await storage.ledger.get(addressOfUser);
         let userBalance = userDetails.balance;
         userBalance = userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);

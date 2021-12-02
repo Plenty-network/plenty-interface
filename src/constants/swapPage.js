@@ -29,7 +29,7 @@ import FLAME from '../assets/images/FLAME.png';
 import INSTA from '../assets/images/INSTA.png';
 import kDAO from '../assets/images/kDAO.png';
 import PXL from '../assets/images/PXL.png';
-
+import PAUL from '../assets/images/PAUL.png';
 export const tokens = [
   {
     name: 'CRUNCH',
@@ -89,6 +89,11 @@ export const tokens = [
     name: 'kUSD',
     image: kusd,
     new: false,
+  },
+  {
+    name: 'PAUL',
+    image: PAUL,
+    new: true,
   },
   {
     name: 'PLENTY',

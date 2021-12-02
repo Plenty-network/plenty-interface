@@ -1465,6 +1465,26 @@ export default {
             property: 'token2_pool',
             liquidityToken: 'ctez-kdao-lp',
           },
+          PAUL: {
+            contract: 'KT1LixgLzdK4nseeD6MmmVpokuw9CvpVX9KW',
+            property: 'token2_pool',
+            liquidityToken: 'ctez-paul-lp',
+          },
+        },
+      },
+      PAUL: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT19DUSZw7mfeEATrbWVPHRrWNVbNnmfFAE6',
+        READ_TYPE: 'FA1.2',
+        CALL_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 8,
+        DEX_PAIRS: {
+          ctez: {
+            contract: 'KT1LixgLzdK4nseeD6MmmVpokuw9CvpVX9KW',
+            property: 'token1_pool',
+            liquidityToken: 'ctez-paul-lp',
+          },
         },
       },
       KALAM: {
@@ -1648,7 +1668,7 @@ export default {
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 0,
-        TOKEN_DECIMAL: 9,
+        TOKEN_DECIMAL: 7,
         DEX_PAIRS: {
           ctez: {
             contract: 'KT1EnESbHxmzd2XeENyYNege4L5TKxeatJk9',
@@ -1663,7 +1683,7 @@ export default {
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 0,
-        TOKEN_DECIMAL: 8,
+        TOKEN_DECIMAL: 7,
         DEX_PAIRS: {
           ctez: {
             contract: 'KT1JkHBYp3Pq4TRSkFdc2CRoXFgDkJrfCqUe',
@@ -2109,6 +2129,14 @@ export default {
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
+        CALL_TYPE: 'FA1.2',
+      },
+      'ctez-paul-lp': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1N93veCzepAPydFGGUhDFiA69PoawasxXi',
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 7,
         CALL_TYPE: 'FA1.2',
       },
     },
