@@ -5,8 +5,7 @@ import * as userActions from '../redux/actions/user/user.action';
 import PropTypes from 'prop-types';
 import { BsSearch } from 'react-icons/bs';
 import styles1 from './Tokens/tokens.module.scss';
-import { FormControl, InputGroup } from 'react-bootstrap';
-import { Tab, Tabs } from 'react-bootstrap';
+import { FormControl, InputGroup, Tabs, Tab } from 'react-bootstrap';
 import * as walletActions from '../redux/actions/wallet/wallet.action';
 import Switch from '../Components/Ui/Switch/Switch';
 import StakeModal from '../Components/Ui/Modals/StakeModal';
@@ -32,9 +31,10 @@ import { populateFarmsWithoutData } from '../utils/farmsPageUtils';
 const Farms = (props) => {
   const [showActiveFarms, setShowActiveFarms] = useState([]);
   const [showInActiveFarms, setShowInActiveFarms] = useState([]);
-  const [sortValue, setSortValue] = useState('APR');
+  const DefaultSort = 'APR';
+  const [sortValue, setSortValue] = useState(DefaultSort);
   const [searchValue, setSearchValue] = useState('');
-  const [tabchange, setTabchange] = useState(false);
+  const [tabChange, setTabChange] = useState(false);
 
   // * Initial Call
   useEffect(() => {
@@ -60,7 +60,7 @@ const Farms = (props) => {
     return () => clearInterval(backgroundRefresh);
   }, [props.isActiveOpen, props.userAddress, props.rpcNode]);
 
-  const useSearchedFarmsList = (farms, searchText) => {
+  const searchedFarmsList = (farms, searchText) => {
     if (searchText === '') {
       props.isActiveOpen ? setShowActiveFarms(farms) : setShowInActiveFarms(farms);
     }
@@ -77,7 +77,7 @@ const Farms = (props) => {
     }
   };
 
-  const useSortedFarmsList = (farms, sortByOption) => {
+  const sortedFarmsList = (farms, sortByOption) => {
     if (farms == null) {
       return null;
     }
@@ -106,14 +106,14 @@ const Farms = (props) => {
 
   useEffect(() => {
     if (searchValue === '') {
-      const results = useSortedFarmsList(
+      const results = sortedFarmsList(
         props.isActiveOpen ? props.activeFarms : props.inactiveFarms,
         sortValue,
       );
       props.isActiveOpen ? setShowActiveFarms(results) : setShowInActiveFarms(results);
     }
     if (searchValue) {
-      useSearchedFarmsList(
+      searchedFarmsList(
         props.isActiveOpen
           ? showActiveFarms
             ? showActiveFarms
@@ -129,27 +129,27 @@ const Farms = (props) => {
   useEffect(() => {
     if (sortValue) {
       if (showActiveFarms.length === 0 && showInActiveFarms.length === 0) {
-        const sortresults = useSortedFarmsList(
+        const sortresults = sortedFarmsList(
           props.isActiveOpen ? props.activeFarms : props.inactiveFarms,
           sortValue,
         );
 
         props.isActiveOpen ? setShowActiveFarms(sortresults) : setShowInActiveFarms(sortresults);
       } else {
-        const sortresults = useSortedFarmsList(
+        const sortresults = sortedFarmsList(
           props.isActiveOpen ? showActiveFarms : showInActiveFarms,
           sortValue,
         );
         props.isActiveOpen ? setShowActiveFarms(sortresults) : setShowInActiveFarms(sortresults);
       }
     }
-  }, [sortValue, tabchange, props.activeFarms, props.inactiveFarms, props.isActiveOpen]);
+  }, [sortValue, tabChange, props.activeFarms, props.inactiveFarms, props.isActiveOpen]);
 
   const storeActiveTab = (elem) => {
-    setTabchange(!tabchange);
+    setTabChange(!tabChange);
 
     if (elem === 'allfarms') {
-      const results = useSortedFarmsList(
+      const results = sortedFarmsList(
         props.isActiveOpen ? props.activeFarms : props.inactiveFarms,
         sortValue,
       );
@@ -172,7 +172,7 @@ const Farms = (props) => {
 
   const farmsToRender = useMemo(() => {
     if (props.isActiveOpen && showActiveFarms.length === 0) {
-      const results = useSortedFarmsList(props.activeFarms, sortValue);
+      const results = sortedFarmsList(props.activeFarms, sortValue);
       return results;
     }
     if (showActiveFarms.length !== 0) {
@@ -181,10 +181,10 @@ const Farms = (props) => {
       }
     }
     if (!props.isActiveOpen && showInActiveFarms.length !== 0) {
-      const results = useSortedFarmsList(showInActiveFarms, sortValue);
+      const results = sortedFarmsList(showInActiveFarms, sortValue);
       return results;
     } else {
-      const results = useSortedFarmsList(props.inactiveFarms, sortValue);
+      const results = sortedFarmsList(props.inactiveFarms, sortValue);
       return results;
     }
   }, [
