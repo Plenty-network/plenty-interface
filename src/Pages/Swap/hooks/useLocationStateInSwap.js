@@ -28,6 +28,14 @@ export const useLocationStateInSwap = () => {
     return 'liquidity';
   }, [location.pathname]);
 
+  const paramKeys = useMemo(() => {
+    if (activeTab === 'swap') {
+      return { a: 'from', b: 'to' };
+    }
+
+    return { a: 'tokenA', b: 'tokenB' };
+  }, [activeTab]);
+
   const setActiveTab = (elem) => {
     if (elem) {
       navigate(`/${elem}`);
@@ -42,21 +50,24 @@ export const useLocationStateInSwap = () => {
 
   useEffect(() => {
     setTokenParams({
-      from: tokenIn.name,
-      ...(tokenParams.get('to') ? { to: tokenParams.get('to') } : {}),
+      ...(tokenIn.name ? { [paramKeys.a]: tokenIn.name } : {}),
+      ...(tokenParams.get(paramKeys.b) ? { [paramKeys.b]: tokenParams.get(paramKeys.b) } : {}),
     });
   }, [tokenIn]);
 
   useEffect(() => {
     setTokenParams({
-      ...(tokenParams.get('from') ? { from: tokenParams.get('from') } : {}),
-      to: tokenOut.name,
+      ...(tokenParams.get(paramKeys.a) ? { [paramKeys.a]: tokenParams.get(paramKeys.a) } : {}),
+      ...(tokenOut.name ? { [paramKeys.b]: tokenOut.name } : {}),
     });
   }, [tokenOut]);
 
   useEffect(() => {
-    const tokenInFromParam = tokenParams.get('from');
-    const tokenOutFromParam = tokenParams.get('to');
+    const paramKey =
+      location.pathname === '/swap' ? { a: 'from', b: 'to' } : { a: 'tokenA', b: 'tokenB' };
+
+    const tokenInFromParam = tokenParams.get(paramKey.a);
+    const tokenOutFromParam = tokenParams.get(paramKey.b);
 
     if (tokenInFromParam) {
       const tokenInDatum = tokens.find((token) => token.name === tokenInFromParam);
@@ -82,7 +93,7 @@ export const useLocationStateInSwap = () => {
 
     const activeTabFromLS = localStorage.getItem(SWAP_PAGE_ACTIVE_TAB);
 
-    if (activeTabFromLS) {
+    if (activeTabFromLS && !location.pathname.match('add|remove')) {
       navigate(`/${activeTabFromLS}`);
     }
   }, []);

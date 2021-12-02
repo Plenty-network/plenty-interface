@@ -157,7 +157,7 @@ export const getBestRouteAPI = async (tokenIn, tokenOut) => {
   }
 };
 
-const computeTokenOutput = (
+export const computeTokenOutputV2 = (
   tokenIn_amount,
   tokenIn_supply,
   tokenOut_supply,
@@ -197,60 +197,63 @@ const computeTokenOutput = (
   }
 };
 
+// TOP
 export const computeTokenOutForRouteBaseV2 = (inputAmount, swapData, slippage) => {
+  const initialData = {
+    tokenOutAmount: inputAmount,
+    fees: [],
+    totalFees: 0,
+    minimumOut: [],
+    finalMinimumOut: 0,
+    finalAmount: 0,
+    priceImpact: 0,
+  };
+
   try {
-    let tokenOut_amount = 0;
-    const minimum_Out_All = [];
-    let minimum_Out = 0;
-    let priceImpact = 0;
-    const fees = [];
-    let swapCompute = computeTokenOutput(
-      inputAmount,
-      swapData[0].tokenIn_supply,
-      swapData[0].tokenOut_supply,
-      swapData[0].exchangeFee,
-      slippage,
+    const data = swapData.reduce(
+      (acc, cur) => {
+        const computed = computeTokenOutputV2(
+          acc.tokenOutAmount,
+          cur.tokenIn_supply,
+          cur.tokenOut_supply,
+          cur.exchangeFee,
+          slippage,
+        );
+
+        return {
+          tokenOutAmount: computed.tokenOut_amount,
+          fees: [...acc.fees, computed.fees],
+          totalFees: acc.totalFees + computed.fees,
+          minimumOut: [...acc.minimumOut, computed.minimum_Out],
+          finalMinimumOut: computed.minimum_Out,
+          priceImpact: acc.priceImpact + computed.priceImpact,
+        };
+      },
+      {
+        tokenOutAmount: inputAmount,
+        fees: [],
+        totalFees: 0,
+        minimumOut: [],
+        finalMinimumOut: 0,
+        finalAmount: 0,
+        priceImpact: 0,
+      },
     );
-    minimum_Out_All.push(swapCompute.minimum_Out);
-    fees.push(swapCompute.fees);
-    priceImpact = priceImpact + swapCompute.priceImpact;
-    for (let i = 1; i < swapData.length; i++) {
-      swapCompute = computeTokenOutput(
-        swapCompute.tokenOut_amount,
-        swapData[i].tokenIn_supply,
-        swapData[i].tokenOut_supply,
-        swapData[i].exchangeFee,
-        slippage,
-      );
-      minimum_Out_All.push(swapCompute.minimum_Out);
-      fees.push(swapCompute.fees);
-      priceImpact = priceImpact + swapCompute.priceImpact;
-      if (i === swapData.length - 1) {
-        tokenOut_amount = swapCompute.tokenOut_amount;
-        minimum_Out = swapCompute.minimum_Out;
-      }
-    }
+
     return {
       success: true,
-      tokenOut_amount,
-      minimum_Out_All,
-      minimum_Out,
-      fees,
-      priceImpact,
+      data,
     };
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return {
       success: false,
-      tokenOut_amount: 0,
-      minimum_Out_All: [0],
-      minimum_Out: 0,
-      fees: [0],
-      priceImpact: 0,
+      data: initialData,
     };
   }
 };
 
+// BOTTOM
 export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, swapData, slippage) => {
   try {
     let tokenIn_amount = 0;
@@ -258,7 +261,7 @@ export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, swapData,
     let minimum_Out = 0;
     let priceImpact = 0;
     const fees = [];
-    let swapCompute = computeTokenOutput(
+    let swapCompute = computeTokenOutputV2(
       outputAmount,
       swapData[swapData.length - 1].tokenOut_supply,
       swapData[swapData.length - 1].tokenIn_supply,
@@ -266,7 +269,7 @@ export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, swapData,
       slippage,
     );
     for (let i = swapData.length - 2; i >= 0; i--) {
-      swapCompute = computeTokenOutput(
+      swapCompute = computeTokenOutputV2(
         swapCompute.tokenOut_amount,
         swapData[i].tokenOut_supply,
         swapData[i].tokenIn_supply,
@@ -277,7 +280,7 @@ export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, swapData,
         tokenIn_amount = swapCompute.tokenOut_amount;
       }
     }
-    swapCompute = computeTokenOutput(
+    swapCompute = computeTokenOutputV2(
       tokenIn_amount,
       swapData[0].tokenIn_supply,
       swapData[0].tokenOut_supply,
@@ -288,7 +291,7 @@ export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, swapData,
     fees.push(swapCompute.fees);
     priceImpact = priceImpact + swapCompute.priceImpact;
     for (let i = 1; i < swapData.length; i++) {
-      swapCompute = computeTokenOutput(
+      swapCompute = computeTokenOutputV2(
         swapCompute.tokenOut_amount,
         swapData[i].tokenIn_supply,
         swapData[i].tokenOut_supply,
@@ -304,23 +307,30 @@ export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, swapData,
     }
     return {
       success: true,
-      tokenIn_amount,
-      tokenOut_amount: outputAmount,
-      minimum_Out_All,
-      minimum_Out,
-      fees,
-      priceImpact,
+      data: {
+        tokenInAmount: tokenIn_amount,
+        tokenOutAmount: outputAmount,
+        fees: fees,
+        totalFees: fees.reduce((acc, cur) => acc + cur, 0),
+        minimumOut: minimum_Out_All,
+        finalMinimumOut: minimum_Out,
+        finalAmount: tokenIn_amount,
+        priceImpact: priceImpact,
+      },
     };
   } catch (err) {
     console.log(err);
     return {
       success: false,
-      tokenIn_amount: 0,
-      tokenOut_amount: 0,
-      minimum_Out_All: [0],
-      minimum_Out: 0,
-      fees: [0],
-      priceImpact: 0,
+      data: {
+        tokenOutAmount: outputAmount,
+        fees: [],
+        totalFees: 0,
+        minimumOut: [],
+        finalMinimumOut: 0,
+        finalAmount: 0,
+        priceImpact: 0,
+      },
     };
   }
 };
@@ -334,7 +344,7 @@ getBestRouteAPI('kUSD', 'USDtz')
     console.log(err);
   });
 
-export const swapTokenUsingRoute1 = async (path, minimum_Out_All, caller, amount) => {
+export const swapTokenUsingRouteV2 = async (path, minimum_Out_All, caller, amount) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];

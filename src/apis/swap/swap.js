@@ -41,8 +41,6 @@ export const swapTokens = async (
   recipent,
   tokenInAmount,
   caller,
-  tokenInInstance,
-  dexContractInstance,
   transactionSubmitModal,
 ) => {
   const connectedNetwork = CONFIG.NETWORK;
@@ -66,6 +64,9 @@ export const swapTokens = async (
     const tokenInId = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_ID;
     const tokenOutAddress = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_CONTRACT;
     const tokenOutId = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_ID;
+    const tokenInAddress = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_CONTRACT;
+    const tokenInInstance = await Tezos.contract.at(tokenInAddress);
+    const dexContractInstance = await Tezos.contract.at(dexContractAddress);
 
     tokenInAmount =
       tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);

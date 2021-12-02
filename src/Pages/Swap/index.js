@@ -20,13 +20,12 @@ import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import { tokens } from '../../constants/swapPage';
 
-import { useLocationStateInSwap, useSwapRouter } from './hooks';
+import { useLocationStateInSwap } from './hooks';
+import { getBestRouteAPI } from '../../apis/swap/swap-v2';
 
 const Swap = (props) => {
   const { activeTab, setActiveTab, tokenIn, setTokenIn, tokenOut, setTokenOut } =
     useLocationStateInSwap();
-
-  const { getBestRoute } = useSwapRouter();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [show, setShow] = useState(false);
@@ -41,6 +40,7 @@ const Swap = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
   const [secondTokenAmount, setSecondTokenAmount] = useState('');
   const [swapData, setSwapData] = useState({});
+  const [routeData, setRouteData] = useState({});
   const [computedOutDetails, setComputedOutDetails] = useState({});
   const [getTokenPrice, setGetTokenPrice] = useState({});
   const [userBalances, setUserBalances] = useState({});
@@ -109,16 +109,19 @@ const Swap = (props) => {
         Object.prototype.hasOwnProperty.call(tokenIn, 'name') &&
         Object.prototype.hasOwnProperty.call(tokenOut, 'name')
       ) {
-        getBestRoute(tokenIn, tokenOut).then((route) => {
-          if (route?.bestRoute.path?.length > 2) {
-            //
-          } else {
-            //
+        getBestRouteAPI(tokenIn.name, tokenOut.name).then((response) => {
+          if (response.success) {
+            setRouteData(response);
+            setSwapData(response.bestRoute.swapData);
           }
         });
       }
     }
   }, [tokenIn, tokenOut, activeTab]);
+
+  useEffect(() => {
+    console.log({ swapData, routeData });
+  }, [swapData, routeData]);
 
   const handleClose = () => {
     setShow(false);
@@ -333,6 +336,7 @@ const Swap = (props) => {
                   tokens={tokens}
                   handleTokenType={handleTokenType}
                   swapData={swapData}
+                  routeData={routeData}
                   computedOutDetails={computedOutDetails}
                   userBalances={userBalances}
                   tokenContractInstances={tokenContractInstances}

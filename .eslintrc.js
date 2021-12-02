@@ -15,7 +15,7 @@ const mainRules = {
   ],
   eqeqeq: ['error', 'always', { null: 'ignore' }],
   'no-var': 'error',
-  'no-unused-vars': 'error',
+  'no-unused-vars': ['error', { varsIgnorePattern: '^_' }],
   // TODO Add this rule
   // 'no-console': ['error', { allow: ['warn', 'error'] }],
 };
@@ -23,7 +23,7 @@ const mainRules = {
 // * Add custom dev rules here
 const devRules = {
   ...mainRules,
-  'no-unused-vars': 'warn',
+  'no-unused-vars': ['warn', { varsIgnorePattern: '^_' }],
   // 'no-console': ['warn', { allow: ['warn', 'error'] }],
 };
 

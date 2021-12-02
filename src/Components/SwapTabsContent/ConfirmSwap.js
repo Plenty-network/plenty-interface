@@ -50,7 +50,7 @@ const ConfirmSwap = (props) => {
                 </div>
 
                 <div className="token-user-input-wrapper" style={{ textAlign: 'right' }}>
-                  {props.computedOutDetails.tokenOut_amount}
+                  {props.computedOutDetails?.data?.tokenOutAmount}
                 </div>
               </div>
             </div>
@@ -79,8 +79,8 @@ const ConfirmSwap = (props) => {
                   </span>
                 </OverlayTrigger>
                 <p className="swap-detail-amt-details ml-auto">
-                  {props.computedOutDetails.minimum_Out
-                    ? props.computedOutDetails.minimum_Out.toFixed(8)
+                  {props.computedOutDetails?.data?.minimumOut
+                    ? props.computedOutDetails.data.minimumOut.toFixed(8)
                     : '0.00'}{' '}
                   {props.tokenOut.name}
                 </p>
@@ -108,8 +108,8 @@ const ConfirmSwap = (props) => {
                   </span>
                 </OverlayTrigger>
                 <p className="swap-detail-amt-details ml-auto">
-                  {props.computedOutDetails.priceImpact
-                    ? props.computedOutDetails.priceImpact
+                  {props.computedOutDetails?.data?.priceImpact
+                    ? props.computedOutDetails.data.priceImpact
                     : '0.00'}{' '}
                   %
                 </p>
@@ -139,11 +139,12 @@ const ConfirmSwap = (props) => {
                 </p>
               </div>
 
-              {props.computedOutDetails.addtPlentyFee ? (
+              {props.computedOutDetails?.data?.totalFees && props.midTokens?.[0].name ? (
                 <div className="flex flex-row align-items-center">
                   <p className="swap-detail-amt-details">Router Fee </p>
                   <p className="swap-detail-amt-details ml-auto">
-                    {props.computedOutDetails.addtPlentyFee.toFixed(5)} {props.midTokens?.[0].name}
+                    {props.computedOutDetails?.data.totalFees.toFixed(5)}{' '}
+                    {props.midTokens?.[0].name}
                   </p>
                 </div>
               ) : null}

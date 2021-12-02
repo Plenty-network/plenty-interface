@@ -48,8 +48,8 @@ const SwapDetails = (props) => {
               </span>
             </OverlayTrigger>
             <p className="swap-detail-amt-details ml-auto">
-              {props.computedOutDetails.minimum_Out
-                ? props.computedOutDetails.minimum_Out.toFixed(8)
+              {props.computedOutDetails.data.finalMinimumOut
+                ? props.computedOutDetails.data.finalMinimumOut.toFixed(8)
                 : '0.00'}{' '}
               {props.tokenOut.name}
             </p>
@@ -73,7 +73,9 @@ const SwapDetails = (props) => {
               </span>
             </OverlayTrigger>
             <p className="swap-detail-amt-details ml-auto">
-              {props.computedOutDetails.priceImpact ? props.computedOutDetails.priceImpact : '0.00'}{' '}
+              {props.computedOutDetails.data.priceImpact
+                ? props.computedOutDetails.data.priceImpact
+                : '0.00'}{' '}
               %
             </p>
           </div>
@@ -100,11 +102,11 @@ const SwapDetails = (props) => {
               {props.firstTokenAmount / 400} {props.tokenIn.name}
             </p>
           </div>
-          {props.computedOutDetails.addtPlentyFee ? (
+          {props.computedOutDetails.data.totalFees && props.midTokens?.[0].name ? (
             <div className="swap-detail-amt-wrapper">
               <p className="swap-detail-amt-details">Router Fee </p>
               <p className="swap-detail-amt-details">
-                {props.computedOutDetails.addtPlentyFee.toFixed(5)} {props.midTokens[0].name}
+                {props.computedOutDetails.data.totalFees.toFixed(5)} {props.midTokens[0].name}
               </p>
             </div>
           ) : null}
