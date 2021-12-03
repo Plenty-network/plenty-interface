@@ -10,7 +10,6 @@ import {
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Button from '../Ui/Buttons/Button';
-import config from '../../config/config';
 import {
   computeTokenOutForRouteBaseByOutAmountV2,
   computeTokenOutForRouteBaseV2,
@@ -124,12 +123,9 @@ const SwapTab = (props) => {
     return Math.floor(calculatedValue);
   };
 
-  const pairExist = useMemo(() => {
-    return !!config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name];
-  }, [props.tokenIn, props.tokenOut]);
-
   const handleSwapResponse = (status) => {
     if (status) {
+      console.log({ status });
       props.setLoading(false);
       props.handleLoaderMessage('success', 'Transaction confirmed');
       props.setShowConfirmSwap(false);
@@ -155,7 +151,7 @@ const SwapTab = (props) => {
     props.setLoaderInButton(true);
     const recepientAddress = props.recepient ? props.recepient : props.walletAddress;
 
-    if (pairExist) {
+    if (props.routeData.bestRoute?.path.length <= 2) {
       swapTokens(
         props.tokenIn.name,
         props.tokenOut.name,
@@ -254,7 +250,7 @@ const SwapTab = (props) => {
     );
   }, [
     callSwapToken,
-    pairExist,
+    props.routeData,
     props.connecthWallet,
     firstTokenAmount,
     props.loaderInButton,
