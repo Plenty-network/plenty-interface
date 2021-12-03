@@ -177,7 +177,7 @@
   @media screen and (min-width: 320px) and (max-width: 768px) {
     float: left;
     display: inline;
-    background: white;
+    background: var(--theme-bg-1);
     height: 40px;
     padding: 5px 15px;
     margin-left: 10px;
