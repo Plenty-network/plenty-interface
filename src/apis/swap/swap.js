@@ -41,8 +41,6 @@ export const swapTokens = async (
   recipent,
   tokenInAmount,
   caller,
-  tokenInInstance,
-  dexContractInstance,
   transactionSubmitModal,
 ) => {
   const connectedNetwork = CONFIG.NETWORK;
@@ -66,6 +64,9 @@ export const swapTokens = async (
     const tokenInId = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_ID;
     const tokenOutAddress = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_CONTRACT;
     const tokenOutId = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_ID;
+    const tokenInAddress = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_CONTRACT;
+    const tokenInInstance = await Tezos.contract.at(tokenInAddress);
+    const dexContractInstance = await Tezos.contract.at(dexContractAddress);
 
     tokenInAmount =
       tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
@@ -165,7 +166,6 @@ export const swapTokenUsingRoute = async (
     const Tezos = new TezosToolkit(rpcNode);
     Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
-    console.log({ wallet });
     const tokenInAddress = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_CONTRACT;
     const tokenOutAddress = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_CONTRACT;
     const tokenInId = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_ID;
@@ -213,13 +213,11 @@ export const swapTokenUsingRoute = async (
         requiredTokenId: tokenOutId,
       },
     });
-    console.log({ DataMap });
     const swapAmount = Math.floor(
       amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL),
     );
 
     let batch = null;
-    console.log({ swapAmount, minimum_Out_Plenty, minimum_Out });
     if (tokenInCallType === 'FA1.2') {
       batch = Tezos.wallet
         .batch()
@@ -876,7 +874,7 @@ export const fetchWalletBalance = async (
     const storage = await contract.storage();
     let userBalance = 0;
     if (type === 'FA1.2') {
-      if (icon === 'WRAP') {
+      if (['WRAP', 'PXL', 'CRUNCH', 'crDAO'].includes(icon)) {
         const userDetails = await storage.assets.ledger.get(addressOfUser);
         let userBalance = userDetails;
         userBalance = userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
@@ -898,7 +896,7 @@ export const fetchWalletBalance = async (
           symbol: icon,
           contractInstance: contract,
         };
-      } else if (icon === 'ETHtz') {
+      } else if (icon === 'ETHtz' || icon === 'FLAME') {
         const userDetails = await storage.ledger.get(addressOfUser);
         let userBalance = userDetails.balance;
         userBalance = userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
@@ -909,7 +907,7 @@ export const fetchWalletBalance = async (
           symbol: icon,
           contractInstance: contract,
         };
-      } else if (icon === 'KALAM' || icon === 'GIF') {
+      } else if (icon === 'KALAM' || icon === 'GIF' || icon === 'INSTA') {
         const userDetails = await storage.ledger.get(addressOfUser);
         let userBalance = userDetails;
         userBalance = userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
@@ -920,7 +918,7 @@ export const fetchWalletBalance = async (
           symbol: icon,
           contractInstance: contract,
         };
-      } else if (icon === 'USDtz') {
+      } else if (icon === 'USDtz' || icon === 'PAUL') {
         const userDetails = await storage.ledger.get(addressOfUser);
         let userBalance = userDetails.balance;
         userBalance = userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
@@ -961,6 +959,18 @@ export const fetchWalletBalance = async (
             userBalance = +bigmapValData.args[0].int / Math.pow(10, 8);
           }
         }
+        return {
+          success: true,
+          balance: userBalance,
+          symbol: icon,
+          contractInstance: contract,
+        };
+      } else if (icon === 'kDAO') {
+        let userBalance = await storage.balances.get(addressOfUser);
+        //let userBalance = userDetails;
+
+        userBalance = userBalance.toNumber() / Math.pow(10, token_decimal);
+        userBalance = parseFloat(userBalance);
         return {
           success: true,
           balance: userBalance,
@@ -1073,7 +1083,6 @@ export const fetchAllWalletBalance = async (addressOfUser) => {
       userBalances[response[i].symbol] = response[i].balance;
       contractInstances[response[i].symbol] = response[i].contractInstance;
     }
-    console.log({ userBalances });
     return {
       success: true,
       userBalances,
@@ -1118,9 +1127,7 @@ const getuDEFIPrice = async () => {
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
 
     const uDEFIOracleUrl = `${rpcNode}chains/main/blocks/head/context/contracts/KT1UuqJiGQgfNrTK5tuR1wdYi5jJ3hnxSA55/storage`;
-    console.log({ uDEFIOracleUrl });
     const uedfipriceResponse = await axios.get(uDEFIOracleUrl);
-    console.log({ uedfipriceResponse });
     let uDEFIinUSD = uedfipriceResponse.data.args[0].args[1].int;
     uDEFIinUSD = parseInt(uDEFIinUSD);
     uDEFIinUSD = parseFloat(uDEFIinUSD / Math.pow(10, 6));
@@ -1142,13 +1149,11 @@ export const getTokenPrices = async () => {
     promises.push(getCtezPrice());
     promises.push(getuDEFIPrice());
     const promisesResponse = await Promise.all(promises);
-    console.log(promisesResponse);
     // let tokenPriceResponse = await axios.get(
     //   'https://api.teztools.io/token/prices'
     // );
     const tokenPrice = {};
     const tokenPriceResponse = promisesResponse[0].data;
-    console.log({ tokenPriceResponse });
     const tokens = [
       'PLENTY',
       'wDAI',
@@ -1172,6 +1177,12 @@ export const getTokenPrices = async () => {
       'GIF',
       'wUSDT',
       'YOU',
+      'PXL',
+      'INSTA',
+      'crDAO',
+      'CRUNCH',
+      'FLAME',
+      'PAUL',
     ];
     const tokenAddress = {
       PLENTY: {
@@ -1240,6 +1251,24 @@ export const getTokenPrices = async () => {
       YOU: {
         contractAddress: 'KT1Xobej4mc6XgEjDoJoHtTKgbD1ELMvcQuL',
       },
+      PXL: {
+        contractAddress: 'KT1F1mn2jbqQCJcsNgYKVAQjvenecNMY2oPK',
+      },
+      INSTA: {
+        contractAddress: 'KT19y6R8x53uDKiM46ahgguS6Tjqhdj2rSzZ',
+      },
+      FLAME: {
+        contractAddress: 'KT1Wa8yqRBpFCusJWgcQyjhRz7hUQAmFxW7j',
+      },
+      crDAO: {
+        contractAddress: 'KT1XPFjZqCULSnqfKaaYy8hJjeY63UNSGwXg',
+      },
+      CRUNCH: {
+        contractAddress: 'KT1BHCumksALJQJ8q8to2EPigPW6qpyTr7Ng',
+      },
+      PAUL: {
+        contractAddress: 'KT19DUSZw7mfeEATrbWVPHRrWNVbNnmfFAE6',
+      },
     };
     for (const i in tokenPriceResponse.contracts) {
       if (tokens.includes(tokenPriceResponse.contracts[i].symbol)) {
@@ -1254,7 +1283,6 @@ export const getTokenPrices = async () => {
     }
     tokenPrice['ctez'] = promisesResponse[1].ctezPriceInUSD;
     tokenPrice['uDEFI'] = promisesResponse[2].uDEFIinUSD;
-    console.log({ tokenPrice });
     return {
       success: true,
       tokenPrice,

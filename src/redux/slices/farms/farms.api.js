@@ -348,9 +348,7 @@ const getPriceForPlentyLpTokens = async (
     token2Amount =
       (token2Amount * tokenData['token1'].tokenValue) /
       Math.pow(10, tokenData['token1'].tokenDecimal);
-
     const totalAmount = (token1Amount + token2Amount).toFixed(2);
-
     return {
       success: true,
       identifier,
@@ -429,7 +427,32 @@ export const getFarmsDataAPI = async (isActive) => {
           key === 'PLENTY - cTez' ||
           key === 'uUSD - YOU' ||
           key === 'uUSD - uDEFI' ||
-          key === 'uUSD - wUSDC'
+          key === 'uUSD - wUSDC' ||
+          key === 'ctez - kUSD' ||
+          key === 'ctez - USDtz' ||
+          key === 'ctez - wUSDT' ||
+          key === 'ctez - wBUSD' ||
+          key === 'ctez - wUSDC' ||
+          key === 'ctez - wDAI' ||
+          key === 'ctez - KALAM' ||
+          key === 'ctez - GIF' ||
+          key === 'ctez - ETHtz' ||
+          key === 'ctez - QUIPU' ||
+          key === 'ctez - hDAO' ||
+          key === 'ctez - kDAO' ||
+          key === 'ctez - wWETH' ||
+          key === 'ctez - uUSD' ||
+          key === 'ctez - FLAME' ||
+          key === 'ctez - SMAK' ||
+          key === 'ctez - crDAO' ||
+          key === 'ctez - PXL' ||
+          key === 'ctez - UNO' ||
+          key === 'ctez - WRAP' ||
+          key === 'ctez - wWBTC' ||
+          key === 'ctez - tzBTC' ||
+          key === 'ctez - PAUL' ||
+          key === 'ctez - INSTA' ||
+          key === 'ctez - CRUNCH'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(
@@ -445,7 +468,6 @@ export const getFarmsDataAPI = async (isActive) => {
     }
     const response = await Promise.all(dexPromises);
     const lpPricesInUsd = {};
-    console.log({ lpPricesInUsd });
     for (const i in response) {
       if (response[i].lpPriceInXtz * xtzPriceInUsd) {
         lpPricesInUsd[response[i].identifier] = response[i].lpPriceInXtz * xtzPriceInUsd;
@@ -500,7 +522,6 @@ export const getFarmsDataAPI = async (isActive) => {
     const farmsData = {};
 
     const farmResponse = await Promise.all(promises);
-    console.log({ farmResponse });
     for (const i in farmResponse) {
       farmsData[farmResponse[i].address] = {
         identifier: farmResponse[i].identifier,
@@ -511,7 +532,6 @@ export const getFarmsDataAPI = async (isActive) => {
         rewardRate: farmResponse[i].rewardRate,
       };
     }
-    console.log({ farmsData });
     return {
       success: true,
       response: farmsData,

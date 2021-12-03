@@ -13,8 +13,6 @@ import OtherPages from '../Pages/OtherPages';
 // * Lazy loading
 const Swap = React.lazy(() => import('../Pages/Swap'));
 const Farms = React.lazy(() => import('../Pages/Farms'));
-const Ponds = React.lazy(() => import('../Pages/Ponds'));
-const Pools = React.lazy(() => import('../Pages/Pools'));
 const Tokens = React.lazy(() => import('../Pages/Tokens/Tokens'));
 const Frontpage = React.lazy(() => import('../Pages/Frontpage/Frontpage'));
 const Stake = React.lazy(() => import('../Pages/xPlenty'));
@@ -78,7 +76,7 @@ const MyRoutes = (props) => {
               }
             />
             <Route
-              path="/liquidity"
+              path="/liquidity/*"
               element={
                 <OtherPages {...otherPageProps}>
                   <Swap walletAddress={props.userAddress} connecthWallet={connectWallet} />
@@ -90,22 +88,6 @@ const MyRoutes = (props) => {
               element={
                 <OtherPages {...otherPageProps}>
                   <Farms walletAddress={props.userAddress} />
-                </OtherPages>
-              }
-            />
-            <Route
-              path="/pools"
-              element={
-                <OtherPages {...otherPageProps}>
-                  <Pools walletAddress={props.userAddress} />
-                </OtherPages>
-              }
-            />
-            <Route
-              path="/ponds"
-              element={
-                <OtherPages {...otherPageProps}>
-                  <Ponds walletAddress={props.userAddress} />
                 </OtherPages>
               }
             />

@@ -2,20 +2,18 @@ import PropTypes from 'prop-types';
 import { MdChevronRight } from 'react-icons/all';
 import { Image, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import React, { useMemo } from 'react';
-import config from '../config/config';
+import { tokens } from '../constants/swapPage';
 
 const SwapDetails = (props) => {
   const swapRoute = useMemo(() => {
-    if (config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]) {
-      return null;
+    if (props.routeData.bestRoute?.path.length > 2) {
+      return props.routeData.bestRoute.path.map((tokenName) =>
+        tokens.find((token) => token.name === tokenName),
+      );
     }
 
-    if (props.midTokens === null) {
-      return null;
-    }
-
-    return [props.tokenIn, ...props.midTokens, props.tokenOut];
-  }, [props.tokenIn, props.midTokens, props.tokenOut]);
+    return null;
+  }, [props.routeData]);
 
   if (!props.firstTokenAmount && !swapRoute) {
     return null;
@@ -48,8 +46,8 @@ const SwapDetails = (props) => {
               </span>
             </OverlayTrigger>
             <p className="swap-detail-amt-details ml-auto">
-              {props.computedOutDetails.minimum_Out
-                ? props.computedOutDetails.minimum_Out.toFixed(8)
+              {props.computedOutDetails.data.finalMinimumOut
+                ? props.computedOutDetails.data.finalMinimumOut.toFixed(8)
                 : '0.00'}{' '}
               {props.tokenOut.name}
             </p>
@@ -73,7 +71,9 @@ const SwapDetails = (props) => {
               </span>
             </OverlayTrigger>
             <p className="swap-detail-amt-details ml-auto">
-              {props.computedOutDetails.priceImpact ? props.computedOutDetails.priceImpact : '0.00'}{' '}
+              {props.computedOutDetails.data.priceImpact
+                ? props.computedOutDetails.data.priceImpact
+                : '0.00'}{' '}
               %
             </p>
           </div>
@@ -100,14 +100,6 @@ const SwapDetails = (props) => {
               {props.firstTokenAmount / 400} {props.tokenIn.name}
             </p>
           </div>
-          {props.computedOutDetails.addtPlentyFee ? (
-            <div className="swap-detail-amt-wrapper">
-              <p className="swap-detail-amt-details">Router Fee </p>
-              <p className="swap-detail-amt-details">
-                {props.computedOutDetails.addtPlentyFee.toFixed(5)} {props.midTokens[0].name}
-              </p>
-            </div>
-          ) : null}
         </>
       )}
 
@@ -122,7 +114,7 @@ const SwapDetails = (props) => {
               <div key={token.name} className="d-flex my-2">
                 <Image src={token.image} height={20} width={20} alt={''} />
                 <span className="mx-1 my-auto">{token.name}</span>
-                {idx < 2 && <MdChevronRight className="mr-1" fontSize={20} />}
+                {swapRoute[idx + 1] && <MdChevronRight className="mr-1" fontSize={20} />}
               </div>
             ))}
           </div>
@@ -135,7 +127,8 @@ const SwapDetails = (props) => {
 SwapDetails.propTypes = {
   computedOutDetails: PropTypes.any,
   firstTokenAmount: PropTypes.any,
-  midTokens: PropTypes.any,
+  routeData: PropTypes.any,
+  // midTokens: PropTypes.any,
   tokenIn: PropTypes.any,
   tokenOut: PropTypes.any,
 };

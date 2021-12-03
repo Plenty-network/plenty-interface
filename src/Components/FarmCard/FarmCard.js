@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styles from '../../assets/scss/partials/_farms.module.scss';
 import Image from 'react-bootstrap/Image';
@@ -17,7 +17,9 @@ const FarmCard = (props) => {
   const { farmData, properties, values } = props.farmCardData;
 
   const apyCalculate = (apr) => ((Math.pow(1 + apr / 100 / 365, 365) - 1) * 100).toFixed(0);
-
+  const tokens = useMemo(() => {
+    return props.farmCardData.identifier.split(' - ');
+  }, [props.farmCardData.identifier]);
   const getAPR = () => {
     try {
       const apr = values?.APR ?? 0;
@@ -108,7 +110,7 @@ const FarmCard = (props) => {
             <div className="text-right">
               <p className={styles.title}>{properties.title}</p>
               <a
-                href={farmData.liquidityLink}
+                href={`/liquidity?tokenA=${tokens[0]}&tokenB=${tokens[1]}`}
                 target="_blank"
                 className={clsx(
                   styles.titleBadge,
