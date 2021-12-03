@@ -83,7 +83,7 @@ export const tokens = [
   {
     name: 'kDAO',
     image: kDAO,
-    new: false,
+    new: true,
   },
   {
     name: 'kUSD',
@@ -103,7 +103,7 @@ export const tokens = [
   {
     name: 'PXL',
     image: PXL,
-    new: false,
+    new: true,
   },
   {
     name: 'QUIPU',
