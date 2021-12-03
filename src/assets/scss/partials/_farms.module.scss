@@ -158,6 +158,10 @@
   color: var(--theme-primary-1);
   font-weight: 500;
   padding-left: 10px;
+
+  & > option {
+    width: 40px;
+  }
 }
 
 .selectForm {
