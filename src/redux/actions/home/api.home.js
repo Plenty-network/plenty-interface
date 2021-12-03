@@ -378,16 +378,6 @@ const getAllActiveContractAddresses = async () => {
       }
     }
   }
-  for (const x in CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork]) {
-    if (CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][x]['active'].length > 0) {
-      for (const y in CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][x]['active']) {
-        contracts.push({
-          contract: CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][x]['active'][y]['address'],
-          mapId: CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][x]['active'][y]['mapId'],
-        });
-      }
-    }
-  }
   return contracts;
 };
 
@@ -1019,6 +1009,7 @@ export const harvestAllHelper = async (userAddress, dispatchHarvestAllProcessing
                 allActiveContracts[key].mapId,
                 packedKey,
               );
+
         if (allActiveContracts[key].x === 'PLENTY - GIF') {
           if (output.totalRewards[0] > 0) {
             promises.push(await Tezos.wallet.at(allActiveContracts[key].contract));
@@ -1205,14 +1196,14 @@ export const plentyToHarvestHelper = async (addressOfUser) => {
   const promises = [
     getHarvestValue(addressOfUser, 'FARMS', true),
     getHarvestValue(addressOfUser, 'FARMS', false),
-    getHarvestValue(addressOfUser, 'POOLS', true),
-    getHarvestValue(addressOfUser, 'POOLS', false),
   ];
   const response = await Promise.all(promises);
   response.forEach((item) => {
     if (item.success) {
       for (const key in item.response) {
-        plentyToHarvest += item.response[key].totalRewards;
+        if (!isNaN(item.response[key].totalRewards)) {
+          plentyToHarvest += item.response[key].totalRewards;
+        }
       }
     } else {
       return {
