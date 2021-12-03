@@ -258,6 +258,8 @@ const SwapTab = (props) => {
     props.walletAddress,
   ]);
 
+  console.log(props.routeData);
+
   return (
     <>
       <div className="swap-content-box-wrapper">
@@ -395,13 +397,13 @@ const SwapTab = (props) => {
                 placement="auto"
                 overlay={
                   <Tooltip id="swap-token-out-tooltip" {...props}>
-                    {props.routeData.tokenOutPerTokenIn}
+                    {props.routeData.bestRoute.tokenOutPerTokenIn}
                   </Tooltip>
                 }
               >
                 <div>
-                  {props.routeData.tokenOutPerTokenIn
-                    ? props.routeData.tokenOutPerTokenIn.toFixed(3)
+                  {props.routeData.bestRoute.tokenOutPerTokenIn
+                    ? props.routeData.bestRoute.tokenOutPerTokenIn.toFixed(3)
                     : 0}{' '}
                   {props.tokenOut.name}
                 </div>
