@@ -34,6 +34,32 @@ import YOU from '../assets/images/you-gov.png';
 
 import PropTypes from 'prop-types';
 
+import ctezCRUNCH from '../assets/images/farms/ctez-CRUNCH.png';
+import ctezGIF from '../assets/images/farms/ctez-GIF.png';
+import ctezkUSD from '../assets/images/farms/ctez-kUSD.png';
+import ctezUSDtz from '../assets/images/farms/ctez-USDtz.png';
+import ctezwDAI from '../assets/images/farms/ctez-wDAI.png';
+import ctezWRAP from '../assets/images/farms/ctez-WRAP.png';
+import ctezwUSDT from '../assets/images/farms/ctez-wUSDT.png';
+import ctezETHtz from '../assets/images/farms/ctez-ETHtz.png';
+import ctezINSTA from '../assets/images/farms/ctez-INSTA.png';
+import ctezPAUL from '../assets/images/farms/ctez-PAUL.png';
+import ctezPXL from '../assets/images/farms/ctez-PXL.png';
+import ctezQUIPU from '../assets/images/farms/ctez-QUIPU.png';
+import ctezUNO from '../assets/images/farms/ctez-UNO.png';
+import ctezwBUSD from '../assets/images/farms/ctez-wBUSD.png';
+import ctezwUSDC from '../assets/images/farms/ctez-wUSDC.png';
+import ctezwWBTC from '../assets/images/farms/ctez-wWBTC.png';
+import ctezFLAME from '../assets/images/farms/ctez-FLAME.png';
+import ctezkDAO from '../assets/images/farms/ctez-kDAO.png';
+import ctezuUSD from '../assets/images/farms/ctez-uUSD.png';
+import ctezwWETH from '../assets/images/farms/ctez-wWETH.png';
+import ctezcrDAO from '../assets/images/farms/ctez-crDAO.png';
+import ctezhDAO from '../assets/images/farms/ctez-hDAO.png';
+import ctezKALAM from '../assets/images/farms/ctez-KALAM.png';
+import cteztzBTC from '../assets/images/farms/ctez-tzBTC.png';
+import ctezSMAK from '../assets/images/farms/ctez-SMAK.png';
+
 export const FARMS_CARD_DATA_PROPTYPES = PropTypes.shape({
   farmData: PropTypes.shape({
     LP_TOKEN: PropTypes.string,
@@ -710,7 +736,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / kUSD LP': {
-    image: uUSDuDEFI,
+    image: ctezkUSD,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / kUSD LP',
@@ -730,7 +756,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / USDtz LP': {
-    image: uUSDuDEFI,
+    image: ctezUSDtz,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / USDtz LP',
@@ -750,7 +776,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / wUSDC LP': {
-    image: uUSDuDEFI,
+    image: ctezwUSDC,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / wUSDC LP',
@@ -770,7 +796,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / wUSDT LP': {
-    image: uUSDuDEFI,
+    image: ctezwUSDT,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / wUSDT LP',
@@ -790,7 +816,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / wBUSD LP': {
-    image: uUSDuDEFI,
+    image: ctezwBUSD,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / wBUSD LP',
@@ -810,7 +836,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / wDAI LP': {
-    image: uUSDuDEFI,
+    image: ctezwDAI,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / wDAI LP',
@@ -830,7 +856,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / KALAM LP': {
-    image: uUSDuDEFI,
+    image: ctezKALAM,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / KALAM LP',
@@ -850,7 +876,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / GIF LP': {
-    image: uUSDuDEFI,
+    image: ctezGIF,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / GIF LP',
@@ -870,7 +896,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / ETHtz LP': {
-    image: uUSDuDEFI,
+    image: ctezETHtz,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / ETHtz LP',
@@ -890,7 +916,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / QUIPU LP': {
-    image: uUSDuDEFI,
+    image: ctezQUIPU,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / QUIPU LP',
@@ -910,7 +936,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / hDAO LP': {
-    image: uUSDuDEFI,
+    image: ctezhDAO,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / hDAO LP',
@@ -930,7 +956,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / kDAO LP': {
-    image: uUSDuDEFI,
+    image: ctezkDAO,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / kDAO LP',
@@ -950,7 +976,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / wWETH LP': {
-    image: uUSDuDEFI,
+    image: ctezwWETH,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / wWETH LP',
@@ -970,7 +996,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / uUSD LP': {
-    image: uUSDuDEFI,
+    image: ctezuUSD,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / uUSD LP',
@@ -990,7 +1016,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / FLAME LP': {
-    image: uUSDuDEFI,
+    image: ctezFLAME,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / FLAME LP',
@@ -1010,7 +1036,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / SMAK LP': {
-    image: uUSDuDEFI,
+    image: ctezSMAK,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / SMAK LP',
@@ -1030,7 +1056,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / crDAO LP': {
-    image: uUSDuDEFI,
+    image: ctezcrDAO,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / crDAO LP',
@@ -1050,7 +1076,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / PXL LP': {
-    image: uUSDuDEFI,
+    image: ctezPXL,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / PXL LP',
@@ -1070,7 +1096,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / UNO LP': {
-    image: uUSDuDEFI,
+    image: ctezUNO,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / UNO LP',
@@ -1090,7 +1116,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / WRAP LP': {
-    image: uUSDuDEFI,
+    image: ctezWRAP,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / WRAP LP',
@@ -1110,7 +1136,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / wWBTC LP': {
-    image: uUSDuDEFI,
+    image: ctezwWBTC,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / wWBTC LP',
@@ -1130,7 +1156,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / tzBTC LP': {
-    image: uUSDuDEFI,
+    image: cteztzBTC,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / tzBTC LP',
@@ -1150,7 +1176,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / PAUL LP': {
-    image: uUSDuDEFI,
+    image: ctezPAUL,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / PAUL LP',
@@ -1170,7 +1196,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / CRUNCH LP': {
-    image: uUSDuDEFI,
+    image: ctezCRUNCH,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / CRUNCH LP',
@@ -1190,7 +1216,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
   },
   'ctez / INSTA LP': {
-    image: uUSDuDEFI,
+    image: ctezINSTA,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ctez / INSTA LP',
