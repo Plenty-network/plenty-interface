@@ -158,7 +158,6 @@ const fetchStorageOfStakingContract = async (
     APR = APR * 100;
 
     const totalLiquidty = totalSupply * priceOfStakeTokenInUsd;
-    console.log(identifier, totalSupply, totalLiquidty, priceOfStakeTokenInUsd);
     return {
       success: true,
       identifier,
@@ -349,9 +348,7 @@ const getPriceForPlentyLpTokens = async (
     token2Amount =
       (token2Amount * tokenData['token1'].tokenValue) /
       Math.pow(10, tokenData['token1'].tokenDecimal);
-
     const totalAmount = (token1Amount + token2Amount).toFixed(2);
-
     return {
       success: true,
       identifier,
@@ -471,7 +468,6 @@ export const getFarmsDataAPI = async (isActive) => {
     }
     const response = await Promise.all(dexPromises);
     const lpPricesInUsd = {};
-    console.log({ lpPricesInUsd });
     for (const i in response) {
       if (response[i].lpPriceInXtz * xtzPriceInUsd) {
         lpPricesInUsd[response[i].identifier] = response[i].lpPriceInXtz * xtzPriceInUsd;

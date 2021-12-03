@@ -3661,7 +3661,7 @@ export default {
           {
             LP_TOKEN: 'KT1GhzTxzgXgdv1rRCppAB5D4poXiUgp8yoU',
             CONTRACT: 'KT1HpcPqU2atG75bpSy6hUzuWdULi7Kx9eaw',
-            DEX: 'KT1HpcPqU2atG75bpSy6hUzuWdULi7Kx9eaw',
+            DEX: 'KT1WR19YA8Go6GbTvtrMpUEEGSuQYxgz2ZVW',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             CARD_TYPE: 'ctez / PXL LP',
             TOKEN_DECIMAL: 6,
