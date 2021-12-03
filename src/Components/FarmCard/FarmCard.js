@@ -18,7 +18,6 @@ const FarmCard = (props) => {
 
   const apyCalculate = (apr) => ((Math.pow(1 + apr / 100 / 365, 365) - 1) * 100).toFixed(0);
   const tokens = props.farmCardData.identifier.split(' - ');
-  console.log({ tokens });
   const getAPR = () => {
     try {
       const apr = values?.APR ?? 0;
