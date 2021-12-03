@@ -258,8 +258,6 @@ const SwapTab = (props) => {
     props.walletAddress,
   ]);
 
-  console.log(props.routeData);
-
   return (
     <>
       <div className="swap-content-box-wrapper">
