@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import FarmCard from '../Components/FarmCard/FarmCard';
 import { connect } from 'react-redux';
 import * as userActions from '../redux/actions/user/user.action';
@@ -27,14 +27,12 @@ import {
   unstakeOnFarmThunk,
 } from '../redux/slices/farms/farms.thunk';
 import { populateFarmsWithoutData } from '../utils/farmsPageUtils';
+import { FARM_SORT_OPTIONS, FARM_TAB } from '../constants/farmsPage';
 
 const Farms = (props) => {
-  const [showActiveFarms, setShowActiveFarms] = useState([]);
-  const [showInActiveFarms, setShowInActiveFarms] = useState([]);
-  const DefaultSort = 'APR';
-  const [sortValue, setSortValue] = useState(DefaultSort);
+  const [sortValue, setSortValue] = useState(FARM_SORT_OPTIONS.APR);
   const [searchValue, setSearchValue] = useState('');
-  const [tabChange, setTabChange] = useState(false);
+  const [tabChange, setTabChange] = useState(FARM_TAB.ALL);
 
   // * Initial Call
   useEffect(() => {
@@ -60,137 +58,58 @@ const Farms = (props) => {
     return () => clearInterval(backgroundRefresh);
   }, [props.isActiveOpen, props.userAddress, props.rpcNode]);
 
-  const searchedFarmsList = (farms, searchText) => {
-    if (searchText === '') {
-      props.isActiveOpen ? setShowActiveFarms(farms) : setShowInActiveFarms(farms);
-    }
-    if (props.isActiveOpen) {
-      const searchResults = farms?.filter((farm) =>
-        farm.farmData.CARD_TYPE.toLowerCase().includes(searchText.toLowerCase()),
-      );
-      setShowActiveFarms(searchResults);
-    } else {
-      const searchResults = farms?.filter((farm) =>
-        farm.farmData.CARD_TYPE.toLowerCase().includes(searchText.toLowerCase()),
-      );
-      setShowInActiveFarms(searchResults);
-    }
-  };
+  const sortFarmsFunc = useCallback(
+    (a, b) => {
+      if (sortValue === FARM_SORT_OPTIONS.APR) {
+        return Number(a.values?.APR) < Number(b.values?.APR) ? 1 : -1;
+      }
 
-  const sortedFarmsList = (farms, sortByOption) => {
-    if (farms == null) {
-      return null;
-    }
+      if (sortValue === FARM_SORT_OPTIONS.TVL) {
+        return Number(a.values?.totalLiquidty) < Number(b.values?.totalLiquidty) ? 1 : -1;
+      }
 
-    if (sortByOption === 'APR') {
-      return farms.slice().sort((a, b) => (Number(a.values?.APR) < Number(b.values?.APR) ? 1 : -1));
-    }
-
-    if (sortByOption === 'TVL') {
-      return farms
-        .slice()
-        .sort((a, b) =>
-          Number(a.values?.totalLiquidty) < Number(b.values?.totalLiquidty) ? 1 : -1,
-        );
-    }
-
-    if (sortByOption === 'Rewards') {
-      return farms.slice().sort((a, b) => {
+      if (sortValue === FARM_SORT_OPTIONS.REWARDS) {
         const a1 = Number(a.values?.rewardRate * 2880);
         const b1 = Number(b.values?.rewardRate * 2880);
         return a1 < b1 ? 1 : -1;
-      });
-    }
-    return farms;
-  };
-
-  useEffect(() => {
-    if (searchValue === '') {
-      const results = sortedFarmsList(
-        props.isActiveOpen ? props.activeFarms : props.inactiveFarms,
-        sortValue,
-      );
-      props.isActiveOpen ? setShowActiveFarms(results) : setShowInActiveFarms(results);
-    }
-    if (searchValue) {
-      searchedFarmsList(
-        props.isActiveOpen
-          ? showActiveFarms
-            ? showActiveFarms
-            : props.activeFarms
-          : showInActiveFarms
-          ? showInActiveFarms
-          : props.inactiveFarms,
-        searchValue,
-      );
-    }
-  }, [searchValue]);
-
-  useEffect(() => {
-    if (sortValue) {
-      if (showActiveFarms.length === 0 && showInActiveFarms.length === 0) {
-        const sortresults = sortedFarmsList(
-          props.isActiveOpen ? props.activeFarms : props.inactiveFarms,
-          sortValue,
-        );
-
-        props.isActiveOpen ? setShowActiveFarms(sortresults) : setShowInActiveFarms(sortresults);
-      } else {
-        const sortresults = sortedFarmsList(
-          props.isActiveOpen ? showActiveFarms : showInActiveFarms,
-          sortValue,
-        );
-        props.isActiveOpen ? setShowActiveFarms(sortresults) : setShowInActiveFarms(sortresults);
       }
-    }
-  }, [sortValue, tabChange, props.activeFarms, props.inactiveFarms, props.isActiveOpen]);
 
-  const storeActiveTab = (elem) => {
-    setTabChange(!tabChange);
+      return 0;
+    },
+    [sortValue],
+  );
 
-    if (elem === 'allfarms') {
-      const results = sortedFarmsList(
-        props.isActiveOpen ? props.activeFarms : props.inactiveFarms,
-        sortValue,
-      );
-      props.isActiveOpen ? setShowActiveFarms(results) : setShowInActiveFarms(results);
-    }
-    if (elem === 'youfarms') {
-      const searchResults = (props.isActiveOpen ? props.activeFarms : props.inactiveFarms)?.filter(
-        (farm) => farm.farmData.message?.includes('YOU rewards'),
-      );
+  const filterBySearch = useCallback(
+    (farm) => farm.farmData.CARD_TYPE.toLowerCase().includes(searchValue.toLowerCase()),
+    [searchValue],
+  );
 
-      props.isActiveOpen ? setShowActiveFarms(searchResults) : setShowInActiveFarms(searchResults);
-    }
-    if (elem === 'ctez') {
-      const searchResults = (props.isActiveOpen ? props.activeFarms : props.inactiveFarms)?.filter(
-        (farm) => farm.farmData.CARD_TYPE.toLowerCase().includes('ctez'),
-      );
-      props.isActiveOpen ? setShowActiveFarms(searchResults) : setShowInActiveFarms(searchResults);
-    }
-  };
+  const filterByTab = useCallback(
+    (farm) => {
+      if (tabChange === FARM_TAB.CTEZ) {
+        return farm.farmData.CARD_TYPE.toLowerCase().includes('ctez');
+      }
+
+      if (tabChange === FARM_TAB.YOU) {
+        return farm.farmData.message?.includes('YOU rewards');
+      }
+
+      return true;
+    },
+    [tabChange],
+  );
 
   const farmsToRender = useMemo(() => {
-    if (props.isActiveOpen && showActiveFarms.length === 0) {
-      const results = sortedFarmsList(props.activeFarms, sortValue);
-      return results;
-    }
-    if (showActiveFarms.length !== 0) {
-      if (props.isActiveOpen) {
-        return showActiveFarms;
-      }
-    }
-    if (!props.isActiveOpen && showInActiveFarms.length !== 0) {
-      const results = sortedFarmsList(showInActiveFarms, sortValue);
-      return results;
-    } else {
-      const results = sortedFarmsList(props.inactiveFarms, sortValue);
-      return results;
-    }
+    const farmsInView = props.isActiveOpen
+      ? props.activeFarms.slice()
+      : props.inactiveFarms.slice();
+
+    return farmsInView.filter(filterBySearch).filter(filterByTab).sort(sortFarmsFunc);
   }, [
+    filterBySearch,
+    filterByTab,
+    sortFarmsFunc,
     props.activeFarms,
-    showInActiveFarms,
-    showActiveFarms,
     props.inactiveFarms,
     props.isActiveOpen,
   ]);
@@ -204,21 +123,24 @@ const Farms = (props) => {
               className={`swap-container-tab ${styles.farmstab}`}
               mountOnEnter={true}
               unmountOnExit={true}
-              onSelect={(e) => storeActiveTab(e)}
+              onSelect={(e) => setTabChange(e)}
             >
-              <Tab eventKey="allfarms" title="All farms"></Tab>
-              <Tab eventKey="youfarms" title="YOU farms"></Tab>
-              <Tab eventKey="ctez" title="🔥 Ctez Extravaganza 🔥"></Tab>
+              <Tab eventKey={FARM_TAB.ALL} title={FARM_TAB.ALL} />
+              <Tab eventKey={FARM_TAB.YOU} title={FARM_TAB.YOU} />
+              <Tab eventKey={FARM_TAB.CTEZ} title={FARM_TAB.CTEZ} />
             </Tabs>
+
             <div className={styles.selectForm}>
               <span className={styles.sortby}>Sort by:</span>
+
               <select className={styles.formcontrol} onChange={(e) => setSortValue(e.target.value)}>
-                <option value="APR">APR</option>
-                <option value="TVL">TVL</option>
-                <option value="Rewards">Rewards</option>
+                <option value={FARM_SORT_OPTIONS.APR}>{FARM_SORT_OPTIONS.APR}</option>
+                <option value={FARM_SORT_OPTIONS.TVL}>{FARM_SORT_OPTIONS.TVL}</option>
+                <option value={FARM_SORT_OPTIONS.REWARDS}>{FARM_SORT_OPTIONS.REWARDS}</option>
               </select>
             </div>
           </div>
+
           <div className={` mt-5 justify-between  ${styles.header2}`}>
             <div className={styles.leftDiv}>
               <InputGroup className={styles1.searchBar}>

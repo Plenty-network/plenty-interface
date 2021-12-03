@@ -94,6 +94,18 @@ export const FARM_PAGE_MODAL = {
   TRANSACTION_SUCCESS: 'transaction-success',
 };
 
+export const FARM_SORT_OPTIONS = {
+  APR: 'APR',
+  TVL: 'TVL',
+  REWARDS: 'Rewards',
+};
+
+export const FARM_TAB = {
+  CTEZ: '🔥 Ctez Extravaganza 🔥',
+  YOU: 'YOU farms',
+  ALL: 'All farms',
+};
+
 export const FARMS_CARD_TYPE_LIST = {
   'PLENTY / XTZ LP': {
     image: plentyXtz,
