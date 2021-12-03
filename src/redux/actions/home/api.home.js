@@ -378,16 +378,6 @@ const getAllActiveContractAddresses = async () => {
       }
     }
   }
-  // for (const x in CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork]) {
-  //   if (CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][x]['active'].length > 0) {
-  //     for (const y in CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][x]['active']) {
-  //       contracts.push({
-  //         contract: CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][x]['active'][y]['address'],
-  //         mapId: CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][x]['active'][y]['mapId'],
-  //       });
-  //     }
-  //   }
-  // }
   return contracts;
 };
 
