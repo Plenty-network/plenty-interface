@@ -23,15 +23,14 @@ const Switch = (props) => {
       <span className={clsx(styles.label, 'mr-1', { [styles.active]: !getValue() })}>
         {getLabelFor('left')}
       </span>
+      <span className={clsx(styles.label, 'mr-1', { [styles.active]: getValue() })}>
+        {getLabelFor('right')}
+      </span>
 
       <label className={styles.switch}>
         <input type="checkbox" checked={getValue()} onClick={props.onChange} />
         <span className={styles.slider} />
       </label>
-
-      <span className={clsx(styles.label, 'ml-1', { [styles.active]: getValue() })}>
-        {getLabelFor('right')}
-      </span>
     </div>
   );
 };
