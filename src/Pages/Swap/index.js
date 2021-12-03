@@ -77,31 +77,16 @@ const Swap = (props) => {
     return intersectionArray.map((x) => tokens.find((token) => token.name === x));
   }, [pairExist, tokenIn, tokenOut]);
 
-  // useEffect(() => {
-  //   if (
-  //     Object.prototype.hasOwnProperty.call(tokenIn, 'name') &&
-  //     Object.prototype.hasOwnProperty.call(tokenOut, 'name')
-  //   ) {
-  //     const pairExists = !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
-  //     if (!pairExists) {
-  //       getRouteSwapData(tokenIn.name, tokenOut.name, midTokens).then((data) => {
-  //         if (data.success) {
-  //           //setLoading(false);
-  //           setSwapData(data);
-  //           setLoaderInButton(false);
-  //         }
-  //       });
-  //     } else {
-  //       loadSwapData(tokenIn.name, tokenOut.name).then((data) => {
-  //         if (data.success) {
-  //           setSwapData(data);
-  //           //setLoading(false);
-  //           setLoaderInButton(false);
-  //         }
-  //       });
-  //     }
-  //   }
-  // }, [tokenIn, tokenOut]);
+  useEffect(() => {
+    if (
+      Object.prototype.hasOwnProperty.call(tokenIn, 'name') &&
+      Object.prototype.hasOwnProperty.call(tokenOut, 'name')
+    ) {
+      if (tokenIn.name === tokenOut.name) {
+        setTokenOut({});
+      }
+    }
+  }, [tokenIn, tokenOut]);
 
   useEffect(() => {
     if (activeTab === 'swap') {
@@ -117,11 +102,25 @@ const Swap = (props) => {
         });
       }
     }
-  }, [tokenIn, tokenOut, activeTab]);
 
-  useEffect(() => {
-    console.log({ swapData, routeData });
-  }, [swapData, routeData]);
+    if (activeTab === 'liquidity') {
+      if (
+        Object.prototype.hasOwnProperty.call(tokenIn, 'name') &&
+        Object.prototype.hasOwnProperty.call(tokenOut, 'name')
+      ) {
+        const pairExists = !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
+        if (pairExists) {
+          loadSwapData(tokenIn.name, tokenOut.name).then((data) => {
+            if (data.success) {
+              setSwapData(data);
+              //setLoading(false);
+              setLoaderInButton(false);
+            }
+          });
+        }
+      }
+    }
+  }, [tokenIn, tokenOut, activeTab]);
 
   const handleClose = () => {
     setShow(false);
