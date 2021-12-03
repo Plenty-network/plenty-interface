@@ -150,3 +150,97 @@
     margin: auto 12px;
   }
 }
+
+.formcontrol {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--theme-primary-1);
+  font-weight: 500;
+  padding-left: 10px;
+}
+
+.selectForm {
+  float: right;
+  margin-top: -35px;
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    display: none;
+  }
+}
+.selectForm1 {
+  display: none;
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    float: left;
+    display: inline;
+    background: white;
+    height: 40px;
+    padding: 5px 15px;
+    margin-left: 10px;
+    margin-top: 20px;
+  }
+}
+
+.header {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 60px;
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    padding: 0 0;
+    margin: 0 10px;
+  }
+}
+
+.header2 {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 60px;
+  display: flex;
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    margin: 0 10px;
+    display: inline;
+  }
+}
+
+.leftDiv {
+  float: left;
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    margin: 0px 10px;
+
+    float: none;
+  }
+}
+.rightDiv {
+  float: right;
+  position: relative;
+  right: 0px;
+  height: 40px;
+  background: var(--theme-bg-4);
+  border-radius: 6px;
+  padding: 5px 15px;
+  color: var(--theme-text-1);
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    float: right;
+
+    margin-top: 20px;
+    margin-right: 10px;
+  }
+}
+.sortby {
+  color: #647188;
+}
+.farmstab {
+  > a {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 23px;
+    padding-bottom: 10px !important;
+    @media screen and (min-width: 320px) and (max-width: 768px) {
+      padding: 0px;
+      margin: 0 auto;
+    }
+    & .active {
+      border-bottom: 2px solid var(--theme-primary-1) !important;
+    }
+  }
+}

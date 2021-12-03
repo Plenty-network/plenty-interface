@@ -44,8 +44,10 @@ input:checked + .slider:before {
 .label {
   line-height: 28px;
   color: var(--theme-text-3);
+  display: none;
 
   &.active {
+    display: inline;
     color: var(--theme-text-1);
   }
 }

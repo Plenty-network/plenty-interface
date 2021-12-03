@@ -158,6 +158,7 @@ const fetchStorageOfStakingContract = async (
     APR = APR * 100;
 
     const totalLiquidty = totalSupply * priceOfStakeTokenInUsd;
+    console.log(identifier, totalSupply, totalLiquidty, priceOfStakeTokenInUsd);
     return {
       success: true,
       identifier,
@@ -429,7 +430,32 @@ export const getFarmsDataAPI = async (isActive) => {
           key === 'PLENTY - cTez' ||
           key === 'uUSD - YOU' ||
           key === 'uUSD - uDEFI' ||
-          key === 'uUSD - wUSDC'
+          key === 'uUSD - wUSDC' ||
+          key === 'ctez - kUSD' ||
+          key === 'ctez - USDtz' ||
+          key === 'ctez - wUSDT' ||
+          key === 'ctez - wBUSD' ||
+          key === 'ctez - wUSDC' ||
+          key === 'ctez - wDAI' ||
+          key === 'ctez - KALAM' ||
+          key === 'ctez - GIF' ||
+          key === 'ctez - ETHtz' ||
+          key === 'ctez - QUIPU' ||
+          key === 'ctez - hDAO' ||
+          key === 'ctez - kDAO' ||
+          key === 'ctez - wWETH' ||
+          key === 'ctez - uUSD' ||
+          key === 'ctez - FLAME' ||
+          key === 'ctez - SMAK' ||
+          key === 'ctez - crDAO' ||
+          key === 'ctez - PXL' ||
+          key === 'ctez - UNO' ||
+          key === 'ctez - WRAP' ||
+          key === 'ctez - wWBTC' ||
+          key === 'ctez - tzBTC' ||
+          key === 'ctez - PAUL' ||
+          key === 'ctez - INSTA' ||
+          key === 'ctez - CRUNCH'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(
