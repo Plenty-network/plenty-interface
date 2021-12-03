@@ -100,14 +100,6 @@ const SwapDetails = (props) => {
               {props.firstTokenAmount / 400} {props.tokenIn.name}
             </p>
           </div>
-          {/*{props.computedOutDetails.data.totalFees ? (*/}
-          {/*  <div className="swap-detail-amt-wrapper">*/}
-          {/*    <p className="swap-detail-amt-details">Router Fee </p>*/}
-          {/*    <p className="swap-detail-amt-details">*/}
-          {/*      {props.computedOutDetails.data.totalFees.toFixed(5)} {props.midTokens[0].name}*/}
-          {/*    </p>*/}
-          {/*  </div>*/}
-          {/*) : null}*/}
         </>
       )}
 
