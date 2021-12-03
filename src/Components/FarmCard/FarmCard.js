@@ -17,7 +17,8 @@ const FarmCard = (props) => {
   const { farmData, properties, values } = props.farmCardData;
 
   const apyCalculate = (apr) => ((Math.pow(1 + apr / 100 / 365, 365) - 1) * 100).toFixed(0);
-
+  const tokens = props.farmCardData.identifier.split(' - ');
+  console.log({ tokens });
   const getAPR = () => {
     try {
       const apr = values?.APR ?? 0;
@@ -108,7 +109,7 @@ const FarmCard = (props) => {
             <div className="text-right">
               <p className={styles.title}>{properties.title}</p>
               <a
-                href={farmData.liquidityLink}
+                href={'/liquidity?tokenA=' + tokens[0] + '&tokenB=' + tokens[1]}
                 target="_blank"
                 className={clsx(
                   styles.titleBadge,
