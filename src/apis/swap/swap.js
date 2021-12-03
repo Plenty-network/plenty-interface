@@ -876,7 +876,7 @@ export const fetchWalletBalance = async (
     const storage = await contract.storage();
     let userBalance = 0;
     if (type === 'FA1.2') {
-      if (icon === 'WRAP' || icon === 'PXL' || icon === 'CRUNCH' || icon === 'crDAO') {
+      if (['WRAP', 'PXL', 'CRUNCH', 'crDAO'].includes(icon)) {
         const userDetails = await storage.assets.ledger.get(addressOfUser);
         let userBalance = userDetails;
         userBalance = userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
@@ -968,8 +968,8 @@ export const fetchWalletBalance = async (
           contractInstance: contract,
         };
       } else if (icon === 'kDAO') {
-        const userDetails = await storage.balances.get(addressOfUser);
-        let userBalance = userDetails;
+        let userBalance = await storage.balances.get(addressOfUser);
+        //let userBalance = userDetails;
 
         userBalance = userBalance.toNumber() / Math.pow(10, token_decimal);
         userBalance = parseFloat(userBalance);
