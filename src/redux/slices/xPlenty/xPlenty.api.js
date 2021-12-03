@@ -167,7 +167,6 @@ const CheckIfWalletConnected = async (wallet) => {
 };
 
 export const buyXPlenty = async (plentyAmount, minimumExpected, recipient) => {
-  console.log({ plentyAmount, minimumExpected, recipient });
   try {
     const options = {
       name: CONFIG.NAME,
@@ -247,7 +246,6 @@ export const sellXPlenty = async (xPlentyAmount, minimumExpected, recipient) => 
       await batchOperation.confirmation().then(() => batchOperation.opHash);
       store.dispatch(closetransactionInjectionModal());
       store.dispatch(openToastOnSuccess());
-      console.log({ batchOperation });
       return {
         success: true,
         operationId: batchOperation.hash,

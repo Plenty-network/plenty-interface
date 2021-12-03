@@ -1,15 +1,15 @@
-import React, { useEffect, useMemo } from 'react';
-
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import FarmCard from '../Components/FarmCard/FarmCard';
-
 import { connect } from 'react-redux';
 import * as userActions from '../redux/actions/user/user.action';
 import PropTypes from 'prop-types';
+import { BsSearch } from 'react-icons/bs';
+import styles1 from './Tokens/tokens.module.scss';
+import { FormControl, InputGroup, Tabs, Tab } from 'react-bootstrap';
 import * as walletActions from '../redux/actions/wallet/wallet.action';
 import Switch from '../Components/Ui/Switch/Switch';
 import StakeModal from '../Components/Ui/Modals/StakeModal';
 import UnstakeModal from '../Components/Ui/Modals/UnstakeModal';
-
 import styles from '../assets/scss/partials/_farms.module.scss';
 import FarmModals from '../Components/FarmPage/FarmModals';
 import {
@@ -27,8 +27,13 @@ import {
   unstakeOnFarmThunk,
 } from '../redux/slices/farms/farms.thunk';
 import { populateFarmsWithoutData } from '../utils/farmsPageUtils';
+import { FARM_SORT_OPTIONS, FARM_TAB } from '../constants/farmsPage';
 
 const Farms = (props) => {
+  const [sortValue, setSortValue] = useState(FARM_SORT_OPTIONS.APR);
+  const [searchValue, setSearchValue] = useState('');
+  const [tabChange, setTabChange] = useState(FARM_TAB.ALL);
+
   // * Initial Call
   useEffect(() => {
     if (props.activeFarms.length === 0 || props.inactiveFarms.length === 0) {
@@ -53,26 +58,126 @@ const Farms = (props) => {
     return () => clearInterval(backgroundRefresh);
   }, [props.isActiveOpen, props.userAddress, props.rpcNode]);
 
-  const farmsToRender = useMemo(() => {
-    if (props.isActiveOpen) {
-      return props.activeFarms;
-    }
+  const sortFarmsFunc = useCallback(
+    (a, b) => {
+      if (sortValue === FARM_SORT_OPTIONS.APR) {
+        return Number(a.values?.APR) < Number(b.values?.APR) ? 1 : -1;
+      }
 
-    return props.inactiveFarms;
-  }, [props.activeFarms, props.inactiveFarms, props.isActiveOpen]);
+      if (sortValue === FARM_SORT_OPTIONS.TVL) {
+        return Number(a.values?.totalLiquidty) < Number(b.values?.totalLiquidty) ? 1 : -1;
+      }
+
+      if (sortValue === FARM_SORT_OPTIONS.REWARDS) {
+        const a1 = Number(a.values?.rewardRate * 2880);
+        const b1 = Number(b.values?.rewardRate * 2880);
+        return a1 < b1 ? 1 : -1;
+      }
+
+      return 0;
+    },
+    [sortValue],
+  );
+
+  const filterBySearch = useCallback(
+    (farm) => farm.farmData.CARD_TYPE.toLowerCase().includes(searchValue.toLowerCase()),
+    [searchValue],
+  );
+
+  const filterByTab = useCallback(
+    (farm) => {
+      if (tabChange === FARM_TAB.CTEZ) {
+        return farm.farmData.CARD_TYPE.toLowerCase().includes('ctez');
+      }
+
+      if (tabChange === FARM_TAB.YOU) {
+        return farm.farmData.message?.includes('YOU rewards');
+      }
+
+      return true;
+    },
+    [tabChange],
+  );
+
+  const farmsToRender = useMemo(() => {
+    const farmsInView = props.isActiveOpen
+      ? props.activeFarms.slice()
+      : props.inactiveFarms.slice();
+
+    return farmsInView.filter(filterBySearch).filter(filterByTab).sort(sortFarmsFunc);
+  }, [
+    filterBySearch,
+    filterByTab,
+    sortFarmsFunc,
+    props.activeFarms,
+    props.inactiveFarms,
+    props.isActiveOpen,
+  ]);
 
   return (
     <>
       <div>
         <div>
-          <div className="mt-5 d-flex justify-content-center w-100">
-            <Switch
-              value={props.isActiveOpen}
-              onChange={() => props.toggleFarmsType(!props.isActiveOpen)}
-              trueLabel={'Active'}
-              falseLabel={'Inactive'}
-              inverted={true}
-            />
+          <div className={styles.header}>
+            <Tabs
+              className={`swap-container-tab ${styles.farmstab}`}
+              mountOnEnter={true}
+              unmountOnExit={true}
+              onSelect={(e) => setTabChange(e)}
+            >
+              <Tab eventKey={FARM_TAB.ALL} title={FARM_TAB.ALL} />
+              <Tab eventKey={FARM_TAB.YOU} title={FARM_TAB.YOU} />
+              <Tab eventKey={FARM_TAB.CTEZ} title={FARM_TAB.CTEZ} />
+            </Tabs>
+
+            <div className={styles.selectForm}>
+              <span className={styles.sortby}>Sort by:</span>
+
+              <select className={styles.formControl} onChange={(e) => setSortValue(e.target.value)}>
+                <option value={FARM_SORT_OPTIONS.APR}>{FARM_SORT_OPTIONS.APR}</option>
+                <option value={FARM_SORT_OPTIONS.TVL}>{FARM_SORT_OPTIONS.TVL}</option>
+                <option value={FARM_SORT_OPTIONS.REWARDS}>{FARM_SORT_OPTIONS.REWARDS}</option>
+              </select>
+            </div>
+          </div>
+
+          <div className={` mt-5 justify-between  ${styles.header2}`}>
+            <div className={styles.leftDiv}>
+              <InputGroup className={styles1.searchBar}>
+                <InputGroup.Prepend>
+                  <InputGroup.Text className="search-icon border-right-0">
+                    <BsSearch />
+                  </InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl
+                  placeholder="Search"
+                  className={`shadow-none border-left-0 ${styles1.searchBox}`}
+                  value={searchValue}
+                  onChange={(ev) => setSearchValue(ev.target.value)}
+                />
+              </InputGroup>
+            </div>
+            <div className={styles.selectForm1}>
+              <span className={styles.sortby}>Sort by:</span>
+              <select className={styles.formControl} onChange={(e) => setSortValue(e.target.value)}>
+                <option value={FARM_SORT_OPTIONS.APR}>{FARM_SORT_OPTIONS.APR}</option>
+                <option value={FARM_SORT_OPTIONS.TVL}>{FARM_SORT_OPTIONS.TVL}</option>
+                <option value={FARM_SORT_OPTIONS.REWARDS}>{FARM_SORT_OPTIONS.REWARDS}</option>
+              </select>
+            </div>
+            <div>
+              <div className={styles.rightDiv}>
+                <div>
+                  <Switch
+                    value={props.isActiveOpen}
+                    onChange={() => props.toggleFarmsType(!props.isActiveOpen)}
+                    trueLabel={'Active'}
+                    falseLabel={'Inactive'}
+                    inverted={true}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
           <div className={styles.cardsContainer}>
             {farmsToRender?.map((farm) => {

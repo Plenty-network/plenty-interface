@@ -91,7 +91,6 @@ export const getPlentyBalanceOfUser = (userAddress) => {
     );
     Promise.all(balancePromises)
       .then((res) => {
-        console.log({ res });
         dispatch({
           type: actions.PLENTY_BALANCE_FETCH_SUCCESS,
           data: { PLENTY: res[0].balance, xPLENTY: res[1].balance },

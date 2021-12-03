@@ -1,43 +1,30 @@
 import PropTypes from 'prop-types';
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
+import { Tab, Tabs } from 'react-bootstrap';
 
 import AddLiquidity from './LiquidityTabs/AddLiquidity';
 import RemoveLiquidity from './LiquidityTabs/RemoveLiquidity';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 const LiquidityTab = (props) => {
-  let defaultKey = 'add';
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
-  // ! Refactor this
-  const changeLiquidityType = () => {
-    if (window.location.pathname.replace('/liquidity/', '') === 'add') {
-      window.history.pushState(
-        {
-          path: `/liquidity/remove?tokenA=${props.tokenIn.name}&tokenB=${props.tokenOut.name}`,
-        },
-        '',
-        `/liquidity/remove?tokenA=${props.tokenIn.name}&tokenB=${props.tokenOut.name}`,
-      );
-      defaultKey = 'remove';
-    } else {
-      window.history.pushState(
-        {
-          path: `/liquidity/add?tokenA=${props.tokenIn.name}&tokenB=${props.tokenOut.name}`,
-        },
-        '',
-        `/liquidity/add?tokenA=${props.tokenIn.name}&tokenB=${props.tokenOut.name}`,
-      );
-      defaultKey = 'add';
+  const defaultKey = useMemo(() => {
+    if (location.pathname === '/liquidity/remove') {
+      return 'remove';
     }
-  };
 
-  if (window.location.pathname.replace('/liquidity/', '') === 'remove') {
-    defaultKey = 'remove';
-  } else {
-    defaultKey = 'add';
-  }
+    return 'add';
+  }, [location.pathname]);
+
+  const changeLiquidityType = (tab) => {
+    navigate(`/liquidity/${tab}`, {
+      state: { searchParams },
+    });
+  };
 
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
@@ -72,7 +59,7 @@ const LiquidityTab = (props) => {
     <>
       <div className="swap-content-box-wrapper">
         <Tabs
-          defaultActiveKey={defaultKey}
+          ativeKey={defaultKey}
           className={
             !props.tokenOut.name
               ? 'liquidity-container-tab content-hide'

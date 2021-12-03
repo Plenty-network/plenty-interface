@@ -378,16 +378,6 @@ const getAllActiveContractAddresses = async () => {
       }
     }
   }
-  for (const x in CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork]) {
-    if (CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][x]['active'].length > 0) {
-      for (const y in CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][x]['active']) {
-        contracts.push({
-          contract: CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][x]['active'][y]['address'],
-          mapId: CONFIG.STAKING_CONTRACTS.POOLS[connectedNetwork][x]['active'][y]['mapId'],
-        });
-      }
-    }
-  }
   return contracts;
 };
 
@@ -472,7 +462,32 @@ export const getStorageForFarms = async (isActive, tokenPricesData) => {
           key === 'PLENTY - cTez' ||
           key === 'uUSD - YOU' ||
           key === 'uUSD - wUSDC' ||
-          key === 'uUSD - uDEFI'
+          key === 'uUSD - uDEFI' ||
+          key === 'ctez - kUSD' ||
+          key === 'ctez - USDtz' ||
+          key === 'ctez - wUSDT' ||
+          key === 'ctez - wBUSD' ||
+          key === 'ctez - wUSDC' ||
+          key === 'ctez - wDAI' ||
+          key === 'ctez - KALAM' ||
+          key === 'ctez - GIF' ||
+          key === 'ctez - ETHtz' ||
+          key === 'ctez - QUIPU' ||
+          key === 'ctez - hDAO' ||
+          key === 'ctez - kDAO' ||
+          key === 'ctez - wWETH' ||
+          key === 'ctez - uUSD' ||
+          key === 'ctez - FLAME' ||
+          key === 'ctez - SMAK' ||
+          key === 'ctez - crDAO' ||
+          key === 'ctez - PXL' ||
+          key === 'ctez - UNO' ||
+          key === 'ctez - WRAP' ||
+          key === 'ctez - wWBTC' ||
+          key === 'ctez - tzBTC' ||
+          key === 'ctez - PAUL' ||
+          key === 'ctez - INSTA' ||
+          key === 'ctez - CRUNCH'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(
@@ -994,6 +1009,7 @@ export const harvestAllHelper = async (userAddress, dispatchHarvestAllProcessing
                 allActiveContracts[key].mapId,
                 packedKey,
               );
+
         if (allActiveContracts[key].x === 'PLENTY - GIF') {
           if (output.totalRewards[0] > 0) {
             promises.push(await Tezos.wallet.at(allActiveContracts[key].contract));
@@ -1180,14 +1196,14 @@ export const plentyToHarvestHelper = async (addressOfUser) => {
   const promises = [
     getHarvestValue(addressOfUser, 'FARMS', true),
     getHarvestValue(addressOfUser, 'FARMS', false),
-    getHarvestValue(addressOfUser, 'POOLS', true),
-    getHarvestValue(addressOfUser, 'POOLS', false),
   ];
   const response = await Promise.all(promises);
   response.forEach((item) => {
     if (item.success) {
       for (const key in item.response) {
-        plentyToHarvest += item.response[key].totalRewards;
+        if (!isNaN(item.response[key].totalRewards)) {
+          plentyToHarvest += item.response[key].totalRewards;
+        }
       }
     } else {
       return {
