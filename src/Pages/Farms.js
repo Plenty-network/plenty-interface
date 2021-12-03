@@ -133,7 +133,7 @@ const Farms = (props) => {
             <div className={styles.selectForm}>
               <span className={styles.sortby}>Sort by:</span>
 
-              <select className={styles.formcontrol} onChange={(e) => setSortValue(e.target.value)}>
+              <select className={styles.formControl} onChange={(e) => setSortValue(e.target.value)}>
                 <option value={FARM_SORT_OPTIONS.APR}>{FARM_SORT_OPTIONS.APR}</option>
                 <option value={FARM_SORT_OPTIONS.TVL}>{FARM_SORT_OPTIONS.TVL}</option>
                 <option value={FARM_SORT_OPTIONS.REWARDS}>{FARM_SORT_OPTIONS.REWARDS}</option>
@@ -159,7 +159,7 @@ const Farms = (props) => {
             </div>
             <div className={styles.selectForm1}>
               <span className={styles.sortby}>Sort by:</span>
-              <select className={styles.formcontrol} onChange={(e) => setSortValue(e.target.value)}>
+              <select className={styles.formControl} onChange={(e) => setSortValue(e.target.value)}>
                 <option value={FARM_SORT_OPTIONS.APR}>{FARM_SORT_OPTIONS.APR}</option>
                 <option value={FARM_SORT_OPTIONS.TVL}>{FARM_SORT_OPTIONS.TVL}</option>
                 <option value={FARM_SORT_OPTIONS.REWARDS}>{FARM_SORT_OPTIONS.REWARDS}</option>

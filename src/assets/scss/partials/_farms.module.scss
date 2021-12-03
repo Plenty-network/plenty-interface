@@ -151,13 +151,14 @@
   }
 }
 
-.formcontrol {
+.formControl {
   border: none;
   outline: none;
   background: transparent;
   color: var(--theme-primary-1);
   font-weight: 500;
   padding-left: 10px;
+  background: var(--theme-bg-1);
 
   & > option {
     width: 40px;
