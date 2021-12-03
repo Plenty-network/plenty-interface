@@ -173,19 +173,6 @@ const Header = (props) => {
                         Stake
                       </span>
                     </Nav.Link>
-                    <Nav.Link
-                      className={clsx(
-                        splitLocation[1] === 'pools' ? 'menu-item-active' : 'menu-item',
-                        'align-self-end align-self-lg-center d-flex align-items-center',
-                      )}
-                      as={Link}
-                      to="/pools"
-                      onClick={resetActiveTab}
-                    >
-                      <span className={clsx(props.isFrontPage ? 'text-white' : undefined)}>
-                        Pools
-                      </span>
-                    </Nav.Link>
                   </div>
                   <div className="col-lg-6 d-flex flex-column flex-lg-row align-items-end align-items-lg-center">
                     <Nav.Item className="ml-auto">
