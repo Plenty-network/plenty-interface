@@ -53,30 +53,6 @@ const Swap = (props) => {
     return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
   }, [tokenIn, tokenOut]);
 
-  const midTokens = useMemo(() => {
-    if (!tokenIn.name || !tokenOut.name || pairExist) {
-      return null;
-    }
-
-    const AMM = config.AMM[config.NETWORK];
-
-    if (AMM[tokenIn.name].DEX_PAIRS[tokenOut.name]) {
-      return null;
-    }
-
-    const tokenInPairs = Object.keys(AMM[tokenIn.name].DEX_PAIRS);
-    const tokenOutPairs = Object.keys(AMM[tokenOut.name].DEX_PAIRS);
-
-    const intersectionArray = tokenInPairs.filter((x) => tokenOutPairs.includes(x));
-
-    // TODO Implement Two Step Swap
-    if (intersectionArray.length === 0) {
-      return null;
-    }
-
-    return intersectionArray.map((x) => tokens.find((token) => token.name === x));
-  }, [pairExist, tokenIn, tokenOut]);
-
   useEffect(() => {
     if (
       Object.prototype.hasOwnProperty.call(tokenIn, 'name') &&
@@ -98,6 +74,7 @@ const Swap = (props) => {
           if (response.success) {
             setRouteData(response);
             setSwapData(response.bestRoute.swapData);
+            setLoaderInButton(false);
           }
         });
       }
@@ -362,7 +339,6 @@ const Swap = (props) => {
                   fetchUserWalletBalance={fetchUserWalletBalance}
                   loaderInButton={loaderInButton}
                   setLoaderInButton={setLoaderInButton}
-                  midTokens={midTokens}
                 />
               </Tab>
               <Tab eventKey="liquidity" title="Liquidity">

@@ -221,18 +221,6 @@ const SwapTab = (props) => {
         );
       }
 
-      if (!pairExist && props.midTokens === null) {
-        return (
-          <Button
-            disabled
-            color={'primary'}
-            className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
-          >
-            Route does not exist
-          </Button>
-        );
-      }
-
       if (props.loaderInButton) {
         return (
           <Button
@@ -270,7 +258,6 @@ const SwapTab = (props) => {
     props.connecthWallet,
     firstTokenAmount,
     props.loaderInButton,
-    props.midTokens,
     props.tokenOut.name,
     props.walletAddress,
   ]);
@@ -443,7 +430,7 @@ const SwapTab = (props) => {
             computedOutDetails={computedData}
             tokenIn={props.tokenIn}
             tokenOut={props.tokenOut}
-            midTokens={props.midTokens}
+            routeData={props.routeData}
             firstTokenAmount={firstTokenAmount}
           />
         )}
@@ -458,7 +445,7 @@ const SwapTab = (props) => {
         slippage={props.slippage}
         confirmSwapToken={confirmSwapToken}
         onHide={props.handleClose}
-        midTokens={props.midTokens}
+        routeData={props.routeData}
       />
     </>
   );
@@ -476,7 +463,7 @@ SwapTab.propTypes = {
   handleOutTokenInput: PropTypes.any,
   handleTokenType: PropTypes.any,
   loaderInButton: PropTypes.any,
-  midTokens: PropTypes.any,
+  // midTokens: PropTypes.any,
   recepient: PropTypes.any,
   resetAllValues: PropTypes.any,
   // secondTokenAmount: PropTypes.any,

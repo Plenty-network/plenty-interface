@@ -139,14 +139,14 @@ const ConfirmSwap = (props) => {
                 </p>
               </div>
 
-              {props.computedData?.data?.totalFees && props.midTokens?.[0].name ? (
-                <div className="flex flex-row align-items-center">
-                  <p className="swap-detail-amt-details">Router Fee </p>
-                  <p className="swap-detail-amt-details ml-auto">
-                    {props.computedData?.data.totalFees.toFixed(5)} {props.midTokens?.[0].name}
-                  </p>
-                </div>
-              ) : null}
+              {/*{props.computedData?.data?.totalFees && props.midTokens?.[0].name ? (*/}
+              {/*  <div className="flex flex-row align-items-center">*/}
+              {/*    <p className="swap-detail-amt-details">Router Fee </p>*/}
+              {/*    <p className="swap-detail-amt-details ml-auto">*/}
+              {/*      {props.computedData?.data.totalFees.toFixed(5)} {props.midTokens?.[0].name}*/}
+              {/*    </p>*/}
+              {/*  </div>*/}
+              {/*) : null}*/}
 
               <div className="flex flex-row align-items-center">
                 <p className="swap-detail-amt-details">xPlenty Fee </p>
@@ -222,7 +222,8 @@ ConfirmSwap.propTypes = {
   confirmSwapToken: PropTypes.any,
   firstTokenAmount: PropTypes.any,
   loading: PropTypes.any,
-  midTokens: PropTypes.any,
+  // midTokens: PropTypes.any,
+  routeData: PropTypes.any,
   onHide: PropTypes.any,
   show: PropTypes.any,
   slippage: PropTypes.any,
