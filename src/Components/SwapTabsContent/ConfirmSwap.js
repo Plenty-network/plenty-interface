@@ -50,7 +50,7 @@ const ConfirmSwap = (props) => {
                 </div>
 
                 <div className="token-user-input-wrapper" style={{ textAlign: 'right' }}>
-                  {props.computedOutDetails.tokenOut_amount}
+                  {props.computedData?.data?.tokenOutAmount}
                 </div>
               </div>
             </div>
@@ -79,8 +79,8 @@ const ConfirmSwap = (props) => {
                   </span>
                 </OverlayTrigger>
                 <p className="swap-detail-amt-details ml-auto">
-                  {props.computedOutDetails.minimum_Out
-                    ? props.computedOutDetails.minimum_Out.toFixed(8)
+                  {props.computedData?.data?.finalMinimumOut
+                    ? props.computedData.data.finalMinimumOut.toFixed(8)
                     : '0.00'}{' '}
                   {props.tokenOut.name}
                 </p>
@@ -108,8 +108,8 @@ const ConfirmSwap = (props) => {
                   </span>
                 </OverlayTrigger>
                 <p className="swap-detail-amt-details ml-auto">
-                  {props.computedOutDetails.priceImpact
-                    ? props.computedOutDetails.priceImpact
+                  {props.computedData?.data?.priceImpact
+                    ? props.computedData.data.priceImpact
                     : '0.00'}{' '}
                   %
                 </p>
@@ -138,15 +138,6 @@ const ConfirmSwap = (props) => {
                   {props.firstTokenAmount / 400} {props.tokenIn.name}
                 </p>
               </div>
-
-              {props.computedOutDetails.addtPlentyFee ? (
-                <div className="flex flex-row align-items-center">
-                  <p className="swap-detail-amt-details">Router Fee </p>
-                  <p className="swap-detail-amt-details ml-auto">
-                    {props.computedOutDetails.addtPlentyFee.toFixed(5)} {props.midTokens?.[0].name}
-                  </p>
-                </div>
-              ) : null}
 
               <div className="flex flex-row align-items-center">
                 <p className="swap-detail-amt-details">xPlenty Fee </p>
@@ -217,11 +208,13 @@ const ConfirmSwap = (props) => {
 export default ConfirmSwap;
 
 ConfirmSwap.propTypes = {
-  computedOutDetails: PropTypes.any,
+  // computedOutDetails: PropTypes.any,
+  computedData: PropTypes.any,
   confirmSwapToken: PropTypes.any,
   firstTokenAmount: PropTypes.any,
   loading: PropTypes.any,
-  midTokens: PropTypes.any,
+  // midTokens: PropTypes.any,
+  routeData: PropTypes.any,
   onHide: PropTypes.any,
   show: PropTypes.any,
   slippage: PropTypes.any,

@@ -44,21 +44,11 @@ const SwapModal = (props) => {
         const filterTokens = props.tokens
           .filter(searchHits)
           .filter((token) => {
-            // ? Plenty - uDefi pair doesn't exist
-            const isPlentyUDEFIPair = (token1, token2) =>
-              ['uDEFI', 'PLENTY'].includes(token1) && ['uDEFI', 'PLENTY'].includes(token2);
-
             if (props.tokenType === 'tokenOut') {
-              return (
-                props.tokenIn.name !== token.name &&
-                !isPlentyUDEFIPair(props.tokenIn.name, token.name)
-              );
+              return props.tokenIn.name !== token.name;
             }
 
-            return (
-              props.tokenOut.name !== token.name &&
-              !isPlentyUDEFIPair(props.tokenOut.name, token.name)
-            );
+            return props.tokenOut.name !== token.name;
           })
           .map((token) => {
             if (doesPairExist(token)) {

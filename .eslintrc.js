@@ -2,7 +2,7 @@
 const isDev = process.env.NODE_ENV === 'development';
 
 // * Add common rules here
-const commonRules = {
+const mainRules = {
   'linebreak-style': ['error', 'unix'],
   quotes: ['error', 'single'],
   semi: ['error', 'always'],
@@ -15,16 +15,16 @@ const commonRules = {
   ],
   eqeqeq: ['error', 'always', { null: 'ignore' }],
   'no-var': 'error',
-  'no-unused-vars': 'error',
+  'no-unused-vars': ['error', { varsIgnorePattern: '^_' }],
+  // TODO Add this rule
+  // 'no-console': ['error', { allow: ['warn', 'error'] }],
 };
-
-// * Add custom prod rules here
-const prodRules = { ...commonRules };
 
 // * Add custom dev rules here
 const devRules = {
-  ...commonRules,
-  'no-unused-vars': 'warn',
+  ...mainRules,
+  'no-unused-vars': ['warn', { varsIgnorePattern: '^_' }],
+  // 'no-console': ['warn', { allow: ['warn', 'error'] }],
 };
 
 // eslint-disable-next-line no-undef
@@ -47,5 +47,5 @@ module.exports = {
     },
   },
   plugins: ['react'],
-  rules: isDev ? devRules : prodRules,
+  rules: isDev ? devRules : mainRules,
 };
