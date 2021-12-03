@@ -335,17 +335,7 @@ export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, swapData,
   }
 };
 
-getBestRouteAPI('kUSD', 'USDtz')
-  .then((resp) => {
-    console.log(resp);
-    console.log(resp.bestRoute.swapData);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
 export const swapTokenUsingRouteV2 = async (path, minimum_Out_All, caller, amount) => {
-  console.log({ path, minimum_Out_All, caller, amount });
   try {
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
@@ -372,7 +362,6 @@ export const swapTokenUsingRouteV2 = async (path, minimum_Out_All, caller, amoun
 
     const DataLiteral = {};
     for (let i = 0; i < path.length - 1; i++) {
-      console.log(CONFIG.AMM[connectedNetwork][path[i]].DEX_PAIRS[path[i + 1]]);
       const dexAddress = CONFIG.AMM[connectedNetwork][path[i]].DEX_PAIRS[path[i + 1]].contract;
       const minOut = Math.floor(
         minimum_Out_All[i] * Math.pow(10, CONFIG.AMM[connectedNetwork][path[i + 1]].TOKEN_DECIMAL),
@@ -386,13 +375,12 @@ export const swapTokenUsingRouteV2 = async (path, minimum_Out_All, caller, amoun
         requiredTokenId: tokenId,
       };
     }
-    console.log(DataLiteral);
     const DataMap = MichelsonMap.fromLiteral(DataLiteral);
     const swapAmount = Math.floor(
       amount * Math.pow(10, CONFIG.AMM[connectedNetwork][path[0]].TOKEN_DECIMAL),
     );
 
-    let batch = null;
+    let batch;
     if (tokenInCallType === 'FA1.2') {
       batch = Tezos.wallet
         .batch()
@@ -417,7 +405,7 @@ export const swapTokenUsingRouteV2 = async (path, minimum_Out_All, caller, amoun
       success: true,
     };
   } catch (err) {
-    console.trace(err);
+    console.error(err);
     return {
       success: false,
     };

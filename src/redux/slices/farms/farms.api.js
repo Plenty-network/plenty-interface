@@ -445,7 +445,6 @@ export const getFarmsDataAPI = async (isActive) => {
     }
     const response = await Promise.all(dexPromises);
     const lpPricesInUsd = {};
-    console.log({ lpPricesInUsd });
     for (const i in response) {
       if (response[i].lpPriceInXtz * xtzPriceInUsd) {
         lpPricesInUsd[response[i].identifier] = response[i].lpPriceInXtz * xtzPriceInUsd;
@@ -500,7 +499,6 @@ export const getFarmsDataAPI = async (isActive) => {
     const farmsData = {};
 
     const farmResponse = await Promise.all(promises);
-    console.log({ farmResponse });
     for (const i in farmResponse) {
       farmsData[farmResponse[i].address] = {
         identifier: farmResponse[i].identifier,
@@ -511,7 +509,6 @@ export const getFarmsDataAPI = async (isActive) => {
         rewardRate: farmResponse[i].rewardRate,
       };
     }
-    console.log({ farmsData });
     return {
       success: true,
       response: farmsData,

@@ -182,7 +182,6 @@ export const getBalanceAmountForAllContracts = async (address) => {
       );
     }
     const response = await Promise.all(promises);
-    console.log({ response });
     const balancesResponse = {};
     for (const i in response) {
       balancesResponse[response[i].identifier] = response[i].balance;

@@ -39,7 +39,6 @@ const SwapTab = (props) => {
     } else {
       const isDirectRoute = props.routeData.bestRoute?.path.length === 2;
 
-      console.log(props.routeData.bestRoute, props.routeData.bestRoute?.path.length === 2);
       if (tokenType === 'tokenIn') {
         setFirstTokenAmount(input);
 
@@ -51,7 +50,6 @@ const SwapTab = (props) => {
             props.routeData.bestRoute.swapData?.[0].exchangeFee,
             props.slippage,
           );
-          console.log({ computedData });
           setComputedData({
             success: true,
             data: {
@@ -70,7 +68,6 @@ const SwapTab = (props) => {
             props.routeData.bestRoute.swapData,
             props.slippage,
           );
-          console.log({ res });
           setComputedData(res);
           setSecondTokenAmount(res.data.tokenOutAmount);
         }
@@ -85,7 +82,6 @@ const SwapTab = (props) => {
             props.routeData.bestRoute.swapData?.[0].exchangeFee,
             props.slippage,
           );
-          console.log({ computedData });
           setComputedData({
             success: true,
             data: {
@@ -104,7 +100,6 @@ const SwapTab = (props) => {
             props.routeData.bestRoute.swapData,
             props.slippage,
           );
-          console.log({ res, route: props.routeData });
           setComputedData(res);
           setFirstTokenAmount(res.data.tokenInAmount);
         }
