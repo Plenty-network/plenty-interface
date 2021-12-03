@@ -1887,7 +1887,7 @@ export default {
             liquidityToken: 'ctez-uno-lp',
           },
           CRUNCH: {
-            contract: 'KT1XLFZ2RS8vCUmHwBG39mq7zELhnLKn9JUz',
+            contract: 'KT1WZztBneC9NrhVqvo9yXq8St7p8c1JVTxm',
             property: 'token2_pool',
             liquidityToken: 'ctez-crunch-lp',
           },
@@ -2077,7 +2077,7 @@ export default {
         TOKEN_DECIMAL: 8,
         DEX_PAIRS: {
           ctez: {
-            contract: 'KT1XLFZ2RS8vCUmHwBG39mq7zELhnLKn9JUz',
+            contract: 'KT1WZztBneC9NrhVqvo9yXq8St7p8c1JVTxm',
             property: 'token1_pool',
             liquidityToken: 'ctez-crunch-lp',
           },
