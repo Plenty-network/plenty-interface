@@ -1177,6 +1177,12 @@ export const getTokenPrices = async () => {
       'GIF',
       'wUSDT',
       'YOU',
+      'PXL',
+      'INSTA',
+      'crDAO',
+      'CRUNCH',
+      'FLAME',
+      'PAUL',
     ];
     const tokenAddress = {
       PLENTY: {
@@ -1244,6 +1250,24 @@ export const getTokenPrices = async () => {
       },
       YOU: {
         contractAddress: 'KT1Xobej4mc6XgEjDoJoHtTKgbD1ELMvcQuL',
+      },
+      PXL: {
+        contractAddress: 'KT1F1mn2jbqQCJcsNgYKVAQjvenecNMY2oPK',
+      },
+      INSTA: {
+        contractAddress: 'KT19y6R8x53uDKiM46ahgguS6Tjqhdj2rSzZ',
+      },
+      FLAME: {
+        contractAddress: 'KT1Wa8yqRBpFCusJWgcQyjhRz7hUQAmFxW7j',
+      },
+      crDAO: {
+        contractAddress: 'KT1XPFjZqCULSnqfKaaYy8hJjeY63UNSGwXg',
+      },
+      CRUNCH: {
+        contractAddress: 'KT1BHCumksALJQJ8q8to2EPigPW6qpyTr7Ng',
+      },
+      PAUL: {
+        contractAddress: 'KT19DUSZw7mfeEATrbWVPHRrWNVbNnmfFAE6',
       },
     };
     for (const i in tokenPriceResponse.contracts) {
