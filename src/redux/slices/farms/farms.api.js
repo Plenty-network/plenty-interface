@@ -471,7 +471,6 @@ export const getFarmsDataAPI = async (isActive) => {
     }
     const response = await Promise.all(dexPromises);
     const lpPricesInUsd = {};
-    console.log({ lpPricesInUsd });
     for (const i in response) {
       if (response[i].lpPriceInXtz * xtzPriceInUsd) {
         lpPricesInUsd[response[i].identifier] = response[i].lpPriceInXtz * xtzPriceInUsd;

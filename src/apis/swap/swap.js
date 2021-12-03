@@ -41,8 +41,6 @@ export const swapTokens = async (
   recipent,
   tokenInAmount,
   caller,
-  tokenInInstance,
-  dexContractInstance,
   transactionSubmitModal,
 ) => {
   const connectedNetwork = CONFIG.NETWORK;
@@ -66,6 +64,9 @@ export const swapTokens = async (
     const tokenInId = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_ID;
     const tokenOutAddress = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_CONTRACT;
     const tokenOutId = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_ID;
+    const tokenInAddress = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_CONTRACT;
+    const tokenInInstance = await Tezos.contract.at(tokenInAddress);
+    const dexContractInstance = await Tezos.contract.at(dexContractAddress);
 
     tokenInAmount =
       tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
@@ -165,7 +166,6 @@ export const swapTokenUsingRoute = async (
     const Tezos = new TezosToolkit(rpcNode);
     Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
-    console.log({ wallet });
     const tokenInAddress = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_CONTRACT;
     const tokenOutAddress = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_CONTRACT;
     const tokenInId = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_ID;
@@ -213,13 +213,11 @@ export const swapTokenUsingRoute = async (
         requiredTokenId: tokenOutId,
       },
     });
-    console.log({ DataMap });
     const swapAmount = Math.floor(
       amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL),
     );
 
     let batch = null;
-    console.log({ swapAmount, minimum_Out_Plenty, minimum_Out });
     if (tokenInCallType === 'FA1.2') {
       batch = Tezos.wallet
         .batch()
@@ -1085,7 +1083,6 @@ export const fetchAllWalletBalance = async (addressOfUser) => {
       userBalances[response[i].symbol] = response[i].balance;
       contractInstances[response[i].symbol] = response[i].contractInstance;
     }
-    console.log({ userBalances });
     return {
       success: true,
       userBalances,
@@ -1130,9 +1127,7 @@ const getuDEFIPrice = async () => {
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
 
     const uDEFIOracleUrl = `${rpcNode}chains/main/blocks/head/context/contracts/KT1UuqJiGQgfNrTK5tuR1wdYi5jJ3hnxSA55/storage`;
-    console.log({ uDEFIOracleUrl });
     const uedfipriceResponse = await axios.get(uDEFIOracleUrl);
-    console.log({ uedfipriceResponse });
     let uDEFIinUSD = uedfipriceResponse.data.args[0].args[1].int;
     uDEFIinUSD = parseInt(uDEFIinUSD);
     uDEFIinUSD = parseFloat(uDEFIinUSD / Math.pow(10, 6));
@@ -1154,13 +1149,11 @@ export const getTokenPrices = async () => {
     promises.push(getCtezPrice());
     promises.push(getuDEFIPrice());
     const promisesResponse = await Promise.all(promises);
-    console.log(promisesResponse);
     // let tokenPriceResponse = await axios.get(
     //   'https://api.teztools.io/token/prices'
     // );
     const tokenPrice = {};
     const tokenPriceResponse = promisesResponse[0].data;
-    console.log({ tokenPriceResponse });
     const tokens = [
       'PLENTY',
       'wDAI',
@@ -1266,7 +1259,6 @@ export const getTokenPrices = async () => {
     }
     tokenPrice['ctez'] = promisesResponse[1].ctezPriceInUSD;
     tokenPrice['uDEFI'] = promisesResponse[2].uDEFIinUSD;
-    console.log({ tokenPrice });
     return {
       success: true,
       tokenPrice,
