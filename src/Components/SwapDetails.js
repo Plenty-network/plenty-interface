@@ -114,7 +114,7 @@ const SwapDetails = (props) => {
               placement="top"
               overlay={
                 <Tooltip id={'route-tooltip'} arrowProps={{ styles: { display: 'none' } }}>
-                  Routing through these tokens resulted in the best price for your trade
+                  Routing through these tokens results in the best price for your trade
                 </Tooltip>
               }
             >
