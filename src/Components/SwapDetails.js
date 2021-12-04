@@ -107,7 +107,25 @@ const SwapDetails = (props) => {
 
       {swapRoute && (
         <>
-          <p className="swap-detail-amt-details">Route </p>
+          <div className="flex flex-row">
+            <p className="swap-detail-amt-details">Route </p>
+            <OverlayTrigger
+              key="top"
+              placement="top"
+              overlay={
+                <Tooltip id={'route-tooltip'} arrowProps={{ styles: { display: 'none' } }}>
+                  Routing through these tokens resulted in the best price for your trade
+                </Tooltip>
+              }
+            >
+              <span
+                style={{ cursor: 'pointer' }}
+                className="material-icons-round ml-1 swap-detail-amt-details"
+              >
+                help_outline
+              </span>
+            </OverlayTrigger>
+          </div>
 
           <div className="swap-detail-route-container mt-3">
             {swapRoute.map((token, idx) => (
