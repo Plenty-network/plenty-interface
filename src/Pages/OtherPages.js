@@ -12,7 +12,7 @@ const OtherPages = (props) => {
           toggleTheme={props.toggleTheme}
           theme={props.theme}
           connecthWallet={props.connectWallet}
-          disconnectWallet={props.disconnectUserWallet}
+          disconnectWallet={props.disconnectWallet}
           walletAddress={userAddress}
         />
         {props.children}
@@ -24,7 +24,7 @@ const OtherPages = (props) => {
 OtherPages.propTypes = {
   children: PropTypes.element,
   connectWallet: PropTypes.func.isRequired,
-  disconnectUserWallet: PropTypes.func.isRequired,
+  disconnectWallet: PropTypes.func.isRequired,
   theme: PropTypes.string.isRequired,
   toggleTheme: PropTypes.func.isRequired,
   userAddress: PropTypes.string,

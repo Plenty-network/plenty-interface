@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useCallback, useMemo } from 'react';
+import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 //Components
 import { ThemeProvider } from 'styled-components';
@@ -20,28 +20,25 @@ const Stake = React.lazy(() => import('../Pages/xPlenty'));
 const MyRoutes = (props) => {
   const { theme, toggleTheme } = useThemes();
 
-  const connectWallet = useCallback(async () => {
+  const connectWallet = async () => {
     if (props.userAddress === null) {
       return props.connectWallet();
     }
-  }, [props.userAddress, props.connectWallet]);
+  };
 
-  const disconnectUserWallet = useCallback(async () => {
+  const disconnectUserWallet = async () => {
     if (props.userAddress) {
       return props.disconnectWallet();
     }
-  }, [props.userAddress, props.disconnectWallet]);
+  };
 
-  const otherPageProps = useMemo(
-    () => ({
-      toggleTheme: toggleTheme,
-      theme: theme,
-      connectWallet: connectWallet,
-      disconnectWallet: disconnectUserWallet,
-      walletAddress: props.userAddress,
-    }),
-    [theme, toggleTheme, connectWallet, disconnectUserWallet],
-  );
+  const otherPageProps = {
+    toggleTheme: toggleTheme,
+    theme: theme,
+    connectWallet: connectWallet,
+    disconnectWallet: disconnectUserWallet,
+    walletAddress: props.userAddress,
+  };
 
   useEffect(() => {
     return props.fetchWalletAddress();
