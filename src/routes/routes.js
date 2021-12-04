@@ -73,7 +73,7 @@ const MyRoutes = (props) => {
               }
             />
             <Route
-              path="/liquidity"
+              path="/liquidity/*"
               element={
                 <OtherPages {...otherPageProps}>
                   <Swap walletAddress={props.userAddress} connecthWallet={connectWallet} />

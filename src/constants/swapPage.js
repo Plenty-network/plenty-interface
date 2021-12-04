@@ -23,7 +23,24 @@ import UNO from '../assets/images/uno.png';
 import uUSD from '../assets/images/uUSD.png';
 import youGov from '../assets/images/you-gov.png';
 
+import CRUNCH from '../assets/images/CRUNCH.png';
+import crDAO from '../assets/images/crDAO.png';
+import FLAME from '../assets/images/FLAME.png';
+import INSTA from '../assets/images/INSTA.png';
+import kDAO from '../assets/images/kDAO.png';
+import PXL from '../assets/images/PXL.png';
+import PAUL from '../assets/images/PAUL.png';
 export const tokens = [
+  {
+    name: 'CRUNCH',
+    image: CRUNCH,
+    new: true,
+  },
+  {
+    name: 'crDAO',
+    image: crDAO,
+    new: true,
+  },
   {
     name: 'ctez',
     image: ctez,
@@ -39,9 +56,19 @@ export const tokens = [
     new: false,
   },
   {
+    name: 'FLAME',
+    image: FLAME,
+    new: true,
+  },
+  {
     name: 'GIF',
     image: gif,
     new: false,
+  },
+  {
+    name: 'INSTA',
+    image: INSTA,
+    new: true,
   },
   {
     name: 'hDAO',
@@ -54,14 +81,29 @@ export const tokens = [
     new: false,
   },
   {
+    name: 'kDAO',
+    image: kDAO,
+    new: true,
+  },
+  {
     name: 'kUSD',
     image: kusd,
     new: false,
   },
   {
+    name: 'PAUL',
+    image: PAUL,
+    new: true,
+  },
+  {
     name: 'PLENTY',
     image: plenty,
     new: false,
+  },
+  {
+    name: 'PXL',
+    image: PXL,
+    new: true,
   },
   {
     name: 'QUIPU',
@@ -91,7 +133,7 @@ export const tokens = [
   {
     name: 'wDAI',
     image: wDAI,
-    new: true,
+    new: false,
   },
   {
     name: 'wLINK',
@@ -116,7 +158,7 @@ export const tokens = [
   {
     name: 'wUSDT',
     image: wUSDT,
-    new: true,
+    new: false,
   },
   {
     name: 'wWBTC',
@@ -131,7 +173,7 @@ export const tokens = [
   {
     name: 'uDEFI',
     image: uDEFI,
-    new: true,
+    new: false,
     extra: {
       text: 'Get uDEFI',
       link: 'https://app.youves.com/udefi/minting/start',
