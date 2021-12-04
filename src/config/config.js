@@ -2119,7 +2119,7 @@ export default {
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 0,
-        TOKEN_DECIMAL: 7,
+        TOKEN_DECIMAL: 9,
         DEX_PAIRS: {
           ctez: {
             contract: 'KT1EnESbHxmzd2XeENyYNege4L5TKxeatJk9',
