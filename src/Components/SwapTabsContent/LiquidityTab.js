@@ -5,14 +5,14 @@ import AddLiquidity from './LiquidityTabs/AddLiquidity';
 import RemoveLiquidity from './LiquidityTabs/RemoveLiquidity';
 
 import React, { useEffect, useMemo } from 'react';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { createSearchParams, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 const LiquidityTab = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  const defaultKey = useMemo(() => {
+  const activeKey = useMemo(() => {
     if (location.pathname === '/liquidity/remove') {
       return 'remove';
     }
@@ -21,32 +21,38 @@ const LiquidityTab = (props) => {
   }, [location.pathname]);
 
   const changeLiquidityType = (tab) => {
-    navigate(`/liquidity/${tab}`, {
-      state: { searchParams },
+    const tokenAFromParam = searchParams.get('tokenA');
+    const tokenBFromParam = searchParams.get('tokenB');
+    navigate({
+      pathname: `/liquidity/${tab}`,
+      search: `?${createSearchParams({
+        ...(tokenAFromParam ? { tokenA: tokenAFromParam } : {}),
+        ...(tokenBFromParam ? { tokenB: tokenBFromParam } : {}),
+      })}`,
     });
   };
 
   useEffect(() => {
-    const urlSearchParams = new URLSearchParams(window.location.search);
-    const params = Object.fromEntries(urlSearchParams.entries());
+    const tokenAFromParam = searchParams.get('tokenA');
+    const tokenBFromParam = searchParams.get('tokenB');
 
-    if (params.tokenA !== params.tokenB) {
-      if (params.tokenA) {
+    if (tokenAFromParam !== tokenBFromParam) {
+      if (tokenAFromParam) {
         props.tokens.map((token) => {
-          if (token.name === params.tokenA) {
+          if (token.name === tokenAFromParam) {
             props.setTokenIn({
-              name: params.tokenA,
+              name: tokenAFromParam,
               image: token.image,
             });
           }
         });
       }
 
-      if (params.tokenB) {
+      if (tokenBFromParam) {
         props.tokens.map((token) => {
-          if (token.name === params.tokenB) {
+          if (token.name === tokenBFromParam) {
             props.setTokenOut({
-              name: params.tokenB,
+              name: tokenBFromParam,
               image: token.image,
             });
           }
@@ -59,7 +65,7 @@ const LiquidityTab = (props) => {
     <>
       <div className="swap-content-box-wrapper">
         <Tabs
-          ativeKey={defaultKey}
+          activeKey={activeKey}
           className={
             !props.tokenOut.name
               ? 'liquidity-container-tab content-hide'

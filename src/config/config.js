@@ -1978,7 +1978,7 @@ export default {
           },
           ctez: {
             contract: 'KT1X1nkqJDR1UHwbfpcnME5Z7agJLjUQNguB',
-            property: 'token2_pool',
+            property: 'token1_pool',
             liquidityToken: 'ctez-kusd-lp',
           },
         },
