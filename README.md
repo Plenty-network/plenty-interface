@@ -1,5 +1,7 @@
 # Plenty V2 Interface
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/50dcb23c-387c-458c-bcc5-73572d8927b7/deploy-status)](https://app.netlify.com/sites/gracious-pasteur-302ee5/deploys)
+
 An open source interface for PlentyDeFi V2 -- a protocol for decentralized exchange of Tezos tokens.
 
 - Website: [Plenty DeFi](https://plentydefi.com/)
