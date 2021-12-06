@@ -125,7 +125,19 @@ export const getBestRouteAPI = async (tokenIn, tokenOut) => {
     };
     //intermediateAMMData
     allPathsUtil(tokenIn, tokenOut, paths, vis, path);
+    let minPathLength = 5;
+    const usablePaths = [];
     paths.forEach((path) => {
+      if (path.length < minPathLength) {
+        minPathLength = path.length;
+      }
+    });
+    paths.forEach((path) => {
+      if (path.length === minPathLength) {
+        usablePaths.push(path);
+      }
+    });
+    usablePaths.forEach((path) => {
       //console.log(path);
       if (path.length <= 4) {
         routeDataPromises.push(getRouteSwapData(path));
