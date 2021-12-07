@@ -179,13 +179,22 @@ const Tokens = () => {
         Header: 'Last 7 Days',
         accessor: 'symbol_token',
         Cell: (row) => {
-          const value = [...(priceChangeData[row.value] ?? [])].reverse();
+          let value = [...(priceChangeData[row.value] ?? [])].reverse();
 
           if (priceChangeLoading) return <div />;
 
           if (value.length === 0) return <div>N/A</div>;
 
           const changePositive = value[value.length - 1].value >= value[0].value;
+
+          if (value.length <= 38) {
+            const timeData = priceChangeData.PLENTY.map((x) => ({
+              ...x,
+              value: undefined,
+            })).reverse();
+            value = [...timeData.filter((x) => x.time < value[0].time), ...value];
+          }
+
           return (
             <SimpleLineChart
               data={value}
