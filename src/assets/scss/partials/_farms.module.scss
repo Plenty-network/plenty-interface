@@ -11,6 +11,9 @@
   grid-template-columns: repeat(auto-fit, 345px);
   grid-gap: 20px;
   justify-content: center;
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    padding-top: 10px;
+  }
 }
 
 .plentyCard {
@@ -320,6 +323,11 @@
   position: relative;
   top: 6px;
   padding-left: 18px;
+}
+.rotate {
+  transform: rotate(180deg);
+  padding-right: 18px;
+  padding-left: 0px;
 }
 
 .sortLabel {

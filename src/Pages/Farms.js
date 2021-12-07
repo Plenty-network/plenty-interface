@@ -161,7 +161,7 @@ const Farms = (props) => {
                   <label className={` ${styles.sortby} ${styles.sortby} `}>SORT BY:</label>
                   <div className={styles.selectOption}>
                     <label className={styles.selectItem} htmlFor="select-apr">
-                      APR
+                      {FARM_SORT_OPTIONS.APR}
                     </label>
                     <input
                       className={`option ${styles.option}`}
@@ -174,7 +174,7 @@ const Farms = (props) => {
                   </div>
                   <div className={styles.selectOption}>
                     <label className={styles.selectItem} htmlFor="select-tvl">
-                      TVL
+                      {FARM_SORT_OPTIONS.TVL}
                     </label>
                     <input
                       className={`option ${styles.option}`}
@@ -187,7 +187,7 @@ const Farms = (props) => {
                   </div>
                   <div className={styles.selectOption}>
                     <label className={styles.selectItem} htmlFor="select-rewards">
-                      Rewards
+                      {FARM_SORT_OPTIONS.REWARDS}
                     </label>
                     <input
                       className={`option ${styles.option}`}
@@ -221,11 +221,9 @@ const Farms = (props) => {
             <div className={styles.selectForm1}>
               <span className={styles.sortButton} onClick={() => setIsSelected(!isSelected)}>
                 Sort
-                {isSelected ? (
-                  <span className={`material-icons ${styles.arrow} `}>keyboard_arrow_up</span>
-                ) : (
-                  <span className={`material-icons ${styles.arrow} `}>keyboard_arrow_down</span>
-                )}
+                <span className={clsx('material-icons', styles.arrow, isSelected && styles.rotate)}>
+                  keyboard_arrow_up
+                </span>
               </span>
             </div>
             <div>
@@ -251,7 +249,7 @@ const Farms = (props) => {
                   sortValue === FARM_SORT_OPTIONS.APR ? styles.addbg : styles.removebg,
                 )}
               >
-                APR
+                {FARM_SORT_OPTIONS.APR}
               </div>
               <div
                 onClick={() => setSortValue(FARM_SORT_OPTIONS.TVL)}
@@ -260,7 +258,7 @@ const Farms = (props) => {
                   sortValue === FARM_SORT_OPTIONS.TVL ? styles.addbg : styles.removebg,
                 )}
               >
-                TVL
+                {FARM_SORT_OPTIONS.TVL}
               </div>
               <div
                 onClick={() => setSortValue(FARM_SORT_OPTIONS.REWARDS)}
@@ -269,7 +267,7 @@ const Farms = (props) => {
                   sortValue === FARM_SORT_OPTIONS.REWARDS ? styles.addbg : styles.removebg,
                 )}
               >
-                Rewards
+                {FARM_SORT_OPTIONS.REWARDS}
               </div>
             </div>
           )}
