@@ -3,6 +3,7 @@ import FarmCard from '../Components/FarmCard/FarmCard';
 import { connect } from 'react-redux';
 import * as userActions from '../redux/actions/user/user.action';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import { BsSearch } from 'react-icons/bs';
 import styles1 from './Tokens/tokens.module.scss';
 import { FormControl, InputGroup, Tabs, Tab } from 'react-bootstrap';
@@ -33,6 +34,16 @@ const Farms = (props) => {
   const [sortValue, setSortValue] = useState(FARM_SORT_OPTIONS.APR);
   const [searchValue, setSearchValue] = useState('');
   const [tabChange, setTabChange] = useState(FARM_TAB.ALL);
+  const [isSelected, setIsSelected] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  function toggleHidden() {
+    setIsOpen(!isOpen);
+  }
+  function setSelectTitle(e) {
+    setSortValue(e.target.value);
+    toggleHidden();
+  }
 
   // * Initial Call
   useEffect(() => {
@@ -131,16 +142,66 @@ const Farms = (props) => {
             </Tabs>
 
             <div className={styles.selectForm}>
-              <span className={styles.sortby}>Sort by:</span>
+              <div className={styles.selectgroup}>
+                <label htmlFor="button"> Sort by:</label>
+                <button
+                  id="button"
+                  onClick={(ev) => toggleHidden(ev)}
+                  className={`button ${styles.sortLabel}
+                `}
+                >
+                  <span id="select-label">{sortValue}</span>
+                  <span className={`material-icons ${styles.arrow} `}>keyboard_arrow_down</span>
+                </button>
 
-              <select className={styles.formControl} onChange={(e) => setSortValue(e.target.value)}>
-                <option value={FARM_SORT_OPTIONS.APR}>{FARM_SORT_OPTIONS.APR}</option>
-                <option value={FARM_SORT_OPTIONS.TVL}>{FARM_SORT_OPTIONS.TVL}</option>
-                <option value={FARM_SORT_OPTIONS.REWARDS}>{FARM_SORT_OPTIONS.REWARDS}</option>
-              </select>
+                <div
+                  className={clsx(styles.dropdown, isOpen ? styles.show : styles.hidden)}
+                  id="dropdown"
+                >
+                  <label className={` ${styles.sortby} ${styles.sortby} `}>SORT BY:</label>
+                  <div className={styles.selectOption}>
+                    <label className={styles.selectItem} htmlFor="select-apr">
+                      APR
+                    </label>
+                    <input
+                      className={`option ${styles.option}`}
+                      id="select-apr"
+                      type="radio"
+                      name="where"
+                      value={FARM_SORT_OPTIONS.APR}
+                      onClick={(ev) => setSelectTitle(ev)}
+                    />
+                  </div>
+                  <div className={styles.selectOption}>
+                    <label className={styles.selectItem} htmlFor="select-tvl">
+                      TVL
+                    </label>
+                    <input
+                      className={`option ${styles.option}`}
+                      id="select-tvl"
+                      type="radio"
+                      name="where"
+                      value={FARM_SORT_OPTIONS.TVL}
+                      onClick={(ev) => setSelectTitle(ev)}
+                    />
+                  </div>
+                  <div className={styles.selectOption}>
+                    <label className={styles.selectItem} htmlFor="select-rewards">
+                      Rewards
+                    </label>
+                    <input
+                      className={`option ${styles.option}`}
+                      name="where"
+                      id="select-rewards"
+                      type="radio"
+                      value={FARM_SORT_OPTIONS.REWARDS}
+                      onClick={(ev) => setSelectTitle(ev)}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-
           <div className={` mt-5 justify-between  ${styles.header2}`}>
             <div className={styles.leftDiv}>
               <InputGroup className={styles1.searchBar}>
@@ -158,12 +219,14 @@ const Farms = (props) => {
               </InputGroup>
             </div>
             <div className={styles.selectForm1}>
-              <span className={styles.sortby}>Sort by:</span>
-              <select className={styles.formControl} onChange={(e) => setSortValue(e.target.value)}>
-                <option value={FARM_SORT_OPTIONS.APR}>{FARM_SORT_OPTIONS.APR}</option>
-                <option value={FARM_SORT_OPTIONS.TVL}>{FARM_SORT_OPTIONS.TVL}</option>
-                <option value={FARM_SORT_OPTIONS.REWARDS}>{FARM_SORT_OPTIONS.REWARDS}</option>
-              </select>
+              <span className={styles.sortButton} onClick={() => setIsSelected(!isSelected)}>
+                Sort
+                {isSelected ? (
+                  <span className={`material-icons ${styles.arrow} `}>keyboard_arrow_up</span>
+                ) : (
+                  <span className={`material-icons ${styles.arrow} `}>keyboard_arrow_down</span>
+                )}
+              </span>
             </div>
             <div>
               <div className={styles.rightDiv}>
@@ -179,6 +242,37 @@ const Farms = (props) => {
               </div>
             </div>
           </div>
+          {isSelected && (
+            <div className={`justify-between flex ${styles.mobileSort}`}>
+              <div
+                onClick={() => setSortValue(FARM_SORT_OPTIONS.APR)}
+                className={clsx(
+                  styles.sortButton,
+                  sortValue === FARM_SORT_OPTIONS.APR ? styles.addbg : styles.removebg,
+                )}
+              >
+                APR
+              </div>
+              <div
+                onClick={() => setSortValue(FARM_SORT_OPTIONS.TVL)}
+                className={clsx(
+                  styles.sortButton,
+                  sortValue === FARM_SORT_OPTIONS.TVL ? styles.addbg : styles.removebg,
+                )}
+              >
+                TVL
+              </div>
+              <div
+                onClick={() => setSortValue(FARM_SORT_OPTIONS.REWARDS)}
+                className={clsx(
+                  styles.sortButton,
+                  sortValue === FARM_SORT_OPTIONS.REWARDS ? styles.addbg : styles.removebg,
+                )}
+              >
+                Rewards
+              </div>
+            </div>
+          )}
           <div className={styles.cardsContainer}>
             {farmsToRender?.map((farm) => {
               return (
