@@ -11,7 +11,7 @@ An open source interface for PlentyDeFi V2 -- a protocol for decentralized excha
 
 ## Accessing the PlentyDeFi V2 Interface
 
-To access the PlentyDeFi Interface, use an IPFS gateway link from the
+To access the PlentyDeFi Interface, use link from the
 [latest release](https://github.com/Plenty-DeFi/plenty-v2),
 or visit [Plenty DeFi](https://plentydefi.com/).
 
