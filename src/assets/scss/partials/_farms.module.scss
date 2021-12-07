@@ -171,6 +171,7 @@
 .selectForm {
   float: right;
   margin-top: -40px;
+  max-width: 1200px;
   @media screen and (min-width: 320px) and (max-width: 768px) {
     display: none;
   }
@@ -257,11 +258,9 @@
   border: 1px solid #c6c2de;
   width: 224px;
   border-radius: 6px;
-  right: 58px;
   position: absolute;
   background-color: var(--theme-card-bg);
   z-index: 99;
-
   display: block;
   padding: 10px 0px;
   .selectItem {
