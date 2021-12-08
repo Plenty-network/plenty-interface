@@ -11,6 +11,9 @@
   grid-template-columns: repeat(auto-fit, 345px);
   grid-gap: 20px;
   justify-content: center;
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    padding-top: 10px;
+  }
 }
 
 .plentyCard {
@@ -167,7 +170,8 @@
 
 .selectForm {
   float: right;
-  margin-top: -35px;
+  margin-top: -40px;
+  max-width: 1200px;
   @media screen and (min-width: 320px) and (max-width: 768px) {
     display: none;
   }
@@ -180,7 +184,6 @@
     background: var(--theme-bg-1);
     height: 40px;
     padding: 5px 15px;
-    margin-left: 10px;
     margin-top: 20px;
   }
 }
@@ -231,7 +234,8 @@
   }
 }
 .sortby {
-  color: #647188;
+  color: #b0b7c3;
+  margin-left: 20px;
 }
 .farmstab {
   > a {
@@ -247,5 +251,115 @@
     & .active {
       border-bottom: 2px solid var(--theme-primary-1) !important;
     }
+  }
+}
+
+.dropdown {
+  border: 1px solid #c6c2de;
+  width: 224px;
+  border-radius: 6px;
+  position: absolute;
+  background-color: var(--theme-card-bg);
+  z-index: 99;
+  display: block;
+  padding: 10px 0px;
+  .selectItem {
+    padding: 0px 20px;
+    width: 80%;
+    cursor: pointer;
+    font-weight: 400;
+    color: var(--theme-text-2);
+  }
+  .option {
+    float: right;
+    margin-right: 20px;
+    margin-top: 6px;
+  }
+}
+.selectOption input[type='radio']:after {
+  width: 16px;
+  height: 16px;
+  border-radius: 15px;
+  top: -3px;
+  left: -1px;
+  position: relative;
+  background-color: var(--theme-card-bg);
+  content: '';
+  display: inline-block;
+  visibility: visible;
+  border: 1.5px solid var(--theme-radio-button);
+}
+.selectOption input[type='radio']:checked:after {
+  width: 18px;
+  height: 18px;
+  border-radius: 15px;
+  top: -3px;
+  left: -1px;
+  position: relative;
+  background-color: var(--theme-card-bg);
+  content: '';
+  display: inline-block;
+  visibility: visible;
+  border: 6px solid var(--theme-primary-1);
+}
+.selectOption {
+  padding: 6px 0;
+  label {
+    margin-bottom: 0px;
+  }
+  &:hover {
+    background: var(--theme-hover-bg);
+  }
+}
+.hidden {
+  display: none;
+}
+.show {
+  display: block;
+}
+.arrow {
+  color: var(--theme-primary-1);
+  position: relative;
+  top: 6px;
+  padding-left: 18px;
+}
+.rotate {
+  transform: rotate(180deg);
+  padding-right: 18px;
+  padding-left: 0px;
+}
+
+.sortLabel {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--theme-primary-1);
+  font-weight: 500;
+}
+.sortButton {
+  height: 39px;
+  border: 0.5px solid var(--theme-primary-1);
+  padding: 7px 19px;
+  border-radius: 6px;
+  font-weight: 400;
+  color: var(--theme-primary-1);
+  background-color: var(--theme-card-bg);
+}
+.mobileSort {
+  display: none;
+  width: 70%;
+  margin-left: 14px;
+
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    display: flex;
+    padding-top: 20px;
+  }
+
+  .addbg {
+    background-color: var(--theme-button-bg);
+    color: #1d2a3c;
+  }
+  .removebg {
+    background-color: var(--theme-card-bg);
   }
 }
