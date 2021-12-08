@@ -14,6 +14,7 @@
   --theme-card-bg: #ffffff;
   --theme-input-bg: #f9fafa;
   --theme-text-1: #4e5d78;
+  --theme-text-2: #25213b;
   --theme-text-inactive: #b0b7c3;
   --theme-text-3: #8a94a6;
   --theme-text-4: #b0b7c3;
@@ -29,6 +30,9 @@
   --theme-quipuswap-badge-bg: rgba(174, 110, 15, 0.16);
   --theme-quipuswap-badge-text: #f9a558;
   --theme-table-header-hover-bg: #f7f5fb;
+  --theme-button-bg: #e3d1ff;
+  --theme-hover-bg: #f2f0f9;
+  --theme-radio-button: #8b83ba;
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -47,6 +51,7 @@
   --theme-input-bg: #394460;
   --theme-text-1: #ffffff;
   --theme-text-inactive: #b0b7c3; // TODO find
+  --theme-text-2: #ffffff;
   --theme-text-3: #8a94a6; // TODO find
   --theme-text-4: #b0b7c3; // TODO find
   --theme-bg-1: #333e5b;
@@ -61,6 +66,9 @@
   --theme-quipuswap-badge-bg: rgba(249, 165, 88, 0.14);
   --theme-quipuswap-badge-text: #f9a558;
   --theme-table-header-hover-bg: #394460;
+  --theme-button-bg: #fafbfc;
+  --theme-hover-bg: #59617a;
+  --theme-radio-button: #ffffff;
 }
 
 :root.theme-transiton {
