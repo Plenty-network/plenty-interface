@@ -32,7 +32,7 @@ Pull requests are the best way to propose changes to the codebase. We actively w
 7. Make sure the PR has a description (It's important to provide as much useful information and a rationale for why you're making this pull request in the first place.)
 
 ## Any contributions you make will be under the GPL-3.0 License
-In short, when you submit code changes, your submissions will be understood under the same [GPL-3.0 License](./License) that covers the project. Feel free to contact the maintainers if that's a concern.
+In short, when you submit code changes, your submissions will be understood under the same [GPL-3.0 License](./LICENSE) that covers the project. Feel free to contact the maintainers if that's a concern.
 
 ## Report bugs using Github's [issues](https://github.com/Plenty-DeFi/plenty-v2/issues)
 Report a bug by [opening a new issue](https://github.com/Plenty-DeFi/plenty-v2/issues/new); it's that easy!
@@ -56,4 +56,4 @@ People *love* thorough bug reports. I'm not even kidding.
 * You can try running `npm run lint` for style unification
 
 ## License
-By contributing, you agree that your contributions will be licensed under its GPL-3.0 License.
+By contributing, you agree that your contributions will be licensed under its [GPL-3.0 License](./LICENSE).
