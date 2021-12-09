@@ -75,14 +75,18 @@ const Tokens = () => {
     }
   };
 
-  const valueFormat = (value) => {
+  const valueFormat = (value, opt = {}) => {
     if (value >= 100) {
-      return Math.round(value).toLocaleString('en-US');
+      return `${opt.percentChange ? '' : '$'}${Math.round(value).toLocaleString('en-US')}`;
     }
-    return value.toLocaleString('en-US', {
+
+    if (!opt.percentChange && value < 0.01) {
+      return '< $0.01';
+    }
+    return `${opt.percentChange ? '' : '$'}${value.toLocaleString('en-US', {
       maximumFractionDigits: 2,
       minimumFractionDigits: 2,
-    });
+    })}`;
   };
 
   const stringSort = useMemo(
@@ -154,38 +158,49 @@ const Tokens = () => {
         Header: 'Price',
         accessor: 'token_price',
         sortType: numberSort,
-        Cell: (row) => <span>${valueFormat(row.value)}</span>,
+        Cell: (row) => <span title={row.value}>{valueFormat(row.value)}</span>,
       },
       {
         Header: '24h Change',
         accessor: 'price_change_percentage',
         sortType: numberSort,
-        Cell: (row) => <span>{positiveOrNegative(valueFormat(row.value))}</span>,
+        Cell: (row) => (
+          <span>{positiveOrNegative(valueFormat(row.value, { percentChange: true }))}</span>
+        ),
       },
       {
         Header: '24h Volume',
         accessor: 'volume_token',
         sortType: numberSort,
-        Cell: (row) => <span>${valueFormat(row.value)}</span>,
+        Cell: (row) => <span>{valueFormat(row.value)}</span>,
       },
       {
         Header: 'Liquidity',
         accessor: 'liquidity',
         sortType: numberSort,
-        Cell: (row) => <span>${valueFormat(row.value)}</span>,
+        Cell: (row) => <span>{valueFormat(row.value)}</span>,
       },
       {
         id: 'price7d',
         Header: 'Last 7 Days',
         accessor: 'symbol_token',
         Cell: (row) => {
-          const value = [...(priceChangeData[row.value] ?? [])].reverse();
+          let value = [...(priceChangeData[row.value] ?? [])].reverse();
 
           if (priceChangeLoading) return <div />;
 
           if (value.length === 0) return <div>N/A</div>;
 
           const changePositive = value[value.length - 1].value >= value[0].value;
+
+          if (value.length <= 38) {
+            const timeData = priceChangeData.PLENTY.map((x) => ({
+              ...x,
+              value: undefined,
+            })).reverse();
+            value = [...timeData.filter((x) => x.time < value[0].time), ...value];
+          }
+
           return (
             <SimpleLineChart
               data={value}
