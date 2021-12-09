@@ -1,0 +1,208 @@
+.govContainer {
+  margin: 0 auto;
+  color: var(--theme-governance-text);
+  height: 100%;
+  //background: var(--theme-governance-bg);
+  background: var(--theme-governance-bg);
+  @media screen and (min-width: 320px) and (max-width: 992px) {
+    background: var(--theme-governance-mobileBg);
+  }
+
+  .firstRow {
+    padding-top: 100px;
+
+    @media screen and (min-width: 320px) and (max-width: 768px) {
+      padding-top: 50px;
+    }
+    .proposalHeading {
+      color: white;
+      font-weight: 500;
+      font-size: 16px;
+      @media screen and (min-width: 320px) and (max-width: 768px) {
+        margin-left: 20px;
+        margin-right: 20px;
+      }
+    }
+    .govHeading {
+      color: white;
+      font-weight: 700;
+      font-size: 40px;
+      line-height: 52.08px;
+      @media screen and (min-width: 320px) and (max-width: 768px) {
+        margin-left: 20px;
+        margin-right: 20px;
+      }
+    }
+    .proposalInfo {
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 30px;
+      color: white;
+      @media screen and (min-width: 320px) and (max-width: 768px) {
+        margin-left: 20px;
+        margin-right: 20px;
+      }
+    }
+  }
+  .secondRow {
+    margin-top: 80px;
+
+    @media screen and (min-width: 320px) and (max-width: 768px) {
+      margin-top: 20px;
+      margin-right: 20px;
+      margin-left: 10px;
+      padding-bottom: 20px;
+      color: white;
+    }
+    @media screen and (min-width: 769px) and (max-width: 993px) {
+      color: white;
+    }
+    @media screen and (min-width: 992px) and (max-width: 1199px) {
+      padding-top: 80px;
+    }
+    .plentyHeading {
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 31.25px;
+    }
+    .discription {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 28px;
+    }
+  }
+  .border {
+    background: linear-gradient(
+      100.44deg,
+      #f8b67f 0%,
+      #ff5451 33.57%,
+      #ee1ec0 67.02%,
+      #a02cfc 103.97%
+    );
+    padding: 1px;
+    margin-top: 100px;
+    border-radius: 8px;
+    @media screen and (min-width: 320px) and (max-width: 992px) {
+      background: none;
+      margin: 20px auto;
+      padding: 0px;
+      border-radius: 0px;
+    }
+  }
+  .gov {
+    padding: 0px 0px;
+    margin-right: 0px;
+  }
+}
+.voteModal {
+  box-shadow: 0px 2px 32px -5px rgba(100, 96, 105, 0.15);
+  max-width: 476px;
+  background: var(--theme-governance-cardBg);
+  border-radius: 8px;
+  padding: 30px 32px;
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    width: 401px;
+
+    box-shadow: none;
+    padding: 20px 40px;
+    margin: 0 auto;
+  }
+
+  .voteHeading {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 34px;
+    letter-spacing: 0em;
+    text-align: left;
+    height: 34px;
+  }
+  .postedInfo {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 30px;
+    border-radius: 8px;
+    padding: 4px 20px;
+    align-items: center;
+    letter-spacing: -0.01em;
+    background: var(--theme-governance-postingInfo);
+    border: 1px solid #cdcfd5;
+    height: 30px;
+  }
+  .line {
+    border-bottom: 1px solid var(--theme-governance-line);
+  }
+}
+.votingBox {
+  margin-top: 20px;
+  border: 1px solid var(--theme-text-3);
+  box-sizing: border-box;
+  border-radius: 8px;
+  height: 56px;
+  margin-bottom: 20px;
+  padding: 15px 20px;
+  color: var(--theme-text-3);
+  input[type='radio']:after {
+    width: 20px;
+    height: 20px;
+    border-radius: 15px;
+    top: -3px;
+    position: relative;
+    background-color: var(--theme-governance-cardBg);
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 1.5px solid var(--theme-text-3);
+  }
+  input[type='radio']:checked:after {
+    width: 22px;
+    height: 22px;
+    border-radius: 15px;
+    top: -5px;
+    position: relative;
+    background-color: var(--theme-card-bg);
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 6px solid var(--theme-primary-1);
+  }
+  .selectItem {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 30px;
+    letter-spacing: -0.01em;
+    width: 70%;
+  }
+  .colorChange {
+    color: var(--theme-primary-1);
+  }
+  .initialColor {
+    color: var(--theme-text-3);
+  }
+}
+.borderChange {
+  border: 1px solid var(--theme-primary-1);
+}
+.submitButton {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 30px;
+  border-radius: 8px;
+  padding: 10px 40px 10px 40px;
+  align-items: center;
+  letter-spacing: -0.01em;
+  color: var(--theme-primary-1);
+  border: 1px solid var(--theme-primary-1);
+}
+.buttonColorChange {
+  background-color: var(--theme-primary-1);
+  color: var(--theme-governance-cardBg);
+}
+.poll {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+}

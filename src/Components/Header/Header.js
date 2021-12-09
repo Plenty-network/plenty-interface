@@ -86,12 +86,12 @@ const Header = (props) => {
 
   return (
     <>
-      <Container fluid>
+      <Container className={splitLocation[1] === 'Governance' && 'headerBg'} fluid>
         <Row>
           <Col sm={12} md={12}>
             <Navbar collapseOnSelect expand="lg" className="px-0 menu-wrapper">
               <Navbar.Brand as={Link} to="/" className="col-4 m-0">
-                {props.isFrontPage ? (
+                {props.isFrontPage || splitLocation[1] === 'Governance' ? (
                   <LogoWhite />
                 ) : props.theme === 'light' ? (
                   <Logo />
@@ -109,7 +109,9 @@ const Header = (props) => {
                 <span
                   className={clsx(
                     'material-icons-round',
-                    props.isFrontPage ? 'text-white' : 'span-themed',
+                    props.isFrontPage || splitLocation[1] === 'Governance'
+                      ? 'text-white'
+                      : 'span-themed',
                   )}
                 >
                   more_vert
@@ -130,7 +132,13 @@ const Header = (props) => {
                       to="/swap"
                       onClick={resetActiveTab}
                     >
-                      <span className={clsx(props.isFrontPage ? 'text-white' : undefined)}>
+                      <span
+                        className={clsx(
+                          props.isFrontPage || splitLocation[1] === 'Governance'
+                            ? 'text-white'
+                            : undefined,
+                        )}
+                      >
                         Swap
                       </span>
                     </Nav.Link>
@@ -143,7 +151,13 @@ const Header = (props) => {
                       to="/tokens"
                       onClick={resetActiveTab}
                     >
-                      <span className={clsx(props.isFrontPage ? 'text-white' : undefined)}>
+                      <span
+                        className={clsx(
+                          props.isFrontPage || splitLocation[1] === 'Governance'
+                            ? 'text-white'
+                            : undefined,
+                        )}
+                      >
                         Tokens
                       </span>
                     </Nav.Link>
@@ -156,7 +170,13 @@ const Header = (props) => {
                       to="/farms"
                       onClick={resetActiveTab}
                     >
-                      <span className={clsx(props.isFrontPage ? 'text-white' : undefined)}>
+                      <span
+                        className={clsx(
+                          props.isFrontPage || splitLocation[1] === 'Governance'
+                            ? 'text-white'
+                            : undefined,
+                        )}
+                      >
                         Farms
                       </span>
                     </Nav.Link>
@@ -169,8 +189,33 @@ const Header = (props) => {
                       to="/stake"
                       onClick={resetActiveTab}
                     >
-                      <span className={clsx(props.isFrontPage ? 'text-white' : undefined)}>
+                      <span
+                        className={clsx(
+                          props.isFrontPage || splitLocation[1] === 'Governance'
+                            ? 'text-white'
+                            : undefined,
+                        )}
+                      >
                         Stake
+                      </span>
+                    </Nav.Link>
+                    <Nav.Link
+                      className={clsx(
+                        splitLocation[1] === 'Governance' ? 'menu-item-active' : 'menu-item',
+                        'align-self-end align-self-lg-center d-flex align-items-center',
+                      )}
+                      as={Link}
+                      to="/Governance"
+                      onClick={resetActiveTab}
+                    >
+                      <span
+                        className={clsx(
+                          props.isFrontPage || splitLocation[1] === 'Governance'
+                            ? 'text-white'
+                            : undefined,
+                        )}
+                      >
+                        Governance
                       </span>
                     </Nav.Link>
                   </div>
@@ -185,7 +230,9 @@ const Header = (props) => {
                             className={clsx(
                               'theme-icon',
                               'material-icons-round',
-                              props.isFrontPage ? 'icon-white' : 'span-themed',
+                              props.isFrontPage || splitLocation[1] === 'Governance'
+                                ? 'icon-white'
+                                : 'span-themed',
                             )}
                           >
                             dark_mode
@@ -210,7 +257,13 @@ const Header = (props) => {
                           }
                           className="align-self-end align-self-lg-center nav-link"
                         >
-                          <span className={clsx(props.isFrontPage ? 'text-white' : 'span-themed')}>
+                          <span
+                            className={clsx(
+                              props.isFrontPage || splitLocation[1] === 'Governance'
+                                ? 'text-white'
+                                : 'span-themed',
+                            )}
+                          >
                             Docs
                           </span>
                         </a>
@@ -218,7 +271,13 @@ const Header = (props) => {
                           href={'https://plentydefi.medium.com/'}
                           className="align-self-end align-self-lg-center nav-link"
                         >
-                          <span className={clsx(props.isFrontPage ? 'text-white' : 'span-themed')}>
+                          <span
+                            className={clsx(
+                              props.isFrontPage || splitLocation[1] === 'Governance'
+                                ? 'text-white'
+                                : 'span-themed',
+                            )}
+                          >
                             Blog
                           </span>
                         </a>
@@ -226,7 +285,13 @@ const Header = (props) => {
                           href={'https://github.com/Plenty-DeFi'}
                           className="align-self-end align-self-lg-center nav-link"
                         >
-                          <span className={clsx(props.isFrontPage ? 'text-white' : 'span-themed')}>
+                          <span
+                            className={clsx(
+                              props.isFrontPage || splitLocation[1] === 'Governance'
+                                ? 'text-white'
+                                : 'span-themed',
+                            )}
+                          >
                             GitHub
                           </span>
                         </a>
@@ -234,7 +299,13 @@ const Header = (props) => {
                           onClick={toggleNodeSelectorHandler}
                           className="align-self-end align-self-lg-center nav-link"
                         >
-                          <span className={clsx(props.isFrontPage ? 'text-white' : 'span-themed')}>
+                          <span
+                            className={clsx(
+                              props.isFrontPage || splitLocation[1] === 'Governance'
+                                ? 'text-white'
+                                : 'span-themed',
+                            )}
+                          >
                             Node Selector
                           </span>
                         </a>
@@ -245,7 +316,9 @@ const Header = (props) => {
                           <span
                             className={clsx(
                               'flex header-click align-items-center material-icons-round',
-                              props.isFrontPage ? 'text-white' : 'span-themed',
+                              props.isFrontPage || splitLocation[1] === 'Governance'
+                                ? 'text-white'
+                                : 'span-themed',
                             )}
                           >
                             more_vert

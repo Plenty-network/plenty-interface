@@ -18,6 +18,7 @@
   --theme-text-inactive: #b0b7c3;
   --theme-text-3: #8a94a6;
   --theme-text-4: #b0b7c3;
+  --theme-text-5: #8a94a6;
   --theme-bg-1: #f9fafa;
   --theme-bg-2: #f3f3f3;
   --theme-bg-3: #fafbfc;
@@ -33,6 +34,13 @@
   --theme-button-bg: #e3d1ff;
   --theme-hover-bg: #f2f0f9;
   --theme-radio-button: #8b83ba;
+  --theme-governance-bg: linear-gradient(180deg, #7028e4 50%, #ffffff 50%);
+  --theme-governance-text: #04091b;
+  --theme-governance-cardBg: #ffffff;
+  --theme-governance-postingInfo: #f3f4fb;
+  --theme-governance-line: #f1f1f1;
+  --theme-governance-headerBg: #7028e4;
+  --theme-governance-mobileBg: #7028e4;
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -52,8 +60,9 @@
   --theme-text-1: #ffffff;
   --theme-text-inactive: #b0b7c3; // TODO find
   --theme-text-2: #ffffff;
-  --theme-text-3: #8a94a6; // TODO find
+  --theme-text-3: #8a94a6;
   --theme-text-4: #b0b7c3; // TODO find
+  --theme-text-5: #394460;
   --theme-bg-1: #333e5b;
   --theme-bg-2: #394460;
   --theme-bg-3: #fafbfc; // TODO find
@@ -69,6 +78,18 @@
   --theme-button-bg: #fafbfc;
   --theme-hover-bg: #59617a;
   --theme-radio-button: #ffffff;
+  --theme-governance-bg: linear-gradient(
+    180deg,
+    var(--theme-bg-1) 50%,
+    #04152e 48.85%,
+    #82858a 191.76%
+  );
+  --theme-governance-text: #edecef;
+  --theme-governance-cardBg: #1a2134;
+  --theme-governance-postingInfo: rgba(255, 255, 255, 0.06);
+  --theme-governance-line: rgba(241, 241, 241, 0.1);
+  --theme-governance-mobileBg: linear-gradient(90.61deg, #04152e 35.85%, #82858a 135.76%);
+  --theme-governance-headerBg: #333e5b;
 }
 
 :root.theme-transiton {
