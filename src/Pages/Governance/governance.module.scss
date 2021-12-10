@@ -72,6 +72,7 @@
     }
   }
   .border {
+    position: relative;
     background: linear-gradient(
       100.44deg,
       #f8b67f 0%,
@@ -82,11 +83,15 @@
     padding: 1px;
     margin-top: 100px;
     border-radius: 8px;
-    @media screen and (min-width: 320px) and (max-width: 992px) {
+    @media screen and (min-width: 320px) and (max-width: 767px) {
       background: none;
       margin: 20px auto;
       padding: 0px;
       border-radius: 0px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 992px) {
+      margin-top: 30px;
+      margin-bottom: 30px;
     }
   }
   .gov {
@@ -96,13 +101,14 @@
 }
 .voteModal {
   box-shadow: 0px 2px 32px -5px rgba(100, 96, 105, 0.15);
-  max-width: 476px;
+
   background: var(--theme-governance-cardBg);
   border-radius: 8px;
   padding: 30px 32px;
+  margin: auto;
   @media screen and (min-width: 320px) and (max-width: 767px) {
-    width: 401px;
-
+    max-width: 440px;
+    border-radius: 0px;
     box-shadow: none;
     padding: 20px 40px;
     margin: 0 auto;
@@ -128,6 +134,9 @@
     background: var(--theme-governance-postingInfo);
     border: 1px solid #cdcfd5;
     height: 30px;
+  }
+  .percentage {
+    color: var(--theme-primary-1);
   }
   .line {
     border-bottom: 1px solid var(--theme-governance-line);
@@ -172,7 +181,7 @@
     font-weight: 500;
     line-height: 30px;
     letter-spacing: -0.01em;
-    width: 70%;
+    width: 74%;
   }
   .colorChange {
     color: var(--theme-primary-1);

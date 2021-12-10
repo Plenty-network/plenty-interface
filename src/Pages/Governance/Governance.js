@@ -14,7 +14,7 @@ const Governance = () => {
   const voteModal = useMemo(() => {
     return (
       <div
-        className={`row justify-content-center col-20 col-md-20 col-lg-10 col-xl-10 ${styles.gov}`}
+        className={`justify-content-center mx-auto col-20 col-md-10 col-lg-10 col-xl-10 ${styles.gov}`}
       >
         <div className={styles.border}>
           <div className={` ${styles.voteModal}`}>
@@ -53,7 +53,16 @@ const Governance = () => {
               >
                 Accept
               </label>
-              {isSubmitted && <span>97.5%</span>}
+              {isSubmitted && (
+                <span
+                  className={clsx(
+                    styles.percentage,
+                    voteSelected === 'accept' ? styles.colorChange : styles.initialColor,
+                  )}
+                >
+                  97.5%
+                </span>
+              )}
             </div>
 
             <div
@@ -82,7 +91,16 @@ const Governance = () => {
               >
                 Reject
               </label>
-              {isSubmitted && <span>97.5%</span>}
+              {isSubmitted && (
+                <span
+                  className={clsx(
+                    styles.percentage,
+                    voteSelected === 'reject' ? styles.colorChange : styles.initialColor,
+                  )}
+                >
+                  97.5%
+                </span>
+              )}
             </div>
             <div
               className={clsx(
@@ -110,7 +128,16 @@ const Governance = () => {
               >
                 Abstained
               </label>
-              {isSubmitted && <span>97.5%</span>}
+              {isSubmitted && (
+                <span
+                  className={clsx(
+                    styles.percentage,
+                    voteSelected === 'abstained' ? styles.colorChange : styles.initialColor,
+                  )}
+                >
+                  97.5%
+                </span>
+              )}
             </div>
             <span
               className={clsx(
@@ -141,7 +168,7 @@ const Governance = () => {
         <Row className="row justify-content-center">
           <Col xs={20} sm={8} md={10} lg={6} xl={5}>
             <div className=" row justify-content-center">
-              <div className=" col-24 col-sm-20 col-md-20 col-lg-8 col-xl-10">
+              <div className=" col-24 col-sm-20 col-md-10 col-lg-8 col-xl-10">
                 <Row className={styles.firstRow}>
                   <h6 className={styles.proposalHeading}>Proposal #1 • PIP-001</h6>
                   <h2 className={`mt-3 ${styles.govHeading}`}>
@@ -177,7 +204,7 @@ const Governance = () => {
               </div>
             </div>
           </Col>
-          <Col xs={10} sm={5} md={10} lg={6} xl={5}>
+          <Col xs={20} sm={5} md={10} lg={6} xl={6}>
             {!isMobile && voteModal}
           </Col>
         </Row>

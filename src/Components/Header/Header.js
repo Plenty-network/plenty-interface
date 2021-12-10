@@ -51,19 +51,30 @@ const Header = (props) => {
           )}
         >
           <div
-            className={clsx('connect-wallet-btn', props.isFrontPage ? 'text-white' : 'span-themed')}
+            className={clsx(
+              'connect-wallet-btn',
+              props.isFrontPage || splitLocation[1] === 'Governance' ? 'text-white' : 'span-themed',
+            )}
           >
             <div className="flex flex-row align-items-center">
               <span
                 className={clsx(
                   'mr-1',
                   'material-icons-round',
-                  props.isFrontPage ? 'text-white' : 'span-themed',
+                  props.isFrontPage || splitLocation[1] === 'Governance'
+                    ? 'text-white'
+                    : 'span-themed',
                 )}
               >
                 add
               </span>
-              <span className={clsx(props.isFrontPage ? 'text-white' : 'span-themed')}>
+              <span
+                className={clsx(
+                  props.isFrontPage || splitLocation[1] === 'Governance'
+                    ? 'text-white'
+                    : 'span-themed',
+                )}
+              >
                 Connect to Wallet
               </span>
             </div>
