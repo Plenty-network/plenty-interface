@@ -105,6 +105,10 @@ const Farms = (props) => {
         return farm.farmData.message?.includes('YOU rewards');
       }
 
+      if (tabChange === FARM_TAB.STAKED) {
+        return farm.properties.balance > 0;
+      }
+
       return true;
     },
     [tabChange],
@@ -139,6 +143,7 @@ const Farms = (props) => {
               <Tab eventKey={FARM_TAB.ALL} title={FARM_TAB.ALL} />
               <Tab eventKey={FARM_TAB.YOU} title={FARM_TAB.YOU} />
               <Tab eventKey={FARM_TAB.CTEZ} title={FARM_TAB.CTEZ} />
+              <Tab eventKey={FARM_TAB.STAKED} title={FARM_TAB.STAKED} />
             </Tabs>
 
             <div className={styles.selectForm}>
