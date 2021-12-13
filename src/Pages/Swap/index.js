@@ -21,7 +21,7 @@ import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import { tokens } from '../../constants/swapPage';
 
 import { useLocationStateInSwap } from './hooks';
-import { getBestRouteAPI } from '../../apis/swap/swap-v2';
+import { getAllRoutes } from '../../apis/swap/swap-v3';
 
 const Swap = (props) => {
   const { activeTab, setActiveTab, tokenIn, setTokenIn, tokenOut, setTokenOut } =
@@ -70,10 +70,11 @@ const Swap = (props) => {
         Object.prototype.hasOwnProperty.call(tokenIn, 'name') &&
         Object.prototype.hasOwnProperty.call(tokenOut, 'name')
       ) {
-        getBestRouteAPI(tokenIn.name, tokenOut.name).then((response) => {
+        getAllRoutes(tokenIn.name, tokenOut.name).then((response) => {
           if (response.success) {
+            console.log({ response });
             setRouteData(response);
-            setSwapData(response.bestRoute.swapData);
+            setSwapData(response.bestRouteUntilNoInput.swapData);
             setLoaderInButton(false);
           }
         });
