@@ -106,7 +106,7 @@ const Farms = (props) => {
       }
 
       if (tabChange === FARM_TAB.STAKED) {
-        return farm.properties.balance > 0;
+        return props.userStakes[farm.farmData.CONTRACT]?.stakedAmount > 0;
       }
 
       return true;
