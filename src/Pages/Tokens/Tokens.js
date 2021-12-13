@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Container from 'react-bootstrap/Container';
-import styles from './tokens.module.scss';
 import Table from '../../Components/Table/Table';
 import Button from '../../Components/Ui/Buttons/Button';
 import { PuffLoader } from 'react-spinners';
@@ -8,14 +7,15 @@ import { BsSearch } from 'react-icons/bs';
 import { FormControl, Image, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import SimpleLineChart from '../../Components/Charts/SimpleLineChart';
-import { useFavoriteToken } from './useTokensPage';
+import { useFavoriteToken } from '../../hooks/useFavoriteToken';
 import { TokensSymbol, TokensSymbolHeader } from '../../Components/TokensPage/TokensSymbol';
 import { ReactComponent as FavoriteIconGradient } from '../../assets/images/tokens/favorite-icon-fill.svg';
 import { useGet7DaysChangeQuery, useGetTokensQuery } from '../../redux/slices/tokens/tokens.query';
+import { useLazyImages, useTableNumberUtils } from '../../hooks/usePlentyTableHooks';
+
+import styles from '../../assets/scss/tokens.module.scss';
 
 const Tokens = () => {
-  const [imgPaths, setImgPath] = useState({});
-
   const {
     data = [],
     isLoading,
@@ -31,84 +31,12 @@ const Tokens = () => {
     },
   );
 
-  const loadImageFor = useCallback(
-    (token) => {
-      // ? if token exists, abort
-      if (imgPaths[token]) {
-        return;
-      }
-
-      setImgPath((prev) => ({
-        ...prev,
-        [token]: {
-          ...prev[token],
-          loading: true,
-        },
-      }));
-
-      import(`../../assets/images/tokens/${token}.png`).then((image) => {
-        setImgPath((prev) => ({
-          ...prev,
-          [token]: {
-            url: image['default'] ?? image,
-            loading: false,
-          },
-        }));
-      });
-    },
-    [imgPaths],
-  );
-
-  useEffect(() => {
-    data.forEach((datum) => {
-      loadImageFor(datum.symbol_token);
-    });
-  }, [loadImageFor, data]);
-
-  const positiveOrNegative = (value) => {
-    if (Number(value) > 0) {
-      return <span className={styles.greenText}>+{value}%</span>;
-    } else if (Number(value) < 0) {
-      return <span className={styles.redText}>{value}%</span>;
-    } else {
-      return value;
-    }
-  };
-
-  const valueFormat = (value, opt = {}) => {
-    if (value >= 100) {
-      return `${opt.percentChange ? '' : '$'}${Math.round(value).toLocaleString('en-US')}`;
-    }
-
-    if (!opt.percentChange && value < 0.01) {
-      return '< $0.01';
-    }
-    return `${opt.percentChange ? '' : '$'}${value.toLocaleString('en-US', {
-      maximumFractionDigits: 2,
-      minimumFractionDigits: 2,
-    })}`;
-  };
-
-  const stringSort = useMemo(
-    () => (rowA, rowB, columnId) => {
-      const a = String(rowA.values[columnId]).toLowerCase();
-      const b = String(rowB.values[columnId]).toLowerCase();
-      return a.localeCompare(b);
-    },
-    [],
-  );
-
-  const numberSort = useMemo(
-    () => (rowA, rowB, columnId) => {
-      const a = parseFloat(rowA.values[columnId]);
-      const b = parseFloat(rowB.values[columnId]);
-      return a > b ? 1 : -1;
-    },
-    [],
-  );
+  const { imgPaths } = useLazyImages({ data });
 
   const { isOnlyFavTokens, setIsOnlyFavTokens, favoriteTokens, editFavoriteTokenList } =
     useFavoriteToken();
+
+  const { positiveOrNegative, valueFormat, stringSort, numberSort } = useTableNumberUtils();
 
   // ? Move to React Table filter later
   const finalData = useMemo(() => {

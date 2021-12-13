@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { FAVORITE_TOKENS } from '../../constants/localStorage';
+import { FAVORITE_TOKENS } from '../constants/localStorage';
 
 const useFavoriteToken = () => {
   const [isOnlyFavTokens, setIsOnlyFavTokens] = useState(false);

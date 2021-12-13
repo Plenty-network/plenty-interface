@@ -5,7 +5,7 @@ import * as userActions from '../redux/actions/user/user.action';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { BsSearch } from 'react-icons/bs';
-import styles1 from './Tokens/tokens.module.scss';
+import styles1 from '../assets/scss/tokens.module.scss';
 import { FormControl, InputGroup, Tabs, Tab } from 'react-bootstrap';
 import * as walletActions from '../redux/actions/wallet/wallet.action';
 import Switch from '../Components/Ui/Switch/Switch';

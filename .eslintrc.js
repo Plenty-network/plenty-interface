@@ -16,6 +16,7 @@ const mainRules = {
   eqeqeq: ['error', 'always', { null: 'ignore' }],
   'no-var': 'error',
   'no-unused-vars': ['error', { varsIgnorePattern: '^_' }],
+  'react/react-in-jsx-scope': 'off',
   // TODO Add this rule
   // 'no-console': ['error', { allow: ['warn', 'error'] }],
 };
