@@ -164,7 +164,7 @@ const SwapTab = (props) => {
         maximumFractionDigits: 20,
         useGrouping: false,
       }) ?? 0;
-    props.setFirstTokenAmount(value.substring(0, value.length - 1));
+    handleSwapTokenInput(value, 'tokenIn');
   };
 
   // TODO Refactor once again
