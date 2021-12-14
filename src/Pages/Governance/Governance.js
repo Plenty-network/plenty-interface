@@ -127,8 +127,12 @@ const Governance = (props) => {
                       : styles.initialColor,
                   )}
                 >
-                  {props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS &&
-                    `${props.gov.yayPercentage}%`}
+                  {props.gov.yayPercentage === undefined ? (
+                    <span className="shimmer">999</span>
+                  ) : (
+                    props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS &&
+                    `${props.gov.yayPercentage}%`
+                  )}
                 </span>
               )}
             </div>
@@ -168,8 +172,12 @@ const Governance = (props) => {
                       : styles.initialColor,
                   )}
                 >
-                  {props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS &&
-                    `${props.gov.nayPercentage}%`}
+                  {props.gov.nayPercentage === undefined ? (
+                    <span className="shimmer">999</span>
+                  ) : (
+                    props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS &&
+                    `${props.gov.nayPercentage}%`
+                  )}
                 </span>
               )}
             </div>
@@ -212,8 +220,12 @@ const Governance = (props) => {
                       : styles.initialColor,
                   )}
                 >
-                  {props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS &&
-                    `${props.gov.absPercentage}%`}
+                  {props.gov.absPercentage === undefined ? (
+                    <span className="shimmer">999</span>
+                  ) : (
+                    props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS &&
+                    `${props.gov.absPercentage}%`
+                  )}
                 </span>
               )}
             </div>
@@ -280,11 +292,7 @@ const Governance = (props) => {
             <div className={styles.resultsHeader}>
               <p className={styles.voteHeading}>Results</p>
               <p className={styles.res}>
-                {proposalResult === '' ? (
-                  <span className="shimmer">999999999</span>
-                ) : (
-                  proposalResult
-                )}
+                {proposalResult === '' ? <span className="shimmer">999</span> : proposalResult}
               </p>
             </div>
             <div className={`my-4 ${styles.line} `}></div>
@@ -309,7 +317,7 @@ const Governance = (props) => {
 
               <span className={clsx(styles.textColor, styles.percentageResults)}>
                 {props.gov.yayPercentage === undefined ? (
-                  <span className="shimmer">999999999</span>
+                  <span className="shimmer">999</span>
                 ) : (
                   `${props.gov.yayPercentage}%`
                 )}
@@ -318,7 +326,7 @@ const Governance = (props) => {
             <div className={styles.totalStats}>
               <span>
                 {props.gov.yayCount === undefined ? (
-                  <span className="shimmer">999999999</span>
+                  <span className="shimmer">999</span>
                 ) : (
                   `${props.gov.yayCount} votes`
                 )}{' '}
@@ -348,7 +356,7 @@ const Governance = (props) => {
 
               <span className={clsx(styles.textColor, styles.percentageResults)}>
                 {props.gov.nayPercentage === undefined ? (
-                  <span className="shimmer">999999999</span>
+                  <span className="shimmer">999</span>
                 ) : (
                   `${props.gov.nayPercentage}%`
                 )}
@@ -357,7 +365,7 @@ const Governance = (props) => {
             <div className={styles.totalStats}>
               <span>
                 {props.gov.nayCount === undefined ? (
-                  <span className="shimmer">999999999</span>
+                  <span className="shimmer">999</span>
                 ) : (
                   `${props.gov.nayCount} votes`
                 )}{' '}
@@ -386,7 +394,7 @@ const Governance = (props) => {
 
               <span className={clsx(styles.textColor, styles.percentageResults)}>
                 {props.gov.absPercentage === undefined ? (
-                  <span className="shimmer">999999999</span>
+                  <span className="shimmer">999</span>
                 ) : (
                   `${props.gov.absPercentage}%`
                 )}
@@ -395,7 +403,7 @@ const Governance = (props) => {
             <div className={styles.totalStats}>
               <span>
                 {props.gov.absCount === undefined ? (
-                  <span className="shimmer">999999999</span>
+                  <span className="shimmer">999</span>
                 ) : (
                   `${props.gov.absCount} votes`
                 )}{' '}
@@ -405,8 +413,11 @@ const Governance = (props) => {
             </div>
             <span className={`mt-5  ${styles.totalStats}`}>
               <CheckViolet className="mr-2 mb-1" />
-
-              {`${props.gov.totalVotes} total number of votes.`}
+              {props.gov.absPercentage === undefined ? (
+                <span className="shimmer">999</span>
+              ) : (
+                `${props.gov.totalVotes} total number of votes.`
+              )}
             </span>
             <div className={`mt-3 ${styles.resultsDates}`}>
               <span className={styles.startEndLabel}>Start Date</span>
