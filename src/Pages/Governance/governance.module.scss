@@ -51,6 +51,7 @@
       margin-top: 20px;
       margin-right: 20px;
       margin-left: 10px;
+      padding-top: 40px;
       padding-bottom: 20px;
     }
 
@@ -264,6 +265,10 @@
   background: var(--theme-governance-infoBg);
   display: flex;
   justify-content: space-around;
+  .xyz {
+    align-items: center;
+    display: flex;
+  }
   .infoIcon {
     width: 42px;
     height: 42px;
@@ -307,4 +312,11 @@
 }
 .percentageResults {
   float: right;
+}
+.totalVotes {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: 0em;
 }

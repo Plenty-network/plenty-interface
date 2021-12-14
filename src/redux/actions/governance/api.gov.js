@@ -39,7 +39,7 @@ export const submitVote = async (voteNumber) => {
       const Tezos = new TezosToolkit(rpcNode);
       Tezos.setRpcProvider(rpcNode);
       Tezos.setWalletProvider(wallet);
-      const ContractAddress = CONFIG.governance.address;
+      const ContractAddress = CONFIG.GOVERNANCE.address;
       const results = await Tezos.contract.at(ContractAddress);
       const batch = Tezos.wallet.batch().withContractCall(results.methods.vote(voteNumber));
       const batchOperation = await batch.send();
@@ -65,38 +65,37 @@ export const getVoteDataApi = async (status) => {
     //   `${rpcNode}chains/main/blocks/head/context/contracts/${dexContractAddress}/storage`,
     // );
     const response = await axios.get(
-      'https://mainnet.smartpy.io/chains/main/blocks/head/context/contracts/KT1JkG8yMiV9XTTVH9GMoFXbB5LKFFSwfLju/storage',
+      'https://mainnet.smartpy.io/chains/main/blocks/head/context/contracts/KT1HiQmDGiMxEmLdbTNpVZpxwnjgXNdkoyyP/storage',
     );
 
-    let yayCount = parseInt(response.data.args[4].int);
-    if (yayCount) {
-      yayCount = yayCount * 1e-18;
-      console.log(yayCount);
-    }
+    const abstainTokensCount = parseInt(response.data.args[0].args[0].args[0].int) / 1e18;
 
-    let nayCount = parseInt(response.data.args[0].args[0].args[1].int);
-    if (nayCount) {
-      nayCount = nayCount * 1e-18;
-    }
+    const absCount = parseInt(response.data.args[0].args[0].args[1].int);
 
-    let abstainCount = parseInt(response.data.args[0].args[0].args[0].int);
-    if (abstainCount) {
-      abstainCount = abstainCount * 1e-18;
-    }
-    console.log(abstainCount);
-    const totalVotes = yayCount + nayCount + abstainCount;
+    const nayTokensCount = parseInt(response.data.args[0].args[0].args[2].int) / 1e18;
+
+    const nayCount = parseInt(response.data.args[0].args[1].args[0].int);
+
+    const yayTokensCount = parseInt(response.data.args[3].int) / 1e18;
+
+    const yayCount = parseInt(response.data.args[4].int);
+
+    const totalVotes = yayCount + nayCount + absCount;
     const yayPer = (yayCount / totalVotes) * 100;
     const nayPer = (nayCount / totalVotes) * 100;
-    const absPer = (abstainCount / totalVotes) * 100;
+    const absPer = (absCount / totalVotes) * 100;
 
     const data = {
-      yayCount: yayCount.toFixed(1),
-      nayCount: nayCount.toFixed(1),
-      absCount: abstainCount.toFixed(1),
+      yayCount: yayCount,
+      nayCount: nayCount,
+      absCount: absCount,
       totalVotes: totalVotes.toFixed(),
-      yayPercentage: yayPer.toFixed(1),
-      nayPercentage: nayPer.toFixed(1),
-      absPercentage: absPer.toFixed(1),
+      yayPercentage: yayPer.toFixed(2),
+      nayPercentage: nayPer.toFixed(2),
+      absPercentage: absPer.toFixed(2),
+      yayTokens: yayTokensCount.toFixed(2),
+      nayTokens: nayTokensCount.toFixed(2),
+      absTokens: abstainTokensCount.toFixed(2),
     };
     return {
       success: true,

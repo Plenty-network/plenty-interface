@@ -127,12 +127,12 @@ const Governance = (props) => {
                       : styles.initialColor,
                   )}
                 >
-                  {props.gov.yayPercentage === undefined ? (
-                    <span className="shimmer">999</span>
-                  ) : (
-                    props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS &&
-                    `${props.gov.yayPercentage}%`
-                  )}
+                  {props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS &&
+                    (props.gov.yayPercentage === undefined ? (
+                      <span className="shimmer">999</span>
+                    ) : (
+                      `${props.gov.yayPercentage}%`
+                    ))}
                 </span>
               )}
             </div>
@@ -172,12 +172,12 @@ const Governance = (props) => {
                       : styles.initialColor,
                   )}
                 >
-                  {props.gov.nayPercentage === undefined ? (
-                    <span className="shimmer">999</span>
-                  ) : (
-                    props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS &&
-                    `${props.gov.nayPercentage}%`
-                  )}
+                  {props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS &&
+                    (props.gov.nayPercentage === undefined ? (
+                      <span className="shimmer">999</span>
+                    ) : (
+                      `${props.gov.nayPercentage}%`
+                    ))}
                 </span>
               )}
             </div>
@@ -220,12 +220,12 @@ const Governance = (props) => {
                       : styles.initialColor,
                   )}
                 >
-                  {props.gov.absPercentage === undefined ? (
-                    <span className="shimmer">999</span>
-                  ) : (
-                    props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS &&
-                    `${props.gov.absPercentage}%`
-                  )}
+                  {props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS &&
+                    (props.gov.absPercentage === undefined ? (
+                      <span className="shimmer">999</span>
+                    ) : (
+                      `${props.gov.absPercentage}%`
+                    ))}
                 </span>
               )}
             </div>
@@ -252,7 +252,11 @@ const Governance = (props) => {
                   <Check className="mr-2 mb-1" />
                 )}
                 {props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS &&
-                  `${props.gov.totalVotes}voted so far.`}
+                  (props.gov.totalVotes === undefined ? (
+                    <span className="shimmer">999</span>
+                  ) : (
+                    `${props.gov.totalVotes} voted so far.`
+                  ))}
               </span>
             </div>
             <div className="mt-3">
@@ -268,8 +272,10 @@ const Governance = (props) => {
               PIP was inserted on-chain. Users can cast their vote for the duration of one week.
             </p>
             <div className={`px-4 py-4 ${styles.info}`}>
-              <div className={styles.infoIcon}>
-                <Info />
+              <div className={styles.xyz}>
+                <div className={styles.infoIcon}>
+                  <Info />
+                </div>
               </div>
               <div className={` ${styles.infoText}`}>
                 This is a light version of the upcoming Plenty governance process that will be
@@ -329,10 +335,16 @@ const Governance = (props) => {
                   <span className="shimmer">999</span>
                 ) : (
                   `${props.gov.yayCount} votes`
-                )}{' '}
+                )}
               </span>
               <span className={`mx-2  ${styles.dot}`}></span>
-              <span>347,803 xplenty</span>
+              <span>
+                {props.gov.yayTokens === undefined ? (
+                  <span className="shimmer">999</span>
+                ) : (
+                  `${props.gov.yayTokens} xplenty`
+                )}
+              </span>
             </div>
 
             <div
@@ -371,7 +383,13 @@ const Governance = (props) => {
                 )}{' '}
               </span>
               <span className={`mx-2  ${styles.dot}`}></span>
-              <span>347,803 xplenty</span>
+              <span>
+                {props.gov.nayTokens === undefined ? (
+                  <span className="shimmer">999</span>
+                ) : (
+                  `${props.gov.nayTokens} xplenty`
+                )}
+              </span>
             </div>
             <div
               className={clsx(
@@ -409,7 +427,13 @@ const Governance = (props) => {
                 )}{' '}
               </span>
               <span className={`mx-2  ${styles.dot}`}></span>
-              <span>347,803 xplenty</span>
+              <span>
+                {props.gov.absTokens === undefined ? (
+                  <span className="shimmer">999</span>
+                ) : (
+                  `${props.gov.absTokens} xplenty`
+                )}
+              </span>
             </div>
             <span className={`mt-5  ${styles.totalStats}`}>
               <CheckViolet className="mr-2 mb-1" />
