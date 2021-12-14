@@ -2,23 +2,20 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useMemo, useState } from 'react';
 import SwapDetails from '../SwapDetails';
 import ConfirmSwap from './ConfirmSwap';
-import {
-  computeOutputBasedOnTokenOutAmount,
-  computeTokenOutput,
-  swapTokens,
-} from '../../apis/swap/swap';
+import { swapTokens } from '../../apis/swap/swap';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Button from '../Ui/Buttons/Button';
 import {
-  computeTokenOutForRouteBaseByOutAmountV2,
   computeTokenOutForRouteBaseV2,
-  swapTokenUsingRouteV2,
+  swapTokenUsingRouteV3,
+  computeTokenOutForRouteBaseByOutAmountV2,
 } from '../../apis/swap/swap-v2';
 
 const SwapTab = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
   const [secondTokenAmount, setSecondTokenAmount] = useState();
+  const [routePath, setRoutePath] = useState([]);
   const [computedData, setComputedData] = useState({
     success: false,
     data: {
@@ -36,72 +33,52 @@ const SwapTab = (props) => {
       setFirstTokenAmount('');
       setSecondTokenAmount('');
     } else {
-      const isDirectRoute = props.routeData.bestRoute?.path.length === 2;
-
       if (tokenType === 'tokenIn') {
         setFirstTokenAmount(input);
 
-        if (isDirectRoute) {
-          const computedData = computeTokenOutput(
-            parseFloat(input),
-            props.routeData.bestRoute.swapData?.[0].tokenIn_supply,
-            props.routeData.bestRoute.swapData?.[0].tokenOut_supply,
-            props.routeData.bestRoute.swapData?.[0].exchangeFee,
-            props.slippage,
-          );
-          setComputedData({
-            success: true,
-            data: {
-              tokenOutAmount: computedData.tokenOut_amount,
-              fees: [computedData.fees],
-              totalFees: computedData.fees,
-              minimumOut: [computedData.minimum_Out],
-              finalMinimumOut: computedData.minimum_Out,
-              priceImpact: computedData.priceImpact,
-            },
-          });
-          setSecondTokenAmount(computedData.tokenOut_amount);
-        } else {
-          const res = computeTokenOutForRouteBaseV2(
-            input,
-            props.routeData.bestRoute.swapData,
-            props.slippage,
-          );
-          setComputedData(res);
-          setSecondTokenAmount(res.data.tokenOutAmount);
-        }
+        const res = computeTokenOutForRouteBaseV2(input, props.routeData.allRoutes, props.slippage);
+
+        setComputedData(res);
+        setComputedData({
+          success: true,
+          data: {
+            tokenOutAmount: res.bestRoute.computations.tokenOutAmount,
+            fees: res.bestRoute.computations.fees,
+            totalFees: res.bestRoute.computations.fees[res.bestRoute.computations.fees.length - 1],
+            minimumOut: res.bestRoute.computations.minimumOut,
+            finalMinimumOut:
+              res.bestRoute.computations.minimumOut[
+                res.bestRoute.computations.minimumOut.length - 1
+              ],
+            priceImpact: res.bestRoute.computations.priceImpact,
+          },
+        });
+        setRoutePath(res.bestRoute.path);
+        setSecondTokenAmount(res.bestRoute.computations.tokenOutAmount);
       } else if (tokenType === 'tokenOut') {
         setSecondTokenAmount(input);
 
-        if (isDirectRoute) {
-          const computedData = computeOutputBasedOnTokenOutAmount(
-            parseFloat(input),
-            props.routeData.bestRoute.swapData?.[0].tokenIn_supply,
-            props.routeData.bestRoute.swapData?.[0].tokenOut_supply,
-            props.routeData.bestRoute.swapData?.[0].exchangeFee,
-            props.slippage,
-          );
-          setComputedData({
-            success: true,
-            data: {
-              tokenOutAmount: computedData.tokenOut_amount,
-              fees: [computedData.fees],
-              totalFees: computedData.fees,
-              minimumOut: [computedData.minimum_Out],
-              finalMinimumOut: computedData.minimum_Out,
-              priceImpact: computedData.priceImpact,
-            },
-          });
-          setFirstTokenAmount(computedData.tokenIn_amount);
-        } else {
-          const res = computeTokenOutForRouteBaseByOutAmountV2(
-            input,
-            props.routeData.bestRoute.swapData,
-            props.slippage,
-          );
-          setComputedData(res);
-          setFirstTokenAmount(res.data.tokenInAmount);
-        }
+        const res = computeTokenOutForRouteBaseByOutAmountV2(
+          input,
+          props.routeData.allRoutes,
+          props.slippage,
+        );
+        setComputedData({
+          success: true,
+          data: {
+            tokenOutAmount: res.bestRoute.computations.tokenOutAmount,
+            fees: res.bestRoute.computations.fees,
+            totalFees: res.bestRoute.computations.fees[res.bestRoute.computations.fees.length - 1],
+            minimumOut: res.bestRoute.computations.minimumOut,
+            finalMinimumOut:
+              res.bestRoute.computations.minimumOut[
+                res.bestRoute.computations.minimumOut.length - 1
+              ],
+            priceImpact: res.bestRoute.computations.priceImpact,
+          },
+        });
+        setRoutePath(res.bestRoute.path);
+        setFirstTokenAmount(res.bestRoute.computations.tokenInAmount);
       }
     }
   };
@@ -151,10 +128,10 @@ const SwapTab = (props) => {
     props.setLoaderInButton(true);
     const recepientAddress = props.recepient ? props.recepient : props.walletAddress;
 
-    if (props.routeData.bestRoute?.path.length <= 2) {
+    if (routePath.length <= 2) {
       swapTokens(
-        props.tokenIn.name,
-        props.tokenOut.name,
+        routePath[0],
+        routePath[1],
         computedData.data.finalMinimumOut,
         recepientAddress,
         firstTokenAmount,
@@ -167,8 +144,8 @@ const SwapTab = (props) => {
         }, 5000);
       });
     } else {
-      swapTokenUsingRouteV2(
-        props.routeData.bestRoute.path,
+      swapTokenUsingRouteV3(
+        routePath,
         computedData.data.minimumOut,
         props.walletAddress,
         firstTokenAmount,
@@ -187,7 +164,7 @@ const SwapTab = (props) => {
         maximumFractionDigits: 20,
         useGrouping: false,
       }) ?? 0;
-    props.setFirstTokenAmount(value.substring(0, value.length - 1));
+    handleSwapTokenInput(value, 'tokenIn');
   };
 
   // TODO Refactor once again
@@ -395,13 +372,13 @@ const SwapTab = (props) => {
                 placement="auto"
                 overlay={
                   <Tooltip id="swap-token-out-tooltip" {...props}>
-                    {props.routeData.bestRoute.tokenOutPerTokenIn}
+                    {props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn}
                   </Tooltip>
                 }
               >
                 <div>
-                  {props.routeData.bestRoute.tokenOutPerTokenIn
-                    ? props.routeData.bestRoute.tokenOutPerTokenIn.toFixed(3)
+                  {props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn
+                    ? props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn.toFixed(3)
                     : 0}{' '}
                   {props.tokenOut.name}
                 </div>
@@ -423,6 +400,7 @@ const SwapTab = (props) => {
         {swapContentButton}
         {props.walletAddress && props.tokenIn.name && props.tokenOut.name && (
           <SwapDetails
+            routePath={routePath}
             computedOutDetails={computedData}
             tokenIn={props.tokenIn}
             tokenOut={props.tokenOut}
