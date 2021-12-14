@@ -21,7 +21,7 @@ import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import { tokens } from '../../constants/swapPage';
 
 import { useLocationStateInSwap } from './hooks';
-import { getAllRoutes } from '../../apis/swap/swap-v3';
+import { getAllRoutes } from '../../apis/swap/swap-v2';
 
 const Swap = (props) => {
   const { activeTab, setActiveTab, tokenIn, setTokenIn, tokenOut, setTokenOut } =

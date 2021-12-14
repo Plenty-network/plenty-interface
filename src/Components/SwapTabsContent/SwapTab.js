@@ -7,10 +7,10 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Button from '../Ui/Buttons/Button';
 import {
-  computeTokenOutForRouteBaseV3,
+  computeTokenOutForRouteBaseV2,
   swapTokenUsingRouteV3,
-  computeTokenOutForRouteBaseByOutAmountV3,
-} from '../../apis/swap/swap-v3';
+  computeTokenOutForRouteBaseByOutAmountV2,
+} from '../../apis/swap/swap-v2';
 
 const SwapTab = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -36,7 +36,7 @@ const SwapTab = (props) => {
       if (tokenType === 'tokenIn') {
         setFirstTokenAmount(input);
 
-        const res = computeTokenOutForRouteBaseV3(input, props.routeData.allRoutes, props.slippage);
+        const res = computeTokenOutForRouteBaseV2(input, props.routeData.allRoutes, props.slippage);
 
         setComputedData(res);
         setComputedData({
@@ -58,7 +58,7 @@ const SwapTab = (props) => {
       } else if (tokenType === 'tokenOut') {
         setSecondTokenAmount(input);
 
-        const res = computeTokenOutForRouteBaseByOutAmountV3(
+        const res = computeTokenOutForRouteBaseByOutAmountV2(
           input,
           props.routeData.allRoutes,
           props.slippage,
@@ -77,7 +77,6 @@ const SwapTab = (props) => {
             priceImpact: res.bestRoute.computations.priceImpact,
           },
         });
-        console.log(res);
         setRoutePath(res.bestRoute.path);
         setFirstTokenAmount(res.bestRoute.computations.tokenInAmount);
       }
