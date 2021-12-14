@@ -3,6 +3,7 @@ import CONFIG from '../../../config/config';
 import { BeaconWallet } from '@taquito/beacon-wallet';
 import { TezosToolkit } from '@taquito/taquito';
 import { RPC_NODE } from '../../../constants/localStorage';
+import { TezosMessageUtils, TezosParameterFormat } from 'conseiljs';
 
 const CheckIfWalletConnected = async (wallet) => {
   try {
@@ -101,5 +102,41 @@ export const getVoteDataApi = async (status) => {
       success: true,
       data,
     };
+  }
+};
+
+const getPackedKey = (address) => {
+  const accountHex = `0x${TezosMessageUtils.writeAddress(address)}`;
+  let packedKey = null;
+
+  packedKey = TezosMessageUtils.encodeBigMapKey(
+    // eslint-disable-next-line no-undef
+    Buffer.from(
+      TezosMessageUtils.writePackedData(`${accountHex}`, '', TezosParameterFormat.Michelson),
+      'hex',
+    ),
+  );
+
+  return packedKey;
+};
+
+export const checkVote = async (address) => {
+  try {
+    const userKey = getPackedKey(address);
+    const response = await axios.get(
+      `https://mainnet.smartpy.io/chains/main/blocks/head/context/big_maps/55015/${userKey}`,
+    );
+    const response1 = await axios.get(
+      'https://mainnet.smartpy.io/chains/main/blocks/head/context/contracts/KT1HiQmDGiMxEmLdbTNpVZpxwnjgXNdkoyyP/storage',
+    );
+    const proposalString = response1.data.args[0].args[1].args[1].bytes;
+
+    if (response.data.bytes === proposalString) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    return false;
   }
 };

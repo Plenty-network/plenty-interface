@@ -5,11 +5,9 @@ export const getVoteData = (voteNumber) => {
   return (dispatch) => {
     dispatch({ type: actions.FETCH_VOTE });
     govApis.submitVote(voteNumber).then((voteRes) => {
-      console.log(voteRes);
       govApis
         .getVoteDataApi(voteRes.success)
         .then((res) => {
-          console.log(res);
           if (res.success) {
             dispatch({
               type: actions.FETCH_VOTE_SUCCESS,
@@ -31,7 +29,6 @@ export const getVoteResults = () => {
     govApis
       .getVoteDataApi(true)
       .then((res) => {
-        console.log(res);
         if (res.success) {
           dispatch({
             type: actions.FETCH_VOTE_RESULTS,
@@ -44,5 +41,18 @@ export const getVoteResults = () => {
       .catch(() => {
         dispatch({ type: actions.FETCH_VOTE_FAILED });
       });
+  };
+};
+
+export const checkIfAlreadyVoted = (address) => {
+  return (dispatch) => {
+    dispatch({ type: actions.FETCH_VOTE });
+
+    govApis.checkVote(address).then((res) => {
+      dispatch({
+        type: actions.FETCH_ALREADY_VOTED,
+        data: res,
+      });
+    });
   };
 };

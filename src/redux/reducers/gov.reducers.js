@@ -5,6 +5,7 @@ const initialState = {
   gov: {
     isPresent: false,
     loading: false,
+    alreadyVoted: false,
     data: {},
   },
   modals: {
@@ -35,6 +36,11 @@ const govReducer = (state = initialState, action) => {
       return {
         ...state,
         gov: { isPresent: true, loading: false, data: action.data },
+      };
+    case actions.FETCH_ALREADY_VOTED:
+      return {
+        ...state,
+        gov: { isPresent: true, loading: false, alreadyVoted: action.data },
       };
     case actions.FETCH_VOTE_FAILED:
       return {

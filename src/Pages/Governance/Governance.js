@@ -18,7 +18,11 @@ import useMediaQuery from '../../hooks/mediaQuery';
 import * as walletActions from '../../redux/actions/wallet/wallet.action';
 import { GOV_PAGE_MODAL } from '../../constants/govPage';
 
-import { getVoteData, getVoteResults } from '../../redux/actions/governance/gov.actions';
+import {
+  getVoteData,
+  getVoteResults,
+  checkIfAlreadyVoted,
+} from '../../redux/actions/governance/gov.actions';
 
 const Governance = (props) => {
   const isMobile = useMediaQuery('(max-width: 991px)');
@@ -27,7 +31,7 @@ const Governance = (props) => {
   const [voteEnded, setVoteEnded] = useState(false);
   const [loaderMessage, setLoaderMessage] = useState({});
   const [proposalResult, setProposalResult] = useState('');
-  const widthper = '10%';
+
   useEffect(() => {
     const d = new Date();
     if (d.getDate() === GOV_PAGE_MODAL.END_DATE) {
@@ -35,13 +39,19 @@ const Governance = (props) => {
       setVoteEnded(true);
     }
   }, []);
+  useEffect(() => {
+    if (props.walletAddress) {
+      props.getAlreadyVoted(props.walletAddress);
+      setIsSubmitted(true);
+    }
+  }, [props.walletAddress]);
 
   useEffect(() => {
-    if (props.gov?.yayCount >= props.gov?.nayCount && props.gov.yayCount >= props.gov.absCount) {
+    if (props.gov?.yayCount >= props.gov?.nayCount && props.gov?.yayCount >= props.gov?.absCount) {
       setProposalResult(GOV_PAGE_MODAL.ACCEPTED);
-    } else if (props.gov.nayCount > props.gov.absCount) {
+    } else if (props.gov?.nayCount > props.gov?.absCount) {
       setProposalResult(GOV_PAGE_MODAL.REJECTED);
-    } else if (props.gov.absCount > props.gov.nayCount) {
+    } else if (props.gov?.absCount > props.gov?.nayCount) {
       setProposalResult(GOV_PAGE_MODAL.ABSTAINED);
     }
   }, [props.gov]);
@@ -59,6 +69,7 @@ const Governance = (props) => {
             ? 'Transaction confirmed'
             : 'Transaction failed',
       });
+      props.modalData === GOV_PAGE_MODAL.TRANSACTION_FAILED && setIsSubmitted(false);
       setTimeout(() => {
         setLoaderMessage({});
       }, 5000);
@@ -78,6 +89,7 @@ const Governance = (props) => {
       }
     }
   }, [isSubmitted]);
+
   const voteModal = useMemo(() => {
     return (
       <div
@@ -96,7 +108,6 @@ const Governance = (props) => {
                 styles.votingBox,
                 voteSelected === GOV_PAGE_MODAL.ACCEPT ? styles.borderChange : styles.initialColor,
               )}
-              width={widthper}
             >
               <input
                 className={` ${styles.option}`}
@@ -128,7 +139,7 @@ const Governance = (props) => {
                   )}
                 >
                   {props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS &&
-                    (props.gov.yayPercentage === undefined ? (
+                    (props.gov?.yayPercentage === undefined ? (
                       <span className="shimmer">999</span>
                     ) : (
                       `${props.gov.yayPercentage}%`
@@ -173,7 +184,7 @@ const Governance = (props) => {
                   )}
                 >
                   {props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS &&
-                    (props.gov.nayPercentage === undefined ? (
+                    (props.gov?.nayPercentage === undefined ? (
                       <span className="shimmer">999</span>
                     ) : (
                       `${props.gov.nayPercentage}%`
@@ -219,7 +230,7 @@ const Governance = (props) => {
                   )}
                 >
                   {props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS &&
-                    (props.gov.absPercentage === undefined ? (
+                    (props.gov?.absPercentage === undefined ? (
                       <span className="shimmer">999</span>
                     ) : (
                       `${props.gov.absPercentage}%`
@@ -229,6 +240,7 @@ const Governance = (props) => {
             </div>
             <div className={` ${styles.submit}`}>
               <Button
+                disabled={props.alreadyVoted}
                 className={clsx(
                   styles.submitButton,
                   voteSelected ? styles.buttonColorChange : styles.initialColor,
@@ -243,6 +255,8 @@ const Governance = (props) => {
                 )}
                 {isSubmitted && props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS
                   ? 'Submitted'
+                  : props.alreadyVoted
+                  ? 'Voted'
                   : 'Submit'}
               </Button>
               <span className={`my-2 ml-4 ${styles.totalVotes}`}>
@@ -250,7 +264,7 @@ const Governance = (props) => {
                   <Check className="mr-2 mb-1" />
                 )}
                 {props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS &&
-                  (props.gov.totalVotes === undefined ? (
+                  (props.gov?.totalVotes === undefined ? (
                     <span className="shimmer">999</span>
                   ) : (
                     `${props.gov.totalVotes} voted so far.`
@@ -284,7 +298,7 @@ const Governance = (props) => {
         </div>
       </div>
     );
-  }, [voteSelected, isSubmitted, props.loading, props.modalData]);
+  }, [voteSelected, isSubmitted, props.loading, props.modalData, props.alreadyVoted]);
 
   const voteModalResults = useMemo(() => {
     return (
@@ -327,7 +341,7 @@ const Governance = (props) => {
               </label>
 
               <span className={clsx(styles.textColor, styles.percentageResults)}>
-                {props.gov.yayPercentage === undefined ? (
+                {props.gov?.yayPercentage === undefined ? (
                   <span className="shimmer">999</span>
                 ) : (
                   `${props.gov.yayPercentage}%`
@@ -336,7 +350,7 @@ const Governance = (props) => {
             </div>
             <div className={styles.totalStats}>
               <span>
-                {props.gov.yayCount === undefined ? (
+                {props.gov?.yayCount === undefined ? (
                   <span className="shimmer">999</span>
                 ) : (
                   `${props.gov.yayCount} votes`
@@ -344,7 +358,7 @@ const Governance = (props) => {
               </span>
               <span className={`mx-2  ${styles.dot}`}></span>
               <span>
-                {props.gov.yayTokens === undefined ? (
+                {props.gov?.yayTokens === undefined ? (
                   <span className="shimmer">999</span>
                 ) : (
                   `${props.gov.yayTokens} xplenty`
@@ -372,7 +386,7 @@ const Governance = (props) => {
               </label>
 
               <span className={clsx(styles.textColor, styles.percentageResults)}>
-                {props.gov.nayPercentage === undefined ? (
+                {props.gov?.nayPercentage === undefined ? (
                   <span className="shimmer">999</span>
                 ) : (
                   `${props.gov.nayPercentage}%`
@@ -381,7 +395,7 @@ const Governance = (props) => {
             </div>
             <div className={styles.totalStats}>
               <span>
-                {props.gov.nayCount === undefined ? (
+                {props.gov?.nayCount === undefined ? (
                   <span className="shimmer">999</span>
                 ) : (
                   `${props.gov.nayCount} votes`
@@ -389,7 +403,7 @@ const Governance = (props) => {
               </span>
               <span className={`mx-2  ${styles.dot}`}></span>
               <span>
-                {props.gov.nayTokens === undefined ? (
+                {props.gov?.nayTokens === undefined ? (
                   <span className="shimmer">999</span>
                 ) : (
                   `${props.gov.nayTokens} xplenty`
@@ -416,7 +430,7 @@ const Governance = (props) => {
               </label>
 
               <span className={clsx(styles.textColor, styles.percentageResults)}>
-                {props.gov.absPercentage === undefined ? (
+                {props.gov?.absPercentage === undefined ? (
                   <span className="shimmer">999</span>
                 ) : (
                   `${props.gov.absPercentage}%`
@@ -425,7 +439,7 @@ const Governance = (props) => {
             </div>
             <div className={styles.totalStats}>
               <span>
-                {props.gov.absCount === undefined ? (
+                {props.gov?.absCount === undefined ? (
                   <span className="shimmer">999</span>
                 ) : (
                   `${props.gov.absCount} votes`
@@ -433,7 +447,7 @@ const Governance = (props) => {
               </span>
               <span className={`mx-2  ${styles.dot}`}></span>
               <span>
-                {props.gov.absTokens === undefined ? (
+                {props.gov?.absTokens === undefined ? (
                   <span className="shimmer">999</span>
                 ) : (
                   `${props.gov.absTokens} xplenty`
@@ -442,7 +456,7 @@ const Governance = (props) => {
             </div>
             <span className={`mt-5  ${styles.totalStats}`}>
               <CheckViolet className="mr-2 mb-1" />
-              {props.gov.absPercentage === undefined ? (
+              {props.gov?.totalVotes === undefined ? (
                 <span className="shimmer">999</span>
               ) : (
                 `${props.gov.totalVotes} total number of votes.`
@@ -536,11 +550,13 @@ const mapStateToProps = (state) => {
     loading: state.governance.gov.loading,
     modalData: state.governance.modals.open,
     userAddress: state.wallet.address,
+    alreadyVoted: state.governance.gov.alreadyVoted,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     getVote: (voteSelected) => dispatch(getVoteData(voteSelected)),
+    getAlreadyVoted: (address) => dispatch(checkIfAlreadyVoted(address)),
     getResults: () => dispatch(getVoteResults()),
     connectWallet: () => dispatch(walletActions.connectWallet()),
   };
@@ -555,4 +571,7 @@ Governance.propTypes = {
   getVote: PropTypes.any,
   getResults: PropTypes.any,
   loading: PropTypes.any,
+  getAlreadyVoted: PropTypes.any,
+  walletAddress: PropTypes.any,
+  alreadyVoted: PropTypes.any,
 };
