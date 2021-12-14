@@ -45,7 +45,7 @@
     }
   }
   .secondRow {
-    margin-top: 80px;
+    margin-top: 150px;
 
     @media screen and (min-width: 320px) and (max-width: 768px) {
       margin-top: 20px;
@@ -78,6 +78,12 @@
       list-style-position: inside;
       a {
         color: var(--theme-governance-buttonBorder);
+      }
+      @media screen and (min-width: 320px) and (max-width: 993px) {
+        color: white;
+        a {
+          color: white;
+        }
       }
     }
   }
@@ -120,12 +126,16 @@
     display: flex;
     justify-content: space-between;
     .res {
+      font-size: 13px;
+      font-style: normal;
+      font-weight: 700;
+      letter-spacing: -0.01em;
       padding-left: 15px;
       padding-right: 15px;
-      padding-top: 4px;
-      background: #01d1ff;
+      padding-top: 6px;
+      background: var(--theme-governance-openBg);
       border-radius: 1505px;
-      color: var(--theme-governance-cardBg);
+      color: var(--theme-governance-openText);
     }
   }
   .voteHeading {

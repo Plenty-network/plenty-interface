@@ -10,6 +10,7 @@ import { ReactComponent as Clock } from '../../assets/images/clock.svg';
 import { ReactComponent as Info } from '../../assets/images/Icon.svg';
 import { ReactComponent as Check } from '../../assets/images/check-circle.svg';
 import { ReactComponent as CheckViolet } from '../../assets/images/CheckCircle.svg';
+import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
 import Button from '../../Components/Ui/Buttons/Button';
 import { connect } from 'react-redux';
 import useMediaQuery from '../../hooks/mediaQuery';
@@ -245,7 +246,7 @@ const Governance = (props) => {
             <div className="mt-3">
               <Clock />
               <span className={`ml-2 ${styles.poll}`}>
-                This poll closes on <b>Dec 12, 2021</b>
+                Voting closes on <b>Dec 16, 2021</b>
               </span>
             </div>
             <div className={`my-4 ${styles.line} `}></div>
@@ -467,14 +468,18 @@ const Governance = (props) => {
                     <a href="https://forum.plentydefi.com/" target="_blank" rel="noreferrer">
                       View Forum
                     </a>
+                    <Link className="ml-2 mb-1" />
                   </p>
 
-                  <p className={`${styles.discriptionInfo}`}>IPFS link to proposal.</p>
+                  <p className={`${styles.discriptionInfo}`}>
+                    IPFS link to proposal.
+                    <Link className="ml-2 mb-1" />
+                  </p>
                 </Row>
               </div>
             </div>
           </Col>
-          <Col xs={20} sm={5} md={10} lg={6} xl={6}>
+          <Col xs={20} sm={5} md={10} lg={6} xl={5}>
             {!isMobile && (voteEnded ? voteModalResults : voteModal)}
           </Col>
         </Row>
