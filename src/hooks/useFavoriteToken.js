@@ -1,12 +1,17 @@
-import { useCallback, useEffect, useState } from 'react';
-import { FAVORITE_TOKENS } from '../constants/localStorage';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { TOKEN_FAVORITE_TOKENS, LIQUIDITY_FAVORITE_TOKENS } from '../constants/localStorage';
 
-const useFavoriteToken = () => {
+const useFavoriteToken = (page) => {
   const [isOnlyFavTokens, setIsOnlyFavTokens] = useState(false);
   const [favoriteTokens, setFavoriteTokens] = useState([]);
 
+  const localStorageKey = useMemo(
+    () => (page === 'token' ? TOKEN_FAVORITE_TOKENS : LIQUIDITY_FAVORITE_TOKENS),
+    [page],
+  );
+
   useEffect(() => {
-    const localFavTokens = localStorage.getItem(FAVORITE_TOKENS)?.split(',') ?? [];
+    const localFavTokens = localStorage.getItem(localStorageKey)?.split(',') ?? [];
     setFavoriteTokens(localFavTokens);
   }, []);
 
@@ -24,7 +29,7 @@ const useFavoriteToken = () => {
         updatedToken = [...updatedToken, tokenSymbol];
       }
 
-      localStorage.setItem(FAVORITE_TOKENS, updatedToken.join(','));
+      localStorage.setItem(localStorageKey, updatedToken.join(','));
       setFavoriteTokens(updatedToken);
     },
     [favoriteTokens, setFavoriteTokens],

@@ -7,7 +7,7 @@ import PuffLoader from 'react-spinners/PuffLoader';
 
 const Button = (props) => {
   // ? Destructing and setting default props if any
-  const { color = 'default', size = 'default', isIconBtn = false } = props;
+  const { color = 'default', size = 'default', isIconBtn = false, iconBtnType = 'round' } = props;
 
   return (
     <button
@@ -16,6 +16,9 @@ const Button = (props) => {
         isIconBtn ? styles.iconBtn : styles.btn,
         styles[color],
         {
+          [styles.roundIconBtn]: isIconBtn && iconBtnType === 'round',
+          [styles.squareIconBtn]: isIconBtn && iconBtnType === 'square',
+          [styles.largeIconBtn]: isIconBtn && size === 'large',
           [styles.smallBtn]: size === 'small',
         },
         props.className,
@@ -24,7 +27,9 @@ const Button = (props) => {
     >
       {props.loading && <PuffLoader color={'#fff'} size={28} />}
       {!props.loading && props.startIcon && (
-        <span className="material-icons-round mr-1">{props.startIcon}</span>
+        <span className={clsx('material-icons-round', !(isIconBtn && size === 'large') && 'mr-1')}>
+          {props.startIcon}
+        </span>
       )}
       {!props.loading && !isIconBtn && <span>{props.children}</span>}
     </button>
@@ -33,7 +38,8 @@ const Button = (props) => {
 
 Button.propTypes = {
   color: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'default', 'mute']),
-  size: PropTypes.oneOf(['small', 'default']),
+  size: PropTypes.oneOf(['small', 'default', 'large']),
+  iconBtnType: PropTypes.oneOf(['round', 'square']),
   className: PropTypes.string,
   isIconBtn: PropTypes.bool,
   loading: PropTypes.bool,

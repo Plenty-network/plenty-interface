@@ -1,47 +1,34 @@
 import React, { useMemo, useState } from 'react';
 import Container from 'react-bootstrap/Container';
+import styles from '../../assets/scss/tokens.module.scss';
 import Table from '../../Components/Table/Table';
 import Button from '../../Components/Ui/Buttons/Button';
 import { PuffLoader } from 'react-spinners';
 import { BsSearch } from 'react-icons/bs';
-import { FormControl, Image, InputGroup } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import SimpleLineChart from '../../Components/Charts/SimpleLineChart';
+import { FormControl, InputGroup } from 'react-bootstrap';
+import { createSearchParams, Link } from 'react-router-dom';
 import { useFavoriteToken } from '../../hooks/useFavoriteToken';
 import { TokensSymbol, TokensSymbolHeader } from '../../Components/TokensPage/TokensSymbol';
 import { ReactComponent as FavoriteIconGradient } from '../../assets/images/tokens/favorite-icon-fill.svg';
-import { useGet7DaysChangeQuery, useGetTokensQuery } from '../../redux/slices/tokens/tokens.query';
+
 import { useLazyImages, useTableNumberUtils } from '../../hooks/usePlentyTableHooks';
+import mockData from './mock-data';
+import TokenAvatar from '../../Components/Ui/TokenAvatar/TokenAvatar';
 
-import styles from '../../assets/scss/tokens.module.scss';
+const LiquidityPage = () => {
+  const { data, isLoading, error } = { data: mockData, isLoading: false, error: null };
 
-const Tokens = () => {
-  const {
-    data = [],
-    isLoading,
-    error,
-  } = useGetTokensQuery(undefined, {
-    pollingInterval: 30_000,
-  });
-
-  const { data: priceChangeData = {}, isLoading: priceChangeLoading } = useGet7DaysChangeQuery(
-    undefined,
-    {
-      pollingInterval: 30_000,
-    },
-  );
-
-  const { imgPaths } = useLazyImages({ data });
+  const { imgPaths } = useLazyImages({ data, page: 'liquidity' });
 
   const { isOnlyFavTokens, setIsOnlyFavTokens, favoriteTokens, editFavoriteTokenList } =
-    useFavoriteToken('token');
+    useFavoriteToken('liquidity');
 
   const { positiveOrNegative, valueFormat, stringSort, numberSort } = useTableNumberUtils();
 
   // ? Move to React Table filter later
   const finalData = useMemo(() => {
     if (isOnlyFavTokens) {
-      return data?.filter((datum) => favoriteTokens.includes(datum.symbol_token)) ?? [];
+      return data?.filter((datum) => favoriteTokens.includes(datum.pool_contract)) ?? [];
     }
 
     return data;
@@ -58,98 +45,102 @@ const Tokens = () => {
           />
         ),
         id: 'favorite',
-        accessor: 'symbol_token',
+        accessor: 'pool_contract',
         disableSortBy: true,
-        Cell: (row) => (
-          <TokensSymbol
-            tokenSymbol={row.value}
-            className={styles.favoriteIcon}
-            favoriteTokens={favoriteTokens}
-            editFavoriteTokenList={editFavoriteTokenList}
-          />
-        ),
+        Cell: (row) => {
+          return (
+            <TokensSymbol
+              tokenSymbol={row.row.original.token2}
+              className={styles.favoriteIcon}
+              favoriteTokens={favoriteTokens}
+              editFavoriteTokenList={editFavoriteTokenList}
+            />
+          );
+        },
       },
       {
         Header: <span className="ml-2">Name</span>,
         id: 'token',
-        accessor: 'symbol_token',
+        accessor: 'token1',
         sortType: stringSort,
-        Cell: (row) => (
-          <div className="d-flex pl-2 align-items-center">
-            <Image src={imgPaths[row.value]?.url} height={32} width={32} alt={''} />
-            <span className="ml-2 mr-4">{row.value}</span>
-          </div>
-        ),
+        Cell: (row) => {
+          const { token1, token2 } = row.row.original;
+          return (
+            <div className="d-flex pl-2 align-items-center">
+              <TokenAvatar imgPath1={imgPaths[token1]} imgPath2={imgPaths[token2]} />
+              <span className="ml-2 mr-4">
+                {token1} / {token2}
+              </span>
+            </div>
+          );
+        },
         width: 120,
       },
       {
-        Header: 'Price',
-        accessor: 'token_price',
+        Header: 'Liquidity',
+        accessor: 'total_liquidity',
         sortType: numberSort,
         Cell: (row) => <span title={row.value}>{valueFormat(row.value)}</span>,
       },
       {
-        Header: '24h Change',
-        accessor: 'price_change_percentage',
+        Header: '24h Volume',
+        accessor: '24h_volume',
+        sortType: numberSort,
+        Cell: (row) => <span>{valueFormat(row.value)}</span>,
+      },
+      {
+        Header: '24h Fees',
+        accessor: '24h_fee',
         sortType: numberSort,
         Cell: (row) => (
           <span>{positiveOrNegative(valueFormat(row.value, { percentChange: true }))}</span>
         ),
       },
       {
-        Header: '24h Volume',
-        accessor: 'volume_token',
+        Header: 'LP APR',
+        accessor: 'APR',
         sortType: numberSort,
         Cell: (row) => <span>{valueFormat(row.value)}</span>,
-      },
-      {
-        Header: 'Liquidity',
-        accessor: 'liquidity',
-        sortType: numberSort,
-        Cell: (row) => <span>{valueFormat(row.value)}</span>,
-      },
-      {
-        id: 'price7d',
-        Header: 'Last 7 Days',
-        accessor: 'symbol_token',
-        Cell: (row) => {
-          let value = [...(priceChangeData[row.value] ?? [])].reverse();
-
-          if (priceChangeLoading) return <div />;
-
-          if (value.length === 0) return <div>N/A</div>;
-
-          const changePositive = value[value.length - 1].value >= value[0].value;
-
-          if (value.length <= 38) {
-            const timeData = priceChangeData.PLENTY.map((x) => ({
-              ...x,
-              value: undefined,
-            })).reverse();
-            value = [...timeData.filter((x) => x.time < value[0].time), ...value];
-          }
-
-          return (
-            <SimpleLineChart
-              data={value}
-              color={changePositive ? '#4FBF67' : '#FF7A68'}
-              className="mx-2"
-            />
-          );
-        },
-        minWidth: 170,
-        disableSortBy: true,
       },
       {
         disableSortBy: true,
         Header: '',
         id: 'trade',
         accessor: (x) => (
-          <Link style={{ textDecoration: 'none' }} to={`/swap?from=${x.symbol_token}`}>
-            <Button color="primary" className={styles.tradeBtn}>
-              Trade
-            </Button>
-          </Link>
+          <div className="d-flex">
+            <Link
+              style={{ textDecoration: 'none' }}
+              to={{
+                pathname: '/liquidity',
+                search: `?${createSearchParams({
+                  tokenA: x.token1,
+                  tokenB: x.token2,
+                })}`,
+              }}
+            >
+              <Button color="primary" isIconBtn startIcon="add" iconBtnType="square" size="large" />
+            </Link>
+
+            <Link
+              className="ml-2"
+              style={{ textDecoration: 'none' }}
+              to={{
+                pathname: '/swap',
+                search: `?${createSearchParams({
+                  from: x.token1,
+                  to: x.token2,
+                })}`,
+              }}
+            >
+              <Button
+                color="default"
+                isIconBtn
+                startIcon="swap_vert"
+                iconBtnType="square"
+                size="large"
+              />
+            </Link>
+          </div>
         ),
         width: 120,
       },
@@ -162,8 +153,6 @@ const Tokens = () => {
       favoriteTokens,
       editFavoriteTokenList,
       imgPaths,
-      priceChangeData,
-      priceChangeLoading,
     ],
   );
 
@@ -209,4 +198,4 @@ const Tokens = () => {
   );
 };
 
-export default Tokens;
+export default LiquidityPage;

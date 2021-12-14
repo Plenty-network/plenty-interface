@@ -1,8 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from '../assets/scss/tokens.module.scss';
 
-export const useLazyImages = ({ data }) => {
+export const useLazyImages = ({ data, page = 'token' }) => {
   const [imgPaths, setImgPath] = useState({});
+
+  useEffect(() => {
+    console.log({ imgPaths });
+  }, [imgPaths]);
 
   const loadImageFor = useCallback(
     (token) => {
@@ -34,7 +38,12 @@ export const useLazyImages = ({ data }) => {
 
   useEffect(() => {
     data?.forEach((datum) => {
-      loadImageFor(datum.symbol_token);
+      if (page === 'token') {
+        loadImageFor(datum.symbol_token);
+      } else if (page === 'liquidity') {
+        loadImageFor(datum.token1);
+        loadImageFor(datum.token2);
+      }
     });
   }, [loadImageFor, data]);
 
