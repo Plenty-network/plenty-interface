@@ -40,7 +40,8 @@
   --theme-governance-postingInfo: #f3f4fb;
   --theme-governance-line: #f1f1f1;
   --theme-governance-headerBg: #7028e4;
-  --theme-governance-mobileBg: #7028e4;
+  --theme-governance-mobileBg: linear-gradient(180deg, #7028e4 62%, #ffffff 38%);
+  --theme-governance-mobileHeaderBg: #7028e4;
   --theme-governance-infoText: rgba(51, 51, 51, 0.8);
   --theme-governance-infoBg: #f4f4f4;
   --theme-governance-votingBorder: none;
@@ -99,6 +100,7 @@
   --theme-governance-postingInfo: rgba(255, 255, 255, 0.06);
   --theme-governance-line: rgba(241, 241, 241, 0.1);
   --theme-governance-mobileBg: linear-gradient(90.61deg, #04152e 35.85%, #82858a 135.76%);
+  --theme-governance-mobileHeaderBg: linear-gradient(90.61deg, #04152e 35.85%, #82858a 135.76%);
   --theme-governance-headerBg: #333e5b;
   --theme-governance-infoText: rgba(237, 236, 239, 0.7);
   --theme-governance-infoBg: rgba(244, 244, 244, 0.1);

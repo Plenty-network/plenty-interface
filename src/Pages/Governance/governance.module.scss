@@ -52,11 +52,8 @@
       margin-right: 20px;
       margin-left: 10px;
       padding-bottom: 20px;
-      color: white;
     }
-    @media screen and (min-width: 769px) and (max-width: 993px) {
-      color: white;
-    }
+
     @media screen and (min-width: 992px) and (max-width: 1199px) {
       padding-top: 80px;
     }
@@ -78,12 +75,6 @@
       list-style-position: inside;
       a {
         color: var(--theme-governance-buttonBorder);
-      }
-      @media screen and (min-width: 320px) and (max-width: 993px) {
-        color: white;
-        a {
-          color: white;
-        }
       }
     }
   }
