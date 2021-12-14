@@ -37,12 +37,12 @@ const Governance = (props) => {
   }, []);
 
   useEffect(() => {
-    if (props.gov?.yayCount > props.gov?.nayCount && props.gov.yayCount > props.gov.absCount) {
-      setProposalResult('Accepted');
+    if (props.gov?.yayCount >= props.gov?.nayCount && props.gov.yayCount >= props.gov.absCount) {
+      setProposalResult(GOV_PAGE_MODAL.ACCEPTED);
     } else if (props.gov.nayCount > props.gov.absCount) {
-      setProposalResult('Rejected');
+      setProposalResult(GOV_PAGE_MODAL.REJECTED);
     } else if (props.gov.absCount > props.gov.nayCount) {
-      setProposalResult('Abstained');
+      setProposalResult(GOV_PAGE_MODAL.ABSTAINED);
     }
   }, [props.gov]);
 
@@ -73,7 +73,7 @@ const Governance = (props) => {
       if (voteSelected === GOV_PAGE_MODAL.REJECT) {
         props.getVote(GOV_PAGE_MODAL.REJECT_VOTE);
       }
-      if (voteSelected === GOV_PAGE_MODAL.ABSTAINED) {
+      if (voteSelected === GOV_PAGE_MODAL.ABSTAIN) {
         props.getVote(GOV_PAGE_MODAL.ABSTAINED_VOTE);
       }
     }
@@ -184,9 +184,7 @@ const Governance = (props) => {
             <div
               className={clsx(
                 styles.votingBox,
-                voteSelected === GOV_PAGE_MODAL.ABSTAINED
-                  ? styles.borderChange
-                  : styles.initialColor,
+                voteSelected === GOV_PAGE_MODAL.ABSTAIN ? styles.borderChange : styles.initialColor,
               )}
             >
               <input
@@ -194,7 +192,7 @@ const Governance = (props) => {
                 id="select-abstained"
                 type="radio"
                 name="where"
-                value={GOV_PAGE_MODAL.ABSTAINED}
+                value={GOV_PAGE_MODAL.ABSTAIN}
                 onClick={(e) => {
                   setVoteSelected(e.target.value);
                 }}
@@ -203,19 +201,19 @@ const Governance = (props) => {
                 className={clsx(
                   'ml-4',
                   styles.selectItem,
-                  voteSelected === GOV_PAGE_MODAL.ABSTAINED
+                  voteSelected === GOV_PAGE_MODAL.ABSTAIN
                     ? styles.colorChange
                     : styles.initialColor,
                 )}
                 htmlFor="select-abstained"
               >
-                {GOV_PAGE_MODAL.ABSTAINED}
+                {GOV_PAGE_MODAL.ABSTAIN}
               </label>
               {isSubmitted && (
                 <span
                   className={clsx(
                     styles.percentage,
-                    voteSelected === GOV_PAGE_MODAL.ABSTAINED
+                    voteSelected === GOV_PAGE_MODAL.ABSTAIN
                       ? styles.colorChange
                       : styles.initialColor,
                   )}
@@ -297,7 +295,14 @@ const Governance = (props) => {
           <div className={` ${styles.voteModal}`}>
             <div className={styles.resultsHeader}>
               <p className={styles.voteHeading}>Results</p>
-              <p className={styles.res}>
+              <p
+                className={clsx(
+                  styles.res,
+                  proposalResult === GOV_PAGE_MODAL.ACCEPTED && styles.accepted,
+                  proposalResult === GOV_PAGE_MODAL.REJECTED && styles.rejected,
+                  proposalResult === GOV_PAGE_MODAL.ABSTAINED && styles.abstained,
+                )}
+              >
                 {proposalResult === '' ? <span className="shimmer">999</span> : proposalResult}
               </p>
             </div>
@@ -318,7 +323,7 @@ const Governance = (props) => {
                 checked
               />
               <label className={clsx('ml-4', styles.selectItem)} htmlFor="select-accept">
-                Accepted
+                {GOV_PAGE_MODAL.ACCEPTED}
               </label>
 
               <span className={clsx(styles.textColor, styles.percentageResults)}>
@@ -363,7 +368,7 @@ const Governance = (props) => {
                 checked
               />
               <label className={clsx('ml-4', styles.selectItem)} htmlFor="select-reject">
-                Rejected
+                {GOV_PAGE_MODAL.REJECTED}
               </label>
 
               <span className={clsx(styles.textColor, styles.percentageResults)}>
@@ -403,11 +408,11 @@ const Governance = (props) => {
                 className={` ${styles.option}`}
                 id="select-abstained"
                 type="radio"
-                value={GOV_PAGE_MODAL.ABSTAINED}
+                value={GOV_PAGE_MODAL.ABSTAIN}
                 checked
               />
               <label className={clsx('ml-4', styles.selectItem)} htmlFor="select-abstained">
-                Abstained
+                {GOV_PAGE_MODAL.ABSTAINED}
               </label>
 
               <span className={clsx(styles.textColor, styles.percentageResults)}>

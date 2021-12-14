@@ -129,6 +129,18 @@
       border-radius: 1505px;
       color: var(--theme-governance-openText);
     }
+    .accepted {
+      background: var(--theme-governance-acceptBg);
+      color: var(--theme-governance-acceptText);
+    }
+    .rejected {
+      background: var(--theme-governance-rejectBg);
+      color: var(--theme-governance-rejectText);
+    }
+    .abstained {
+      background: var(--theme-governance-openBg);
+      color: var(--theme-governance-openText);
+    }
   }
   .voteHeading {
     font-size: 26px;
