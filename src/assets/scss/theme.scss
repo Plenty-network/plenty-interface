@@ -41,6 +41,12 @@
   --theme-governance-line: #f1f1f1;
   --theme-governance-headerBg: #7028e4;
   --theme-governance-mobileBg: #7028e4;
+  --theme-governance-infoText: rgba(51, 51, 51, 0.8);
+  --theme-governance-infoBg: #f4f4f4;
+  --theme-governance-votingBorder: none;
+  --theme-governance-buttonBorder: #6202ef;
+  --theme-governance-infoIcon: rgba(90, 90, 90, 0.1);
+  --theme-governance-totalVotesText: #4e5d78;
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -62,7 +68,7 @@
   --theme-text-2: #ffffff;
   --theme-text-3: #8a94a6;
   --theme-text-4: #b0b7c3; // TODO find
-  --theme-text-5: #394460;
+  --theme-text-5: #4e5d78;
   --theme-bg-1: #333e5b;
   --theme-bg-2: #394460;
   --theme-bg-3: #fafbfc; // TODO find
@@ -90,6 +96,18 @@
   --theme-governance-line: rgba(241, 241, 241, 0.1);
   --theme-governance-mobileBg: linear-gradient(90.61deg, #04152e 35.85%, #82858a 135.76%);
   --theme-governance-headerBg: #333e5b;
+  --theme-governance-infoText: rgba(237, 236, 239, 0.7);
+  --theme-governance-infoBg: rgba(244, 244, 244, 0.1);
+  --theme-governance-votingBorder: linear-gradient(
+    100.44deg,
+    #f8b67f 0%,
+    #ff5451 33.57%,
+    #ee1ec0 67.02%,
+    #a02cfc 103.97%
+  );
+  --theme-governance-buttonBorder: #c8a4fe;
+  --theme-governance-infoIcon: rgba(237, 236, 239, 0.1);
+  --theme-governance-totalVotesText: #8a94a6;
 }
 
 :root.theme-transiton {

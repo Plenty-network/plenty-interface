@@ -226,7 +226,7 @@ const Header = (props) => {
                             : undefined,
                         )}
                       >
-                        Governance
+                        Vote
                       </span>
                     </Nav.Link>
                   </div>

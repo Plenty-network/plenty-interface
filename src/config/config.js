@@ -4059,6 +4059,9 @@ export default {
       },
     },
   },
+  governance: {
+    address: 'KT1JkG8yMiV9XTTVH9GMoFXbB5LKFFSwfLju',
+  },
   NETWORK: 'mainnet',
   WALLET_NETWORK: 'mainnet',
   ADMIN_ADDRESS: 'KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW',
