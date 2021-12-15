@@ -106,7 +106,7 @@ const MyRoutes = (props) => {
               }
             />
             <Route
-              path="/governance"
+              path="/vote"
               element={
                 <Governance
                   toggleTheme={toggleTheme}

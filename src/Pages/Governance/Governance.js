@@ -31,14 +31,18 @@ const Governance = (props) => {
   const [voteEnded, setVoteEnded] = useState(false);
   const [loaderMessage, setLoaderMessage] = useState({});
   const [proposalResult, setProposalResult] = useState('');
+  const date = new Date();
 
   useEffect(() => {
-    const d = new Date();
-    if (d.getDate() === GOV_PAGE_MODAL.END_DATE) {
+    // if (date.getDate() === GOV_PAGE_MODAL.END_DATE) {
+    //   props.getResults();
+    //   setVoteEnded(true);
+    // }
+    if (date.getHours() === 17 && date.getMinutes() === 30) {
       props.getResults();
       setVoteEnded(true);
     }
-  }, []);
+  }, [date.getMinutes()]);
   useEffect(() => {
     if (props.walletAddress && voteEnded === false) {
       props.getAlreadyVoted(props.walletAddress);
@@ -111,7 +115,7 @@ const Governance = (props) => {
                 voteSelected === GOV_PAGE_MODAL.ACCEPT ? styles.borderChange : styles.initialColor,
               )}
             >
-              {props.alreadyVoted && (
+              {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted) && (
                 <div
                   className={clsx(
                     styles.votingBoxBg,
@@ -144,7 +148,7 @@ const Governance = (props) => {
               >
                 {GOV_PAGE_MODAL.ACCEPT}
               </label>
-              {props.alreadyVoted && (
+              {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted) && (
                 <span
                   className={clsx(
                     styles.percentage,
@@ -168,7 +172,7 @@ const Governance = (props) => {
                 voteSelected === GOV_PAGE_MODAL.REJECT ? styles.borderChange : styles.initialColor,
               )}
             >
-              {props.alreadyVoted && (
+              {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted) && (
                 <div
                   className={clsx(
                     styles.votingBoxBg,
@@ -201,7 +205,7 @@ const Governance = (props) => {
               >
                 {GOV_PAGE_MODAL.REJECT}
               </label>
-              {props.alreadyVoted && (
+              {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted) && (
                 <span
                   className={clsx(
                     styles.percentage,
@@ -224,7 +228,7 @@ const Governance = (props) => {
                 voteSelected === GOV_PAGE_MODAL.ABSTAIN ? styles.borderChange : styles.initialColor,
               )}
             >
-              {props.alreadyVoted && (
+              {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted) && (
                 <div
                   className={clsx(
                     styles.votingBoxBg,
@@ -259,7 +263,7 @@ const Governance = (props) => {
               >
                 {GOV_PAGE_MODAL.ABSTAIN}
               </label>
-              {props.alreadyVoted && (
+              {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted) && (
                 <span
                   className={clsx(
                     styles.percentage,
@@ -277,27 +281,37 @@ const Governance = (props) => {
               )}
             </div>
             <div className={` ${styles.submit}`}>
-              <Button
-                disabled={props.alreadyVoted || props.loading}
-                className={clsx(
-                  styles.submitButton,
-                  voteSelected || props.alreadyVoted
-                    ? styles.buttonColorChange
-                    : styles.initialColor,
-                  props.loading && styles.buttonColorChange,
-                )}
-                onClick={() => {
-                  setIsSubmitted(true);
-                }}
-                loading={props.loading}
-              >
-                {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted) && (
-                  <Check className="mr-2 mb-1" />
-                )}
-                {props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted
-                  ? 'Submitted'
-                  : 'Submit'}
-              </Button>
+              {props.walletAddress ? (
+                <Button
+                  disabled={props.alreadyVoted || props.loading}
+                  className={clsx(
+                    styles.submitButton,
+                    voteSelected || props.alreadyVoted
+                      ? styles.buttonColorChange
+                      : styles.initialColor,
+                    props.loading && styles.buttonColorChange,
+                  )}
+                  onClick={() => {
+                    setIsSubmitted(true);
+                  }}
+                  loading={props.loading}
+                >
+                  {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS ||
+                    props.alreadyVoted) && <Check className="mr-2 mb-1" />}
+                  {props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted
+                    ? 'Submitted'
+                    : 'Submit'}
+                </Button>
+              ) : (
+                <Button
+                  onClick={props.connecthWallet}
+                  className={styles.submitButton}
+                  startIcon="add"
+                >
+                  Connect Wallet
+                </Button>
+              )}
+
               <span className={`my-3 ml-4 ${styles.totalVotes}`}>
                 {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted) && (
                   <CheckViolet className="mr-2 mb-1" />
@@ -570,13 +584,14 @@ const Governance = (props) => {
                   <h2 className={`mt-3 ${styles.govHeading}`}>
                     Reducing the minting rate and farm rewards
                   </h2>
-                  {isMobile && (voteEnded ? voteModalResults : voteModal)}
+
                   <p className={`mt-3 ${styles.proposalInfo}`}>
                     The first proposal proposes a reduction of the minting rate from 50 PLENTY /
                     block to 30 PLENTY / block. The goal of this proposal is to reduce the amount of
                     PLENTY that leaves the circulation by reducing the newly incoming supply. This
                     will result in a new reward distribution schema for the PLENTY farms.
                   </p>
+                  {isMobile && (voteEnded ? voteModalResults : voteModal)}
                 </Row>
 
                 <Row className={` ${styles.secondRow}`}>
@@ -593,20 +608,31 @@ const Governance = (props) => {
                   </p>
                   <h4 className={` ${styles.plentyHeading}`}>Specifications</h4>
                   <p className={`mt-3 ${styles.discription}`}>
-                    Update the storage of tokensPerBlock to 30000000000000000000 Update farm rates
-                    [PLENTY farm distribution]
+                    Update the storage of tokensPerBlock to 30000000000000000000
                   </p>
+                  <p>Update farm rates [PLENTY farm distribution]</p>
                   <h4 className={` ${styles.plentyHeading}`}>More information</h4>
 
                   <p className={`mb-1 mt-3 ${styles.discriptionInfo}`}>
-                    <a href="https://forum.plentydefi.com/" target="_blank" rel="noreferrer">
+                    <a
+                      href="https://forum.plentydefi.com/t/pip-001-minting-rate-reduction/51"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       View Forum
                     </a>
                     <Link className="ml-2 mb-1" />
                   </p>
 
                   <p className={`${styles.discriptionInfo}`}>
-                    IPFS link to proposal.
+                    <a
+                      href="https://ipfs.io/ipfs/bafkreidki5u7chsbrofrypmiaoqsrkeburkwctxidcuv33foq75lnmhogy"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      IPFS link to proposal.
+                    </a>
+
                     <Link className="ml-2 mb-1" />
                   </p>
                 </Row>
