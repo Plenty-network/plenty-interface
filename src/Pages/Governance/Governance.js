@@ -337,7 +337,7 @@ const Governance = (props) => {
         </div>
       </div>
     );
-  }, [voteSelected, isSubmitted, props.loading, props.modalData, props.alreadyVoted]);
+  }, [voteSelected, isSubmitted, props.loading, props.modalData, props.alreadyVoted, props.gov]);
 
   const voteModalResults = useMemo(() => {
     return (
