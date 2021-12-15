@@ -33,12 +33,23 @@ const Governance = (props) => {
   const [proposalResult, setProposalResult] = useState('');
   const date = new Date();
 
+  const handleVoteClick = (value) => {
+    if (value && !props.alreadyVoted) {
+      setVoteSelected(value);
+    }
+    if (props.alreadyVoted) {
+      document.getElementById('select-accept').checked = false;
+      document.getElementById('select-reject').checked = false;
+      document.getElementById('select-abstained').checked = false;
+    }
+  };
+  console.log(voteSelected);
   useEffect(() => {
     // if (date.getDate() === GOV_PAGE_MODAL.END_DATE) {
     //   props.getResults();
     //   setVoteEnded(true);
     // }
-    if (date.getHours() === 17 && date.getMinutes() === 30) {
+    if (date.getHours() === 19 && date.getMinutes() > 30) {
       props.getResults();
       setVoteEnded(true);
     }
@@ -135,7 +146,7 @@ const Governance = (props) => {
                 name="where"
                 value={GOV_PAGE_MODAL.ACCEPT}
                 onClick={(e) => {
-                  setVoteSelected(e.target.value);
+                  handleVoteClick(e.target.value);
                 }}
               />
               <label
@@ -192,7 +203,7 @@ const Governance = (props) => {
                 name="where"
                 value={GOV_PAGE_MODAL.REJECT}
                 onClick={(e) => {
-                  setVoteSelected(e.target.value);
+                  handleVoteClick(e.target.value);
                 }}
               />
               <label
@@ -248,7 +259,7 @@ const Governance = (props) => {
                 name="where"
                 value={GOV_PAGE_MODAL.ABSTAIN}
                 onClick={(e) => {
-                  setVoteSelected(e.target.value);
+                  handleVoteClick(e.target.value);
                 }}
               />
               <label
