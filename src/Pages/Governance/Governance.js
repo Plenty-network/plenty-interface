@@ -119,7 +119,7 @@ const Governance = (props) => {
               <p className={styles.voteHeading}>Vote</p>
               <p className={styles.res}>Open</p>
             </div>
-            <span className={styles.postedInfo}>Posted on November 03, 2021 , 13:05</span>
+            <span className={styles.postedInfo}>Posted on December 15, 2021</span>
 
             <div
               className={clsx(
@@ -339,7 +339,7 @@ const Governance = (props) => {
             <div className="mt-3">
               <Clock />
               <span className={`ml-2 ${styles.poll}`}>
-                Voting closes on <b>Dec 16, 2021</b>
+                Voting closes on <b>Dec 22, 2021</b>
               </span>
             </div>
             <div className={`my-4 ${styles.line} `}></div>
@@ -649,10 +649,9 @@ const Governance = (props) => {
                   </h2>
 
                   <p className={`mt-3 ${styles.proposalInfo}`}>
-                    The first proposal proposes a reduction of the minting rate from 50 PLENTY /
-                    block to 30 PLENTY / block. The goal of this proposal is to reduce the amount of
-                    PLENTY that leaves the circulation by reducing the newly incoming supply. This
-                    will result in a new reward distribution schema for the PLENTY farms.
+                    Implement a minting rate reduction from 50 PLENTY/block to 30 PLENTY/block. A
+                    reduction of the minting rate results in a new reward distribution scheme, as
+                    seen in the specification, for the PLENTY farms.
                   </p>
                   {isMobile && (voteEnded ? voteModalResults : voteModal)}
                   {isMobile && <div className={`mt-2 mx-3 ${styles.lineBottom} `}></div>}
@@ -662,22 +661,30 @@ const Governance = (props) => {
                   <h4 className={` ${styles.plentyHeading}`}>Motivation</h4>
                   <p className={`mt-3 ${styles.discription}`}>
                     Almost half of the maximum supply of 62,000,000 PLENTY is minted already, and at
-                    the current rate all tokens are minted around August 2022.
+                    the current rate all tokens will be minted around August 2022.
                   </p>
                   <p className={styles.discription}>
-                    In the short term, reducing the rewards will lower the APR of farms. However, by
-                    reducing the minting rate the sell pressure of the PLENTY token is reduced. This
-                    reduction can help achieve the goal of more PLENTY leaving circulation than the
-                    amount of PLENTY being minted.
+                    The goal of this proposal is to reduce the amount of PLENTY that leaves the
+                    circulation, by reducing the newly incoming supply. In the short term, this will
+                    lower the APR of the farms. However, by reducing the minting rate, the sell
+                    pressure of the PLENTY token is reduced as well.
                   </p>
                   <h4 className={` ${styles.plentyHeading}`}>Specifications</h4>
                   <p className={`mt-3 ${styles.discription}`}>
-                    Update the storage of tokensPerBlock to 30000000000000000000
+                    Update the storage of tokensPerBlock from 50000000000000000000 to
+                    30000000000000000000
                   </p>
-                  <p>Update farm rates [PLENTY farm distribution]</p>
+                  <p>Update farm rates </p>
+
                   <div>
                     <img src={Table} className={styles.table} />
                   </div>
+                  <h4 className={`mt-3  ${styles.plentyHeading}`}>Vote</h4>
+
+                  <p className={` mt-3 ${styles.discription}`}>
+                    To be eligible to vote, a user must hold xPLENTY at the time of the deployment
+                    of the Plenty Improvement Proposal (PIP).
+                  </p>
                   <div>
                     <h4 className={`mt-3 ${styles.plentyHeading}`}>More information</h4>
                   </div>
