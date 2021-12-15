@@ -52,7 +52,7 @@ const loadSwapData = async (tokenIn, tokenOut) => {
       lpToken,
     };
   } catch (error) {
-    console.log({ message: 'swap data error', error });
+    console.error({ message: 'swap data error', error });
     return {
       success: true,
       tokenIn,
@@ -87,7 +87,7 @@ const getRouteSwapData = async (path) => {
       tokenOutPerTokenIn: tokenOutPerTokenIn,
     };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return {
       success: false,
       intermediateAMMData: null,
@@ -112,7 +112,12 @@ const allPathsUtil = (current, destination, paths, vis, path) => {
   vis[current] = false;
 };
 
-export const getBestRouteAPI = async (tokenIn, tokenOut) => {
+/**
+ * Returns all the possible direct and indirect routes between two tokens
+ * 
+ 
+ */
+export const getAllRoutes = async (tokenIn, tokenOut) => {
   try {
     const paths = [];
     const path = [];
@@ -123,22 +128,9 @@ export const getBestRouteAPI = async (tokenIn, tokenOut) => {
       swapData: [],
       tokenOutPerTokenIn: 0,
     };
-    //intermediateAMMData
+
     allPathsUtil(tokenIn, tokenOut, paths, vis, path);
-    let minPathLength = 5;
-    const usablePaths = [];
     paths.forEach((path) => {
-      if (path.length < minPathLength) {
-        minPathLength = path.length;
-      }
-    });
-    paths.forEach((path) => {
-      if (path.length === minPathLength) {
-        usablePaths.push(path);
-      }
-    });
-    usablePaths.forEach((path) => {
-      //console.log(path);
       if (path.length <= 4) {
         routeDataPromises.push(getRouteSwapData(path));
       }
@@ -154,13 +146,15 @@ export const getBestRouteAPI = async (tokenIn, tokenOut) => {
     }
     return {
       success: true,
-      bestRoute,
+      bestRouteUntilNoInput: bestRoute,
+      allRoutes: routeDataResponses,
     };
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return {
       success: false,
-      bestRoute: {
+      allRoutes: [],
+      bestRouteUntilNoInput: {
         path: [],
         swapData: [],
         tokenOutPerTokenIn: 0,
@@ -169,7 +163,7 @@ export const getBestRouteAPI = async (tokenIn, tokenOut) => {
   }
 };
 
-export const computeTokenOutputV2 = (
+const computeTokenOutputV2 = (
   tokenIn_amount,
   tokenIn_supply,
   tokenOut_supply,
@@ -209,8 +203,7 @@ export const computeTokenOutputV2 = (
   }
 };
 
-// TOP
-export const computeTokenOutForRouteBaseV2 = (inputAmount, swapData, slippage) => {
+const computeTokenOutForRouteBaseV2Base = (inputAmount, swapData, slippage) => {
   const initialData = {
     tokenOutAmount: inputAmount,
     fees: [],
@@ -265,8 +258,49 @@ export const computeTokenOutForRouteBaseV2 = (inputAmount, swapData, slippage) =
   }
 };
 
-// BOTTOM
-export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, swapData, slippage) => {
+/**
+ * Calculates tokenOut for tokenIn with best route 
+ 
+ */
+export const computeTokenOutForRouteBaseV2 = (input, allRoutes, slippage) => {
+  try {
+    const computeResponses = [];
+    const bestRoute = {};
+    allRoutes.forEach((route) => {
+      const computedData = computeTokenOutForRouteBaseV2Base(
+        input,
+        route.intermediateAMMData,
+        slippage,
+      );
+      computeResponses.push({
+        computations: computedData.data,
+        path: route.path,
+      });
+    });
+    bestRoute.computations = computeResponses[0].computations;
+    bestRoute.path = computeResponses[0].path;
+    computeResponses.forEach((route) => {
+      if (route.computations.tokenOutAmount > bestRoute.computations.tokenOutAmount) {
+        bestRoute.computations = route.computations;
+        bestRoute.path = route.path;
+      }
+    });
+    return {
+      success: true,
+      bestRoute,
+      computeResponses,
+    };
+  } catch (err) {
+    console.error(err);
+    return {
+      success: false,
+      bestRoute: {},
+      computeResponses: [],
+    };
+  }
+};
+
+const computeTokenOutForRouteBaseByOutAmountV2Base = (outputAmount, swapData, slippage) => {
   try {
     let tokenIn_amount = 0;
     const minimum_Out_All = [];
@@ -331,7 +365,7 @@ export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, swapData,
       },
     };
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return {
       success: false,
       data: {
@@ -347,7 +381,54 @@ export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, swapData,
   }
 };
 
-export const swapTokenUsingRouteV2 = async (path, minimum_Out_All, caller, amount) => {
+/**
+ * Function returns in tokenIn amount for the desired tokenOut amount
+
+ */
+export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, allRoutes, slippage) => {
+  try {
+    const bestRoute = {};
+    const computeResponses = allRoutes.map((route) => {
+      const computedData = computeTokenOutForRouteBaseByOutAmountV2Base(
+        outputAmount,
+        route.intermediateAMMData,
+        slippage,
+      );
+      return {
+        computations: computedData.data,
+        path: route.path,
+      };
+    });
+    bestRoute.computations = computeResponses[0].computations;
+    bestRoute.path = computeResponses[0].path;
+    computeResponses.forEach((route) => {
+      if (route.computations.tokenInAmount < bestRoute.computations.tokenInAmount) {
+        bestRoute.computations = route.computations;
+        bestRoute.path = route.path;
+      }
+    });
+    return {
+      success: true,
+      bestRoute,
+      computeResponses,
+    };
+  } catch (err) {
+    console.error(err);
+    return {
+      success: false,
+      bestRoute: {},
+      computeResponses: [],
+    };
+  }
+};
+
+export const swapTokenUsingRouteV3 = async (
+  path,
+  minimum_Out_All,
+  caller,
+  amount,
+  transactionSubmitModal,
+) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
@@ -412,6 +493,7 @@ export const swapTokenUsingRouteV2 = async (path, minimum_Out_All, caller, amoun
         .withContractCall(routerInstance.methods.routerSwap(DataMap, swapAmount, caller));
     }
     const batchOp = await batch.send();
+    transactionSubmitModal(batchOp.opHash);
     await batchOp.confirmation();
     return {
       success: true,
@@ -423,6 +505,3 @@ export const swapTokenUsingRouteV2 = async (path, minimum_Out_All, caller, amoun
     };
   }
 };
-
-// console.log(computeTokenOutForRouteBase(0.05, swapData, 0.5));
-// console.log(computeTokenOutForRouteBaseByOutAmount(4.4114, swapData, 0.5));

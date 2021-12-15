@@ -110,7 +110,7 @@ const Frontpage = ({
               connecthWallet={connecthWallet}
               disconnectWallet={disconnectWallet}
               walletAddress={walletAddress}
-              isFrontPage={true}
+              isGradientBgPage={true}
             />
             <div
               className={clsx(
