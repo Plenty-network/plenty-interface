@@ -44,7 +44,6 @@ const govReducer = (state = initialState, action) => {
           isPresent: true,
           loading: false,
           alreadyVoted: action.data,
-          data: { ...state.gov.data },
         },
       };
     case actions.FETCH_VOTE_FAILED:
