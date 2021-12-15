@@ -6,14 +6,12 @@ import { tokens } from '../constants/swapPage';
 
 const SwapDetails = (props) => {
   const swapRoute = useMemo(() => {
-    if (props.routeData.bestRoute?.path.length > 2) {
-      return props.routeData.bestRoute.path.map((tokenName) =>
-        tokens.find((token) => token.name === tokenName),
-      );
+    if (props.routePath?.length > 2) {
+      return props.routePath.map((tokenName) => tokens.find((token) => token.name === tokenName));
     }
 
     return null;
-  }, [props.routeData]);
+  }, [props.routePath]);
 
   if (!props.firstTokenAmount && !swapRoute) {
     return null;
@@ -149,6 +147,7 @@ SwapDetails.propTypes = {
   // midTokens: PropTypes.any,
   tokenIn: PropTypes.any,
   tokenOut: PropTypes.any,
+  routePath: PropTypes.any,
 };
 
 export default SwapDetails;
