@@ -106,11 +106,15 @@ const MyRoutes = (props) => {
               }
             />
             <Route
-              path="/Governance"
+              path="/governance"
               element={
-                <OtherPages {...otherPageProps}>
-                  <Governance walletAddress={props.userAddress} />
-                </OtherPages>
+                <Governance
+                  toggleTheme={toggleTheme}
+                  theme={theme}
+                  connecthWallet={connectWallet}
+                  disconnectWallet={disconnectUserWallet}
+                  walletAddress={props.userAddress}
+                />
               }
             />
           </Routes>

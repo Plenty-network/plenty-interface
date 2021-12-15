@@ -17,7 +17,7 @@ import useMediaQuery from '../../hooks/mediaQuery';
 
 import * as walletActions from '../../redux/actions/wallet/wallet.action';
 import { GOV_PAGE_MODAL } from '../../constants/govPage';
-
+import Header from '../../Components/Header/Header';
 import {
   getVoteData,
   getVoteResults,
@@ -323,7 +323,7 @@ const Governance = (props) => {
               PIP was inserted on-chain. Users can cast their vote for the duration of one week.
             </p>
             <div className={`px-4 py-4 ${styles.info}`}>
-              <div className={styles.xyz}>
+              <div className={styles.InfoIconBg}>
                 <div className={styles.infoIcon}>
                   <Info />
                 </div>
@@ -553,6 +553,14 @@ const Governance = (props) => {
   return (
     <>
       <Container className={` ${styles.govContainer}`} fluid>
+        <Header
+          toggleTheme={props.toggleTheme}
+          theme={props.theme}
+          connecthWallet={props.connecthWallet}
+          disconnectWallet={props.disconnectWallet}
+          walletAddress={props.walletAddress}
+          isGradientBgPage={true}
+        />
         <Row className="row justify-content-center">
           <Col xs={20} sm={8} md={10} lg={6} xl={5}>
             <div className=" row justify-content-center">
@@ -637,6 +645,8 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(Governance);
 
 Governance.propTypes = {
+  connecthWallet: PropTypes.any,
+  disconnectWallet: PropTypes.any,
   gov: PropTypes.any,
   modalData: PropTypes.any,
   postResults: PropTypes.any,
@@ -646,4 +656,6 @@ Governance.propTypes = {
   getAlreadyVoted: PropTypes.any,
   walletAddress: PropTypes.any,
   alreadyVoted: PropTypes.any,
+  theme: PropTypes.any,
+  toggleTheme: PropTypes.any,
 };

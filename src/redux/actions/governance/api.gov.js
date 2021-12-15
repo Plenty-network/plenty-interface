@@ -1,32 +1,11 @@
 import axios from 'axios';
 import CONFIG from '../../../config/config';
+import { CheckIfWalletConnected } from '../../../apis/wallet/wallet';
 import { BeaconWallet } from '@taquito/beacon-wallet';
 import { TezosToolkit } from '@taquito/taquito';
 import { RPC_NODE } from '../../../constants/localStorage';
 import { TezosMessageUtils, TezosParameterFormat } from 'conseiljs';
 
-const CheckIfWalletConnected = async (wallet) => {
-  try {
-    const connectedNetwork = CONFIG.NETWORK;
-    const network = {
-      type: connectedNetwork,
-    };
-    const activeAccount = await wallet.client.getActiveAccount();
-    if (!activeAccount) {
-      await wallet.client.requestPermissions({
-        network,
-      });
-    }
-    return {
-      success: true,
-    };
-  } catch (error) {
-    return {
-      success: false,
-      error,
-    };
-  }
-};
 export const submitVote = async (voteNumber) => {
   try {
     const options = {
@@ -36,6 +15,7 @@ export const submitVote = async (voteNumber) => {
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const wallet = new BeaconWallet(options);
     const WALLET_RESP = await CheckIfWalletConnected(wallet);
+    console.log(WALLET_RESP);
     if (WALLET_RESP.success) {
       const Tezos = new TezosToolkit(rpcNode);
       Tezos.setRpcProvider(rpcNode);

@@ -53,7 +53,7 @@ const Header = (props) => {
           <div
             className={clsx(
               'connect-wallet-btn',
-              props.isFrontPage || splitLocation[1] === 'Governance' ? 'text-white' : 'span-themed',
+              props.isGradientBgPage ? 'text-white' : 'span-themed',
             )}
           >
             <div className="flex flex-row align-items-center">
@@ -61,20 +61,12 @@ const Header = (props) => {
                 className={clsx(
                   'mr-1',
                   'material-icons-round',
-                  props.isFrontPage || splitLocation[1] === 'Governance'
-                    ? 'text-white'
-                    : 'span-themed',
+                  props.isGradientBgPage ? 'text-white' : 'span-themed',
                 )}
               >
                 add
               </span>
-              <span
-                className={clsx(
-                  props.isFrontPage || splitLocation[1] === 'Governance'
-                    ? 'text-white'
-                    : 'span-themed',
-                )}
-              >
+              <span className={clsx(props.isGradientBgPage ? 'text-white' : 'span-themed')}>
                 Connect to Wallet
               </span>
             </div>
@@ -102,7 +94,7 @@ const Header = (props) => {
           <Col sm={12} md={12}>
             <Navbar collapseOnSelect expand="lg" className="px-0 menu-wrapper">
               <Navbar.Brand as={Link} to="/" className="col-4 m-0">
-                {props.isFrontPage || splitLocation[1] === 'Governance' ? (
+                {props.isGradientBgPage ? (
                   <LogoWhite />
                 ) : props.theme === 'light' ? (
                   <Logo />
@@ -120,9 +112,7 @@ const Header = (props) => {
                 <span
                   className={clsx(
                     'material-icons-round',
-                    props.isFrontPage || splitLocation[1] === 'Governance'
-                      ? 'text-white'
-                      : 'span-themed',
+                    props.isGradientBgPage ? 'text-white' : 'span-themed',
                   )}
                 >
                   more_vert
@@ -143,13 +133,7 @@ const Header = (props) => {
                       to="/swap"
                       onClick={resetActiveTab}
                     >
-                      <span
-                        className={clsx(
-                          props.isFrontPage || splitLocation[1] === 'Governance'
-                            ? 'text-white'
-                            : undefined,
-                        )}
-                      >
+                      <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                         Swap
                       </span>
                     </Nav.Link>
@@ -162,13 +146,7 @@ const Header = (props) => {
                       to="/tokens"
                       onClick={resetActiveTab}
                     >
-                      <span
-                        className={clsx(
-                          props.isFrontPage || splitLocation[1] === 'Governance'
-                            ? 'text-white'
-                            : undefined,
-                        )}
-                      >
+                      <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                         Tokens
                       </span>
                     </Nav.Link>
@@ -181,13 +159,7 @@ const Header = (props) => {
                       to="/farms"
                       onClick={resetActiveTab}
                     >
-                      <span
-                        className={clsx(
-                          props.isFrontPage || splitLocation[1] === 'Governance'
-                            ? 'text-white'
-                            : undefined,
-                        )}
-                      >
+                      <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                         Farms
                       </span>
                     </Nav.Link>
@@ -200,32 +172,20 @@ const Header = (props) => {
                       to="/stake"
                       onClick={resetActiveTab}
                     >
-                      <span
-                        className={clsx(
-                          props.isFrontPage || splitLocation[1] === 'Governance'
-                            ? 'text-white'
-                            : undefined,
-                        )}
-                      >
+                      <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                         Stake
                       </span>
                     </Nav.Link>
                     <Nav.Link
                       className={clsx(
-                        splitLocation[1] === 'Governance' ? 'menu-item-active' : 'menu-item',
+                        splitLocation[1] === 'governance' ? 'menu-item-active' : 'menu-item',
                         'align-self-end align-self-lg-center d-flex align-items-center',
                       )}
                       as={Link}
-                      to="/Governance"
+                      to="/governance"
                       onClick={resetActiveTab}
                     >
-                      <span
-                        className={clsx(
-                          props.isFrontPage || splitLocation[1] === 'Governance'
-                            ? 'text-white'
-                            : undefined,
-                        )}
-                      >
+                      <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                         Vote
                       </span>
                     </Nav.Link>
@@ -241,9 +201,7 @@ const Header = (props) => {
                             className={clsx(
                               'theme-icon',
                               'material-icons-round',
-                              props.isFrontPage || splitLocation[1] === 'Governance'
-                                ? 'icon-white'
-                                : 'span-themed',
+                              props.isGradientBgPage ? 'icon-white' : 'span-themed',
                             )}
                           >
                             dark_mode
@@ -269,11 +227,7 @@ const Header = (props) => {
                           className="align-self-end align-self-lg-center nav-link"
                         >
                           <span
-                            className={clsx(
-                              props.isFrontPage || splitLocation[1] === 'Governance'
-                                ? 'text-white'
-                                : 'span-themed',
-                            )}
+                            className={clsx(props.isGradientBgPage ? 'text-white' : 'span-themed')}
                           >
                             Docs
                           </span>
@@ -283,11 +237,7 @@ const Header = (props) => {
                           className="align-self-end align-self-lg-center nav-link"
                         >
                           <span
-                            className={clsx(
-                              props.isFrontPage || splitLocation[1] === 'Governance'
-                                ? 'text-white'
-                                : 'span-themed',
-                            )}
+                            className={clsx(props.isGradientBgPage ? 'text-white' : 'span-themed')}
                           >
                             Blog
                           </span>
@@ -297,11 +247,7 @@ const Header = (props) => {
                           className="align-self-end align-self-lg-center nav-link"
                         >
                           <span
-                            className={clsx(
-                              props.isFrontPage || splitLocation[1] === 'Governance'
-                                ? 'text-white'
-                                : 'span-themed',
-                            )}
+                            className={clsx(props.isGradientBgPage ? 'text-white' : 'span-themed')}
                           >
                             GitHub
                           </span>
@@ -311,11 +257,7 @@ const Header = (props) => {
                           className="align-self-end align-self-lg-center nav-link"
                         >
                           <span
-                            className={clsx(
-                              props.isFrontPage || splitLocation[1] === 'Governance'
-                                ? 'text-white'
-                                : 'span-themed',
-                            )}
+                            className={clsx(props.isGradientBgPage ? 'text-white' : 'span-themed')}
                           >
                             Node Selector
                           </span>
@@ -327,9 +269,7 @@ const Header = (props) => {
                           <span
                             className={clsx(
                               'flex header-click align-items-center material-icons-round',
-                              props.isFrontPage || splitLocation[1] === 'Governance'
-                                ? 'text-white'
-                                : 'span-themed',
+                              props.isGradientBgPage ? 'text-white' : 'span-themed',
                             )}
                           >
                             more_vert
@@ -369,7 +309,8 @@ const mapDispatchToProps = (dispatch) => ({
 Header.propTypes = {
   connecthWallet: PropTypes.func,
   disconnectWallet: PropTypes.func,
-  isFrontPage: PropTypes.bool,
+  isGradientBgPage: PropTypes.bool,
+
   setNode: PropTypes.func,
   theme: PropTypes.string,
   toggleTheme: PropTypes.func,
