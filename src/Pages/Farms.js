@@ -112,7 +112,9 @@ const Farms = (props) => {
   );
 
   const farmsToRender = useMemo(() => {
-    let farmsInView = props.isActiveOpen ? props.activeFarms.slice() : props.inactiveFarms.slice();
+    let farmsInView = props.isActiveOpen
+      ? props.activeFarms.slice()
+      : props.inactiveFarms.slice();
 
     if (props.isStakedOnlyOpen) {
       farmsInView = farmsInView.filter((farm) => {
