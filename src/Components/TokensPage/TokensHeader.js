@@ -13,7 +13,7 @@ const TokensHeader = ({ toggleTheme, theme, connectWallet, disconnectWallet, wal
           connecthWallet={connectWallet}
           disconnectWallet={disconnectWallet}
           walletAddress={walletAddress}
-          isFrontPage={true}
+          isGradientBgPage={true}
         />
         <div className={'d-flex align-items-center flex-column my-5 mx-auto text-white'}>
           <h3>Tokens</h3>

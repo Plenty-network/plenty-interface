@@ -5,6 +5,7 @@ import swapReducer from '../reducers/swap.reducer';
 
 import priceReducer from '../reducers/price.reducer';
 import homeReducer from '../reducers/home.reducers';
+import govReducer from '../reducers/gov.reducers';
 import settingsReducer from '../slices/settings/settings.slice';
 
 import farmsReducer from '../slices/farms/farms.slice';
@@ -20,6 +21,7 @@ const rootReducer = {
   home: homeReducer,
   settings: settingsReducer,
   xPlenty: xPlentyReducer,
+  governance: govReducer,
   [tokensApi.reducerPath]: tokensApi.reducer,
 };
 
