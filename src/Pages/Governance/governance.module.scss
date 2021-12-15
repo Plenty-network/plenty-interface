@@ -50,7 +50,7 @@
       margin-top: 20px;
       margin-right: 20px;
       margin-left: 10px;
-      padding-top: 40px;
+      padding-top: 20px;
       padding-bottom: 20px;
     }
 
@@ -343,7 +343,7 @@
 .totalVotes {
   font-size: 14px;
   font-style: normal;
-  font-weight: 700;
+
   line-height: 18px;
   letter-spacing: 0em;
   color: var(--theme-governance-text);
@@ -363,4 +363,21 @@
 .defaultVotingBoxBg {
   background: #8a94a6;
   opacity: 0.2;
+}
+.selectedVotingText {
+  color: #6202ef;
+  font-weight: 700;
+}
+.defaultVotingText {
+  color: #04091b;
+  font-weight: 500;
+}
+.selectedVotingLabel {
+  color: #40029d;
+  font-weight: 700 !important;
+}
+
+.lineBottom {
+  border-bottom: 1px solid var(--theme-governance-line);
+  width: 100%;
 }

@@ -411,11 +411,28 @@ const Governance = (props) => {
                 value={GOV_PAGE_MODAL.ACCEPT}
                 checked
               />
-              <label className={clsx('ml-4', styles.selectItem)} htmlFor="select-accept">
+              <label
+                className={clsx(
+                  'ml-4',
+                  styles.selectItem,
+                  proposalResult === GOV_PAGE_MODAL.ACCEPTED
+                    ? styles.selectedVotingLabel
+                    : styles.defaultVotingText,
+                )}
+                htmlFor="select-accept"
+              >
                 {GOV_PAGE_MODAL.ACCEPTED}
               </label>
 
-              <span className={clsx(styles.textColor, styles.percentageResults)}>
+              <span
+                className={clsx(
+                  styles.textColor,
+                  styles.percentageResults,
+                  proposalResult === GOV_PAGE_MODAL.ACCEPTED
+                    ? styles.selectedVotingText
+                    : styles.defaultVotingText,
+                )}
+              >
                 {props.gov?.yayPercentage === undefined ? (
                   <span className="shimmer">999</span>
                 ) : (
@@ -467,11 +484,28 @@ const Governance = (props) => {
                 value={GOV_PAGE_MODAL.REJECT}
                 checked
               />
-              <label className={clsx('ml-4', styles.selectItem)} htmlFor="select-reject">
+              <label
+                className={clsx(
+                  'ml-4',
+                  styles.selectItem,
+                  proposalResult === GOV_PAGE_MODAL.REJECTED
+                    ? styles.selectedVotingLabel
+                    : styles.defaultVotingText,
+                )}
+                htmlFor="select-reject"
+              >
                 {GOV_PAGE_MODAL.REJECTED}
               </label>
 
-              <span className={clsx(styles.textColor, styles.percentageResults)}>
+              <span
+                className={clsx(
+                  styles.textColor,
+                  styles.percentageResults,
+                  proposalResult === GOV_PAGE_MODAL.REJECTED
+                    ? styles.selectedVotingText
+                    : styles.defaultVotingText,
+                )}
+              >
                 {props.gov?.nayPercentage === undefined ? (
                   <span className="shimmer">999</span>
                 ) : (
@@ -522,11 +556,28 @@ const Governance = (props) => {
                 value={GOV_PAGE_MODAL.ABSTAIN}
                 checked
               />
-              <label className={clsx('ml-4', styles.selectItem)} htmlFor="select-abstained">
+              <label
+                className={clsx(
+                  'ml-4',
+                  styles.selectItem,
+                  proposalResult === GOV_PAGE_MODAL.ABSTAINED
+                    ? styles.selectedVotingLabel
+                    : styles.defaultVotingText,
+                )}
+                htmlFor="select-abstained"
+              >
                 {GOV_PAGE_MODAL.ABSTAINED}
               </label>
 
-              <span className={clsx(styles.textColor, styles.percentageResults)}>
+              <span
+                className={clsx(
+                  styles.textColor,
+                  styles.percentageResults,
+                  proposalResult === GOV_PAGE_MODAL.ABSTAINED
+                    ? styles.selectedVotingText
+                    : styles.defaultVotingText,
+                )}
+              >
                 {props.gov?.absPercentage === undefined ? (
                   <span className="shimmer">999</span>
                 ) : (
@@ -603,6 +654,7 @@ const Governance = (props) => {
                     will result in a new reward distribution schema for the PLENTY farms.
                   </p>
                   {isMobile && (voteEnded ? voteModalResults : voteModal)}
+                  {isMobile && <div className={`mt-2 mx-3 ${styles.lineBottom} `}></div>}
                 </Row>
 
                 <Row className={` ${styles.secondRow}`}>
