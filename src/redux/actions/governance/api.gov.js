@@ -38,16 +38,16 @@ export const submitVote = async (voteNumber) => {
 };
 export const getVoteDataApi = async (status) => {
   if (status) {
-    // const connectedNetwork = CONFIG.NETWORK;
-    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
-    // const dexContractAddress = CONFIG.governance.address;
+    const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const dexContractAddress = CONFIG.GOVERNANCE.address;
 
-    // const response = await axios.get(
-    //   `${rpcNode}chains/main/blocks/head/context/contracts/${dexContractAddress}/storage`,
-    // );
     const response = await axios.get(
-      'https://mainnet.smartpy.io/chains/main/blocks/head/context/contracts/KT1HiQmDGiMxEmLdbTNpVZpxwnjgXNdkoyyP/storage',
+      `${rpcNode}chains/main/blocks/head/context/contracts/${dexContractAddress}/storage`,
     );
+    // const response = await axios.get(
+    //   'https://mainnet.smartpy.io/chains/main/blocks/head/context/contracts/KT1HiQmDGiMxEmLdbTNpVZpxwnjgXNdkoyyP/storage',
+    // );
 
     const abstainTokensCount = parseInt(response.data.args[0].args[0].args[0].int) / 1e18;
 
@@ -103,11 +103,22 @@ const getPackedKey = (address) => {
 export const checkVote = async (address) => {
   try {
     const userKey = getPackedKey(address);
+    const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const dexContractAddress = CONFIG.GOVERNANCE.address;
+    //const mapId = CONFIG.GOVERNANCE.mapId;
     const response = await axios.get(
       `https://mainnet.smartpy.io/chains/main/blocks/head/context/big_maps/55015/${userKey}`,
     );
+    // const response = await axios.get(
+    //   `${rpcNode}chains/main/blocks/head/context/contracts/big_maps/${mapId}/${userKey}`,
+    // );
+    console.log(response);
+    // const response = await axios.get(
+    //   `https://mainnet.smartpy.io/chains/main/blocks/head/context/big_maps/${mapId}/${userKey}`,
+    // );
     const response1 = await axios.get(
-      'https://mainnet.smartpy.io/chains/main/blocks/head/context/contracts/KT1HiQmDGiMxEmLdbTNpVZpxwnjgXNdkoyyP/storage',
+      `${rpcNode}chains/main/blocks/head/context/contracts/${dexContractAddress}/storage`,
     );
     const proposalString = response1.data.args[0].args[1].args[1].bytes;
 

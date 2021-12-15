@@ -278,7 +278,7 @@ const Governance = (props) => {
             </div>
             <div className={` ${styles.submit}`}>
               <Button
-                disabled={props.alreadyVoted}
+                disabled={props.alreadyVoted || props.loading}
                 className={clsx(
                   styles.submitButton,
                   voteSelected || props.alreadyVoted
@@ -289,7 +289,7 @@ const Governance = (props) => {
                 onClick={() => {
                   setIsSubmitted(true);
                 }}
-                loading={props.loading}
+                loading={props.loading || !props.alreadyVoted}
               >
                 {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted) && (
                   <Check className="mr-2 mb-1" />

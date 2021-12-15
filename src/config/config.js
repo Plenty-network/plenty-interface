@@ -4061,6 +4061,7 @@ export default {
   },
   GOVERNANCE: {
     address: 'KT1HiQmDGiMxEmLdbTNpVZpxwnjgXNdkoyyP',
+    mapId: 55015,
   },
   NETWORK: 'mainnet',
   WALLET_NETWORK: 'mainnet',

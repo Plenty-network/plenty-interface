@@ -31,6 +31,7 @@ export const getVoteData = (voteNumber) => {
 
 export const getVoteResults = () => {
   return (dispatch) => {
+    dispatch({ type: actions.FETCH_VOTE });
     govApis
       .getVoteDataApi(true)
       .then((res) => {
