@@ -149,6 +149,7 @@ const SwapTab = (props) => {
         computedData.data.minimumOut,
         props.walletAddress,
         firstTokenAmount,
+        props.transactionSubmitModal,
       ).then((swapResp) => {
         handleSwapResponse(swapResp.success);
         setTimeout(() => {
