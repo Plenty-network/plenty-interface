@@ -40,11 +40,10 @@ const Governance = (props) => {
     }
   }, []);
   useEffect(() => {
-    if (props.walletAddress) {
+    if (props.walletAddress && voteEnded === false) {
       props.getAlreadyVoted(props.walletAddress);
-      if (props.alreadyVoted) {
-        setIsSubmitted(true);
-      }
+      props.getResults();
+      props.alreadyVoted && setIsSubmitted(true);
     }
   }, [props.walletAddress]);
 
@@ -112,6 +111,19 @@ const Governance = (props) => {
                 voteSelected === GOV_PAGE_MODAL.ACCEPT ? styles.borderChange : styles.initialColor,
               )}
             >
+              {props.alreadyVoted && (
+                <div
+                  className={clsx(
+                    styles.votingBoxBg,
+                    voteSelected === GOV_PAGE_MODAL.ACCEPT
+                      ? styles.selectedVotingBoxBg
+                      : styles.defaultVotingBoxBg,
+                  )}
+                  style={{
+                    width: `${props.gov?.yayPercentage}%`,
+                  }}
+                />
+              )}
               <input
                 className={` ${styles.option}`}
                 id="select-accept"
@@ -132,7 +144,7 @@ const Governance = (props) => {
               >
                 {GOV_PAGE_MODAL.ACCEPT}
               </label>
-              {isSubmitted && (
+              {props.alreadyVoted && (
                 <span
                   className={clsx(
                     styles.percentage,
@@ -141,12 +153,11 @@ const Governance = (props) => {
                       : styles.initialColor,
                   )}
                 >
-                  {props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS &&
-                    (props.gov?.yayPercentage === undefined ? (
-                      <span className="shimmer">999</span>
-                    ) : (
-                      `${props.gov.yayPercentage}%`
-                    ))}
+                  {props.gov?.yayPercentage === undefined ? (
+                    <span className="shimmer">999</span>
+                  ) : (
+                    `${props.gov.yayPercentage}%`
+                  )}
                 </span>
               )}
             </div>
@@ -157,6 +168,19 @@ const Governance = (props) => {
                 voteSelected === GOV_PAGE_MODAL.REJECT ? styles.borderChange : styles.initialColor,
               )}
             >
+              {props.alreadyVoted && (
+                <div
+                  className={clsx(
+                    styles.votingBoxBg,
+                    voteSelected === GOV_PAGE_MODAL.REJECT
+                      ? styles.selectedVotingBoxBg
+                      : styles.defaultVotingBoxBg,
+                  )}
+                  style={{
+                    width: `${props.gov?.nayPercentage}%`,
+                  }}
+                />
+              )}
               <input
                 className={` ${styles.option}`}
                 id="select-reject"
@@ -177,7 +201,7 @@ const Governance = (props) => {
               >
                 {GOV_PAGE_MODAL.REJECT}
               </label>
-              {isSubmitted && (
+              {props.alreadyVoted && (
                 <span
                   className={clsx(
                     styles.percentage,
@@ -186,12 +210,11 @@ const Governance = (props) => {
                       : styles.initialColor,
                   )}
                 >
-                  {props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS &&
-                    (props.gov?.nayPercentage === undefined ? (
-                      <span className="shimmer">999</span>
-                    ) : (
-                      `${props.gov.nayPercentage}%`
-                    ))}
+                  {props.gov?.nayPercentage === undefined ? (
+                    <span className="shimmer">999</span>
+                  ) : (
+                    `${props.gov.nayPercentage}%`
+                  )}
                 </span>
               )}
             </div>
@@ -201,6 +224,19 @@ const Governance = (props) => {
                 voteSelected === GOV_PAGE_MODAL.ABSTAIN ? styles.borderChange : styles.initialColor,
               )}
             >
+              {props.alreadyVoted && (
+                <div
+                  className={clsx(
+                    styles.votingBoxBg,
+                    voteSelected === GOV_PAGE_MODAL.ABSTAIN
+                      ? styles.selectedVotingBoxBg
+                      : styles.defaultVotingBoxBg,
+                  )}
+                  style={{
+                    width: `${props.gov?.absPercentage}%`,
+                  }}
+                />
+              )}
               <input
                 className={` ${styles.option}`}
                 id="select-abstained"
@@ -223,7 +259,7 @@ const Governance = (props) => {
               >
                 {GOV_PAGE_MODAL.ABSTAIN}
               </label>
-              {isSubmitted && (
+              {props.alreadyVoted && (
                 <span
                   className={clsx(
                     styles.percentage,
@@ -232,12 +268,11 @@ const Governance = (props) => {
                       : styles.initialColor,
                   )}
                 >
-                  {props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS &&
-                    (props.gov?.absPercentage === undefined ? (
-                      <span className="shimmer">999</span>
-                    ) : (
-                      `${props.gov.absPercentage}%`
-                    ))}
+                  {props.gov?.absPercentage === undefined ? (
+                    <span className="shimmer">999</span>
+                  ) : (
+                    `${props.gov.absPercentage}%`
+                  )}
                 </span>
               )}
             </div>
@@ -246,26 +281,28 @@ const Governance = (props) => {
                 disabled={props.alreadyVoted}
                 className={clsx(
                   styles.submitButton,
-                  voteSelected ? styles.buttonColorChange : styles.initialColor,
+                  voteSelected || props.alreadyVoted
+                    ? styles.buttonColorChange
+                    : styles.initialColor,
+                  props.loading && styles.buttonColorChange,
                 )}
                 onClick={() => {
                   setIsSubmitted(true);
                 }}
-                loading={props.loading && props.loading}
+                loading={props.loading}
               >
-                {isSubmitted && props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS && (
+                {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted) && (
                   <Check className="mr-2 mb-1" />
                 )}
-                {(isSubmitted && props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS) ||
-                props.alreadyVoted
+                {props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted
                   ? 'Submitted'
                   : 'Submit'}
               </Button>
-              <span className={`my-2 ml-4 ${styles.totalVotes}`}>
-                {props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS && (
-                  <Check className="mr-2 mb-1" />
+              <span className={`my-3 ml-4 ${styles.totalVotes}`}>
+                {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted) && (
+                  <CheckViolet className="mr-2 mb-1" />
                 )}
-                {props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS &&
+                {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted) &&
                   (props.gov?.totalVotes === undefined ? (
                     <span className="shimmer">999</span>
                   ) : (
@@ -331,6 +368,17 @@ const Governance = (props) => {
                 styles.removeMargin,
               )}
             >
+              <div
+                className={clsx(
+                  styles.votingBoxBg,
+                  proposalResult === GOV_PAGE_MODAL.ACCEPTED
+                    ? styles.selectedVotingBoxBg
+                    : styles.defaultVotingBoxBg,
+                )}
+                style={{
+                  width: `${props.gov?.yayPercentage}%`,
+                }}
+              />
               <input
                 className={` ${styles.option}`}
                 id="select-accept"
@@ -376,6 +424,17 @@ const Governance = (props) => {
                 styles.removeMargin,
               )}
             >
+              <div
+                className={clsx(
+                  styles.votingBoxBg,
+                  proposalResult === GOV_PAGE_MODAL.REJECTED
+                    ? styles.selectedVotingBoxBg
+                    : styles.defaultVotingBoxBg,
+                )}
+                style={{
+                  width: `${props.gov?.nayPercentage}%`,
+                }}
+              />
               <input
                 className={` ${styles.option}`}
                 id="select-reject"
@@ -420,6 +479,17 @@ const Governance = (props) => {
                 styles.removeMargin,
               )}
             >
+              <div
+                className={clsx(
+                  styles.votingBoxBg,
+                  proposalResult === GOV_PAGE_MODAL.ABSTAINED
+                    ? styles.selectedVotingBoxBg
+                    : styles.defaultVotingBoxBg,
+                )}
+                style={{
+                  width: `${props.gov?.absPercentage}%`,
+                }}
+              />
               <input
                 className={` ${styles.option}`}
                 id="select-abstained"

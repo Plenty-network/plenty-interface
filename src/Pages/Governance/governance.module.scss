@@ -166,6 +166,7 @@
   }
   .percentage {
     color: var(--theme-primary-1);
+    float: right;
   }
   .line {
     border-bottom: 1px solid var(--theme-governance-line);
@@ -180,6 +181,9 @@
   margin-bottom: 20px;
   padding: 15px 20px;
   color: var(--theme-text-3);
+  position: relative;
+  overflow: hidden;
+
   input[type='radio']:after {
     width: 20px;
     height: 20px;
@@ -323,6 +327,11 @@
   color: var(--theme-governance-text);
 }
 .percentageResults {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: -0.01em;
   float: right;
 }
 .totalVotes {
@@ -331,4 +340,21 @@
   font-weight: 700;
   line-height: 18px;
   letter-spacing: 0em;
+  color: var(--theme-governance-text);
+}
+.votingBoxBg {
+  position: absolute;
+  background: #6202ef;
+  opacity: 0.1;
+  height: 56px;
+  top: 0px;
+  left: 0px;
+}
+.selectedVotingBoxBg {
+  background: #6202ef;
+  opacity: 0.1;
+}
+.defaultVotingBoxBg {
+  background: #8a94a6;
+  opacity: 0.2;
 }
