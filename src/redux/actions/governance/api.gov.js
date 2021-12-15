@@ -107,9 +107,9 @@ export const checkVote = async (address) => {
     const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
     const dexContractAddress = CONFIG.GOVERNANCE.address;
     const mapId = CONFIG.GOVERNANCE.mapId;
-    const response = await axios.get(
-      `https://mainnet.smartpy.io/chains/main/blocks/head/context/big_maps/55015/${userKey}`,
-    );
+    //const response = await axios.get(
+    //  `https://mainnet.smartpy.io/chains/main/blocks/head/context/big_maps/55015/${userKey}`,
+    //);
      const response = await axios.get(
        `${rpcNode}chains/main/blocks/head/context/contracts/big_maps/${mapId}/${userKey}`,
      );
