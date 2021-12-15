@@ -644,11 +644,9 @@ const Governance = (props) => {
               <div className=" col-24 col-sm-20 col-md-10 col-lg-10 col-xl-10">
                 <Row className={styles.firstRow}>
                   <h6 className={styles.proposalHeading}>Proposal #1 • PIP-001</h6>
-                  <h2 className={`mt-3 ${styles.govHeading}`}>
-                    Reducing the minting rate and farm rewards
-                  </h2>
+                  <h2 className={`mt-3 ${styles.govHeading}`}>Minting rate reduction</h2>
 
-                  <p className={`mt-3 ${styles.proposalInfo}`}>
+                  <p className={`mt-1 ${styles.proposalInfo}`}>
                     Implement a minting rate reduction from 50 PLENTY/block to 30 PLENTY/block. A
                     reduction of the minting rate results in a new reward distribution scheme, as
                     seen in the specification, for the PLENTY farms.
