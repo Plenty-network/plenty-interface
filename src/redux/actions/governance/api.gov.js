@@ -111,7 +111,7 @@ export const checkVote = async (address) => {
     //  `https://mainnet.smartpy.io/chains/main/blocks/head/context/big_maps/55015/${userKey}`,
     //);
      const response = await axios.get(
-       `${rpcNode}chains/main/blocks/head/context/contracts/big_maps/${mapId}/${userKey}`,
+       `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${userKey}`,
      );
     console.log(response);
     // const response = await axios.get(
