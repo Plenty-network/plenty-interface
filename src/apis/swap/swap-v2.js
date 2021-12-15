@@ -422,7 +422,13 @@ export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, allRoutes
   }
 };
 
-export const swapTokenUsingRouteV3 = async (path, minimum_Out_All, caller, amount) => {
+export const swapTokenUsingRouteV3 = async (
+  path,
+  minimum_Out_All,
+  caller,
+  amount,
+  transactionSubmitModal,
+) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
@@ -487,6 +493,7 @@ export const swapTokenUsingRouteV3 = async (path, minimum_Out_All, caller, amoun
         .withContractCall(routerInstance.methods.routerSwap(DataMap, swapAmount, caller));
     }
     const batchOp = await batch.send();
+    transactionSubmitModal(batchOp.opHash);
     await batchOp.confirmation();
     return {
       success: true,
