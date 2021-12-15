@@ -289,7 +289,7 @@ const Governance = (props) => {
                 onClick={() => {
                   setIsSubmitted(true);
                 }}
-                loading={props.loading || !props.alreadyVoted}
+                loading={props.loading}
               >
                 {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted) && (
                   <Check className="mr-2 mb-1" />
