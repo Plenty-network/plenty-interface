@@ -42,9 +42,12 @@ const Governance = (props) => {
   useEffect(() => {
     if (props.walletAddress) {
       props.getAlreadyVoted(props.walletAddress);
-      setIsSubmitted(true);
+      if (props.alreadyVoted) {
+        setIsSubmitted(true);
+        props.getResults();
+      }
     }
-  }, [props.walletAddress]);
+  }, [props.walletAddress, props.alreadyVoted]);
 
   useEffect(() => {
     if (props.gov?.yayCount >= props.gov?.nayCount && props.gov?.yayCount >= props.gov?.absCount) {
