@@ -659,7 +659,7 @@ const Governance = (props) => {
 
                 <Row className={` ${styles.secondRow}`}>
                   <h4 className={` ${styles.plentyHeading}`}>Motivation</h4>
-                  <p className={`mt-3 ${styles.discription}`}>
+                  <p className={`mt-1 ${styles.discription}`}>
                     Almost half of the maximum supply of 62,000,000 PLENTY is minted already, and at
                     the current rate all tokens will be minted around August 2022.
                   </p>
@@ -670,26 +670,28 @@ const Governance = (props) => {
                     pressure of the PLENTY token is reduced as well.
                   </p>
                   <h4 className={` ${styles.plentyHeading}`}>Specifications</h4>
-                  <p className={`mt-3 ${styles.discription}`}>
-                    Update the storage of tokensPerBlock from 50000000000000000000 to
+                  <p className={`mt-1 ${styles.discription} ${styles.specification}`}>
+                    1. Update the storage of tokensPerBlock from 50000000000000000000 to
                     30000000000000000000
                   </p>
-                  <p>Update farm rates </p>
+                  <p className={`mb-3 ${styles.discription} ${styles.specification}`}>
+                    2. Update farm rates{' '}
+                  </p>
 
                   <div>
                     <img src={Table} className={styles.table} />
                   </div>
                   <h4 className={`mt-3  ${styles.plentyHeading}`}>Vote</h4>
 
-                  <p className={` mt-3 ${styles.discription}`}>
+                  <p className={` mt-1 ${styles.discription}`}>
                     To be eligible to vote, a user must hold xPLENTY at the time of the deployment
                     of the Plenty Improvement Proposal (PIP).
                   </p>
                   <div>
-                    <h4 className={`mt-3 ${styles.plentyHeading}`}>More information</h4>
+                    <h4 className={`mt-2 ${styles.plentyHeading}`}>More information</h4>
                   </div>
 
-                  <p className={`mb-1 mt-3 ${styles.discriptionInfo}`}>
+                  <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
                     <a
                       href="https://forum.plentydefi.com/t/pip-001-minting-rate-reduction/51"
                       target="_blank"
