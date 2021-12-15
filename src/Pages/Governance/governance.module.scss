@@ -45,7 +45,7 @@
   }
   .secondRow {
     margin-top: 100px;
-
+    padding-top: 20px;
     @media screen and (min-width: 320px) and (max-width: 768px) {
       margin-top: 20px;
       margin-right: 20px;
@@ -56,7 +56,7 @@
 
     @media screen and (min-width: 992px) and (max-width: 1199px) {
       padding-top: 80px;
-      margin-top: 0px;
+      margin-top: 20px;
     }
     .plentyHeading {
       font-size: 24px;
@@ -288,13 +288,15 @@
   .InfoIconBg {
     align-items: center;
     display: flex;
+    border-radius: 4px;
   }
   .infoIcon {
     width: 42px;
     height: 42px;
     padding-top: 8px;
     padding-bottom: 5px;
-    padding-left: 11px;
+    padding-left: 10px;
+    border-radius: 4px;
     background: var(--theme-governance-infoIcon);
   }
   .infoText {
@@ -379,5 +381,8 @@
 
 .lineBottom {
   border-bottom: 1px solid var(--theme-governance-line);
+  width: 100%;
+}
+.table {
   width: 100%;
 }

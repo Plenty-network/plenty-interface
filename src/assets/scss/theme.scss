@@ -34,13 +34,13 @@
   --theme-button-bg: #e3d1ff;
   --theme-hover-bg: #f2f0f9;
   --theme-radio-button: #8b83ba;
-  --theme-governance-bg: linear-gradient(180deg, #7028e4 50%, #ffffff 50%);
+  --theme-governance-bg: linear-gradient(180deg, #7028e4 30%, #ffffff 20%);
   --theme-governance-text: #04091b;
   --theme-governance-cardBg: #ffffff;
   --theme-governance-postingInfo: #f3f4fb;
   --theme-governance-line: #f1f1f1;
   --theme-governance-headerBg: #7028e4;
-  --theme-governance-mobileBg: linear-gradient(180deg, #7028e4 55%, #ffffff 45%);
+  --theme-governance-mobileBg: linear-gradient(180deg, #7028e4 30%, #ffffff 30%);
   --theme-governance-mobileHeaderBg: #7028e4;
   --theme-governance-infoText: rgba(51, 51, 51, 0.8);
   --theme-governance-infoBg: #f4f4f4;
@@ -95,7 +95,7 @@
   --theme-radio-button: #ffffff;
   --theme-governance-bg: linear-gradient(
     180deg,
-    var(--theme-bg-1) 50%,
+    var(--theme-bg-1) 28%,
     #04152e 48.85%,
     #82858a 191.76%
   );

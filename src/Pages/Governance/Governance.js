@@ -11,6 +11,7 @@ import { ReactComponent as Info } from '../../assets/images/Icon.svg';
 import { ReactComponent as Check } from '../../assets/images/check-circle.svg';
 import { ReactComponent as CheckViolet } from '../../assets/images/CheckCircle.svg';
 import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
+import Table from '../../assets/images/Farm_Rewards.png';
 import Button from '../../Components/Ui/Buttons/Button';
 import { connect } from 'react-redux';
 import useMediaQuery from '../../hooks/mediaQuery';
@@ -45,15 +46,15 @@ const Governance = (props) => {
   };
   console.log(voteSelected);
   useEffect(() => {
-    // if (date.getDate() === GOV_PAGE_MODAL.END_DATE) {
-    //   props.getResults();
-    //   setVoteEnded(true);
-    // }
-    if (date.getHours() === 20 && date.getMinutes() > 0) {
+    if (
+      date.getDate() >= GOV_PAGE_MODAL.END_DATE &&
+      date.getHours() >= GOV_PAGE_MODAL.END_HOUR &&
+      date.getMinutes() >= GOV_PAGE_MODAL.END_MIN
+    ) {
       props.getResults();
       setVoteEnded(true);
     }
-  }, [date.getMinutes()]);
+  }, []);
   useEffect(() => {
     if (props.walletAddress && voteEnded === false) {
       props.getAlreadyVoted(props.walletAddress);
@@ -612,12 +613,12 @@ const Governance = (props) => {
             </span>
             <div className={`mt-3 ${styles.resultsDates}`}>
               <span className={styles.startEndLabel}>Start Date</span>
-              <span className={styles.startEndDate}>November 03, 2021 , 13:05</span>
+              <span className={styles.startEndDate}>November 15, 2021 , 13:05</span>
             </div>
             <div className={`mt-3 ${styles.resultsDates}`}>
               <div className={styles.startEndLabel}>End date</div>
               <div className={styles.startEndDate}>
-                <span>December 12, 2021 , 13:05</span>
+                <span>December 22, 2021 , 13:05</span>
               </div>
             </div>
           </div>
@@ -640,7 +641,7 @@ const Governance = (props) => {
         <Row className="row justify-content-center">
           <Col xs={20} sm={8} md={10} lg={6} xl={5}>
             <div className=" row justify-content-center">
-              <div className=" col-24 col-sm-20 col-md-10 col-lg-8 col-xl-10">
+              <div className=" col-24 col-sm-20 col-md-10 col-lg-10 col-xl-10">
                 <Row className={styles.firstRow}>
                   <h6 className={styles.proposalHeading}>Proposal #1 • PIP-001</h6>
                   <h2 className={`mt-3 ${styles.govHeading}`}>
@@ -674,7 +675,12 @@ const Governance = (props) => {
                     Update the storage of tokensPerBlock to 30000000000000000000
                   </p>
                   <p>Update farm rates [PLENTY farm distribution]</p>
-                  <h4 className={` ${styles.plentyHeading}`}>More information</h4>
+                  <div>
+                    <img src={Table} className={styles.table} />
+                  </div>
+                  <div>
+                    <h4 className={`mt-3 ${styles.plentyHeading}`}>More information</h4>
+                  </div>
 
                   <p className={`mb-1 mt-3 ${styles.discriptionInfo}`}>
                     <a
@@ -693,7 +699,7 @@ const Governance = (props) => {
                       target="_blank"
                       rel="noreferrer"
                     >
-                      IPFS link to proposal.
+                      IPFS link to proposal
                     </a>
 
                     <Link className="ml-2 mb-1" />
