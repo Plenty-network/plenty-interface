@@ -71,12 +71,13 @@ const Governance = (props) => {
             ? 'Transaction confirmed'
             : 'Transaction failed',
       });
+      props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS && setIsSubmitted(true);
       props.modalData === GOV_PAGE_MODAL.TRANSACTION_FAILED && setIsSubmitted(false);
       setTimeout(() => {
         setLoaderMessage({});
       }, 5000);
     }
-  }, [props.modalData]);
+  }, [props.modalData, isSubmitted]);
 
   useEffect(() => {
     if (isSubmitted === true) {
@@ -255,10 +256,9 @@ const Governance = (props) => {
                 {isSubmitted && props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS && (
                   <Check className="mr-2 mb-1" />
                 )}
-                {isSubmitted && props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS
+                {(isSubmitted && props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS) ||
+                props.alreadyVoted
                   ? 'Submitted'
-                  : props.alreadyVoted
-                  ? 'Voted'
                   : 'Submit'}
               </Button>
               <span className={`my-2 ml-4 ${styles.totalVotes}`}>
