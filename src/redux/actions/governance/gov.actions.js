@@ -4,23 +4,28 @@ import * as govApis from './api.gov';
 export const getVoteData = (voteNumber) => {
   return (dispatch) => {
     dispatch({ type: actions.FETCH_VOTE });
-    govApis.submitVote(voteNumber).then((voteRes) => {
-      govApis
-        .getVoteDataApi(voteRes.success)
-        .then((res) => {
-          if (res.success) {
-            dispatch({
-              type: actions.FETCH_VOTE_SUCCESS,
-              data: res.data,
-            });
-          } else {
-            throw 'Error in gov api';
-          }
-        })
-        .catch(() => {
-          dispatch({ type: actions.FETCH_VOTE_FAILED });
-        });
-    });
+    govApis
+      .submitVote(voteNumber)
+      .then((voteRes) => {
+        govApis
+          .getVoteDataApi(voteRes.success)
+          .then((res) => {
+            if (res.success) {
+              dispatch({
+                type: actions.FETCH_VOTE_SUCCESS,
+                data: res.data,
+              });
+            } else {
+              throw 'Error in gov api';
+            }
+          })
+          .catch(() => {
+            dispatch({ type: actions.FETCH_VOTE_FAILED });
+          });
+      })
+      .catch(() => {
+        dispatch({ type: actions.FETCH_VOTE_FAILED });
+      });
   };
 };
 
