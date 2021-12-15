@@ -49,7 +49,7 @@ const Governance = (props) => {
     //   props.getResults();
     //   setVoteEnded(true);
     // }
-    if (date.getHours() === 19 && date.getMinutes() > 30) {
+    if (date.getHours() === 20 && date.getMinutes() > 0) {
       props.getResults();
       setVoteEnded(true);
     }
