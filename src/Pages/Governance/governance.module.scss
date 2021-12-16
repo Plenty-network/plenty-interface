@@ -99,6 +99,11 @@
     padding: 0px 0px;
     margin-right: 0px;
   }
+
+  .govContainerInner {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
 }
 .voteModal {
   box-shadow: 0px 2px 32px -5px rgba(100, 96, 105, 0.15);
