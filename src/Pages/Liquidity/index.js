@@ -11,12 +11,12 @@ import { TokensSymbol, TokensSymbolHeader } from '../../Components/TokensPage/To
 import { ReactComponent as FavoriteIconGradient } from '../../assets/images/tokens/favorite-icon-fill.svg';
 
 import { useLazyImages, useTableNumberUtils } from '../../hooks/usePlentyTableHooks';
-import mockData from './mock-data';
 import TokenAvatar from '../../Components/Ui/TokenAvatar/TokenAvatar';
 import { isActiveFarm } from '../../config/utils';
+import { useGetLiquidityQuery } from '../../redux/queries/analytics/analyticsQueries';
 
 const LiquidityPage = () => {
-  const { data, isLoading, error } = { data: mockData, isLoading: false, error: null };
+  const { data = [], isLoading, error } = useGetLiquidityQuery({ pollingInterval: 3_000 });
 
   const { imgPaths } = useLazyImages({ data, page: 'liquidity' });
 
@@ -168,7 +168,7 @@ const LiquidityPage = () => {
     <>
       <Container fluid className={styles.tokens}>
         <div className="w-100 d-flex justify-content-between px-5 align-items-center">
-          <h5 className="font-weight-bolder">Tokens</h5>
+          <h5 className="font-weight-bolder">Liquidity Pools</h5>
           <InputGroup className={styles.searchBar}>
             <InputGroup.Prepend>
               <InputGroup.Text className={`${styles.searchIcon} border-right-0`}>
