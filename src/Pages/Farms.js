@@ -112,9 +112,7 @@ const Farms = (props) => {
   );
 
   const farmsToRender = useMemo(() => {
-    let farmsInView = props.isActiveOpen
-      ? props.activeFarms.slice()
-      : props.inactiveFarms.slice();
+    let farmsInView = props.isActiveOpen ? props.activeFarms.slice() : props.inactiveFarms.slice();
 
     if (props.isStakedOnlyOpen) {
       farmsInView = farmsInView.filter((farm) => {
@@ -249,7 +247,7 @@ const Farms = (props) => {
                 <div>
                   <Form.Switch
                     id="switch-staked"
-                    label="Staked only"
+                    label="Staked Only"
                     checked={props.isStakedOnlyOpen}
                     onChange={() => props.toggleStakedFarmsOnly(!props.isStakedOnlyOpen)}
                   />
