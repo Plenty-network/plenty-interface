@@ -4059,6 +4059,10 @@ export default {
       },
     },
   },
+  GOVERNANCE: {
+    address: 'KT1CAeUQfyMnBVqkt4QcztmjsjAWYzK6ZPYQ',
+    mapId: 55983,
+  },
   NETWORK: 'mainnet',
   WALLET_NETWORK: 'mainnet',
   ADMIN_ADDRESS: 'KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW',

@@ -1,11 +1,10 @@
 import React, { useMemo, useState } from 'react';
-import Container from 'react-bootstrap/Container';
 import styles from '../../assets/scss/tokens.module.scss';
 import Table from '../../Components/Table/Table';
 import Button from '../../Components/Ui/Buttons/Button';
 import { PuffLoader } from 'react-spinners';
 import { BsSearch } from 'react-icons/bs';
-import { FormControl, InputGroup } from 'react-bootstrap';
+import { Container, FormControl, InputGroup } from 'react-bootstrap';
 import { createSearchParams, Link } from 'react-router-dom';
 import { useFavoriteToken } from '../../hooks/useFavoriteToken';
 import { TokensSymbol, TokensSymbolHeader } from '../../Components/TokensPage/TokensSymbol';
@@ -14,6 +13,7 @@ import { ReactComponent as FavoriteIconGradient } from '../../assets/images/toke
 import { useLazyImages, useTableNumberUtils } from '../../hooks/usePlentyTableHooks';
 import mockData from './mock-data';
 import TokenAvatar from '../../Components/Ui/TokenAvatar/TokenAvatar';
+import { isActiveFarm } from '../../config/utils';
 
 const LiquidityPage = () => {
   const { data, isLoading, error } = { data: mockData, isLoading: false, error: null };
@@ -50,7 +50,7 @@ const LiquidityPage = () => {
         Cell: (row) => {
           return (
             <TokensSymbol
-              tokenSymbol={row.row.original.token2}
+              tokenSymbol={row.value}
               className={styles.favoriteIcon}
               favoriteTokens={favoriteTokens}
               editFavoriteTokenList={editFavoriteTokenList}
@@ -101,6 +101,12 @@ const LiquidityPage = () => {
         accessor: 'APR',
         sortType: numberSort,
         Cell: (row) => <span>{valueFormat(row.value)}</span>,
+      },
+      {
+        Header: 'Farm',
+        accessor: 'pool_contract',
+        sortType: numberSort,
+        Cell: (row) => (isActiveFarm(row.value) ? <span>Active</span> : null),
       },
       {
         disableSortBy: true,

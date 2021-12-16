@@ -17,6 +17,7 @@ const Tokens = React.lazy(() => import('../Pages/Tokens/Tokens'));
 const Liquidity = React.lazy(() => import('../Pages/Liquidity'));
 const Frontpage = React.lazy(() => import('../Pages/Frontpage/Frontpage'));
 const Stake = React.lazy(() => import('../Pages/xPlenty'));
+const Governance = React.lazy(() => import('../Pages/Governance/Governance'));
 
 const MyRoutes = (props) => {
   const { theme, toggleTheme } = useThemes();
@@ -111,6 +112,18 @@ const MyRoutes = (props) => {
                 <OtherPages {...otherPageProps}>
                   <Liquidity walletAddress={props.userAddress} />
                 </OtherPages>
+              }
+            />
+            <Route
+              path="/vote"
+              element={
+                <Governance
+                  toggleTheme={toggleTheme}
+                  theme={theme}
+                  connecthWallet={connectWallet}
+                  disconnectWallet={disconnectUserWallet}
+                  walletAddress={props.userAddress}
+                />
               }
             />
           </Routes>
