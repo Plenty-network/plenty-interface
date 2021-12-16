@@ -639,7 +639,7 @@ const Governance = (props) => {
           isGradientBgPage={true}
         />
         <Row className={clsx('row justify-content-center', !isMobile && styles.govContainerInner)}>
-          <Col styles={{ maxWidth: 600 }} xs={20} sm={8} md={10} lg={6} xl={5}>
+          <Col xs={20} sm={8} md={10} lg={6} xl={5}>
             <div className=" row justify-content-center">
               <div className=" col-24 col-sm-20 col-md-10 col-lg-10 col-xl-10">
                 <Row className={styles.firstRow}>
@@ -715,7 +715,7 @@ const Governance = (props) => {
               </div>
             </div>
           </Col>
-          <Col styles={{ maxWidth: 600 }} xs={20} sm={5} md={10} lg={6} xl={5}>
+          <Col xs={20} sm={5} md={10} lg={6} xl={5}>
             {!isMobile && (voteEnded ? voteModalResults : voteModal)}
           </Col>
         </Row>
