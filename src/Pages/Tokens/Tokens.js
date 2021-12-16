@@ -10,7 +10,10 @@ import SimpleLineChart from '../../Components/Charts/SimpleLineChart';
 import { useFavoriteToken } from '../../hooks/useFavoriteToken';
 import { TokensSymbol, TokensSymbolHeader } from '../../Components/TokensPage/TokensSymbol';
 import { ReactComponent as FavoriteIconGradient } from '../../assets/images/tokens/favorite-icon-fill.svg';
-import { useGet7DaysChangeQuery, useGetTokensQuery } from '../../redux/slices/tokens/tokens.query';
+import {
+  useGet7DaysChangeQuery,
+  useGetTokensQuery,
+} from '../../redux/queries/analytics/analyticsQueries';
 import { useLazyImages, useTableNumberUtils } from '../../hooks/usePlentyTableHooks';
 
 import styles from '../../assets/scss/tokens.module.scss';

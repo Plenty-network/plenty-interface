@@ -23,15 +23,17 @@ export const useLazyImages = ({ data, page = 'token' }) => {
         },
       }));
 
-      import(`../assets/images/tokens/${token}.png`).then((image) => {
-        setImgPath((prev) => ({
-          ...prev,
-          [token]: {
-            url: image['default'] ?? image,
-            loading: false,
-          },
-        }));
-      });
+      import(`../assets/images/tokens/${token}.png`)
+        .then((image) => {
+          setImgPath((prev) => ({
+            ...prev,
+            [token]: {
+              url: image['default'] ?? image,
+              loading: false,
+            },
+          }));
+        })
+        .catch((err) => console.error(err));
     },
     [imgPaths],
   );

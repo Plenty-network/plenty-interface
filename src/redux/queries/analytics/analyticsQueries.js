@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const tokensApi = createApi({
+const analyticsQueries = createApi({
   reducerPath: 'tokens',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://indexer.plentydefi.com/',
   }),
-  tagTypes: ['tokens', '7day-price'],
+  tagTypes: ['tokens', '7day-price', 'liquidity'],
   endpoints: (builder) => ({
     getTokens: builder.query({
       query: () => '/',
@@ -15,9 +15,13 @@ const tokensApi = createApi({
       query: () => '/change',
       providesTags: ['7day-price'],
     }),
+    getLiquidity: builder.query({
+      query: () => '/liquidity',
+      providesTags: ['liquidity'],
+    }),
   }),
 });
 
-export const { useGetTokensQuery, useGet7DaysChangeQuery } = tokensApi;
+export const { useGetTokensQuery, useGet7DaysChangeQuery, useGetLiquidityQuery } = analyticsQueries;
 
-export default tokensApi;
+export default analyticsQueries;
