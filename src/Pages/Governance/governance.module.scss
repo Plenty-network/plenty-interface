@@ -7,6 +7,10 @@
     background: var(--theme-governance-mobileBg);
   }
 
+  @media screen and (min-width: 1400px) {
+    height: 1800px;
+  }
+
   .firstRow {
     padding-top: 100px;
 
@@ -58,6 +62,12 @@
       padding-top: 80px;
       margin-top: 20px;
     }
+
+    @media screen and (min-width: 1200px) {
+      padding-top: 20px;
+      margin-top: 60px;
+    }
+
     .plentyHeading {
       font-size: 24px;
       font-weight: 500;
@@ -98,6 +108,11 @@
   .gov {
     padding: 0px 0px;
     margin-right: 0px;
+  }
+
+  .govContainerInner {
+    max-width: 1400px;
+    margin: 0 auto;
   }
 }
 .voteModal {

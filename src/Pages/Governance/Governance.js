@@ -638,7 +638,7 @@ const Governance = (props) => {
           walletAddress={props.walletAddress}
           isGradientBgPage={true}
         />
-        <Row className="row justify-content-center">
+        <Row className={clsx('row justify-content-center', !isMobile && styles.govContainerInner)}>
           <Col xs={20} sm={8} md={10} lg={6} xl={5}>
             <div className=" row justify-content-center">
               <div className=" col-24 col-sm-20 col-md-10 col-lg-10 col-xl-10">
