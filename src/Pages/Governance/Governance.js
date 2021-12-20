@@ -19,12 +19,14 @@ import {
   getVoteResults,
   checkIfAlreadyVoted,
 } from '../../redux/actions/governance/gov.actions';
+import InfoModal from '../../Components/Ui/Modals/InfoModal';
 
 const Governance = (props) => {
   const isMobile = useMediaQuery('(max-width: 991px)');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [voteEnded, setVoteEnded] = useState(false);
   const [loaderMessage, setLoaderMessage] = useState({});
+  const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const date = new Date();
 
   useEffect(() => {
@@ -59,7 +61,11 @@ const Governance = (props) => {
             : 'Transaction failed',
       });
       props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS && setIsSubmitted(true);
+      props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS && setShowTransactionSubmitModal(true);
+
       props.modalData === GOV_PAGE_MODAL.TRANSACTION_FAILED && setIsSubmitted(false);
+      props.modalData === GOV_PAGE_MODAL.TRANSACTION_FAILED && setShowTransactionSubmitModal(false);
+
       setTimeout(() => {
         setLoaderMessage({});
       }, 5000);
@@ -118,7 +124,17 @@ const Governance = (props) => {
           </Col>
         </Row>
       </Container>
-
+      <InfoModal
+        open={showTransactionSubmitModal}
+        onClose={() => setShowTransactionSubmitModal(false)}
+        message={'Transaction submitted'}
+        buttonText={'View on Tezos'}
+        onBtnClick={
+          props.transactionId
+            ? () => window.open(`https://tzkt.io/${props.transactionId}`, '_blank')
+            : null
+        }
+      />
       <Loader loading={props.loading} loaderMessage={loaderMessage} />
     </>
   );
@@ -131,6 +147,7 @@ const mapStateToProps = (state) => {
     modalData: state.governance.modals.open,
     userAddress: state.wallet.address,
     alreadyVoted: state.governance.gov.alreadyVoted,
+    transactionId: state.governance.modals.transactionId,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -148,6 +165,7 @@ Governance.propTypes = {
   connectWallet: PropTypes.any,
   disconnectWallet: PropTypes.any,
   gov: PropTypes.any,
+  transactionId: PropTypes.any,
   modalData: PropTypes.any,
   postResults: PropTypes.any,
   getVote: PropTypes.any,
