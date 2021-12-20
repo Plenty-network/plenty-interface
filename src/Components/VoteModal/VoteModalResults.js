@@ -280,7 +280,7 @@ const VoteModalResults = (props) => {
 };
 
 VoteModalResults.propTypes = {
-  connecthWallet: PropTypes.any,
+  connectWallet: PropTypes.any,
   disconnectWallet: PropTypes.any,
   gov: PropTypes.any,
   modalData: PropTypes.any,

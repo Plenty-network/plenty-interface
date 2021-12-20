@@ -72,7 +72,7 @@ const Governance = (props) => {
         <Header
           toggleTheme={props.toggleTheme}
           theme={props.theme}
-          connecthWallet={props.connecthWallet}
+          connecthWallet={props.connectWallet}
           disconnectWallet={props.disconnectWallet}
           walletAddress={props.walletAddress}
           isGradientBgPage={true}
@@ -85,7 +85,7 @@ const Governance = (props) => {
               modalData={props.modalData}
               alreadyVoted={props.alreadyVoted}
               walletAddress={props.walletAddress}
-              connecthWallet={props.connecthWallet}
+              connectWallet={props.connectWallet}
               getVote={props.getVote}
               voteEnded={voteEnded}
             />
@@ -99,7 +99,7 @@ const Governance = (props) => {
                   modalData={props.modalData}
                   alreadyVoted={props.alreadyVoted}
                   walletAddress={props.walletAddress}
-                  connecthWallet={props.connecthWallet}
+                  connectWallet={props.connectWallet}
                   getVote={props.getVote}
                   voteEnded={voteEnded}
                 />
@@ -110,7 +110,7 @@ const Governance = (props) => {
                   modalData={props.modalData}
                   alreadyVoted={props.alreadyVoted}
                   walletAddress={props.walletAddress}
-                  connecthWallet={props.connecthWallet}
+                  connectWallet={props.connectWallet}
                   getVote={props.getVote}
                   voteEnded={voteEnded}
                 />
@@ -138,14 +138,14 @@ const mapDispatchToProps = (dispatch) => {
     getVote: (voteSelected) => dispatch(getVoteData(voteSelected)),
     getAlreadyVoted: (address) => dispatch(checkIfAlreadyVoted(address)),
     getResults: () => dispatch(getVoteResults()),
-    connecthWallet: () => dispatch(walletActions.connectWallet()),
+    connectWallet: () => dispatch(walletActions.connectWallet()),
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Governance);
 
 Governance.propTypes = {
-  connecthWallet: PropTypes.any,
+  connectWallet: PropTypes.any,
   disconnectWallet: PropTypes.any,
   gov: PropTypes.any,
   modalData: PropTypes.any,

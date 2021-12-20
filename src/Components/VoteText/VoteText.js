@@ -31,7 +31,7 @@ const VoteText = (props) => {
                 modalData={props.modalData}
                 alreadyVoted={props.alreadyVoted}
                 walletAddress={props.walletAddress}
-                connecthWallet={props.connecthWallet}
+                connectWallet={props.connectWallet}
                 getVote={props.getVote}
               />
             ) : (
@@ -41,7 +41,7 @@ const VoteText = (props) => {
                 modalData={props.modalData}
                 alreadyVoted={props.alreadyVoted}
                 walletAddress={props.walletAddress}
-                connecthWallet={props.connecthWallet}
+                connectWallet={props.connectWallet}
                 getVote={props.getVote}
               />
             ))}
@@ -113,7 +113,7 @@ export default VoteText;
 
 VoteText.propTypes = {
   voteEnded: PropTypes.any,
-  connecthWallet: PropTypes.any,
+  connectWallet: PropTypes.any,
   disconnectWallet: PropTypes.any,
   gov: PropTypes.any,
   modalData: PropTypes.any,

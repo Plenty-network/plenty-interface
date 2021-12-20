@@ -38,6 +38,17 @@ const VoteModal = (props) => {
     }
   }, [isSubmitted]);
 
+  useEffect(() => {
+    if (
+      props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS ||
+      props.modalData === GOV_PAGE_MODAL.TRANSACTION_FAILED
+    ) {
+      props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS && setIsSubmitted(true);
+
+      props.modalData === GOV_PAGE_MODAL.TRANSACTION_FAILED && setIsSubmitted(false);
+    }
+  }, [props.modalData, isSubmitted]);
+
   return (
     <div
       className={`justify-content-center mx-auto col-20 col-md-10 col-lg-10 col-xl-10 ${styles.gov}`}
@@ -239,11 +250,7 @@ const VoteModal = (props) => {
                   : 'Submit'}
               </Button>
             ) : (
-              <Button
-                onClick={props.connecthWallet}
-                className={styles.submitButton}
-                startIcon="add"
-              >
+              <Button onClick={props.connectWallet} className={styles.submitButton} startIcon="add">
                 Connect Wallet
               </Button>
             )}
@@ -290,7 +297,7 @@ const VoteModal = (props) => {
 };
 
 VoteModal.propTypes = {
-  connecthWallet: PropTypes.any,
+  connectWallet: PropTypes.any,
   disconnectWallet: PropTypes.any,
   gov: PropTypes.any,
   modalData: PropTypes.any,
