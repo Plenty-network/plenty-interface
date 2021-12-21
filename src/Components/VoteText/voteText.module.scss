@@ -1,0 +1,94 @@
+.firstRow {
+  padding-top: 100px;
+
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    padding-top: 50px;
+  }
+  .proposalHeading {
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    @media screen and (min-width: 320px) and (max-width: 768px) {
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+  }
+  .govHeading {
+    color: white;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 52.08px;
+    @media screen and (min-width: 320px) and (max-width: 768px) {
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+  }
+  .proposalInfo {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 30px;
+    color: white;
+    @media screen and (min-width: 320px) and (max-width: 768px) {
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+  }
+}
+.secondRow {
+  margin-top: 100px;
+  padding-top: 20px;
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-left: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  @media screen and (min-width: 992px) and (max-width: 1199px) {
+    padding-top: 30px;
+    margin-top: 20px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    padding-top: 20px;
+    margin-top: 40px;
+  }
+
+  .plentyHeading {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 31.25px;
+  }
+  .discription {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 28px;
+  }
+  .discriptionInfo {
+    color: var(--theme-governance-buttonBorder);
+    width: 100%;
+    display: list-item;
+    list-style-type: disc;
+    list-style-position: inside;
+    a {
+      color: var(--theme-governance-buttonBorder);
+    }
+  }
+}
+
+.gov {
+  padding: 0px 0px;
+  margin-right: 0px;
+}
+
+.lineBottom {
+  border-bottom: 1px solid var(--theme-governance-line);
+  width: 100%;
+}
+.table {
+  width: 100%;
+}
+.specification {
+  margin-left: 30px;
+}
