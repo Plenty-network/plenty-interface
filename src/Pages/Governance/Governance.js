@@ -84,7 +84,7 @@ const Governance = (props) => {
           isGradientBgPage={true}
         />
         <Row className={clsx('row justify-content-center', !isMobile && styles.govContainerInner)}>
-          <Col xs={20} sm={8} md={10} lg={6} xl={5}>
+          <Col xs={20} sm={8} md={10} lg={6} xl={6}>
             <VoteText
               gov={props.gov}
               loading={props.loading}
