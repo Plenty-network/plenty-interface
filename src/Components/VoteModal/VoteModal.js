@@ -279,7 +279,7 @@ const VoteModal = (props) => {
             The weight of your vote is calculated based on your xPLENTY balance at the block the PIP
             was inserted on-chain. Users can cast their vote for the duration of one week.
           </p>
-          <div className={`px-4 py-4 ${styles.info}`}>
+          <div className={`px-3 py-3 ${styles.info}`}>
             <div className={styles.InfoIconBg}>
               <div className={styles.infoIcon}>
                 <Info />
