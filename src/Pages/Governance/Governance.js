@@ -96,7 +96,7 @@ const Governance = (props) => {
               voteEnded={voteEnded}
             />
           </Col>
-          <Col xs={20} sm={5} md={10} lg={6} xl={6}>
+          <Col xs={20} sm={5} md={10} lg={6} xl={5}>
             {!isMobile &&
               (voteEnded ? (
                 <VoteModalResults
