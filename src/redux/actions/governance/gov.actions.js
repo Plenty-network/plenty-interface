@@ -1,11 +1,19 @@
 import * as actions from '../index.action';
 import * as govApis from './api.gov';
+import store from '../../store/store';
+
+const dispatchVoteProcessing = (batchOperation) => {
+  store.dispatch({
+    type: actions.FETCH_VOTE_PROCESSING,
+    payload: batchOperation,
+  });
+};
 
 export const getVoteData = (voteNumber) => {
   return (dispatch) => {
     dispatch({ type: actions.FETCH_VOTE });
     govApis
-      .submitVote(voteNumber)
+      .submitVote(voteNumber, dispatchVoteProcessing)
       .then((voteRes) => {
         govApis
           .getVoteDataApi(voteRes.success)

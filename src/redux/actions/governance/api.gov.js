@@ -6,7 +6,7 @@ import { TezosToolkit } from '@taquito/taquito';
 import { RPC_NODE } from '../../../constants/localStorage';
 import { TezosMessageUtils, TezosParameterFormat } from 'conseiljs';
 
-export const submitVote = async (voteNumber) => {
+export const submitVote = async (voteNumber, dispatchVoteProcessing) => {
   try {
     const options = {
       name: CONFIG.NAME,
@@ -24,6 +24,7 @@ export const submitVote = async (voteNumber) => {
       const results = await Tezos.contract.at(ContractAddress);
       const batch = Tezos.wallet.batch().withContractCall(results.methods.vote(voteNumber));
       const batchOperation = await batch.send();
+      dispatchVoteProcessing(batchOperation.opHash);
       await batchOperation.confirmation();
       return {
         success: true,
