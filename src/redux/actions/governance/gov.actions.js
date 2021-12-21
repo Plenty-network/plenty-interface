@@ -14,6 +14,7 @@ export const getVoteData = (voteNumber) => {
               dispatch({
                 type: actions.FETCH_VOTE_SUCCESS,
                 data: res.data,
+                payload: voteRes.batchConfirm,
               });
             } else {
               throw 'Error in gov api';

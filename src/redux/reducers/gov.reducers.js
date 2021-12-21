@@ -10,6 +10,7 @@ const initialState = {
   },
   modals: {
     open: GOV_PAGE_MODAL.NULL,
+    transactionId: '',
   },
 };
 const govReducer = (state = initialState, action) => {
@@ -30,6 +31,7 @@ const govReducer = (state = initialState, action) => {
         modals: {
           ...state.modals,
           open: GOV_PAGE_MODAL.TRANSACTION_SUCCESS,
+          transactionId: action.payload,
         },
       };
     case actions.FETCH_VOTE_RESULTS:
