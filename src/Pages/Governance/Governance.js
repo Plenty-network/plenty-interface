@@ -53,15 +53,12 @@ const Governance = (props) => {
         props.modalData === GOV_PAGE_MODAL.TRANSACTION_FAILED) &&
       voteEnded === false
     ) {
+      const successfulTransaction =
+        props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS && !props.loading;
+
       setLoaderMessage({
-        type:
-          props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS && !props.loading
-            ? 'success'
-            : 'error',
-        message:
-          props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS && !props.loading
-            ? 'Transaction confirmed'
-            : 'Transaction failed',
+        type: successfulTransaction ? 'success' : 'error',
+        message: successfulTransaction ? 'Transaction confirmed' : 'Transaction failed',
       });
       props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS && setIsSubmitted(true);
       if (props.loading) {
