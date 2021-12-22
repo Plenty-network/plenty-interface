@@ -240,14 +240,6 @@ const VoteModalResults = (props) => {
           </div>
           <div className={styles.totalStats}>
             <span>
-              {props.gov?.absCount === undefined ? (
-                <span className="shimmer">999</span>
-              ) : (
-                `${props.gov.absCount} votes`
-              )}{' '}
-            </span>
-            <span className={`mx-2  ${styles.dot}`}></span>
-            <span>
               {props.gov?.absTokens === undefined ? (
                 <span className="shimmer">999</span>
               ) : (
