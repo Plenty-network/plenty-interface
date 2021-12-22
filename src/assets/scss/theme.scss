@@ -59,6 +59,9 @@
   --theme-governance-acceptText: #066d43;
   --theme-governance-rejectBg: rgba(255, 2, 2, 0.2);
   --theme-governance-rejectText: #461303;
+  --theme-governance-votingBoxBg: rgba(98, 2, 239, 0.1);
+  --theme-governance-selectedText: #40029d;
+  --theme-governance-label: #04091b;
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -142,6 +145,9 @@
   --theme-governance-acceptText: #2fffa9;
   --theme-governance-rejectBg: rgba(214, 101, 101, 0.3);
   --theme-governance-rejectText: #ff5353;
+  --theme-governance-votingBoxBg: rgba(255, 255, 255, 0.2);
+  --theme-governance-selectedText: #ffffff;
+  --theme-governance-label: rgba(255, 255, 255, 0.6);
 }
 
 :root.theme-transiton {
