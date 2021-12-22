@@ -17,6 +17,8 @@
 .gov {
   padding: 0px 0px;
   margin-right: 0px;
+  top: 100px;
+  position: sticky;
 }
 
 .govContainerInner {
@@ -276,30 +278,28 @@
 }
 .votingBoxBg {
   position: absolute;
-  background: #6202ef;
-  opacity: 0.1;
+  background: var(--theme-governance-votingBoxBg);
   height: 56px;
   top: 0px;
   left: 0px;
 }
 .selectedVotingBoxBg {
-  background: #6202ef;
-  opacity: 0.1;
+  background: var(--theme-governance-votingBoxBg);
 }
 .defaultVotingBoxBg {
   background: #8a94a6;
   opacity: 0.2;
 }
 .selectedVotingText {
-  color: #6202ef;
+  color: var(--theme-governance-selectedText);
   font-weight: 700;
 }
 .defaultVotingText {
-  color: #04091b;
+  color: var(--theme-governance-label);
   font-weight: 500;
 }
 .selectedVotingLabel {
-  color: #40029d;
+  color: var(--theme-governance-selectedText);
   font-weight: 700 !important;
 }
 
