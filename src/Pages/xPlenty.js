@@ -54,7 +54,7 @@ const Stake = (props) => {
     <>
       <Container fluid>
         <Row>
-          <Col sm={12} xl={9} className="swap-content-section xplenty-content-section">
+          <Col sm={12} xl={12} className="swap-content-section xplenty-content-section">
             <div className="xplenty-content-wrapper xplenty-container row justify-content-center">
               <div className="xplenty-info-wrapper col-12 col-lg-5 col-xl-4">
                 <h2 className="xplenty-heading">Maximize yield by staking PLENTY for xPLENTY</h2>
