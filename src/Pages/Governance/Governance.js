@@ -30,11 +30,7 @@ const Governance = (props) => {
   const date = new Date();
 
   useEffect(() => {
-    if (
-      date.getDate() >= GOV_PAGE_MODAL.END_DATE &&
-      date.getHours() >= GOV_PAGE_MODAL.END_HOUR &&
-      date.getMinutes() >= GOV_PAGE_MODAL.END_MIN
-    ) {
+    if (date.getDate() >= GOV_PAGE_MODAL.END_DATE) {
       props.getResults();
       setVoteEnded(true);
     }
