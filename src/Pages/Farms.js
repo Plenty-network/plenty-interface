@@ -111,25 +111,33 @@ const Farms = (props) => {
     [tabChange],
   );
 
+  const filterByStaked = useCallback(
+    (farm) => {
+      if (!props.isStakedOnlyOpen) return true;
+
+      return props.userStakes[farm.farmData.CONTRACT]?.stakedAmount > 0;
+    },
+    [props.isStakedOnlyOpen, props.userStakes],
+  );
+
   const farmsToRender = useMemo(() => {
-    let farmsInView = props.isActiveOpen ? props.activeFarms.slice() : props.inactiveFarms.slice();
+    const farmsInView = props.isActiveOpen
+      ? props.activeFarms.slice()
+      : props.inactiveFarms.slice();
 
-    if (props.isStakedOnlyOpen) {
-      farmsInView = farmsInView.filter((farm) => {
-        return props.userStakes[farm.farmData.CONTRACT]?.stakedAmount > 0;
-      });
-    }
-
-    return farmsInView.filter(filterBySearch).filter(filterByTab).sort(sortFarmsFunc);
+    return farmsInView
+      .filter(filterBySearch)
+      .filter(filterByTab)
+      .filter(filterByStaked)
+      .sort(sortFarmsFunc);
   }, [
     filterBySearch,
     filterByTab,
+    filterByStaked,
     sortFarmsFunc,
     props.activeFarms,
     props.inactiveFarms,
     props.isActiveOpen,
-    props.isStakedOnlyOpen,
-    props.userStakes,
   ]);
 
   return (
