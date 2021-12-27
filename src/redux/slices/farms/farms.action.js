@@ -251,6 +251,10 @@ export const otherFarmsActions = {
     state.isActiveOpen = action.payload;
   },
 
+  toggleStakedFarmsOnly: (state, action) => {
+    state.isStakedOnlyOpen = action.payload;
+  },
+
   setFarmsToRender: (state, action) => {
     state.farmsToRender = action.payload;
   },
