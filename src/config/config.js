@@ -386,7 +386,8 @@ export default {
           ],
         },
         'PLENTY - YOU': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1MkXtVBuCKtxqSh7APrg2d7ThGBmEf4hnw',
               mapId: 20167,
@@ -394,7 +395,6 @@ export default {
               tokenDecimal: 15,
             },
           ],
-          inactive: [],
         },
         'PLENTY - wDAI': {
           active: [
