@@ -4,10 +4,6 @@ import styles from '../assets/scss/tokens.module.scss';
 export const useLazyImages = ({ data, page = 'token' }) => {
   const [imgPaths, setImgPath] = useState({});
 
-  useEffect(() => {
-    console.log({ imgPaths });
-  }, [imgPaths]);
-
   const loadImageFor = useCallback(
     (token) => {
       // ? if token exists, abort

@@ -25,7 +25,7 @@ const LiquiditySummary = (props) => {
                   title={datum.value}
                 >
                   {isCurrency && '$'}
-                  {numberWithCommas(datum.value)}
+                  {numberWithCommas(datum.value, { decimal: true })}
                   {!isCurrency && '%'}
                 </span>
                 <span
@@ -34,7 +34,7 @@ const LiquiditySummary = (props) => {
                     styles.summaryChange,
                   )}
                 >
-                  {Math.abs(datum.percentage_change)}%
+                  {Math.abs(datum.percentage_change).toFixed(2)}%
                 </span>
               </div>
               <div>

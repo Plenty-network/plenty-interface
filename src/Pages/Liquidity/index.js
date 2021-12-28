@@ -105,12 +105,12 @@ const LiquidityPage = () => {
           <span>{positiveOrNegative(valueFormat(row.value, { percentChange: true }))}</span>
         ),
       },
-      {
-        Header: 'LP APR',
-        accessor: 'APR',
-        sortType: numberSort,
-        Cell: (row) => <span>{valueFormat(row.value)}</span>,
-      },
+      // {
+      //   Header: 'LP APR',
+      //   accessor: 'APR',
+      //   sortType: numberSort,
+      //   Cell: (row) => <span>{valueFormat(row.value ?? 0)}</span>,
+      // },
       {
         Header: 'Farm',
         accessor: 'pool_contract',
