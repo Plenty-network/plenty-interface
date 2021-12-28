@@ -14,11 +14,20 @@ import { useLazyImages, useTableNumberUtils } from '../../hooks/usePlentyTableHo
 import TokenAvatar from '../../Components/Ui/TokenAvatar/TokenAvatar';
 import { isActiveFarm } from '../../config/utils';
 import { useGetLiquidityQuery } from '../../redux/queries/analytics/analyticsQueries';
+import clsx from 'clsx';
+import LiquiditySummary from '../../Components/LiquidityPage/LiquiditySummary';
 
 const LiquidityPage = () => {
-  const { data = [], isLoading, error } = useGetLiquidityQuery({ pollingInterval: 3_000 });
+  const {
+    data = {
+      summary: [],
+      liquidity: [],
+    },
+    isLoading,
+    error,
+  } = useGetLiquidityQuery({ pollingInterval: 3_000 });
 
-  const { imgPaths } = useLazyImages({ data, page: 'liquidity' });
+  const { imgPaths } = useLazyImages({ data: data.liquidity, page: 'liquidity' });
 
   const { isOnlyFavTokens, setIsOnlyFavTokens, favoriteTokens, editFavoriteTokenList } =
     useFavoriteToken('liquidity');
@@ -28,10 +37,10 @@ const LiquidityPage = () => {
   // ? Move to React Table filter later
   const finalData = useMemo(() => {
     if (isOnlyFavTokens) {
-      return data?.filter((datum) => favoriteTokens.includes(datum.pool_contract)) ?? [];
+      return data.liquidity?.filter((datum) => favoriteTokens.includes(datum.pool_contract)) ?? [];
     }
 
-    return data;
+    return data.liquidity;
   }, [favoriteTokens, isOnlyFavTokens, data]);
 
   const columns = useMemo(
@@ -166,7 +175,9 @@ const LiquidityPage = () => {
 
   return (
     <>
-      <Container fluid className={styles.tokens}>
+      <LiquiditySummary data={data.summary} />
+
+      <Container fluid className={clsx(styles.tokens, styles.table)}>
         <div className="w-100 d-flex justify-content-between px-5 align-items-center">
           <h5 className="font-weight-bolder">Liquidity Pools</h5>
           <InputGroup className={styles.searchBar}>
@@ -184,13 +195,13 @@ const LiquidityPage = () => {
           </InputGroup>
         </div>
 
-        {data.length > 0 && (
+        {data.liquidity.length > 0 && (
           <div>
             <Table searchQuery={searchQuery} data={finalData} columns={columns} />
           </div>
         )}
 
-        {data.length === 0 && (isLoading || error) && (
+        {data.liquidity.length === 0 && (isLoading || error) && (
           <div className="d-flex justify-content-between w-100" style={{ height: 800 }}>
             <div className="m-auto">
               {error ? <div>Something went wrong</div> : <PuffLoader color={'#813CE1'} size={56} />}
