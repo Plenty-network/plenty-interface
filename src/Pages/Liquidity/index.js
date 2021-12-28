@@ -177,7 +177,7 @@ const LiquidityPage = () => {
     <>
       <LiquiditySummary data={data.summary} />
 
-      <Container fluid className={clsx(styles.tokens, styles.table)}>
+      <Container fluid className={clsx(styles.tokens, styles.liquidityTable)}>
         <div className="w-100 d-flex justify-content-between px-5 align-items-center">
           <h5 className="font-weight-bolder">Liquidity Pools</h5>
           <InputGroup className={styles.searchBar}>

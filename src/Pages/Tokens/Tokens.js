@@ -17,6 +17,7 @@ import {
 import { useLazyImages, useTableNumberUtils } from '../../hooks/usePlentyTableHooks';
 
 import styles from '../../assets/scss/tokens.module.scss';
+import clsx from 'clsx';
 
 const Tokens = () => {
   const {
@@ -174,7 +175,7 @@ const Tokens = () => {
 
   return (
     <>
-      <Container fluid className={styles.tokens}>
+      <Container fluid className={clsx(styles.tokens, styles.tokensTable)}>
         <div className="w-100 d-flex justify-content-between px-5 align-items-center">
           <h5 className="font-weight-bolder">Tokens</h5>
           <InputGroup className={styles.searchBar}>

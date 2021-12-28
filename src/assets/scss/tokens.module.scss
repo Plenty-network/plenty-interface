@@ -30,8 +30,12 @@
     }
   }
 
-  &.table {
+  &.liquidityTable {
     margin: 0 auto 36px;
+  }
+
+  &.tokensTable {
+    margin: 140px auto 36px;
   }
 
   .searchBar {
