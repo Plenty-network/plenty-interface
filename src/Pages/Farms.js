@@ -5,8 +5,8 @@ import * as userActions from '../redux/actions/user/user.action';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { BsSearch } from 'react-icons/bs';
-import styles1 from '../assets/scss/tokens.module.scss';
-import { FormControl, InputGroup, Tabs, Tab } from 'react-bootstrap';
+import styles1 from './Tokens/tokens.module.scss';
+import { FormControl, InputGroup, Tabs, Tab, Form } from 'react-bootstrap';
 import * as walletActions from '../redux/actions/wallet/wallet.action';
 import Switch from '../Components/Ui/Switch/Switch';
 import StakeModal from '../Components/Ui/Modals/StakeModal';
@@ -20,6 +20,7 @@ import {
   openFarmsUnstakeModal,
   populateEmptyFarmsData,
   toggleFarmsType,
+  toggleStakedFarmsOnly,
 } from '../redux/slices/farms/farms.slice';
 import {
   getFarmsDataThunk,
@@ -110,15 +111,29 @@ const Farms = (props) => {
     [tabChange],
   );
 
+  const filterByStaked = useCallback(
+    (farm) => {
+      if (!props.isStakedOnlyOpen) return true;
+
+      return props.userStakes[farm.farmData.CONTRACT]?.stakedAmount > 0;
+    },
+    [props.isStakedOnlyOpen, props.userStakes],
+  );
+
   const farmsToRender = useMemo(() => {
     const farmsInView = props.isActiveOpen
       ? props.activeFarms.slice()
       : props.inactiveFarms.slice();
 
-    return farmsInView.filter(filterBySearch).filter(filterByTab).sort(sortFarmsFunc);
+    return farmsInView
+      .filter(filterBySearch)
+      .filter(filterByTab)
+      .filter(filterByStaked)
+      .sort(sortFarmsFunc);
   }, [
     filterBySearch,
     filterByTab,
+    filterByStaked,
     sortFarmsFunc,
     props.activeFarms,
     props.inactiveFarms,
@@ -237,6 +252,14 @@ const Farms = (props) => {
                     inverted={true}
                   />
                 </div>
+                <div>
+                  <Form.Switch
+                    id="switch-staked"
+                    label="Staked Only"
+                    checked={props.isStakedOnlyOpen}
+                    onChange={() => props.toggleStakedFarmsOnly(!props.isStakedOnlyOpen)}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -336,6 +359,7 @@ Farms.propTypes = {
   harvestValueOnFarms: PropTypes.any,
   inactiveFarms: PropTypes.any,
   isActiveOpen: PropTypes.any,
+  isStakedOnlyOpen: PropTypes.bool,
   openFarmsStakeModal: PropTypes.any,
   openFarmsUnstakeModal: PropTypes.any,
   populateEmptyFarmsData: PropTypes.any,
@@ -344,6 +368,7 @@ Farms.propTypes = {
   stakeOnFarm: PropTypes.any,
   stakeOperation: PropTypes.any,
   toggleFarmsType: PropTypes.any,
+  toggleStakedFarmsOnly: PropTypes.any,
   unstakeModal: PropTypes.any,
   unstakeOnFarm: PropTypes.any,
   unstakeOperation: PropTypes.any,
@@ -357,6 +382,7 @@ const mapStateToProps = (state) => {
   return {
     userAddress: state.wallet.address,
     isActiveOpen: state.farms.isActiveOpen,
+    isStakedOnlyOpen: state.farms.isStakedOnlyOpen,
     stakeOperation: state.farms.stakeOperation,
     activeFarms: state.farms.data.active,
     inactiveFarms: state.farms.data.inactive,
@@ -379,6 +405,7 @@ const mapDispatchToProps = (dispatch) => {
     connectWallet: () => dispatch(walletActions.connectWallet()),
     populateEmptyFarmsData: (farms) => dispatch(populateEmptyFarmsData(farms)),
     toggleFarmsType: (isActive) => dispatch(toggleFarmsType(isActive)),
+    toggleStakedFarmsOnly: (isActive) => dispatch(toggleStakedFarmsOnly(isActive)),
     stakeOnFarm: (amount, farmIdentifier, isActive, position) =>
       dispatch(stakeOnFarmThunk(amount, farmIdentifier, isActive, position)),
     harvestOnFarm: (farmIdentifier, isActive, position) =>

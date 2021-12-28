@@ -67,6 +67,7 @@ const initialState = {
     withdrawalFeeStructure: [],
   },
   isActiveOpen: true,
+  isStakedOnlyOpen: false,
 };
 
 export const farmsSlice = createSlice({
@@ -121,6 +122,7 @@ export const {
 
   // * Other Farms
   toggleFarmsType,
+  toggleStakedFarmsOnly,
   setFarmsToRender,
   openFarmsStakeModal,
   closeFarmsStakeModal,

@@ -10,6 +10,7 @@ const initialState = {
   },
   modals: {
     open: GOV_PAGE_MODAL.NULL,
+    transactionId: '',
   },
 };
 const govReducer = (state = initialState, action) => {
@@ -23,14 +24,20 @@ const govReducer = (state = initialState, action) => {
           data: { ...state.gov.data },
         },
       };
+    case actions.FETCH_VOTE_PROCESSING: // INITIATION
+      return {
+        ...state,
+        gov: { ...state.gov },
+        modals: {
+          ...state.modals,
+          open: GOV_PAGE_MODAL.TRANSACTION_SUCCESS,
+          transactionId: action.payload,
+        },
+      };
     case actions.FETCH_VOTE_SUCCESS:
       return {
         ...state,
         gov: { isPresent: true, loading: false, data: action.data },
-        modals: {
-          ...state.modals,
-          open: GOV_PAGE_MODAL.TRANSACTION_SUCCESS,
-        },
       };
     case actions.FETCH_VOTE_RESULTS:
       return {

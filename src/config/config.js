@@ -386,7 +386,8 @@ export default {
           ],
         },
         'PLENTY - YOU': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1MkXtVBuCKtxqSh7APrg2d7ThGBmEf4hnw',
               mapId: 20167,
@@ -394,7 +395,6 @@ export default {
               tokenDecimal: 15,
             },
           ],
-          inactive: [],
         },
         'PLENTY - wDAI': {
           active: [
@@ -3346,7 +3346,8 @@ export default {
         ],
       },
       'PLENTY - YOU': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1UaU5fbSYqYeFmhmsjLkqQXZ1ZG54Qs2vh',
             CONTRACT: 'KT1MkXtVBuCKtxqSh7APrg2d7ThGBmEf4hnw',
@@ -3361,9 +3362,10 @@ export default {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=YOU',
             isDualFarm: false,
+            message: 'Rewards ended December 23',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'PLENTY - wDAI': {
         active: [
