@@ -775,6 +775,66 @@ export const computeRemoveTokens = (
   }
 };
 
+export const getUserBalanceByRpc = async (identifier, address) => {
+  try {
+    let balance;
+    const mapId = CONFIG.AMM[CONFIG.NETWORK][identifier].mapId;
+    const type = CONFIG.AMM[CONFIG.NETWORK][identifier].READ_TYPE;
+    const decimal = CONFIG.AMM[CONFIG.NETWORK][identifier].TOKEN_DECIMAL;
+    const tokenId = CONFIG.AMM[CONFIG.NETWORK][identifier].TOKEN_ID;
+    const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
+    const packedKey = getPackedKey(tokenId, address, type);
+    const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
+    console.log(url);
+    const response = await axios.get(url);
+    if (mapId === 3956 || mapId === 4353) {
+      balance = response.data.args[0].args[1].int;
+    } else if (mapId === 3943) {
+      balance = response.data.args[1].int;
+    } else if (mapId === 199 || mapId === 36 || mapId === 6901) {
+      balance = response.data.args[0].int;
+    } else if (
+      mapId === 1777 ||
+      mapId === 1772 ||
+      mapId === 515 ||
+      mapId === 4178 ||
+      mapId === 18153 ||
+      mapId === 10978 ||
+      mapId === 7706 ||
+      mapId === 7715 ||
+      mapId === 7654 ||
+      mapId === 20920 ||
+      mapId === 2809 ||
+      mapId === 7250 ||
+      mapId === 13802 ||
+      mapId === 4666 ||
+      mapId === 21182
+    ) {
+      balance = response.data.int;
+    } else if (mapId === 12043) {
+      balance = response.data.args[0][0].args[1].int;
+    } else {
+      balance = response.data.args[1].int;
+    }
+
+    balance = parseInt(balance);
+    balance = balance / Math.pow(10, decimal);
+
+    return {
+      success: true,
+      balance,
+      identifier,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      balance: 0,
+      identifier,
+      error: error,
+    };
+  }
+};
+
 export const removeLiquidity = async (
   tokenA,
   tokenB,

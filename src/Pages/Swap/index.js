@@ -8,6 +8,7 @@ import {
   fetchAllWalletBalance,
   getTokenPrices,
   loadSwapData,
+  getUserBalanceByRpc,
 } from '../../apis/swap/swap';
 import config from '../../config/config';
 
@@ -65,6 +66,9 @@ const Swap = (props) => {
   }, [tokenIn, tokenOut]);
 
   useEffect(() => {
+    if (activeTab === 'anything') {
+      getUserBalanceByRpc();
+    }
     if (activeTab === 'swap') {
       if (
         Object.prototype.hasOwnProperty.call(tokenIn, 'name') &&
