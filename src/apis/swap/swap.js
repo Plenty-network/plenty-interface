@@ -786,32 +786,32 @@ export const getUserBalanceByRpc = async (identifier, address) => {
     const packedKey = getPackedKey(tokenId, address, type);
     const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
     console.log(url);
+
+    /**
+     * balance for these type1MapIds will be present in `response.data.args[0].args[1].int`
+     * balance for these type2MapIds will be present in `response.data.args[1].int`
+     * balance for these type3MapIds will be present in `response.data.args[0].int`
+     * balance for these type4MapIds will be present in `response.data.int`
+     * balance for these type5MapIds will be present in `response.data.args[0][0].args[1].int`
+     * Else condition basically focuses for lpTokens since they are large in numbers and all same
+     */
+    const type1MapIds = [3956, 4353];
+    const type2MapIds = [3943];
+    const type3MapIds = [199, 36, 6901];
+    const type4MapIds = [
+      1777, 1772, 515, 4178, 18153, 10978, 7706, 7715, 7654, 20920, 2809, 7250, 13802, 4666, 21182,
+    ];
+    const type5MapIds = [12043];
     const response = await axios.get(url);
-    if (mapId === 3956 || mapId === 4353) {
+    if (type1MapIds.includes(mapId)) {
       balance = response.data.args[0].args[1].int;
-    } else if (mapId === 3943) {
+    } else if (type2MapIds.includes(mapId)) {
       balance = response.data.args[1].int;
-    } else if (mapId === 199 || mapId === 36 || mapId === 6901) {
+    } else if (type3MapIds.includes(mapId)) {
       balance = response.data.args[0].int;
-    } else if (
-      mapId === 1777 ||
-      mapId === 1772 ||
-      mapId === 515 ||
-      mapId === 4178 ||
-      mapId === 18153 ||
-      mapId === 10978 ||
-      mapId === 7706 ||
-      mapId === 7715 ||
-      mapId === 7654 ||
-      mapId === 20920 ||
-      mapId === 2809 ||
-      mapId === 7250 ||
-      mapId === 13802 ||
-      mapId === 4666 ||
-      mapId === 21182
-    ) {
+    } else if (type4MapIds.includes(mapId)) {
       balance = response.data.int;
-    } else if (mapId === 12043) {
+    } else if (type5MapIds.includes(mapId)) {
       balance = response.data.args[0][0].args[1].int;
     } else {
       balance = response.data.args[1].int;

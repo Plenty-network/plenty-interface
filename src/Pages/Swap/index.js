@@ -90,10 +90,6 @@ const Swap = (props) => {
         console.log({ lpToken });
         const lpTokenUserBalance = await getUserBalanceByRpc(lpToken, props.walletAddress);
         userBalancesCopy[lpTokenUserBalance.identifier] = lpTokenUserBalance.balance;
-        //const balanceResponse = await Promise.all(balancePromises);
-        // for (const i in balanceResponse) {
-        //   userBalancesCopy[balanceResponse[i].identifier] = balanceResponse[i].balance;
-        // }
         setUserBalances(userBalancesCopy);
       }
     }
@@ -243,12 +239,6 @@ const Swap = (props) => {
 
   const fetchUserWalletBalance = () => {
     setLoaderInButton(true);
-    // fetchAllWalletBalance(props.walletAddress).then((resp) => {
-    //   setUserBalances(resp.userBalances);
-    //   setTokenContractInstances(resp.contractInstances);
-    //   setLoaderInButton(false);
-    //   setLoading(false);
-    // });
   };
 
   useEffect(() => {
