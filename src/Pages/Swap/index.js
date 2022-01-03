@@ -6,9 +6,10 @@ import {
   computeTokenOutForRouteBaseByOutAmount,
   computeTokenOutput,
   getTokenPrices,
-  loadSwapData,
   getUserBalanceByRpc,
 } from '../../apis/swap/swap';
+
+import { loadSwapData } from '../../apis/swap/swap-v2';
 import config from '../../config/config';
 
 import TransactionSettings from '../../Components/TransactionSettings/TransactionSettings';
