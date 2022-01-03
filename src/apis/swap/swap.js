@@ -789,10 +789,20 @@ export const getUserBalanceByRpc = async (identifier, address) => {
 
     /**
      * balance for these type1MapIds will be present in `response.data.args[0].args[1].int`
+     */
+    /**
      * balance for these type2MapIds will be present in `response.data.args[1].int`
+     */
+    /**
      * balance for these type3MapIds will be present in `response.data.args[0].int`
+     */
+    /**
      * balance for these type4MapIds will be present in `response.data.int`
+     */
+    /**
      * balance for these type5MapIds will be present in `response.data.args[0][0].args[1].int`
+     */
+    /**
      * Else condition basically focuses for lpTokens since they are large in numbers and all same
      */
     const type1MapIds = [3956, 4353];
