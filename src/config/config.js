@@ -463,7 +463,8 @@ export default {
           inactive: [],
         },
         'ctez - kUSD': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1L8N5RZg4CM2VSnuC8t1CGLiQpzVoN6P1u',
               mapId: 46410,
@@ -471,10 +472,10 @@ export default {
               tokenDecimal: 12,
             },
           ],
-          inactive: [],
         },
         'ctez - wUSDC': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1V71rxAhuHCggnBUXfceBM6RpHzUUJMYyK',
               mapId: 46429,
@@ -482,10 +483,10 @@ export default {
               tokenDecimal: 6,
             },
           ],
-          inactive: [],
         },
         'ctez - KALAM': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1HmigpaNyaxx9Zvf7zEPGgqd8bdLTnrgdU',
               mapId: 46443,
@@ -493,10 +494,10 @@ export default {
               tokenDecimal: 8,
             },
           ],
-          inactive: [],
         },
         'ctez - USDtz': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1MeeKpbSaAP9YDb6B7qBDvEGZq274715s2',
               mapId: 46427,
@@ -504,10 +505,10 @@ export default {
               tokenDecimal: 6,
             },
           ],
-          inactive: [],
         },
         'ctez - wUSDT': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1PYtm173zVdPEMoNecUBRhqgFbdVHPDj3p',
               mapId: 46428,
@@ -515,10 +516,10 @@ export default {
               tokenDecimal: 6,
             },
           ],
-          inactive: [],
         },
         'ctez - wBUSD': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1MCtUoNZTpGsPNyEvCZ88i6aRVow91axPr',
               mapId: 46426,
@@ -526,10 +527,10 @@ export default {
               tokenDecimal: 12,
             },
           ],
-          inactive: [],
         },
         'ctez - wDAI': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1ELuj8v8nB3Me7dEyjoxkNtjr6ywWXFWYK',
               mapId: 46425,
@@ -537,10 +538,10 @@ export default {
               tokenDecimal: 12,
             },
           ],
-          inactive: [],
         },
         'ctez - GIF': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1BaDfS92GJRDpBhrZh2a29ZyNmEjaYApkK',
               mapId: 46445,
@@ -548,10 +549,10 @@ export default {
               tokenDecimal: 7,
             },
           ],
-          inactive: [],
         },
         'ctez - tzBTC': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1SQ4fqsxrKwN5mqCi2yNLvb99S6sRGWGZZ',
               mapId: 47097,
@@ -559,10 +560,10 @@ export default {
               tokenDecimal: 7,
             },
           ],
-          inactive: [],
         },
         'ctez - PAUL': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1K3NERNpLxRmREpmjqt7LsvEr2SbC9Cs6o',
               mapId: 47090,
@@ -570,10 +571,10 @@ export default {
               tokenDecimal: 7,
             },
           ],
-          inactive: [],
         },
         'ctez - INSTA': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1UwhcK52Pk3VsFyFmFocVzSmKY8wRHGdDC',
               mapId: 47091,
@@ -581,10 +582,10 @@ export default {
               tokenDecimal: 7,
             },
           ],
-          inactive: [],
         },
         'ctez - ETHtz': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1U2XwrY1oTfxzrcb1ZrQuFrUJTQWAJaHWt',
               mapId: 46416,
@@ -592,10 +593,10 @@ export default {
               tokenDecimal: 12,
             },
           ],
-          inactive: [],
         },
         'ctez - QUIPU': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1L71FDbzYwe9bxY4MnzU3ZUgUzbe3V588Y',
               mapId: 46446,
@@ -603,10 +604,10 @@ export default {
               tokenDecimal: 6,
             },
           ],
-          inactive: [],
         },
         'ctez - hDAO': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1BZ8Napzts13b9kLGBWCwhMmx6zmAzRMkG',
               mapId: 46447,
@@ -614,10 +615,10 @@ export default {
               tokenDecimal: 6,
             },
           ],
-          inactive: [],
         },
         'ctez - kDAO': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1DornVnLZWu3VaJnDLB2RubSFSPBZaKq4W',
               mapId: 46423,
@@ -625,10 +626,10 @@ export default {
               tokenDecimal: 12,
             },
           ],
-          inactive: [],
         },
         'ctez - wWETH': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1JfEmUp9w2n9aWJweKpEWAESRjrCywcW3M',
               mapId: 46417,
@@ -636,10 +637,10 @@ export default {
               tokenDecimal: 12,
             },
           ],
-          inactive: [],
         },
         'ctez - CRUNCH': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1CoCHHKAUE8vobDwaWQDDBzrBkasCuzkwi',
               mapId: 47083,
@@ -647,10 +648,10 @@ export default {
               tokenDecimal: 7,
             },
           ],
-          inactive: [],
         },
         'ctez - UNO': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1Xt9HvkrbzYtaYhD9im37hE69Zit5bvhPw',
               mapId: 46441,
@@ -658,10 +659,10 @@ export default {
               tokenDecimal: 7,
             },
           ],
-          inactive: [],
         },
         'ctez - WRAP': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1LPhjjaFaqcgynzewegLckJUmpQQzm1xj2',
               mapId: 46438,
@@ -669,10 +670,10 @@ export default {
               tokenDecimal: 7,
             },
           ],
-          inactive: [],
         },
         'ctez - PXL': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1HpcPqU2atG75bpSy6hUzuWdULi7Kx9eaw',
               mapId: 46440,
@@ -680,10 +681,10 @@ export default {
               tokenDecimal: 6,
             },
           ],
-          inactive: [],
         },
         'ctez - crDAO': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1BfAAVACnEAb3CMMxPLb1VdDnyuNq5AWEc',
               mapId: 46442,
@@ -691,10 +692,10 @@ export default {
               tokenDecimal: 7,
             },
           ],
-          inactive: [],
         },
         'ctez - SMAK': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1MSWvuDNcjnxP3mBK4mePLpVLfrjZ3i2nH',
               mapId: 46544,
@@ -702,10 +703,10 @@ export default {
               tokenDecimal: 4,
             },
           ],
-          inactive: [],
         },
         'ctez - FLAME': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1HsdhTQqha8k6WrvhD9d6CQhHGb3XCtLub',
               mapId: 46450,
@@ -713,10 +714,10 @@ export default {
               tokenDecimal: 6,
             },
           ],
-          inactive: [],
         },
         'ctez - uUSD': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1VutBNeCNEHtk6jVkY8v3FE848GNsxjT76',
               mapId: 46449,
@@ -724,10 +725,10 @@ export default {
               tokenDecimal: 9,
             },
           ],
-          inactive: [],
         },
         'ctez - wWBTC': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1VmvPo8bLYh1xVC9TpzwWtrczjzEMS2mEk',
               mapId: 46439,
@@ -735,7 +736,6 @@ export default {
               tokenDecimal: 7,
             },
           ],
-          inactive: [],
         },
 
         // KT1DfYVe4CaE9S6Sm3SEfhFYVZ9XzJbkQDqs
@@ -3408,7 +3408,8 @@ export default {
         inactive: [],
       },
       'ctez - kUSD': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT19bFNh8pZCRtTy7Pi9kpEcb2Yd7KWArAik',
             CONTRACT: 'KT1L8N5RZg4CM2VSnuC8t1CGLiQpzVoN6P1u',
@@ -3421,16 +3422,16 @@ export default {
             TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             DECIMAL: 18,
             withdrawalFeeType: 'type5',
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
           },
         ],
-        inactive: [],
       },
       'ctez - USDtz': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1DQfEUBsaZo43G3j1CbFF9BiWZXS72DuCh',
             CONTRACT: 'KT1MeeKpbSaAP9YDb6B7qBDvEGZq274715s2',
@@ -3445,14 +3446,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - wUSDC': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1SXZTX9ZCW5atMnBng1y4pmdS2xi231oMt',
             CONTRACT: 'KT1V71rxAhuHCggnBUXfceBM6RpHzUUJMYyK',
@@ -3467,14 +3468,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - wUSDT': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1KgCx6CYVSyLxfiFdo5hVuMwZBPQy1XZaf',
             CONTRACT: 'KT1PYtm173zVdPEMoNecUBRhqgFbdVHPDj3p',
@@ -3489,14 +3490,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - wBUSD': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1K7GRKUWzfNJ9jzGprb13XDVqqp6GE67ZU',
             CONTRACT: 'KT1MCtUoNZTpGsPNyEvCZ88i6aRVow91axPr',
@@ -3511,14 +3512,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - wDAI': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1VLLdUaMfFbJw87b1PaVG1ac6UYM5xzqC5',
             CONTRACT: 'KT1ELuj8v8nB3Me7dEyjoxkNtjr6ywWXFWYK',
@@ -3533,14 +3534,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - KALAM': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1N3mKQMnWEwt4FB3J4qP2X8LwYgndGDZrn',
             CONTRACT: 'KT1HmigpaNyaxx9Zvf7zEPGgqd8bdLTnrgdU',
@@ -3555,14 +3556,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - GIF': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1KdPxrn7UTx6CUWxuUBaGx4bVv6ZJKWUWr',
             CONTRACT: 'KT1BaDfS92GJRDpBhrZh2a29ZyNmEjaYApkK',
@@ -3577,14 +3578,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - ETHtz': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1GAvdLT9tkpKkRmkuChuL9T83esBtatgKm',
             CONTRACT: 'KT1U2XwrY1oTfxzrcb1ZrQuFrUJTQWAJaHWt',
@@ -3599,14 +3600,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - QUIPU': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1C6Q4Mnnpns8vSQy7kJitZNMsED24SMw9m',
             CONTRACT: 'KT1L71FDbzYwe9bxY4MnzU3ZUgUzbe3V588Y',
@@ -3621,14 +3622,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - hDAO': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1DidqBuSaxGbVaDq2gLVkfh262dYyoGeSH',
             CONTRACT: 'KT1BZ8Napzts13b9kLGBWCwhMmx6zmAzRMkG',
@@ -3643,14 +3644,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - kDAO': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1KmkH1T2CQV2Q5AcMeZy3GHhwNac48FBap',
             CONTRACT: 'KT1DornVnLZWu3VaJnDLB2RubSFSPBZaKq4W',
@@ -3665,14 +3666,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - wWETH': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1BAiXZkKG4R9W7LAKiAQahC8Wg7ZpJBaEs',
             CONTRACT: 'KT1JfEmUp9w2n9aWJweKpEWAESRjrCywcW3M',
@@ -3687,14 +3688,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - uUSD': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1BX8F7Xrtsy1tJ91iLovu4nJ8ZyVv4Dac2',
             CONTRACT: 'KT1VutBNeCNEHtk6jVkY8v3FE848GNsxjT76',
@@ -3709,14 +3710,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - FLAME': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1UfvQiYexnpag6rZ3LMGsn5YFiEHrXrtbq',
             CONTRACT: 'KT1HsdhTQqha8k6WrvhD9d6CQhHGb3XCtLub',
@@ -3731,14 +3732,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - SMAK': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1NeR3ExLddfdAbs5nwpQMm6DqBekyJTc4R',
             CONTRACT: 'KT1MSWvuDNcjnxP3mBK4mePLpVLfrjZ3i2nH',
@@ -3753,14 +3754,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - crDAO': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1MQcJCLZL8ASHYGmT5LVzeXV64ruy7RAuH',
             CONTRACT: 'KT1BfAAVACnEAb3CMMxPLb1VdDnyuNq5AWEc',
@@ -3775,14 +3776,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - PXL': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1GhzTxzgXgdv1rRCppAB5D4poXiUgp8yoU',
             CONTRACT: 'KT1HpcPqU2atG75bpSy6hUzuWdULi7Kx9eaw',
@@ -3797,14 +3798,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - UNO': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1WKWhTNMY4h4eHunbsnJ1oAtDWXCz4qNQm',
             CONTRACT: 'KT1Xt9HvkrbzYtaYhD9im37hE69Zit5bvhPw',
@@ -3819,14 +3820,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - WRAP': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1MX73dim8HKqQLjTHvkJnpRUp37C1HXdkt',
             CONTRACT: 'KT1LPhjjaFaqcgynzewegLckJUmpQQzm1xj2',
@@ -3841,14 +3842,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - wWBTC': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1XWRUcvtcgpsETcasdUnNkq9rJeWmz8ihD',
             CONTRACT: 'KT1VmvPo8bLYh1xVC9TpzwWtrczjzEMS2mEk',
@@ -3863,14 +3864,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - tzBTC': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1TMZjKBvSVKzETZTyRsTxYEu4uZLLs6VpJ',
             CONTRACT: 'KT1SQ4fqsxrKwN5mqCi2yNLvb99S6sRGWGZZ',
@@ -3885,14 +3886,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - PAUL': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1N93veCzepAPydFGGUhDFiA69PoawasxXi',
             CONTRACT: 'KT1K3NERNpLxRmREpmjqt7LsvEr2SbC9Cs6o',
@@ -3907,14 +3908,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - INSTA': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1GkTwzN2gR6UdBicDSu2JEaRtv5KAPunrj',
             CONTRACT: 'KT1UwhcK52Pk3VsFyFmFocVzSmKY8wRHGdDC',
@@ -3929,14 +3930,14 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - CRUNCH': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1QSA2SMDEKzEnJhGrVGheWb94Ux8Wyfuy6',
             CONTRACT: 'KT1CoCHHKAUE8vobDwaWQDDBzrBkasCuzkwi',
@@ -3951,11 +3952,10 @@ export default {
             withdrawalFeeType: 'type5',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
-            message: 'Distributing rewards until December 31 😍',
-            bannerType: 'info',
+            message: 'rewards ended December 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
     },
     testnet: {},
