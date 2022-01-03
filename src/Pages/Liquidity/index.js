@@ -32,7 +32,7 @@ const LiquidityPage = () => {
   const { isOnlyFavTokens, setIsOnlyFavTokens, favoriteTokens, editFavoriteTokenList } =
     useFavoriteToken('liquidity');
 
-  const { positiveOrNegative, valueFormat, stringSort, numberSort } = useTableNumberUtils();
+  const { valueFormat, stringSort, numberSort } = useTableNumberUtils();
 
   // ? Move to React Table filter later
   const finalData = useMemo(() => {
@@ -101,16 +101,14 @@ const LiquidityPage = () => {
         Header: '24h Fees',
         accessor: '24h_fee',
         sortType: numberSort,
-        Cell: (row) => (
-          <span>{positiveOrNegative(valueFormat(row.value, { percentChange: true }))}</span>
-        ),
+        Cell: (row) => <span>{valueFormat(row.value)}</span>,
       },
-      // {
-      //   Header: 'LP APR',
-      //   accessor: 'APR',
-      //   sortType: numberSort,
-      //   Cell: (row) => <span>{valueFormat(row.value ?? 0)}</span>,
-      // },
+      {
+        Header: 'LP APR',
+        accessor: 'lp_apr',
+        sortType: numberSort,
+        Cell: (row) => <span>{valueFormat(row.value ?? 0, { percentChange: true })}%</span>,
+      },
       {
         Header: 'Farm',
         accessor: 'pool_contract',
