@@ -152,11 +152,11 @@ const Header = (props) => {
                     </Nav.Link>
                     <Nav.Link
                       className={clsx(
-                        splitLocation[1] === 'liquidity-page' ? 'menu-item-active' : 'menu-item',
+                        splitLocation[1] === 'liquidity-pools' ? 'menu-item-active' : 'menu-item',
                         'align-self-end align-self-lg-center d-flex align-items-center',
                       )}
                       as={Link}
-                      to="/liquidity-page"
+                      to="/liquidity-pools"
                       onClick={resetActiveTab}
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>

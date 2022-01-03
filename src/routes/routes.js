@@ -107,7 +107,7 @@ const MyRoutes = (props) => {
               }
             />
             <Route
-              path="/liquidity-page"
+              path="/liquidity-pools"
               element={
                 <OtherPages {...otherPageProps}>
                   <Liquidity walletAddress={props.userAddress} />
