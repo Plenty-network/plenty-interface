@@ -8,15 +8,36 @@ import { numberWithCommas } from '../../utils/formatNumbers';
 import { SUMMARY_NAMES } from '../../constants/liquidityPage';
 import * as PropTypes from 'prop-types';
 
+const CHANGE = {
+  POSITIVE: 'POSITIVE',
+  NEGATIVE: 'NEGATIVE',
+  NULL: 'NULL',
+};
+
 const LiquiditySummary = (props) => {
   return (
     <Container fluid className={clsx(styles.tokens, styles.summary)}>
       {props.data.map((datum) => {
-        const isPositive = datum.percentage_change >= 0;
+        const change = (() => {
+          // IIFE
+          if (datum.percentage_change) {
+            if (datum.percentage_change >= 0) {
+              return CHANGE.POSITIVE;
+            }
+
+            return CHANGE.NEGATIVE;
+          }
+
+          return CHANGE.NULL;
+        })();
+
         const isCurrency = ['plenty_price', '24h_volume', 'total_liquidity'].includes(datum.name);
         return (
           <div key={datum.name} className="d-flex align-center">
-            <div className="mr-2">{isPositive ? <IncreaseArrow /> : <DecreaseArrow />}</div>
+            <div className="mr-2">
+              {change === CHANGE.POSITIVE && <IncreaseArrow />}
+              {change === CHANGE.NEGATIVE && <DecreaseArrow />}
+            </div>
 
             <div>
               <div>
@@ -28,14 +49,19 @@ const LiquiditySummary = (props) => {
                   {numberWithCommas(datum.value, { decimal: true })}
                   {!isCurrency && '%'}
                 </span>
-                <span
-                  className={clsx(
-                    isPositive ? styles.greenText : styles.redText,
-                    styles.summaryChange,
-                  )}
-                >
-                  {Math.abs(datum.percentage_change).toFixed(2)}%
-                </span>
+                {change !== CHANGE.NULL && (
+                  <span
+                    className={clsx(
+                      {
+                        [styles.greenText]: change === CHANGE.POSITIVE,
+                        [styles.redText]: change === CHANGE.NEGATIVE,
+                      },
+                      styles.summaryChange,
+                    )}
+                  >
+                    {Math.abs(datum.percentage_change).toFixed(2)}%
+                  </span>
+                )}
               </div>
               <div>
                 <span>{SUMMARY_NAMES[datum.name]}</span>
