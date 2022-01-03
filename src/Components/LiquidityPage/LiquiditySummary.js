@@ -46,9 +46,11 @@ const LiquiditySummary = (props) => {
                   title={datum.value}
                 >
                   {isCurrency && '$'}
-                  {numberWithCommas(datum.value, { decimal: true })}
-                  {!isCurrency && '%'}
+                  {typeof datum.value === 'string'
+                    ? datum.value
+                    : numberWithCommas(datum.value, { decimal: true })}
                 </span>
+
                 {change !== CHANGE.NULL && (
                   <span
                     className={clsx(
@@ -63,6 +65,7 @@ const LiquiditySummary = (props) => {
                   </span>
                 )}
               </div>
+
               <div>
                 <span>{SUMMARY_NAMES[datum.name]}</span>
               </div>
