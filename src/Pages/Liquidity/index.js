@@ -16,6 +16,7 @@ import { isActiveFarm } from '../../config/utils';
 import { useGetLiquidityQuery } from '../../redux/queries/analytics/analyticsQueries';
 import clsx from 'clsx';
 import LiquiditySummary from '../../Components/LiquidityPage/LiquiditySummary';
+import Tooltip from '../../Components/Tooltip';
 
 const LiquidityPage = () => {
   const {
@@ -86,7 +87,11 @@ const LiquidityPage = () => {
         width: 120,
       },
       {
-        Header: 'Liquidity',
+        Header: (
+          <span>
+            Liquidity <Tooltip id={'liquidity-header'} message={'Lorem Ipsum'} />
+          </span>
+        ),
         accessor: 'total_liquidity',
         sortType: numberSort,
         Cell: (row) => <span title={row.value}>{valueFormat(row.value)}</span>,
@@ -98,19 +103,31 @@ const LiquidityPage = () => {
         Cell: (row) => <span>{valueFormat(row.value)}</span>,
       },
       {
-        Header: '24h Fees',
+        Header: (
+          <span>
+            24h Fees <Tooltip id={'24-hours-fees-header'} message={'Lorem Ipsum'} />
+          </span>
+        ),
         accessor: '24h_fee',
         sortType: numberSort,
         Cell: (row) => <span>{valueFormat(row.value)}</span>,
       },
       {
-        Header: 'LP APR',
+        Header: (
+          <span>
+            LP APR <Tooltip id={'lp-apr-header'} message={'Lorem Ipsum'} />
+          </span>
+        ),
         accessor: 'lp_apr',
         sortType: numberSort,
         Cell: (row) => <span>{valueFormat(row.value ?? 0, { percentChange: true })}%</span>,
       },
       {
-        Header: 'Farm',
+        Header: (
+          <span>
+            Farm <Tooltip id={'farm-header'} message={'Lorem Ipsum'} />
+          </span>
+        ),
         accessor: 'pool_contract',
         sortType: numberSort,
         Cell: (row) => (isActiveFarm(row.value) ? <span>Active</span> : null),
