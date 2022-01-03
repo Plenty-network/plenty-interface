@@ -6,6 +6,13 @@ import axios from 'axios';
 import { RPC_NODE } from '../../constants/localStorage';
 import { packDataBytes, unpackDataBytes } from '@taquito/michel-codec';
 import { TezosMessageUtils, TezosParameterFormat } from 'conseiljs';
+import {
+  type1MapIds,
+  type2MapIds,
+  type3MapIds,
+  type4MapIds,
+  type5MapIds,
+} from '../../constants/global';
 
 const getPackedKey = (tokenId, address, type) => {
   const accountHex = `0x${TezosMessageUtils.writeAddress(address)}`;
@@ -771,6 +778,51 @@ export const computeRemoveTokens = (
     return {
       tokenFirst_Out: 0,
       tokenSecond_Out: 0,
+    };
+  }
+};
+
+export const getUserBalanceByRpc = async (identifier, address) => {
+  try {
+    let balance;
+    const mapId = CONFIG.AMM[CONFIG.NETWORK][identifier].mapId;
+    const type = CONFIG.AMM[CONFIG.NETWORK][identifier].READ_TYPE;
+    const decimal = CONFIG.AMM[CONFIG.NETWORK][identifier].TOKEN_DECIMAL;
+    const tokenId = CONFIG.AMM[CONFIG.NETWORK][identifier].TOKEN_ID;
+    const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
+    const packedKey = getPackedKey(tokenId, address, type);
+    const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
+    console.log(url);
+
+    const response = await axios.get(url);
+    if (type1MapIds.includes(mapId)) {
+      balance = response.data.args[0].args[1].int;
+    } else if (type2MapIds.includes(mapId)) {
+      balance = response.data.args[1].int;
+    } else if (type3MapIds.includes(mapId)) {
+      balance = response.data.args[0].int;
+    } else if (type4MapIds.includes(mapId)) {
+      balance = response.data.int;
+    } else if (type5MapIds.includes(mapId)) {
+      balance = response.data.args[0][0].args[1].int;
+    } else {
+      balance = response.data.args[1].int;
+    }
+
+    balance = parseInt(balance);
+    balance = balance / Math.pow(10, decimal);
+
+    return {
+      success: true,
+      balance,
+      identifier,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      balance: 0,
+      identifier,
+      error: error,
     };
   }
 };

@@ -1321,6 +1321,7 @@ export default {
       PLENTY: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+        mapId: 3943,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA1.2',
         TOKEN_ID: 0,
@@ -1441,6 +1442,7 @@ export default {
       wUSDC: {
         ICON: '',
         TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+        mapId: 1772,
         READ_TYPE: 'FA2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 17,
@@ -1471,6 +1473,7 @@ export default {
       wBUSD: {
         ICON: '',
         TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+        mapId: 1772,
         READ_TYPE: 'FA2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 1,
@@ -1491,6 +1494,7 @@ export default {
       wWBTC: {
         ICON: '',
         TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+        mapId: 1772,
         READ_TYPE: 'FA2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 19,
@@ -1511,6 +1515,7 @@ export default {
       wUSDT: {
         ICON: '',
         TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+        mapId: 1772,
         READ_TYPE: 'FA2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 18,
@@ -1531,6 +1536,7 @@ export default {
       wDAI: {
         ICON: '',
         TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+        mapId: 1772,
         READ_TYPE: 'FA2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 5,
@@ -1566,6 +1572,7 @@ export default {
       wLINK: {
         ICON: '',
         TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+        mapId: 1772,
         READ_TYPE: 'FA2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 10,
@@ -1581,6 +1588,7 @@ export default {
       wWETH: {
         ICON: '',
         TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+        mapId: 1772,
         READ_TYPE: 'FA2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 20,
@@ -1606,6 +1614,7 @@ export default {
       UNO: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF',
+        mapId: 10978,
         READ_TYPE: 'FA2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 0,
@@ -1626,6 +1635,7 @@ export default {
       uUSD: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1XRPEPXbZK25r3Htzp2o1x7xdMMmfocKNW',
+        mapId: 7706,
         READ_TYPE: 'FA2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 0,
@@ -1661,6 +1671,7 @@ export default {
       uDEFI: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1XRPEPXbZK25r3Htzp2o1x7xdMMmfocKNW',
+        mapId: 7706,
         READ_TYPE: 'FA2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 1,
@@ -1676,6 +1687,7 @@ export default {
       YOU: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1Xobej4mc6XgEjDoJoHtTKgbD1ELMvcQuL',
+        mapId: 7715,
         READ_TYPE: 'FA2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 0,
@@ -1696,6 +1708,7 @@ export default {
       USDtz: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1LN4LPSqTMS7Sd2CJw4bbDGRkMv2t68Fy9',
+        mapId: 36,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA1.2',
         TOKEN_ID: 0,
@@ -1726,6 +1739,7 @@ export default {
       WRAP: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1LRboPna9yQY9BrjtQYDS1DVxhKESK4VVd',
+        mapId: 1777,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 0,
@@ -1746,6 +1760,7 @@ export default {
       GIF: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1XTxpQvo7oRCqp85LikEZgAZ22uDxhbWJv',
+        mapId: 7654,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 0,
@@ -1766,6 +1781,7 @@ export default {
       tzBTC: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1PWx2mnDueood7fEmfbBDKx1D9BAnnXitn',
+        mapId: 31,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA1.2',
         TOKEN_ID: 0,
@@ -1786,6 +1802,7 @@ export default {
       ctez: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4',
+        mapId: 20920,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA1.2',
         TOKEN_ID: 0,
@@ -1926,6 +1943,7 @@ export default {
       PAUL: {
         ICON: '',
         TOKEN_CONTRACT: 'KT19DUSZw7mfeEATrbWVPHRrWNVbNnmfFAE6',
+        mapId: 6901,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA1.2',
         TOKEN_ID: 0,
@@ -1941,6 +1959,7 @@ export default {
       KALAM: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1A5P4ejnLix13jtadsfV9GCnXLMNnab8UT',
+        mapId: 4178,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 0,
@@ -1961,6 +1980,7 @@ export default {
       kUSD: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
+        mapId: 380,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA1.2',
         TOKEN_ID: 0,
@@ -1986,6 +2006,7 @@ export default {
       hDAO: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1AFA2mwNUMNd4SsujE1YYp29vd8BZejyKW',
+        mapId: 515,
         READ_TYPE: 'FA2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 0,
@@ -2006,6 +2027,7 @@ export default {
       ETHtz: {
         ICON: '',
         TOKEN_CONTRACT: 'KT19at7rQUvyjxnZ2fBv7D9zc8rkyG7gAoU8',
+        mapId: 199,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA1.2',
         TOKEN_ID: 0,
@@ -2031,6 +2053,7 @@ export default {
       SMAK: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1TwzD6zV3WeJ39ukuqxcfK2fJCnhvrdN1X',
+        mapId: 1798,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA1.2',
         TOKEN_ID: 0,
@@ -2051,6 +2074,7 @@ export default {
       QUIPU: {
         ICON: '',
         TOKEN_CONTRACT: 'KT193D4vozYnhGJQVtw7CoxxqphqUEEwK6Vb',
+        mapId: 12043,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 0,
@@ -2071,6 +2095,7 @@ export default {
       CRUNCH: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1BHCumksALJQJ8q8to2EPigPW6qpyTr7Ng',
+        mapId: 2809,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 0,
@@ -2086,6 +2111,7 @@ export default {
       FLAME: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1Wa8yqRBpFCusJWgcQyjhRz7hUQAmFxW7j',
+        mapId: 2545,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 0,
@@ -2101,6 +2127,7 @@ export default {
       kDAO: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1JkoE42rrMBP9b2oDhbx6EUr26GcySZMUH',
+        mapId: 7250,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA1.2',
         TOKEN_ID: 0,
@@ -2116,6 +2143,7 @@ export default {
       INSTA: {
         ICON: '',
         TOKEN_CONTRACT: 'KT19y6R8x53uDKiM46ahgguS6Tjqhdj2rSzZ',
+        mapId: 13802,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 0,
@@ -2131,6 +2159,7 @@ export default {
       crDAO: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1XPFjZqCULSnqfKaaYy8hJjeY63UNSGwXg',
+        mapId: 4666,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 0,
@@ -2146,6 +2175,7 @@ export default {
       PXL: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1F1mn2jbqQCJcsNgYKVAQjvenecNMY2oPK',
+        mapId: 21182,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 0,
@@ -2161,6 +2191,7 @@ export default {
       PlentywUSDClp: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1Gz1mx1jm7JHqU7GuMVWF6soB9RjsfLN3o',
+        mapId: 10755,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 12,
@@ -2169,6 +2200,7 @@ export default {
       PlentywBUSDlp: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1UC3vcVZ4K9b39uQxaMNA2N1RuJXKLCnoA',
+        mapId: 10749,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 18,
@@ -2177,6 +2209,7 @@ export default {
       PlentywWBTClp: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1La1qZiJtDRcd9ek8w5KYD47i9MQqAQHmP',
+        mapId: 11051,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 13,
@@ -2185,6 +2218,7 @@ export default {
       PlentywMaticlp: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1WCGPFvy97wwGxewKfvTr1QYPvpEgUKToS',
+        mapId: 11807,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 18,
@@ -2193,6 +2227,7 @@ export default {
       Plentywlinklp: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1Brqb3JvXNKzwjW82F8pUAxQ7ipCfApWki',
+        mapId: 11811,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 18,
@@ -2201,6 +2236,7 @@ export default {
       Plentyusdtzlp: {
         ICON: '',
         TOKEN_CONTRACT: 'KT18qSo4Ch2Mfq4jP3eME7SWHB8B8EDTtVBu',
+        mapId: 11814,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 12,
@@ -2209,6 +2245,7 @@ export default {
       'kUSD-USDtz-LP': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1HEdGi7rq1zgZ68dhAtKMZYKeD3EM5vYdf',
+        mapId: 11946,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 12,
@@ -2217,6 +2254,7 @@ export default {
       'wUSDC-USDtz-LP': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1FaoPYSyT4itmgTncvdshV7SeqqXk9RJXd',
+        mapId: 11950,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
@@ -2225,6 +2263,7 @@ export default {
       'Plenty-hDAO-LP': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1B2SzTBtb7PgTePbDLV5BmUZQ2PC1sdSHZ',
+        mapId: 12952,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 12,
@@ -2233,6 +2272,7 @@ export default {
       'Plenty-ETHtz-LP': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1VvcbAjMWHVUbhLENpiVBejbzXYDt3PusE',
+        mapId: 12955,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 18,
@@ -2241,6 +2281,7 @@ export default {
       'Plenty-wWETH-LP': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1SULRhejhoBWUmMnU53YHJrQZ3rxqsamdm',
+        mapId: 12959,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 18,
@@ -2249,6 +2290,7 @@ export default {
       'PLENTY-kUSD-LP': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1XTpd8JPexGxBL2dAmU9h2o9fcd9LEUG2t',
+        mapId: 12963,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 18,
@@ -2257,6 +2299,7 @@ export default {
       'Plenty-QUIPU-LP': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1VDSyTqS95wkB4tRGy6saMa4izRKwrEg26',
+        mapId: 12966,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 12,
@@ -2265,6 +2308,7 @@ export default {
       'wWETH-ETHtz-LP': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1GubVxQVJucUJfJvysvAJKWpLwj3LKuWHn',
+        mapId: 12969,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 18,
@@ -2273,6 +2317,7 @@ export default {
       Plentywraplp: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1AHndbp9xVpaJrfTHfYzSXKHDVHMdKxcW2',
+        mapId: 14096,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 13,
@@ -2281,6 +2326,7 @@ export default {
       'Plenty-UNO-LP': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1B6ALzWXQp5wUavuo2VTMNjRdTGm8wx37w',
+        mapId: 14100,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 13,
@@ -2289,6 +2335,7 @@ export default {
       Plentykalamlp: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1G3QTnrpWNhZr9x3Prprw3GH6gAMqV113D',
+        mapId: 14104,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 14,
@@ -2305,6 +2352,7 @@ export default {
       PlentytzBTClp: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1SqQimKz3RbQbckpSHhn4nanUmDuRqkFH3',
+        mapId: 14093,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 13,
@@ -2313,6 +2361,7 @@ export default {
       'Plenty-uUSD-LP': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1E8CrG6uznYAG9vZVGtApMJwwTScxPEUKq',
+        mapId: 15796,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 14,
@@ -2321,6 +2370,7 @@ export default {
       PlentyGiflp: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1MVLRQ7K7275oHDvbtKcUzNJsPBstZGKUp',
+        mapId: 17061,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 13,
@@ -2329,6 +2379,7 @@ export default {
       'Plenty-YOU-LP': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1UaU5fbSYqYeFmhmsjLkqQXZ1ZG54Qs2vh',
+        mapId: 20020,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 15,
@@ -2337,6 +2388,7 @@ export default {
       PlentywUSDTlp: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1PcM1LUqgVdkXqKvZ4CeC9aiwLgYYCEHMH',
+        mapId: 20024,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 12,
@@ -2345,6 +2397,7 @@ export default {
       PlentywDAIlp: {
         ICON: '',
         TOKEN_CONTRACT: 'KT19vdNapeT6MALXvkvW745KiVKGXmD4AZq5',
+        mapId: 20016,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 18,
@@ -2353,6 +2406,7 @@ export default {
       PlentyCtezlp: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1LdX5pUkZZGwYPePcAFSpETbqfbGCwJpfw',
+        mapId: 21490,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 12,
@@ -2361,6 +2415,7 @@ export default {
       'uusd-wusdc-LP': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1A2W6mBjn49yqzjJbt9T7xNVD9gDeL45qD',
+        mapId: 22767,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 9,
@@ -2369,6 +2424,7 @@ export default {
       'uusd-you-LP': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1Tmncfgpp4ZSp6aEogL7uhBqHTiKsSPegK',
+        mapId: 22770,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 12,
@@ -2377,6 +2433,7 @@ export default {
       'uusd-udefi-LP': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1RQvdYD9yc763j8FiVLyXbKPVVbZqGRx5m',
+        mapId: 22802,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 12,
@@ -2385,6 +2442,7 @@ export default {
       'ctez-usdtz-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1DQfEUBsaZo43G3j1CbFF9BiWZXS72DuCh',
+        mapId: 44781,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
@@ -2393,6 +2451,7 @@ export default {
       'ctez-wwbtc-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1XWRUcvtcgpsETcasdUnNkq9rJeWmz8ihD',
+        mapId: 44790,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 7,
@@ -2401,6 +2460,7 @@ export default {
       'ctez-wusdc-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1SXZTX9ZCW5atMnBng1y4pmdS2xi231oMt',
+        mapId: 44803,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
@@ -2409,6 +2469,7 @@ export default {
       'ctez-wusdt-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1KgCx6CYVSyLxfiFdo5hVuMwZBPQy1XZaf',
+        mapId: 44806,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
@@ -2417,6 +2478,7 @@ export default {
       'ctez-wbusd-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1K7GRKUWzfNJ9jzGprb13XDVqqp6GE67ZU',
+        mapId: 44819,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 12,
@@ -2425,6 +2487,7 @@ export default {
       'ctez-wdai-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1VLLdUaMfFbJw87b1PaVG1ac6UYM5xzqC5',
+        mapId: 44829,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 12,
@@ -2433,6 +2496,7 @@ export default {
       'ctez-kalam-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1N3mKQMnWEwt4FB3J4qP2X8LwYgndGDZrn',
+        mapId: 44834,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 8,
@@ -2441,6 +2505,7 @@ export default {
       'ctez-gif-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1KdPxrn7UTx6CUWxuUBaGx4bVv6ZJKWUWr',
+        mapId: 44857,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 7,
@@ -2449,6 +2514,7 @@ export default {
       'ctez-ethtz-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1GAvdLT9tkpKkRmkuChuL9T83esBtatgKm',
+        mapId: 44870,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 12,
@@ -2457,6 +2523,7 @@ export default {
       'ctez-quipu-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1C6Q4Mnnpns8vSQy7kJitZNMsED24SMw9m',
+        mapId: 44884,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
@@ -2465,6 +2532,7 @@ export default {
       'ctez-hdao-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1DidqBuSaxGbVaDq2gLVkfh262dYyoGeSH',
+        mapId: 44890,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
@@ -2473,6 +2541,7 @@ export default {
       'ctez-tzbtc-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1TMZjKBvSVKzETZTyRsTxYEu4uZLLs6VpJ',
+        mapId: 44904,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 7,
@@ -2481,6 +2550,7 @@ export default {
       'ctez-wweth-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1BAiXZkKG4R9W7LAKiAQahC8Wg7ZpJBaEs',
+        mapId: 44916,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 12,
@@ -2497,6 +2567,7 @@ export default {
       'ctez-uusd-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1BX8F7Xrtsy1tJ91iLovu4nJ8ZyVv4Dac2',
+        mapId: 44924,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 9,
@@ -2505,6 +2576,7 @@ export default {
       'ctez-smak-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1NeR3ExLddfdAbs5nwpQMm6DqBekyJTc4R',
+        mapId: 44946,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 4,
@@ -2513,6 +2585,7 @@ export default {
       'ctez-uno-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1WKWhTNMY4h4eHunbsnJ1oAtDWXCz4qNQm',
+        mapId: 45316,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 7,
@@ -2521,6 +2594,7 @@ export default {
       'ctez-kusd-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT19bFNh8pZCRtTy7Pi9kpEcb2Yd7KWArAik',
+        mapId: 44750,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 12,
@@ -2529,6 +2603,7 @@ export default {
       'ctez-wrap-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1MX73dim8HKqQLjTHvkJnpRUp37C1HXdkt',
+        mapId: 44767,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 7,
@@ -2537,6 +2612,7 @@ export default {
       'ctez-crunch-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1QSA2SMDEKzEnJhGrVGheWb94Ux8Wyfuy6',
+        mapId: 44763,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 7,
@@ -2545,6 +2621,7 @@ export default {
       'ctez-kdao-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1KmkH1T2CQV2Q5AcMeZy3GHhwNac48FBap',
+        mapId: 44912,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 12,
@@ -2553,6 +2630,7 @@ export default {
       'ctez-flame-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1UfvQiYexnpag6rZ3LMGsn5YFiEHrXrtbq',
+        mapId: 44943,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
@@ -2561,6 +2639,7 @@ export default {
       'ctez-crdao-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1MQcJCLZL8ASHYGmT5LVzeXV64ruy7RAuH',
+        mapId: 44954,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 7,
@@ -2569,6 +2648,7 @@ export default {
       'ctez-insta-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1GkTwzN2gR6UdBicDSu2JEaRtv5KAPunrj',
+        mapId: 44957,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 7,
@@ -2577,6 +2657,7 @@ export default {
       'ctez-pxl-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1GhzTxzgXgdv1rRCppAB5D4poXiUgp8yoU',
+        mapId: 44994,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
@@ -2585,6 +2666,7 @@ export default {
       'ctez-paul-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1N93veCzepAPydFGGUhDFiA69PoawasxXi',
+        mapId: 46392,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 7,

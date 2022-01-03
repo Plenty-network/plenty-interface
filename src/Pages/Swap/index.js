@@ -5,9 +5,9 @@ import {
   computeTokenOutForRouteBase,
   computeTokenOutForRouteBaseByOutAmount,
   computeTokenOutput,
-  fetchAllWalletBalance,
   getTokenPrices,
   loadSwapData,
+  getUserBalanceByRpc,
 } from '../../apis/swap/swap';
 import config from '../../config/config';
 
@@ -63,6 +63,37 @@ const Swap = (props) => {
       }
     }
   }, [tokenIn, tokenOut]);
+
+  useEffect(async () => {
+    setTokenContractInstances({});
+    if (activeTab === 'swap') {
+      const userBalancesCopy = userBalances;
+      const balancePromises = [];
+      if (!userBalancesCopy[tokenIn.name]) {
+        balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
+      }
+      if (!userBalancesCopy[tokenOut.name]) {
+        balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));
+      }
+      const balanceResponse = await Promise.all(balancePromises);
+      for (const i in balanceResponse) {
+        userBalancesCopy[balanceResponse[i].identifier] = balanceResponse[i].balance;
+      }
+      setUserBalances(userBalancesCopy);
+    }
+    if (activeTab === 'liquidity') {
+      const userBalancesCopy = userBalances;
+      if (config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]) {
+        console.log(tokenIn.name, tokenOut.name);
+        const lpToken =
+          config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
+        console.log({ lpToken });
+        const lpTokenUserBalance = await getUserBalanceByRpc(lpToken, props.walletAddress);
+        userBalancesCopy[lpTokenUserBalance.identifier] = lpTokenUserBalance.balance;
+        setUserBalances(userBalancesCopy);
+      }
+    }
+  }, [tokenIn, tokenOut, activeTab]);
 
   useEffect(() => {
     if (activeTab === 'swap') {
@@ -208,12 +239,6 @@ const Swap = (props) => {
 
   const fetchUserWalletBalance = () => {
     setLoaderInButton(true);
-    fetchAllWalletBalance(props.walletAddress).then((resp) => {
-      setUserBalances(resp.userBalances);
-      setTokenContractInstances(resp.contractInstances);
-      setLoaderInButton(false);
-      setLoading(false);
-    });
   };
 
   useEffect(() => {
