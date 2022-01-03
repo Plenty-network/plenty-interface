@@ -75,7 +75,13 @@ const LiquiditySummary = (props) => {
 };
 
 LiquiditySummary.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.any),
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      value: PropTypes.number.isRequired,
+      percentage_change: PropTypes.number,
+    }),
+  ),
 };
 
 export default LiquiditySummary;
