@@ -5,10 +5,12 @@ import {
   computeTokenOutForRouteBase,
   computeTokenOutForRouteBaseByOutAmount,
   computeTokenOutput,
-  fetchAllWalletBalance,
   getTokenPrices,
-  loadSwapData,
+  getUserBalanceByRpc,
+  fetchtzBTCBalance,
 } from '../../apis/swap/swap';
+
+import { loadSwapData } from '../../apis/swap/swap-v2';
 import config from '../../config/config';
 
 import TransactionSettings from '../../Components/TransactionSettings/TransactionSettings';
@@ -62,6 +64,37 @@ const Swap = (props) => {
         setTokenOut({});
       }
     }
+  }, [tokenIn, tokenOut]);
+
+  useEffect(() => {
+    const updateBalance = async () => {
+      setTokenContractInstances({});
+      const userBalancesCopy = { ...userBalances };
+      const tzBTCName = 'tzBTC';
+      const balancePromises = [];
+      if (!userBalancesCopy[tokenIn.name]) {
+        tokenIn.name === tzBTCName
+          ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
+          : balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
+      }
+      if (!userBalancesCopy[tokenOut.name]) {
+        tokenOut.name === tzBTCName
+          ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
+          : balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));
+      }
+      if (config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]) {
+        const lpToken =
+          config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
+
+        balancePromises.push(getUserBalanceByRpc(lpToken, props.walletAddress));
+      }
+      const balanceResponse = await Promise.all(balancePromises);
+      for (const i in balanceResponse) {
+        userBalancesCopy[balanceResponse[i].identifier] = balanceResponse[i].balance;
+      }
+      setUserBalances(userBalancesCopy);
+    };
+    updateBalance();
   }, [tokenIn, tokenOut]);
 
   useEffect(() => {
@@ -208,12 +241,6 @@ const Swap = (props) => {
 
   const fetchUserWalletBalance = () => {
     setLoaderInButton(true);
-    fetchAllWalletBalance(props.walletAddress).then((resp) => {
-      setUserBalances(resp.userBalances);
-      setTokenContractInstances(resp.contractInstances);
-      setLoaderInButton(false);
-      setLoading(false);
-    });
   };
 
   useEffect(() => {
