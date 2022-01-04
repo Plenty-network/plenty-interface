@@ -108,6 +108,14 @@ const MyRoutes = (props) => {
             <Route
               path="/vote"
               element={
+                <OtherPages {...otherPageProps}>
+                  <Governance walletAddress={props.userAddress} />
+                </OtherPages>
+              }
+            />
+            {/* <Route
+              path="/vote"
+              element={
                 <Governance
                   toggleTheme={toggleTheme}
                   theme={theme}
@@ -116,7 +124,7 @@ const MyRoutes = (props) => {
                   walletAddress={props.userAddress}
                 />
               }
-            />
+            /> */}
           </Routes>
         </React.Suspense>
       </BrowserRouter>

@@ -62,6 +62,11 @@
   --theme-governance-votingBoxBg: rgba(98, 2, 239, 0.1);
   --theme-governance-selectedText: #40029d;
   --theme-governance-label: #04091b;
+  --theme-header-heading: #000000;
+  --theme-header-description: #51566b;
+  --theme-header-bottom: #bfb6cc;
+  --theme-header-text: #333333;
+  --theme-header-selectedBg: #f4f4f4;
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -148,6 +153,11 @@
   --theme-governance-votingBoxBg: rgba(255, 255, 255, 0.2);
   --theme-governance-selectedText: #ffffff;
   --theme-governance-label: rgba(255, 255, 255, 0.6);
+  --theme-header-heading: #ffffff;
+  --theme-header-description: #edecef;
+  --theme-header-bottom: #393456;
+  --theme-header-text: #ffffff;
+  --theme-header-selectedBg: #201c41;
 }
 
 :root.theme-transiton {

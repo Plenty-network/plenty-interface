@@ -1,28 +1,30 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import truncateMiddle from 'truncate-middle';
-import { Col, Container, Nav, Navbar, NavDropdown, Row } from 'react-bootstrap';
-
+import { Col, Container, Nav, Navbar, Row } from 'react-bootstrap';
 import clsx from 'clsx';
-import { ExternalMenu } from './Menu';
 import { ReactComponent as Logo } from '../../assets/images/logo.svg';
 import { ReactComponent as LogoWhite } from '../../assets/images/logo-white.svg';
 import { Link, useLocation } from 'react-router-dom';
-
-import NodeSelectorModal from './NodeSelectorModal';
 import Loader from '../../Components/loader';
 import { RPC_NODE } from '../../constants/localStorage';
 import { setNode } from '../../redux/slices/settings/settings.slice';
 import { connect } from 'react-redux';
 import Button from '../Ui/Buttons/Button';
+import HeaderBottom from './HeaderBottom';
+import useMediaQuery from '../../hooks/mediaQuery';
 
 const Header = (props) => {
+  const isMobile = useMediaQuery('(max-width: 991px)');
   const location = useLocation();
   const { pathname } = location;
   const splitLocation = pathname.split('/');
-  const [nodeSelector, toggleNodeSelector] = useState(false);
+  //const [nodeSelector, toggleNodeSelector] = useState(false);
   const [loaderMessage, setLoaderMessage] = useState({});
-
+  const [selectedHeader, setSelectedHeader] = useState('');
+  const [isExpanded, toggleExpand] = useState(false);
+  const [open, setOpen] = useState(false);
+  console.log(setLoaderMessage(''));
   useEffect(() => {
     const RPCNodeInLS = localStorage.getItem(RPC_NODE);
     if (RPCNodeInLS) {
@@ -30,45 +32,27 @@ const Header = (props) => {
     }
   }, []);
 
+  useEffect(() => {
+    toggleExpand(false);
+  }, [splitLocation[1]]);
+
   const connectWalletButton = () => {
     if (props.walletAddress) {
       return (
-        <Button onClick={props.disconnectWallet} color={'primary'} className={'bg-themed'}>
-          <span className={clsx(props.theme === 'light' ? 'light-theme-text' : 'span-themed')}>
-            {truncateMiddle(props.walletAddress, 4, 4, '...')}
-          </span>
+        <Button onClick={props.disconnectWallet} className="button-bg">
+          <span>{truncateMiddle(props.walletAddress, 4, 4, '...')}</span>
         </Button>
       );
     } else {
       return (
         <Button
-          color={'primary'}
           onClick={props.connecthWallet}
-          className={clsx(
-            'px-md-3',
-            'connect-wallet-btn',
-            props.theme === 'light' ? 'frontpage-light-wallet-btn' : 'bg-themed',
-          )}
+          className={clsx('px-md-3', 'connect-wallet-btn', 'button-bg')}
         >
-          <div
-            className={clsx(
-              'connect-wallet-btn',
-              props.isGradientBgPage ? 'text-white' : 'span-themed',
-            )}
-          >
+          <div className={clsx('connect-wallet-btn')}>
             <div className="flex flex-row align-items-center">
-              <span
-                className={clsx(
-                  'mr-1',
-                  'material-icons-round',
-                  props.isGradientBgPage ? 'text-white' : 'span-themed',
-                )}
-              >
-                add
-              </span>
-              <span className={clsx(props.isGradientBgPage ? 'text-white' : 'span-themed')}>
-                Connect to Wallet
-              </span>
+              <span className={clsx('mr-1', 'material-icons-round')}>add</span>
+              <span>Connect to Wallet</span>
             </div>
           </div>
         </Button>
@@ -76,22 +60,26 @@ const Header = (props) => {
     }
   };
 
-  const resetActiveTab = () => {
-    localStorage.setItem('activeTab', 'swap');
+  // const resetActiveTab = () => {
+  //   localStorage.setItem('activeTab', 'swap');
+  // };
+  const setHeader = (value) => {
+    toggleExpand(!isExpanded);
+    setSelectedHeader(value);
   };
 
-  const toggleNodeSelectorHandler = () => {
-    toggleNodeSelector(!nodeSelector);
-  };
-  const closeNodeSelectorModal = () => {
-    toggleNodeSelector(false);
-  };
+  // const toggleNodeSelectorHandler = () => {
+  //   toggleNodeSelector(!nodeSelector);
+  // };
+  // const closeNodeSelectorModal = () => {
+  //   toggleNodeSelector(false);
+  // };
 
   return (
     <>
-      <Container className={splitLocation[1] === 'Governance' && 'headerBg'} fluid>
+      <Container className="header" fluid>
         <Row>
-          <Col sm={12} md={12}>
+          <Col className="innerHeader" sm={12} md={12}>
             <Navbar collapseOnSelect expand="lg" className="px-0 menu-wrapper">
               <Navbar.Brand as={Link} to="/" className="col-4 m-0">
                 {props.isGradientBgPage ? (
@@ -108,77 +96,170 @@ const Header = (props) => {
               <Navbar.Toggle
                 aria-controls="responsive-navbar-nav"
                 className="ml-lg-auto flex header-click"
+                onClick={() => setOpen(!open)}
               >
-                <span
-                  className={clsx(
-                    'material-icons-round',
-                    props.isGradientBgPage ? 'text-white' : 'span-themed',
-                  )}
-                >
-                  more_vert
-                </span>
+                {open ? (
+                  <span
+                    className={clsx(
+                      'material-icons-round',
+                      props.isGradientBgPage ? 'text-white' : 'span-themed',
+                    )}
+                  >
+                    close
+                  </span>
+                ) : (
+                  <span
+                    className={clsx(
+                      'material-icons-round',
+                      props.isGradientBgPage ? 'text-white' : 'span-themed',
+                    )}
+                  >
+                    menu
+                  </span>
+                )}
               </Navbar.Toggle>
 
               <Navbar.Collapse id="responsive-navbar-nav">
-                <Nav activeKey={location.pathname} className="align-items-lg-center w-100">
-                  <div className="col-lg-6 d-flex flex-lg-row flex-column justify-content-lg-center align-items-center">
+                <Nav className="align-items-lg-center w-100">
+                  <div className="col-lg-6 d-lg-flex flex-lg-row flex-column justify-content-lg-center align-items-center links">
                     <Nav.Link
                       className={clsx(
-                        splitLocation[1] === 'swap' || splitLocation[1] === 'liquidity'
-                          ? 'menu-item-active'
-                          : 'menu-item',
-                        'align-self-end align-self-lg-center d-flex align-items-center',
+                        selectedHeader === 'trade' ? 'menu-item-active' : 'menu-item',
+                        'align-self-start align-self-lg-center d-lg-flex align-items-center',
+                        'space-between',
                       )}
-                      as={Link}
-                      to="/swap"
-                      onClick={resetActiveTab}
+                      onClick={() => setHeader('trade')}
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
-                        Swap
+                        Trade
+                      </span>
+                      <span
+                        className={clsx(
+                          'material-icons',
+                          'arrow',
+
+                          selectedHeader === 'trade' && 'rotate',
+                        )}
+                      >
+                        keyboard_arrow_up
                       </span>
                     </Nav.Link>
+                    {selectedHeader === 'trade' && isMobile && (
+                      <HeaderBottom
+                        selectedHeader={selectedHeader}
+                        isExpanded={isExpanded}
+                        {...props}
+                      />
+                    )}
                     <Nav.Link
                       className={clsx(
-                        splitLocation[1] === 'tokens' ? 'menu-item-active' : 'menu-item',
-                        'align-self-end align-self-lg-center d-flex align-items-center',
+                        selectedHeader === 'earn' ? 'menu-item-active' : 'menu-item',
+                        'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
-                      as={Link}
-                      to="/tokens"
-                      onClick={resetActiveTab}
+                      onClick={() => setHeader('earn')}
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
-                        Tokens
+                        Earn
+                      </span>
+                      <span
+                        className={clsx(
+                          'material-icons',
+                          'arrow',
+                          selectedHeader === 'earn' && 'rotate',
+                        )}
+                      >
+                        keyboard_arrow_up
                       </span>
                     </Nav.Link>
+                    {selectedHeader === 'earn' && isMobile && (
+                      <HeaderBottom
+                        selectedHeader={selectedHeader}
+                        isExpanded={isExpanded}
+                        {...props}
+                      />
+                    )}
+
                     <Nav.Link
                       className={clsx(
-                        splitLocation[1] === 'farms' ? 'menu-item-active' : 'menu-item',
-                        'align-self-end align-self-lg-center d-flex align-items-center',
+                        selectedHeader === 'vote' ? 'menu-item-active' : 'menu-item',
+                        'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
-                      as={Link}
-                      to="/farms"
-                      onClick={resetActiveTab}
+                      onClick={() => setHeader('vote')}
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
-                        Farms
+                        Vote
+                      </span>
+                      <span
+                        className={clsx(
+                          'material-icons',
+                          'arrow',
+                          selectedHeader === 'vote' && 'rotate',
+                        )}
+                      >
+                        keyboard_arrow_up
                       </span>
                     </Nav.Link>
+                    {selectedHeader === 'vote' && isMobile && (
+                      <HeaderBottom
+                        selectedHeader={selectedHeader}
+                        isExpanded={isExpanded}
+                        {...props}
+                      />
+                    )}
+                    {isMobile && (
+                      <Nav.Link
+                        className={clsx(
+                          selectedHeader === 'settings' ? 'menu-item-active' : 'menu-item',
+                          'align-self-end align-self-lg-center d-lg-flex align-items-center',
+                          'd-lg-none',
+                        )}
+                        onClick={() => setHeader('settings')}
+                      >
+                        <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
+                          Settings
+                        </span>
+                        <span className={clsx('material-icons', 'arrow', 'align-self-end')}>
+                          settings
+                        </span>
+                      </Nav.Link>
+                    )}
+                    {selectedHeader === 'settings' && isMobile && (
+                      <HeaderBottom
+                        selectedHeader={selectedHeader}
+                        isExpanded={isExpanded}
+                        {...props}
+                      />
+                    )}
                     <Nav.Link
                       className={clsx(
-                        splitLocation[1] === 'stake' ? 'menu-item-active' : 'menu-item',
-                        'align-self-end align-self-lg-center d-flex align-items-center',
+                        selectedHeader === 'more' ? 'menu-item-active' : 'menu-item',
+                        'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
-                      as={Link}
-                      to="/stake"
-                      onClick={resetActiveTab}
+                      onClick={() => setHeader('more')}
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
-                        Stake
+                        More
+                      </span>
+                      <span
+                        className={clsx(
+                          'material-icons',
+                          'arrow',
+                          selectedHeader === 'more' && 'rotate',
+                        )}
+                      >
+                        keyboard_arrow_up
                       </span>
                     </Nav.Link>
-                    <Nav.Link
+                    {selectedHeader === 'more' && isMobile && (
+                      <HeaderBottom
+                        selectedHeader={selectedHeader}
+                        isExpanded={isExpanded}
+                        {...props}
+                      />
+                    )}
+                    {/* <Nav.Link
                       className={clsx(
-                        splitLocation[1] === 'vote' ? 'menu-item-active' : 'menu-item',
+                        splitLocation[1] === 'vote' ? '' : 'menu-item',
                         'align-self-end align-self-lg-center d-flex align-items-center',
                       )}
                       as={Link}
@@ -188,9 +269,9 @@ const Header = (props) => {
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                         Vote
                       </span>
-                    </Nav.Link>
+                    </Nav.Link> */}
                   </div>
-                  <div className="col-lg-6 d-flex flex-column flex-lg-row align-items-end align-items-lg-center">
+                  <div className="col-lg-6 d-lg-flex flex-column flex-lg-row align-items-end align-items-lg-center last">
                     <Nav.Item className="ml-auto">
                       <a
                         className="flex header-click nav-menu-item-link px-lg-3 align-self-end align-self-lg-center"
@@ -218,7 +299,7 @@ const Header = (props) => {
                       {connectWalletButton()}
                     </Nav.Item>
                     <Nav.Item>
-                      <div className="d-flex flex-column d-lg-none col p-0">
+                      {/* <div className="d-flex flex-column d-lg-none col p-0">
                         <hr className="w-100" />
                         <a
                           href={
@@ -262,9 +343,10 @@ const Header = (props) => {
                             Node Selector
                           </span>
                         </a>
-                      </div>
-                      <NavDropdown
+                      </div> */}
+                      {/* <NavDropdown 
                         className="d-none d-lg-block top"
+                        onClick={() => setHeader('more')}
                         title={
                           <span
                             className={clsx(
@@ -272,13 +354,23 @@ const Header = (props) => {
                               props.isGradientBgPage ? 'text-white' : 'span-themed',
                             )}
                           >
-                            more_vert
+                            settings
                           </span>
                         }
                         id="basic-nav-dropdown"
+                      > */}
+                      <span
+                        className={clsx(
+                          'ml-3',
+                          'flex header-click align-items-center material-icons-round',
+                          props.isGradientBgPage ? 'text-white' : 'span-themed',
+                        )}
+                        onClick={() => setHeader('settings')}
                       >
-                        <ExternalMenu toggleNodeSelectorHandler={toggleNodeSelectorHandler} />
-                      </NavDropdown>
+                        settings
+                      </span>
+                      {/* <ExternalMenu toggleNodeSelectorHandler={toggleNodeSelectorHandler} /> */}
+                      {/* </NavDropdown> */}
                     </Nav.Item>
                   </div>
                 </Nav>
@@ -287,12 +379,20 @@ const Header = (props) => {
           </Col>
         </Row>
       </Container>
-      <NodeSelectorModal
+      {!isMobile && (
+        <HeaderBottom
+          selectedHeader={selectedHeader}
+          isExpanded={isExpanded}
+          page={splitLocation[1]}
+          {...props}
+        />
+      )}
+      {/* <NodeSelectorModal
         title={'Node Selector'}
         nodeSelector={nodeSelector}
         closeNodeSelectorModal={closeNodeSelectorModal}
         setLoaderMessage={setLoaderMessage}
-      />
+      /> */}
       <Loader loaderMessage={loaderMessage} />
     </>
   );
