@@ -92,6 +92,7 @@ const LiquidityPage = () => {
             Liquidity <Tooltip id={'liquidity-header'} message={'Lorem Ipsum'} />
           </span>
         ),
+        id: 'liquidity',
         accessor: 'total_liquidity',
         sortType: numberSort,
         Cell: (row) => <span title={row.value}>{valueFormat(row.value)}</span>,
