@@ -792,8 +792,6 @@ export const getUserBalanceByRpc = async (identifier, address) => {
     const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
     const packedKey = getPackedKey(tokenId, address, type);
     const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
-    console.log(url);
-
     const response = await axios.get(url);
     if (type1MapIds.includes(mapId)) {
       balance = response.data.args[0].args[1].int;
@@ -909,6 +907,48 @@ export const removeLiquidity = async (
     };
   }
 };
+
+export const fetchtzBTCBalance = async (addressOfUser) => {
+  try {
+    const tokenContractAddress = 'KT1PWx2mnDueood7fEmfbBDKx1D9BAnnXitn';
+    const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    const Tezos = new TezosToolkit(rpcNode);
+    Tezos.setProvider(rpcNode);
+    const contract = await Tezos.contract.at(tokenContractAddress);
+    const storage = await contract.storage();
+    let userBalance = 0;
+    const packedAddress = packDataBytes({ string: addressOfUser }, { prim: 'address' });
+    const ledgerKey = {
+      prim: 'Pair',
+      args: [{ string: 'ledger' }, { bytes: packedAddress.bytes.slice(12) }],
+    };
+    const ledgerKeyBytes = packDataBytes(ledgerKey);
+    const ledgerInstance = storage[Object.keys(storage)[0]];
+    const bigmapVal = await ledgerInstance.get(ledgerKeyBytes.bytes);
+    if (bigmapVal) {
+      const bigmapValData = unpackDataBytes({ bytes: bigmapVal });
+      if (
+        Object.prototype.hasOwnProperty.call(bigmapValData, 'prim') &&
+        bigmapValData.prim === 'Pair'
+      ) {
+        userBalance = +bigmapValData.args[0].int / Math.pow(10, 8);
+      }
+    }
+    return {
+      success: true,
+      balance: userBalance,
+      identifier: 'tzBTC',
+    };
+  } catch (e) {
+    return {
+      success: false,
+      balance: 0,
+      identifier: 'tzBTC',
+    };
+  }
+};
+
 export const fetchWalletBalance = async (
   addressOfUser,
   tokenContractAddress,

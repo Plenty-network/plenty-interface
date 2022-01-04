@@ -7,6 +7,7 @@ import {
   computeTokenOutput,
   getTokenPrices,
   getUserBalanceByRpc,
+  fetchtzBTCBalance,
 } from '../../apis/swap/swap';
 
 import { loadSwapData } from '../../apis/swap/swap-v2';
@@ -70,13 +71,16 @@ const Swap = (props) => {
     const userBalancesCopy = userBalances;
     const balancePromises = [];
     if (!userBalancesCopy[tokenIn.name]) {
-      balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
+      tokenIn.name === 'tzBTC'
+        ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
+        : balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
     }
     if (!userBalancesCopy[tokenOut.name]) {
-      balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));
+      tokenOut.name === 'tzBTC'
+        ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
+        : balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));
     }
     if (config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]) {
-      console.log(tokenIn.name, tokenOut.name);
       const lpToken =
         config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
 
