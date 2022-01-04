@@ -6,8 +6,7 @@ import { Link } from 'react-router-dom';
 import NodeSelectorModal from './NodeSelectorModal';
 
 const HeaderBottom = (props) => {
-  const [something, setSomething] = useState('');
-  console.log(props.page);
+  const [nodeSelector, setNodeSelector] = useState(false);
 
   return (
     props.isExpanded && (
@@ -55,7 +54,7 @@ const HeaderBottom = (props) => {
             <Row>
               <Col lg={6} xs={12}>
                 <div className="topics">
-                  <Link to="/pool" className="text-decoration-none">
+                  <Link to="/liquidity-pools" className="text-decoration-none">
                     <p className="heading">POOL</p>
                     <div className="flex justify-between  ">
                       <div className="parainside">
@@ -224,10 +223,10 @@ const HeaderBottom = (props) => {
               </Col>
             </Row>
           )}
-          {props.selectedHeader === 'settings' && !something && (
+          {props.selectedHeader === 'settings' && !nodeSelector && (
             <Row>
               <Col lg={6} xs={12}>
-                <div className="topics" onClick={() => setSomething('clicked')}>
+                <div className="topics" onClick={() => setNodeSelector(true)}>
                   <div className="flex ">
                     <p className="heading">NODE SELECTOR</p>
                   </div>
@@ -241,10 +240,10 @@ const HeaderBottom = (props) => {
               </Col>
             </Row>
           )}
-          {props.selectedHeader === 'settings' && something && (
+          {props.selectedHeader === 'settings' && nodeSelector && (
             <Row>
               <Col lg={12} xs={12}>
-                <div className="topics" onClick={() => setSomething('')}>
+                <div className="topics" onClick={() => setNodeSelector(false)}>
                   <div className="flex ">
                     <p className="heading">NODE SELECTOR</p>
                   </div>
@@ -265,7 +264,6 @@ const HeaderBottom = (props) => {
             </Row>
           )}
         </div>
-        {/* <NodeSelectorModal title={'Node Selector'} nodeSelector={'open'} /> */}
       </>
     )
   );
