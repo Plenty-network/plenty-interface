@@ -25,7 +25,6 @@ import plentyMedium from '../../assets/images/frontpage/plentymedium.svg';
 import LinkTile from '../../Components/LinkTile/LinkTile';
 import Accordion from '../../Components/Ui/Accordion/Accordion';
 import Stats from '../../Components/Stats/Stats';
-import Header from '../../Components/Header/Header';
 import Loader from '../../Components/loader';
 import { connect } from 'react-redux';
 import {
@@ -45,11 +44,6 @@ import { HOME_PAGE_MODAL } from '../../constants/homePage';
 import NumericLabel from 'react-pretty-numbers';
 
 const Frontpage = ({
-  toggleTheme,
-  theme,
-  connecthWallet,
-  disconnectWallet,
-  walletAddress,
   homeStats,
   tvl,
   getTVL,
@@ -104,14 +98,6 @@ const Frontpage = ({
       <Container fluid>
         <div className={`d-flex flex-column ${styles.fullScreen}`}>
           <FrontPageGradientDiv className={`row flex-grow-1 ${styles.homePageBanner}`}>
-            <Header
-              toggleTheme={toggleTheme}
-              theme={theme}
-              connecthWallet={connecthWallet}
-              disconnectWallet={disconnectWallet}
-              walletAddress={walletAddress}
-              isGradientBgPage={true}
-            />
             <div
               className={clsx(
                 'py-5',

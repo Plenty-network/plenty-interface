@@ -53,16 +53,11 @@ const MyRoutes = (props) => {
         <React.Suspense fallback={<div />}>
           <Routes>
             <Route
-              path="/"
-              exact
+              path={'/'}
               element={
-                <Frontpage
-                  toggleTheme={toggleTheme}
-                  theme={theme}
-                  connecthWallet={connectWallet}
-                  disconnectWallet={disconnectUserWallet}
-                  walletAddress={props.userAddress}
-                />
+                <OtherPages {...otherPageProps}>
+                  <Frontpage walletAddress={props.userAddress} connecthWallet={connectWallet} />
+                </OtherPages>
               }
             />
 
