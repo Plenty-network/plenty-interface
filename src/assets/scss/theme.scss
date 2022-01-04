@@ -34,10 +34,10 @@
   --theme-button-bg: #e3d1ff;
   --theme-hover-bg: #f2f0f9;
   --theme-radio-button: #8b83ba;
-  --theme-governance-bg: linear-gradient(180deg, #7028e4 25%, #ffffff 20%);
+  --theme-governance-bg: linear-gradient(180deg, #7028e4 22%, #ffffff 20%);
 
-  --theme-governance-bg-1: linear-gradient(180deg, #7028e4 23%, #ffffff 20%);
-  --theme-governance-bg-2: linear-gradient(180deg, #7028e4 21%, #ffffff 20%);
+  --theme-governance-bg-1: linear-gradient(180deg, #7028e4 20%, #ffffff 20%);
+  --theme-governance-bg-2: linear-gradient(180deg, #7028e4 18%, #ffffff 18%);
   --theme-governance-text: #04091b;
   --theme-governance-cardBg: #ffffff;
   --theme-governance-postingInfo: #f3f4fb;
@@ -106,21 +106,21 @@
   --theme-radio-button: #ffffff;
   --theme-governance-bg: linear-gradient(
     180deg,
-    var(--theme-bg-1) 25%,
-    #04152e 22.85%,
+    var(--theme-bg-1) 22%,
+    #04152e 20.85%,
     #82858a 197.76%
   );
 
   --theme-governance-bg-1: linear-gradient(
     180deg,
-    var(--theme-bg-1) 23%,
-    #04152e 21.85%,
+    var(--theme-bg-1) 20%,
+    #04152e 18.85%,
     #82858a 197.76%
   );
   --theme-governance-bg-2: linear-gradient(
     180deg,
-    var(--theme-bg-1) 21%,
-    #04152e 20.85%,
+    var(--theme-bg-1) 18%,
+    #04152e 17.85%,
     #82858a 197.76%
   );
   --theme-governance-text: #edecef;

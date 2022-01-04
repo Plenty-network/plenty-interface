@@ -144,7 +144,12 @@ function NodeSelectorModal(props) {
           onClick={setRPCInLS}
           color={'primary'}
           className={'w-100'}
-          style={{ marginTop: '15px' }}
+          style={{
+            marginTop: '15px',
+            marginBottom: '30px',
+            paddingTop: '10px',
+            paddingBottom: '10px',
+          }}
         >
           Set Node
         </Button>

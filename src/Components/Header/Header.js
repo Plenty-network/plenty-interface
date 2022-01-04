@@ -60,9 +60,9 @@ const Header = (props) => {
     }
   };
 
-  // const resetActiveTab = () => {
-  //   localStorage.setItem('activeTab', 'swap');
-  // };
+  const resetActiveTab = () => {
+    localStorage.setItem('activeTab', 'swap');
+  };
   const setHeader = (value) => {
     toggleExpand(!isExpanded);
     setSelectedHeader(value);
@@ -181,8 +181,21 @@ const Header = (props) => {
 
                     <Nav.Link
                       className={clsx(
-                        selectedHeader === 'vote' ? 'menu-item-active' : 'menu-item',
-                        'align-self-end align-self-lg-center d-lg-flex align-items-center',
+                        splitLocation[1] === 'liquidity-pools' ? 'menu-item-active' : 'menu-item',
+                        'align-self-end align-self-lg-center d-flex align-items-center',
+                      )}
+                      as={Link}
+                      to="/liquidity-pools"
+                      onClick={resetActiveTab}
+                    >
+                      <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
+                        Liquidity
+                      </span>
+                    </Nav.Link>
+                    <Nav.Link
+                      className={clsx(
+                        splitLocation[1] === 'farms' ? 'menu-item-active' : 'menu-item',
+                        'align-self-end align-self-lg-center d-flex align-items-center',
                       )}
                       onClick={() => setHeader('vote')}
                     >

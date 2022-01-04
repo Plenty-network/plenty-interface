@@ -227,8 +227,8 @@ const HeaderBottom = (props) => {
           {props.selectedHeader === 'settings' && !something && (
             <Row>
               <Col lg={6} xs={12}>
-                <div className="topics">
-                  <div className="flex " onClick={() => setSomething('clicked')}>
+                <div className="topics" onClick={() => setSomething('clicked')}>
+                  <div className="flex ">
                     <p className="heading">NODE SELECTOR</p>
                   </div>
                   <div className="flex justify-between para ">
