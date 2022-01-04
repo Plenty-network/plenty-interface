@@ -436,6 +436,11 @@
 .header {
   border-bottom: 0.5px solid var(--theme-header-bottom);
 
+  background-color: var(--theme-bg-1);
+  position: sticky;
+  z-index: 999;
+  top: 0px;
+
   @media screen and (min-width: 320px) and (max-width: 992px) {
     border-bottom: none;
   }
