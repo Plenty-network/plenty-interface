@@ -69,14 +69,15 @@ const Swap = (props) => {
   useEffect(async () => {
     setTokenContractInstances({});
     const userBalancesCopy = userBalances;
+    const tzBTCName = 'tzBTC';
     const balancePromises = [];
     if (!userBalancesCopy[tokenIn.name]) {
-      tokenIn.name === 'tzBTC'
+      tokenIn.name === tzBTCName
         ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
         : balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
     }
     if (!userBalancesCopy[tokenOut.name]) {
-      tokenOut.name === 'tzBTC'
+      tokenOut.name === tzBTCName
         ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
         : balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));
     }
