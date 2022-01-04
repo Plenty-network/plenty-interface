@@ -6,9 +6,10 @@ import {
   computeTokenOutForRouteBaseByOutAmount,
   computeTokenOutput,
   getTokenPrices,
-  loadSwapData,
   getUserBalanceByRpc,
 } from '../../apis/swap/swap';
+
+import { loadSwapData } from '../../apis/swap/swap-v2';
 import config from '../../config/config';
 
 import TransactionSettings from '../../Components/TransactionSettings/TransactionSettings';
@@ -66,34 +67,27 @@ const Swap = (props) => {
 
   useEffect(async () => {
     setTokenContractInstances({});
-    if (activeTab === 'swap') {
-      const userBalancesCopy = userBalances;
-      const balancePromises = [];
-      if (!userBalancesCopy[tokenIn.name]) {
-        balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
-      }
-      if (!userBalancesCopy[tokenOut.name]) {
-        balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));
-      }
-      const balanceResponse = await Promise.all(balancePromises);
-      for (const i in balanceResponse) {
-        userBalancesCopy[balanceResponse[i].identifier] = balanceResponse[i].balance;
-      }
-      setUserBalances(userBalancesCopy);
+    const userBalancesCopy = userBalances;
+    const balancePromises = [];
+    if (!userBalancesCopy[tokenIn.name]) {
+      balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
     }
-    if (activeTab === 'liquidity') {
-      const userBalancesCopy = userBalances;
-      if (config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]) {
-        console.log(tokenIn.name, tokenOut.name);
-        const lpToken =
-          config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
-        console.log({ lpToken });
-        const lpTokenUserBalance = await getUserBalanceByRpc(lpToken, props.walletAddress);
-        userBalancesCopy[lpTokenUserBalance.identifier] = lpTokenUserBalance.balance;
-        setUserBalances(userBalancesCopy);
-      }
+    if (!userBalancesCopy[tokenOut.name]) {
+      balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));
     }
-  }, [tokenIn, tokenOut, activeTab]);
+    if (config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]) {
+      console.log(tokenIn.name, tokenOut.name);
+      const lpToken =
+        config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
+
+      balancePromises.push(getUserBalanceByRpc(lpToken, props.walletAddress));
+    }
+    const balanceResponse = await Promise.all(balancePromises);
+    for (const i in balanceResponse) {
+      userBalancesCopy[balanceResponse[i].identifier] = balanceResponse[i].balance;
+    }
+    setUserBalances(userBalancesCopy);
+  }, [tokenIn, tokenOut]);
 
   useEffect(() => {
     if (activeTab === 'swap') {
