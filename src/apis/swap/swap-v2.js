@@ -5,7 +5,7 @@ import { BeaconWallet } from '@taquito/beacon-wallet';
 import { CheckIfWalletConnected } from '../wallet/wallet';
 import { RPC_NODE } from '../../constants/localStorage';
 
-const loadSwapData = async (tokenIn, tokenOut) => {
+export const loadSwapData = async (tokenIn, tokenOut) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = CONFIG.RPC_NODES[connectedNetwork];

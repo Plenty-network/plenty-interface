@@ -2,7 +2,6 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 import plenty from '../../../assets/images/logo_small.png';
 import config from '../../../config/config';
-import { SWAP_PAGE_ACTIVE_TAB } from '../../../constants/localStorage';
 import { tokens } from '../../../constants/swapPage';
 
 export const useLocationStateInSwap = () => {
@@ -43,23 +42,27 @@ export const useLocationStateInSwap = () => {
       if (elem === 'liquidity' && !AMMExists) {
         setTokenOut({});
       }
-
-      localStorage.setItem(SWAP_PAGE_ACTIVE_TAB, elem);
     }
   };
 
   useEffect(() => {
-    setTokenParams({
-      ...(tokenIn.name ? { [paramKeys.a]: tokenIn.name } : {}),
-      ...(tokenParams.get(paramKeys.b) ? { [paramKeys.b]: tokenParams.get(paramKeys.b) } : {}),
-    });
+    setTokenParams(
+      {
+        ...(tokenIn.name ? { [paramKeys.a]: tokenIn.name } : {}),
+        ...(tokenParams.get(paramKeys.b) ? { [paramKeys.b]: tokenParams.get(paramKeys.b) } : {}),
+      },
+      { replace: true },
+    );
   }, [tokenIn]);
 
   useEffect(() => {
-    setTokenParams({
-      ...(tokenParams.get(paramKeys.a) ? { [paramKeys.a]: tokenParams.get(paramKeys.a) } : {}),
-      ...(tokenOut.name ? { [paramKeys.b]: tokenOut.name } : {}),
-    });
+    setTokenParams(
+      {
+        ...(tokenParams.get(paramKeys.a) ? { [paramKeys.a]: tokenParams.get(paramKeys.a) } : {}),
+        ...(tokenOut.name ? { [paramKeys.b]: tokenOut.name } : {}),
+      },
+      { replace: true },
+    );
   }, [tokenOut]);
 
   useEffect(() => {
@@ -89,12 +92,6 @@ export const useLocationStateInSwap = () => {
           image: tokenOutDatum.image,
         });
       }
-    }
-
-    const activeTabFromLS = localStorage.getItem(SWAP_PAGE_ACTIVE_TAB);
-
-    if (activeTabFromLS && !location.pathname.match('add|remove')) {
-      navigate(`/${activeTabFromLS}`);
     }
   }, []);
 

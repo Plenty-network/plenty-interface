@@ -1,0 +1,11 @@
+.root {
+  display: flex;
+
+  .token1 {
+    z-index: 1002;
+  }
+
+  .token2 {
+    margin-left: -9px;
+  }
+}

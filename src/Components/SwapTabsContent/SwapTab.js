@@ -273,7 +273,12 @@ const SwapTab = (props) => {
                     onClick={onClickAmount}
                     style={{ cursor: 'pointer' }}
                   >
-                    Balance: {props.userBalances[props.tokenIn.name]}{' '}
+                    Balance:{' '}
+                    {props.userBalances[props.tokenIn.name] ? (
+                      props.userBalances[props.tokenIn.name]
+                    ) : (
+                      <div className="shimmer">0.0000</div>
+                    )}{' '}
                     <span className="max-btn">(Max)</span>
                   </p>
                 ) : (
@@ -349,7 +354,12 @@ const SwapTab = (props) => {
             {props.walletAddress && props.tokenOut.name ? (
               <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
                 <p className="wallet-token-balance">
-                  Balance: {props.userBalances[props.tokenOut.name]}
+                  Balance:{' '}
+                  {props.userBalances[props.tokenOut.name] ? (
+                    props.userBalances[props.tokenOut.name]
+                  ) : (
+                    <div className="shimmer">0.0000</div>
+                  )}
                 </p>
                 <p className="wallet-token-balance">
                   ~$
