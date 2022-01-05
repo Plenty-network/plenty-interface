@@ -420,6 +420,8 @@
     width: 495px;
     @media screen and (min-width: 320px) and (max-width: 992px) {
       width: auto;
+      padding-top: 16px;
+      padding-bottom: 16px;
     }
     .heading {
       font-weight: 500;
@@ -463,6 +465,9 @@
 .parainside {
   width: 83%;
   color: var(--theme-header-description);
+  @media screen and (min-width: 320px) and (max-width: 992px) {
+    font-size: 14px;
+  }
 }
 .launch-icon {
   font-size: 16px;
@@ -567,4 +572,23 @@ input[type='radio']:checked:after {
   border-bottom: 0.5px solid var(--theme-header-seperator);
   opacity: 0.1;
   margin-top: 10px;
+}
+.connectwallet {
+  @media screen and (min-width: 320px) and (max-width: 992px) {
+    width: 93%;
+    margin-top: 30px;
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+  }
+}
+.mobileview {
+  @media screen and (min-width: 320px) and (max-width: 992px) {
+    height: 100vh;
+  }
+}
+.hide {
+  display: none !important;
+}
+.theme-mode {
+  margin-top: 232px;
 }
