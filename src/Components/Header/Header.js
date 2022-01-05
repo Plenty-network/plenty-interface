@@ -69,7 +69,7 @@ const Header = (props) => {
         <Row>
           <Col className="innerHeader" sm={12} md={12}>
             <Navbar collapseOnSelect expand="lg" className="px-0 mx-sm-4 menu-wrapper">
-              <Navbar.Brand as={Link} to="/" className=" m-0">
+              <Navbar.Brand as={Link} to="/" className="mx-2 mx-sm-0">
                 {props.isGradientBgPage ? (
                   <LogoWhite />
                 ) : props.theme === 'light' ? (
