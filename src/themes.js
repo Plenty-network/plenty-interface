@@ -46,7 +46,7 @@ export const darkTheme = {
   topGradient: 'transparent',
   // frontPageGradient: ``,
   // frontPageBottomGradient: ``,
-  bg: '#2D3751',
+  bg: '#201c41',
   bgAlt: '#2C3645',
   backgroundLight: '#394460',
   borderDarkNone: 'none',

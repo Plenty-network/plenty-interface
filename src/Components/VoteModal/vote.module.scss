@@ -194,9 +194,9 @@
     }
   }
   .buttonColorChange {
-    background-color: #5c0fae;
+    background-color: var(--theme-governance-buttonBorder);
     color: #ffffff;
-    border: 1px solid #5c0fae;
+    border: 1px solid var(--theme-governance-buttonBorder);
   }
 }
 

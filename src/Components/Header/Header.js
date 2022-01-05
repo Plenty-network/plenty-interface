@@ -69,7 +69,7 @@ const Header = (props) => {
         <Row>
           <Col className="innerHeader" sm={12} md={12}>
             <Navbar collapseOnSelect expand="lg" className="px-0 mx-sm-4 menu-wrapper">
-              <Navbar.Brand as={Link} to="/" className="col-4 m-0">
+              <Navbar.Brand as={Link} to="/" className=" m-0">
                 {props.isGradientBgPage ? (
                   <LogoWhite />
                 ) : props.theme === 'light' ? (
@@ -78,6 +78,7 @@ const Header = (props) => {
                   <LogoWhite />
                 )}
               </Navbar.Brand>
+              <div className="seperator"></div>
               <Nav.Item className="ml-auto d-lg-none align-self-lg-end">
                 <a
                   className="flex header-click nav-menu-item-link px-lg-3 align-self-end align-self-lg-center"
@@ -149,7 +150,7 @@ const Header = (props) => {
                           selectedHeader === HEADER_MODAL.TRADE && 'rotate',
                         )}
                       >
-                        keyboard_arrow_up
+                        keyboard_arrow_down
                       </span>
                     </Nav.Link>
                     {selectedHeader === HEADER_MODAL.TRADE && isMobile && (
@@ -176,7 +177,7 @@ const Header = (props) => {
                           selectedHeader === HEADER_MODAL.EARN && 'rotate',
                         )}
                       >
-                        keyboard_arrow_up
+                        keyboard_arrow_down
                       </span>
                     </Nav.Link>
                     {selectedHeader === HEADER_MODAL.EARN && isMobile && (
@@ -204,7 +205,7 @@ const Header = (props) => {
                           selectedHeader === HEADER_MODAL.VOTE && 'rotate',
                         )}
                       >
-                        keyboard_arrow_up
+                        keyboard_arrow_down
                       </span>
                     </Nav.Link>
                     {selectedHeader === HEADER_MODAL.VOTE && isMobile && (
@@ -257,7 +258,7 @@ const Header = (props) => {
                           selectedHeader === HEADER_MODAL.MORE && 'rotate',
                         )}
                       >
-                        keyboard_arrow_up
+                        keyboard_arrow_down
                       </span>
                     </Nav.Link>
                     {selectedHeader === HEADER_MODAL.MORE && isMobile && (
@@ -299,8 +300,9 @@ const Header = (props) => {
                       <span
                         className={clsx(
                           'ml-3',
-                          'flex header-click align-items-center material-icons-round',
+                          'flex header-click align-items-center material-icons',
                           props.isGradientBgPage ? 'text-white' : 'span-themed',
+                          'settings-icon',
                         )}
                         onClick={() => setHeader(HEADER_MODAL.SETTINGS)}
                       >

@@ -64,9 +64,11 @@
   --theme-governance-label: #04091b;
   --theme-header-heading: #000000;
   --theme-header-description: #51566b;
-  --theme-header-bottom: #bfb6cc;
+  --theme-header-bottom: #dedede;
   --theme-header-text: #333333;
   --theme-header-selectedBg: #f4f4f4;
+  --theme-bg-header: #ffffff;
+  --theme-header-seperator: #140920;
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -81,7 +83,7 @@
     var(--theme-secondary-gradient-1) -47.72%,
     var(--theme-secondary-gradient-2) 142.35%
   );
-  --theme-card-bg: #2d3751;
+  --theme-card-bg: #201c41;
   --theme-input-bg: #394460;
   --theme-text-1: #ffffff;
   --theme-text-inactive: #b0b7c3; // TODO find
@@ -89,7 +91,7 @@
   --theme-text-3: #8a94a6;
   --theme-text-4: #b0b7c3; // TODO find
   --theme-text-5: #4e5d78;
-  --theme-bg-1: #333e5b;
+  --theme-bg-1: #0d0831;
   --theme-bg-2: #394460;
   --theme-bg-3: #fafbfc; // TODO find
   --theme-bg-4: #59617a;
@@ -104,27 +106,12 @@
   --theme-button-bg: #fafbfc;
   --theme-hover-bg: #59617a;
   --theme-radio-button: #ffffff;
-  --theme-governance-bg: linear-gradient(
-    180deg,
-    var(--theme-bg-1) 22%,
-    #04152e 20.85%,
-    #82858a 197.76%
-  );
+  --theme-governance-bg: linear-gradient(180deg, var(--theme-bg-1) 22%, #393456 20.85%);
 
-  --theme-governance-bg-1: linear-gradient(
-    180deg,
-    var(--theme-bg-1) 20%,
-    #04152e 18.85%,
-    #82858a 197.76%
-  );
-  --theme-governance-bg-2: linear-gradient(
-    180deg,
-    var(--theme-bg-1) 18%,
-    #04152e 17.85%,
-    #82858a 197.76%
-  );
+  --theme-governance-bg-1: linear-gradient(180deg, var(--theme-bg-1) 20%, #393456 18.85%);
+  --theme-governance-bg-2: linear-gradient(180deg, var(--theme-bg-1) 18%, #393456 17.85%);
   --theme-governance-text: #edecef;
-  --theme-governance-cardBg: #1a2134;
+  --theme-governance-cardBg: #201c41;
   --theme-governance-postingInfo: rgba(255, 255, 255, 0.06);
   --theme-governance-line: rgba(241, 241, 241, 0.1);
   --theme-governance-mobileBg: linear-gradient(90.61deg, #04152e 35.85%, #82858a 135.76%);
@@ -158,6 +145,8 @@
   --theme-header-bottom: #393456;
   --theme-header-text: #ffffff;
   --theme-header-selectedBg: #201c41;
+  --theme-bg-header: #201c41;
+  --theme-header-seperator: #f4f4f4;
 }
 
 :root.theme-transiton {

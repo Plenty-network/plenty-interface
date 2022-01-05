@@ -110,6 +110,7 @@ function NodeSelectorModal(props) {
                     checked={currentRPC === identifier}
                     id={identifier}
                     name="selector"
+                    className="input-nodeselector"
                   />
                   {name}
                 </label>
@@ -142,13 +143,12 @@ function NodeSelectorModal(props) {
         </div>
         <Button
           onClick={setRPCInLS}
-          color={'primary'}
-          className={'w-100'}
+          className="button-bg w-100"
           style={{
             marginTop: '15px',
             marginBottom: '30px',
-            paddingTop: '10px',
-            paddingBottom: '10px',
+            paddingTop: '15px',
+            paddingBottom: '15px',
           }}
         >
           Set Node
