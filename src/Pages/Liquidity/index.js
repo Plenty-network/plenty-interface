@@ -106,7 +106,7 @@ const LiquidityPage = () => {
       {
         Header: (
           <span>
-            7h Fees <Tooltip id={'24-hours-fees-header'} message={'Lorem Ipsum'} />
+            7d Fees <Tooltip id={'7-days-fees-header'} message={'Lorem Ipsum'} />
           </span>
         ),
         accessor: '24h_fee',
