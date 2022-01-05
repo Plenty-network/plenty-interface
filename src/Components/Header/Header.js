@@ -38,7 +38,7 @@ const Header = (props) => {
   const connectWalletButton = () => {
     if (props.walletAddress) {
       return (
-        <Button onClick={props.disconnectWallet} className="button-bg">
+        <Button onClick={props.disconnectWallet} className="button-bg w-100">
           <span>{truncateMiddle(props.walletAddress, 4, 4, '...')}</span>
         </Button>
       );
@@ -60,7 +60,11 @@ const Header = (props) => {
   };
 
   const setHeader = (value) => {
-    toggleExpand(!isExpanded);
+    if (selectedHeader === value) {
+      toggleExpand(!isExpanded);
+    } else {
+      toggleExpand(true);
+    }
     setSelectedHeader(value);
   };
 
@@ -149,7 +153,7 @@ const Header = (props) => {
                           'material-icons',
                           'arrow',
 
-                          selectedHeader === HEADER_MODAL.TRADE && 'rotate',
+                          selectedHeader === HEADER_MODAL.TRADE && isExpanded && 'rotate',
                         )}
                       >
                         keyboard_arrow_down
@@ -177,7 +181,7 @@ const Header = (props) => {
                         className={clsx(
                           'material-icons',
                           'arrow',
-                          selectedHeader === HEADER_MODAL.EARN && 'rotate',
+                          selectedHeader === HEADER_MODAL.EARN && isExpanded && 'rotate',
                         )}
                       >
                         keyboard_arrow_down
@@ -205,7 +209,7 @@ const Header = (props) => {
                         className={clsx(
                           'material-icons',
                           'arrow',
-                          selectedHeader === HEADER_MODAL.VOTE && 'rotate',
+                          selectedHeader === HEADER_MODAL.VOTE && isExpanded && 'rotate',
                         )}
                       >
                         keyboard_arrow_down
@@ -263,7 +267,7 @@ const Header = (props) => {
                         className={clsx(
                           'material-icons',
                           'arrow',
-                          selectedHeader === HEADER_MODAL.MORE && 'rotate',
+                          selectedHeader === HEADER_MODAL.MORE && isExpanded && 'rotate',
                         )}
                       >
                         keyboard_arrow_down

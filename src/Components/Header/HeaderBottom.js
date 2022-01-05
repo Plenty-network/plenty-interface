@@ -152,27 +152,6 @@ const HeaderBottom = (props) => {
                     rel="noopener noreferrer"
                   >
                     <div className="flex flex-row ">
-                      <p className="heading">ANALYTICS</p>
-
-                      <span className="ml-3 material-icons-round launch-icon">launch</span>
-                    </div>
-                    <div className="flex   ">
-                      <div className="parainside">
-                        Documentation for users of the Plenty Protocol.
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </Col>
-              <Col lg={4} xs={12}>
-                <div className="topics more">
-                  <a
-                    href="https://plenty-defi.notion.site/Plenty-Docs-004ba25f40b641a3a276b84ebdc44971"
-                    className="text-decoration-none"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <div className="flex flex-row ">
                       <p className="heading">DOCS</p>
 
                       <span className="ml-3 material-icons-round launch-icon">launch</span>
