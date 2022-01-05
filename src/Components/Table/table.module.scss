@@ -41,7 +41,7 @@
 
     & > div:nth-child(2) {
       @include sticky-cell(40px);
-      max-width: 140px;
+      max-width: 200px !important;
     }
 
     & > div:last-child {
@@ -70,6 +70,13 @@
     font-size: 14px;
     border-bottom: 1px solid var(--theme-border);
   }
+}
+
+.table_table__1LCba .table_tr__2RDeR > div:nth-child(2) {
+  position: sticky;
+  left: 40px;
+  z-index: 1000;
+  max-width: 200px !important;
 }
 
 .page {
