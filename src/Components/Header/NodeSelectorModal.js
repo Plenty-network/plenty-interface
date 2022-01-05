@@ -5,6 +5,7 @@ import { RPC_NODE } from '../../constants/localStorage';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { setNode } from '../../redux/slices/settings/settings.slice';
+import clsx from 'clsx';
 
 async function isValidURL(userInput) {
   try {
@@ -102,7 +103,11 @@ function NodeSelectorModal(props) {
           <ul>
             {Object.entries(nodeNames).map(([identifier, name]) => (
               <li key={identifier}>
-                <label htmlFor={identifier} onClick={() => setCurrentRPC(identifier)}>
+                <label
+                  className={clsx(currentRPC === identifier && 'selected-border')}
+                  htmlFor={identifier}
+                  onClick={() => setCurrentRPC(identifier)}
+                >
                   <div className="check" />
                   <input
                     defaultChecked={currentRPC === identifier}
@@ -112,12 +117,20 @@ function NodeSelectorModal(props) {
                     name="selector"
                     className="input-nodeselector"
                   />
-                  {name}
+                  <span
+                    className={clsx(currentRPC === identifier ? 'selected-label' : 'default-label')}
+                  >
+                    {name}
+                  </span>
                 </label>
               </li>
             ))}
             <li>
-              <label className="custom" htmlFor="w-option" onClick={() => setCurrentRPC('CUSTOM')}>
+              <label
+                className={clsx('custom', currentRPC === 'CUSTOM' && 'selected-border')}
+                htmlFor="w-option"
+                onClick={() => setCurrentRPC('CUSTOM')}
+              >
                 <input
                   defaultChecked={currentRPC === 'CUSTOM'}
                   type="radio"
@@ -131,7 +144,10 @@ function NodeSelectorModal(props) {
                 disabled={currentRPC !== 'CUSTOM'}
                 type="url"
                 htmlFor="w-option"
-                className="node-selector-modal-input "
+                className={clsx(
+                  'node-selector-modal-input',
+                  currentRPC === 'CUSTOM' && 'selected-border',
+                )}
                 placeholder="https://custom.tezos.node"
                 value={customRPC}
                 onChange={(e) => {

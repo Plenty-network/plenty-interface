@@ -12,15 +12,22 @@ const HeaderBottom = (props) => {
   useEffect(() => {
     isOpen(true);
   }, [props]);
+  useEffect(() => {
+    isOpen(false);
+  }, [props.rpcNode]);
 
   return (
     props.isExpanded &&
     open && (
       <>
         <div
-          className={clsx('headerBottom', {
-            'pt-0': !props.selectedHeader,
-          })}
+          className={clsx(
+            'headerBottom',
+            {
+              'pt-0': !props.selectedHeader,
+            },
+            props.selectedHeader === HEADER_MODAL.SETTINGS && nodeSelector && 'height',
+          )}
         >
           {props.selectedHeader === HEADER_MODAL.TRADE && (
             <Row>
@@ -277,15 +284,21 @@ const HeaderBottom = (props) => {
                 >
                   close
                 </span>
+
                 <div className="topics nodeSelector" onClick={() => setNodeSelector(false)}>
-                  <div className="flex ">
-                    <p className="heading">NODE SELECTOR</p>
-                  </div>
                   <div className="flex  para ">
                     <div>
                       <span className=" material-icons-round arrowback">arrow_back</span>
                     </div>
-                    <div className="parainside">
+                    <div>
+                      <p className="heading  ">NODE SELECTOR</p>
+                    </div>
+                  </div>
+                  <div className="flex  para ">
+                    {/* <div>
+                      <span className=" material-icons-round arrowback">arrow_back</span>
+                    </div> */}
+                    <div className="parainside nodeSector-Heading">
                       The Plenty node can be overloaded sometimes. When your data doesn’t load
                       properly, try switching to a different node, or use a custom node.
                     </div>
@@ -308,6 +321,7 @@ HeaderBottom.propTypes = {
   connecthWallet: PropTypes.func,
   selectedHeader: PropTypes.any,
   isExpanded: PropTypes.any,
+  rpcNode: PropTypes.any,
 };
 
 export default HeaderBottom;

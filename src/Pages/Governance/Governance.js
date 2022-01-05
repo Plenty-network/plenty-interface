@@ -74,13 +74,6 @@ const Governance = (props) => {
   return (
     <>
       <Container className={` ${styles.govContainer}`} fluid>
-        {/* <Header
-          toggleTheme={props.toggleTheme}
-          theme={props.theme}
-          connecthWallet={props.connectWallet}
-          disconnectWallet={props.disconnectWallet}
-          walletAddress={props.walletAddress}
-        /> */}
         <Row className={clsx('row justify-content-center', !isMobile && styles.govContainerInner)}>
           <Col xs={20} sm={8} md={10} lg={6} xl={6}>
             <VoteText
