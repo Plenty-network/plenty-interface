@@ -31,10 +31,26 @@
   height: 24px;
   width: 24px;
   min-width: 24px;
-  border-radius: 50%;
   background: #f4f4f6;
   border: 0;
   padding: 0;
+
+  &.roundIconBtn {
+    border-radius: 50%;
+  }
+
+  &.squareIconBtn {
+    border-radius: 6px;
+  }
+
+  &.largeIconBtn {
+    height: 34px;
+    width: 34px;
+    & > span {
+      font-size: 26px;
+      vertical-align: middle;
+    }
+  }
 }
 
 .primary {

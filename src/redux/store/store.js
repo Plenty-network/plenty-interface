@@ -10,7 +10,7 @@ import settingsReducer from '../slices/settings/settings.slice';
 
 import farmsReducer from '../slices/farms/farms.slice';
 import xPlentyReducer from '../slices/xPlenty/xPlenty.slice';
-import tokensApi from '../slices/tokens/tokens.query';
+import analyticsQueries from '../queries/analytics/analyticsQueries';
 
 const rootReducer = {
   user: userReducer,
@@ -22,13 +22,13 @@ const rootReducer = {
   settings: settingsReducer,
   xPlenty: xPlentyReducer,
   governance: govReducer,
-  [tokensApi.reducerPath]: tokensApi.reducer,
+  [analyticsQueries.reducerPath]: analyticsQueries.reducer,
 };
 
 //const store = createStore(rootReducer);
 const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(tokensApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(analyticsQueries.middleware),
 });
 
 export default store;
