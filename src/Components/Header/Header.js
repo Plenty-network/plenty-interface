@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import Button from '../Ui/Buttons/Button';
 import HeaderBottom from './HeaderBottom';
 import useMediaQuery from '../../hooks/mediaQuery';
+import { HEADER_MODAL } from '../../constants/header';
 
 const Header = (props) => {
   const isMobile = useMediaQuery('(max-width: 991px)');
@@ -131,11 +132,11 @@ const Header = (props) => {
                   <div className="col-lg-6 d-lg-flex flex-lg-row flex-column justify-content-lg-center align-items-center links">
                     <Nav.Link
                       className={clsx(
-                        selectedHeader === 'trade' ? 'menu-item-active' : 'menu-item',
+                        selectedHeader === HEADER_MODAL.TRADE ? 'menu-item-active' : 'menu-item',
                         'align-self-start align-self-lg-center d-lg-flex align-items-center',
                         'space-between',
                       )}
-                      onClick={() => setHeader('trade')}
+                      onClick={() => setHeader(HEADER_MODAL.TRADE)}
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                         Trade
@@ -145,13 +146,13 @@ const Header = (props) => {
                           'material-icons',
                           'arrow',
 
-                          selectedHeader === 'trade' && 'rotate',
+                          selectedHeader === HEADER_MODAL.TRADE && 'rotate',
                         )}
                       >
                         keyboard_arrow_up
                       </span>
                     </Nav.Link>
-                    {selectedHeader === 'trade' && isMobile && (
+                    {selectedHeader === HEADER_MODAL.TRADE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
                         isExpanded={isExpanded}
@@ -160,10 +161,10 @@ const Header = (props) => {
                     )}
                     <Nav.Link
                       className={clsx(
-                        selectedHeader === 'earn' ? 'menu-item-active' : 'menu-item',
+                        selectedHeader === HEADER_MODAL.EARN ? 'menu-item-active' : 'menu-item',
                         'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
-                      onClick={() => setHeader('earn')}
+                      onClick={() => setHeader(HEADER_MODAL.EARN)}
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                         Earn
@@ -172,13 +173,13 @@ const Header = (props) => {
                         className={clsx(
                           'material-icons',
                           'arrow',
-                          selectedHeader === 'earn' && 'rotate',
+                          selectedHeader === HEADER_MODAL.EARN && 'rotate',
                         )}
                       >
                         keyboard_arrow_up
                       </span>
                     </Nav.Link>
-                    {selectedHeader === 'earn' && isMobile && (
+                    {selectedHeader === HEADER_MODAL.EARN && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
                         isExpanded={isExpanded}
@@ -188,10 +189,10 @@ const Header = (props) => {
 
                     <Nav.Link
                       className={clsx(
-                        selectedHeader === 'vote' ? 'menu-item-active' : 'menu-item',
+                        selectedHeader === HEADER_MODAL.VOTE ? 'menu-item-active' : 'menu-item',
                         'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
-                      onClick={() => setHeader('vote')}
+                      onClick={() => setHeader(HEADER_MODAL.VOTE)}
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                         Vote
@@ -200,13 +201,13 @@ const Header = (props) => {
                         className={clsx(
                           'material-icons',
                           'arrow',
-                          selectedHeader === 'vote' && 'rotate',
+                          selectedHeader === HEADER_MODAL.VOTE && 'rotate',
                         )}
                       >
                         keyboard_arrow_up
                       </span>
                     </Nav.Link>
-                    {selectedHeader === 'vote' && isMobile && (
+                    {selectedHeader === HEADER_MODAL.VOTE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
                         isExpanded={isExpanded}
@@ -216,11 +217,13 @@ const Header = (props) => {
                     {isMobile && (
                       <Nav.Link
                         className={clsx(
-                          selectedHeader === 'settings' ? 'menu-item-active' : 'menu-item',
+                          selectedHeader === HEADER_MODAL.SETTINGS
+                            ? 'menu-item-active'
+                            : 'menu-item',
                           'align-self-end align-self-lg-center d-lg-flex align-items-center',
                           'd-lg-none',
                         )}
-                        onClick={() => setHeader('settings')}
+                        onClick={() => setHeader(HEADER_MODAL.SETTINGS)}
                       >
                         <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                           Settings
@@ -230,7 +233,7 @@ const Header = (props) => {
                         </span>
                       </Nav.Link>
                     )}
-                    {selectedHeader === 'settings' && isMobile && (
+                    {selectedHeader === HEADER_MODAL.SETTINGS && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
                         isExpanded={isExpanded}
@@ -239,10 +242,10 @@ const Header = (props) => {
                     )}
                     <Nav.Link
                       className={clsx(
-                        selectedHeader === 'more' ? 'menu-item-active' : 'menu-item',
+                        selectedHeader === HEADER_MODAL.MORE ? 'menu-item-active' : 'menu-item',
                         'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
-                      onClick={() => setHeader('more')}
+                      onClick={() => setHeader(HEADER_MODAL.MORE)}
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                         More
@@ -251,13 +254,13 @@ const Header = (props) => {
                         className={clsx(
                           'material-icons',
                           'arrow',
-                          selectedHeader === 'more' && 'rotate',
+                          selectedHeader === HEADER_MODAL.MORE && 'rotate',
                         )}
                       >
                         keyboard_arrow_up
                       </span>
                     </Nav.Link>
-                    {selectedHeader === 'more' && isMobile && (
+                    {selectedHeader === HEADER_MODAL.MORE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
                         isExpanded={isExpanded}
@@ -299,7 +302,7 @@ const Header = (props) => {
                           'flex header-click align-items-center material-icons-round',
                           props.isGradientBgPage ? 'text-white' : 'span-themed',
                         )}
-                        onClick={() => setHeader('settings')}
+                        onClick={() => setHeader(HEADER_MODAL.SETTINGS)}
                       >
                         settings
                       </span>

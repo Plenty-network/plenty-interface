@@ -435,7 +435,6 @@
 }
 .header {
   border-bottom: 0.5px solid var(--theme-header-bottom);
-
   background-color: var(--theme-bg-1);
   position: sticky;
   z-index: 999;
@@ -458,6 +457,7 @@
 .launch-icon {
   font-size: 16px;
   margin-top: 3px;
+  color: var(--theme-header-description);
 }
 .last {
   display: none;

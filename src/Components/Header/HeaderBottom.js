@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import NodeSelectorModal from './NodeSelectorModal';
+import { HEADER_MODAL } from '../../constants/header';
 
 const HeaderBottom = (props) => {
   const [nodeSelector, setNodeSelector] = useState(false);
@@ -16,7 +17,7 @@ const HeaderBottom = (props) => {
             'pt-0': !props.selectedHeader,
           })}
         >
-          {props.selectedHeader === 'trade' && (
+          {props.selectedHeader === HEADER_MODAL.TRADE && (
             <Row>
               <Col lg={12} xs={12}>
                 <div className="topics">
@@ -50,7 +51,7 @@ const HeaderBottom = (props) => {
               </Col>
             </Row>
           )}
-          {props.selectedHeader === 'earn' && (
+          {props.selectedHeader === HEADER_MODAL.EARN && (
             <Row>
               <Col lg={6} xs={12}>
                 <div className="topics">
@@ -100,7 +101,7 @@ const HeaderBottom = (props) => {
               </Col>
             </Row>
           )}
-          {props.selectedHeader === 'vote' && (
+          {props.selectedHeader === HEADER_MODAL.VOTE && (
             <Row>
               <Col lg={12} xs={12}>
                 <div className="topics">
@@ -135,95 +136,137 @@ const HeaderBottom = (props) => {
             </Row>
           )}
 
-          {props.selectedHeader === 'more' && (
+          {props.selectedHeader === HEADER_MODAL.MORE && (
             <Row>
               <Col lg={4} xs={12}>
                 <div className="topics">
-                  <div className="flex flex-row ">
-                    <p className="heading">ANALYTICS</p>
+                  <a
+                    href="https://plenty-defi.notion.site/Plenty-Docs-004ba25f40b641a3a276b84ebdc44971"
+                    className="text-decoration-none"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <div className="flex flex-row ">
+                      <p className="heading">ANALYTICS</p>
 
-                    <span className="ml-3 material-icons-round launch-icon">launch</span>
-                  </div>
-                  <div className="flex justify-between para ">
-                    <div className="parainside">
-                      Documentation for users of the Plenty Protocol.
+                      <span className="ml-3 material-icons-round launch-icon">launch</span>
                     </div>
-                  </div>
+                    <div className="flex justify-between  ">
+                      <div className="parainside">
+                        Documentation for users of the Plenty Protocol.
+                      </div>
+                    </div>
+                  </a>
                 </div>
               </Col>
               <Col lg={4} xs={12}>
                 <div className="topics">
-                  <div className="flex flex-row ">
-                    <p className="heading">DOCS</p>
+                  <a
+                    href="https://plenty-defi.notion.site/Plenty-Docs-004ba25f40b641a3a276b84ebdc44971"
+                    className="text-decoration-none"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <div className="flex flex-row ">
+                      <p className="heading">DOCS</p>
 
-                    <span className="ml-3 material-icons-round launch-icon">launch</span>
-                  </div>
-                  <div className="flex justify-between  ">
-                    <div className="parainside">
-                      Documentation for users of the Plenty Protocol.
+                      <span className="ml-3 material-icons-round launch-icon">launch</span>
                     </div>
-                  </div>
+                    <div className="flex justify-between  ">
+                      <div className="parainside">
+                        Documentation for users of the Plenty Protocol.
+                      </div>
+                    </div>
+                  </a>
                 </div>
               </Col>
               <Col lg={4} xs={12}>
                 <div className="topics">
-                  <div className="flex flex-row ">
-                    <p className="heading">GITHUB</p>
+                  <a
+                    href="https://github.com/Plenty-DeFi"
+                    className="text-decoration-none"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <div className="flex flex-row ">
+                      <p className="heading">GITHUB</p>
 
-                    <span className="ml-3 material-icons-round launch-icon">launch</span>
-                  </div>
-                  <div className="flex justify-between  ">
-                    <div className="parainside">
-                      Open Source github repositories of the Plenty Protocol.
+                      <span className="ml-3 material-icons-round launch-icon">launch</span>
                     </div>
-                  </div>
+                    <div className="flex justify-between  ">
+                      <div className="parainside">
+                        Open Source github repositories of the Plenty Protocol.
+                      </div>
+                    </div>
+                  </a>
                 </div>
               </Col>
               <Col lg={4} xs={12}>
                 <div className="topics">
-                  <div className="flex flex-row ">
-                    <p className="heading">CTEZ</p>
+                  <a
+                    href="https://ctez.app/"
+                    className="text-decoration-none"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <div className="flex flex-row ">
+                      <p className="heading">CTEZ</p>
 
-                    <span className="ml-3 material-icons-round launch-icon">launch</span>
-                  </div>
-                  <div className="flex justify-between  ">
-                    <div className="parainside">
-                      Swap tez for ctez or mint ctez in an oven and earn baking rewards.
+                      <span className="ml-3 material-icons-round launch-icon">launch</span>
                     </div>
-                  </div>
+                    <div className="flex justify-between  ">
+                      <div className="parainside">
+                        Swap tez for ctez or mint ctez in an oven and earn baking rewards.
+                      </div>
+                    </div>
+                  </a>
                 </div>
               </Col>
               <Col lg={4} xs={12}>
                 <div className="topics">
-                  <div className="flex flex-row ">
-                    <p className="heading">BLOGS</p>
+                  <a
+                    href="https://plentydefi.medium.com/"
+                    className="text-decoration-none"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <div className="flex flex-row ">
+                      <p className="heading">BLOGS</p>
 
-                    <span className="ml-3 material-icons-round launch-icon">launch</span>
-                  </div>
-                  <div className="flex justify-between  ">
-                    <div className="parainside">
-                      Documentation for users of the Plenty Protocol.
+                      <span className="ml-3 material-icons-round launch-icon">launch</span>
                     </div>
-                  </div>
+                    <div className="flex justify-between  ">
+                      <div className="parainside">
+                        Documentation for users of the Plenty Protocol.
+                      </div>
+                    </div>
+                  </a>
                 </div>
               </Col>
               <Col lg={4} xs={12}>
                 <div className="topics">
-                  <div className="flex flex-row ">
-                    <p className="heading">DEV</p>
+                  <a
+                    href="https://plenty-defi.notion.site/Plenty-Docs-004ba25f40b641a3a276b84ebdc44971"
+                    className="text-decoration-none"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <div className="flex flex-row ">
+                      <p className="heading">DEV</p>
 
-                    <span className="ml-3 material-icons-round launch-icon">launch</span>
-                  </div>
-                  <div className="flex justify-between  ">
-                    <div className="parainside">
-                      Developer documentation for building on top of the Plenty Protocol.
+                      <span className="ml-3 material-icons-round launch-icon ">launch</span>
                     </div>
-                  </div>
+                    <div className="flex justify-between  ">
+                      <div className="parainside">
+                        Developer documentation for building on top of the Plenty Protocol.
+                      </div>
+                    </div>
+                  </a>
                 </div>
               </Col>
             </Row>
           )}
-          {props.selectedHeader === 'settings' && !nodeSelector && (
+          {props.selectedHeader === HEADER_MODAL.SETTINGS && !nodeSelector && (
             <Row>
               <Col lg={6} xs={12}>
                 <div className="topics" onClick={() => setNodeSelector(true)}>
@@ -240,7 +283,7 @@ const HeaderBottom = (props) => {
               </Col>
             </Row>
           )}
-          {props.selectedHeader === 'settings' && nodeSelector && (
+          {props.selectedHeader === HEADER_MODAL.SETTINGS && nodeSelector && (
             <Row>
               <Col lg={12} xs={12}>
                 <div className="topics" onClick={() => setNodeSelector(false)}>
