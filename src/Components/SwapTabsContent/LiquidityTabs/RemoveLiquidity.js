@@ -165,12 +165,17 @@ const RemoveLiquidity = (props) => {
                 onClick={onClickAmount}
               >
                 Balance:{' '}
-                {
+                {props.userBalances[
+                  CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
+                    .liquidityToken
+                ] >= 0 ? (
                   props.userBalances[
                     CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
                       .liquidityToken
                   ]
-                }
+                ) : (
+                  <div className="shimmer">0.0000</div>
+                )}
                 <span className="max-btn"> (Max)</span>
               </p>
             ) : null}

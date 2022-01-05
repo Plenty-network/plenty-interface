@@ -90,6 +90,7 @@ const Swap = (props) => {
       }
       const balanceResponse = await Promise.all(balancePromises);
       for (const i in balanceResponse) {
+        console.log(balanceResponse[i].identifier, balanceResponse[i].balance);
         userBalancesCopy[balanceResponse[i].identifier] = balanceResponse[i].balance;
       }
       setUserBalances(userBalancesCopy);
@@ -247,9 +248,7 @@ const Swap = (props) => {
     if (!props.walletAddress) {
       return;
     }
-    setLoading(true);
     setLoaderInButton(true);
-    fetchUserWalletBalance();
   }, [props.walletAddress]);
 
   useEffect(() => {

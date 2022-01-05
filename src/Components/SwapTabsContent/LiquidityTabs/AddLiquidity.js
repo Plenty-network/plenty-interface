@@ -93,7 +93,6 @@ const AddLiquidity = (props) => {
         props.setShowConfirmAddSupply(false);
         props.setHideContent('');
         props.resetAllValues();
-        props.fetchUserWalletBalance();
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
@@ -103,7 +102,6 @@ const AddLiquidity = (props) => {
         props.setShowConfirmAddSupply(false);
         props.setHideContent('');
         props.resetAllValues();
-        props.fetchUserWalletBalance();
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
@@ -225,7 +223,12 @@ const AddLiquidity = (props) => {
                 style={{ cursor: 'pointer' }}
                 onClick={onClickAmount}
               >
-                Balance: {props.userBalances[props.tokenIn.name]}{' '}
+                Balance:{' '}
+                {props.userBalances[props.tokenIn.name] >= 0 ? (
+                  props.userBalances[props.tokenIn.name]
+                ) : (
+                  <div className="shimmer">0.0000</div>
+                )}{' '}
                 <span className="max-btn">(Max)</span>
               </p>
               <p className="wallet-token-balance">
@@ -288,7 +291,12 @@ const AddLiquidity = (props) => {
           {props.walletAddress && props.tokenOut.name ? (
             <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
               <p className="wallet-token-balance">
-                Balance: {props.userBalances[props.tokenOut.name]}
+                Balance:{' '}
+                {props.userBalances[props.tokenOut.name] >= 0 ? (
+                  props.userBalances[props.tokenOut.name]
+                ) : (
+                  <div className="shimmer">0.0000</div>
+                )}
               </p>
               <p className="wallet-token-balance">
                 ~$
