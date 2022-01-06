@@ -89,11 +89,7 @@ const Swap = (props) => {
         balancePromises.push(getUserBalanceByRpc(lpToken, props.walletAddress));
       }
       const balanceResponse = await Promise.all(balancePromises);
-      // for (const i in balanceResponse) {
-      //   console.log(balanceResponse[i].identifier, balanceResponse[i].balance);
-      //   userBalancesCopy[balanceResponse[i].identifier] = balanceResponse[i].balance;
-      // }
-      // setUserBalances(userBalancesCopy);
+
       setUserBalances((prev) => ({
         ...prev,
         ...balanceResponse.reduce(
@@ -116,7 +112,6 @@ const Swap = (props) => {
       ) {
         getAllRoutes(tokenIn.name, tokenOut.name).then((response) => {
           if (response.success) {
-            console.log({ response });
             setRouteData(response);
             setSwapData(response.bestRouteUntilNoInput.swapData);
             setLoaderInButton(false);
