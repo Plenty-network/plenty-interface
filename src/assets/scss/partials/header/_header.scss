@@ -367,6 +367,11 @@
     padding-top: 20px;
     padding-bottom: 20px;
     width: 495px;
+    padding-left: 24px;
+    margin-bottom: 10px;
+    &:hover {
+      background: var(--theme-header-selectedBg);
+    }
     @media screen and (min-width: 320px) and (max-width: 992px) {
       width: auto;
       padding-top: 16px;
@@ -492,9 +497,11 @@ input[type='radio']:checked:after {
 .seperator {
   border-right: 1px solid var(--theme-header-seperator);
   height: 27.43px;
-  left: 40px;
+  left: 10px;
   position: relative;
   opacity: 0.1;
+  margin-left: 20px;
+  margin-right: 20px;
   @media screen and (min-width: 320px) and (max-width: 992px) {
     display: none;
   }
@@ -578,13 +585,18 @@ input[type='radio']:checked:after {
 }
 
 .toogleMode {
-  width: 400px !important;
   background: var(--theme-header-selectedBg);
   padding-left: 20px;
-  margin-left: 20px;
+  padding-right: 20px;
   @media screen and (min-width: 320px) and (max-width: 992px) {
     margin-left: 0px;
     padding-left: 20px;
     width: auto !important;
+  }
+}
+.more-height {
+  height: 340px !important;
+  @media screen and (min-width: 320px) and (max-width: 992px) {
+    height: auto !important;
   }
 }

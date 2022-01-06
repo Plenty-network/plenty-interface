@@ -27,6 +27,7 @@ const HeaderBottom = (props) => {
               'pt-0': !props.selectedHeader,
             },
             props.selectedHeader === HEADER_MODAL.SETTINGS && nodeSelector && 'height',
+            props.selectedHeader === HEADER_MODAL.MORE && 'more-height',
           )}
           onMouseLeave={() => isOpen(false)}
         >
@@ -70,7 +71,7 @@ const HeaderBottom = (props) => {
                 <div className="topics">
                   <Link to="/farms" className="text-decoration-none">
                     <p className="heading">FARM</p>
-                    <div className="flex   ">
+                    <div className="flex  para ">
                       <div className="parainside">
                         Deposit your Plenty Liquidity Provider tokens in a farm to receive rewards.
                       </div>
@@ -85,7 +86,7 @@ const HeaderBottom = (props) => {
                 <div className="topics">
                   <Link to="/stake" className="text-decoration-none">
                     <p className="heading">STAKE</p>
-                    <div className="flex   ">
+                    <div className="flex para  ">
                       <div className="parainside">
                         Stake your PLENTY for xPLENTY and maximize your yield. No Impermanent Loss.
                       </div>
@@ -100,7 +101,7 @@ const HeaderBottom = (props) => {
                 <div className="topics">
                   <Link to="/liquidity-pools" className="text-decoration-none">
                     <p className="heading">POOL</p>
-                    <div className="flex  ">
+                    <div className="flex para ">
                       <div className="parainside">
                         Liquidity providers earn a 0.25% fee on all trades proportional to their
                         share of the pool.

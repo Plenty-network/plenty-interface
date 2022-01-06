@@ -136,7 +136,7 @@ const Header = (props) => {
                           selectedHeader === HEADER_MODAL.TRADE && 'rotate',
                         )}
                       >
-                        keyboard_arrow_down
+                        expand_more
                       </span>
                     </Nav.Link>
 
@@ -167,7 +167,7 @@ const Header = (props) => {
                           selectedHeader === HEADER_MODAL.EARN && 'rotate',
                         )}
                       >
-                        keyboard_arrow_down
+                        expand_more
                       </span>
                     </Nav.Link>
 
@@ -198,7 +198,7 @@ const Header = (props) => {
                           selectedHeader === HEADER_MODAL.VOTE && 'rotate',
                         )}
                       >
-                        keyboard_arrow_down
+                        expand_more
                       </span>
                     </Nav.Link>
 
@@ -259,7 +259,7 @@ const Header = (props) => {
                           selectedHeader === HEADER_MODAL.MORE && 'rotate',
                         )}
                       >
-                        keyboard_arrow_down
+                        expand_more
                       </span>
                     </Nav.Link>
 
