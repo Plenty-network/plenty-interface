@@ -882,6 +882,9 @@ export const removeLiquidity = async (
         tokenA_MinimumRecieve * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL),
       );
     }
+    const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].contract;
+
+    const dexContractInstanceLocal = await Tezos.contract.at(dexContractAddress);
 
     const lpTokenDecimal =
       CONFIG.AMM[connectedNetwork][
@@ -891,7 +894,7 @@ export const removeLiquidity = async (
     const batch = Tezos.wallet
       .batch()
       .withContractCall(
-        dexContractInstance.methods.RemoveLiquidity(
+        dexContractInstanceLocal.methods.RemoveLiquidity(
           lpToken_Amount,
           caller,
           tokenFirst_Amount,
@@ -906,6 +909,7 @@ export const removeLiquidity = async (
       operationId: batchOperation.hash,
     };
   } catch (error) {
+    console.log(error);
     return {
       success: false,
       error,
