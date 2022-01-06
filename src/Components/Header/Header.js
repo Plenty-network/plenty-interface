@@ -195,7 +195,7 @@ const Header = (props) => {
                         className={clsx(
                           'material-icons',
                           'arrow',
-                          selectedHeader === HEADER_MODAL.VOTE && isExpanded && 'rotate',
+                          selectedHeader === HEADER_MODAL.VOTE && 'rotate',
                         )}
                       >
                         keyboard_arrow_down
@@ -256,7 +256,7 @@ const Header = (props) => {
                         className={clsx(
                           'material-icons',
                           'arrow',
-                          selectedHeader === HEADER_MODAL.MORE && isExpanded && 'rotate',
+                          selectedHeader === HEADER_MODAL.MORE && 'rotate',
                         )}
                       >
                         keyboard_arrow_down
