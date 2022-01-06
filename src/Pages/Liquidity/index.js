@@ -67,6 +67,7 @@ const LiquidityPage = () => {
             />
           );
         },
+        width: 200,
       },
       {
         Header: <span className="ml-2">Name</span>,
@@ -88,8 +89,8 @@ const LiquidityPage = () => {
       },
       {
         Header: (
-          <span>
-            Liquidity{' '}
+          <span className="flex align-center">
+            Liquidity&nbsp;
             <Tooltip id={'liquidity-header'} message={'The value of tokens staked in the pool.'} />
           </span>
         ),
@@ -112,8 +113,8 @@ const LiquidityPage = () => {
       },
       {
         Header: (
-          <span>
-            LP APR{' '}
+          <span className="flex align-center">
+            LP APR&nbsp;
             <Tooltip id={'lp-apr-header'} message={'Based on the annualized trading fees.'} />
           </span>
         ),
@@ -123,8 +124,8 @@ const LiquidityPage = () => {
       },
       {
         Header: (
-          <span>
-            Farm{' '}
+          <span className="flex align-center">
+            Farm&nbsp;
             <Tooltip
               id={'farm-header'}
               message={'Active indicates a farm for the LP tokens of the liquidity pool.'}
