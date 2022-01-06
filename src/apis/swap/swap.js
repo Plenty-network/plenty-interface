@@ -784,7 +784,7 @@ export const computeRemoveTokens = (
 
 export const getUserBalanceByRpc = async (identifier, address) => {
   try {
-    let balance;
+    //let balance;
     const mapId = CONFIG.AMM[CONFIG.NETWORK][identifier].mapId;
     const type = CONFIG.AMM[CONFIG.NETWORK][identifier].READ_TYPE;
     const decimal = CONFIG.AMM[CONFIG.NETWORK][identifier].TOKEN_DECIMAL;
@@ -793,22 +793,26 @@ export const getUserBalanceByRpc = async (identifier, address) => {
     const packedKey = getPackedKey(tokenId, address, type);
     const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
     const response = await axios.get(url);
-    if (type1MapIds.includes(mapId)) {
-      balance = response.data.args[0].args[1].int;
-    } else if (type2MapIds.includes(mapId)) {
-      balance = response.data.args[1].int;
-    } else if (type3MapIds.includes(mapId)) {
-      balance = response.data.args[0].int;
-    } else if (type4MapIds.includes(mapId)) {
-      balance = response.data.int;
-    } else if (type5MapIds.includes(mapId)) {
-      balance = response.data.args[0][0].args[1].int;
-    } else {
-      balance = response.data.args[1].int;
-    }
+    const balance = (() => {
+      let balance;
+      if (type1MapIds.includes(mapId)) {
+        balance = response.data.args[0].args[1].int;
+      } else if (type2MapIds.includes(mapId)) {
+        balance = response.data.args[1].int;
+      } else if (type3MapIds.includes(mapId)) {
+        balance = response.data.args[0].int;
+      } else if (type4MapIds.includes(mapId)) {
+        balance = response.data.int;
+      } else if (type5MapIds.includes(mapId)) {
+        balance = response.data.args[0][0].args[1].int;
+      } else {
+        balance = response.data.args[1].int;
+      }
 
-    balance = parseInt(balance);
-    balance = balance / Math.pow(10, decimal);
+      balance = parseInt(balance);
+      balance = balance / Math.pow(10, decimal);
+      return balance;
+    })();
 
     return {
       success: true,
