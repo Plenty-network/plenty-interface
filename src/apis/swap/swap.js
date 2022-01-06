@@ -794,24 +794,25 @@ export const getUserBalanceByRpc = async (identifier, address) => {
     const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
     const response = await axios.get(url);
     const balance = (() => {
-      let balance;
+      // IIFE
+      let _balance;
       if (type1MapIds.includes(mapId)) {
-        balance = response.data.args[0].args[1].int;
+        _balance = response.data.args[0].args[1].int;
       } else if (type2MapIds.includes(mapId)) {
-        balance = response.data.args[1].int;
+        _balance = response.data.args[1].int;
       } else if (type3MapIds.includes(mapId)) {
-        balance = response.data.args[0].int;
+        _balance = response.data.args[0].int;
       } else if (type4MapIds.includes(mapId)) {
-        balance = response.data.int;
+        _balance = response.data.int;
       } else if (type5MapIds.includes(mapId)) {
-        balance = response.data.args[0][0].args[1].int;
+        _balance = response.data.args[0][0].args[1].int;
       } else {
-        balance = response.data.args[1].int;
+        _balance = response.data.args[1].int;
       }
 
-      balance = parseInt(balance);
-      balance = balance / Math.pow(10, decimal);
-      return balance;
+      _balance = parseInt(_balance);
+      _balance = _balance / Math.pow(10, decimal);
+      return _balance;
     })();
 
     return {
