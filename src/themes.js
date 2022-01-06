@@ -48,7 +48,7 @@ export const darkTheme = {
   // frontPageBottomGradient: ``,
   bg: '#201c41',
   bgAlt: '#252146',
-  backgroundLight: '#394460',
+  backgroundLight: '#343052',
   borderDarkNone: 'none',
   border: '1px solid rgba(44, 9, 11, 0.08)',
   btnFrontPage: '#19263A',

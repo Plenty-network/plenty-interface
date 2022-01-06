@@ -13,7 +13,6 @@ import Button from '../Ui/Buttons/Button';
 import HeaderBottom from './HeaderBottom';
 import useMediaQuery from '../../hooks/mediaQuery';
 import { HEADER_MODAL } from '../../constants/header';
-import Switch from '../Ui/Switch/Switch';
 
 const Header = (props) => {
   const isMobile = useMediaQuery('(max-width: 991px)');
@@ -33,6 +32,7 @@ const Header = (props) => {
 
   useEffect(() => {
     toggleExpand(false);
+    setHeader('');
   }, [splitLocation[1]]);
 
   const connectWalletButton = () => {
@@ -60,11 +60,10 @@ const Header = (props) => {
   };
 
   const setHeader = (value) => {
-    if (selectedHeader === value) {
-      toggleExpand(!isExpanded);
-    } else {
-      toggleExpand(true);
+    if (value) {
+      isMobile && toggleExpand(!isExpanded);
     }
+
     setSelectedHeader(value);
   };
 
@@ -84,29 +83,7 @@ const Header = (props) => {
                 )}
               </Navbar.Brand>
               <div className="seperator"></div>
-              <Nav.Item className="ml-auto d-none   align-self-end">
-                <a
-                  className="flex header-click nav-menu-item-link px-lg-3 align-self-end align-self-lg-center"
-                  onClick={props.toggleTheme}
-                >
-                  {props.theme === 'light' ? (
-                    <span
-                      className={clsx(
-                        'theme-icon',
-                        'material-icons-round',
-                        props.isGradientBgPage ? 'icon-white' : 'span-themed',
-                      )}
-                    >
-                      dark_mode
-                    </span>
-                  ) : (
-                    <span className="theme-icon span-themed material-icons-round">light_mode</span>
-                  )}
-                </a>
-              </Nav.Item>
-              <Nav.Item className="ml-3 d-none  align-self-lg-end">
-                {connectWalletButton()}
-              </Nav.Item>
+
               <Navbar.Toggle
                 aria-controls="responsive-navbar-nav"
                 className="ml-lg-auto flex header-click"
@@ -134,7 +111,10 @@ const Header = (props) => {
               </Navbar.Toggle>
 
               <Navbar.Collapse id="responsive-navbar-nav">
-                <Nav className="align-items-lg-center w-100 mobileview">
+                <Nav
+                  className="align-items-lg-center w-100 mobileview"
+                  onMouseEnter={() => setHeader('')}
+                >
                   <div className="col-lg-6 d-lg-flex flex-lg-row flex-column justify-content-lg-center align-items-center links">
                     <Nav.Link
                       className={clsx(
@@ -143,6 +123,7 @@ const Header = (props) => {
                         'align-self-start align-self-lg-center d-lg-flex align-items-center',
                         'space-between',
                       )}
+                      onMouseEnter={() => setHeader(HEADER_MODAL.TRADE)}
                       onClick={() => setHeader(HEADER_MODAL.TRADE)}
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
@@ -152,13 +133,13 @@ const Header = (props) => {
                         className={clsx(
                           'material-icons',
                           'arrow',
-
-                          selectedHeader === HEADER_MODAL.TRADE && isExpanded && 'rotate',
+                          selectedHeader === HEADER_MODAL.TRADE && 'rotate',
                         )}
                       >
                         keyboard_arrow_down
                       </span>
                     </Nav.Link>
+
                     {selectedHeader === HEADER_MODAL.TRADE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
@@ -166,12 +147,14 @@ const Header = (props) => {
                         {...props}
                       />
                     )}
+
                     <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.EARN ? 'menu-item-active' : 'menu-item',
                         isExpanded && isMobile && selectedHeader !== HEADER_MODAL.EARN && 'last',
                         'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
+                      onMouseEnter={() => setHeader(HEADER_MODAL.EARN)}
                       onClick={() => setHeader(HEADER_MODAL.EARN)}
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
@@ -181,12 +164,13 @@ const Header = (props) => {
                         className={clsx(
                           'material-icons',
                           'arrow',
-                          selectedHeader === HEADER_MODAL.EARN && isExpanded && 'rotate',
+                          selectedHeader === HEADER_MODAL.EARN && 'rotate',
                         )}
                       >
                         keyboard_arrow_down
                       </span>
                     </Nav.Link>
+
                     {selectedHeader === HEADER_MODAL.EARN && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
@@ -194,12 +178,14 @@ const Header = (props) => {
                         {...props}
                       />
                     )}
+
                     <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.VOTE ? 'menu-item-active' : 'menu-item',
                         isExpanded && isMobile && selectedHeader !== HEADER_MODAL.VOTE && 'last',
                         'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
+                      onMouseEnter={() => setHeader(HEADER_MODAL.VOTE)}
                       onClick={() => setHeader(HEADER_MODAL.VOTE)}
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
@@ -215,6 +201,7 @@ const Header = (props) => {
                         keyboard_arrow_down
                       </span>
                     </Nav.Link>
+
                     {selectedHeader === HEADER_MODAL.VOTE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
@@ -222,6 +209,7 @@ const Header = (props) => {
                         {...props}
                       />
                     )}
+
                     {isMobile && (
                       <Nav.Link
                         className={clsx(
@@ -258,6 +246,7 @@ const Header = (props) => {
                         isExpanded && isMobile && selectedHeader !== HEADER_MODAL.MORE && 'last',
                         'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
+                      onMouseOver={() => setHeader(HEADER_MODAL.MORE)}
                       onClick={() => setHeader(HEADER_MODAL.MORE)}
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
@@ -273,6 +262,7 @@ const Header = (props) => {
                         keyboard_arrow_down
                       </span>
                     </Nav.Link>
+
                     {selectedHeader === HEADER_MODAL.MORE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
@@ -281,23 +271,7 @@ const Header = (props) => {
                       />
                     )}
                   </div>
-                  <Nav.Item
-                    className={clsx('mx-3 theme-mode  d-block d-lg-none ', isExpanded && 'hide')}
-                  >
-                    <div className="flex justify-between">
-                      <span className="">
-                        <span>THEME</span>
-                        <div>{props.theme === 'light' ? 'Light' : 'Dark'}</div>
-                      </span>
-                      <span className="mr-4">
-                        <Switch
-                          value={props.theme === 'light' ? true : false}
-                          onChange={props.toggleTheme}
-                          inverted={true}
-                        />
-                      </span>
-                    </div>
-                  </Nav.Item>
+
                   <Nav.Item
                     className={clsx(
                       'mx-3',
@@ -308,32 +282,13 @@ const Header = (props) => {
                     {connectWalletButton()}
                   </Nav.Item>
                   <div className="col-lg-6 d-lg-flex flex-column flex-lg-row align-items-end align-items-lg-center last">
-                    <Nav.Item className="ml-auto">
-                      <a
-                        className="flex header-click nav-menu-item-link px-lg-3 align-self-end align-self-lg-center"
-                        onClick={props.toggleTheme}
-                      >
-                        {props.theme === 'light' ? (
-                          <span
-                            className={clsx(
-                              'theme-icon',
-                              'material-icons-round',
-                              props.isGradientBgPage ? 'icon-white' : 'span-themed',
-                            )}
-                          >
-                            dark_mode
-                          </span>
-                        ) : (
-                          <span className="theme-icon span-themed material-icons-round">
-                            light_mode
-                          </span>
-                        )}
-                      </a>
-                    </Nav.Item>
-
-                    <Nav.Item className="d-none d-md-block align-self-lg-end">
+                    <Nav.Item
+                      className="ml-auto d-none d-md-block align-self-lg-end"
+                      onMouseOver={() => setHeader('')}
+                    >
                       {connectWalletButton()}
                     </Nav.Item>
+                    <div className="seperator seperatorSettings"></div>
                     <Nav.Item>
                       <span
                         className={clsx(
@@ -342,7 +297,7 @@ const Header = (props) => {
                           props.isGradientBgPage ? 'text-white' : 'span-themed',
                           'settings-icon',
                         )}
-                        onClick={() => setHeader(HEADER_MODAL.SETTINGS)}
+                        onMouseOver={() => setHeader(HEADER_MODAL.SETTINGS)}
                       >
                         settings
                       </span>

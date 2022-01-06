@@ -5,19 +5,19 @@ import { Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import NodeSelectorModal from './NodeSelectorModal';
 import { HEADER_MODAL } from '../../constants/header';
+import Switch from '../Ui/Switch/Switch';
+import useMediaQuery from '../../hooks/mediaQuery';
 
 const HeaderBottom = (props) => {
   const [nodeSelector, setNodeSelector] = useState(false);
+  const isMobile = useMediaQuery('(max-width: 991px)');
   const [open, isOpen] = useState(true);
   useEffect(() => {
     isOpen(true);
   }, [props]);
-  useEffect(() => {
-    isOpen(false);
-  }, [props.rpcNode]);
 
   return (
-    props.isExpanded &&
+    (isMobile ? props.isExpanded : props.selectedHeader) &&
     open && (
       <>
         <div
@@ -28,6 +28,7 @@ const HeaderBottom = (props) => {
             },
             props.selectedHeader === HEADER_MODAL.SETTINGS && nodeSelector && 'height',
           )}
+          onMouseLeave={() => isOpen(false)}
         >
           {props.selectedHeader === HEADER_MODAL.TRADE && (
             <Row>
@@ -67,22 +68,6 @@ const HeaderBottom = (props) => {
             <Row>
               <Col lg={6} xs={12}>
                 <div className="topics">
-                  <Link to="/liquidity-pools" className="text-decoration-none">
-                    <p className="heading">POOL</p>
-                    <div className="flex  ">
-                      <div className="parainside">
-                        Liquidity providers earn a 0.25% fee on all trades proportional to their
-                        share of the pool.
-                      </div>
-                      <div>
-                        <span className=" material-icons-round arrowforward">arrow_forward</span>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              </Col>
-              <Col lg={6} xs={12}>
-                <div className="topics">
                   <Link to="/farms" className="text-decoration-none">
                     <p className="heading">FARM</p>
                     <div className="flex   ">
@@ -103,6 +88,22 @@ const HeaderBottom = (props) => {
                     <div className="flex   ">
                       <div className="parainside">
                         Stake your PLENTY for xPLENTY and maximize your yield. No Impermanent Loss.
+                      </div>
+                      <div>
+                        <span className=" material-icons-round arrowforward">arrow_forward</span>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              </Col>
+              <Col lg={6} xs={12}>
+                <div className="topics">
+                  <Link to="/liquidity-pools" className="text-decoration-none">
+                    <p className="heading">POOL</p>
+                    <div className="flex  ">
+                      <div className="parainside">
+                        Liquidity providers earn a 0.25% fee on all trades proportional to their
+                        share of the pool.
                       </div>
                       <div>
                         <span className=" material-icons-round arrowforward">arrow_forward</span>
@@ -259,16 +260,33 @@ const HeaderBottom = (props) => {
           )}
           {props.selectedHeader === HEADER_MODAL.SETTINGS && !nodeSelector && open && (
             <Row>
-              <Col lg={6} xs={12}>
-                <div className="topics" onClick={() => setNodeSelector(true)}>
-                  <div className="flex ">
+              <Col lg={12} xs={12}>
+                <div className="topics " onClick={() => setNodeSelector(true)}>
+                  <Link to="/swap" className="text-decoration-none">
                     <p className="heading">NODE SELECTOR</p>
-                  </div>
-                  <div className="flex justify-between  para ">
-                    <div className="parainside">Lorem Ipsum is simply dummy</div>
-                    <div>
-                      <span className=" material-icons-round ">arrow_forward</span>
+                    <div className="flex   para">
+                      <div className="parainside">Lorem Ipsum is simply dummy</div>
+                      <div>
+                        <span className=" material-icons-round arrowforward">arrow_forward</span>
+                      </div>
                     </div>
+                  </Link>
+                </div>
+              </Col>
+              <Col lg={12} xs={12}>
+                <div className="topics toogleMode">
+                  <div className="flex justify-between">
+                    <span className="">
+                      <span>THEME</span>
+                      <div>{props.theme === 'light' ? 'Light' : 'Dark'}</div>
+                    </span>
+                    <span className="mr-4">
+                      <Switch
+                        value={props.theme === 'light' ? true : false}
+                        onChange={props.toggleTheme}
+                        inverted={true}
+                      />
+                    </span>
                   </div>
                 </div>
               </Col>
@@ -322,6 +340,8 @@ HeaderBottom.propTypes = {
   selectedHeader: PropTypes.any,
   isExpanded: PropTypes.any,
   rpcNode: PropTypes.any,
+  theme: PropTypes.any,
+  toggleTheme: PropTypes.any,
 };
 
 export default HeaderBottom;

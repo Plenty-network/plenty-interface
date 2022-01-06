@@ -355,9 +355,13 @@
   letter-spacing: 0px;
   font-style: normal;
   height: 279px;
+  position: absolute;
+  z-index: 1111;
+  width: 100%;
   @media screen and (min-width: 320px) and (max-width: 992px) {
     padding: 10px 20px;
     margin-bottom: 10px;
+    height: auto;
   }
   .topics {
     padding-top: 20px;
@@ -394,7 +398,7 @@
   border-bottom: 0.5px solid var(--theme-header-bottom);
   background-color: var(--theme-bg-header);
   position: sticky;
-  z-index: 999;
+  z-index: 1111;
   top: 0px;
 
   @media screen and (min-width: 320px) and (max-width: 992px) {
@@ -495,6 +499,11 @@ input[type='radio']:checked:after {
     display: none;
   }
 }
+.seperatorSettings {
+  margin-right: 15px;
+  left: 11px;
+  margin-left: 15px;
+}
 .more {
   width: auto !important;
 }
@@ -513,10 +522,7 @@ input[type='radio']:checked:after {
 .arrowback {
   margin-right: 50px;
 }
-// .outerCircle {
-//   height: 46px;
-//   width: 46px;
-// }
+
 .closeOption {
   height: 46px;
   width: 46px;
@@ -526,6 +532,9 @@ input[type='radio']:checked:after {
   border-radius: 32px;
   padding-top: 10px;
   padding-left: 11px;
+  @media screen and (min-width: 320px) and (max-width: 992px) {
+    display: none;
+  }
 }
 .horizontal-line {
   border-bottom: 0.5px solid var(--theme-header-seperator);
@@ -566,4 +575,16 @@ input[type='radio']:checked:after {
 }
 .selected-border {
   border: 1px solid var(--theme-governance-buttonBorder) !important;
+}
+
+.toogleMode {
+  width: 400px !important;
+  background: var(--theme-header-selectedBg);
+  padding-left: 20px;
+  margin-left: 20px;
+  @media screen and (min-width: 320px) and (max-width: 992px) {
+    margin-left: 0px;
+    padding-left: 20px;
+    width: auto !important;
+  }
 }
