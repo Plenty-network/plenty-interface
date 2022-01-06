@@ -41,7 +41,7 @@
 
     & > div:nth-child(2) {
       @include sticky-cell(40px);
-      max-width: 140px;
+      max-width: 200px;
     }
 
     & > div:last-child {

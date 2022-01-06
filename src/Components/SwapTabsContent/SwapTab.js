@@ -109,7 +109,6 @@ const SwapTab = (props) => {
       props.setHideContent('');
       props.setSecondTokenAmount('');
       props.resetAllValues();
-      props.fetchUserWalletBalance();
       props.setLoaderInButton(false);
     } else {
       props.setLoading(false);
@@ -118,7 +117,6 @@ const SwapTab = (props) => {
       props.setHideContent('');
       props.resetAllValues();
       props.setSecondTokenAmount('');
-      props.fetchUserWalletBalance();
       props.setLoaderInButton(false);
     }
   };
@@ -274,7 +272,7 @@ const SwapTab = (props) => {
                     style={{ cursor: 'pointer' }}
                   >
                     Balance:{' '}
-                    {props.userBalances[props.tokenIn.name] ? (
+                    {props.userBalances[props.tokenIn.name] >= 0 ? (
                       props.userBalances[props.tokenIn.name]
                     ) : (
                       <div className="shimmer">0.0000</div>
@@ -355,7 +353,7 @@ const SwapTab = (props) => {
               <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
                 <p className="wallet-token-balance">
                   Balance:{' '}
-                  {props.userBalances[props.tokenOut.name] ? (
+                  {props.userBalances[props.tokenOut.name] >= 0 ? (
                     props.userBalances[props.tokenOut.name]
                   ) : (
                     <div className="shimmer">0.0000</div>

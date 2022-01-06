@@ -67,6 +67,7 @@ const LiquidityPage = () => {
             />
           );
         },
+        width: 200,
       },
       {
         Header: <span className="ml-2">Name</span>,
@@ -88,8 +89,9 @@ const LiquidityPage = () => {
       },
       {
         Header: (
-          <span>
-            Liquidity <Tooltip id={'liquidity-header'} message={'Lorem Ipsum'} />
+          <span className="flex align-center">
+            Liquidity&nbsp;
+            <Tooltip id={'liquidity-header'} message={'The value of tokens staked in the pool.'} />
           </span>
         ),
         id: 'liquidity',
@@ -98,25 +100,22 @@ const LiquidityPage = () => {
         Cell: (row) => <span title={row.value}>{valueFormat(row.value)}</span>,
       },
       {
-        Header: '24h Volume',
+        Header: 'Daily Volume',
         accessor: '24h_volume',
         sortType: numberSort,
         Cell: (row) => <span>{valueFormat(row.value)}</span>,
       },
       {
-        Header: (
-          <span>
-            24h Fees <Tooltip id={'24-hours-fees-header'} message={'Lorem Ipsum'} />
-          </span>
-        ),
+        Header: 'Weekly Fees',
         accessor: '24h_fee',
         sortType: numberSort,
         Cell: (row) => <span>{valueFormat(row.value)}</span>,
       },
       {
         Header: (
-          <span>
-            LP APR <Tooltip id={'lp-apr-header'} message={'Lorem Ipsum'} />
+          <span className="flex align-center">
+            LP APR&nbsp;
+            <Tooltip id={'lp-apr-header'} message={'Based on the annualized trading fees.'} />
           </span>
         ),
         accessor: 'lp_apr',
@@ -125,8 +124,12 @@ const LiquidityPage = () => {
       },
       {
         Header: (
-          <span>
-            Farm <Tooltip id={'farm-header'} message={'Lorem Ipsum'} />
+          <span className="flex align-center">
+            Farm&nbsp;
+            <Tooltip
+              id={'farm-header'}
+              message={'Active indicates a farm for the LP tokens of the liquidity pool.'}
+            />
           </span>
         ),
         accessor: 'pool_contract',
