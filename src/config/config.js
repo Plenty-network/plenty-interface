@@ -1557,6 +1557,7 @@ export default {
       wMATIC: {
         ICON: '',
         TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+        mapId: 1772,
         READ_TYPE: 'FA2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 11,
