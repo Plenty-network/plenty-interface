@@ -2344,6 +2344,7 @@ export default {
       'Plenty-SMAK-LP': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1NLZah1MKeWuveQvdsCqAUCjksKw8J296z',
+        mapId: 14107,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 10,
