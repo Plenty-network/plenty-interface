@@ -135,7 +135,7 @@ const HeaderBottom = (props) => {
               <Col lg={12} xs={12}>
                 <div className="topics gov">
                   <Link to="/vote" className="text-decoration-none">
-                    <p className="heading">GOVERNANCE</p>
+                    <p className="heading">FORUM</p>
                     <div className="flex  para para">
                       <div className="parainside">
                         Use xPLENTY to vote for Plenty Improvement Proposals.
@@ -343,6 +343,7 @@ HeaderBottom.propTypes = {
   rpcNode: PropTypes.any,
   theme: PropTypes.any,
   toggleTheme: PropTypes.any,
+  setSelectedHeader: PropTypes.any,
 };
 
 export default HeaderBottom;
