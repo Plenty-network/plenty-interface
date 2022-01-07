@@ -115,7 +115,7 @@ const Header = (props) => {
                   className={clsx('align-items-lg-center w-100 mobileview ')}
                   onMouseEnter={() => setHeader('')}
                 >
-                  <div className="col-lg-6 d-lg-flex flex-lg-row flex-column justify-content-lg-center align-items-center links">
+                  <div className="col-lg-6 d-lg-flex flex-lg-row flex-column align-items-center links">
                     <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.TRADE ? 'menu-item-active' : 'menu-item',
