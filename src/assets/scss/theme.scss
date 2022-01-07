@@ -71,6 +71,7 @@
   --theme-header-seperator: #140920;
   --theme-expand-button-bg: var(--theme-input-bg);
   --theme-primary-button-text: #ffffff;
+  --theme-primary-button-bg: #6202ef;
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -152,6 +153,7 @@
   --theme-header-seperator: #f4f4f4;
   --theme-expand-button-bg: #343052;
   --theme-primary-button-text: #0d0831;
+  --theme-primary-button-bg: #ceaefe;
 }
 
 :root.theme-transiton {
