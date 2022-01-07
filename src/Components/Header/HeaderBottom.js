@@ -261,7 +261,7 @@ const HeaderBottom = (props) => {
           )}
           {props.selectedHeader === HEADER_MODAL.SETTINGS && !nodeSelector && open && (
             <Row>
-              <Col lg={12} xs={12}>
+              <Col lg={6} xs={12}>
                 <div className="topics " onClick={() => setNodeSelector(true)}>
                   <Link to="/swap" className="text-decoration-none">
                     <p className="heading">NODE SELECTOR</p>
@@ -274,7 +274,7 @@ const HeaderBottom = (props) => {
                   </Link>
                 </div>
               </Col>
-              <Col lg={12} xs={12}>
+              <Col lg={6} xs={12}>
                 <div className="topics toogleMode">
                   <div className="flex justify-between">
                     <span className="">

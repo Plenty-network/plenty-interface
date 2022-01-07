@@ -5,7 +5,7 @@
 
 .cardsContainer {
   max-width: 1200px;
-  margin: 40px auto;
+  margin: 50px auto;
   padding: 0 20px;
   display: grid;
   grid-template-columns: repeat(auto-fit, 345px);
@@ -142,7 +142,7 @@
   width: 100%;
   display: flex;
   color: var(--theme-text-1);
-  background: var(--theme-input-bg);
+  background: var(--theme-expand-button-bg);
   border-radius: 6px;
 
   &.empty {
@@ -233,6 +233,11 @@
     margin-top: 20px;
     margin-right: 10px;
   }
+}
+.stakedSwitch {
+  margin-top: 14px;
+  margin-right: -11px;
+  margin-bottom: 10px;
 }
 .sortby {
   color: #b0b7c3;

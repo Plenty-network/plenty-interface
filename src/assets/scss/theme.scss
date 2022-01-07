@@ -69,6 +69,8 @@
   --theme-header-selectedBg: #f4f4f4;
   --theme-bg-header: #ffffff;
   --theme-header-seperator: #140920;
+  --theme-expand-button-bg: var(--theme-input-bg);
+  --theme-primary-button-text: #ffffff;
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -78,31 +80,32 @@
   --theme-primary-gradient-2: #e5b2ca;
   --theme-secondary-gradient-1: #3a537b;
   --theme-secondary-gradient-2: #8f9aac;
-  --theme-secondary-gradient: linear-gradient(
-    96.01deg,
-    var(--theme-secondary-gradient-1) -47.72%,
-    var(--theme-secondary-gradient-2) 142.35%
-  );
+  // --theme-secondary-gradient: linear-gradient(
+  //   96.01deg,
+  //   var(--theme-secondary-gradient-1) -47.72%,
+  //   var(--theme-secondary-gradient-2) 142.35%
+  // );
+  --theme-secondary-gradient: #343052;
   --theme-card-bg: #201c41;
-  --theme-input-bg: #394460;
+  --theme-input-bg: #343052;
   --theme-text-1: #ffffff;
   --theme-text-inactive: #b0b7c3; // TODO find
   --theme-text-2: #ffffff;
-  --theme-text-3: #8a94a6;
+  --theme-text-3: #ceaefe;
   --theme-text-4: #b0b7c3; // TODO find
   --theme-text-5: #4e5d78;
   --theme-bg-1: #0d0831;
-  --theme-bg-2: #394460;
+  --theme-bg-2: #343052;
   --theme-bg-3: #fafbfc; // TODO find
-  --theme-bg-4: #59617a;
+  --theme-bg-4: #343052;
   --theme-border: #4e576c;
   --theme-border-light: #6a7695;
   --theme-default-btn: #ffffff;
-  --theme-plenty-badge-bg: rgba(208, 189, 230, 0.3);
-  --theme-plenty-badge-text: #d9a4cd;
+  --theme-plenty-badge-bg: rgba(208, 189, 230, 0.2);
+  --theme-plenty-badge-text: #ceaefe;
   --theme-quipuswap-badge-bg: rgba(249, 165, 88, 0.14);
   --theme-quipuswap-badge-text: #f9a558;
-  --theme-table-header-hover-bg: #394460;
+  --theme-table-header-hover-bg: #343052;
   --theme-button-bg: #fafbfc;
   --theme-hover-bg: #59617a;
   --theme-radio-button: #ffffff;
@@ -147,6 +150,8 @@
   --theme-header-selectedBg: #0d0831;
   --theme-bg-header: #201c41;
   --theme-header-seperator: #f4f4f4;
+  --theme-expand-button-bg: #343052;
+  --theme-primary-button-text: #0d0831;
 }
 
 :root.theme-transiton {

@@ -34,7 +34,7 @@ const Header = (props) => {
     toggleExpand(false);
     setHeader('');
   }, [splitLocation[1]]);
-  console.log(open);
+
   const connectWalletButton = () => {
     if (props.walletAddress) {
       return (
@@ -123,8 +123,7 @@ const Header = (props) => {
                         'align-self-start align-self-lg-center d-lg-flex align-items-center',
                         'space-between',
                       )}
-                      as={Link}
-                      to="/swap"
+                      {...(isMobile ? {} : { as: Link, to: '/swap' })}
                       onMouseEnter={() => setHeader(HEADER_MODAL.TRADE)}
                       onClick={() => setHeader(HEADER_MODAL.TRADE)}
                     >
@@ -156,8 +155,7 @@ const Header = (props) => {
 
                         'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
-                      as={Link}
-                      to="/farms"
+                      {...(isMobile ? {} : { as: Link, to: '/farms' })}
                       onMouseEnter={() => setHeader(HEADER_MODAL.EARN)}
                       onClick={() => setHeader(HEADER_MODAL.EARN)}
                     >
@@ -189,8 +187,7 @@ const Header = (props) => {
 
                         'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
-                      as={Link}
-                      to="/vote"
+                      {...(isMobile ? {} : { as: Link, to: '/vote' })}
                       onMouseEnter={() => setHeader(HEADER_MODAL.VOTE)}
                       onClick={() => setHeader(HEADER_MODAL.VOTE)}
                     >
@@ -284,10 +281,7 @@ const Header = (props) => {
                     {connectWalletButton()}
                   </Nav.Item>
                   <div className="col-lg-6 d-lg-flex flex-column flex-lg-row align-items-end align-items-lg-center last">
-                    <Nav.Item
-                      className="ml-auto d-none d-md-block align-self-lg-end"
-                      onMouseOver={() => setHeader('')}
-                    >
+                    <Nav.Item className="ml-auto d-none d-md-block align-self-lg-end">
                       {connectWalletButton()}
                     </Nav.Item>
                     <div className="seperator seperatorSettings"></div>
@@ -299,6 +293,7 @@ const Header = (props) => {
                           props.isGradientBgPage ? 'text-white' : 'span-themed',
                           'settings-icon',
                         )}
+                        onClick={() => setHeader(HEADER_MODAL.SETTINGS)}
                         onMouseOver={() => setHeader(HEADER_MODAL.SETTINGS)}
                       >
                         settings

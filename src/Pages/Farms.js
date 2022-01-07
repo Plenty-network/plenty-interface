@@ -217,7 +217,7 @@ const Farms = (props) => {
               </div>
             </div>
           </div>
-          <div className={` mt-5 justify-between  ${styles.header2}`}>
+          <div className={` mt-4 justify-between  ${styles.header2}`}>
             <div className={styles.leftDiv}>
               <InputGroup className={styles1.searchBar}>
                 <InputGroup.Prepend>
@@ -252,7 +252,7 @@ const Farms = (props) => {
                     inverted={true}
                   />
                 </div>
-                <div>
+                <div className={styles.stakedSwitch}>
                   <Form.Switch
                     id="switch-staked"
                     label="Staked Only"
