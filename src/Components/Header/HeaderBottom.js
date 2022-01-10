@@ -21,14 +21,11 @@ const HeaderBottom = (props) => {
     open && (
       <>
         <div
-          className={clsx(
-            'headerBottom',
-            {
-              'pt-0': !props.selectedHeader,
-            },
-            props.selectedHeader === HEADER_MODAL.SETTINGS && nodeSelector && 'height',
-            props.selectedHeader === HEADER_MODAL.MORE && 'more-height',
-          )}
+          className={clsx('headerBottom', {
+            'pt-0': !props.selectedHeader,
+            height: props.selectedHeader === HEADER_MODAL.SETTINGS && nodeSelector,
+            'more-height': props.selectedHeader === HEADER_MODAL.MORE,
+          })}
           onMouseLeave={() => isOpen(false)}
         >
           {props.selectedHeader === HEADER_MODAL.TRADE && (
@@ -134,7 +131,12 @@ const HeaderBottom = (props) => {
               </Col>
               <Col lg={12} xs={12}>
                 <div className="topics gov">
-                  <Link to="/vote" className="text-decoration-none">
+                  <a
+                    href="https://forum.plentydefi.com/"
+                    className="text-decoration-none"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <p className="heading">FORUM</p>
                     <div className="flex  para para">
                       <div className="parainside">
@@ -144,7 +146,7 @@ const HeaderBottom = (props) => {
                         <span className=" material-icons-round arrowforward">arrow_forward</span>
                       </div>
                     </div>
-                  </Link>
+                  </a>
                 </div>
               </Col>
             </Row>
@@ -236,27 +238,6 @@ const HeaderBottom = (props) => {
                   </a>
                 </div>
               </Col>
-              <Col lg={4} xs={12}>
-                <div className="topics more">
-                  <a
-                    href="https://plenty-defi.notion.site/Plenty-Docs-004ba25f40b641a3a276b84ebdc44971"
-                    className="text-decoration-none"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <div className="flex flex-row ">
-                      <p className="heading">DEV</p>
-
-                      <span className="ml-3 material-icons-round launch-icon ">launch</span>
-                    </div>
-                    <div className="flex   ">
-                      <div className="parainside">
-                        Developer documentation for building on top of the Plenty Protocol.
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </Col>
             </Row>
           )}
           {props.selectedHeader === HEADER_MODAL.SETTINGS && !nodeSelector && open && (
@@ -283,7 +264,7 @@ const HeaderBottom = (props) => {
                     </span>
                     <span className="mr-4">
                       <Switch
-                        value={props.theme === 'light' ? true : false}
+                        value={props.theme === 'light'}
                         onChange={props.toggleTheme}
                         inverted={true}
                       />
@@ -314,16 +295,13 @@ const HeaderBottom = (props) => {
                     </div>
                   </div>
                   <div className="flex  para ">
-                    {/* <div>
-                      <span className=" material-icons-round arrowback">arrow_back</span>
-                    </div> */}
                     <div className="parainside nodeSector-Heading">
                       The Plenty node can be overloaded sometimes. When your data doesn’t load
                       properly, try switching to a different node, or use a custom node.
                     </div>
                   </div>
-                  <div className="horizontal-line"></div>
                 </div>
+                <div className="horizontal-line"></div>
                 <div className="node">
                   <NodeSelectorModal title={'Node Selector'} />
                 </div>

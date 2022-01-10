@@ -157,16 +157,7 @@ function NodeSelectorModal(props) {
             </li>
           </ul>
         </div>
-        <Button
-          onClick={setRPCInLS}
-          className="button-bg w-100"
-          style={{
-            marginTop: '15px',
-            marginBottom: '30px',
-            paddingTop: '15px',
-            paddingBottom: '15px',
-          }}
-        >
+        <Button onClick={setRPCInLS} className="button-bg w-100 mt-1 mb-2 py-1">
           Set Node
         </Button>
       </div>

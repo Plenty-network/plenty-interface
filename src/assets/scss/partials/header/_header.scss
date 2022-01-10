@@ -551,6 +551,10 @@ input[type='radio']:checked:after {
   border-bottom: 0.5px solid var(--theme-header-seperator);
   opacity: 0.1;
   margin-top: 10px;
+  width: 660px !important;
+  @media screen and (min-width: 320px) and (max-width: 992px) {
+    width: auto !important;
+  }
 }
 .connectwallet {
   @media screen and (min-width: 320px) and (max-width: 992px) {
@@ -606,4 +610,10 @@ input[type='radio']:checked:after {
   @media screen and (min-width: 320px) and (max-width: 992px) {
     height: auto !important;
   }
+  @media screen and (min-width: 1200px) {
+    height: 279px !important;
+  }
+}
+.showw {
+  display: block;
 }
