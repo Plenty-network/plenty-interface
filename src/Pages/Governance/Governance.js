@@ -30,7 +30,8 @@ const Governance = (props) => {
   const date = new Date();
 
   useEffect(() => {
-    if (date.getDate() >= GOV_PAGE_MODAL.END_DATE) {
+    // ? voting results modal will be displayed, until next proposal comes up,
+    if (date.getDate()) {
       props.getResults();
       setVoteEnded(true);
     }
