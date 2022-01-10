@@ -32,7 +32,9 @@ const Header = (props) => {
 
   useEffect(() => {
     toggleExpand(false);
+    document.getElementById('responsive-navbar-nav').classList.remove('show');
     setHeader('');
+    setOpen(false);
   }, [splitLocation[1]]);
 
   const connectWalletButton = () => {
@@ -60,8 +62,20 @@ const Header = (props) => {
   };
 
   const setHeader = (value) => {
-    if (value) {
-      isMobile && toggleExpand(!isExpanded);
+    if (!isMobile) {
+      // if (value) {
+      //   isMobile && toggleExpand(!isExpanded);
+      // }
+
+      setSelectedHeader(value);
+    }
+  };
+  const setHeaderMobile = (value) => {
+    console.log(value);
+    if (value !== selectedHeader) {
+      toggleExpand(true);
+    } else {
+      toggleExpand(!isExpanded);
     }
 
     setSelectedHeader(value);
@@ -125,7 +139,9 @@ const Header = (props) => {
                       )}
                       {...(isMobile ? {} : { as: Link, to: '/swap' })}
                       onMouseEnter={() => setHeader(HEADER_MODAL.TRADE)}
-                      onClick={() => setHeader(HEADER_MODAL.TRADE)}
+                      onClick={() => setHeaderMobile(HEADER_MODAL.TRADE)}
+                      data-bs-toggle="collapse"
+                      data-bs-target=".navbar-collapse"
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                         Trade
@@ -157,7 +173,9 @@ const Header = (props) => {
                       )}
                       {...(isMobile ? {} : { as: Link, to: '/farms' })}
                       onMouseEnter={() => setHeader(HEADER_MODAL.EARN)}
-                      onClick={() => setHeader(HEADER_MODAL.EARN)}
+                      onClick={() => setHeaderMobile(HEADER_MODAL.EARN)}
+                      data-bs-toggle="collapse"
+                      data-bs-target=".navbar-collapse"
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                         Earn
@@ -189,7 +207,7 @@ const Header = (props) => {
                       )}
                       {...(isMobile ? {} : { as: Link, to: '/vote' })}
                       onMouseEnter={() => setHeader(HEADER_MODAL.VOTE)}
-                      onClick={() => setHeader(HEADER_MODAL.VOTE)}
+                      onClick={() => setHeaderMobile(HEADER_MODAL.VOTE)}
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                         Vote
@@ -220,7 +238,7 @@ const Header = (props) => {
                         'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
                       onMouseOver={() => setHeader(HEADER_MODAL.MORE)}
-                      onClick={() => setHeader(HEADER_MODAL.MORE)}
+                      onClick={() => setHeaderMobile(HEADER_MODAL.MORE)}
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                         More
@@ -253,7 +271,7 @@ const Header = (props) => {
                           'align-self-end align-self-lg-center d-lg-flex align-items-center',
                           'd-lg-none',
                         )}
-                        onClick={() => setHeader(HEADER_MODAL.SETTINGS)}
+                        onClick={() => setHeaderMobile(HEADER_MODAL.SETTINGS)}
                       >
                         <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                           Settings
