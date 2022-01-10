@@ -30,7 +30,7 @@ const Governance = (props) => {
   const date = new Date();
 
   useEffect(() => {
-    if (date.getDate() >= GOV_PAGE_MODAL.END_DATE) {
+    if (date.getDate()) {
       props.getResults();
       setVoteEnded(true);
     }
