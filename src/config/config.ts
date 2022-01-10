@@ -1,4 +1,6 @@
-export default {
+import { IConfig } from './types';
+
+const Config: IConfig = {
   NAME: 'Plenty Defi',
   API: {
     url: 'https://api.coingecko.com/api/v3/coins/tezos?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false',
@@ -14,9 +16,8 @@ export default {
     testnet: 'https://api.granadanet.tzkt.io',
   },
   TOKENS_PAGE: {
-    mainnet: {
-      API_URL: 'https://indexer.plentydefi.com/',
-    },
+    mainnet: 'https://indexer.plentydefi.com/',
+    testnet: 'https://indexer.plentydefi.com/',
   },
   STAKING_CONTRACTS: {
     POOLS: {
@@ -4154,3 +4155,5 @@ export default {
   ADMIN_ADDRESS: 'KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW',
   BURNER: 'tz1ZnK6zYJrC9PfKCPryg9tPW6LrERisTGtg',
 };
+
+export default Config;
