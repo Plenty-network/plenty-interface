@@ -36,7 +36,7 @@ const HeaderBottom = (props) => {
                     <p className="heading">SWAP</p>
                     <div className="flex   para">
                       <div className="parainside">
-                        Swap liquid Tezos tokens, in an instant, with audited smart contracts.{' '}
+                        Swap Tezos tokens instantly with audited smart contracts
                       </div>
                       <div>
                         <span className=" material-icons-round arrowforward">arrow_forward</span>
@@ -51,7 +51,7 @@ const HeaderBottom = (props) => {
                     <p className="heading">TOKENS</p>
                     <div className="flex   para">
                       <div className="parainside">
-                        View the price, volume, and liquidity, all traded tokens on the protocol.{' '}
+                        View the price, volume, and liquidity of all tokens on Plenty
                       </div>
                       <div>
                         <span className=" material-icons-round arrowforward">arrow_forward</span>
@@ -140,7 +140,7 @@ const HeaderBottom = (props) => {
                     <p className="heading">FORUM</p>
                     <div className="flex  para para">
                       <div className="parainside">
-                        Use xPLENTY to vote for Plenty Improvement Proposals.
+                        Discuss new Plenty Improvement Proposals or start a discussion
                       </div>
                       <div>
                         <span className=" material-icons-round arrowforward">arrow_forward</span>
@@ -232,7 +232,7 @@ const HeaderBottom = (props) => {
                     </div>
                     <div className="flex   ">
                       <div className="parainside">
-                        Documentation for users of the Plenty Protocol.
+                        Read our blogs for announcements and regular updates
                       </div>
                     </div>
                   </a>
@@ -247,7 +247,10 @@ const HeaderBottom = (props) => {
                   <Link to="/swap" className="text-decoration-none">
                     <p className="heading">NODE SELECTOR</p>
                     <div className="flex   para">
-                      <div className="parainside">Lorem Ipsum is simply dummy</div>
+                      <div className="parainside">
+                        The Plenty node can be overloaded sometimes. When your data doesn’t load
+                        properly, try switching to a different node, or use a custom node.
+                      </div>
                       <div>
                         <span className=" material-icons-round arrowforward">arrow_forward</span>
                       </div>
