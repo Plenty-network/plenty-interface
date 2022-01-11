@@ -13,7 +13,12 @@ import {
   type4MapIds,
   type5MapIds,
 } from '../../constants/global';
-
+/*
+ * Returns packed key (expr...) which will help to fetch user specific data from bigmap directly using rpc.
+ * tokenId -> Id of map from where you want to fetch data
+ * address -> address of the user for whom you want to fetch the data
+ * type -> FA1.2 OR FA2
+ */
 const getPackedKey = (tokenId, address, type) => {
   const accountHex = `0x${TezosMessageUtils.writeAddress(address)}`;
   let packedKey = null;
@@ -40,7 +45,9 @@ const getPackedKey = (tokenId, address, type) => {
   }
   return packedKey;
 };
-
+/*
+ * Swaps two tokens for which amm exists
+ */
 export const swapTokens = async (
   tokenIn,
   tokenOut,
@@ -81,6 +88,7 @@ export const swapTokens = async (
       minimumTokenOut * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_DECIMAL);
     minimumTokenOut = Math.floor(minimumTokenOut);
     let batch = null;
+    // Approve call for FA1.2 type token
     if (CONFIG.AMM[connectedNetwork][tokenIn].CALL_TYPE === 'FA1.2') {
       batch = Tezos.wallet
         .batch()
@@ -94,7 +102,9 @@ export const swapTokens = async (
             tokenInAmount,
           ),
         );
-    } else {
+    }
+    // add_operator for FA2 type token
+    else {
       batch = Tezos.wallet
         .batch()
         .withContractCall(
@@ -144,7 +154,10 @@ export const swapTokens = async (
     };
   }
 };
-
+/*
+ * Deprecated
+ * Was being used when there was only one middle token
+ */
 export const swapTokenUsingRoute = async (
   tokenIn,
   tokenOut,
@@ -484,6 +497,14 @@ export const computeTokenOutForRouteBaseByOutAmount = (outputAmount, swapData, s
 //   }
 // };
 
+/*
+ * For a particular token pair (for which AMM exists) based on tokenIn_amount, tokenOut_amount can be assumed.
+ * tokenIn_amount -> amount of tokenIn which user wants to swap
+ * tokenIn_supply -> As received form AMM contract
+ * tokenOut_supply -> As received form AMM contract
+ * exchangeFee -> As received form AMM contract
+ * slippage -> Slippage which the user can tolerate in percentage
+ */
 export const computeTokenOutput = (
   tokenIn_amount,
   tokenIn_supply,
@@ -535,6 +556,19 @@ export const estimateOtherToken = (tokenIn_amount, tokenIn_supply, tokenOut_supp
     };
   }
 };
+
+/*
+ * Performs the adding liquidity operation
+ * tokenA -> First token of the pair , case specific to CONFIG
+ * tokenB -> Second token of the pair , case specific to CONFIG
+ * tokenA_amount -> Amount of tokenA which user want to invest
+ * tokenB_amount -> Amount of tokenB which user want to invest
+ * tokenA_Instance -> Deprecated - Pass NULL
+ * tokenB_Instance -> Deprecated - Pass NULL
+ * caller : owner address being used for approve call
+ * dexContractInstance -> deprecated - Pass NULL
+ * transactionSubmitModal -> Callback to open modal when transaction is submiited
+ */
 
 export const addLiquidity = async (
   tokenA,
@@ -758,6 +792,14 @@ export const addLiquidity = async (
   }
 };
 
+/*
+ * Helps in estimating the amount of token the user will get in exchange for LP
+ * burnAmount - Amount of LP tokens the user wants to burn
+ * lpTotalSupply - As received from contract
+ * tokenFirst_Supply - As received from contract
+ * tokenSecond_Supply - As received from contract
+ * slippage - amount of slippage user can tolerate
+ */
 export const computeRemoveTokens = (
   burnAmount,
   lpTotalSupply,
@@ -782,6 +824,11 @@ export const computeRemoveTokens = (
   }
 };
 
+/*
+ * Gets balance of user of a particular token using RPC
+ * @param identifier - Name of token, case-sensitive to CONFIG
+ * @param address - tz1 address of user
+ */
 export const getUserBalanceByRpc = async (identifier, address) => {
   try {
     //let balance;
