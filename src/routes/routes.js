@@ -53,16 +53,11 @@ const MyRoutes = (props) => {
         <React.Suspense fallback={<div />}>
           <Routes>
             <Route
-              path="/"
-              exact
+              path={'/'}
               element={
-                <Frontpage
-                  toggleTheme={toggleTheme}
-                  theme={theme}
-                  connecthWallet={connectWallet}
-                  disconnectWallet={disconnectUserWallet}
-                  walletAddress={props.userAddress}
-                />
+                <OtherPages {...otherPageProps}>
+                  <Frontpage walletAddress={props.userAddress} connecthWallet={connectWallet} />
+                </OtherPages>
               }
             />
 
@@ -117,6 +112,14 @@ const MyRoutes = (props) => {
             <Route
               path="/vote"
               element={
+                <OtherPages {...otherPageProps}>
+                  <Governance walletAddress={props.userAddress} />
+                </OtherPages>
+              }
+            />
+            {/* <Route
+              path="/vote"
+              element={
                 <Governance
                   toggleTheme={toggleTheme}
                   theme={theme}
@@ -125,7 +128,7 @@ const MyRoutes = (props) => {
                   walletAddress={props.userAddress}
                 />
               }
-            />
+            /> */}
           </Routes>
         </React.Suspense>
       </BrowserRouter>

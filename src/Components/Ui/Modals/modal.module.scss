@@ -1,7 +1,7 @@
 .simpleModal {
   & > :global(.modal-content) {
     background: var(--theme-card-bg);
-    box-shadow: 0 16.9px 32.3304px rgba(176, 183, 195, 0.14);
+    box-shadow: 0 31.9px 45.3304px var(--theme-bg-1);
     border-radius: 12px;
     border: 0;
     padding: 12px;

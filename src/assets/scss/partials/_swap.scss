@@ -71,7 +71,7 @@
   border: 0;
   &.not-selected {
     padding: 10px 6px;
-    background-color: var(--theme-secondary-1);
+    background-color: #ffffff;
     color: var(--theme-primary-gradient-1);
     //
     //&:hover {
@@ -350,7 +350,7 @@
   }
 }
 .enter-amount {
-  background: var(--theme-text-3);
+  background: var(--theme-primary-button-bg);
   cursor: not-allowed;
 }
 .swap-content-btn {
@@ -513,17 +513,13 @@
   margin-bottom: 20px;
 }
 .slipping-tolerance-btn {
-  background: linear-gradient(
-    90deg,
-    var(--theme-primary-gradient-1) 0%,
-    var(--theme-primary-gradient-2) 100%
-  );
+  color: var(--theme-primary-button-text);
+  background: var(--theme-primary-button-bg);
   border-radius: 7.34783px;
   font-style: normal;
   font-weight: bold;
   font-size: 14px;
   line-height: 29px;
-  color: white;
   padding: 8px 26px;
   box-shadow: none;
   border: 0;

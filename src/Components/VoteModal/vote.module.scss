@@ -115,6 +115,7 @@
     height: 20px;
     border-radius: 15px;
     top: -3px;
+    right: 0px;
     position: relative;
     background-color: var(--theme-governance-cardBg);
     content: '';
@@ -194,9 +195,9 @@
     }
   }
   .buttonColorChange {
-    background-color: #5c0fae;
+    background-color: var(--theme-governance-buttonBorder);
     color: #ffffff;
-    border: 1px solid #5c0fae;
+    border: 1px solid var(--theme-governance-buttonBorder);
   }
 }
 

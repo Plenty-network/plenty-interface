@@ -153,7 +153,6 @@ const Farms = (props) => {
             >
               <Tab eventKey={FARM_TAB.ALL} title={FARM_TAB.ALL} />
               <Tab eventKey={FARM_TAB.YOU} title={FARM_TAB.YOU} />
-              <Tab eventKey={FARM_TAB.CTEZ} title={FARM_TAB.CTEZ} />
             </Tabs>
 
             <div className={styles.selectForm}>
@@ -217,7 +216,7 @@ const Farms = (props) => {
               </div>
             </div>
           </div>
-          <div className={` mt-5 justify-between  ${styles.header2}`}>
+          <div className={` mt-4 justify-between  ${styles.header2}`}>
             <div className={styles.leftDiv}>
               <InputGroup className={styles1.searchBar}>
                 <InputGroup.Prepend>
@@ -252,7 +251,7 @@ const Farms = (props) => {
                     inverted={true}
                   />
                 </div>
-                <div>
+                <div className={styles.stakedSwitch}>
                   <Form.Switch
                     id="switch-staked"
                     label="Staked Only"

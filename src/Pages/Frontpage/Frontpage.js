@@ -25,7 +25,6 @@ import plentyMedium from '../../assets/images/frontpage/plentymedium.svg';
 import LinkTile from '../../Components/LinkTile/LinkTile';
 import Accordion from '../../Components/Ui/Accordion/Accordion';
 import Stats from '../../Components/Stats/Stats';
-import Header from '../../Components/Header/Header';
 import Loader from '../../Components/loader';
 import { connect } from 'react-redux';
 import {
@@ -45,11 +44,6 @@ import { HOME_PAGE_MODAL } from '../../constants/homePage';
 import NumericLabel from 'react-pretty-numbers';
 
 const Frontpage = ({
-  toggleTheme,
-  theme,
-  connecthWallet,
-  disconnectWallet,
-  walletAddress,
   homeStats,
   tvl,
   getTVL,
@@ -104,16 +98,9 @@ const Frontpage = ({
       <Container fluid>
         <div className={`d-flex flex-column ${styles.fullScreen}`}>
           <FrontPageGradientDiv className={`row flex-grow-1 ${styles.homePageBanner}`}>
-            <Header
-              toggleTheme={toggleTheme}
-              theme={theme}
-              connecthWallet={connecthWallet}
-              disconnectWallet={disconnectWallet}
-              walletAddress={walletAddress}
-              isGradientBgPage={true}
-            />
             <div
               className={clsx(
+                `${styles.centerAlign}`,
                 'py-5',
                 walletConnected ? ['col-lg-6', 'col-sm-12', 'col-md-12'] : 'col-sm-12 col-md-12',
               )}
@@ -147,7 +134,7 @@ const Frontpage = ({
                       ],
                 )}
               >
-                <h5 className={`mb-3 text-white font-weight-light ${styles.textMulish}`}>
+                <h5 className={`mb-3  text-white font-weight-light ${styles.textMulish}`}>
                   Total Value Locked
                 </h5>
                 <h1 className="mb-3 text-white font-weight-bold">
@@ -171,7 +158,7 @@ const Frontpage = ({
               </div>
             </div>
             {walletConnected && (
-              <div className="py-3 pb-lg-5 col-lg-6 col-sm-12">
+              <div className={`py-3 pb-lg-5 col-lg-6 col-sm-12 ${styles.centerAlign}`}>
                 <div
                   className="col-lg-9 col-xl-7 m-auto py-lg-5 px-0 text-center
                                     align-items-center align-items-lg-start text-lg-left"
