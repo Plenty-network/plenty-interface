@@ -13,11 +13,11 @@ import {
   type4MapIds,
   type5MapIds,
 } from '../../constants/global';
-/*
+/**
  * Returns packed key (expr...) which will help to fetch user specific data from bigmap directly using rpc.
- * tokenId -> Id of map from where you want to fetch data
- * address -> address of the user for whom you want to fetch the data
- * type -> FA1.2 OR FA2
+ * @param tokenId - Id of map from where you want to fetch data
+ * @param address - address of the user for whom you want to fetch the data
+ * @param type - FA1.2 OR FA2
  */
 const getPackedKey = (tokenId, address, type) => {
   const accountHex = `0x${TezosMessageUtils.writeAddress(address)}`;
@@ -45,7 +45,7 @@ const getPackedKey = (tokenId, address, type) => {
   }
   return packedKey;
 };
-/*
+/**
  * Swaps two tokens for which amm exists
  */
 export const swapTokens = async (
@@ -154,7 +154,7 @@ export const swapTokens = async (
     };
   }
 };
-/*
+/**
  * Deprecated
  * Was being used when there was only one middle token
  */
@@ -497,13 +497,13 @@ export const computeTokenOutForRouteBaseByOutAmount = (outputAmount, swapData, s
 //   }
 // };
 
-/*
+/**
  * For a particular token pair (for which AMM exists) based on tokenIn_amount, tokenOut_amount can be assumed.
- * tokenIn_amount -> amount of tokenIn which user wants to swap
- * tokenIn_supply -> As received form AMM contract
- * tokenOut_supply -> As received form AMM contract
- * exchangeFee -> As received form AMM contract
- * slippage -> Slippage which the user can tolerate in percentage
+ * @param tokenIn_amount - amount of tokenIn which user wants to swap
+ * @param tokenIn_supply - As received form AMM contract
+ * @param tokenOut_supply - As received form AMM contract
+ * @param exchangeFee - As received form AMM contract
+ * @param slippage - Slippage which the user can tolerate in percentage
  */
 export const computeTokenOutput = (
   tokenIn_amount,
@@ -557,17 +557,17 @@ export const estimateOtherToken = (tokenIn_amount, tokenIn_supply, tokenOut_supp
   }
 };
 
-/*
+/**
  * Performs the adding liquidity operation
- * tokenA -> First token of the pair , case specific to CONFIG
- * tokenB -> Second token of the pair , case specific to CONFIG
- * tokenA_amount -> Amount of tokenA which user want to invest
- * tokenB_amount -> Amount of tokenB which user want to invest
- * tokenA_Instance -> Deprecated - Pass NULL
- * tokenB_Instance -> Deprecated - Pass NULL
- * caller : owner address being used for approve call
- * dexContractInstance -> deprecated - Pass NULL
- * transactionSubmitModal -> Callback to open modal when transaction is submiited
+ * @param tokenA - First token of the pair , case specific to CONFIG
+ * @param tokenB - Second token of the pair , case specific to CONFIG
+ * @param tokenA_amount - Amount of tokenA which user want to invest
+ * @param tokenB_amount - Amount of tokenB which user want to invest
+ * @param tokenA_Instance - Deprecated - Pass NULL
+ * @param tokenB_Instance - Deprecated - Pass NULL
+ * @param caller - owner address being used for approve call
+ * @param dexContractInstance - deprecated - Pass NULL
+ * @param transactionSubmitModal - Callback to open modal when transaction is submiited
  */
 
 export const addLiquidity = async (
@@ -792,13 +792,13 @@ export const addLiquidity = async (
   }
 };
 
-/*
+/**
  * Helps in estimating the amount of token the user will get in exchange for LP
- * burnAmount - Amount of LP tokens the user wants to burn
- * lpTotalSupply - As received from contract
- * tokenFirst_Supply - As received from contract
- * tokenSecond_Supply - As received from contract
- * slippage - amount of slippage user can tolerate
+ * @param burnAmount - Amount of LP tokens the user wants to burn
+ * @param lpTotalSupply - As received from contract
+ * @param tokenFirst_Supply - As received from contract
+ * @param tokenSecond_Supply - As received from contract
+ * @param slippage - amount of slippage user can tolerate
  */
 export const computeRemoveTokens = (
   burnAmount,
@@ -824,7 +824,7 @@ export const computeRemoveTokens = (
   }
 };
 
-/*
+/**
  * Gets balance of user of a particular token using RPC
  * @param identifier - Name of token, case-sensitive to CONFIG
  * @param address - tz1 address of user
@@ -876,7 +876,17 @@ export const getUserBalanceByRpc = async (identifier, address) => {
     };
   }
 };
-
+/**
+ * Perform the remove liquidity operation
+ * @param tokenA - First token of selected pair, case-sensitive to CONFIG
+ * @param tokenB - Second token of selected pair, case-sensitive to CONFIG
+ * @param tokenA_MinimumRecieve - minimum amount of tokenA type which user want to get out of that transaction
+ * @param tokenB_MinimumRecieve - minimum amount of tokenB type which user want to get out of that transaction
+ * @param lpToken_Amount - Amount of LP token user wants to divest
+ * @param caller - Address of caller
+ * @param dexContractInstance - Deprecated - Pass null
+ * @param transactionSubmitModal - Callback to open modal when transaction is submitted
+ */
 export const removeLiquidity = async (
   tokenA,
   tokenB,
@@ -964,6 +974,10 @@ export const removeLiquidity = async (
   }
 };
 
+/**
+ * API for fetching tzBTC balance because it cannot be fetched using RPC
+ * @param addressOfUser - Address of user for whom balance is to be fetched
+ */
 export const fetchtzBTCBalance = async (addressOfUser) => {
   try {
     const tokenContractAddress = 'KT1PWx2mnDueood7fEmfbBDKx1D9BAnnXitn';
@@ -1004,6 +1018,10 @@ export const fetchtzBTCBalance = async (addressOfUser) => {
     };
   }
 };
+
+/**
+ * Deprecated
+ */
 
 export const fetchWalletBalance = async (
   addressOfUser,
@@ -1208,6 +1226,9 @@ export const fetchWalletBalance = async (
     };
   }
 };
+/**
+ * Deprecated
+ */
 export const fetchAllWalletBalance = async (addressOfUser) => {
   try {
     const network = CONFIG.NETWORK;
@@ -1243,7 +1264,9 @@ export const fetchAllWalletBalance = async (addressOfUser) => {
     };
   }
 };
-
+/**
+ * - Deprecated
+ */
 const getCtezPrice = async () => {
   try {
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
@@ -1269,7 +1292,9 @@ const getCtezPrice = async () => {
     };
   }
 };
-
+/**
+ * Deprecated
+ */
 const getuDEFIPrice = async () => {
   try {
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
@@ -1289,7 +1314,9 @@ const getuDEFIPrice = async () => {
     };
   }
 };
-
+/**
+ * Gets price of tokens to show during trade
+ */
 export const getTokenPrices = async () => {
   try {
     const promises = [];

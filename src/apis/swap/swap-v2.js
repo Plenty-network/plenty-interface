@@ -5,6 +5,11 @@ import { BeaconWallet } from '@taquito/beacon-wallet';
 import { CheckIfWalletConnected } from '../wallet/wallet';
 import { RPC_NODE } from '../../constants/localStorage';
 
+/**
+ * Loads swap related data to perform calculation using RPC
+ * @param tokenIn - token which user wants to sell, case-sensitive to CONFIG
+ * @param tokenOut - token which user wants to get, case-sensitive to CONFIG
+ */
 export const loadSwapData = async (tokenIn, tokenOut) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
@@ -66,7 +71,10 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
     };
   }
 };
-
+/**
+ * Utility function to get swap data for the complete route to get calculations
+ * @param path - An array from tokenIn to tokenOut
+ */
 const getRouteSwapData = async (path) => {
   try {
     const swapDataPromises = [];
@@ -96,7 +104,9 @@ const getRouteSwapData = async (path) => {
     };
   }
 };
-
+/**
+ * Utility function to get all path from tokenIn to tokenOut
+ */
 const allPathsUtil = (current, destination, paths, vis, path) => {
   vis[current] = true;
   path.push(current);
