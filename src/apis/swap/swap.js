@@ -155,7 +155,7 @@ export const swapTokens = async (
   }
 };
 /**
- * Deprecated
+ * @deprecated
  * Was being used when there was only one middle token
  */
 export const swapTokenUsingRoute = async (
@@ -563,10 +563,10 @@ export const estimateOtherToken = (tokenIn_amount, tokenIn_supply, tokenOut_supp
  * @param tokenB - Second token of the pair , case specific to CONFIG
  * @param tokenA_amount - Amount of tokenA which user want to invest
  * @param tokenB_amount - Amount of tokenB which user want to invest
- * @param tokenA_Instance - Deprecated - Pass NULL
- * @param tokenB_Instance - Deprecated - Pass NULL
+ * @param tokenA_Instance - Pass NULL
+ * @param tokenB_Instance - Pass NULL
  * @param caller - owner address being used for approve call
- * @param dexContractInstance - deprecated - Pass NULL
+ * @param dexContractInstance - Pass NULL
  * @param transactionSubmitModal - Callback to open modal when transaction is submiited
  */
 
@@ -884,7 +884,7 @@ export const getUserBalanceByRpc = async (identifier, address) => {
  * @param tokenB_MinimumRecieve - minimum amount of tokenB type which user want to get out of that transaction
  * @param lpToken_Amount - Amount of LP token user wants to divest
  * @param caller - Address of caller
- * @param dexContractInstance - Deprecated - Pass null
+ * @param dexContractInstance - Pass null
  * @param transactionSubmitModal - Callback to open modal when transaction is submitted
  */
 export const removeLiquidity = async (
@@ -1020,7 +1020,7 @@ export const fetchtzBTCBalance = async (addressOfUser) => {
 };
 
 /**
- * Deprecated
+ * @deprecated
  */
 
 export const fetchWalletBalance = async (
@@ -1227,7 +1227,7 @@ export const fetchWalletBalance = async (
   }
 };
 /**
- * Deprecated
+ * @deprecated
  */
 export const fetchAllWalletBalance = async (addressOfUser) => {
   try {
@@ -1265,7 +1265,7 @@ export const fetchAllWalletBalance = async (addressOfUser) => {
   }
 };
 /**
- * - Deprecated
+ * @deprecated
  */
 const getCtezPrice = async () => {
   try {
@@ -1293,7 +1293,7 @@ const getCtezPrice = async () => {
   }
 };
 /**
- * Deprecated
+ * @deprecated
  */
 const getuDEFIPrice = async () => {
   try {
