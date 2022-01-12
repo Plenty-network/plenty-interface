@@ -131,7 +131,8 @@ const Header = (props) => {
                     <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.TRADE ? 'menu-item-active' : 'menu-item',
-
+                        (splitLocation[1] === 'swap' || splitLocation[1] === 'tokens') &&
+                          'selected-menu-item-active',
                         'align-self-start align-self-lg-center d-lg-flex align-items-center',
                         'space-between',
                       )}
@@ -163,7 +164,10 @@ const Header = (props) => {
                     <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.EARN ? 'menu-item-active' : 'menu-item',
-
+                        (splitLocation[1] === 'farms' ||
+                          splitLocation[1] === 'liquidity-pools' ||
+                          splitLocation[1] === 'stake') &&
+                          'selected-menu-item-active',
                         'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
                       {...(isMobile ? {} : { as: Link, to: '/farms' })}
@@ -194,7 +198,7 @@ const Header = (props) => {
                     <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.VOTE ? 'menu-item-active' : 'menu-item',
-
+                        splitLocation[1] === 'vote' && 'selected-menu-item-active',
                         'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
                       {...(isMobile ? {} : { as: Link, to: '/vote' })}
