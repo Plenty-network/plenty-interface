@@ -326,7 +326,7 @@
   display: block;
 }
 .arrow {
-  color: var(--theme-primary-1);
+  color: var(--theme-primary-button-bg);
   position: relative;
   top: 6px;
   padding-left: 18px;
@@ -341,7 +341,7 @@
   border: none;
   outline: none;
   background: transparent;
-  color: var(--theme-primary-1);
+  color: var(--theme-primary-button-bg);
   font-weight: 500;
 }
 .sortButton {
