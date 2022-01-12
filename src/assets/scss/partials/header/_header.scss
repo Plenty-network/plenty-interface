@@ -91,17 +91,12 @@
   position: relative;
   margin-right: 12px !important;
   @media screen and (min-width: 320px) and (max-width: 992px) {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    background: none;
-    margin-right: 0px !important;
+    margin-right: 20px !important;
   }
   &:after {
     content: '';
     position: absolute;
     border-bottom: 4px solid var(--theme-governance-buttonBorder);
-
-    // border-bottom: 3px solid #cfced6;
     left: 6px;
     right: 0;
     top: 57px;
@@ -118,10 +113,6 @@
     line-height: 21px;
     letter-spacing: 0.01em;
     color: var(--theme-governance-buttonBorder);
-    @media screen and (min-width: 320px) and (max-width: 992px) {
-      padding-left: 20px;
-      padding-right: 20px;
-    }
   }
 }
 .menu-item-active {
