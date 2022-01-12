@@ -110,6 +110,8 @@ const SwapTab = (props) => {
       props.setSecondTokenAmount('');
       props.resetAllValues();
       props.setLoaderInButton(false);
+      setFirstTokenAmount('');
+      setSecondTokenAmount('');
     } else {
       props.setLoading(false);
       props.handleLoaderMessage('error', 'Transaction failed');
@@ -429,6 +431,7 @@ const SwapTab = (props) => {
         confirmSwapToken={confirmSwapToken}
         onHide={props.handleClose}
         routeData={props.routeData}
+        loading={props.loading}
       />
     </>
   );
@@ -455,6 +458,7 @@ SwapTab.propTypes = {
   setLoaderInButton: PropTypes.any,
   setLoaderMessage: PropTypes.any,
   setLoading: PropTypes.any,
+  loading: PropTypes.any,
   setRecepient: PropTypes.any,
   setSecondTokenAmount: PropTypes.any,
   setShowConfirmSwap: PropTypes.any,
