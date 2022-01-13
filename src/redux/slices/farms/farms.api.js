@@ -6,6 +6,15 @@ import axios from 'axios';
 import CONFIG from '../../../config/config';
 import { RPC_NODE } from '../../../constants/localStorage';
 
+/**
+ * Fetches storage of farm contract which is Dual in nature to show farm specific data
+ * @param identifier - Name to identify a farm type case-sensitive to CONFIG
+ * @param address - Contract address of farm
+ * @param dualInfo - Info of dual rewards, part of CONFIG
+ * @param priceOfStakeTokenInUsd - Price of LP token
+ * @param tokenPricesData - Data returned from TezTools API
+ * @returns {Promise<{identifier, roiTable: *[], APR: number, totalLiquidty: number, address, rewardRate: number, success: boolean, totalSupply: number, error}|{identifier, roiTable: *[], APR: number, totalLiquidty: number, address, rewardRate: (string|string|T)[], success: boolean, totalSupply: string | string | T | undefined, tokens: (string)[]}>}
+ */
 const fetchStorageForDualStakingContract = async (
   identifier,
   address,
@@ -105,7 +114,14 @@ const fetchStorageForDualStakingContract = async (
     };
   }
 };
-
+/**
+ * Fetches storage of farm contract which is NOT Dual in nature to show farm specific data
+ * @param identifier -  Name to identify a farm type case-sensitive to CONFIG
+ * @param address - Contract address of farm
+ * @param priceOfStakeTokenInUsd - Price of LP token
+ * @param priceOfPlentyInUSD - Price of plenty as fetched from TezTools API
+ * @returns {Promise<{success: boolean, error}|{identifier, roiTable: *[], APR: number, totalLiquidty: number, address, rewardRate: number | string | T | undefined | number, success: boolean, totalSupply: number | string | T | undefined | number}>}
+ */
 const fetchStorageOfStakingContract = async (
   identifier,
   address,
@@ -175,7 +191,12 @@ const fetchStorageOfStakingContract = async (
     };
   }
 };
-
+/**
+ * Get the price of Quipuswap LP token
+ * @param identifier -  Name to identify a farm type case-sensitive to CONFIG
+ * @param dexAddress - Contract address of Dex
+ * @returns {Promise<{dexAddress, identifier, success: boolean, lpPriceInXtz: number, tez_pool: number, total_Supply: number}|{identifier, success: boolean, lpPriceInXtz: number}>}
+ */
 const getLpPriceFromDex = async (identifier, dexAddress) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
@@ -209,7 +230,10 @@ const getLpPriceFromDex = async (identifier, dexAddress) => {
     };
   }
 };
-
+/**
+ * @deprecated
+ * @returns {Promise<{ctezPriceInUSD: number}>}
+ */
 const getCtezPrice = async () => {
   try {
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
@@ -235,7 +259,14 @@ const getCtezPrice = async () => {
     };
   }
 };
-
+/**
+ * Calculates the price of any PLP token
+ * @param identifier - Name to identify a farm type case-sensitive to CONFIG
+ * @param lpTokenDecimal - Contract level decimal consideration
+ * @param dexAddress - Contract address of AMM/DEX
+ * @param tokenPricesData - Response from TezTools API
+ * @returns {Promise<{identifier, totalAmount: string, success: boolean}|{success: boolean}>}
+ */
 const getPriceForPlentyLpTokens = async (
   identifier,
   lpTokenDecimal,
@@ -360,7 +391,11 @@ const getPriceForPlentyLpTokens = async (
     };
   }
 };
-
+/**
+ * Returns data of all farms either active or inactive
+ * @param isActive {boolean}- Choose one from active and inactive
+ * @returns {Promise<{success: boolean, response: {}}>}
+ */
 export const getFarmsDataAPI = async (isActive) => {
   try {
     const promises = [];
@@ -566,7 +601,14 @@ const CheckIfWalletConnected = async (wallet) => {
     };
   }
 };
-
+/**
+ * Performs and operation for user to stake in a particular farm
+ * @param amount - amount of LP token(s) user wants to stake
+ * @param farmIdentifier - Name to identify a farm type case-sensitive to CONFIG
+ * @param isActive {boolean} - Whether the particular farm is active or inactive
+ * @param position - Array based position in farm in CONFIG
+ * @returns {Promise<{success: boolean, operationId: string}|{success: boolean, error}>}
+ */
 export const stakeFarmAPI = async (amount, farmIdentifier, isActive, position) => {
   try {
     const options = {
@@ -684,7 +726,14 @@ export const stakeFarmAPI = async (amount, farmIdentifier, isActive, position) =
     throw new Error(error);
   }
 };
-
+/**
+ * Performs operations to remove stake of user from a particular farm
+ * @param stakesToUnstake - Array of stake which are needed to be unstaked
+ * @param farmIdentifier - Name to identify a farm type case-sensitive to CONFIG
+ * @param isActive {boolean} - Whether the particular farm is active or inactive
+ * @param position - Array based position in farm in CONFIG
+ * @returns {Promise<{success: boolean, operationId: string}|{success: boolean, error}>}
+ */
 export const unstakeAPI = async (stakesToUnstake, farmIdentifier, isActive, position) => {
   try {
     const options = {
@@ -747,7 +796,13 @@ export const unstakeAPI = async (stakesToUnstake, farmIdentifier, isActive, posi
     throw new Error(error);
   }
 };
-
+/**
+ * Performs operation to harvest user rewards from particular farm
+ * @param farmIdentifier - Name to identify a farm type case-sensitive to CONFIG
+ * @param isActive {boolean} - Whether the particular farm is active or inactive
+ * @param position - Array based position in farm in CONFIG
+ * @returns {Promise<{success: boolean, operationId: string}|{success: boolean, error}>}
+ */
 export const harvestAPI = async (farmIdentifier, isActive, position) => {
   try {
     const options = {
