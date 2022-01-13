@@ -72,6 +72,8 @@
   --theme-expand-button-bg: var(--theme-input-bg);
   --theme-primary-button-text: #ffffff;
   --theme-primary-button-bg: #6202ef;
+  --theme-menu-highlighter: #cfced6;
+  --theme-menu-text: #9656f4;
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -154,6 +156,8 @@
   --theme-expand-button-bg: #343052;
   --theme-primary-button-text: #0d0831;
   --theme-primary-button-bg: #ceaefe;
+  --theme-menu-highlighter: #524666;
+  --theme-menu-text: #dec9fe;
 }
 
 :root.theme-transiton {
