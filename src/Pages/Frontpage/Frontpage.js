@@ -8,14 +8,26 @@ import { Col, Image, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import dollar from '../../assets/images/frontpage/dollar.svg';
+import dollarDark from '../../assets/images/frontpage/dollarDark.svg';
+
 import marketCap from '../../assets/images/frontpage/marketcap.svg';
 import farms from '../../assets/images/frontpage/farms.svg';
-import xplenty from '../../assets/images/frontpage/xplenty.svg';
+import xplenty from '../../assets/images/frontpage/plentystake.svg';
 import liquidity from '../../assets/images/frontpage/liquidity.svg';
 import totalBurned from '../../assets/images/frontpage/totalburned.svg';
 import circulatingSupply from '../../assets/images/frontpage/circulatingsupply.svg';
 import plentyBlock from '../../assets/images/frontpage/plentyblock.svg';
-import amm from '../../assets/images/frontpage/amm.svg';
+import marketCapDark from '../../assets/images/frontpage/marketcapDark.svg';
+import farmsDark from '../../assets/images/frontpage/farmsDark.svg';
+import farms2Dark from '../../assets/images/frontpage/farms2Dark.svg';
+import farms2 from '../../assets/images/frontpage/farms2.svg';
+import xplentyDark from '../../assets/images/frontpage/plentystakeDark.svg';
+import liquidityDark from '../../assets/images/frontpage/liquidityDark.svg';
+import totalBurnedDark from '../../assets/images/frontpage/totalburnedDark.svg';
+import circulatingSupplyDark from '../../assets/images/frontpage/circulatingsupplyDark.svg';
+import plentyBlockDark from '../../assets/images/frontpage/plentyblockDark.svg';
+import amm from '../../assets/images/frontpage/trade.svg';
+import ammDark from '../../assets/images/frontpage/tradeDark.svg';
 import plentyBig from '../../assets/images/frontpage/plentybig.svg';
 import { ReactComponent as Medium } from '../../assets/images/frontpage/medium.svg';
 import { ReactComponent as Twitter } from '../../assets/images/frontpage/twitter.svg';
@@ -61,6 +73,7 @@ const Frontpage = ({
   harvestAllOperations,
   rpcNode,
   xplentyBalance,
+  theme,
 }) => {
   useEffect(() => {
     const getAllData = () => {
@@ -187,7 +200,7 @@ const Frontpage = ({
                     '0'
                   )
                 }
-                icon={dollar}
+                icon={theme === 'light' ? dollar : dollarDark}
                 subText={'Price'}
               />
             </Col>
@@ -200,7 +213,7 @@ const Frontpage = ({
                     </NumericLabel>
                   )
                 }
-                icon={marketCap}
+                icon={theme === 'light' ? marketCap : marketCapDark}
                 subText={'Market Cap'}
               />
             </Col>
@@ -213,7 +226,7 @@ const Frontpage = ({
                     </NumericLabel>
                   )
                 }
-                icon={farms}
+                icon={theme === 'light' ? farms : farmsDark}
                 subText={'Total minted'}
               />
             </Col>
@@ -226,7 +239,7 @@ const Frontpage = ({
                     </NumericLabel>
                   )
                 }
-                icon={totalBurned}
+                icon={theme === 'light' ? totalBurned : totalBurnedDark}
                 subText={'Total burned'}
               />
             </Col>
@@ -239,7 +252,7 @@ const Frontpage = ({
                     </NumericLabel>
                   )
                 }
-                icon={circulatingSupply}
+                icon={theme === 'light' ? circulatingSupply : circulatingSupplyDark}
                 subText={'Circulating Supply'}
               />
             </Col>
@@ -253,7 +266,7 @@ const Frontpage = ({
                   )
                 }
                 subText={'New PLENTY/Block'}
-                icon={plentyBlock}
+                icon={theme === 'light' ? plentyBlock : plentyBlockDark}
               />
             </Col>
           </Row>
@@ -278,7 +291,7 @@ const Frontpage = ({
                 text={'Swap tokens with high liquidity on the first token-to-token AMM on Tezos.'}
                 linkTo={'/swap'}
                 linkText={'Enter Exchange'}
-                headerIcon={amm}
+                headerIcon={theme === 'light' ? amm : ammDark}
                 headerText={'Trade'}
               />
             </Col>
@@ -287,7 +300,7 @@ const Frontpage = ({
                 text={'Add liquidity for any trading pair and start earning trading fees.'}
                 linkTo={'/liquidity'}
                 linkText={'Add Liquidity'}
-                headerIcon={liquidity}
+                headerIcon={theme === 'light' ? liquidity : liquidityDark}
                 headerText={'Liquidity'}
               />
             </Col>
@@ -298,7 +311,7 @@ const Frontpage = ({
                 }
                 linkTo={'/farms'}
                 linkText={'Enter Farms'}
-                headerIcon={farms}
+                headerIcon={theme === 'light' ? farms2 : farms2Dark}
                 headerText={'Farms'}
               />
             </Col>
@@ -307,7 +320,7 @@ const Frontpage = ({
                 text={'Stake PLENTY, receive xPLENTY. Rewards are compounding.'}
                 linkTo={'/stake'}
                 linkText={'Enter Staking'}
-                headerIcon={xplenty}
+                headerIcon={theme === 'light' ? xplenty : xplentyDark}
                 headerText={'Stake'}
               />
             </Col>

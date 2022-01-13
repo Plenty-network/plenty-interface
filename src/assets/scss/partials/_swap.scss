@@ -26,8 +26,8 @@
     }
   }
   .nav-link.active {
-    border-bottom: 2px solid var(--theme-primary-1) !important;
-    color: var(--theme-text-1);
+    border-bottom: 3px solid var(--theme-primary-1) !important;
+    color: var(--theme-primary-1);
   }
 }
 .swap-content-box-wrapper {
@@ -568,7 +568,7 @@
   width: 24px;
   height: 14px;
 
-  background-color: #c1c7d0;
+  background-color: var(--theme-toggler-bg);
   border-radius: 90px - 6;
   transition: background-color 200ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
   margin: 0;
@@ -588,7 +588,7 @@
 }
 input:checked {
   + .toggle {
-    background-color: #5603ad;
+    background-color: var(--theme-plenty-badge-text);
     &:before {
       color: #000;
     }
@@ -596,7 +596,7 @@ input:checked {
       color: #000;
     }
     .toggle__handler {
-      background-color: #fff;
+      background-color: var(--theme-toggler);
       transform: translate3d(12px, 0, 0) rotate(0);
       .crater {
         opacity: 1;
