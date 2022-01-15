@@ -127,7 +127,7 @@ const MyRoutes = (props) => {
                 <Governance
                   toggleTheme={toggleTheme}
                   theme={theme}
-                  connecthWallet={connectWallet}
+                  connectWallet={connectWallet}
                   disconnectWallet={disconnectUserWallet}
                   walletAddress={props.userAddress}
                 />
