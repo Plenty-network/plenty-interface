@@ -24,11 +24,11 @@ export const ExternalMenu = (props) => {
     <>
       {menu.map((menu, index) => {
         return menu.title !== 'Node Selector' ? (
-          <NavDropdown.Item href={menu.link} target="_blank" key={index}>
+          <NavDropdown.Item href={menu.link} key={index}>
             {menu.title}
           </NavDropdown.Item>
         ) : (
-          <NavDropdown.Item target="_blank" key={index} onClick={props.toggleNodeSelectorHandler}>
+          <NavDropdown.Item key={index} onClick={props.toggleNodeSelectorHandler}>
             {menu.title}
           </NavDropdown.Item>
         );

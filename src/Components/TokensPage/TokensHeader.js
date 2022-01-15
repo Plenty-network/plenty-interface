@@ -10,7 +10,7 @@ const TokensHeader = ({ toggleTheme, theme, connectWallet, disconnectWallet, wal
         <Header
           toggleTheme={toggleTheme}
           theme={theme}
-          connecthWallet={connectWallet}
+          connectWallet={connectWallet}
           disconnectWallet={disconnectWallet}
           walletAddress={walletAddress}
           isGradientBgPage={true}

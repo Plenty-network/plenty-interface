@@ -345,18 +345,16 @@ const HeaderBottom = (props) => {
               <Row>
                 <Col lg={6} xs={12}>
                   <div className="topics " onClick={() => setNodeSelector(true)}>
-                    <Link to="/swap" className="text-decoration-none">
-                      <p className="heading">NODE SELECTOR</p>
-                      <div className="flex   para">
-                        <div className="parainside">
-                          When your data doesn’t load properly, try switching to a different node,
-                          or use a custom node.
-                        </div>
-                        <div>
-                          <span className=" material-icons-round arrowforward">arrow_forward</span>
-                        </div>
+                    <p className="heading">NODE SELECTOR</p>
+                    <div className="flex   para">
+                      <div className="parainside">
+                        When your data doesn’t load properly, try switching to a different node, or
+                        use a custom node.
                       </div>
-                    </Link>
+                      <div>
+                        <span className=" material-icons-round arrowforward">arrow_forward</span>
+                      </div>
+                    </div>
                   </div>
                 </Col>
                 <Col lg={6} xs={12}>
@@ -530,7 +528,7 @@ const mapDispatchToProps = (dispatch) => ({
   setNode: (rpcNode) => dispatch(setNode(rpcNode)),
 });
 HeaderBottom.propTypes = {
-  connecthWallet: PropTypes.func,
+  connectWallet: PropTypes.func,
   selectedHeader: PropTypes.any,
   isExpanded: PropTypes.any,
   rpcNode: PropTypes.any,
