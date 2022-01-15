@@ -288,11 +288,11 @@ const Frontpage = ({
           >
             <Col xs={12} md={6} xl={3} className="mb-3 d-flex">
               <LinkTile
-                text={'Swap tokens with high liquidity on the first token-to-token AMM on Tezos.'}
+                text={'Swap tokens instantly with high liquidity and audited smart contracts.'}
                 linkTo={'/swap'}
                 linkText={'Enter Exchange'}
                 headerIcon={theme === 'light' ? amm : ammDark}
-                headerText={'Trade'}
+                headerText={'Swap'}
               />
             </Col>
             <Col xs={12} md={6} xl={3} className="mb-3 d-flex">
@@ -301,7 +301,7 @@ const Frontpage = ({
                 linkTo={'/liquidity'}
                 linkText={'Add Liquidity'}
                 headerIcon={theme === 'light' ? liquidity : liquidityDark}
-                headerText={'Liquidity'}
+                headerText={'Pool'}
               />
             </Col>
             <Col xs={12} md={6} xl={3} className="mb-3 d-flex">
@@ -312,7 +312,7 @@ const Frontpage = ({
                 linkTo={'/farms'}
                 linkText={'Enter Farms'}
                 headerIcon={theme === 'light' ? farms2 : farms2Dark}
-                headerText={'Farms'}
+                headerText={'Farm'}
               />
             </Col>
             <Col xs={12} md={6} xl={3} className="mb-3 d-flex">
@@ -385,8 +385,7 @@ const Frontpage = ({
                   <Accordion isOpen={true} text={'What is Plenty?'} className={styles.divider}>
                     <div>
                       <p className="text-white">
-                        Plenty is a platform for creating liquidity and trading FA 1.2 and FA 2
-                        tokens on Tezos.
+                        The Plenty protocol enables swapping of fungible tokens on Tezos.
                       </p>
                       <p className="text-white">
                         You can only swap tokens on Plenty if there is enough liquidity for those
@@ -423,30 +422,27 @@ const Frontpage = ({
                         uses the function x*y=k to maintain a curve along which trades can happen.
                         The pools keep track of reserves (liquidity) and update those reserves every
                         single time someone trades. Because the reserves are automatically
-                        rebalanced, a Plenty liquidity pool can always be used to buy or sell a
-                        token without requiring a counterparty on the other side of a trade.
+                        rebalanced, a liquidity pool can always be used to buy or sell a token
+                        without requiring a counterparty on the other side of a trade.
                       </p>
                     </div>
                   </Accordion>
-                  <Accordion text={'Why can’t I trade XTZ?'} className={styles.divider}>
+                  <Accordion text={'Why can’t I trade native tez?'} className={styles.divider}>
                     <div>
                       <p className="text-white">
                         Plenty is the first token-to-token Automated Market Maker (AMM) on Tezos.
-                        This means that XTZ trading is not supported. However, trading with a
-                        tokenized version of XTZ called&nbsp;
-                        <a
-                          href={
-                            'https://forum.tezosagora.org/t/ctez-a-synthetic-tez-backed-by-tez-for-better-composability-as-an-alternative-to-the-virtual-baker/2612'
-                          }
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          CTEZ
+                        This means that native tez trading is not supported. However, trading with a
+                        collateralized version of tez, called&nbsp;
+                        <a href={'https://ctez.app/'} target="_blank" rel="noreferrer">
+                          ctez
                         </a>
-                        &nbsp;will be supported in the near future. CTEZ solves the issue of using
-                        XTZ inside DeFi contracts without worrying about the governance matter of
-                        &quot;who should be the baker&quot; and without the opportunity cost of not
-                        delegating.
+                        &nbsp;is supported.
+                      </p>
+
+                      <p className="text-white">
+                        Ctez solves the issue of using tez inside DeFi contracts without worrying
+                        about the governance matter of &quot;who should be the baker&quot; and
+                        without the opportunity cost of not delegating.
                       </p>
                     </div>
                   </Accordion>
@@ -460,7 +456,7 @@ const Frontpage = ({
                   <Accordion text={'How do I use Plenty?'} className={styles.divider}>
                     <div>
                       <p className="text-white">
-                        First you’ll need a Tezos wallet and some XTZ. XTZ is available at all big
+                        First you’ll need a Tezos wallet and some tez. Tez is available at all big
                         crypto exchanges like&nbsp;
                         <a href={'https://www.coinbase.com/'} target="_blank" rel="noreferrer">
                           Coinbase
@@ -473,19 +469,16 @@ const Frontpage = ({
                         <a href={'https://www.binance.com/'} target="_blank" rel="noreferrer">
                           Binance
                         </a>
-                        . Do you hold XTZ? Go to&nbsp;
-                        <a
-                          href={
-                            'https://quipuswap.com/swap?from=tez&to=KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b'
-                          }
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Quipuswap
+                        . Do you have some tez? Go to&nbsp;
+                        <a href={'https://ctez.app/'} target="_blank" rel="noreferrer">
+                          ctez.app
                         </a>
-                        &nbsp;to swap it for PLENTY! Each transaction on Tezos comes with a small
-                        gas fee, paid in XTZ, which is a fee for the bakers to keep the Proof of
-                        Stake network running.
+                        &nbsp;to swap it for ctez!
+                      </p>
+                      <p className="text-white">
+                        Each transaction on Tezos comes with a small gas fee, paid in tez, which is
+                        a fee for the bakers to keep the Proof of Stake network running. So make
+                        sure you to keep some tez for these fees.
                       </p>
                       <p className="text-white">
                         If you are a DeFi user from another blockchain, you can wrap your assets
@@ -493,8 +486,8 @@ const Frontpage = ({
                         <a href={'https://www.benderlabs.io/wrap'} target="_blank" rel="noreferrer">
                           Wrap Protocol
                         </a>
-                        .&nbsp;Wrap tokens like USDC, BUSD, LINK, MATIC, or WBTC, and use them on
-                        Plenty to trade and earn yield.
+                        .&nbsp;Wrap tokens like USDC, BUSD, LINK, MATIC, or WBTC on the Ethereum
+                        blockchain, and use them on Plenty to trade and earn.
                       </p>
                     </div>
                   </Accordion>

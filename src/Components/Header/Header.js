@@ -55,7 +55,7 @@ const Header = (props) => {
           <div className={clsx('connect-wallet-btn')}>
             <div className="flex flex-row align-items-center">
               <span className={clsx('mr-1', 'material-icons-round')}>add</span>
-              <span>Connect to Wallet</span>
+              <span>Connect Wallet</span>
             </div>
           </div>
         </Button>

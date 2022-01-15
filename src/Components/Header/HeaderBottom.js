@@ -137,7 +137,7 @@ const HeaderBottom = (props) => {
                     <p className="heading">SWAP</p>
                     <div className="flex   para">
                       <div className="parainside">
-                        Swap Tezos tokens instantly with audited smart contracts
+                        Swap Tezos tokens instantly with audited smart contracts.
                       </div>
                       <div>
                         <span className=" material-icons-round arrowforward">arrow_forward</span>
@@ -152,7 +152,7 @@ const HeaderBottom = (props) => {
                     <p className="heading">TOKENS</p>
                     <div className="flex   para">
                       <div className="parainside">
-                        View the price, volume, and liquidity of all tokens on Plenty
+                        View the price, volume, and liquidity of all tokens on Plenty.
                       </div>
                       <div>
                         <span className=" material-icons-round arrowforward">arrow_forward</span>
@@ -244,7 +244,7 @@ const HeaderBottom = (props) => {
                     </div>
                     <div className="flex  para para">
                       <div className="parainside">
-                        Discuss new Plenty Improvement Proposals or start a discussion
+                        Discuss Plenty Improvement Proposals or start a discussion.
                       </div>
                     </div>
                   </a>
@@ -291,7 +291,7 @@ const HeaderBottom = (props) => {
                     </div>
                     <div className="flex   ">
                       <div className="parainside">
-                        Open Source github repositories of the Plenty Protocol.
+                        Open source github repositories of the Plenty Protocol.
                       </div>
                     </div>
                   </a>
@@ -311,9 +311,7 @@ const HeaderBottom = (props) => {
                       <span className="ml-3 material-icons-round launch-icon">launch</span>
                     </div>
                     <div className="flex   ">
-                      <div className="parainside">
-                        Swap tez for ctez or mint ctez in an oven and earn baking rewards.
-                      </div>
+                      <div className="parainside">Swap tez for ctez or mint ctez.</div>
                     </div>
                   </a>
                 </div>
@@ -333,7 +331,7 @@ const HeaderBottom = (props) => {
                     </div>
                     <div className="flex   ">
                       <div className="parainside">
-                        Read our blogs for announcements and regular updates
+                        Read our blogs for announcements and regular updates.
                       </div>
                     </div>
                   </a>
@@ -351,8 +349,8 @@ const HeaderBottom = (props) => {
                       <p className="heading">NODE SELECTOR</p>
                       <div className="flex   para">
                         <div className="parainside">
-                          The Plenty node can be overloaded sometimes. When your data doesn’t load
-                          properly, try switching to a different node, or use a custom node.
+                          When your data doesn’t load properly, try switching to a different node,
+                          or use a custom node.
                         </div>
                         <div>
                           <span className=" material-icons-round arrowforward">arrow_forward</span>
@@ -401,8 +399,8 @@ const HeaderBottom = (props) => {
                     </div>
                     <div className="flex  para ">
                       <div className="parainside nodeSector-Heading">
-                        The Plenty node can be overloaded sometimes. When your data doesn’t load
-                        properly, try switching to a different node, or use a custom node.
+                        When your data doesn’t load properly, try switching to a different node, or
+                        use a custom node.
                       </div>
                     </div>
                   </div>
