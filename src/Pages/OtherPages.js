@@ -11,7 +11,7 @@ const OtherPages = (props) => {
         <Header
           toggleTheme={props.toggleTheme}
           theme={props.theme}
-          connecthWallet={props.connectWallet}
+          connectWallet={props.connectWallet}
           disconnectWallet={props.disconnectWallet}
           walletAddress={userAddress}
         />

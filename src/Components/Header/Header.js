@@ -49,7 +49,7 @@ const Header = (props) => {
     } else {
       return (
         <Button
-          onClick={props.connecthWallet}
+          onClick={props.connectWallet}
           className={clsx('px-md-3', 'w-100', 'connect-wallet-btn', 'button-bg')}
         >
           <div className={clsx('connect-wallet-btn')}>
@@ -352,7 +352,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Header.propTypes = {
-  connecthWallet: PropTypes.func,
+  connectWallet: PropTypes.func,
   disconnectWallet: PropTypes.func,
   isGradientBgPage: PropTypes.bool,
 
