@@ -17,7 +17,8 @@
   }
 
   &[disabled] {
-    background: #8a94a6;
+    background: var(--theme-disabled-button-bg);
+    color: var(--theme-disabled-button-text);
     transform: none;
   }
 }

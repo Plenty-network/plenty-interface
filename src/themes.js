@@ -24,7 +24,7 @@ export const lightTheme = {
   dropdownThemed: '#FFFFFF',
   dropdownThemedHighlight: '#eeeeee',
   iconFill: '#4E5D78',
-  iconHoverFill: '#FFFFFF',
+  iconHoverFill: '#6202ef',
   iconBgStartColor: '#D2D5DB',
   iconBgEndColor: '#D2D5DB',
   iconHoverBgStartColor: '#7028E4',
@@ -52,10 +52,10 @@ export const darkTheme = {
   borderDarkNone: 'none',
   border: '1px solid rgba(44, 9, 11, 0.08)',
   btnFrontPage: '#19263A',
-  dropdownThemed: '#59617A',
+  dropdownThemed: '#514b6b',
   dropdownThemedHighlight: '#5e6884',
   iconFill: '#4E5D78',
-  iconHoverFill: '#FFFFFF',
+  iconHoverFill: '#6202ef',
   iconBgStartColor: '#D2D5DB',
   iconBgEndColor: '#D2D5DB',
   iconHoverBgStartColor: '#7028E4',
@@ -93,13 +93,13 @@ export const GlobalStyles = createGlobalStyle`
         fill: ${(props) => props.theme.iconHoverFill};
       }
        
-      > defs stop:first-child {
-        stop-color: ${(props) => props.theme.iconHoverBgStartColor};
-      }
+      // > defs stop:first-child {
+      //   stop-color: ${(props) => props.theme.iconHoverBgStartColor};
+      // }
       
-      > defs stop:last-child {
-        stop-color: ${(props) => props.theme.iconHoverBgEndColor};
-      }
+      // > defs stop:last-child {
+      //   stop-color: ${(props) => props.theme.iconHoverBgEndColor};
+      // }
     }
   }
   

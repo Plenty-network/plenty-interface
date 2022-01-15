@@ -65,7 +65,11 @@ const Header = (props) => {
 
   const setHeader = (value) => {
     if (!isMobile) {
-      setSelectedHeader(value);
+      if (value === HEADER_MODAL.SETTINGS && selectedHeader === HEADER_MODAL.SETTINGS) {
+        setSelectedHeader('');
+      } else {
+        setSelectedHeader(value);
+      }
     }
   };
   const setHeaderMobile = (value) => {
@@ -125,13 +129,17 @@ const Header = (props) => {
               <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav
                   className={clsx('align-items-lg-center w-100 mobileview ')}
-                  onMouseEnter={() => setHeader('')}
+                  {...(selectedHeader === HEADER_MODAL.SETTINGS
+                    ? {}
+                    : { onMouseEnter: () => setHeader('') })}
                 >
                   <div className="col-lg-6 d-lg-flex flex-lg-row flex-column align-items-center links">
                     <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.TRADE ? 'menu-item-active' : 'menu-item',
-                        (splitLocation[1] === 'swap' || splitLocation[1] === 'tokens') &&
+                        (splitLocation[1] === 'swap' ||
+                          splitLocation[1] === 'tokens' ||
+                          splitLocation[1] === 'liquidity') &&
                           'selected-menu-item-active',
                         'align-self-start align-self-lg-center d-lg-flex align-items-center',
                         'space-between',
@@ -306,7 +314,6 @@ const Header = (props) => {
                           'settings-icon',
                         )}
                         onClick={() => setHeader(HEADER_MODAL.SETTINGS)}
-                        onMouseOver={() => setHeader(HEADER_MODAL.SETTINGS)}
                       >
                         settings
                       </span>
@@ -319,7 +326,11 @@ const Header = (props) => {
         </Row>
       </Container>
       {!isMobile && (
-        <div onMouseLeave={() => setHeader('')}>
+        <div
+          {...(selectedHeader === HEADER_MODAL.SETTINGS
+            ? {}
+            : { onMouseLeave: () => setHeader('') })}
+        >
           <HeaderBottom
             selectedHeader={selectedHeader}
             isExpanded={isExpanded}

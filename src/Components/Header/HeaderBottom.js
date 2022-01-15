@@ -1,20 +1,119 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import Button from '../Ui/Buttons/Button';
 import clsx from 'clsx';
 import { Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import NodeSelectorModal from './NodeSelectorModal';
 import { HEADER_MODAL } from '../../constants/header';
 import Switch from '../Ui/Switch/Switch';
 import useMediaQuery from '../../hooks/mediaQuery';
+import { RPC_NODE } from '../../constants/localStorage';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import { setNode } from '../../redux/slices/settings/settings.slice';
 
 const HeaderBottom = (props) => {
-  const [nodeSelector, setNodeSelector] = useState(false);
-  const isMobile = useMediaQuery('(max-width: 991px)');
-  const [open, isOpen] = useState(true);
   useEffect(() => {
     isOpen(true);
   }, [props]);
+  const setDefault = () => {
+    isOpen(false);
+    setNodeSelector(false);
+  };
+
+  const [nodeSelector, setNodeSelector] = useState(false);
+  const isMobile = useMediaQuery('(max-width: 991px)');
+  const [open, isOpen] = useState(true);
+
+  async function isValidURL(userInput) {
+    try {
+      const response = await axios({
+        method: 'get',
+        baseURL: userInput,
+        url: '/chains/main/blocks',
+      });
+      return response.status === 200;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  const [currentRPC, setCurrentRPC] = useState('');
+  const [customRPC, setCustomRPC] = useState('');
+
+  const LOCAL_RPC_NODES = {
+    PLENTY: 'https://mifx20dfsr.windmill.tools/',
+    GIGANODE: 'https://mainnet-tezos.giganode.io/',
+    CRYPTONOMIC: 'https://tezos-prod.cryptonomic-infra.tech/',
+  };
+  const nodeNames = {
+    PLENTY: 'Plenty node',
+    GIGANODE: 'Giganode',
+    CRYPTONOMIC: 'Cryptonomic',
+  };
+
+  const rpcNodeDetect = async () => {
+    let RPCNodeInLS = localStorage.getItem(RPC_NODE);
+
+    if (!RPCNodeInLS) {
+      localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES['CRYPTONOMIC']);
+      props.setNode(LOCAL_RPC_NODES['CRYPTONOMIC']);
+      setCurrentRPC(LOCAL_RPC_NODES['CRYPTONOMIC']);
+      RPCNodeInLS = LOCAL_RPC_NODES['CRYPTONOMIC'];
+    }
+
+    const valid = await isValidURL(RPCNodeInLS);
+    if (!valid) {
+      localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES['PLENTY']);
+      props.setNode(LOCAL_RPC_NODES['PLENTY']);
+      setCurrentRPC('PLENTY');
+      return;
+    }
+
+    const matchedNode = Object.keys(LOCAL_RPC_NODES).find(
+      (key) => LOCAL_RPC_NODES[key] === RPCNodeInLS,
+    );
+
+    if (!matchedNode) {
+      setCurrentRPC('CUSTOM');
+      setCustomRPC(RPCNodeInLS);
+      return;
+    }
+
+    setCurrentRPC(matchedNode);
+  };
+
+  useEffect(() => {
+    rpcNodeDetect();
+    // eslint-disable-next-line
+  }, [nodeSelector]);
+
+  const setRPCInLS = async () => {
+    if (currentRPC !== 'CUSTOM') {
+      localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES[currentRPC]);
+      props.setNode(LOCAL_RPC_NODES[currentRPC]);
+      //isOpen(false);
+      setDefault();
+    } else {
+      let _customRPC = customRPC;
+      if (!_customRPC.match(/\/$/)) {
+        _customRPC += '/';
+      }
+      const response = await isValidURL(_customRPC);
+
+      if (!response) {
+        props.setLoaderMessage({ type: 'error', message: 'Invalid RPC URL' });
+        setTimeout(() => {
+          props.setLoaderMessage({});
+        }, 5000);
+      } else {
+        setDefault();
+        // isOpen(false);
+        localStorage.setItem(RPC_NODE, _customRPC);
+        props.setNode(_customRPC);
+      }
+    }
+  };
 
   return (
     (isMobile ? props.isExpanded : props.selectedHeader) &&
@@ -26,7 +125,9 @@ const HeaderBottom = (props) => {
             height: props.selectedHeader === HEADER_MODAL.SETTINGS && nodeSelector,
             'more-height': props.selectedHeader === HEADER_MODAL.MORE,
           })}
-          onMouseLeave={() => isOpen(false)}
+          {...(props.selectedHeader === HEADER_MODAL.SETTINGS
+            ? {}
+            : { onMouseLeave: () => isOpen(false) })}
         >
           {props.selectedHeader === HEADER_MODAL.TRADE && (
             <Row>
@@ -137,13 +238,13 @@ const HeaderBottom = (props) => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <p className="heading">FORUM</p>
+                    <div className="flex flex-row ">
+                      <p className="heading">FORUM</p>
+                      <span className="ml-3 material-icons-round launch-icon">launch</span>
+                    </div>
                     <div className="flex  para para">
                       <div className="parainside">
                         Discuss new Plenty Improvement Proposals or start a discussion
-                      </div>
-                      <div>
-                        <span className=" material-icons-round arrowforward">arrow_forward</span>
                       </div>
                     </div>
                   </a>
@@ -240,44 +341,151 @@ const HeaderBottom = (props) => {
               </Col>
             </Row>
           )}
-          {props.selectedHeader === HEADER_MODAL.SETTINGS && !nodeSelector && open && (
-            <Row>
-              <Col lg={6} xs={12}>
-                <div className="topics " onClick={() => setNodeSelector(true)}>
-                  <Link to="/swap" className="text-decoration-none">
-                    <p className="heading">NODE SELECTOR</p>
-                    <div className="flex   para">
-                      <div className="parainside">
+          {props.selectedHeader === HEADER_MODAL.SETTINGS &&
+            open &&
+            (!nodeSelector ? (
+              <Row>
+                <Col lg={6} xs={12}>
+                  <div className="topics " onClick={() => setNodeSelector(true)}>
+                    <Link to="/swap" className="text-decoration-none">
+                      <p className="heading">NODE SELECTOR</p>
+                      <div className="flex   para">
+                        <div className="parainside">
+                          The Plenty node can be overloaded sometimes. When your data doesn’t load
+                          properly, try switching to a different node, or use a custom node.
+                        </div>
+                        <div>
+                          <span className=" material-icons-round arrowforward">arrow_forward</span>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                </Col>
+                <Col lg={6} xs={12}>
+                  <div className="topics toogleMode">
+                    <div className="flex justify-between">
+                      <span className="">
+                        <span>THEME</span>
+                        <div>{props.theme === 'light' ? 'Light' : 'Dark'}</div>
+                      </span>
+                      <span className="mr-4">
+                        <Switch
+                          value={props.theme === 'light'}
+                          onChange={props.toggleTheme}
+                          inverted={true}
+                        />
+                      </span>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+            ) : (
+              <Row>
+                <Col lg={12} xs={12}>
+                  <span
+                    onClick={() => setDefault()}
+                    style={{ cursor: 'pointer' }}
+                    className="material-icons-round closeOption"
+                  >
+                    close
+                  </span>
+
+                  <div className="topics nodeSelector">
+                    <div className="flex  para ">
+                      <div style={{ cursor: 'pointer' }} onClick={() => setNodeSelector(false)}>
+                        <span className=" material-icons-round arrowback">arrow_back</span>
+                      </div>
+                      <div>
+                        <p className="heading  ">NODE SELECTOR</p>
+                      </div>
+                    </div>
+                    <div className="flex  para ">
+                      <div className="parainside nodeSector-Heading">
                         The Plenty node can be overloaded sometimes. When your data doesn’t load
                         properly, try switching to a different node, or use a custom node.
                       </div>
-                      <div>
-                        <span className=" material-icons-round arrowforward">arrow_forward</span>
-                      </div>
                     </div>
-                  </Link>
-                </div>
-              </Col>
-              <Col lg={6} xs={12}>
-                <div className="topics toogleMode">
-                  <div className="flex justify-between">
-                    <span className="">
-                      <span>THEME</span>
-                      <div>{props.theme === 'light' ? 'Light' : 'Dark'}</div>
-                    </span>
-                    <span className="mr-4">
-                      <Switch
-                        value={props.theme === 'light'}
-                        onChange={props.toggleTheme}
-                        inverted={true}
-                      />
-                    </span>
                   </div>
-                </div>
-              </Col>
-            </Row>
-          )}
-          {props.selectedHeader === HEADER_MODAL.SETTINGS && open && nodeSelector && (
+                  <div className="horizontal-line"></div>
+                  <div className="node">
+                    {/* <NodeSelectorModal title={'Node Selector'} open={open} isOpen={isOpen} /> */}
+                    <>
+                      <div className="node-selector-modal">
+                        <div className="node-selector-radio-container node-selector-list">
+                          <ul>
+                            {Object.entries(nodeNames).map(([identifier, name]) => (
+                              <li key={identifier}>
+                                <label
+                                  className={clsx(currentRPC === identifier && 'selected-border')}
+                                  htmlFor={identifier}
+                                  onClick={() => setCurrentRPC(identifier)}
+                                >
+                                  <div className="check" />
+                                  <input
+                                    defaultChecked={currentRPC === identifier}
+                                    type="radio"
+                                    checked={currentRPC === identifier}
+                                    id={identifier}
+                                    name="selector"
+                                    className="input-nodeselector"
+                                  />
+                                  <span
+                                    className={clsx(
+                                      currentRPC === identifier
+                                        ? 'selected-label'
+                                        : 'default-label',
+                                    )}
+                                  >
+                                    {name}
+                                  </span>
+                                </label>
+                              </li>
+                            ))}
+                            <li>
+                              <label
+                                className={clsx(
+                                  'custom',
+                                  currentRPC === 'CUSTOM' && 'selected-border',
+                                )}
+                                htmlFor="w-option"
+                                onClick={() => setCurrentRPC('CUSTOM')}
+                              >
+                                <input
+                                  defaultChecked={currentRPC === 'CUSTOM'}
+                                  type="radio"
+                                  id="w-option"
+                                  checked={currentRPC === 'CUSTOM'}
+                                  name="selector"
+                                  className="custominput"
+                                />
+                              </label>
+                              <input
+                                disabled={currentRPC !== 'CUSTOM'}
+                                type="url"
+                                htmlFor="w-option"
+                                className={clsx(
+                                  'node-selector-modal-input',
+                                  currentRPC === 'CUSTOM' && 'selected-border',
+                                )}
+                                placeholder="https://custom.tezos.node"
+                                value={customRPC}
+                                onChange={(e) => {
+                                  setCustomRPC(e.target.value);
+                                }}
+                              />
+                            </li>
+                          </ul>
+                        </div>
+                        <Button onClick={setRPCInLS} className="button-bg w-100 mt-1 mb-2 py-1">
+                          Set Node
+                        </Button>
+                      </div>
+                    </>
+                  </div>
+                </Col>
+              </Row>
+            ))}
+          {/* {props.selectedHeader === HEADER_MODAL.SETTINGS && open && nodeSelector && (
             <Row>
               <Col lg={12} xs={12}>
                 <span
@@ -310,13 +518,19 @@ const HeaderBottom = (props) => {
                 </div>
               </Col>
             </Row>
-          )}
+          )} */}
         </div>
       </>
     )
   );
 };
+const mapStateToProps = (state) => ({
+  rpcNode: state.settings.rpcNode,
+});
 
+const mapDispatchToProps = (dispatch) => ({
+  setNode: (rpcNode) => dispatch(setNode(rpcNode)),
+});
 HeaderBottom.propTypes = {
   connecthWallet: PropTypes.func,
   selectedHeader: PropTypes.any,
@@ -325,6 +539,9 @@ HeaderBottom.propTypes = {
   theme: PropTypes.any,
   toggleTheme: PropTypes.any,
   setSelectedHeader: PropTypes.any,
+  nodeSelector: PropTypes.func.isRequired,
+  setLoaderMessage: PropTypes.func.isRequired,
+  setNode: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
 };
-
-export default HeaderBottom;
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderBottom);

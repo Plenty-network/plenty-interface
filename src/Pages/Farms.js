@@ -311,6 +311,7 @@ const Farms = (props) => {
                   userAddress={props.userAddress}
                   currentBlock={props.currentBlock}
                   harvestOperation={props.harvestOperation}
+                  theme={props.theme}
                 />
               );
             })}
@@ -375,6 +376,7 @@ Farms.propTypes = {
   userStakes: PropTypes.any,
   walletAddress: PropTypes.string.isRequired,
   walletBalances: PropTypes.any,
+  theme: PropTypes.any,
 };
 
 const mapStateToProps = (state) => {

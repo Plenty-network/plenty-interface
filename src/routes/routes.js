@@ -56,7 +56,11 @@ const MyRoutes = (props) => {
               path={'/'}
               element={
                 <OtherPages {...otherPageProps}>
-                  <Frontpage walletAddress={props.userAddress} connecthWallet={connectWallet} />
+                  <Frontpage
+                    walletAddress={props.userAddress}
+                    connecthWallet={connectWallet}
+                    {...otherPageProps}
+                  />
                 </OtherPages>
               }
             />
@@ -81,7 +85,7 @@ const MyRoutes = (props) => {
               path="/farms"
               element={
                 <OtherPages {...otherPageProps}>
-                  <Farms walletAddress={props.userAddress} />
+                  <Farms walletAddress={props.userAddress} {...otherPageProps} />
                 </OtherPages>
               }
             />
