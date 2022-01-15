@@ -13,7 +13,12 @@ import {
   type4MapIds,
   type5MapIds,
 } from '../../constants/global';
-
+/**
+ * Returns packed key (expr...) which will help to fetch user specific data from bigmap directly using rpc.
+ * @param tokenId - Id of map from where you want to fetch data
+ * @param address - address of the user for whom you want to fetch the data
+ * @param type - FA1.2 OR FA2
+ */
 const getPackedKey = (tokenId, address, type) => {
   const accountHex = `0x${TezosMessageUtils.writeAddress(address)}`;
   let packedKey = null;
@@ -40,7 +45,9 @@ const getPackedKey = (tokenId, address, type) => {
   }
   return packedKey;
 };
-
+/**
+ * Swaps two tokens for which amm exists
+ */
 export const swapTokens = async (
   tokenIn,
   tokenOut,
@@ -81,6 +88,7 @@ export const swapTokens = async (
       minimumTokenOut * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_DECIMAL);
     minimumTokenOut = Math.floor(minimumTokenOut);
     let batch = null;
+    // Approve call for FA1.2 type token
     if (CONFIG.AMM[connectedNetwork][tokenIn].CALL_TYPE === 'FA1.2') {
       batch = Tezos.wallet
         .batch()
@@ -94,7 +102,9 @@ export const swapTokens = async (
             tokenInAmount,
           ),
         );
-    } else {
+    }
+    // add_operator for FA2 type token
+    else {
       batch = Tezos.wallet
         .batch()
         .withContractCall(
@@ -144,7 +154,10 @@ export const swapTokens = async (
     };
   }
 };
-
+/**
+ * @deprecated
+ * Was being used when there was only one middle token
+ */
 export const swapTokenUsingRoute = async (
   tokenIn,
   tokenOut,
@@ -484,6 +497,14 @@ export const computeTokenOutForRouteBaseByOutAmount = (outputAmount, swapData, s
 //   }
 // };
 
+/**
+ * For a particular token pair (for which AMM exists) based on tokenIn_amount, tokenOut_amount can be assumed.
+ * @param tokenIn_amount - amount of tokenIn which user wants to swap
+ * @param tokenIn_supply - As received form AMM contract
+ * @param tokenOut_supply - As received form AMM contract
+ * @param exchangeFee - As received form AMM contract
+ * @param slippage - Slippage which the user can tolerate in percentage
+ */
 export const computeTokenOutput = (
   tokenIn_amount,
   tokenIn_supply,
@@ -535,6 +556,19 @@ export const estimateOtherToken = (tokenIn_amount, tokenIn_supply, tokenOut_supp
     };
   }
 };
+
+/**
+ * Performs the adding liquidity operation
+ * @param tokenA - First token of the pair , case specific to CONFIG
+ * @param tokenB - Second token of the pair , case specific to CONFIG
+ * @param tokenA_amount - Amount of tokenA which user want to invest
+ * @param tokenB_amount - Amount of tokenB which user want to invest
+ * @param tokenA_Instance - Pass NULL
+ * @param tokenB_Instance - Pass NULL
+ * @param caller - owner address being used for approve call
+ * @param dexContractInstance - Pass NULL
+ * @param transactionSubmitModal - Callback to open modal when transaction is submiited
+ */
 
 export const addLiquidity = async (
   tokenA,
@@ -758,6 +792,14 @@ export const addLiquidity = async (
   }
 };
 
+/**
+ * Helps in estimating the amount of token the user will get in exchange for LP
+ * @param burnAmount - Amount of LP tokens the user wants to burn
+ * @param lpTotalSupply - As received from contract
+ * @param tokenFirst_Supply - As received from contract
+ * @param tokenSecond_Supply - As received from contract
+ * @param slippage - amount of slippage user can tolerate
+ */
 export const computeRemoveTokens = (
   burnAmount,
   lpTotalSupply,
@@ -782,6 +824,11 @@ export const computeRemoveTokens = (
   }
 };
 
+/**
+ * Gets balance of user of a particular token using RPC
+ * @param identifier - Name of token, case-sensitive to CONFIG
+ * @param address - tz1 address of user
+ */
 export const getUserBalanceByRpc = async (identifier, address) => {
   try {
     //let balance;
@@ -829,7 +876,17 @@ export const getUserBalanceByRpc = async (identifier, address) => {
     };
   }
 };
-
+/**
+ * Perform the remove liquidity operation
+ * @param tokenA - First token of selected pair, case-sensitive to CONFIG
+ * @param tokenB - Second token of selected pair, case-sensitive to CONFIG
+ * @param tokenA_MinimumRecieve - minimum amount of tokenA type which user want to get out of that transaction
+ * @param tokenB_MinimumRecieve - minimum amount of tokenB type which user want to get out of that transaction
+ * @param lpToken_Amount - Amount of LP token user wants to divest
+ * @param caller - Address of caller
+ * @param dexContractInstance - Pass null
+ * @param transactionSubmitModal - Callback to open modal when transaction is submitted
+ */
 export const removeLiquidity = async (
   tokenA,
   tokenB,
@@ -917,6 +974,10 @@ export const removeLiquidity = async (
   }
 };
 
+/**
+ * API for fetching tzBTC balance because it cannot be fetched using RPC
+ * @param addressOfUser - Address of user for whom balance is to be fetched
+ */
 export const fetchtzBTCBalance = async (addressOfUser) => {
   try {
     const tokenContractAddress = 'KT1PWx2mnDueood7fEmfbBDKx1D9BAnnXitn';
@@ -957,6 +1018,10 @@ export const fetchtzBTCBalance = async (addressOfUser) => {
     };
   }
 };
+
+/**
+ * @deprecated
+ */
 
 export const fetchWalletBalance = async (
   addressOfUser,
@@ -1161,6 +1226,9 @@ export const fetchWalletBalance = async (
     };
   }
 };
+/**
+ * @deprecated
+ */
 export const fetchAllWalletBalance = async (addressOfUser) => {
   try {
     const network = CONFIG.NETWORK;
@@ -1196,7 +1264,9 @@ export const fetchAllWalletBalance = async (addressOfUser) => {
     };
   }
 };
-
+/**
+ * @deprecated
+ */
 const getCtezPrice = async () => {
   try {
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
@@ -1222,7 +1292,9 @@ const getCtezPrice = async () => {
     };
   }
 };
-
+/**
+ * @deprecated
+ */
 const getuDEFIPrice = async () => {
   try {
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
@@ -1242,7 +1314,9 @@ const getuDEFIPrice = async () => {
     };
   }
 };
-
+/**
+ * Gets price of tokens to show during trade
+ */
 export const getTokenPrices = async () => {
   try {
     const promises = [];

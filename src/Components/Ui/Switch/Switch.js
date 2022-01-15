@@ -20,10 +20,10 @@ const Switch = (props) => {
 
   return (
     <div>
-      <span className={clsx(styles.label, 'mr-1', { [styles.active]: !getValue() })}>
+      <span className={clsx(styles.label, 'mr-2', { [styles.active]: !getValue() })}>
         {getLabelFor('left')}
       </span>
-      <span className={clsx(styles.label, 'mr-1', { [styles.active]: getValue() })}>
+      <span className={clsx(styles.label, 'mr-2', { [styles.active]: getValue() })}>
         {getLabelFor('right')}
       </span>
 

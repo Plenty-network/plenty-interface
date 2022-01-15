@@ -12,6 +12,11 @@ import {
   opentransactionInjectionModal,
 } from './xPlenty.slice';
 
+/**
+ * Gets price of plenty from TezTools API
+ * @param tokenPriceData - Response from TezTools API
+ * @returns {{plentyPrice: number}}
+ */
 const getPlentyPrice = (tokenPriceData) => {
   try {
     let plentyPrice = 0;
@@ -33,7 +38,10 @@ const getPlentyPrice = (tokenPriceData) => {
     };
   }
 };
-
+/**
+ *
+ * @returns {Promise<{xPlentyPerPlenty: number, xPlentySupplyToShow: number, APR: number, totalSupply: number, plentyStakedToShow: number, plentyPerXplenty: number, plentyBalance: number, ValueLockedToShow: number}>}
+ */
 export const xPlentyComputations = async () => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
@@ -131,14 +139,26 @@ export const xPlentyComputations = async () => {
     };
   }
 };
-
+/**
+ * Returns the plenty user will get on trading given amount of xPlenty
+ * @param plentyBalance - Plenty held with the curve contract
+ * @param totalSupply - total supply of xPlenty
+ * @param xplentyAmount - Amount of xPlenty user wants to trade
+ * @returns {number}
+ */
 export const getExpectedPlenty = (plentyBalance, totalSupply, xplentyAmount) => {
   if (totalSupply < xplentyAmount) {
     return 0;
   }
   return ((xplentyAmount * plentyBalance) / totalSupply) * 0.995;
 };
-
+/**
+ * Returns the xPlenty user will get on trading given amount of plenty
+ * @param plentyBalance - Plenty held with the curve contract
+ * @param totalSupply - total supply of xPlenty
+ * @param plentyAmount - Amount of Plenty user wants to trade
+ * @returns {number}
+ */
 export const getExpectedxPlenty = (plentyBalance, totalSupply, plentyAmount) => {
   return ((plentyAmount * totalSupply) / plentyBalance) * 0.995;
 };
@@ -165,7 +185,13 @@ const CheckIfWalletConnected = async (wallet) => {
     };
   }
 };
-
+/**
+ * Operation to trade plenty for xPlenty
+ * @param plentyAmount - amount of plenty user wants to trade
+ * @param minimumExpected - minimum expected xPlenty below which transaction should fail
+ * @param recipient - Address to which xPlenty should be transferred after the trade
+ * @returns {Promise<{success: boolean, operationId}>}
+ */
 export const buyXPlenty = async (plentyAmount, minimumExpected, recipient) => {
   try {
     const options = {
@@ -213,7 +239,13 @@ export const buyXPlenty = async (plentyAmount, minimumExpected, recipient) => {
     console.log(error);
   }
 };
-
+/**
+ * Operation to trade xPlenty for plenty
+ * @param xPlentyAmount - amount of xPlenty user wants to trade
+ * @param minimumExpected - minimum expected plenty below which transaction should fail
+ * @param recipient - Address to which plenty should be transferred after the trade
+ * @returns {Promise<{success: boolean, operationId}>}
+ */
 export const sellXPlenty = async (xPlentyAmount, minimumExpected, recipient) => {
   try {
     const options = {

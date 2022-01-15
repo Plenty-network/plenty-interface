@@ -30,6 +30,16 @@ const getPackedKey = (tokenId, address, type) => {
   return packedKey;
 };
 
+/**
+ * Returns staked amount and individual stakes of user
+ * @param mapId - mapId of bigmap from which data is to be fetched
+ * @param packedKey - User specific packed key to get its data from bigmap
+ * @param identifier - Name to identify a farm type case-sensitive to CONFIG
+ * @param decimal - decimals wrt farm contract
+ * @param address - contract address of farm contract
+ * @param tokenDecimal - decimals in token
+ * @returns {Promise<{identifier, singularStakes: *[], address, balance: (number|string|T|undefined|number), success: boolean}|{identifier, singularStakes: *[], address, balance: number, success: boolean}>}
+ */
 const getStakedAmount = async (mapId, packedKey, identifier, decimal, address, tokenDecimal) => {
   try {
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
@@ -68,7 +78,16 @@ const getStakedAmount = async (mapId, packedKey, identifier, decimal, address, t
     };
   }
 };
-
+/**
+ * Returns staked amount by user for a dual farm
+ * @param mapId - Big map id from where user specific data needs to be fetched
+ * @param packedKey - packed key (expr..) of user
+ * @param identifier - Name to identify a farm type case-sensitive to CONFIG
+ * @param decimal - decimal adhered to by farm contract
+ * @param address - address of user
+ * @param tokenDecimal - decimals as per token contract
+ * @returns {Promise<{identifier, singularStakes: *[], address, balance: (number|string|T|undefined|number), success: boolean}|{identifier, singularStakes: *[], address, balance: number, success: boolean}>}
+ */
 const getStakedAmountDual = async (
   mapId,
   packedKey,
@@ -114,7 +133,14 @@ const getStakedAmountDual = async (
     };
   }
 };
-
+/**
+ * Utility function to getBalance amount from contract
+ * @param mapId - big map id from contract
+ * @param packedKey - generated packed address of user
+ * @param identifier - Name to identify a farm type case-sensitive to CONFIG
+ * @param decimal - Decimals adhered to by contract
+ * @returns {Promise<{identifier, balance: number, success: boolean}>}
+ */
 const getBalanceAmount = async (mapId, packedKey, identifier, decimal) => {
   try {
     let balance;
@@ -156,7 +182,11 @@ const getBalanceAmount = async (mapId, packedKey, identifier, decimal) => {
     };
   }
 };
-
+/**
+ * Get balance from all the contracts
+ * @param address : address of user
+ * @returns {Promise<{success: boolean, response: {}}>}
+ */
 export const getBalanceAmountForAllContracts = async (address) => {
   try {
     let packedKey;
@@ -197,7 +227,13 @@ export const getBalanceAmountForAllContracts = async (address) => {
     };
   }
 };
-
+/**
+ * Returns staked amount from all contracts
+ * @param address - Address of user
+ * @param type - FARMS | POOLS | PONDS
+ * @param isActive {boolean} - Whether the particular farm is active or inactiveX
+ * @returns {Promise<{currentBlock: any, success: boolean, response: {}}|{currentBlock: number, success: boolean, response: {}}>}
+ */
 export const getStakedAmountForAllContracts = async (address, type, isActive) => {
   try {
     const packedKey = getPackedKey(0, address, 'FA1.2');
@@ -272,7 +308,15 @@ export const getStakedAmountForAllContracts = async (address, type, isActive) =>
     };
   }
 };
-
+/**
+ * Calculate harvest value of user for a dual farm
+ * @param stakingContractAddress - Address of farm
+ * @param DECIMAL - Decimal adhered to by contract
+ * @param currentBlockLevel - Last block baked on blockchain
+ * @param mapId - big map id from where user data needs to be fetched
+ * @param packedAddress - User specific address for fetching big map data
+ * @returns {Promise<{address, success: boolean, totalRewards: number}>}
+ */
 const calculateHarvestValueDualEntity = async (
   stakingContractAddress,
   DECIMAL,
@@ -329,7 +373,14 @@ const calculateHarvestValueDualEntity = async (
     };
   }
 };
-
+/**
+ * Utility function to calculate harvest value for dual farm
+ * @param stakingContract - Address of Contract
+ * @param dualInfo - Dual data of farm from CONFIG
+ * @param currentBlock - Last block baked
+ * @param packedAddress - User specific address for fetching big map data
+ * @returns {Promise<{address, success: boolean, totalRewards: number[]}|{address, success: boolean, totalRewards: (number|[(number|*|number[]|[*,*]|number[]),(number|*|number[]|[*,*]|number[])]|number[]|[*,*]|number[]|*)[]}>}
+ */
 const calculateHarvestValueDual = async (
   stakingContract,
   dualInfo,
@@ -373,7 +424,15 @@ const calculateHarvestValueDual = async (
     };
   }
 };
-
+/**
+ * Calculates harvest value for a non-dual farm
+ * @param stakingContractAddress -  Contract address of the farm
+ * @param DECIMAL - Decimal in the contract
+ * @param currentBlockLevel - last block baked
+ * @param mapId - big map Id from where user specific data needs to be fetched
+ * @param packedAddress - Specific packed address of user
+ * @returns {Promise<{address, success: boolean, totalRewards: number}>}
+ */
 const calculateHarvestValue = async (
   stakingContractAddress,
   DECIMAL,
@@ -423,6 +482,14 @@ const calculateHarvestValue = async (
     };
   }
 };
+
+/**
+ * Calculate harvest value for all the farms
+ * @param address - Address of user
+ * @param type - FARMS | POOLS | PONDS
+ * @param isActive {boolean} - Select one between active and inactive
+ * @returns {Promise<{success: boolean, response: {}}>}
+ */
 export const getHarvestValue = async (address, type, isActive) => {
   try {
     //   stakingContract,

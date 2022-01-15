@@ -7,6 +7,7 @@ import FarmCardBottom from './FarmCardBottom';
 import Button from '../Ui/Buttons/Button';
 
 import CalculatorSvg from '../../assets/images/icons/calculator.svg';
+import CalculatorSvgLight from '../../assets/images/icons/calculator-light.svg';
 import { numberWithCommas } from '../../utils/formatNumbers';
 import { useDispatch } from 'react-redux';
 import { FARM_PAGE_MODAL } from '../../constants/farmsPage';
@@ -137,7 +138,7 @@ const FarmCard = (props) => {
               <p className={styles.plentyCardContentTag}>
                 {values && (
                   <img
-                    src={CalculatorSvg}
+                    src={props.theme === 'light' ? CalculatorSvgLight : CalculatorSvg}
                     alt={'Check ROI'}
                     className={styles.roiInfoImg}
                     onClick={onRoiClick}
@@ -212,6 +213,7 @@ FarmCard.propTypes = {
   openFarmsStakeModal: PropTypes.func.isRequired,
   userAddress: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]).isRequired,
   userStakes: PropTypes.number.isRequired,
+  theme: PropTypes.any,
 };
 
 export default FarmCard;

@@ -1,6 +1,6 @@
 import numeral from 'numeral';
 
-export const numberWithCommas = (x, { plain = false, decimal = false } = {}) => {
+export const numberWithCommas = (x: number, { plain = false, decimal = false } = {}) => {
   const formatter = (() => {
     if (x < 999900 || plain) {
       if (decimal && x < 999) {
