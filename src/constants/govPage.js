@@ -8,7 +8,7 @@ export const GOV_PAGE_MODAL = {
   ACCEPTED: 'Accepted',
   REJECTED: 'Rejected',
   ABSTAINED: 'Abstained',
-  END_DATE: 22,
+  END_DATE: 1,
   END_HOUR: 13,
   END_MIN: 5,
   ACCEPT_VOTE: 1,

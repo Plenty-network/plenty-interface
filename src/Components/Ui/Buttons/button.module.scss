@@ -17,7 +17,8 @@
   }
 
   &[disabled] {
-    background: #8a94a6;
+    background: var(--theme-disabled-button-bg);
+    color: var(--theme-disabled-button-text);
     transform: none;
   }
 }
@@ -54,12 +55,8 @@
 }
 
 .primary {
-  color: white;
-  background: linear-gradient(
-    90deg,
-    var(--theme-primary-gradient-1) 0%,
-    var(--theme-primary-gradient-2) 100%
-  );
+  color: var(--theme-primary-button-text);
+  background: var(--theme-primary-button-bg);
   border: 0;
   font-weight: bold;
 }
@@ -85,7 +82,7 @@
 .mute {
   border: 0;
   color: var(--theme-text-1);
-  background: var(--theme-input-bg);
+  background: var(--theme-expand-button-bg);
 }
 
 .tertiary {
@@ -96,8 +93,8 @@
 }
 
 .default {
-  color: var(--theme-default-btn);
-  border: solid 1px var(--theme-default-btn);
+  color: var(--theme-plenty-badge-text);
+  border: solid 1px var(--theme-plenty-badge-text);
   background: transparent;
 
   &[disabled] {

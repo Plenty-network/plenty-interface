@@ -13,7 +13,6 @@ import { connect } from 'react-redux';
 import useMediaQuery from '../../hooks/mediaQuery';
 import * as walletActions from '../../redux/actions/wallet/wallet.action';
 import { GOV_PAGE_MODAL } from '../../constants/govPage';
-import Header from '../../Components/Header/Header';
 import {
   getVoteData,
   getVoteResults,
@@ -76,14 +75,6 @@ const Governance = (props) => {
   return (
     <>
       <Container className={` ${styles.govContainer}`} fluid>
-        <Header
-          toggleTheme={props.toggleTheme}
-          theme={props.theme}
-          connecthWallet={props.connectWallet}
-          disconnectWallet={props.disconnectWallet}
-          walletAddress={props.walletAddress}
-          isGradientBgPage={true}
-        />
         <Row className={clsx('row justify-content-center', !isMobile && styles.govContainerInner)}>
           <Col xs={20} sm={8} md={10} lg={6} xl={6}>
             <VoteText

@@ -8,14 +8,26 @@ import { Col, Image, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import dollar from '../../assets/images/frontpage/dollar.svg';
+import dollarDark from '../../assets/images/frontpage/dollarDark.svg';
+
 import marketCap from '../../assets/images/frontpage/marketcap.svg';
 import farms from '../../assets/images/frontpage/farms.svg';
-import xplenty from '../../assets/images/frontpage/xplenty.svg';
+import xplenty from '../../assets/images/frontpage/plentystake.svg';
 import liquidity from '../../assets/images/frontpage/liquidity.svg';
 import totalBurned from '../../assets/images/frontpage/totalburned.svg';
 import circulatingSupply from '../../assets/images/frontpage/circulatingsupply.svg';
 import plentyBlock from '../../assets/images/frontpage/plentyblock.svg';
-import amm from '../../assets/images/frontpage/amm.svg';
+import marketCapDark from '../../assets/images/frontpage/marketcapDark.svg';
+import farmsDark from '../../assets/images/frontpage/farmsDark.svg';
+import farms2Dark from '../../assets/images/frontpage/farms2Dark.svg';
+import farms2 from '../../assets/images/frontpage/farms2.svg';
+import xplentyDark from '../../assets/images/frontpage/plentystakeDark.svg';
+import liquidityDark from '../../assets/images/frontpage/liquidityDark.svg';
+import totalBurnedDark from '../../assets/images/frontpage/totalburnedDark.svg';
+import circulatingSupplyDark from '../../assets/images/frontpage/circulatingsupplyDark.svg';
+import plentyBlockDark from '../../assets/images/frontpage/plentyblockDark.svg';
+import amm from '../../assets/images/frontpage/trade.svg';
+import ammDark from '../../assets/images/frontpage/tradeDark.svg';
 import plentyBig from '../../assets/images/frontpage/plentybig.svg';
 import { ReactComponent as Medium } from '../../assets/images/frontpage/medium.svg';
 import { ReactComponent as Twitter } from '../../assets/images/frontpage/twitter.svg';
@@ -25,7 +37,6 @@ import plentyMedium from '../../assets/images/frontpage/plentymedium.svg';
 import LinkTile from '../../Components/LinkTile/LinkTile';
 import Accordion from '../../Components/Ui/Accordion/Accordion';
 import Stats from '../../Components/Stats/Stats';
-import Header from '../../Components/Header/Header';
 import Loader from '../../Components/loader';
 import { connect } from 'react-redux';
 import {
@@ -45,11 +56,6 @@ import { HOME_PAGE_MODAL } from '../../constants/homePage';
 import NumericLabel from 'react-pretty-numbers';
 
 const Frontpage = ({
-  toggleTheme,
-  theme,
-  connecthWallet,
-  disconnectWallet,
-  walletAddress,
   homeStats,
   tvl,
   getTVL,
@@ -67,6 +73,7 @@ const Frontpage = ({
   harvestAllOperations,
   rpcNode,
   xplentyBalance,
+  theme,
 }) => {
   useEffect(() => {
     const getAllData = () => {
@@ -104,16 +111,9 @@ const Frontpage = ({
       <Container fluid>
         <div className={`d-flex flex-column ${styles.fullScreen}`}>
           <FrontPageGradientDiv className={`row flex-grow-1 ${styles.homePageBanner}`}>
-            <Header
-              toggleTheme={toggleTheme}
-              theme={theme}
-              connecthWallet={connecthWallet}
-              disconnectWallet={disconnectWallet}
-              walletAddress={walletAddress}
-              isGradientBgPage={true}
-            />
             <div
               className={clsx(
+                `${styles.centerAlign}`,
                 'py-5',
                 walletConnected ? ['col-lg-6', 'col-sm-12', 'col-md-12'] : 'col-sm-12 col-md-12',
               )}
@@ -147,7 +147,7 @@ const Frontpage = ({
                       ],
                 )}
               >
-                <h5 className={`mb-3 text-white font-weight-light ${styles.textMulish}`}>
+                <h5 className={`mb-3  text-white font-weight-light ${styles.textMulish}`}>
                   Total Value Locked
                 </h5>
                 <h1 className="mb-3 text-white font-weight-bold">
@@ -171,7 +171,7 @@ const Frontpage = ({
               </div>
             </div>
             {walletConnected && (
-              <div className="py-3 pb-lg-5 col-lg-6 col-sm-12">
+              <div className={`py-3 pb-lg-5 col-lg-6 col-sm-12 ${styles.centerAlign}`}>
                 <div
                   className="col-lg-9 col-xl-7 m-auto py-lg-5 px-0 text-center
                                     align-items-center align-items-lg-start text-lg-left"
@@ -200,7 +200,7 @@ const Frontpage = ({
                     '0'
                   )
                 }
-                icon={dollar}
+                icon={theme === 'light' ? dollar : dollarDark}
                 subText={'Price'}
               />
             </Col>
@@ -213,7 +213,7 @@ const Frontpage = ({
                     </NumericLabel>
                   )
                 }
-                icon={marketCap}
+                icon={theme === 'light' ? marketCap : marketCapDark}
                 subText={'Market Cap'}
               />
             </Col>
@@ -226,7 +226,7 @@ const Frontpage = ({
                     </NumericLabel>
                   )
                 }
-                icon={farms}
+                icon={theme === 'light' ? farms : farmsDark}
                 subText={'Total minted'}
               />
             </Col>
@@ -239,7 +239,7 @@ const Frontpage = ({
                     </NumericLabel>
                   )
                 }
-                icon={totalBurned}
+                icon={theme === 'light' ? totalBurned : totalBurnedDark}
                 subText={'Total burned'}
               />
             </Col>
@@ -252,7 +252,7 @@ const Frontpage = ({
                     </NumericLabel>
                   )
                 }
-                icon={circulatingSupply}
+                icon={theme === 'light' ? circulatingSupply : circulatingSupplyDark}
                 subText={'Circulating Supply'}
               />
             </Col>
@@ -266,7 +266,7 @@ const Frontpage = ({
                   )
                 }
                 subText={'New PLENTY/Block'}
-                icon={plentyBlock}
+                icon={theme === 'light' ? plentyBlock : plentyBlockDark}
               />
             </Col>
           </Row>
@@ -288,11 +288,11 @@ const Frontpage = ({
           >
             <Col xs={12} md={6} xl={3} className="mb-3 d-flex">
               <LinkTile
-                text={'Swap tokens with high liquidity on the first token-to-token AMM on Tezos.'}
+                text={'Swap tokens instantly with high liquidity and audited smart contracts.'}
                 linkTo={'/swap'}
                 linkText={'Enter Exchange'}
-                headerIcon={amm}
-                headerText={'Trade'}
+                headerIcon={theme === 'light' ? amm : ammDark}
+                headerText={'Swap'}
               />
             </Col>
             <Col xs={12} md={6} xl={3} className="mb-3 d-flex">
@@ -300,8 +300,8 @@ const Frontpage = ({
                 text={'Add liquidity for any trading pair and start earning trading fees.'}
                 linkTo={'/liquidity'}
                 linkText={'Add Liquidity'}
-                headerIcon={liquidity}
-                headerText={'Liquidity'}
+                headerIcon={theme === 'light' ? liquidity : liquidityDark}
+                headerText={'Pool'}
               />
             </Col>
             <Col xs={12} md={6} xl={3} className="mb-3 d-flex">
@@ -311,8 +311,8 @@ const Frontpage = ({
                 }
                 linkTo={'/farms'}
                 linkText={'Enter Farms'}
-                headerIcon={farms}
-                headerText={'Farms'}
+                headerIcon={theme === 'light' ? farms2 : farms2Dark}
+                headerText={'Farm'}
               />
             </Col>
             <Col xs={12} md={6} xl={3} className="mb-3 d-flex">
@@ -320,7 +320,7 @@ const Frontpage = ({
                 text={'Stake PLENTY, receive xPLENTY. Rewards are compounding.'}
                 linkTo={'/stake'}
                 linkText={'Enter Staking'}
-                headerIcon={xplenty}
+                headerIcon={theme === 'light' ? xplenty : xplentyDark}
                 headerText={'Stake'}
               />
             </Col>
@@ -385,8 +385,7 @@ const Frontpage = ({
                   <Accordion isOpen={true} text={'What is Plenty?'} className={styles.divider}>
                     <div>
                       <p className="text-white">
-                        Plenty is a platform for creating liquidity and trading FA 1.2 and FA 2
-                        tokens on Tezos.
+                        The Plenty protocol enables swapping of fungible tokens on Tezos.
                       </p>
                       <p className="text-white">
                         You can only swap tokens on Plenty if there is enough liquidity for those
@@ -423,30 +422,27 @@ const Frontpage = ({
                         uses the function x*y=k to maintain a curve along which trades can happen.
                         The pools keep track of reserves (liquidity) and update those reserves every
                         single time someone trades. Because the reserves are automatically
-                        rebalanced, a Plenty liquidity pool can always be used to buy or sell a
-                        token without requiring a counterparty on the other side of a trade.
+                        rebalanced, a liquidity pool can always be used to buy or sell a token
+                        without requiring a counterparty on the other side of a trade.
                       </p>
                     </div>
                   </Accordion>
-                  <Accordion text={'Why can’t I trade XTZ?'} className={styles.divider}>
+                  <Accordion text={'Why can’t I trade native tez?'} className={styles.divider}>
                     <div>
                       <p className="text-white">
                         Plenty is the first token-to-token Automated Market Maker (AMM) on Tezos.
-                        This means that XTZ trading is not supported. However, trading with a
-                        tokenized version of XTZ called&nbsp;
-                        <a
-                          href={
-                            'https://forum.tezosagora.org/t/ctez-a-synthetic-tez-backed-by-tez-for-better-composability-as-an-alternative-to-the-virtual-baker/2612'
-                          }
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          CTEZ
+                        This means that native tez trading is not supported. However, trading with a
+                        collateralized version of tez, called&nbsp;
+                        <a href={'https://ctez.app/'} target="_blank" rel="noreferrer">
+                          ctez
                         </a>
-                        &nbsp;will be supported in the near future. CTEZ solves the issue of using
-                        XTZ inside DeFi contracts without worrying about the governance matter of
-                        &quot;who should be the baker&quot; and without the opportunity cost of not
-                        delegating.
+                        &nbsp;is supported.
+                      </p>
+
+                      <p className="text-white">
+                        Ctez solves the issue of using tez inside DeFi contracts without worrying
+                        about the governance matter of &quot;who should be the baker&quot; and
+                        without the opportunity cost of not delegating.
                       </p>
                     </div>
                   </Accordion>
@@ -460,7 +456,7 @@ const Frontpage = ({
                   <Accordion text={'How do I use Plenty?'} className={styles.divider}>
                     <div>
                       <p className="text-white">
-                        First you’ll need a Tezos wallet and some XTZ. XTZ is available at all big
+                        First you’ll need a Tezos wallet and some tez. Tez is available at all big
                         crypto exchanges like&nbsp;
                         <a href={'https://www.coinbase.com/'} target="_blank" rel="noreferrer">
                           Coinbase
@@ -473,19 +469,16 @@ const Frontpage = ({
                         <a href={'https://www.binance.com/'} target="_blank" rel="noreferrer">
                           Binance
                         </a>
-                        . Do you hold XTZ? Go to&nbsp;
-                        <a
-                          href={
-                            'https://quipuswap.com/swap?from=tez&to=KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b'
-                          }
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Quipuswap
+                        . Do you have some tez? Go to&nbsp;
+                        <a href={'https://ctez.app/'} target="_blank" rel="noreferrer">
+                          ctez.app
                         </a>
-                        &nbsp;to swap it for PLENTY! Each transaction on Tezos comes with a small
-                        gas fee, paid in XTZ, which is a fee for the bakers to keep the Proof of
-                        Stake network running.
+                        &nbsp;to swap it for ctez!
+                      </p>
+                      <p className="text-white">
+                        Each transaction on Tezos comes with a small gas fee, paid in tez, which is
+                        a fee for the bakers to keep the Proof of Stake network running. So make
+                        sure you to keep some tez for these fees.
                       </p>
                       <p className="text-white">
                         If you are a DeFi user from another blockchain, you can wrap your assets
@@ -493,8 +486,8 @@ const Frontpage = ({
                         <a href={'https://www.benderlabs.io/wrap'} target="_blank" rel="noreferrer">
                           Wrap Protocol
                         </a>
-                        .&nbsp;Wrap tokens like USDC, BUSD, LINK, MATIC, or WBTC, and use them on
-                        Plenty to trade and earn yield.
+                        .&nbsp;Wrap tokens like USDC, BUSD, LINK, MATIC, or WBTC on the Ethereum
+                        blockchain, and use them on Plenty to trade and earn.
                       </p>
                     </div>
                   </Accordion>

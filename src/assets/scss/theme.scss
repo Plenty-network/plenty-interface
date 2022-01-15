@@ -1,5 +1,5 @@
 :root.light {
-  --theme-primary-1: #5c0fae;
+  --theme-primary-1: #6202ef;
   --theme-primary-2: #d0bde6;
   --theme-secondary-1: #e3d1ff;
   --theme-primary-gradient-1: #7028e4;
@@ -27,17 +27,17 @@
   --theme-border-light: #d5d5d5;
   --theme-default-btn: #5c0fae;
   --theme-plenty-badge-bg: rgba(92, 15, 174, 0.16);
-  --theme-plenty-badge-text: #5c0fae;
+  --theme-plenty-badge-text: #6202ef;
   --theme-quipuswap-badge-bg: rgba(174, 110, 15, 0.16);
   --theme-quipuswap-badge-text: #f9a558;
   --theme-table-header-hover-bg: #f7f5fb;
   --theme-button-bg: #e3d1ff;
   --theme-hover-bg: #f2f0f9;
   --theme-radio-button: #8b83ba;
-  --theme-governance-bg: linear-gradient(180deg, #7028e4 25%, #ffffff 20%);
+  --theme-governance-bg: linear-gradient(180deg, #7028e4 22%, #ffffff 20%);
 
-  --theme-governance-bg-1: linear-gradient(180deg, #7028e4 23%, #ffffff 20%);
-  --theme-governance-bg-2: linear-gradient(180deg, #7028e4 21%, #ffffff 20%);
+  --theme-governance-bg-1: linear-gradient(180deg, #7028e4 20%, #ffffff 20%);
+  --theme-governance-bg-2: linear-gradient(180deg, #7028e4 18%, #ffffff 18%);
   --theme-governance-text: #04091b;
   --theme-governance-cardBg: #ffffff;
   --theme-governance-postingInfo: #f3f4fb;
@@ -62,6 +62,24 @@
   --theme-governance-votingBoxBg: rgba(98, 2, 239, 0.1);
   --theme-governance-selectedText: #40029d;
   --theme-governance-label: #04091b;
+  --theme-header-heading: #000000;
+  --theme-header-description: #51566b;
+  --theme-header-bottom: #dedede;
+  --theme-header-text: #333333;
+  --theme-header-selectedBg: #f4f4f4;
+  --theme-bg-header: #ffffff;
+  --theme-header-seperator: #140920;
+  --theme-expand-button-bg: var(--theme-input-bg);
+  --theme-primary-button-text: #ffffff;
+  --theme-primary-button-bg: #6202ef;
+  --theme-menu-highlighter: #cfced6;
+  --theme-menu-text: #9656f4;
+  --theme-disabled-button-bg: #e6e7ea;
+  --theme-disabled-button-text: #8a94a6;
+  --theme-modal-boxshadow: 2px 8px 42px rgba(25, 7, 52, 0.12);
+  --theme-thead-text: var(--theme-text-3);
+  --theme-toggler: #ffffff;
+  --theme-toggler-bg: #c1c7d0;
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -71,58 +89,44 @@
   --theme-primary-gradient-2: #e5b2ca;
   --theme-secondary-gradient-1: #3a537b;
   --theme-secondary-gradient-2: #8f9aac;
-  --theme-secondary-gradient: linear-gradient(
-    96.01deg,
-    var(--theme-secondary-gradient-1) -47.72%,
-    var(--theme-secondary-gradient-2) 142.35%
-  );
-  --theme-card-bg: #2d3751;
-  --theme-input-bg: #394460;
+  // --theme-secondary-gradient: linear-gradient(
+  //   96.01deg,
+  //   var(--theme-secondary-gradient-1) -47.72%,
+  //   var(--theme-secondary-gradient-2) 142.35%
+  // );
+  --theme-secondary-gradient: #343052;
+  --theme-card-bg: #201c41;
+  --theme-input-bg: #343052;
   --theme-text-1: #ffffff;
   --theme-text-inactive: #b0b7c3; // TODO find
   --theme-text-2: #ffffff;
-  --theme-text-3: #8a94a6;
+  --theme-text-3: #ceaefe;
   --theme-text-4: #b0b7c3; // TODO find
   --theme-text-5: #4e5d78;
-  --theme-bg-1: #333e5b;
-  --theme-bg-2: #394460;
+  --theme-bg-1: #0d0831;
+  --theme-bg-2: #343052;
   --theme-bg-3: #fafbfc; // TODO find
-  --theme-bg-4: #59617a;
+  --theme-bg-4: #343052;
   --theme-border: #4e576c;
   --theme-border-light: #6a7695;
   --theme-default-btn: #ffffff;
-  --theme-plenty-badge-bg: rgba(208, 189, 230, 0.3);
-  --theme-plenty-badge-text: #d9a4cd;
+  --theme-plenty-badge-bg: rgba(208, 189, 230, 0.2);
+  --theme-plenty-badge-text: #ceaefe;
   --theme-quipuswap-badge-bg: rgba(249, 165, 88, 0.14);
   --theme-quipuswap-badge-text: #f9a558;
-  --theme-table-header-hover-bg: #394460;
+  --theme-table-header-hover-bg: #343052;
   --theme-button-bg: #fafbfc;
   --theme-hover-bg: #59617a;
   --theme-radio-button: #ffffff;
-  --theme-governance-bg: linear-gradient(
-    180deg,
-    var(--theme-bg-1) 25%,
-    #04152e 22.85%,
-    #82858a 197.76%
-  );
+  --theme-governance-bg: linear-gradient(180deg, var(--theme-bg-1) 22%, #393456 20.85%);
 
-  --theme-governance-bg-1: linear-gradient(
-    180deg,
-    var(--theme-bg-1) 23%,
-    #04152e 21.85%,
-    #82858a 197.76%
-  );
-  --theme-governance-bg-2: linear-gradient(
-    180deg,
-    var(--theme-bg-1) 21%,
-    #04152e 20.85%,
-    #82858a 197.76%
-  );
+  --theme-governance-bg-1: linear-gradient(180deg, var(--theme-bg-1) 20%, #393456 18.85%);
+  --theme-governance-bg-2: linear-gradient(180deg, var(--theme-bg-1) 18%, #393456 17.85%);
   --theme-governance-text: #edecef;
-  --theme-governance-cardBg: #1a2134;
+  --theme-governance-cardBg: #201c41;
   --theme-governance-postingInfo: rgba(255, 255, 255, 0.06);
   --theme-governance-line: rgba(241, 241, 241, 0.1);
-  --theme-governance-mobileBg: linear-gradient(90.61deg, #04152e 35.85%, #82858a 135.76%);
+  --theme-governance-mobileBg: linear-gradient(90.61deg, #393456 35.85%, #82858a 135.76%);
   --theme-governance-mobileHeaderBg: linear-gradient(90.61deg, #04152e 35.85%, #82858a 135.76%);
   --theme-governance-headerBg: #333e5b;
   --theme-governance-infoText: rgba(237, 236, 239, 0.7);
@@ -145,9 +149,27 @@
   --theme-governance-acceptText: #2fffa9;
   --theme-governance-rejectBg: rgba(214, 101, 101, 0.3);
   --theme-governance-rejectText: #ff5353;
-  --theme-governance-votingBoxBg: rgba(255, 255, 255, 0.2);
+  --theme-governance-votingBoxBg: rgb(230, 214, 254, 0.18);
   --theme-governance-selectedText: #ffffff;
   --theme-governance-label: rgba(255, 255, 255, 0.6);
+  --theme-header-heading: #ffffff;
+  --theme-header-description: #edecef;
+  --theme-header-bottom: #393456;
+  --theme-header-text: #ffffff;
+  --theme-header-selectedBg: #0d0831;
+  --theme-bg-header: #201c41;
+  --theme-header-seperator: #f4f4f4;
+  --theme-expand-button-bg: #343052;
+  --theme-primary-button-text: #0d0831;
+  --theme-primary-button-bg: #ceaefe;
+  --theme-menu-highlighter: #524666;
+  --theme-menu-text: #dec9fe;
+  --theme-disabled-button-bg: #8974a9;
+  --theme-disabled-button-text: #353153;
+  --theme-modal-boxshadow: 2px 8px 42px rgba(13, 8, 49, 0.4);
+  --theme-thead-text: #edecef;
+  --theme-toggler: #6202ef;
+  --theme-toggler-bg: #343052;
 }
 
 :root.theme-transiton {

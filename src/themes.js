@@ -12,8 +12,8 @@ export const lightTheme = {
   logoFrontPage: '#FFFFFF',
   // frontPageGradient: `linear-gradient(178.62deg, #7028E4 16.71%, #E5B2CA 217.99%)`,
   // frontPageBottomGradient: `linear-gradient(94.97deg, #7028E4 4%, #E5B2CA 142.86%)`,
-  frontPageGradient: `url(${lineBg}), linear-gradient(178.62deg, #7028E4 16.71%, #E5B2CA 217.99%)`,
-  frontPageBottomGradient: `url(${lineBg}), linear-gradient(94.97deg, #7028E4 4%, #E5B2CA 142.86%)`,
+  frontPageGradient: `url(${lineBg}), linear-gradient(180.62deg,#7028E4 100.71%,#E5B2CA 0%)`,
+  frontPageBottomGradient: `url(${lineBg}), linear-gradient(180.62deg,#7028E4 100.71%,#E5B2CA 0%)`,
   topGradient: 'linear-gradient(178.62deg, #7028E4 16.71%, #E5B2CA 217.99%)',
   bg: '#FFFFFF',
   bgAlt: '#FFFFFF',
@@ -24,7 +24,7 @@ export const lightTheme = {
   dropdownThemed: '#FFFFFF',
   dropdownThemedHighlight: '#eeeeee',
   iconFill: '#4E5D78',
-  iconHoverFill: '#FFFFFF',
+  iconHoverFill: '#6202ef',
   iconBgStartColor: '#D2D5DB',
   iconBgEndColor: '#D2D5DB',
   iconHoverBgStartColor: '#7028E4',
@@ -46,16 +46,16 @@ export const darkTheme = {
   topGradient: 'transparent',
   // frontPageGradient: ``,
   // frontPageBottomGradient: ``,
-  bg: '#2D3751',
-  bgAlt: '#2C3645',
-  backgroundLight: '#394460',
+  bg: '#201c41',
+  bgAlt: '#252146',
+  backgroundLight: '#343052',
   borderDarkNone: 'none',
   border: '1px solid rgba(44, 9, 11, 0.08)',
   btnFrontPage: '#19263A',
-  dropdownThemed: '#59617A',
+  dropdownThemed: '#514b6b',
   dropdownThemedHighlight: '#5e6884',
   iconFill: '#4E5D78',
-  iconHoverFill: '#FFFFFF',
+  iconHoverFill: '#6202ef',
   iconBgStartColor: '#D2D5DB',
   iconBgEndColor: '#D2D5DB',
   iconHoverBgStartColor: '#7028E4',
@@ -93,13 +93,13 @@ export const GlobalStyles = createGlobalStyle`
         fill: ${(props) => props.theme.iconHoverFill};
       }
        
-      > defs stop:first-child {
-        stop-color: ${(props) => props.theme.iconHoverBgStartColor};
-      }
+      // > defs stop:first-child {
+      //   stop-color: ${(props) => props.theme.iconHoverBgStartColor};
+      // }
       
-      > defs stop:last-child {
-        stop-color: ${(props) => props.theme.iconHoverBgEndColor};
-      }
+      // > defs stop:last-child {
+      //   stop-color: ${(props) => props.theme.iconHoverBgEndColor};
+      // }
     }
   }
   

@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import Button from '../Ui/Buttons/Button';
 import React, { useEffect, useState } from 'react';
-import SimpleModal from '../Ui/Modals/SimpleModal';
 import { RPC_NODE } from '../../constants/localStorage';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { setNode } from '../../redux/slices/settings/settings.slice';
+import clsx from 'clsx';
 
 async function isValidURL(userInput) {
   try {
@@ -75,7 +75,7 @@ function NodeSelectorModal(props) {
     if (currentRPC !== 'CUSTOM') {
       localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES[currentRPC]);
       props.setNode(LOCAL_RPC_NODES[currentRPC]);
-      props.closeNodeSelectorModal();
+      //props.closeNodeSelectorModal();
     } else {
       let _customRPC = customRPC;
       if (!_customRPC.match(/\/$/)) {
@@ -91,74 +91,77 @@ function NodeSelectorModal(props) {
       } else {
         localStorage.setItem(RPC_NODE, _customRPC);
         props.setNode(_customRPC);
-        props.closeNodeSelectorModal(_customRPC);
+        // props.closeNodeSelectorModal(_customRPC);
       }
     }
   };
 
   return (
-    <SimpleModal
-      title={props.title}
-      open={props.nodeSelector}
-      onClose={props.closeNodeSelectorModal}
-      className="node-selector-modal"
-    >
-      <div className="node-selector-text">
-        The Plenty node can be overloaded sometimes. When your data doesn’t load properly, try
-        switching to a different node, or use a custom node.
-      </div>
-      <div className="node-selector-radio-container node-selector-list">
-        <ul>
-          {Object.entries(nodeNames).map(([identifier, name]) => (
-            <li key={identifier}>
-              <label htmlFor={identifier} onClick={() => setCurrentRPC(identifier)}>
+    <>
+      <div className="node-selector-modal">
+        <div className="node-selector-radio-container node-selector-list">
+          <ul>
+            {Object.entries(nodeNames).map(([identifier, name]) => (
+              <li key={identifier}>
+                <label
+                  className={clsx(currentRPC === identifier && 'selected-border')}
+                  htmlFor={identifier}
+                  onClick={() => setCurrentRPC(identifier)}
+                >
+                  <div className="check" />
+                  <input
+                    defaultChecked={currentRPC === identifier}
+                    type="radio"
+                    checked={currentRPC === identifier}
+                    id={identifier}
+                    name="selector"
+                    className="input-nodeselector"
+                  />
+                  <span
+                    className={clsx(currentRPC === identifier ? 'selected-label' : 'default-label')}
+                  >
+                    {name}
+                  </span>
+                </label>
+              </li>
+            ))}
+            <li>
+              <label
+                className={clsx('custom', currentRPC === 'CUSTOM' && 'selected-border')}
+                htmlFor="w-option"
+                onClick={() => setCurrentRPC('CUSTOM')}
+              >
                 <input
-                  defaultChecked={currentRPC === identifier}
+                  defaultChecked={currentRPC === 'CUSTOM'}
                   type="radio"
-                  checked={currentRPC === identifier}
-                  id={identifier}
+                  id="w-option"
+                  checked={currentRPC === 'CUSTOM'}
                   name="selector"
+                  className="custominput"
                 />
-                {name}
-                <div className="check" />
               </label>
-            </li>
-          ))}
-          <li>
-            <label htmlFor="w-option" onClick={() => setCurrentRPC('CUSTOM')}>
               <input
-                defaultChecked={currentRPC === 'CUSTOM'}
-                type="radio"
-                id="w-option"
-                checked={currentRPC === 'CUSTOM'}
-                name="selector"
+                disabled={currentRPC !== 'CUSTOM'}
+                type="url"
+                htmlFor="w-option"
+                className={clsx(
+                  'node-selector-modal-input',
+                  currentRPC === 'CUSTOM' && 'selected-border',
+                )}
+                placeholder="https://custom.tezos.node"
+                value={customRPC}
+                onChange={(e) => {
+                  setCustomRPC(e.target.value);
+                }}
               />
-              Custom
-              <div className="check"></div>
-            </label>
-            <input
-              disabled={currentRPC !== 'CUSTOM'}
-              type="url"
-              htmlFor="w-option"
-              className="node-selector-modal-input"
-              placeholder="https://custom.tezos.node"
-              value={customRPC}
-              onChange={(e) => {
-                setCustomRPC(e.target.value);
-              }}
-            />
-          </li>
-        </ul>
+            </li>
+          </ul>
+        </div>
+        <Button onClick={setRPCInLS} className="button-bg w-100 mt-1 mb-2 py-1">
+          Set Node
+        </Button>
       </div>
-      <Button
-        onClick={setRPCInLS}
-        color={'primary'}
-        className={'w-100'}
-        style={{ marginTop: '15px' }}
-      >
-        Set Node
-      </Button>
-    </SimpleModal>
+    </>
   );
 }
 

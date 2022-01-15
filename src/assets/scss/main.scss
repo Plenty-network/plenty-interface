@@ -127,15 +127,7 @@ h1 {
 }
 
 .shimmer {
-  background: var(--theme-bg-2)
-    linear-gradient(
-      to right,
-      var(--theme-bg-2) 0%,
-      var(--theme-bg-4) 20%,
-      var(--theme-bg-2) 40%,
-      var(--theme-bg-2) 100%
-    )
-    no-repeat;
+  background: var(--theme-bg-2);
   background-size: 800px 104px;
   display: inline-block;
   position: relative;

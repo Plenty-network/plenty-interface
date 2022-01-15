@@ -1,7 +1,7 @@
 @use '../../assets/scss/constants' as const;
 
 .fullScreen {
-  min-height: 100vh;
+  min-height: 75vh;
 }
 .homePageBanner {
   background-position: left bottom;
@@ -62,4 +62,8 @@
   font-style: normal;
   font-weight: normal;
   color: #ffffff;
+}
+.centerAlign {
+  display: flex;
+  justify-content: center;
 }
