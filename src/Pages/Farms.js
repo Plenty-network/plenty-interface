@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { BsSearch } from 'react-icons/bs';
 import styles1 from '../assets/scss/tokens.module.scss';
-import { FormControl, InputGroup, Tabs, Tab, Form } from 'react-bootstrap';
+import { FormControl, InputGroup, Tabs, Tab } from 'react-bootstrap';
 import * as walletActions from '../redux/actions/wallet/wallet.action';
 import Switch from '../Components/Ui/Switch/Switch';
 import StakeModal from '../Components/Ui/Modals/StakeModal';
@@ -103,7 +103,7 @@ const Farms = (props) => {
       }
 
       if (tabChange === FARM_TAB.YOU) {
-        return farm.farmData.message?.includes('YOU rewards');
+        return props.userStakes[farm.farmData.CONTRACT]?.stakedAmount > 0;
       }
 
       return true;
@@ -251,14 +251,14 @@ const Farms = (props) => {
                     inverted={true}
                   />
                 </div>
-                <div className={styles.stakedSwitch}>
+                {/* <div className={styles.stakedSwitch}>
                   <Form.Switch
                     id="switch-staked"
                     label="Staked Only"
                     checked={props.isStakedOnlyOpen}
                     onChange={() => props.toggleStakedFarmsOnly(!props.isStakedOnlyOpen)}
                   />
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
