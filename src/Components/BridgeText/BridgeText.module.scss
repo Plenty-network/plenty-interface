@@ -1,0 +1,46 @@
+.heading {
+  padding-top: 100px;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 52px;
+  letter-spacing: 0px;
+  color: #292a2e;
+}
+.description {
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 38px;
+  letter-spacing: 0px;
+  color: #4e5d78;
+}
+
+.question {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 52px;
+  letter-spacing: 0px;
+  margin-top: 20px;
+}
+.answer {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px;
+  letter-spacing: 0px;
+}
+.discriptionInfo {
+  color: var(--theme-governance-buttonBorder);
+  width: 100%;
+
+  a {
+    color: var(--theme-governance-buttonBorder);
+  }
+}
+
+.lineBottom {
+  border-bottom: 0.5px solid #bfb6cc;
+  width: 100%;
+}

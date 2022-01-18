@@ -17,6 +17,7 @@ const Tokens = React.lazy(() => import('../Pages/Tokens/Tokens'));
 const Liquidity = React.lazy(() => import('../Pages/Liquidity'));
 const Frontpage = React.lazy(() => import('../Pages/Frontpage/Frontpage'));
 const Stake = React.lazy(() => import('../Pages/xPlenty'));
+const Bridge = React.lazy(() => import('../Pages/Bridge/Bridge'));
 const Governance = React.lazy(() => import('../Pages/Governance/Governance'));
 
 const MyRoutes = (props) => {
@@ -114,6 +115,14 @@ const MyRoutes = (props) => {
               }
             />
             <Route
+              path="/bridge"
+              element={
+                <OtherPages {...otherPageProps}>
+                  <Bridge walletAddress={props.userAddress} />
+                </OtherPages>
+              }
+            />
+            <Route
               path="/vote"
               element={
                 <OtherPages {...otherPageProps}>
@@ -121,18 +130,6 @@ const MyRoutes = (props) => {
                 </OtherPages>
               }
             />
-            {/* <Route
-              path="/vote"
-              element={
-                <Governance
-                  toggleTheme={toggleTheme}
-                  theme={theme}
-                  connectWallet={connectWallet}
-                  disconnectWallet={disconnectUserWallet}
-                  walletAddress={props.userAddress}
-                />
-              }
-            /> */}
           </Routes>
         </React.Suspense>
       </BrowserRouter>
