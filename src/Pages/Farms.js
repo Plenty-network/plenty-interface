@@ -108,7 +108,7 @@ const Farms = (props) => {
 
       return true;
     },
-    [tabChange],
+    [tabChange, props.userStakes],
   );
 
   const filterByStaked = useCallback(
