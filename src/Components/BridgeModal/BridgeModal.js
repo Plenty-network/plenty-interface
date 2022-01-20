@@ -1,330 +1,157 @@
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from './BridgeModal.module.scss';
-import { GOV_PAGE_MODAL } from '../../constants/govPage';
 import Button from '../Ui/Buttons/Button';
-import { ReactComponent as Info } from '../../assets/images/Icon.svg';
-import { ReactComponent as Check } from '../../assets/images/check-circle.svg';
-import { ReactComponent as CheckViolet } from '../../assets/images/CheckCircle.svg';
-import { ReactComponent as Clock } from '../../assets/images/clock.svg';
+import { ReactComponent as Avalanche } from '../../assets/images/bridge/avalanche.svg';
+import AvalancheRed from '../../assets/images/bridge/avalanche_red.svg';
+import tezos from '../../assets/images/bridge/tezos.svg';
+import arrowDown from '../../assets/images/bridge/arrow_down.svg';
+import arrowUp from '../../assets/images/bridge/arrow_up.svg';
 import { tokens } from '../../constants/swapPage';
+import SwapModal from '../SwapModal/SwapModal';
+import plenty from '../../assets/images/logo_small.png';
 
-const BridgeModal = (props) => {
-  const [tokensToShow, setTokensToShow] = useState([]);
+const BridgeModal = () => {
+  const [firstTokenAmount, setFirstTokenAmount] = useState();
+  const [secondTokenAmount, setSecondTokenAmount] = useState();
 
-  const [voteSelected, setVoteSelected] = useState('');
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [tokenIn, setTokenIn] = useState({
+    name: 'PLENTY',
+    image: plenty,
+  });
+  const [searchQuery, setSearchQuery] = useState('');
+  const [show, setShow] = useState(false);
 
-  const handleVoteClick = (value) => {
-    if (value && !props.alreadyVoted) {
-      setVoteSelected(value);
-    }
-    if (props.alreadyVoted) {
-      document.getElementById('select-accept').checked = false;
-      document.getElementById('select-reject').checked = false;
-      document.getElementById('select-abstained').checked = false;
+  const [tokenType, setTokenType] = useState('tokenIn');
+  const tokenOut = {};
+  const handleFromTokenInput = (input, tokenType) => {
+    if (input === '' || isNaN(input)) {
+      setFirstTokenAmount('');
+    } else {
+      if (tokenType === 'tokenIn') {
+        setFirstTokenAmount(input);
+      }
     }
   };
 
-  useEffect(() => {
-    if (isSubmitted === true) {
-      if (voteSelected === GOV_PAGE_MODAL.ACCEPT) {
-        props.getVote(GOV_PAGE_MODAL.ACCEPT_VOTE);
-      }
-      if (voteSelected === GOV_PAGE_MODAL.REJECT) {
-        props.getVote(GOV_PAGE_MODAL.REJECT_VOTE);
-      }
-      if (voteSelected === GOV_PAGE_MODAL.ABSTAIN) {
-        props.getVote(GOV_PAGE_MODAL.ABSTAINED_VOTE);
+  const handleToTokenInput = (input, tokenType) => {
+    if (input === '' || isNaN(input)) {
+      setSecondTokenAmount('');
+    } else {
+      if (tokenType === 'tokenIn') {
+        setSecondTokenAmount(input);
       }
     }
-  }, [isSubmitted]);
+  };
 
-  useEffect(() => {
-    if (
-      props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS ||
-      props.modalData === GOV_PAGE_MODAL.TRANSACTION_FAILED
-    ) {
-      props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS && setIsSubmitted(true);
+  const handleClose = () => {
+    setShow(false);
 
-      props.modalData === GOV_PAGE_MODAL.TRANSACTION_FAILED && setIsSubmitted(false);
+    setSearchQuery('');
+  };
+  const handleTokenType = (type) => {
+    setShow(true);
+    setTokenType(type);
+  };
+
+  const selectToken = (token) => {
+    setFirstTokenAmount('');
+    setSecondTokenAmount('');
+
+    if (tokenType === 'tokenIn') {
+      setTokenIn({
+        name: token.name,
+        image: token.image,
+      });
     }
-  }, [props.modalData, isSubmitted]);
-  useEffect(() => {
-    setTokensToShow(tokens);
-  }, []);
-
+    handleClose();
+  };
   return (
     <div
       className={`justify-content-center mx-auto col-20 col-md-10 col-lg-10 col-xl-10 ${styles.gov}`}
     >
       <div className={styles.border}>
-        <div className={` ${styles.voteModal}`}>
+        <div className={` ${styles.bridgeModal}`}>
           <div className={styles.resultsHeader}>
-            <p className={styles.voteHeading}>Bridge Tokens</p>
+            <p className={styles.heading}>Bridge Tokens</p>
             <p className={styles.res}>View History</p>
           </div>
-          <div className="token-selector-balance-wrapper">
-            <button className="token-selector dropdown-themed">
-              <img className="button-logo" />
-              <span className="span-themed">check </span>
-              <span className="span-themed material-icons-round">expand_more</span>
-            </button>
+          <div className={`mb-3 ${styles.lineBottom} `}></div>
+          <div className={`mt-2 ${styles.selectBox}`} onClick={() => handleTokenType('tokenIn')}>
+            <div className="token-user-input-wrapper" style={{ textAlign: 'left' }}>
+              <img src={tokenIn.image} className="button-logo" />
+              {tokenIn.name}
+            </div>
+            <span className="span-themed material-icons-round">expand_more</span>
           </div>
-          <div className="coin-selection-table">
-            {tokensToShow.map((token, index) => {
-              return (
-                <button className="token-select-btn" key={index}>
-                  <img src={token.image} className="select-token-img" alt={token.name} />
-                  <span className="span-themed">{token.name}</span>
-                  {token.new ? <span className="new-badge-icon">New!</span> : null}
-                  {token.extra && (
-                    <a
-                      className="extra-text"
-                      href={token.extra.link}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      {token.extra.text}
-                    </a>
-                  )}
-                </button>
-              );
-            })}
+          <div className={`mt-4 ${styles.from}`}>From</div>
+          <div className={`mt-3 ${styles.selectBox} ${styles.inputSelectBox}`}>
+            <div className="token-user-input-wrapper" style={{ textAlign: 'left' }}>
+              <input
+                type="text"
+                className={styles.tokenUserInput}
+                placeholder="0.0"
+                value={firstTokenAmount}
+                onChange={(e) => handleFromTokenInput(e.target.value, 'tokenIn')}
+              />
+            </div>
+
+            <div className={styles.tokenSelector}>
+              <img src={AvalancheRed} className="button-logo" />
+              AVALANCHE{' '}
+            </div>
+          </div>
+          <p className="mb-5 wallet-token-balance">Balance: 100</p>
+          <div className={styles.arrowSwap}>
+            <img src={arrowDown} alt={'arrowdown'} className={styles.arrow} />
+            <img src={arrowUp} alt={'arrowup'} className={styles.arrow} />
           </div>
 
-          <div
-            className={clsx(
-              styles.votingBox,
-              voteSelected === GOV_PAGE_MODAL.ACCEPT ? styles.borderChange : styles.initialColor,
-            )}
-          >
-            {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted) && (
-              <div
-                className={clsx(
-                  styles.votingBoxBg,
-                  voteSelected === GOV_PAGE_MODAL.ACCEPT
-                    ? styles.selectedVotingBoxBg
-                    : styles.defaultVotingBoxBg,
-                )}
-                style={{
-                  width: `${props.gov?.yayPercentage}%`,
-                }}
+          <div className={`mt-5 ${styles.to}`}>To</div>
+          <div className={`mt-3 ${styles.selectBox} ${styles.inputSelectBox}`}>
+            <div className="token-user-input-wrapper" style={{ textAlign: 'left' }}>
+              <p className={styles.toLabel}>you will receive</p>
+
+              <input
+                type="text"
+                className={styles.tokenUserInput}
+                placeholder="0.0"
+                value={secondTokenAmount}
+                onChange={(e) => handleToTokenInput(e.target.value, 'tokenIn')}
               />
-            )}
-            <input
-              className={` ${styles.option}`}
-              id="select-accept"
-              type="radio"
-              name="where"
-              value={GOV_PAGE_MODAL.ACCEPT}
-              onClick={(e) => {
-                handleVoteClick(e.target.value);
-              }}
-            />
-            <label
-              className={clsx(
-                'ml-4',
-                styles.selectItem,
-                voteSelected === GOV_PAGE_MODAL.ACCEPT ? styles.colorChange : styles.initialColor,
-              )}
-              htmlFor="select-accept"
-            >
-              {GOV_PAGE_MODAL.ACCEPT}
-            </label>
-            {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted) && (
-              <span
-                className={clsx(
-                  styles.percentage,
-                  voteSelected === GOV_PAGE_MODAL.ACCEPT ? styles.colorChange : styles.initialColor,
-                )}
-              >
-                {props.gov?.yayPercentage === undefined ? (
-                  <span className="shimmer">999</span>
-                ) : (
-                  `${props.gov.yayPercentage}%`
-                )}
-              </span>
-            )}
+            </div>
+
+            <div className={styles.tokenSelector}>
+              <img src={tezos} className="button-logo" />
+              TEZOS{' '}
+            </div>
           </div>
 
-          <div
-            className={clsx(
-              styles.votingBox,
-              voteSelected === GOV_PAGE_MODAL.REJECT ? styles.borderChange : styles.initialColor,
-            )}
-          >
-            {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted) && (
-              <div
-                className={clsx(
-                  styles.votingBoxBg,
-                  voteSelected === GOV_PAGE_MODAL.REJECT
-                    ? styles.selectedVotingBoxBg
-                    : styles.defaultVotingBoxBg,
-                )}
-                style={{
-                  width: `${props.gov?.nayPercentage}%`,
-                }}
-              />
-            )}
-            <input
-              className={` ${styles.option}`}
-              id="select-reject"
-              type="radio"
-              name="where"
-              value={GOV_PAGE_MODAL.REJECT}
-              onClick={(e) => {
-                handleVoteClick(e.target.value);
-              }}
-            />
-            <label
-              className={clsx(
-                'ml-4',
-                styles.selectItem,
-                voteSelected === GOV_PAGE_MODAL.REJECT ? styles.colorChange : styles.initialColor,
-              )}
-              htmlFor="select-reject"
-            >
-              {GOV_PAGE_MODAL.REJECT}
-            </label>
-            {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted) && (
-              <span
-                className={clsx(
-                  styles.percentage,
-                  voteSelected === GOV_PAGE_MODAL.REJECT ? styles.colorChange : styles.initialColor,
-                )}
-              >
-                {props.gov?.nayPercentage === undefined ? (
-                  <span className="shimmer">999</span>
-                ) : (
-                  `${props.gov.nayPercentage}%`
-                )}
-              </span>
-            )}
-          </div>
-          <div
-            className={clsx(
-              styles.votingBox,
-              voteSelected === GOV_PAGE_MODAL.ABSTAIN ? styles.borderChange : styles.initialColor,
-            )}
-          >
-            {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted) && (
-              <div
-                className={clsx(
-                  styles.votingBoxBg,
-                  voteSelected === GOV_PAGE_MODAL.ABSTAIN
-                    ? styles.selectedVotingBoxBg
-                    : styles.defaultVotingBoxBg,
-                )}
-                style={{
-                  width: `${props.gov?.absPercentage}%`,
-                }}
-              />
-            )}
-            <input
-              className={` ${styles.option}`}
-              id="select-abstained"
-              type="radio"
-              name="where"
-              value={GOV_PAGE_MODAL.ABSTAIN}
-              onClick={(e) => {
-                handleVoteClick(e.target.value);
-              }}
-            />
-            <label
-              className={clsx(
-                'ml-4',
-                styles.selectItem,
-                voteSelected === GOV_PAGE_MODAL.ABSTAIN ? styles.colorChange : styles.initialColor,
-              )}
-              htmlFor="select-abstained"
-            >
-              {GOV_PAGE_MODAL.ABSTAIN}
-            </label>
-            {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted) && (
-              <span
-                className={clsx(
-                  styles.percentage,
-                  voteSelected === GOV_PAGE_MODAL.ABSTAIN
-                    ? styles.colorChange
-                    : styles.initialColor,
-                )}
-              >
-                {props.gov?.absPercentage === undefined ? (
-                  <span className="shimmer">999</span>
-                ) : (
-                  `${props.gov.absPercentage}%`
-                )}
-              </span>
-            )}
-          </div>
-          <div className={` ${styles.submit}`}>
-            {props.walletAddress ? (
-              <Button
-                disabled={props.alreadyVoted || props.loading}
-                className={clsx(
-                  styles.submitButton,
-                  voteSelected || props.alreadyVoted
-                    ? styles.buttonColorChange
-                    : styles.initialColor,
-                  props.loading && styles.buttonColorChange,
-                )}
-                onClick={() => {
-                  setIsSubmitted(true);
-                }}
-                loading={props.loading}
-              >
-                {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted) && (
-                  <Check className="mr-2 mb-1" />
-                )}
-                {props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted
-                  ? 'Submitted'
-                  : 'Submit'}
-              </Button>
-            ) : (
-              <Button onClick={props.connectWallet} className={styles.submitButton} startIcon="add">
-                Connect Wallet
-              </Button>
-            )}
-
-            <span className={`my-3 ml-4 ${styles.totalVotes}`}>
-              {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted) && (
-                <CheckViolet className="mr-2 mb-1" />
-              )}
-              {(props.modalData === GOV_PAGE_MODAL.TRANSACTION_SUCCESS || props.alreadyVoted) &&
-                (props.gov?.totalVotes === undefined ? (
-                  <span className="shimmer">999</span>
-                ) : (
-                  `${props.gov.totalVotes} voted so far.`
-                ))}
-            </span>
-          </div>
-          <div className="mt-3">
-            <Clock />
-            <span className={`ml-2 ${styles.poll}`}>
-              Voting closes on <b>Dec 22, 2021</b>
-            </span>
-          </div>
-          <div className={`my-4 ${styles.line} `}></div>
-          <p className={styles.voteHeading}>Weightage</p>
-          <p className="mt-2">
-            The weight of your vote is calculated based on your xPLENTY balance at the block the PIP
-            was inserted on-chain. Users can cast their vote for the duration of one week.
-          </p>
-          <div className={`px-3 py-3 ${styles.info}`}>
-            <div className={styles.InfoIconBg}>
-              <div className={styles.infoIcon}>
-                <Info />
+          <p className="mt-2 wallet-token-balance">Estimated fee: 100</p>
+          <Button className={clsx('px-md-3', 'mt-3', 'w-100', 'connect-wallet-btn', 'button-bg')}>
+            <div className={clsx('connect-wallet-btn')}>
+              <div className="flex flex-row align-items-center">
+                <Avalanche />
+                <span className="ml-2">Connect to Avalanche wallet</span>
               </div>
             </div>
-            <div className={` ${styles.infoText}`}>
-              This is a light version of the upcoming Plenty governance process that will be
-              released in the future.
-            </div>
-          </div>
+          </Button>
         </div>
       </div>
+
+      <SwapModal
+        show={show}
+        activeTab="swap"
+        onHide={handleClose}
+        selectToken={selectToken}
+        tokens={tokens}
+        tokenIn={tokenIn}
+        tokenOut={tokenOut}
+        tokenType="tokenIn"
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+      />
     </div>
   );
 };
