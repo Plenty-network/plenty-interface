@@ -4089,7 +4089,7 @@ const Config: IConfig = {
       { block: 24576, rate: 10, duration: '< 9 days' },
       { block: 24576, rate: 4, duration: '> 9 days' },
     ],
-    type2: [
+      type2: [
       { block: 24576, rate: 4, duration: '< 9 days' },
       { block: 24576, rate: 0, duration: '> 9 days' },
     ],
