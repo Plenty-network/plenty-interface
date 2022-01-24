@@ -32,7 +32,7 @@ const getPackedKey = (tokenId, address, type) => {
 
 /**
  * Returns staked amount and individual stakes of user
- * @param mapId - mapId of bigmap from which data is to be fetched
+ * @param mapId - mapId of bigmap from which data is to be fetched (Staking contract mapID)
  * @param packedKey - User specific packed key to get its data from bigmap
  * @param identifier - Name to identify a farm type case-sensitive to CONFIG
  * @param decimal - decimals wrt farm contract
@@ -80,7 +80,7 @@ const getStakedAmount = async (mapId, packedKey, identifier, decimal, address, t
 };
 /**
  * Returns staked amount by user for a dual farm
- * @param mapId - Big map id from where user specific data needs to be fetched
+ * @param mapId - Big map id from where user specific data needs to be fetched (Staking contract mapID )
  * @param packedKey - packed key (expr..) of user
  * @param identifier - Name to identify a farm type case-sensitive to CONFIG
  * @param decimal - decimal adhered to by farm contract
@@ -135,7 +135,7 @@ const getStakedAmountDual = async (
 };
 /**
  * Utility function to getBalance amount from contract
- * @param mapId - big map id from contract
+ * @param mapId - big map id from contract (token contract mapID)
  * @param packedKey - generated packed address of user
  * @param identifier - Name to identify a farm type case-sensitive to CONFIG
  * @param decimal - Decimals adhered to by contract
@@ -313,7 +313,7 @@ export const getStakedAmountForAllContracts = async (address, type, isActive) =>
  * @param stakingContractAddress - Address of farm
  * @param DECIMAL - Decimal adhered to by contract
  * @param currentBlockLevel - Last block baked on blockchain
- * @param mapId - big map id from where user data needs to be fetched
+ * @param mapId - big map id from where user data needs to be fetched (Staking contract mapID)
  * @param packedAddress - User specific address for fetching big map data
  * @returns {Promise<{address, success: boolean, totalRewards: number}>}
  */
@@ -429,7 +429,7 @@ const calculateHarvestValueDual = async (
  * @param stakingContractAddress -  Contract address of the farm
  * @param DECIMAL - Decimal in the contract
  * @param currentBlockLevel - last block baked
- * @param mapId - big map Id from where user specific data needs to be fetched
+ * @param mapId - big map Id from where user specific data needs to be fetched (Staking contract mapID)
  * @param packedAddress - Specific packed address of user
  * @returns {Promise<{address, success: boolean, totalRewards: number}>}
  */
