@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import styles from './bridge.module.scss';
@@ -11,7 +12,7 @@ import useMediaQuery from '../../hooks/mediaQuery';
 
 import TransactionHistory from '../../Components/TransactionHistory/TransactionHistory';
 
-const Bridge = () => {
+const Bridge = (props) => {
   const isMobile = useMediaQuery('(max-width: 991px)');
   const [transaction, setTransaction] = useState(false);
 
@@ -25,7 +26,11 @@ const Bridge = () => {
           <Col xs={20} sm={5} md={10} lg={6} xl={5}>
             {!isMobile &&
               (!transaction ? (
-                <BridgeModal transaction={transaction} setTransaction={setTransaction} />
+                <BridgeModal
+                  walletAddress={props.walletAddress}
+                  transaction={transaction}
+                  setTransaction={setTransaction}
+                />
               ) : (
                 <TransactionHistory transaction={transaction} setTransaction={setTransaction} />
               ))}
@@ -37,3 +42,7 @@ const Bridge = () => {
 };
 
 export default Bridge;
+
+Bridge.propTypes = {
+  walletAddress: PropTypes.any,
+};

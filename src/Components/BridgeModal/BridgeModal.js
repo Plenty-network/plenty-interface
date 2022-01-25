@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './BridgeModal.module.scss';
 import Button from '../Ui/Buttons/Button';
 import { ReactComponent as Avalanche } from '../../assets/images/bridge/avalanche.svg';
@@ -11,6 +11,8 @@ import arrowUp from '../../assets/images/bridge/arrow_up.svg';
 import { tokens } from '../../constants/swapPage';
 import SwapModal from '../SwapModal/SwapModal';
 import plenty from '../../assets/images/logo_small.png';
+import { getTokenPrices, getUserBalanceByRpc, fetchtzBTCBalance } from '../../apis/swap/swap';
+import config from '../../config/config';
 
 const BridgeModal = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -23,8 +25,70 @@ const BridgeModal = (props) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [show, setShow] = useState(false);
 
+  const [userBalances, setUserBalances] = useState({});
   const [tokenType, setTokenType] = useState('tokenIn');
+  const [getTokenPrice, setGetTokenPrice] = useState({});
   const tokenOut = {};
+  useEffect(() => {
+    const updateBalance = async () => {
+      const userBalancesCopy = { ...userBalances };
+      const tzBTCName = 'tzBTC';
+      const balancePromises = [];
+      if (!userBalancesCopy[tokenIn.name]) {
+        tokenIn.name === tzBTCName
+          ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
+          : balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
+      }
+      if (!userBalancesCopy[tokenOut.name]) {
+        tokenOut.name === tzBTCName
+          ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
+          : balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));
+      }
+      if (config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]) {
+        const lpToken =
+          config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
+
+        balancePromises.push(getUserBalanceByRpc(lpToken, props.walletAddress));
+      }
+      const balanceResponse = await Promise.all(balancePromises);
+
+      setUserBalances((prev) => ({
+        ...prev,
+        ...balanceResponse.reduce(
+          (acc, cur) => ({
+            ...acc,
+            [cur.identifier]: cur.balance,
+          }),
+          {},
+        ),
+      }));
+    };
+    updateBalance();
+  }, [tokenIn]);
+  useEffect(() => {
+    //setLoading(true);
+    //setLoaderInButton(true);
+    getTokenPrices().then((tokenPrice) => {
+      setGetTokenPrice(tokenPrice);
+      //setLoading(false);
+    });
+  }, []);
+  const getDollarValue = (amount, price) => {
+    const calculatedValue = amount * price;
+    if (calculatedValue < 100) {
+      return calculatedValue.toFixed(2);
+    }
+    return Math.floor(calculatedValue);
+  };
+  const onClickAmount = () => {
+    const value =
+      userBalances[tokenIn.name].toLocaleString('en-US', {
+        maximumFractionDigits: 20,
+        useGrouping: false,
+      }) ?? 0;
+    handleFromTokenInput(value, 'tokenIn');
+  };
+
   const handleFromTokenInput = (input, tokenType) => {
     if (input === '' || isNaN(input)) {
       setFirstTokenAmount('');
@@ -114,7 +178,32 @@ const BridgeModal = (props) => {
               AVALANCHE{' '}
             </div>
           </div>
-          <p className="mb-5 wallet-token-balance">Balance: 100</p>
+
+          {props.walletAddress ? (
+            <div className="flex justify-between mb-5" style={{ flex: '0 0 100%' }}>
+              <p
+                className="wallet-token-balance"
+                onClick={onClickAmount}
+                style={{ cursor: 'pointer' }}
+              >
+                Balance:{' '}
+                {userBalances[tokenIn.name] >= 0 ? (
+                  userBalances[tokenIn.name]
+                ) : (
+                  <div className="shimmer">0.0000</div>
+                )}{' '}
+                <span className="max-btn">(Max)</span>
+              </p>
+
+              <p className="wallet-token-balance">
+                ~$
+                {getTokenPrice.success && firstTokenAmount
+                  ? getDollarValue(firstTokenAmount, getTokenPrice.tokenPrice[tokenIn.name])
+                  : '0.00'}
+              </p>
+            </div>
+          ) : null}
+
           <div className={styles.arrowSwap}>
             <img src={arrowDown} alt={'arrowdown'} className={styles.arrow} />
             <img src={arrowUp} alt={'arrowup'} className={styles.arrow} />
@@ -171,6 +260,7 @@ const BridgeModal = (props) => {
 BridgeModal.propTypes = {
   transaction: PropTypes.any,
   setTransaction: PropTypes.any,
+  walletAddress: PropTypes.any,
 };
 
 export default BridgeModal;
