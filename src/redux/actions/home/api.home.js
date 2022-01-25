@@ -606,7 +606,8 @@ const getPriceForPlentyLpTokens = async (
     for (const i in tokenPricesData) {
       if (
         tokenPricesData[i].tokenAddress === token1Address &&
-        tokenPricesData[i].type === token1Type
+        tokenPricesData[i].type === token1Type &&
+        tokenPricesData[i].symbol !== 'uBTC'
       ) {
         tokenData['token0'] = {
           tokenName: tokenPricesData[i].symbol,
