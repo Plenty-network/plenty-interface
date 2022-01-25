@@ -63,7 +63,7 @@ const fetchStorageForDualStakingContract = async (
 
     const APRSecond =
       (rewardRateSecond * 1051200 * tokenSecondPrice) / (totalSupply * priceOfStakeTokenInUsd);
-
+    // Add two APR's to show cumulative APR
     let APR = APRFirst + APRSecond;
     APR = APR * 100;
 
@@ -72,7 +72,7 @@ const fetchStorageForDualStakingContract = async (
 
     const DPYSecond =
       (rewardRateSecond * 2880 * tokenSecondPrice) / (totalSupply * priceOfStakeTokenInUsd);
-
+    // Add two DPY's to show cumulative DPY
     let DPY = DPYFirst + DPYSecond;
     DPY = DPY * 100;
 
@@ -323,7 +323,8 @@ const getPriceForPlentyLpTokens = async (
     for (const i in tokenPricesData) {
       if (
         tokenPricesData[i].tokenAddress === token1Address &&
-        tokenPricesData[i].type === token1Type
+        tokenPricesData[i].type === token1Type &&
+        tokenPricesData[i].symbol !== 'uBTC'
       ) {
         tokenData['token0'] = {
           tokenName: tokenPricesData[i].symbol,
@@ -504,9 +505,12 @@ export const getFarmsDataAPI = async (isActive) => {
     const response = await Promise.all(dexPromises);
     const lpPricesInUsd = {};
     for (const i in response) {
+      // Condition for PLP token
       if (response[i].lpPriceInXtz * xtzPriceInUsd) {
         lpPricesInUsd[response[i].identifier] = response[i].lpPriceInXtz * xtzPriceInUsd;
-      } else {
+      }
+      // Condition for QPT token
+      else {
         lpPricesInUsd[response[i].identifier] = response[i].totalAmount;
       }
     }
@@ -755,6 +759,7 @@ export const unstakeAPI = async (stakesToUnstake, farmIdentifier, isActive, posi
         ].CONTRACT,
       );
       let amount;
+      // Creating multiple un-staking operation for batching them
       const unstakeBatch = stakesToUnstake.map((stake) => {
         amount =
           stake.amount *
