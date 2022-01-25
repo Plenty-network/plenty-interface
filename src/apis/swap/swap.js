@@ -832,10 +832,11 @@ export const computeRemoveTokens = (
 export const getUserBalanceByRpc = async (identifier, address) => {
   try {
     //let balance;
-    const mapId = CONFIG.AMM[CONFIG.NETWORK][identifier].mapId;
-    const type = CONFIG.AMM[CONFIG.NETWORK][identifier].READ_TYPE;
-    const decimal = CONFIG.AMM[CONFIG.NETWORK][identifier].TOKEN_DECIMAL;
-    const tokenId = CONFIG.AMM[CONFIG.NETWORK][identifier].TOKEN_ID;
+    const token = CONFIG.AMM[CONFIG.NETWORK][identifier];
+    const mapId = token.mapId;
+    const type = token.READ_TYPE;
+    const decimal = token.TOKEN_DECIMAL;
+    const tokenId = token.TOKEN_ID;
     const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
     const packedKey = getPackedKey(tokenId, address, type);
     const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
