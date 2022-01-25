@@ -21,6 +21,7 @@ const TransactionHistory = (props) => {
               onClick={() => {
                 setBack(true);
               }}
+              style={{ cursor: 'pointer' }}
             >
               <span className="mt-1 mr-3 material-icons-round ">arrow_back</span>
             </p>

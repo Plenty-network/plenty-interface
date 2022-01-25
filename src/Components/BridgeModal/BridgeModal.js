@@ -121,7 +121,6 @@ const BridgeModal = (props) => {
   const setTransaction = (value) => {
     if (value) {
       props.setTransaction(value);
-      console.log('hello');
     }
   };
   const selectToken = (token) => {
@@ -149,6 +148,7 @@ const BridgeModal = (props) => {
               onClick={() => {
                 setTransaction(true);
               }}
+              style={{ cursor: 'pointer' }}
             >
               View History
             </p>
