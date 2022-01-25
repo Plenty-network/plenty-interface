@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import styles from './BridgeText.module.scss';
 import Row from 'react-bootstrap/Row';
@@ -38,18 +37,3 @@ const BridgeText = () => {
   );
 };
 export default BridgeText;
-
-BridgeText.propTypes = {
-  voteEnded: PropTypes.any,
-  connectWallet: PropTypes.any,
-  disconnectWallet: PropTypes.any,
-  gov: PropTypes.any,
-  modalData: PropTypes.any,
-  postResults: PropTypes.any,
-  getVote: PropTypes.any,
-  getResults: PropTypes.any,
-  loading: PropTypes.any,
-  getAlreadyVoted: PropTypes.any,
-  walletAddress: PropTypes.any,
-  alreadyVoted: PropTypes.any,
-};

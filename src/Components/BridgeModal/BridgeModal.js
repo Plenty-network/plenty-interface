@@ -12,7 +12,7 @@ import { tokens } from '../../constants/swapPage';
 import SwapModal from '../SwapModal/SwapModal';
 import plenty from '../../assets/images/logo_small.png';
 
-const BridgeModal = () => {
+const BridgeModal = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
   const [secondTokenAmount, setSecondTokenAmount] = useState();
 
@@ -54,7 +54,12 @@ const BridgeModal = () => {
     setShow(true);
     setTokenType(type);
   };
-
+  const setTransaction = (value) => {
+    if (value) {
+      props.setTransaction(value);
+      console.log('hello');
+    }
+  };
   const selectToken = (token) => {
     setFirstTokenAmount('');
     setSecondTokenAmount('');
@@ -75,7 +80,14 @@ const BridgeModal = () => {
         <div className={` ${styles.bridgeModal}`}>
           <div className={styles.resultsHeader}>
             <p className={styles.heading}>Bridge Tokens</p>
-            <p className={styles.res}>View History</p>
+            <p
+              className={styles.res}
+              onClick={() => {
+                setTransaction(true);
+              }}
+            >
+              View History
+            </p>
           </div>
           <div className={`mb-3 ${styles.lineBottom} `}></div>
           <div className={`mt-2 ${styles.selectBox}`} onClick={() => handleTokenType('tokenIn')}>
@@ -157,17 +169,8 @@ const BridgeModal = () => {
 };
 
 BridgeModal.propTypes = {
-  connectWallet: PropTypes.any,
-  disconnectWallet: PropTypes.any,
-  gov: PropTypes.any,
-  modalData: PropTypes.any,
-  postResults: PropTypes.any,
-  getVote: PropTypes.any,
-  getResults: PropTypes.any,
-  loading: PropTypes.any,
-  getAlreadyVoted: PropTypes.any,
-  walletAddress: PropTypes.any,
-  alreadyVoted: PropTypes.any,
+  transaction: PropTypes.any,
+  setTransaction: PropTypes.any,
 };
 
 export default BridgeModal;
