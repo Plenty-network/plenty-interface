@@ -16,6 +16,7 @@
     "bootstrap": "^4.6.0",
     "clsx": "^1.1.1",
     "conseiljs": "^5.0.8-3",
+    "ethers": "^5.5.3",
     "lightweight-charts": "^3.7.0",
     "lodash": "^4.17.21",
     "numeral": "^2.0.6",

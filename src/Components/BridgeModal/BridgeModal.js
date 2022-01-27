@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -13,10 +14,17 @@ import SwapModal from '../SwapModal/SwapModal';
 import plenty from '../../assets/images/logo_small.png';
 import { getTokenPrices, getUserBalanceByRpc, fetchtzBTCBalance } from '../../apis/swap/swap';
 import config from '../../config/config';
+import { ethers } from 'ethers';
 
 const BridgeModal = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
   const [secondTokenAmount, setSecondTokenAmount] = useState();
+
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [defaultAccount, setDefaultAccount] = useState(null);
+  const [userBalance, setUserBalance] = useState(null);
+  const [connButtonText, setConnButtonText] = useState('Connect Wallet');
+  const [provider, setProvider] = useState(null);
 
   const [tokenIn, setTokenIn] = useState({
     name: 'PLENTY',
@@ -108,6 +116,53 @@ const BridgeModal = (props) => {
       }
     }
   };
+
+  const connectWalletHandler = () => {
+    if (window.ethereum && window.ethereum.isMetaMask) {
+      console.log('MetaMask Here!');
+
+      window.ethereum
+        .request({ method: 'eth_requestAccounts' })
+        .then((result) => {
+          accountChangedHandler(result[0]);
+          setConnButtonText('Wallet Connected');
+          getAccountBalance(result[0]);
+        })
+        .catch((error) => {
+          setErrorMessage(error.message);
+        });
+    } else {
+      console.log('Need to install MetaMask');
+      setErrorMessage('Please install MetaMask browser extension to interact');
+    }
+  };
+
+  // update account, will cause component re-render
+  const accountChangedHandler = (newAccount) => {
+    setDefaultAccount(newAccount);
+    getAccountBalance(newAccount.toString());
+  };
+
+  const getAccountBalance = (account) => {
+    window.ethereum
+      .request({ method: 'eth_getBalance', params: [account, 'latest'] })
+      .then((balance) => {
+        setUserBalance(ethers.utils.formatEther(balance));
+      })
+      .catch((error) => {
+        setErrorMessage(error.message);
+      });
+  };
+
+  const chainChangedHandler = () => {
+    // reload the page to avoid any errors with chain change mid use of application
+    window.location.reload();
+  };
+
+  // listen for account changes
+  window.ethereum.on('accountsChanged', accountChangedHandler);
+
+  window.ethereum.on('chainChanged', chainChangedHandler);
 
   const handleClose = () => {
     setShow(false);
@@ -229,15 +284,39 @@ const BridgeModal = (props) => {
             </div>
           </div>
 
-          <p className="mt-2 wallet-token-balance">Estimated fee: 100</p>
-          <Button className={clsx('px-md-3', 'mt-3', 'w-100', 'connect-wallet-btn', 'button-bg')}>
-            <div className={clsx('connect-wallet-btn')}>
-              <div className="flex flex-row align-items-center">
-                <Avalanche />
-                <span className="ml-2">Connect to Avalanche wallet</span>
-              </div>
-            </div>
-          </Button>
+          {defaultAccount === null ? (
+            <>
+              <p className="mt-2 wallet-token-balance">Estimated fee: 100</p>
+              <Button
+                className={clsx('px-md-3', 'mt-3', 'w-100', 'connect-wallet-btn', 'button-bg')}
+                onClick={connectWalletHandler}
+              >
+                <div className={clsx('connect-wallet-btn')}>
+                  <div className="flex flex-row align-items-center">
+                    <Avalanche />
+                    <span className="ml-2">Connect to Avalanche wallet</span>
+                  </div>
+                </div>
+              </Button>
+            </>
+          ) : (
+            <>
+              <p className="mt-2 wallet-token-balance">Estimated fee: 100</p>
+              <Button
+                className={clsx('px-md-3', 'mt-3', 'w-100', 'connect-wallet-btn', 'button-bg')}
+                onClick={connectWalletHandler}
+              >
+                <div className={clsx('connect-wallet-btn')}>
+                  <div className="flex flex-row align-items-center">
+                    <Avalanche />
+                    <span className="ml-2">{defaultAccount}</span>
+                    {/* <span>{userBalance}</span> */}
+                  </div>
+                  {/* <span>{defaultAccount}</span> */}
+                </div>
+              </Button>
+            </>
+          )}
         </div>
       </div>
 
