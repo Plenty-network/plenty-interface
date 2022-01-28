@@ -13,17 +13,22 @@ import axios from 'axios';
 import { setNode } from '../../redux/slices/settings/settings.slice';
 
 const HeaderBottom = (props) => {
+  const [nodeSelector, setNodeSelector] = useState(false);
+  const isMobile = useMediaQuery('(max-width: 991px)');
+  const [open, isOpen] = useState(true);
+
   useEffect(() => {
     isOpen(true);
+  }, [props]);
+  useEffect(() => {
+    if (props.selectedHeader === HEADER_MODAL.BRIDGE) {
+      isOpen(false);
+    }
   }, [props]);
   const setDefault = () => {
     isOpen(false);
     setNodeSelector(false);
   };
-
-  const [nodeSelector, setNodeSelector] = useState(false);
-  const isMobile = useMediaQuery('(max-width: 991px)');
-  const [open, isOpen] = useState(true);
 
   async function isValidURL(userInput) {
     try {

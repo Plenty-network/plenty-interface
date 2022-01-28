@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+// import axios from 'axios';
 import React from 'react';
 import styles from './Transaction.module.scss';
 import Ctez from '../../assets/images/ctez.png';
@@ -9,6 +10,15 @@ const TransactionHistory = (props) => {
       props.setTransaction(false);
     }
   };
+  /* api call example 
+  const fetchData = async () => {
+    const res = await axios.get(
+      'https://api.hangzhou2net.tzkt.io/v1/accounts/KT1X6MCugcwqhS8oikqHDQvAdVjVvtxZ3tUF/operations?type=transaction&limit=999&entrypoint=mint&sender=KT1X6MCugcwqhS8oikqHDQvAdVjVvtxZ3tUF&status=applied',
+    );
+    console.log(res);
+  };
+  fetchData();
+*/
   return (
     <div
       className={`justify-content-center mx-auto col-20 col-md-10 col-lg-10 col-xl-10 ${styles.gov}`}

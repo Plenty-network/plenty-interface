@@ -81,6 +81,7 @@ const BridgeModal = (props) => {
       //setLoading(false);
     });
   }, []);
+
   const getDollarValue = (amount, price) => {
     const calculatedValue = amount * price;
     if (calculatedValue < 100) {
@@ -103,6 +104,8 @@ const BridgeModal = (props) => {
     } else {
       if (tokenType === 'tokenIn') {
         setFirstTokenAmount(input);
+        const toAmt = input * 0.9985;
+        setSecondTokenAmount(toAmt);
       }
     }
   };
@@ -113,6 +116,8 @@ const BridgeModal = (props) => {
     } else {
       if (tokenType === 'tokenIn') {
         setSecondTokenAmount(input);
+        const fromAmt = input * 0.9985;
+        setFirstTokenAmount(fromAmt);
       }
     }
   };
@@ -283,10 +288,10 @@ const BridgeModal = (props) => {
               TEZOS{' '}
             </div>
           </div>
+          <p className="mt-2 wallet-token-balance">Estimated fee: 100</p>
 
           {defaultAccount === null ? (
             <>
-              <p className="mt-2 wallet-token-balance">Estimated fee: 100</p>
               <Button
                 className={clsx('px-md-3', 'mt-3', 'w-100', 'connect-wallet-btn', 'button-bg')}
                 onClick={connectWalletHandler}
@@ -301,7 +306,6 @@ const BridgeModal = (props) => {
             </>
           ) : (
             <>
-              <p className="mt-2 wallet-token-balance">Estimated fee: 100</p>
               <Button
                 className={clsx('px-md-3', 'mt-3', 'w-100', 'connect-wallet-btn', 'button-bg')}
                 onClick={connectWalletHandler}
