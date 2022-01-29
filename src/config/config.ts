@@ -442,7 +442,8 @@ const Config: IConfig = {
           inactive: [],
         },
         'uUSD - wUSDC': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1DfYVe4CaE9S6Sm3SEfhFYVZ9XzJbkQDqs',
               mapId: 22814,
@@ -450,7 +451,6 @@ const Config: IConfig = {
               tokenDecimal: 9,
             },
           ],
-          inactive: [],
         },
         'uUSD - uDEFI': {
           active: [
@@ -2921,7 +2921,8 @@ const Config: IConfig = {
         inactive: [],
       },
       'uUSD - wUSDC': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1A2W6mBjn49yqzjJbt9T7xNVD9gDeL45qD',
             CONTRACT: 'KT1DfYVe4CaE9S6Sm3SEfhFYVZ9XzJbkQDqs',
@@ -2936,11 +2937,10 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=uUSD&tokenB=wUSDC',
             isDualFarm: false,
-            message: 'YOU rewards 😍',
-            bannerType: 'info',
+            message: 'rewards ended January 28',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'uUSD - uDEFI': {
         active: [
