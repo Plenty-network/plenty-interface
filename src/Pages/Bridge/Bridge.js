@@ -14,10 +14,11 @@ import BridgeModal from '../../Components/BridgeModal/BridgeModal';
 import useMediaQuery from '../../hooks/mediaQuery';
 
 import TransactionHistory from '../../Components/TransactionHistory/TransactionHistory';
+import BridgeTransferModal from '../../Components/TransferInProgress/BridgeTransferModal';
 
 const Bridge = (props) => {
   const isMobile = useMediaQuery('(max-width: 991px)');
-  const [transaction, setTransaction] = useState(false);
+  const [transaction, setTransaction] = useState(1);
 
   return (
     <>
@@ -27,14 +28,18 @@ const Bridge = (props) => {
             <BridgeText />
           </Col>
           <Col xs={20} sm={5} md={10} lg={6} xl={5}>
-            {!transaction ? (
-              <BridgeModal
+            {transaction===1 && (
+              <BridgeModal 
                 walletAddress={props.walletAddress}
                 transaction={transaction}
                 setTransaction={setTransaction}
               />
-            ) : (
+            )} 
+            {transaction===2 && (
               <TransactionHistory transaction={transaction} setTransaction={setTransaction} />
+            )}
+            {transaction===3 && (
+              <BridgeTransferModal transaction={transaction} setTransaction={setTransaction} />
             )}
           </Col>
         </Row>

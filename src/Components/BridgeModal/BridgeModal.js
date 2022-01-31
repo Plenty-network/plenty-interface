@@ -15,6 +15,7 @@ import plenty from '../../assets/images/logo_small.png';
 import { getTokenPrices, getUserBalanceByRpc, fetchtzBTCBalance } from '../../apis/swap/swap';
 import config from '../../config/config';
 import { ethers } from 'ethers';
+import dummyApiCall from '../../apis/dummyApiCall';
 
 const BridgeModal = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -36,6 +37,7 @@ const BridgeModal = (props) => {
   const [userBalances, setUserBalances] = useState({});
   const [tokenType, setTokenType] = useState('tokenIn');
   const [getTokenPrice, setGetTokenPrice] = useState({});
+  const [isLoading,SetisLoading]=useState(false);
   const tokenOut = {};
   useEffect(() => {
     const updateBalance = async () => {
@@ -121,11 +123,18 @@ const BridgeModal = (props) => {
       }
     }
   };
-
+ const handelClickWithMetaAddedBtn = () => {
+  SetisLoading(true);
+  dummyApiCall({isfinished:true}).then((res)=>{
+       if(res.isfinished){
+        SetisLoading(false);
+        setTransaction(3);
+       }
+  });
+ };
   const connectWalletHandler = () => {
     if (window.ethereum && window.ethereum.isMetaMask) {
       console.log('MetaMask Here!');
-
       window.ethereum
         .request({ method: 'eth_requestAccounts' })
         .then((result) => {
@@ -206,7 +215,7 @@ const BridgeModal = (props) => {
             <p
               className={styles.res}
               onClick={() => {
-                setTransaction(true);
+                setTransaction(2);
               }}
               style={{ cursor: 'pointer' }}
             >
@@ -308,7 +317,8 @@ const BridgeModal = (props) => {
             <>
               <Button
                 className={clsx('px-md-3', 'mt-3', 'w-100', 'connect-wallet-btn', 'button-bg')}
-                onClick={connectWalletHandler}
+                onClick={handelClickWithMetaAddedBtn}
+                loading={isLoading}
               >
                 <div className={clsx('connect-wallet-btn')}>
                   <div className="flex flex-row align-items-center">

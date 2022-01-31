@@ -7,7 +7,7 @@ import Ctez from '../../assets/images/ctez.png';
 const TransactionHistory = (props) => {
   const setBack = (value) => {
     if (value) {
-      props.setTransaction(false);
+      props.setTransaction(1);
     }
   };
   /* api call example 
@@ -22,6 +22,7 @@ const TransactionHistory = (props) => {
   return (
     <div
       className={`justify-content-center mx-auto col-20 col-md-10 col-lg-10 col-xl-10 ${styles.gov}`}
+      style={{width:'max-content'}}
     >
       <div className={styles.border}>
         <div className={` ${styles.bridgeModal}`}>
@@ -29,7 +30,7 @@ const TransactionHistory = (props) => {
             <p
               className={styles.arrowback}
               onClick={() => {
-                setBack(true);
+                setBack(1);
               }}
               style={{ cursor: 'pointer' }}
             >
