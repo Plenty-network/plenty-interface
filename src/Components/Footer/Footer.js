@@ -21,7 +21,7 @@ const Footer = () => {
         <span className="text-white d-flex align-items-center">
           <span>Made with&nbsp;</span>
           <span className="material-icons-round small">favorite</span>
-          <span>&nbsp;by Tezsure & DGH</span>
+          <span>&nbsp;by Tezsure</span>
         </span>
       </div>
     </div>
