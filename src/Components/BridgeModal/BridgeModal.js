@@ -206,7 +206,7 @@ const BridgeModal = (props) => {
   };
   return (
     <div
-      className={`justify-content-center mx-auto col-20 col-md-10 col-lg-10 col-xl-10 ${styles.gov}`}
+      className={`justify-content-center mx-auto col-20 col-md-10 col-lg-10 col-xl-10 mb-5 ${styles.gov}`}
     >
       <div className={styles.border}>
         <div className={` ${styles.bridgeModal}`}>
@@ -222,7 +222,7 @@ const BridgeModal = (props) => {
               View History
             </p>
           </div>
-          <div className={`mb-3 ${styles.lineBottom} `}></div>
+          <div className={`mb-2 ${styles.lineBottom} `}></div>
           <div className={`mt-2 ${styles.selectBox}`} onClick={() => handleTokenType('tokenIn')}>
             <div className="token-user-input-wrapper" style={{ textAlign: 'left' }}>
               <img src={tokenIn.image} className="button-logo" />
@@ -278,7 +278,7 @@ const BridgeModal = (props) => {
             <img src={arrowUp} alt={'arrowup'} className={styles.arrow} />
           </div>
 
-          <div className={`mt-5 ${styles.to}`}>To</div>
+          <div className={`mt-2 ${styles.to}`}>To</div>
           <div className={`mt-3 ${styles.selectBox} ${styles.inputSelectBox}`}>
             <div className="token-user-input-wrapper" style={{ textAlign: 'left' }}>
               <p className={styles.toLabel}>you will receive</p>
