@@ -1,9 +1,11 @@
 const dummyApiCall=(data)=>{
     return new Promise((resolve,reject)=>{
        setTimeout(()=>{
+           if(data){
            resolve(data);
-           if(false){
-            reject(false);
+           }else
+           {
+            reject(data);
            }
        },1500);
     });
