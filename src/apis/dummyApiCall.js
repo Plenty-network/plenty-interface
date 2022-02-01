@@ -3,7 +3,7 @@ const dummyApiCall=(data)=>{
        setTimeout(()=>{
            resolve(data);
            if(false){
-            reject(false)
+            reject(false);
            }
        },1500);
     });
