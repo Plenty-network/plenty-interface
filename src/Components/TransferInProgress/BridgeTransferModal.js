@@ -6,6 +6,8 @@ import Button from '../Ui/Buttons/Button';
 import { ReactComponent as Tick } from '../../assets/images/bridge/green_tick.svg';
 import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
 import dummyApiCall from '../../apis/dummyApiCall';
+import LoadingRing from '../Ui/LoadingRing/loadingRing';
+import './bridge.modules.scss';
 
 const BridgeTransferModal = () => {
   const [currentProgress,SetCurrentProgress]=useState(0);
@@ -58,7 +60,94 @@ const bridgeButtonClick=()=>{
     </p>);
   };
   const InSideElement=(p)=>{
-    console.log(p);
+    if(currentProgress===numberOfSteps.length-1){
+      dummyApiCall({isCompletedtranscation:true}).then((res)=>{
+        if(res.isCompletedtranscation){SetCurrentProgress(currentProgress+1);}
+         
+      });
+      return (
+      <>
+      <div className='bridge-done_screen'>
+      <div className='border-tile shaded'>
+            <div className='left-div'>
+              <p>You will receive</p>
+              <div className='containerwithicon'>
+                <img src='https://plenty-bridge.netlify.app/static/media/tezos.e7997b91.svg'/>
+                22.3930 USDC.a
+              </div>
+            </div>
+            <div className='right-div'>
+            <LoadingRing/>
+            </div>
+            
+      </div>
+      <div className='border-tile'>
+            <div className='left-div'>
+              <div className='containerwithicon'>
+                <img src='https://plenty-bridge.netlify.app/static/media/tezos.e7997b91.svg'/>
+                <div className='right-div'>
+                  <span className='fromreceived'>from</span>
+                  <span>avalanch</span>
+                </div>
+              </div>
+            </div>
+      </div>
+      <div className='border-tile'>
+            <div className='left-div'>
+              <div className='containerwithicon'>
+                <img src='https://plenty-bridge.netlify.app/static/media/tezos.e7997b91.svg'/>
+                <div className='right-div'>
+                  <span className='fromreceived'>from</span>
+                  <span>avalanch</span>
+                </div>
+              </div>
+            </div>
+      </div>
+      <div className='border-tile'>
+            <div className='left-div'>
+              <div className='containerwithicon'>
+                <img src='https://plenty-bridge.netlify.app/static/media/tezos.e7997b91.svg'/>
+                <div className='right-div'>
+                  <span className='fromreceived'>from</span>
+                  <span>avalanch</span>
+                </div>
+              </div>
+            </div>
+      </div>
+      </div>
+      </>);
+    }else if(currentProgress===numberOfSteps.length){
+        return (
+          <>
+          <div className='bridge-done_screen'>
+          <div className='border-tile purple'>
+            <div className='left-div'>
+              <div className='containerwithicon'>
+                <img src='https://plenty-bridge.netlify.app/static/media/tezos.e7997b91.svg'/>
+                <div className='right-div'>
+                  <span className='fromreceived'>from</span>
+                  <span>avalanch</span>
+                </div>
+              </div>
+            </div>
+            <img src='https://plenty-bridge.netlify.app/static/media/tezos.e7997b91.svg'/>
+           </div>
+           <div className='borderless'>
+           <p className={`mb-1 mt-1 ${styles.discriptionInfo}`} style={{width: 'max-content'}}>
+            <a
+              href="https://forum.plentydefi.com/t/pip-001-minting-rate-reduction/51"
+              target="_blank"
+              rel="noreferrer"
+            >
+              View detailed trasaction
+            </a>
+            <Link className="ml-2 mb-1" />
+          </p>
+           </div>
+          </div>
+          </>
+        );
+    }
     return(
       <>
        <p className={styles.contentLabel}>{p.label}</p>
