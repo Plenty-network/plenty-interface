@@ -7,8 +7,7 @@ import { tokens } from '../constants/swapPage';
 
 const SwapDetails = (props) => {
   const [isOpen, setOpen] = useState(false);
-  console.log('check');
-  console.log(props.routeData.success);
+
   const swapRoute = useMemo(() => {
     if (props.routePath?.length > 2) {
       return props.routePath.map((tokenName) => tokens.find((token) => token.name === tokenName));

@@ -3,12 +3,13 @@
   max-width: 1200px;
 }
 .redirect-label {
-  margin: 100px auto 10px 60px;
+  margin: 100px auto 10px auto;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
   line-height: 21px;
   letter-spacing: 0em;
+  max-width: 400px;
 }
 .price-formula {
   font-size: 12px;
@@ -42,8 +43,8 @@
 .bottom-footer {
   background-color: white;
   border-radius: 8px;
-  margin-left: 60px;
-  margin-right: 60px;
+  margin: 0px auto;
+  max-width: 400px;
   padding: 16px 25px;
 }
 .bottom-label {
@@ -178,7 +179,6 @@
   .modal-dialog {
     display: flex;
     justify-content: center;
-    top: 157px;
   }
   .modal-content {
     max-width: 402px;

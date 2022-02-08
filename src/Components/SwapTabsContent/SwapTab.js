@@ -9,6 +9,7 @@ import {
   swapTokenUsingRouteV3,
   computeTokenOutForRouteBaseByOutAmountV2,
 } from '../../apis/swap/swap-v2';
+import { ReactComponent as Stableswap } from '../../assets/images/SwapModal/stableswap-white.svg';
 
 const SwapTab = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -176,7 +177,14 @@ const SwapTab = (props) => {
             color={'primary'}
             className={'mt-4 w-100 flex align-items-center justify-content-center'}
           >
-            Swap
+            {props.isStableSwap ? (
+              <span>
+                <Stableswap />
+                <span className="ml-2">swap</span>
+              </span>
+            ) : (
+              'Swap'
+            )}
           </Button>
         );
       }
@@ -197,19 +205,35 @@ const SwapTab = (props) => {
         return (
           <Button
             onClick={() => null}
-            color={'primary'}
+            color={'disabled'}
             loading={true}
-            className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
-          />
+            className={' mt-4 w-100 flex align-items-center justify-content-center'}
+          >
+            {props.isStableSwap ? (
+              <span>
+                <Stableswap />
+                <span className="ml-2">swap</span>
+              </span>
+            ) : (
+              'Swap'
+            )}
+          </Button>
         );
       }
       return (
         <Button
           onClick={() => null}
-          color={'primary'}
-          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+          color={'disabled'}
+          className={' mt-4 w-100 flex align-items-center justify-content-center'}
         >
-          Enter an amount
+          {props.isStableSwap ? (
+            <span>
+              <Stableswap />
+              <span className="ml-2">swap</span>
+            </span>
+          ) : (
+            'Swap'
+          )}
         </Button>
       );
     }
@@ -474,6 +498,7 @@ SwapTab.propTypes = {
   transactionSubmitModal: PropTypes.any,
   userBalances: PropTypes.any,
   walletAddress: PropTypes.any,
+  isStableSwap: PropTypes.any,
 };
 
 export default SwapTab;

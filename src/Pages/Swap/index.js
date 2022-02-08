@@ -23,6 +23,7 @@ import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import { tokens } from '../../constants/swapPage';
 import Graph from '../../assets/images/SwapModal/graph.svg';
+import { ReactComponent as Stableswap } from '../../assets/images/SwapModal/stableswap.svg';
 import { useLocationStateInSwap } from './hooks';
 import { getAllRoutes } from '../../apis/swap/swap-v2';
 
@@ -36,6 +37,7 @@ const Swap = (props) => {
   const [showConfirmAddSupply, setShowConfirmAddSupply] = useState(false);
   const [showConfirmRemoveSupply, setShowConfirmRemoveSupply] = useState(false);
   const [hideContent, setHideContent] = useState('');
+  console.log(hideContent);
   const [slippage, setSlippage] = useState(0.5);
   const [recepient, setRecepient] = useState('');
   const [tokenType, setTokenType] = useState('tokenIn');
@@ -334,7 +336,7 @@ const Swap = (props) => {
             {isStableSwap ? 'Redirect to Swap' : 'Redirect to StableSwap'}
             <span className={clsx('material-icons', 'arrow-forward')}>arrow_forward_ios_icon</span>
           </p>
-          <div className={`bg-themed my-0 swap-content-container ${hideContent}`}>
+          <div className="bg-themed my-0 swap-content-container">
             <Tabs
               activeKey={activeTab}
               className="swap-container-tab"
@@ -343,7 +345,15 @@ const Swap = (props) => {
               unmountOnExit={true}
             >
               {isStableSwap ? (
-                <Tab eventKey="swap" title="Stableswap">
+                <Tab
+                  eventKey="swap"
+                  title={
+                    <span>
+                      <span className="mr-2">Stableswap</span>
+                      <Stableswap />
+                    </span>
+                  }
+                >
                   <SwapTab
                     walletAddress={props.walletAddress}
                     setFirstTokenAmount={handleTokenInput}
@@ -382,6 +392,7 @@ const Swap = (props) => {
                     fetchUserWalletBalance={fetchUserWalletBalance}
                     loaderInButton={loaderInButton}
                     setLoaderInButton={setLoaderInButton}
+                    isStableSwap={isStableSwap}
                   />
                 </Tab>
               ) : (
@@ -424,6 +435,7 @@ const Swap = (props) => {
                     fetchUserWalletBalance={fetchUserWalletBalance}
                     loaderInButton={loaderInButton}
                     setLoaderInButton={setLoaderInButton}
+                    isStableSwap={isStableSwap}
                   />
                 </Tab>
               )}

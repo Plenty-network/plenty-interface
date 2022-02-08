@@ -66,6 +66,11 @@
   color: var(--theme-primary-gradient-1);
   border: 0;
 }
+.disabled {
+  background: #b0b7c3;
+  color: white;
+  border: 0;
+}
 
 .smallBtn {
   height: 26px;
