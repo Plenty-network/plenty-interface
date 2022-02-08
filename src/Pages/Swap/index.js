@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useMemo, useState } from 'react';
+import clsx from 'clsx';
 import {
   computeOutputBasedOnTokenOutAmount,
   computeTokenOutForRouteBase,
@@ -21,7 +22,7 @@ import Loader from '../../Components/loader';
 import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import { tokens } from '../../constants/swapPage';
-
+import Graph from '../../assets/images/SwapModal/graph.svg';
 import { useLocationStateInSwap } from './hooks';
 import { getAllRoutes } from '../../apis/swap/swap-v2';
 
@@ -50,6 +51,7 @@ const Swap = (props) => {
   const [loaderMessage, setLoaderMessage] = useState({});
   const [tokenContractInstances, setTokenContractInstances] = useState({});
   const [loaderInButton, setLoaderInButton] = useState(false);
+  const [isStableSwap, setStableSwap] = useState(false);
 
   const pairExist = useMemo(() => {
     return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
@@ -320,11 +322,19 @@ const Swap = (props) => {
     handleClose();
   };
 
+  const redirect = (value) => {
+    setStableSwap(value);
+  };
+
   return (
     <Container fluid>
       <Row>
         <Col sm={8} md={6} className="swap-content-section">
-          <div className={`bg-themed swap-content-container ${hideContent}`}>
+          <p className="redirect-label" onClick={() => redirect(!isStableSwap)}>
+            {isStableSwap ? 'Redirect to Swap' : 'Redirect to StableSwap'}
+            <span className={clsx('material-icons', 'arrow-forward')}>arrow_forward_ios_icon</span>
+          </p>
+          <div className={`bg-themed my-0 swap-content-container ${hideContent}`}>
             <Tabs
               activeKey={activeTab}
               className="swap-container-tab"
@@ -332,47 +342,91 @@ const Swap = (props) => {
               mountOnEnter={true}
               unmountOnExit={true}
             >
-              <Tab eventKey="swap" title="Swap">
-                <SwapTab
-                  walletAddress={props.walletAddress}
-                  setFirstTokenAmount={handleTokenInput}
-                  firstTokenAmount={firstTokenAmount}
-                  secondTokenAmount={secondTokenAmount}
-                  connecthWallet={props.connecthWallet}
-                  tokenIn={tokenIn}
-                  tokenOut={tokenOut}
-                  tokens={tokens}
-                  handleTokenType={handleTokenType}
-                  swapData={swapData}
-                  routeData={routeData}
-                  computedOutDetails={computedOutDetails}
-                  userBalances={userBalances}
-                  tokenContractInstances={tokenContractInstances}
-                  getTokenPrice={getTokenPrice}
-                  setSlippage={setSlippage}
-                  setRecepient={setRecepient}
-                  recepient={recepient}
-                  slippage={slippage}
-                  loading={loading}
-                  setLoading={setLoading}
-                  handleLoaderMessage={handleLoaderMessage}
-                  loaderMessage={loaderMessage}
-                  setShowConfirmSwap={setShowConfirmSwap}
-                  showConfirmSwap={showConfirmSwap}
-                  handleClose={handleClose}
-                  setHideContent={setHideContent}
-                  setLoaderMessage={setLoaderMessage}
-                  resetAllValues={resetAllValues}
-                  changeTokenLocation={changeTokenLocation}
-                  handleOutTokenInput={handleOutTokenInput}
-                  showRecepient={showRecepient}
-                  transactionSubmitModal={transactionSubmitModal}
-                  setSecondTokenAmount={setSecondTokenAmount}
-                  fetchUserWalletBalance={fetchUserWalletBalance}
-                  loaderInButton={loaderInButton}
-                  setLoaderInButton={setLoaderInButton}
-                />
-              </Tab>
+              {isStableSwap ? (
+                <Tab eventKey="swap" title="Stableswap">
+                  <SwapTab
+                    walletAddress={props.walletAddress}
+                    setFirstTokenAmount={handleTokenInput}
+                    firstTokenAmount={firstTokenAmount}
+                    secondTokenAmount={secondTokenAmount}
+                    connecthWallet={props.connecthWallet}
+                    tokenIn={tokenIn}
+                    tokenOut={tokenOut}
+                    tokens={tokens}
+                    handleTokenType={handleTokenType}
+                    swapData={swapData}
+                    routeData={routeData}
+                    computedOutDetails={computedOutDetails}
+                    userBalances={userBalances}
+                    tokenContractInstances={tokenContractInstances}
+                    getTokenPrice={getTokenPrice}
+                    setSlippage={setSlippage}
+                    setRecepient={setRecepient}
+                    recepient={recepient}
+                    slippage={slippage}
+                    loading={loading}
+                    setLoading={setLoading}
+                    handleLoaderMessage={handleLoaderMessage}
+                    loaderMessage={loaderMessage}
+                    setShowConfirmSwap={setShowConfirmSwap}
+                    showConfirmSwap={showConfirmSwap}
+                    handleClose={handleClose}
+                    setHideContent={setHideContent}
+                    setLoaderMessage={setLoaderMessage}
+                    resetAllValues={resetAllValues}
+                    changeTokenLocation={changeTokenLocation}
+                    handleOutTokenInput={handleOutTokenInput}
+                    showRecepient={showRecepient}
+                    transactionSubmitModal={transactionSubmitModal}
+                    setSecondTokenAmount={setSecondTokenAmount}
+                    fetchUserWalletBalance={fetchUserWalletBalance}
+                    loaderInButton={loaderInButton}
+                    setLoaderInButton={setLoaderInButton}
+                  />
+                </Tab>
+              ) : (
+                <Tab eventKey="swap" title="Swap">
+                  <SwapTab
+                    walletAddress={props.walletAddress}
+                    setFirstTokenAmount={handleTokenInput}
+                    firstTokenAmount={firstTokenAmount}
+                    secondTokenAmount={secondTokenAmount}
+                    connecthWallet={props.connecthWallet}
+                    tokenIn={tokenIn}
+                    tokenOut={tokenOut}
+                    tokens={tokens}
+                    handleTokenType={handleTokenType}
+                    swapData={swapData}
+                    routeData={routeData}
+                    computedOutDetails={computedOutDetails}
+                    userBalances={userBalances}
+                    tokenContractInstances={tokenContractInstances}
+                    getTokenPrice={getTokenPrice}
+                    setSlippage={setSlippage}
+                    setRecepient={setRecepient}
+                    recepient={recepient}
+                    slippage={slippage}
+                    loading={loading}
+                    setLoading={setLoading}
+                    handleLoaderMessage={handleLoaderMessage}
+                    loaderMessage={loaderMessage}
+                    setShowConfirmSwap={setShowConfirmSwap}
+                    showConfirmSwap={showConfirmSwap}
+                    handleClose={handleClose}
+                    setHideContent={setHideContent}
+                    setLoaderMessage={setLoaderMessage}
+                    resetAllValues={resetAllValues}
+                    changeTokenLocation={changeTokenLocation}
+                    handleOutTokenInput={handleOutTokenInput}
+                    showRecepient={showRecepient}
+                    transactionSubmitModal={transactionSubmitModal}
+                    setSecondTokenAmount={setSecondTokenAmount}
+                    fetchUserWalletBalance={fetchUserWalletBalance}
+                    loaderInButton={loaderInButton}
+                    setLoaderInButton={setLoaderInButton}
+                  />
+                </Tab>
+              )}
               <Tab eventKey="liquidity" title="Liquidity">
                 <LiquidityTab
                   walletAddress={props.walletAddress}
@@ -423,8 +477,28 @@ const Swap = (props) => {
               setShowRecepient={setShowRecepient}
             />
           </div>
+          <div className="bottom-footer mt-2 flex flex-row">
+            <div>
+              <img src={Graph} alt="graph"></img>
+            </div>
+            <div className="ml-3">
+              <span className="bottom-label">Stable Swap</span>
+              <p className="bottom-desc">Lorem Ipsum is simply dummy text of.</p>
+              {isStableSwap ? (
+                <>
+                  <span className="bottom-last">Learn More</span>
+                </>
+              ) : (
+                <>
+                  <span className="bottom-last">Try it out</span>
+                  <span className="new">New</span>
+                </>
+              )}
+            </div>
+          </div>
         </Col>
       </Row>
+
       <SwapModal
         show={show}
         activeTab={activeTab}

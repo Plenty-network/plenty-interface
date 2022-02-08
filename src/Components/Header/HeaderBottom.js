@@ -131,7 +131,7 @@ const HeaderBottom = (props) => {
         >
           {props.selectedHeader === HEADER_MODAL.TRADE && (
             <Row>
-              <Col lg={12} xs={12}>
+              <Col lg={6} xs={12}>
                 <div className="topics">
                   <Link to="/swap" className="text-decoration-none">
                     <p className="heading">SWAP</p>
@@ -146,7 +146,22 @@ const HeaderBottom = (props) => {
                   </Link>
                 </div>
               </Col>
-              <Col lg={12} xs={12}>
+              <Col lg={6} xs={12}>
+                <div className="topics">
+                  <Link to="/swap" className="text-decoration-none">
+                    <p className="heading">STABLESWAP</p>
+                    <div className="flex   para">
+                      <div className="parainside">
+                        Swap liquid Tezos tokens, in an instant, with audited smart contracts.
+                      </div>
+                      <div>
+                        <span className=" material-icons-round arrowforward">arrow_forward</span>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              </Col>
+              <Col lg={6} xs={12}>
                 <div className="topics">
                   <Link to="/tokens" className="text-decoration-none">
                     <p className="heading">TOKENS</p>

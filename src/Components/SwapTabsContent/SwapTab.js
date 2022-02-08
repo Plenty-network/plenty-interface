@@ -3,8 +3,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import SwapDetails from '../SwapDetails';
 import ConfirmSwap from './ConfirmSwap';
 import { swapTokens } from '../../apis/swap/swap';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
 import Button from '../Ui/Buttons/Button';
 import {
   computeTokenOutForRouteBaseV2,
@@ -375,9 +373,21 @@ const SwapTab = (props) => {
           </div>
         </div>
 
-        {props.walletAddress && props.routeData.success ? (
+        {props.showRecepient ? (
+          <input
+            type="text"
+            className="slipping-tolerance-input full-width"
+            placeholder="Send to:"
+            onChange={(e) => props.setRecepient(e.target.value)}
+            value={props.recepient}
+          />
+        ) : (
+          ''
+        )}
+        {swapContentButton}
+        {/* {props.walletAddress && props.routeData.success ? (
           <div className="flex">
-            <p className="wallet-token-balance whitespace-prewrap ml-auto flex flex-row">
+            <p className="wallet-token-balance whitespace-prewrap  flex flex-row">
               1 {props.tokenIn.name} ={' '}
               <OverlayTrigger
                 placement="auto"
@@ -396,29 +406,20 @@ const SwapTab = (props) => {
               </OverlayTrigger>
             </p>
           </div>
-        ) : null}
-        {props.showRecepient ? (
-          <input
-            type="text"
-            className="slipping-tolerance-input full-width"
-            placeholder="Send to:"
-            onChange={(e) => props.setRecepient(e.target.value)}
-            value={props.recepient}
-          />
-        ) : (
-          ''
-        )}
-        {swapContentButton}
-        {props.walletAddress && props.tokenIn.name && props.tokenOut.name && (
-          <SwapDetails
-            routePath={routePath}
-            computedOutDetails={computedData}
-            tokenIn={props.tokenIn}
-            tokenOut={props.tokenOut}
-            routeData={props.routeData}
-            firstTokenAmount={firstTokenAmount}
-          />
-        )}
+        ) : null} */}
+        {props.walletAddress &&
+          props.tokenIn.name &&
+          props.tokenOut.name &&
+          props.routeData.success && (
+            <SwapDetails
+              routePath={routePath}
+              computedOutDetails={computedData}
+              tokenIn={props.tokenIn}
+              tokenOut={props.tokenOut}
+              routeData={props.routeData}
+              firstTokenAmount={firstTokenAmount}
+            />
+          )}
       </div>
 
       <ConfirmSwap
