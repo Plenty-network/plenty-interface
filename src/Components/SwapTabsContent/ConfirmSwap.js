@@ -3,6 +3,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import React from 'react';
 import SimpleModal from '../Ui/Modals/SimpleModal';
 import Button from '../Ui/Buttons/Button';
+import { ReactComponent as Stableswap } from '../../assets/images/SwapModal/stableswap-white.svg';
 
 const ConfirmSwap = (props) => {
   return (
@@ -12,6 +13,7 @@ const ConfirmSwap = (props) => {
       onClose={props.onHide}
       title="Confirm Swap"
       backdrop={true}
+      isConfirmSwap={true}
     >
       {/* <Modal show={props.show} onHide={props.onHide} className="confirm-swap-modal">
         <Modal.Header>
@@ -197,7 +199,14 @@ const ConfirmSwap = (props) => {
             className="mt-4 w-100"
             loading={props.loading}
           >
-            Confirm Swap
+            {props.isStableSwap ? (
+              <span>
+                <Stableswap />
+                <span className="ml-2">Confirm Swap</span>
+              </span>
+            ) : (
+              'Confirm Swap'
+            )}
           </Button>
         </div>
       </>
@@ -222,4 +231,5 @@ ConfirmSwap.propTypes = {
   slippage: PropTypes.any,
   tokenIn: PropTypes.any,
   tokenOut: PropTypes.any,
+  isStableSwap: PropTypes.any,
 };

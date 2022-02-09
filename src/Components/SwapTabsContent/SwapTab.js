@@ -457,6 +457,7 @@ const SwapTab = (props) => {
         onHide={props.handleClose}
         routeData={props.routeData}
         loading={props.loading}
+        isStableSwap={props.isStableSwap}
       />
     </>
   );
