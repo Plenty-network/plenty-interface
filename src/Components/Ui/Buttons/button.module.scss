@@ -67,9 +67,10 @@
   border: 0;
 }
 .disabled {
-  background: #b0b7c3;
-  color: white;
+  background: var(--theme-disabled-button);
+  color: var(--theme-disable-button-text);
   border: 0;
+  font-weight: 700;
 }
 
 .smallBtn {

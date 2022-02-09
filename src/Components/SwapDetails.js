@@ -24,7 +24,7 @@ const SwapDetails = (props) => {
     <div className={clsx('swap-detail-wrapper', isOpen ? 'bg-themed-light' : 'closedbg')}>
       {/* {props.routeData.success ? ( */}
 
-      <div className="space-between">
+      <div className="space-between" onClick={() => setOpen(!isOpen)} style={{ cursor: 'pointer' }}>
         <div className="flex">
           <p className="price-formula whitespace-prewrap  flex flex-row">
             1 {props.tokenIn.name} ={' '}
@@ -46,13 +46,9 @@ const SwapDetails = (props) => {
           </p>
         </div>
         {isOpen ? (
-          <span className="material-icons flex open" onClick={() => setOpen(!isOpen)}>
-            keyboard_arrow_up
-          </span>
+          <span className="material-icons flex open">keyboard_arrow_up</span>
         ) : (
-          <span className="material-icons flex open" onClick={() => setOpen(!isOpen)}>
-            keyboard_arrow_down
-          </span>
+          <span className="material-icons flex open">keyboard_arrow_down</span>
         )}
       </div>
 

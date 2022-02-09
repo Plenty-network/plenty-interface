@@ -69,7 +69,11 @@ const MyRoutes = (props) => {
               path={'/swap'}
               element={
                 <OtherPages {...otherPageProps}>
-                  <Swap walletAddress={props.userAddress} connecthWallet={connectWallet} />
+                  <Swap
+                    walletAddress={props.userAddress}
+                    connecthWallet={connectWallet}
+                    {...otherPageProps}
+                  />
                 </OtherPages>
               }
             />
@@ -121,18 +125,6 @@ const MyRoutes = (props) => {
                 </OtherPages>
               }
             />
-            {/* <Route
-              path="/vote"
-              element={
-                <Governance
-                  toggleTheme={toggleTheme}
-                  theme={theme}
-                  connectWallet={connectWallet}
-                  disconnectWallet={disconnectUserWallet}
-                  walletAddress={props.userAddress}
-                />
-              }
-            /> */}
           </Routes>
         </React.Suspense>
       </BrowserRouter>

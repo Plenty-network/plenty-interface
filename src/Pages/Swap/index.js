@@ -23,13 +23,14 @@ import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import { tokens } from '../../constants/swapPage';
 import { stableSwapTokens } from '../../constants/stableSwapPage';
-
+import GraphDark from '../../assets/images/SwapModal/graph-dark.svg';
 import Graph from '../../assets/images/SwapModal/graph.svg';
 import { ReactComponent as Stableswap } from '../../assets/images/SwapModal/stableswap.svg';
 import { useLocationStateInSwap } from './hooks';
 import { getAllRoutes } from '../../apis/swap/swap-v2';
 
 const Swap = (props) => {
+  console.log(props);
   const {
     activeTab,
     setActiveTab,
@@ -359,9 +360,15 @@ const Swap = (props) => {
     <Container fluid>
       <Row>
         <Col sm={8} md={6} className="swap-content-section">
-          <p className="redirect-label" onClick={() => redirect(!isStableSwap)}>
+          <p
+            className="redirect-label"
+            style={{ cursor: 'pointer' }}
+            onClick={() => redirect(!isStableSwap)}
+          >
             {isStableSwap ? 'Redirect to Swap' : 'Redirect to StableSwap'}
-            <span className={clsx('material-icons', 'arrow-forward')}>arrow_forward_ios_icon</span>
+            <span className={clsx('material-icons', 'arrow-forward', 'mt-1')}>
+              arrow_forward_ios_icon
+            </span>
           </p>
           <div className="bg-themed my-0 swap-content-container">
             <Tabs
@@ -518,7 +525,7 @@ const Swap = (props) => {
           </div>
           <div className="bottom-footer mt-2 flex flex-row">
             <div>
-              <img src={Graph} alt="graph"></img>
+              <img src={props.theme === 'light' ? Graph : GraphDark} alt="graph"></img>
             </div>
             <div className="ml-3">
               <span className="bottom-label">Stable Swap</span>
@@ -529,7 +536,13 @@ const Swap = (props) => {
                 </>
               ) : (
                 <>
-                  <span className="bottom-last">Try it out</span>
+                  <span
+                    className="bottom-last"
+                    onClick={() => redirect(true)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    Try it out
+                  </span>
                   <span className="new">New</span>
                 </>
               )}
@@ -570,4 +583,5 @@ export default Swap;
 Swap.propTypes = {
   connecthWallet: PropTypes.any,
   walletAddress: PropTypes.any,
+  theme: PropTypes.any,
 };
