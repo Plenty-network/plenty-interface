@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import React, { useEffect, useMemo, useState } from 'react';
 import SwapDetails from '../SwapDetails';
 import ConfirmSwap from './ConfirmSwap';
@@ -16,6 +17,7 @@ const SwapTab = (props) => {
   const [secondTokenAmount, setSecondTokenAmount] = useState();
   const [routePath, setRoutePath] = useState([]);
   const [errorMessage, setErrorMessage] = useState(false);
+  const [message, setMessage] = useState('');
   const [computedData, setComputedData] = useState({
     success: false,
     data: {
@@ -88,7 +90,7 @@ const SwapTab = (props) => {
   }, [props.routeData]);
   useEffect(() => {
     setErrorMessage(false);
-  }, [props.tokenOut.name]);
+  }, [props.tokenOut.name, firstTokenAmount]);
 
   const callSwapToken = () => {
     props.setShowConfirmSwap(true);
@@ -171,6 +173,11 @@ const SwapTab = (props) => {
     handleSwapTokenInput(value, 'tokenIn');
   };
 
+  const setErrorMessageOnUI = (value) => {
+    setMessage(value);
+    setErrorMessage(true);
+  };
+
   // TODO Refactor once again
   const swapContentButton = useMemo(() => {
     if (props.walletAddress) {
@@ -196,7 +203,7 @@ const SwapTab = (props) => {
       if (!props.tokenOut.name) {
         return (
           <Button
-            onClick={() => setErrorMessage(true)}
+            onClick={() => setErrorMessageOnUI('Please select a token and then enter the amount')}
             color={'disabled'}
             className={' mt-4 w-100 flex align-items-center justify-content-center'}
           >
@@ -233,7 +240,7 @@ const SwapTab = (props) => {
       }
       return (
         <Button
-          onClick={() => null}
+          onClick={() => setErrorMessageOnUI('Enter an amount to swap')}
           color={'disabled'}
           className={' mt-4 w-100 flex align-items-center justify-content-center'}
         >
@@ -273,7 +280,13 @@ const SwapTab = (props) => {
     <>
       <div className="swap-content-box-wrapper">
         <div className="swap-content-box">
-          <div className="swap-token-select-box bg-themed-light">
+          <div
+            className={clsx(
+              'swap-token-select-box',
+              'bg-themed-light',
+              errorMessage && 'errorBorder',
+            )}
+          >
             <div className="token-selector-balance-wrapper">
               <button
                 className="token-selector dropdown-themed"
@@ -340,7 +353,13 @@ const SwapTab = (props) => {
           <span className="span-themed material-icons-round">arrow_downward</span>
         </div>
         <div className="swap-content-box">
-          <div className="swap-token-select-box bg-themed-light">
+          <div
+            className={clsx(
+              'swap-token-select-box',
+              'bg-themed-light',
+              errorMessage && 'errorBorder',
+            )}
+          >
             <div className="token-selector-balance-wrapper">
               {props.tokenOut.name ? (
                 <button
@@ -418,9 +437,7 @@ const SwapTab = (props) => {
         ) : (
           ''
         )}
-        {errorMessage && (
-          <span className="error-message">Please select a token and then enter the amount</span>
-        )}
+        {errorMessage && <span className="error-message">{message}</span>}
 
         {swapContentButton}
         {/* {props.walletAddress && props.routeData.success ? (
