@@ -85,6 +85,7 @@
   --theme-swap-border: rgba(0, 0, 0, 0.08);
   --theme-swap-text: #505e79;
   --theme-swap-info-text: #505e79;
+  --theme-gradient-border: none;
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -180,6 +181,13 @@
   --theme-swap-border: rgba(81, 75, 107, 0.6);
   --theme-swap-text: #ffffff;
   --theme-swap-info-text: #f3f4fb;
+  --theme-gradient-border: linear-gradient(
+    100.44deg,
+    #f8b67f,
+    #ff5451 33.57%,
+    #ee1ec0 67.02%,
+    #a02cfc 103.97%
+  );
 }
 
 :root.theme-transiton {

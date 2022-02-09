@@ -1,3 +1,11 @@
+.border {
+  position: relative;
+  background: var(--theme-gradient-border);
+  padding: 0.2px;
+  max-width: 400px;
+  margin: 0px auto;
+  border-radius: 15px;
+}
 .swap-content-section {
   margin: 0 auto;
   max-width: 1200px;
