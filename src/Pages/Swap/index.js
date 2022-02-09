@@ -17,6 +17,7 @@ import config from '../../config/config';
 import TransactionSettings from '../../Components/TransactionSettings/TransactionSettings';
 import SwapModal from '../../Components/SwapModal/SwapModal';
 import SwapTab from '../../Components/SwapTabsContent/SwapTab';
+import StableSwap from '../../Components/SwapTabsContent/StableSwap';
 import LiquidityTab from '../../Components/SwapTabsContent/LiquidityTab';
 import Loader from '../../Components/loader';
 import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
@@ -25,7 +26,7 @@ import { tokens } from '../../constants/swapPage';
 import { stableSwapTokens } from '../../constants/stableSwapPage';
 import GraphDark from '../../assets/images/SwapModal/graph-dark.svg';
 import Graph from '../../assets/images/SwapModal/graph.svg';
-import { ReactComponent as Stableswap } from '../../assets/images/SwapModal/stableswap.svg';
+import { ReactComponent as StableswapImg } from '../../assets/images/SwapModal/stableswap.svg';
 import { useLocationStateInSwap } from './hooks';
 import { getAllRoutes } from '../../apis/swap/swap-v2';
 import { useLocation } from 'react-router';
@@ -378,7 +379,7 @@ const Swap = (props) => {
               arrow_forward_ios_icon
             </span>
           </p>
-          <div className="border">
+          <div className="border-swap">
             <div className="bg-themed my-0 swap-content-container">
               <Tabs
                 activeKey={activeTab}
@@ -393,11 +394,11 @@ const Swap = (props) => {
                     title={
                       <span>
                         <span className="mr-2">Stableswap</span>
-                        <Stableswap />
+                        <StableswapImg />
                       </span>
                     }
                   >
-                    <SwapTab
+                    <StableSwap
                       walletAddress={props.walletAddress}
                       setFirstTokenAmount={handleTokenInput}
                       firstTokenAmount={firstTokenAmount}
@@ -434,7 +435,6 @@ const Swap = (props) => {
                       fetchUserWalletBalance={fetchUserWalletBalance}
                       loaderInButton={loaderInButton}
                       setLoaderInButton={setLoaderInButton}
-                      isStableSwap={isStableSwap}
                     />
                   </Tab>
                 ) : (
@@ -476,7 +476,6 @@ const Swap = (props) => {
                       fetchUserWalletBalance={fetchUserWalletBalance}
                       loaderInButton={loaderInButton}
                       setLoaderInButton={setLoaderInButton}
-                      isStableSwap={isStableSwap}
                     />
                   </Tab>
                 )}

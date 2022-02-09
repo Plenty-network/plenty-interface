@@ -10,8 +10,9 @@ import {
   swapTokenUsingRouteV3,
   computeTokenOutForRouteBaseByOutAmountV2,
 } from '../../apis/swap/swap-v2';
+import { ReactComponent as Stableswap } from '../../assets/images/SwapModal/stableswap-white.svg';
 
-const SwapTab = (props) => {
+const StableSwap = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
   const [secondTokenAmount, setSecondTokenAmount] = useState();
   const [routePath, setRoutePath] = useState([]);
@@ -177,7 +178,6 @@ const SwapTab = (props) => {
     setErrorMessage(true);
   };
 
-  // TODO Refactor once again
   const swapContentButton = useMemo(() => {
     if (props.walletAddress) {
       if (props.tokenOut.name && firstTokenAmount) {
@@ -187,7 +187,10 @@ const SwapTab = (props) => {
             color={'primary'}
             className={'mt-4 w-100 flex align-items-center justify-content-center'}
           >
-            Swap
+            <span>
+              <Stableswap />
+              <span className="ml-2">swap</span>
+            </span>
           </Button>
         );
       }
@@ -199,7 +202,10 @@ const SwapTab = (props) => {
             color={'disabled'}
             className={' mt-4 w-100 flex align-items-center justify-content-center'}
           >
-            Swap
+            <span>
+              <Stableswap />
+              <span className="ml-2">swap</span>
+            </span>
           </Button>
         );
       }
@@ -212,7 +218,10 @@ const SwapTab = (props) => {
             loading={true}
             className={' mt-4 w-100 flex align-items-center justify-content-center'}
           >
-            Swap
+            <span>
+              <Stableswap />
+              <span className="ml-2">swap</span>
+            </span>
           </Button>
         );
       }
@@ -222,7 +231,10 @@ const SwapTab = (props) => {
           color={'disabled'}
           className={' mt-4 w-100 flex align-items-center justify-content-center'}
         >
-          Swap
+          <span>
+            <Stableswap />
+            <span className="ml-2">swap</span>
+          </span>
         </Button>
       );
     }
@@ -259,10 +271,7 @@ const SwapTab = (props) => {
             )}
           >
             <div className="token-selector-balance-wrapper">
-              <button
-                className="token-selector dropdown-themed"
-                onClick={() => props.handleTokenType('tokenIn')}
-              >
+              <button className="token-selector dropdown-themed">
                 <img src={props.tokenIn.image} className="button-logo" />
                 <span className="span-themed">{props.tokenIn.name} </span>
                 <span className="span-themed material-icons-round">expand_more</span>
@@ -333,10 +342,7 @@ const SwapTab = (props) => {
           >
             <div className="token-selector-balance-wrapper">
               {props.tokenOut.name ? (
-                <button
-                  className="token-selector dropdown-themed"
-                  onClick={() => props.handleTokenType('tokenOut')}
-                >
+                <button className="token-selector dropdown-themed">
                   <img src={props.tokenOut.image} className="button-logo" />
                   <span className="span-themed">{props.tokenOut.name} </span>
                   <span className="span-themed material-icons-round">expand_more</span>
@@ -457,13 +463,13 @@ const SwapTab = (props) => {
         onHide={props.handleClose}
         routeData={props.routeData}
         loading={props.loading}
-        isStableSwap={false}
+        isStableSwap={true}
       />
     </>
   );
 };
 
-SwapTab.propTypes = {
+StableSwap.propTypes = {
   changeTokenLocation: PropTypes.any,
   computedOutDetails: PropTypes.any,
   connecthWallet: PropTypes.any,
@@ -501,4 +507,4 @@ SwapTab.propTypes = {
   walletAddress: PropTypes.any,
 };
 
-export default SwapTab;
+export default StableSwap;
