@@ -65,3 +65,21 @@
      }
     }
 }
+.leftToRightFadeInAnimation {
+    -webkit-animation: fadein 0.2s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 0.2s; /* Firefox < 16 */
+        -ms-animation: fadein 0.2s; /* Internet Explorer */
+         -o-animation: fadein 0.2s; /* Opera < 12.1 */
+            animation: fadein 0.2s;
+  }
+  
+  @keyframes fadein {
+    from { opacity: 0.6;transform: translateX(-10px);}
+    to   { opacity: 1;transform: translateX(0px); }
+  }
+  
+  /* Firefox < 16 */
+  @-moz-keyframes fadein {
+    from { opacity: 0.6;transform: translateX(-10px);}
+    to   { opacity: 1;transform: translateX(0px); }
+  }

@@ -5,6 +5,7 @@ import styles from './Transfer.module.scss';
 import Button from '../Ui/Buttons/Button';
 import { ReactComponent as Tick } from '../../assets/images/bridge/green_tick.svg';
 import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
+
 import dummyApiCall from '../../apis/dummyApiCall';
 import LoadingRing from '../Ui/LoadingRing/loadingRing';
 import './bridge.modules.scss';
@@ -195,7 +196,7 @@ const bridgeButtonClick=()=>{
       className={`row justify-content-center mx-auto col-24 col-md-10 col-lg-10 col-xl-10 ${styles.gov}`}
     >
       <div className={styles.border}>
-        <div className={` ${styles.bridgeModal}`}>
+        <div className={` ${styles.bridgeModal} `}>
           <div className={styles.resultsHeader}>
             <p className={styles.TransferInProgress}>Transfer in progress..</p>
           </div>

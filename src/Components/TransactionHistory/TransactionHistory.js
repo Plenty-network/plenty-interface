@@ -1,14 +1,18 @@
 import PropTypes from 'prop-types';
 // import axios from 'axios';
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Transaction.module.scss';
 import Ctez from '../../assets/images/ctez.png';
 
 const TransactionHistory = (props) => {
+  const [animationCalss,SetAnimationClass]=useState('leftToRightFadeInAnimation');
   const setBack = (value) => {
-    if (value) {
-      props.setTransaction(1);
-    }
+    SetAnimationClass('rightToLeftFadeInAnimation');
+    setTimeout(()=>{
+      if (value) {
+        props.setTransaction(1);
+      }
+    },200); 
   };
   /* api call example 
   const fetchData = async () => {
@@ -20,12 +24,13 @@ const TransactionHistory = (props) => {
   fetchData();
 */
   return (
+
     <div
       className={`justify-content-center mx-auto col-20 col-md-10 col-lg-10 col-xl-10 ${styles.gov}`}
       style={{width:'max-content'}}
     >
       <div className={styles.border}>
-        <div className={` ${styles.bridgeModal}`}>
+        <div className={` ${styles.bridgeModal} ${styles[animationCalss]}`}>
           <div className="flex flex-row">
             <p
               className={styles.arrowback}

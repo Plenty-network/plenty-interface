@@ -209,7 +209,7 @@ const BridgeModal = (props) => {
       className={`justify-content-center mx-auto col-20 col-md-10 col-lg-10 col-xl-10 mb-5 ${styles.gov}`}
     >
       <div className={styles.border}>
-        <div className={` ${styles.bridgeModal}`}>
+        <div className={` ${styles.bridgeModal} ${styles.leftToRightFadeInAnimation}`}>
           <div className={styles.resultsHeader}>
             <p className={styles.heading}>Bridge Tokens</p>
             <p
