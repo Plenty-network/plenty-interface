@@ -15,6 +15,7 @@ const SwapTab = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
   const [secondTokenAmount, setSecondTokenAmount] = useState();
   const [routePath, setRoutePath] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(false);
   const [computedData, setComputedData] = useState({
     success: false,
     data: {
@@ -85,6 +86,9 @@ const SwapTab = (props) => {
   useEffect(() => {
     handleSwapTokenInput(firstTokenAmount, 'tokenIn');
   }, [props.routeData]);
+  useEffect(() => {
+    setErrorMessage(false);
+  }, [props.tokenOut.name]);
 
   const callSwapToken = () => {
     props.setShowConfirmSwap(true);
@@ -192,11 +196,18 @@ const SwapTab = (props) => {
       if (!props.tokenOut.name) {
         return (
           <Button
-            onClick={() => null}
-            color={'primary'}
-            className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+            onClick={() => setErrorMessage(true)}
+            color={'disabled'}
+            className={' mt-4 w-100 flex align-items-center justify-content-center'}
           >
-            Select a token
+            {props.isStableSwap ? (
+              <span>
+                <Stableswap />
+                <span className="ml-2">swap</span>
+              </span>
+            ) : (
+              'Swap'
+            )}
           </Button>
         );
       }
@@ -266,7 +277,7 @@ const SwapTab = (props) => {
             <div className="token-selector-balance-wrapper">
               <button
                 className="token-selector dropdown-themed"
-                onClick={() => props.handleTokenType('tokenIn')}
+                {...(props.isStableSwap ? {} : { onClick: () => props.handleTokenType('tokenIn') })}
               >
                 <img src={props.tokenIn.image} className="button-logo" />
                 <span className="span-themed">{props.tokenIn.name} </span>
@@ -322,21 +333,21 @@ const SwapTab = (props) => {
             ) : null}
           </div>
         </div>
-
         <div
           className="swap-arrow-center bg-themed icon-animated"
           onClick={props.changeTokenLocation}
         >
           <span className="span-themed material-icons-round">arrow_downward</span>
         </div>
-
         <div className="swap-content-box">
           <div className="swap-token-select-box bg-themed-light">
             <div className="token-selector-balance-wrapper">
               {props.tokenOut.name ? (
                 <button
                   className="token-selector dropdown-themed"
-                  onClick={() => props.handleTokenType('tokenOut')}
+                  {...(props.isStableSwap
+                    ? {}
+                    : { onClick: () => props.handleTokenType('tokenOut') })}
                 >
                   <img src={props.tokenOut.image} className="button-logo" />
                   <span className="span-themed">{props.tokenOut.name} </span>
@@ -396,7 +407,6 @@ const SwapTab = (props) => {
             ) : null}
           </div>
         </div>
-
         {props.showRecepient ? (
           <input
             type="text"
@@ -408,6 +418,10 @@ const SwapTab = (props) => {
         ) : (
           ''
         )}
+        {errorMessage && (
+          <span className="error-message">Please select a token and then enter the amount</span>
+        )}
+
         {swapContentButton}
         {/* {props.walletAddress && props.routeData.success ? (
           <div className="flex">

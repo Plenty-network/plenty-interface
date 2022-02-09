@@ -22,14 +22,26 @@ import Loader from '../../Components/loader';
 import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import { tokens } from '../../constants/swapPage';
+import { stableSwapTokens } from '../../constants/stableSwapPage';
+
 import Graph from '../../assets/images/SwapModal/graph.svg';
 import { ReactComponent as Stableswap } from '../../assets/images/SwapModal/stableswap.svg';
 import { useLocationStateInSwap } from './hooks';
 import { getAllRoutes } from '../../apis/swap/swap-v2';
 
 const Swap = (props) => {
-  const { activeTab, setActiveTab, tokenIn, setTokenIn, tokenOut, setTokenOut } =
-    useLocationStateInSwap();
+  const {
+    activeTab,
+    setActiveTab,
+    tokenIn,
+    setTokenIn,
+    tokenOut,
+    setTokenOut,
+    tokenInStable,
+    setTokenInStable,
+    tokenOutStable,
+    setTokenOutStable,
+  } = useLocationStateInSwap();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [show, setShow] = useState(false);
@@ -54,6 +66,11 @@ const Swap = (props) => {
   const [tokenContractInstances, setTokenContractInstances] = useState({});
   const [loaderInButton, setLoaderInButton] = useState(false);
   const [isStableSwap, setStableSwap] = useState(false);
+
+  useEffect(() => {
+    isStableSwap ? setTokenIn(tokenInStable) : setTokenIn(tokenIn);
+    isStableSwap ? setTokenOut(tokenOutStable) : setTokenOut(tokenOut);
+  }, [isStableSwap]);
 
   const pairExist = useMemo(() => {
     return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
@@ -165,6 +182,16 @@ const Swap = (props) => {
         name: tokenIn.name,
         image: tokenIn.image,
       });
+      isStableSwap &&
+        setTokenInStable({
+          name: tokenOut.name,
+          image: tokenOut.image,
+        });
+      isStableSwap &&
+        setTokenOutStable({
+          name: tokenIn.name,
+          image: tokenIn.image,
+        });
       setSwapData({});
       setComputedOutDetails({
         tokenOut_amount: '',
@@ -360,9 +387,9 @@ const Swap = (props) => {
                     firstTokenAmount={firstTokenAmount}
                     secondTokenAmount={secondTokenAmount}
                     connecthWallet={props.connecthWallet}
-                    tokenIn={tokenIn}
-                    tokenOut={tokenOut}
-                    tokens={tokens}
+                    tokenIn={tokenInStable}
+                    tokenOut={tokenOutStable}
+                    tokens={stableSwapTokens}
                     handleTokenType={handleTokenType}
                     swapData={swapData}
                     routeData={routeData}
