@@ -28,9 +28,9 @@ import Graph from '../../assets/images/SwapModal/graph.svg';
 import { ReactComponent as Stableswap } from '../../assets/images/SwapModal/stableswap.svg';
 import { useLocationStateInSwap } from './hooks';
 import { getAllRoutes } from '../../apis/swap/swap-v2';
+import { useLocation } from 'react-router';
 
 const Swap = (props) => {
-  console.log(props);
   const {
     activeTab,
     setActiveTab,
@@ -43,14 +43,16 @@ const Swap = (props) => {
     tokenOutStable,
     setTokenOutStable,
   } = useLocationStateInSwap();
+  const location = useLocation();
+  const { pathname } = location;
+  const splitLocation = pathname.split('/');
 
   const [searchQuery, setSearchQuery] = useState('');
   const [show, setShow] = useState(false);
   const [showConfirmSwap, setShowConfirmSwap] = useState(false);
   const [showConfirmAddSupply, setShowConfirmAddSupply] = useState(false);
   const [showConfirmRemoveSupply, setShowConfirmRemoveSupply] = useState(false);
-  const [hideContent, setHideContent] = useState('');
-  console.log(hideContent);
+
   const [slippage, setSlippage] = useState(0.5);
   const [recepient, setRecepient] = useState('');
   const [tokenType, setTokenType] = useState('tokenIn');
@@ -72,6 +74,11 @@ const Swap = (props) => {
     isStableSwap ? setTokenIn(tokenInStable) : setTokenIn(tokenIn);
     isStableSwap ? setTokenOut(tokenOutStable) : setTokenOut(tokenOut);
   }, [isStableSwap]);
+
+  useEffect(() => {
+    splitLocation[1] === 'stableswap' ? redirect(true) : setStableSwap(false);
+    setActiveTab(splitLocation[1]);
+  }, [splitLocation[1]]);
 
   const pairExist = useMemo(() => {
     return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
@@ -166,7 +173,7 @@ const Swap = (props) => {
     setShowConfirmSwap(false);
     setShowConfirmAddSupply(false);
     setShowConfirmRemoveSupply(false);
-    setHideContent('');
+    //setHideContent('');
     setSearchQuery('');
     //setLoading(false);
   };
@@ -209,7 +216,7 @@ const Swap = (props) => {
   };
 
   const handleTokenType = (type) => {
-    setHideContent('content-hide');
+    //setHideContent('content-hide');
     setShow(true);
     setTokenType(type);
     setLoading(false);
@@ -354,6 +361,7 @@ const Swap = (props) => {
 
   const redirect = (value) => {
     setStableSwap(value);
+    value ? setActiveTab('stableswap') : setActiveTab('swap');
   };
 
   return (
@@ -380,7 +388,7 @@ const Swap = (props) => {
             >
               {isStableSwap ? (
                 <Tab
-                  eventKey="swap"
+                  eventKey="stableswap"
                   title={
                     <span>
                       <span className="mr-2">Stableswap</span>
@@ -415,7 +423,6 @@ const Swap = (props) => {
                     setShowConfirmSwap={setShowConfirmSwap}
                     showConfirmSwap={showConfirmSwap}
                     handleClose={handleClose}
-                    setHideContent={setHideContent}
                     setLoaderMessage={setLoaderMessage}
                     resetAllValues={resetAllValues}
                     changeTokenLocation={changeTokenLocation}
@@ -458,7 +465,6 @@ const Swap = (props) => {
                     setShowConfirmSwap={setShowConfirmSwap}
                     showConfirmSwap={showConfirmSwap}
                     handleClose={handleClose}
-                    setHideContent={setHideContent}
                     setLoaderMessage={setLoaderMessage}
                     resetAllValues={resetAllValues}
                     changeTokenLocation={changeTokenLocation}
@@ -500,7 +506,6 @@ const Swap = (props) => {
                   setShowConfirmAddSupply={setShowConfirmAddSupply}
                   showConfirmRemoveSupply={showConfirmRemoveSupply}
                   setShowConfirmRemoveSupply={setShowConfirmRemoveSupply}
-                  setHideContent={setHideContent}
                   setLoaderMessage={setLoaderMessage}
                   resetAllValues={resetAllValues}
                   fetchUserWalletBalance={fetchUserWalletBalance}

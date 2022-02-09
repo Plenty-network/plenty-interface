@@ -86,6 +86,14 @@ const MyRoutes = (props) => {
               }
             />
             <Route
+              path="/stableswap"
+              element={
+                <OtherPages {...otherPageProps}>
+                  <Swap walletAddress={props.userAddress} connecthWallet={connectWallet} />
+                </OtherPages>
+              }
+            />
+            <Route
               path="/farms"
               element={
                 <OtherPages {...otherPageProps}>

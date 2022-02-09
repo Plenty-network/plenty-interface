@@ -94,7 +94,7 @@ const SwapTab = (props) => {
 
   const callSwapToken = () => {
     props.setShowConfirmSwap(true);
-    props.setHideContent('content-hide');
+    //props.setHideContent('content-hide');
   };
 
   const getDollarValue = (amount, price) => {
@@ -111,7 +111,7 @@ const SwapTab = (props) => {
       props.setLoading(false);
       props.handleLoaderMessage('success', 'Transaction confirmed');
       props.setShowConfirmSwap(false);
-      props.setHideContent('');
+      //props.setHideContent('');
       props.setSecondTokenAmount('');
       props.resetAllValues();
       props.setLoaderInButton(false);
@@ -121,7 +121,7 @@ const SwapTab = (props) => {
       props.setLoading(false);
       props.handleLoaderMessage('error', 'Transaction failed');
       props.setShowConfirmSwap(false);
-      props.setHideContent('');
+      //props.setHideContent('');
       props.resetAllValues();
       props.setSecondTokenAmount('');
       props.setLoaderInButton(false);
@@ -511,7 +511,7 @@ SwapTab.propTypes = {
   resetAllValues: PropTypes.any,
   // secondTokenAmount: PropTypes.any,
   setFirstTokenAmount: PropTypes.any,
-  setHideContent: PropTypes.any,
+  //setHideContent: PropTypes.any,
   setLoaderInButton: PropTypes.any,
   setLoaderMessage: PropTypes.any,
   setLoading: PropTypes.any,

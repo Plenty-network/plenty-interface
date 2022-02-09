@@ -148,7 +148,7 @@ const HeaderBottom = (props) => {
               </Col>
               <Col lg={6} xs={12}>
                 <div className="topics">
-                  <Link to="/swap" className="text-decoration-none">
+                  <Link to="/stableswap" className="text-decoration-none">
                     <p className="heading">STABLESWAP</p>
                     <div className="flex   para">
                       <div className="parainside">
