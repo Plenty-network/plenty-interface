@@ -37,6 +37,13 @@ const newton = (x, y, dx, dy, u, n) => {
   return dy1;
 };
 
+const newton_dx_to_dy = (x, y, dx, rounds) => {
+  const utility = util(x, y);
+  const u = utility.first;
+  const dy = newton(x, y, dx, 0, u, rounds);
+  return dy;
+};
+
 /**
  * Returns tokensOut from the given amountIn and pool values.
  * @param tokenIn_supply - Pool value of tokenIn
@@ -44,51 +51,89 @@ const newton = (x, y, dx, dy, u, n) => {
  * @param tokenIn_amount - Amount of tokenIn
  * @param pair_fee_denom - Denominator of pair fee (Ex: for 0.5% pass 2000)
  * @param slippage - Slippage which the user can tolerate in percentage
+ * @param target- Target price of the pair in bitwise right 48
+ * @param tokenIn- TokenIn
  */
 export const calculateTokensOutStable = async (
-  tokenIn_supply,
-  tokenOut_supply,
+  tezSupply,
+  ctezSupply,
   tokenIn_amount,
   pair_fee_denom,
   slippage,
+  target,
+  tokenIn,
 ) => {
   try {
-    const utility = util(tokenIn_supply, tokenOut_supply);
-    const u = utility.first;
-    const dy = newton(tokenIn_supply, tokenOut_supply, tokenIn_amount, 0, u, 5);
-    const fee = dy / pair_fee_denom;
-    const tokenOut = dy - fee;
-    const minimumOut = tokenOut - (slippage * tokenOut) / 100;
-    const exchangeRate = tokenIn_amount / tokenOut; // 1 tokenIn = x tokenOut
+    if (tokenIn === 'ctez') {
+      const dy =
+        newton_dx_to_dy(target * ctezSupply, tezSupply * 2 ** 48, tokenIn_amount * target, 5) /
+        2 ** 48;
+      const fee = dy / pair_fee_denom;
+      const tokenOut = dy - fee;
+      const minimumOut = tokenOut - (slippage * tokenOut) / 100;
+      const exchangeRate = tokenIn_amount / tokenOut; // 1 tokenIn = x tokenOut
 
-    const updated_TokenIn_Supply = tokenIn_supply + tokenIn_amount;
-    const updated_TokenOut_Supply = tokenOut_supply - tokenOut;
+      const updated_Ctez_Supply = tezSupply + tokenIn_amount;
+      const updated_Tez_Supply = ctezSupply - tokenOut;
 
-    const next_utility = util(updated_TokenIn_Supply, updated_TokenOut_Supply);
-    const next_u = next_utility.first;
-    const next_dy = newton(
-      updated_TokenIn_Supply,
-      updated_TokenOut_Supply,
-      tokenIn_amount,
-      0,
-      next_u,
-      5,
-    );
-    const next_fee = next_dy / pair_fee_denom;
-    const next_tokenOut = next_dy - next_fee;
-    let priceImpact = (tokenOut - next_tokenOut) / tokenOut;
-    priceImpact = priceImpact * 100;
-    priceImpact = priceImpact.toFixed(5);
-    priceImpact = Math.abs(priceImpact);
-    priceImpact = priceImpact * 100;
+      const next_dy =
+        newton_dx_to_dy(
+          target * updated_Ctez_Supply,
+          updated_Tez_Supply * 2 ** 48,
+          tokenIn_amount * target,
+          5,
+        ) /
+        2 ** 48;
+      const next_fee = next_dy / pair_fee_denom;
+      const next_tokenOut = next_dy - next_fee;
+      let priceImpact = (tokenOut - next_tokenOut) / tokenOut;
+      priceImpact = priceImpact * 100;
+      priceImpact = priceImpact.toFixed(5);
+      priceImpact = Math.abs(priceImpact);
+      priceImpact = priceImpact * 100;
 
-    return {
-      tokenOut,
-      fee,
-      minimumOut,
-      exchangeRate,
-      priceImpact,
-    };
+      return {
+        tokenOut,
+        fee,
+        minimumOut,
+        exchangeRate,
+        priceImpact,
+      };
+    } else if (tokenIn === 'xtz') {
+      const dy =
+        newton_dx_to_dy(tezSupply * 2 ** 48, target * ctezSupply, tokenIn_amount * 2 ** 48, 5) /
+        target;
+      const fee = dy / pair_fee_denom;
+      const tokenOut = dy - fee;
+      const minimumOut = tokenOut - (slippage * tokenOut) / 100;
+      const exchangeRate = tokenIn_amount / tokenOut; // 1 tokenIn = x tokenOut
+
+      const updated_Ctez_Supply = tezSupply + tokenIn_amount;
+      const updated_Tez_Supply = ctezSupply - tokenOut;
+
+      const next_dy =
+        newton_dx_to_dy(
+          updated_Tez_Supply * 2 ** 48,
+          target * updated_Ctez_Supply,
+          tokenIn_amount * 2 ** 48,
+          5,
+        ) / target;
+      const next_fee = next_dy / pair_fee_denom;
+      const next_tokenOut = next_dy - next_fee;
+      let priceImpact = (tokenOut - next_tokenOut) / tokenOut;
+      priceImpact = priceImpact * 100;
+      priceImpact = priceImpact.toFixed(5);
+      priceImpact = Math.abs(priceImpact);
+      priceImpact = priceImpact * 100;
+
+      return {
+        tokenOut,
+        fee,
+        minimumOut,
+        exchangeRate,
+        priceImpact,
+      };
+    }
   } catch (error) {
     return {
       tokenOut_amount: 0,
@@ -346,6 +391,9 @@ export const loadSwapDataStable = async (tokenIn, tokenOut) => {
     let lpTokenSupply = await dexStorage.lqtTotal;
     lpTokenSupply = lpTokenSupply.toNumber();
     const lpToken = CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
+    const ctezStorageUrl = `${rpcNode}chains/main/blocks/head/context/contracts/KT19xSuHb2A86eSbKVsduY8mZv4UVEBPwQ17/storage`;
+    const ctezStorage = await axios.get(ctezStorageUrl);
+    const target = ctezStorage.data.args[2].int;
     return {
       success: true,
       tezPool,
@@ -355,6 +403,7 @@ export const loadSwapDataStable = async (tokenIn, tokenOut) => {
       lpTokenSupply,
       lpToken,
       dexContractInstance,
+      target,
     };
   } catch (error) {
     console.log({ message: 'swap data error', error });
