@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import styles from './Transaction.module.scss';
 import Ctez from '../../assets/images/ctez.png';
+import '../../assets/scss/animation.scss';
 
 const TransactionHistory = (props) => {
-  const [animationCalss,SetAnimationClass]=useState('leftToRightFadeInAnimation');
+  const [animationCalss,SetAnimationClass]=useState('leftToRightFadeInAnimation-4');
   const setBack = (value) => {
-    SetAnimationClass('rightToLeftFadeInAnimation');
+    SetAnimationClass('rightToLeftFadeInAnimation-4');
     setTimeout(()=>{
       if (value) {
         props.setTransaction(1);
@@ -30,7 +31,7 @@ const TransactionHistory = (props) => {
       style={{width:'max-content'}}
     >
       <div className={styles.border}>
-        <div className={` ${styles.bridgeModal} ${styles[animationCalss]}`}>
+        <div className={` ${styles.bridgeModal} ${animationCalss}`}>
           <div className="flex flex-row">
             <p
               className={styles.arrowback}

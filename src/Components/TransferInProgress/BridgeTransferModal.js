@@ -9,6 +9,7 @@ import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
 import dummyApiCall from '../../apis/dummyApiCall';
 import LoadingRing from '../Ui/LoadingRing/loadingRing';
 import './bridge.modules.scss';
+import '../../assets/scss/animation.scss';
 
 const BridgeTransferModal = () => {
   const [currentProgress,SetCurrentProgress]=useState(0);
@@ -31,7 +32,7 @@ const bridgeButtonClick=()=>{
     'Done'
   ];
   const defaultTile=(buttonText)=>{
-    return (<p className={styles.progressLabel}>
+    return (<p className={styles.progressLabel+' leftToRightFadeInAnimation-4'}>
       <div className="flex flex-row">
         <span className={styles.defaultRadioButton}></span>
         <span>{buttonText}</span>
@@ -40,7 +41,8 @@ const bridgeButtonClick=()=>{
     </p>);
   };
   const completedTile=(buttonText)=>{
-    return(<p className={`${styles.completedLabel} ${styles.progressLabel}`}>
+    return(
+    <p className={`${styles.completedLabel} ${styles.progressLabel} leftToRightFadeInAnimation-4`}>
     <div className="flex flex-row">
       {/* <span className={styles.defaultRadioButton}></span> */}
       <span className={styles.greenTick}>
@@ -52,7 +54,7 @@ const bridgeButtonClick=()=>{
   </p>);
   };
   const currentTile=(buttonText)=>{
-     return(<p className={styles.progressLabel}>
+     return(<p className={styles.progressLabel+' leftToRightFadeInAnimation-4'}>
       <div className="flex flex-row">
         <span className={styles.radioButton}></span>
         <span className={styles.activeLabel}>{buttonText}</span>
@@ -174,7 +176,7 @@ const bridgeButtonClick=()=>{
             <div>
               <Button
                 color={'primary'}
-                className={'xplenty-btn mt-2  flex align-items-center justify-content-center'}
+                className={'xplenty-btn mt-2  flex align-items-center justify-content-center '}
                 onClick={bridgeButtonClick}
                 loading={isButtonLoading}
               >
@@ -196,7 +198,7 @@ const bridgeButtonClick=()=>{
       className={`row justify-content-center mx-auto col-24 col-md-10 col-lg-10 col-xl-10 ${styles.gov}`}
     >
       <div className={styles.border}>
-        <div className={` ${styles.bridgeModal} `}>
+        <div className={` ${styles.bridgeModal} leftToRightFadeInAnimation-4-${isButtonLoading}`}>
           <div className={styles.resultsHeader}>
             <p className={styles.TransferInProgress}>Transfer in progress..</p>
           </div>

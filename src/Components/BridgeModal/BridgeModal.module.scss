@@ -24,12 +24,12 @@
 .bridgeModal {
   box-shadow: 0px 2px 32px -5px rgba(100, 96, 105, 0.15);
   background: linear-gradient(180deg, #ffffff 57%, rgba(98, 2, 239, 0.05) 50%);
-
+  border:1px solid var(--theme-bridge-votingBorder);
   border-radius: 8px;
   padding: 24px 24px;
   margin: auto;
   overflow-y: auto;
-  width: 338px;
+  width: 400px;
   @media screen and (min-width: 320px) and (max-width: 767px) {
     max-width: 440px;
     border-radius: 0px;
@@ -181,22 +181,4 @@
   letter-spacing: 0em;
   color: #4e5d78;
   margin-bottom: 0px;
-}
-.leftToRightFadeInAnimation {
-  -webkit-animation: fadein 0.2s; /* Safari, Chrome and Opera > 12.1 */
-     -moz-animation: fadein 0.2s; /* Firefox < 16 */
-      -ms-animation: fadein 0.2s; /* Internet Explorer */
-       -o-animation: fadein 0.2s; /* Opera < 12.1 */
-          animation: fadein 0.2s;
-}
-
-@keyframes fadein {
-  from { opacity: 0.6;transform: translateX(-10px);}
-  to   { opacity: 1;transform: translateX(0px); }
-}
-
-/* Firefox < 16 */
-@-moz-keyframes fadein {
-  from { opacity: 0.6;transform: translateX(-10px);}
-  to   { opacity: 1;transform: translateX(0px); }
 }

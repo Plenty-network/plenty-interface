@@ -16,7 +16,7 @@ import { getTokenPrices, getUserBalanceByRpc, fetchtzBTCBalance } from '../../ap
 import config from '../../config/config';
 import { ethers } from 'ethers';
 import dummyApiCall from '../../apis/dummyApiCall';
-
+import '../../assets/scss/animation.scss';
 const BridgeModal = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
   const [secondTokenAmount, setSecondTokenAmount] = useState();
@@ -209,7 +209,7 @@ const BridgeModal = (props) => {
       className={`justify-content-center mx-auto col-20 col-md-10 col-lg-10 col-xl-10 mb-5 ${styles.gov}`}
     >
       <div className={styles.border}>
-        <div className={` ${styles.bridgeModal} ${styles.leftToRightFadeInAnimation}`}>
+        <div className={` ${styles.bridgeModal} leftToRightFadeInAnimation-4`}>
           <div className={styles.resultsHeader}>
             <p className={styles.heading}>Bridge Tokens</p>
             <p
