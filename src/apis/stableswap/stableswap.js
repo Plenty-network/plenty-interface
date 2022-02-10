@@ -2,7 +2,8 @@ import { TezosToolkit, OpKind } from '@taquito/taquito';
 import { BeaconWallet } from '@taquito/beacon-wallet';
 import { CheckIfWalletConnected } from '../wallet/wallet';
 import CONFIG from '../../config/config';
-import { RPC_NODE } from '../../constants/localStorage';
+import axios from 'axios';
+import { TezosMessageUtils, TezosParameterFormat } from 'conseiljs';
 
 const util = (x, y) => {
   const plus = x + y;
@@ -17,7 +18,7 @@ const util = (x, y) => {
   const minus_7 = minus_4 * minus_2 * minus;
   return {
     first: plus_8 - minus_8,
-    second: BigInt(8) * (minus_7 + plus_7),
+    second: 8 * (minus_7 + plus_7),
   };
 };
 
@@ -26,12 +27,12 @@ const newton = (x, y, dx, dy, u, n) => {
   let new_util = util(x + dx, y - dy);
   let new_u = new_util.first;
   let new_du_dy = new_util.second;
-  while (n !== BigInt(0)) {
+  while (n !== 0) {
     new_util = util(x + dx, y - dy1);
     new_u = new_util.first;
     new_du_dy = new_util.second;
     dy1 = dy1 + (new_u - u) / new_du_dy;
-    n = n - BigInt(1);
+    n = n - 1;
   }
   return dy1;
 };
@@ -44,7 +45,7 @@ const newton = (x, y, dx, dy, u, n) => {
  * @param pair_fee_denom - Denominator of pair fee (Ex: for 0.5% pass 2000)
  * @param slippage - Slippage which the user can tolerate in percentage
  */
-export const calculateTokensOut = (
+export const calculateTokensOutStable = async (
   tokenIn_supply,
   tokenOut_supply,
   tokenIn_amount,
@@ -54,8 +55,8 @@ export const calculateTokensOut = (
   try {
     const utility = util(tokenIn_supply, tokenOut_supply);
     const u = utility.first;
-    const dy = newton(tokenIn_supply, tokenOut_supply, tokenIn_amount, BigInt(0), u, 5);
-    const fee = dy / BigInt(pair_fee_denom);
+    const dy = newton(tokenIn_supply, tokenOut_supply, tokenIn_amount, 0, u, 5);
+    const fee = dy / pair_fee_denom;
     const tokenOut = dy - fee;
     const minimumOut = tokenOut - (slippage * tokenOut) / 100;
     const exchangeRate = tokenIn_amount / tokenOut; // 1 tokenIn = x tokenOut
@@ -69,11 +70,11 @@ export const calculateTokensOut = (
       updated_TokenIn_Supply,
       updated_TokenOut_Supply,
       tokenIn_amount,
-      BigInt(0),
+      0,
       next_u,
       5,
     );
-    const next_fee = next_dy / BigInt(pair_fee_denom);
+    const next_fee = next_dy / pair_fee_denom;
     const next_tokenOut = next_dy - next_fee;
     let priceImpact = (tokenOut - next_tokenOut) / tokenOut;
     priceImpact = priceImpact * 100;
@@ -94,6 +95,7 @@ export const calculateTokensOut = (
       fees: 0,
       minimum_Out: 0,
       priceImpact: 0,
+      error,
     };
   }
 };
@@ -109,7 +111,7 @@ export async function ctez_to_tez(
 ) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
 
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -185,7 +187,7 @@ export async function tez_to_ctez(
 ) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
 
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -231,10 +233,107 @@ export async function tez_to_ctez(
   }
 }
 
-export const loadSwapData = async (tokenIn, tokenOut) => {
+const getPackedKey = (tokenId, address, type) => {
+  const accountHex = `0x${TezosMessageUtils.writeAddress(address)}`;
+  let packedKey = null;
+  if (type === 'FA2') {
+    packedKey = TezosMessageUtils.encodeBigMapKey(
+      // eslint-disable-next-line no-undef
+      Buffer.from(
+        TezosMessageUtils.writePackedData(
+          `(Pair ${accountHex} ${tokenId})`,
+          '',
+          TezosParameterFormat.Michelson,
+        ),
+        'hex',
+      ),
+    );
+  } else {
+    packedKey = TezosMessageUtils.encodeBigMapKey(
+      // eslint-disable-next-line no-undef
+      Buffer.from(
+        TezosMessageUtils.writePackedData(`${accountHex}`, '', TezosParameterFormat.Michelson),
+        'hex',
+      ),
+    );
+  }
+  return packedKey;
+};
+
+/**
+ * Gets balance of user of a particular token using RPC
+ * @param identifier - Name of token, case-sensitive to CONFIG
+ * @param address - tz1 address of user
+ */
+export const getUserBalanceByRpcStable = async (identifier, address) => {
+  try {
+    //let balance;
+
+    const token = CONFIG.STABLESWAP[CONFIG.NETWORK][identifier];
+    const mapId = token.mapId;
+    const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
+    const type = token.READ_TYPE;
+    const decimal = token.TOKEN_DECIMAL;
+    const network = {
+      type: CONFIG.WALLET_NETWORK,
+    };
+    const options = {
+      name: CONFIG.NAME,
+    };
+    const wallet = new BeaconWallet(options);
+    const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
+    if (!WALLET_RESP.success) {
+      throw new Error('Wallet connection failed');
+    }
+    const Tezos = new TezosToolkit(rpcNode);
+    Tezos.setRpcProvider(rpcNode);
+    Tezos.setWalletProvider(wallet);
+    if (type === 'XTZ') {
+      const _balance = await Tezos.tz.getBalance(address);
+      const balance = _balance / Math.pow(10, decimal);
+      return {
+        success: true,
+        balance,
+        identifier,
+      };
+    } else {
+      const tokenId = token.TOKEN_ID;
+
+      const packedKey = getPackedKey(tokenId, address, type);
+      const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
+      const response = await axios.get(url);
+
+      const balance = (() => {
+        // IIFE
+        let _balance = response.data.int;
+
+        _balance = parseInt(_balance);
+        _balance = _balance / Math.pow(10, decimal);
+        console.log(`${identifier} balance:`, _balance);
+        return _balance;
+      })();
+
+      return {
+        success: true,
+        balance,
+        identifier,
+      };
+    }
+  } catch (error) {
+    return {
+      success: false,
+      balance: 0,
+      identifier,
+      error: error,
+    };
+  }
+};
+
+export const loadSwapDataStable = async (tokenIn, tokenOut) => {
+  console.log('loadSwapDataStable', tokenIn, tokenOut);
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
     const dexContractAddress =
       CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
     const Tezos = new TezosToolkit(rpcNode);
@@ -246,7 +345,7 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
     ctezPool = ctezPool.toNumber();
     let lpTokenSupply = await dexStorage.lqtTotal;
     lpTokenSupply = lpTokenSupply.toNumber();
-    const lpToken = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
+    const lpToken = CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
     return {
       success: true,
       tezPool,
@@ -260,7 +359,7 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
   } catch (error) {
     console.log({ message: 'swap data error', error });
     return {
-      success: true,
+      success: false,
       tezPool: 0,
       ctezPool: 0,
       tokenIn,
@@ -271,3 +370,89 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
     };
   }
 };
+
+export async function add_liquidity(
+  tokenIn,
+  tokenOut,
+  ctezAmount,
+  tezAmount,
+  recepient,
+  transactionSubmitModal,
+) {
+  try {
+    const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const contractAddress =
+      CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
+    const CTEZ = CONFIG.AMM[connectedNetwork]['ctez'].TOKEN_CONTRACT;
+    const Tezos = new TezosToolkit(rpcNode);
+    const contract = await Tezos.wallet.at(contractAddress);
+    const ctez_contract = await Tezos.wallet.at(CTEZ);
+    const batch = Tezos.wallet.batch([
+      {
+        kind: OpKind.TRANSACTION,
+        ...ctez_contract.methods
+          .approve(contractAddress, Math.round(Number(ctezAmount * 10 ** 6)))
+          .toTransferParams(),
+      },
+      {
+        kind: OpKind.TRANSACTION,
+        ...contract.methods
+          .add_liquidity(Math.round(Number(ctezAmount * 10 ** 6)), 0, recepient)
+          .toTransferParams({ amount: Number(tezAmount * 10 ** 6), mutez: true }),
+      },
+      {
+        kind: OpKind.TRANSACTION,
+        ...ctez_contract.methods.approve(contractAddress, 0).toTransferParams(),
+      },
+    ]);
+
+    const batchOp = await batch.send();
+    // eslint-disable-next-line no-lone-blocks
+    {
+      batchOp.opHash === null
+        ? console.log('operation getting injected')
+        : console.log('operation injected');
+    }
+    transactionSubmitModal(batchOp.opHash);
+    console.log('Operation hash:', batchOp.opHash);
+    await batchOp.confirmation();
+    return {
+      success: true,
+      operationId: batchOp.hash,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      error,
+    };
+  }
+}
+
+export async function remove_liquidity(tokenIn, tokenOut, amount, transactionSubmitModal) {
+  try {
+    const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const contractAddress =
+      CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
+    const Tezos = new TezosToolkit(rpcNode);
+    const contract = await Tezos.wallet.at(contractAddress);
+    const op = await contract.methods.remove_liquidity(Number(amount * 10 ** 6), 0, 0).send();
+    await op.confirmation();
+
+    transactionSubmitModal(op.opHash);
+    console.log('Operation hash:', op.opHash);
+    await op.confirmation();
+    return {
+      success: true,
+      operationId: op.hash,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      error,
+    };
+  }
+}

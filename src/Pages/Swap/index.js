@@ -11,6 +11,12 @@ import {
   fetchtzBTCBalance,
 } from '../../apis/swap/swap';
 
+import {
+  getUserBalanceByRpcStable,
+  // loadSwapDataStable,
+  // calculateTokensOutStable,
+} from '../../apis/stableswap/stableswap';
+
 import { loadSwapData } from '../../apis/swap/swap-v2';
 import config from '../../config/config';
 
@@ -108,6 +114,15 @@ const Swap = (props) => {
     }
   }, [tokenInStable, tokenOutStable]);
 
+  // useEffect(() => {
+  //   loadSwapDataStable(tokenInStable.name, tokenOutStable.name).then((res) => {
+  //     console.log('loadSwapDataStable', res);
+  //     calculateTokensOutStable(res.ctezPool, res.tezPool, 50000000, 2000, 1).then((res) => {
+  //       console.log('calculateTokensOutStable', res);
+  //     });
+  //   });
+  // }, []);
+
   useEffect(() => {
     const updateBalance = async () => {
       setTokenContractInstances({});
@@ -118,39 +133,39 @@ const Swap = (props) => {
         (isStableSwap ? tokenInStable.name === tzBTCName : tokenIn.name === tzBTCName)
           ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
           : balancePromises.push(
-              getUserBalanceByRpc(
-                isStableSwap ? tokenInStable.name : tokenIn.name,
-                props.walletAddress,
-              ),
+              isStableSwap
+                ? getUserBalanceByRpcStable(tokenInStable.name, props.walletAddress)
+                : getUserBalanceByRpc(tokenIn.name, props.walletAddress),
             );
       }
-      if (
-        isStableSwap ? !userBalancesCopy[tokenOutStable.name] : !userBalancesCopy[tokenOut.name]
-      ) {
-        isStableSwap
-          ? tokenOutStable.name === tzBTCName
-          : tokenOut.name === tzBTCName
+      if (isStableSwap ? !userBalancesCopy[tokenInStable.name] : !userBalancesCopy[tokenIn.name]) {
+        (isStableSwap ? tokenInStable.name === tzBTCName : tokenIn.name === tzBTCName)
           ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
           : balancePromises.push(
-              getUserBalanceByRpc(
-                isStableSwap ? tokenOutStable.name : tokenOut.name,
-                props.walletAddress,
-              ),
+              isStableSwap
+                ? getUserBalanceByRpcStable(tokenOutStable.name, props.walletAddress)
+                : getUserBalanceByRpc(tokenOut.name, props.walletAddress),
             );
       }
       if (
         isStableSwap
-          ? config.AMM[config.NETWORK][tokenInStable.name].DEX_PAIRS[tokenOutStable.name]
+          ? config.STABLESWAP[config.NETWORK][tokenInStable.name].DEX_PAIRS[tokenOutStable.name]
           : config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]
       ) {
         const lpToken = isStableSwap
-          ? config.AMM[config.NETWORK][tokenInStable.name].DEX_PAIRS[tokenOutStable.name]
+          ? config.STABLESWAP[config.NETWORK][tokenInStable.name].DEX_PAIRS[tokenOutStable.name]
               .liquidityToken
           : config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
 
-        balancePromises.push(getUserBalanceByRpc(lpToken, props.walletAddress));
+        balancePromises.push(
+          isStableSwap
+            ? getUserBalanceByRpcStable(lpToken, props.walletAddress)
+            : getUserBalanceByRpc(lpToken, props.walletAddress),
+        );
       }
       const balanceResponse = await Promise.all(balancePromises);
+
+      console.log('updateBalance', balanceResponse);
 
       setUserBalances((prev) => ({
         ...prev,
@@ -173,20 +188,6 @@ const Swap = (props) => {
         Object.prototype.hasOwnProperty.call(tokenOut, 'name')
       ) {
         getAllRoutes(tokenIn.name, tokenOut.name).then((response) => {
-          if (response.success) {
-            setRouteData(response);
-            setSwapData(response.bestRouteUntilNoInput.swapData);
-            setLoaderInButton(false);
-          }
-        });
-      }
-    }
-    if (activeTab === 'stableswap') {
-      if (
-        Object.prototype.hasOwnProperty.call(tokenInStable, 'name') &&
-        Object.prototype.hasOwnProperty.call(tokenOutStable, 'name')
-      ) {
-        getAllRoutes(tokenInStable.name, tokenOutStable.name).then((response) => {
           if (response.success) {
             setRouteData(response);
             setSwapData(response.bestRouteUntilNoInput.swapData);
@@ -347,10 +348,11 @@ const Swap = (props) => {
   useEffect(() => {
     //setLoading(true);
     setLoaderInButton(true);
-    getTokenPrices().then((tokenPrice) => {
-      setGetTokenPrice(tokenPrice);
-      //setLoading(false);
-    });
+    !isStableSwap &&
+      getTokenPrices().then((tokenPrice) => {
+        setGetTokenPrice(tokenPrice);
+        //setLoading(false);
+      });
   }, []);
 
   const handleLoaderMessage = (type, message) => {
