@@ -60,6 +60,8 @@ const Swap = (props) => {
 
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
   const [secondTokenAmount, setSecondTokenAmount] = useState('');
+  const [firstTokenAmountStable, setFirstTokenAmountStable] = useState('');
+  const [secondTokenAmountStable, setSecondTokenAmountStable] = useState('');
   const [swapData, setSwapData] = useState({});
   const [routeData, setRouteData] = useState({});
   const [computedOutDetails, setComputedOutDetails] = useState({});
@@ -71,10 +73,10 @@ const Swap = (props) => {
   const [loaderInButton, setLoaderInButton] = useState(false);
   const [isStableSwap, setStableSwap] = useState(false);
 
-  useEffect(() => {
-    isStableSwap ? setTokenIn(tokenInStable) : setTokenIn(tokenIn);
-    isStableSwap ? setTokenOut(tokenOutStable) : setTokenOut(tokenOut);
-  }, [isStableSwap]);
+  // useEffect(() => {
+  //   isStableSwap ? setTokenIn(tokenInStable) : setTokenIn(tokenIn);
+  //   isStableSwap ? setTokenOut(tokenOutStable) : setTokenOut(tokenOut);
+  // }, [isStableSwap]);
 
   useEffect(() => {
     splitLocation[1] === 'stableswap' ? redirect(true) : setStableSwap(false);
@@ -95,6 +97,16 @@ const Swap = (props) => {
       }
     }
   }, [tokenIn, tokenOut]);
+  useEffect(() => {
+    if (
+      Object.prototype.hasOwnProperty.call(tokenInStable, 'name') &&
+      Object.prototype.hasOwnProperty.call(tokenOutStable, 'name')
+    ) {
+      if (tokenInStable.name === tokenOutStable.name) {
+        setTokenOutStable({});
+      }
+    }
+  }, [tokenInStable, tokenOutStable]);
 
   useEffect(() => {
     const updateBalance = async () => {
@@ -102,19 +114,39 @@ const Swap = (props) => {
       const userBalancesCopy = { ...userBalances };
       const tzBTCName = 'tzBTC';
       const balancePromises = [];
-      if (!userBalancesCopy[tokenIn.name]) {
-        tokenIn.name === tzBTCName
+      if (isStableSwap ? !userBalancesCopy[tokenInStable.name] : !userBalancesCopy[tokenIn.name]) {
+        (isStableSwap ? tokenInStable.name === tzBTCName : tokenIn.name === tzBTCName)
           ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
-          : balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
+          : balancePromises.push(
+              getUserBalanceByRpc(
+                isStableSwap ? tokenInStable.name : tokenIn.name,
+                props.walletAddress,
+              ),
+            );
       }
-      if (!userBalancesCopy[tokenOut.name]) {
-        tokenOut.name === tzBTCName
+      if (
+        isStableSwap ? !userBalancesCopy[tokenOutStable.name] : !userBalancesCopy[tokenOut.name]
+      ) {
+        isStableSwap
+          ? tokenOutStable.name === tzBTCName
+          : tokenOut.name === tzBTCName
           ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
-          : balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));
+          : balancePromises.push(
+              getUserBalanceByRpc(
+                isStableSwap ? tokenOutStable.name : tokenOut.name,
+                props.walletAddress,
+              ),
+            );
       }
-      if (config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]) {
-        const lpToken =
-          config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
+      if (
+        isStableSwap
+          ? config.AMM[config.NETWORK][tokenInStable.name].DEX_PAIRS[tokenOutStable.name]
+          : config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]
+      ) {
+        const lpToken = isStableSwap
+          ? config.AMM[config.NETWORK][tokenInStable.name].DEX_PAIRS[tokenOutStable.name]
+              .liquidityToken
+          : config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
 
         balancePromises.push(getUserBalanceByRpc(lpToken, props.walletAddress));
       }
@@ -132,7 +164,7 @@ const Swap = (props) => {
       }));
     };
     updateBalance();
-  }, [tokenIn, tokenOut]);
+  }, [tokenIn, tokenOut, tokenInStable, tokenOutStable, isStableSwap]);
 
   useEffect(() => {
     if (activeTab === 'swap') {
@@ -141,6 +173,20 @@ const Swap = (props) => {
         Object.prototype.hasOwnProperty.call(tokenOut, 'name')
       ) {
         getAllRoutes(tokenIn.name, tokenOut.name).then((response) => {
+          if (response.success) {
+            setRouteData(response);
+            setSwapData(response.bestRouteUntilNoInput.swapData);
+            setLoaderInButton(false);
+          }
+        });
+      }
+    }
+    if (activeTab === 'stableswap') {
+      if (
+        Object.prototype.hasOwnProperty.call(tokenInStable, 'name') &&
+        Object.prototype.hasOwnProperty.call(tokenOutStable, 'name')
+      ) {
+        getAllRoutes(tokenInStable.name, tokenOutStable.name).then((response) => {
           if (response.success) {
             setRouteData(response);
             setSwapData(response.bestRouteUntilNoInput.swapData);
@@ -167,7 +213,7 @@ const Swap = (props) => {
         }
       }
     }
-  }, [tokenIn, tokenOut, activeTab]);
+  }, [tokenIn, tokenOut, activeTab, tokenInStable, tokenOutStable]);
 
   const handleClose = () => {
     setShow(false);
@@ -180,33 +226,35 @@ const Swap = (props) => {
   };
 
   const changeTokenLocation = () => {
-    const tempTokenIn = tokenIn.name;
-    const tempTokenOut = tokenOut.name;
-    if (tokenOut.name) {
-      setTokenIn({
-        name: tokenOut.name,
-        image: tokenOut.image,
-      });
-      setTokenOut({
-        name: tokenIn.name,
-        image: tokenIn.image,
-      });
-      isStableSwap &&
-        setTokenInStable({
+    const tempTokenIn = isStableSwap ? tokenInStable.name : tokenIn.name;
+    const tempTokenOut = isStableSwap ? tokenOutStable.name : tokenOut.name;
+    if (isStableSwap ? tokenOutStable.name : tokenOut.name) {
+      !isStableSwap &&
+        setTokenIn({
           name: tokenOut.name,
           image: tokenOut.image,
         });
-      isStableSwap &&
-        setTokenOutStable({
+      !isStableSwap &&
+        setTokenOut({
           name: tokenIn.name,
           image: tokenIn.image,
+        });
+      isStableSwap &&
+        setTokenInStable({
+          name: tokenOutStable.name,
+          image: tokenOutStable.image,
+        });
+      isStableSwap &&
+        setTokenOutStable({
+          name: tokenInStable.name,
+          image: tokenInStable.image,
         });
       setSwapData({});
       setComputedOutDetails({
         tokenOut_amount: '',
       });
-      setFirstTokenAmount('');
-      setSecondTokenAmount('');
+      isStableSwap ? setFirstTokenAmountStable('') : setFirstTokenAmount('');
+      isStableSwap ? setSecondTokenAmountStable('') : setSecondTokenAmount('');
 
       loadSwapData(tempTokenOut, tempTokenIn).then((data) => {
         if (data.success) {
@@ -224,11 +272,11 @@ const Swap = (props) => {
   };
 
   const handleTokenInput = (input) => {
-    setFirstTokenAmount(input);
+    isStableSwap ? setFirstTokenAmountStable(input) : setFirstTokenAmount(input);
     setComputedOutDetails({});
     if (input === '' || isNaN(input)) {
-      setFirstTokenAmount('');
-      setSecondTokenAmount('');
+      isStableSwap ? setFirstTokenAmountStable('') : setFirstTokenAmount('');
+      isStableSwap ? setSecondTokenAmountStable('') : setSecondTokenAmount('');
       setComputedOutDetails({
         tokenOut_amount: '',
         fees: 0,
@@ -254,11 +302,11 @@ const Swap = (props) => {
   };
 
   const handleOutTokenInput = (input) => {
-    setSecondTokenAmount(input);
+    isStableSwap ? setSecondTokenAmountStable(input) : setSecondTokenAmount(input);
     setComputedOutDetails({});
     if (input === '' || isNaN(input)) {
-      setSecondTokenAmount('');
-      setFirstTokenAmount('');
+      isStableSwap ? setFirstTokenAmountStable('') : setFirstTokenAmount('');
+      isStableSwap ? setSecondTokenAmountStable('') : setSecondTokenAmount('');
       setComputedOutDetails({
         tokenOut_amount: '',
         fees: 0,
@@ -317,8 +365,8 @@ const Swap = (props) => {
     setSlippage(0.05);
     setRecepient('');
     setTokenType('tokenIn');
-    setFirstTokenAmount('');
-    setSecondTokenAmount('');
+    isStableSwap ? setFirstTokenAmountStable('') : setFirstTokenAmount('');
+    isStableSwap ? setSecondTokenAmountStable('') : setSecondTokenAmount('');
     setComputedOutDetails({
       tokenOut_amount: '',
     });
@@ -362,6 +410,7 @@ const Swap = (props) => {
 
   const redirect = (value) => {
     setStableSwap(value);
+    resetAllValues();
     value ? setActiveTab('stableswap') : setActiveTab('swap');
   };
 
@@ -400,9 +449,9 @@ const Swap = (props) => {
                   >
                     <StableSwap
                       walletAddress={props.walletAddress}
-                      setFirstTokenAmount={handleTokenInput}
-                      firstTokenAmount={firstTokenAmount}
-                      secondTokenAmount={secondTokenAmount}
+                      setFirstTokenAmountStable={handleTokenInput}
+                      firstTokenAmountStable={firstTokenAmountStable}
+                      secondTokenAmountStable={secondTokenAmountStable}
                       connecthWallet={props.connecthWallet}
                       tokenIn={tokenInStable}
                       tokenOut={tokenOutStable}
@@ -431,7 +480,7 @@ const Swap = (props) => {
                       handleOutTokenInput={handleOutTokenInput}
                       showRecepient={showRecepient}
                       transactionSubmitModal={transactionSubmitModal}
-                      setSecondTokenAmount={setSecondTokenAmount}
+                      setSecondTokenAmountStable={setSecondTokenAmountStable}
                       fetchUserWalletBalance={fetchUserWalletBalance}
                       loaderInButton={loaderInButton}
                       setLoaderInButton={setLoaderInButton}
