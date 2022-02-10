@@ -371,6 +371,10 @@ export const loadSwapDataStable = async (tokenIn, tokenOut) => {
   }
 };
 
+export const liqCalc = (xtzAmount, ctezpool, tezpool) => {
+  return (xtzAmount * 10 ** 6 * ctezpool) / tezpool;
+};
+
 export async function add_liquidity(
   tokenIn,
   tokenOut,
