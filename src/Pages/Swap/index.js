@@ -556,19 +556,23 @@ const Swap = (props) => {
           </div>
         </Col>
       </Row>
-
-      <SwapModal
-        show={show}
-        activeTab={activeTab}
-        onHide={handleClose}
-        selectToken={selectToken}
-        tokens={tokens}
-        tokenIn={tokenIn}
-        tokenOut={tokenOut}
-        tokenType={tokenType}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-      />
+      {
+        //Todo : Make Swap model for stable swap
+      }
+      {!isStableSwap && (
+        <SwapModal
+          show={show}
+          activeTab={activeTab}
+          onHide={handleClose}
+          selectToken={selectToken}
+          tokens={tokens}
+          tokenIn={tokenIn}
+          tokenOut={tokenOut}
+          tokenType={tokenType}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
+      )}
       <InfoModal
         open={showTransactionSubmitModal}
         onClose={() => setShowTransactionSubmitModal(false)}

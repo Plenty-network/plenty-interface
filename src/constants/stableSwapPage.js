@@ -1,10 +1,10 @@
 import ctez from '../assets/images/ctez.png';
-import plenty from '../assets/images/logo_small.png';
+import xtz from '../assets/images/tez.png';
 
 export const stableSwapTokens = [
   {
-    name: 'PLENTY',
-    image: plenty,
+    name: 'xtz',
+    image: xtz,
   },
   {
     name: 'ctez',
