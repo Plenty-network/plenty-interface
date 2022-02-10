@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useMemo, useState } from 'react';
+import clsx from 'clsx';
 import {
   computeOutputBasedOnTokenOutAmount,
   computeTokenOutForRouteBase,
@@ -16,31 +17,51 @@ import config from '../../config/config';
 import TransactionSettings from '../../Components/TransactionSettings/TransactionSettings';
 import SwapModal from '../../Components/SwapModal/SwapModal';
 import SwapTab from '../../Components/SwapTabsContent/SwapTab';
+import StableSwap from '../../Components/SwapTabsContent/StableSwap';
 import LiquidityTab from '../../Components/SwapTabsContent/LiquidityTab';
 import Loader from '../../Components/loader';
 import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import { tokens } from '../../constants/swapPage';
-
+import { stableSwapTokens } from '../../constants/stableSwapPage';
+import GraphDark from '../../assets/images/SwapModal/graph-dark.svg';
+import Graph from '../../assets/images/SwapModal/graph.svg';
+import { ReactComponent as StableswapImg } from '../../assets/images/SwapModal/stableswap.svg';
 import { useLocationStateInSwap } from './hooks';
 import { getAllRoutes } from '../../apis/swap/swap-v2';
+import { useLocation } from 'react-router';
 
 const Swap = (props) => {
-  const { activeTab, setActiveTab, tokenIn, setTokenIn, tokenOut, setTokenOut } =
-    useLocationStateInSwap();
+  const {
+    activeTab,
+    setActiveTab,
+    tokenIn,
+    setTokenIn,
+    tokenOut,
+    setTokenOut,
+    tokenInStable,
+    setTokenInStable,
+    tokenOutStable,
+    setTokenOutStable,
+  } = useLocationStateInSwap();
+  const location = useLocation();
+  const { pathname } = location;
+  const splitLocation = pathname.split('/');
 
   const [searchQuery, setSearchQuery] = useState('');
   const [show, setShow] = useState(false);
   const [showConfirmSwap, setShowConfirmSwap] = useState(false);
   const [showConfirmAddSupply, setShowConfirmAddSupply] = useState(false);
   const [showConfirmRemoveSupply, setShowConfirmRemoveSupply] = useState(false);
-  const [hideContent, setHideContent] = useState('');
+
   const [slippage, setSlippage] = useState(0.5);
   const [recepient, setRecepient] = useState('');
   const [tokenType, setTokenType] = useState('tokenIn');
 
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
   const [secondTokenAmount, setSecondTokenAmount] = useState('');
+  const [firstTokenAmountStable, setFirstTokenAmountStable] = useState('');
+  const [secondTokenAmountStable, setSecondTokenAmountStable] = useState('');
   const [swapData, setSwapData] = useState({});
   const [routeData, setRouteData] = useState({});
   const [computedOutDetails, setComputedOutDetails] = useState({});
@@ -50,6 +71,17 @@ const Swap = (props) => {
   const [loaderMessage, setLoaderMessage] = useState({});
   const [tokenContractInstances, setTokenContractInstances] = useState({});
   const [loaderInButton, setLoaderInButton] = useState(false);
+  const [isStableSwap, setStableSwap] = useState(false);
+
+  // useEffect(() => {
+  //   isStableSwap ? setTokenIn(tokenInStable) : setTokenIn(tokenIn);
+  //   isStableSwap ? setTokenOut(tokenOutStable) : setTokenOut(tokenOut);
+  // }, [isStableSwap]);
+
+  useEffect(() => {
+    splitLocation[1] === 'stableswap' ? redirect(true) : setStableSwap(false);
+    setActiveTab(splitLocation[1]);
+  }, [splitLocation[1]]);
 
   const pairExist = useMemo(() => {
     return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
@@ -65,6 +97,16 @@ const Swap = (props) => {
       }
     }
   }, [tokenIn, tokenOut]);
+  useEffect(() => {
+    if (
+      Object.prototype.hasOwnProperty.call(tokenInStable, 'name') &&
+      Object.prototype.hasOwnProperty.call(tokenOutStable, 'name')
+    ) {
+      if (tokenInStable.name === tokenOutStable.name) {
+        setTokenOutStable({});
+      }
+    }
+  }, [tokenInStable, tokenOutStable]);
 
   useEffect(() => {
     const updateBalance = async () => {
@@ -72,19 +114,39 @@ const Swap = (props) => {
       const userBalancesCopy = { ...userBalances };
       const tzBTCName = 'tzBTC';
       const balancePromises = [];
-      if (!userBalancesCopy[tokenIn.name]) {
-        tokenIn.name === tzBTCName
+      if (isStableSwap ? !userBalancesCopy[tokenInStable.name] : !userBalancesCopy[tokenIn.name]) {
+        (isStableSwap ? tokenInStable.name === tzBTCName : tokenIn.name === tzBTCName)
           ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
-          : balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
+          : balancePromises.push(
+              getUserBalanceByRpc(
+                isStableSwap ? tokenInStable.name : tokenIn.name,
+                props.walletAddress,
+              ),
+            );
       }
-      if (!userBalancesCopy[tokenOut.name]) {
-        tokenOut.name === tzBTCName
+      if (
+        isStableSwap ? !userBalancesCopy[tokenOutStable.name] : !userBalancesCopy[tokenOut.name]
+      ) {
+        isStableSwap
+          ? tokenOutStable.name === tzBTCName
+          : tokenOut.name === tzBTCName
           ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
-          : balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));
+          : balancePromises.push(
+              getUserBalanceByRpc(
+                isStableSwap ? tokenOutStable.name : tokenOut.name,
+                props.walletAddress,
+              ),
+            );
       }
-      if (config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]) {
-        const lpToken =
-          config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
+      if (
+        isStableSwap
+          ? config.AMM[config.NETWORK][tokenInStable.name].DEX_PAIRS[tokenOutStable.name]
+          : config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]
+      ) {
+        const lpToken = isStableSwap
+          ? config.AMM[config.NETWORK][tokenInStable.name].DEX_PAIRS[tokenOutStable.name]
+              .liquidityToken
+          : config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
 
         balancePromises.push(getUserBalanceByRpc(lpToken, props.walletAddress));
       }
@@ -102,7 +164,7 @@ const Swap = (props) => {
       }));
     };
     updateBalance();
-  }, [tokenIn, tokenOut]);
+  }, [tokenIn, tokenOut, tokenInStable, tokenOutStable, isStableSwap]);
 
   useEffect(() => {
     if (activeTab === 'swap') {
@@ -111,6 +173,20 @@ const Swap = (props) => {
         Object.prototype.hasOwnProperty.call(tokenOut, 'name')
       ) {
         getAllRoutes(tokenIn.name, tokenOut.name).then((response) => {
+          if (response.success) {
+            setRouteData(response);
+            setSwapData(response.bestRouteUntilNoInput.swapData);
+            setLoaderInButton(false);
+          }
+        });
+      }
+    }
+    if (activeTab === 'stableswap') {
+      if (
+        Object.prototype.hasOwnProperty.call(tokenInStable, 'name') &&
+        Object.prototype.hasOwnProperty.call(tokenOutStable, 'name')
+      ) {
+        getAllRoutes(tokenInStable.name, tokenOutStable.name).then((response) => {
           if (response.success) {
             setRouteData(response);
             setSwapData(response.bestRouteUntilNoInput.swapData);
@@ -137,36 +213,48 @@ const Swap = (props) => {
         }
       }
     }
-  }, [tokenIn, tokenOut, activeTab]);
+  }, [tokenIn, tokenOut, activeTab, tokenInStable, tokenOutStable]);
 
   const handleClose = () => {
     setShow(false);
     setShowConfirmSwap(false);
     setShowConfirmAddSupply(false);
     setShowConfirmRemoveSupply(false);
-    setHideContent('');
+    //setHideContent('');
     setSearchQuery('');
     //setLoading(false);
   };
 
   const changeTokenLocation = () => {
-    const tempTokenIn = tokenIn.name;
-    const tempTokenOut = tokenOut.name;
-    if (tokenOut.name) {
-      setTokenIn({
-        name: tokenOut.name,
-        image: tokenOut.image,
-      });
-      setTokenOut({
-        name: tokenIn.name,
-        image: tokenIn.image,
-      });
+    const tempTokenIn = isStableSwap ? tokenInStable.name : tokenIn.name;
+    const tempTokenOut = isStableSwap ? tokenOutStable.name : tokenOut.name;
+    if (isStableSwap ? tokenOutStable.name : tokenOut.name) {
+      !isStableSwap &&
+        setTokenIn({
+          name: tokenOut.name,
+          image: tokenOut.image,
+        });
+      !isStableSwap &&
+        setTokenOut({
+          name: tokenIn.name,
+          image: tokenIn.image,
+        });
+      isStableSwap &&
+        setTokenInStable({
+          name: tokenOutStable.name,
+          image: tokenOutStable.image,
+        });
+      isStableSwap &&
+        setTokenOutStable({
+          name: tokenInStable.name,
+          image: tokenInStable.image,
+        });
       setSwapData({});
       setComputedOutDetails({
         tokenOut_amount: '',
       });
-      setFirstTokenAmount('');
-      setSecondTokenAmount('');
+      isStableSwap ? setFirstTokenAmountStable('') : setFirstTokenAmount('');
+      isStableSwap ? setSecondTokenAmountStable('') : setSecondTokenAmount('');
 
       loadSwapData(tempTokenOut, tempTokenIn).then((data) => {
         if (data.success) {
@@ -177,18 +265,18 @@ const Swap = (props) => {
   };
 
   const handleTokenType = (type) => {
-    setHideContent('content-hide');
+    //setHideContent('content-hide');
     setShow(true);
     setTokenType(type);
     setLoading(false);
   };
 
   const handleTokenInput = (input) => {
-    setFirstTokenAmount(input);
+    isStableSwap ? setFirstTokenAmountStable(input) : setFirstTokenAmount(input);
     setComputedOutDetails({});
     if (input === '' || isNaN(input)) {
-      setFirstTokenAmount('');
-      setSecondTokenAmount('');
+      isStableSwap ? setFirstTokenAmountStable('') : setFirstTokenAmount('');
+      isStableSwap ? setSecondTokenAmountStable('') : setSecondTokenAmount('');
       setComputedOutDetails({
         tokenOut_amount: '',
         fees: 0,
@@ -214,11 +302,11 @@ const Swap = (props) => {
   };
 
   const handleOutTokenInput = (input) => {
-    setSecondTokenAmount(input);
+    isStableSwap ? setSecondTokenAmountStable(input) : setSecondTokenAmount(input);
     setComputedOutDetails({});
     if (input === '' || isNaN(input)) {
-      setSecondTokenAmount('');
-      setFirstTokenAmount('');
+      isStableSwap ? setFirstTokenAmountStable('') : setFirstTokenAmount('');
+      isStableSwap ? setSecondTokenAmountStable('') : setSecondTokenAmount('');
       setComputedOutDetails({
         tokenOut_amount: '',
         fees: 0,
@@ -277,8 +365,8 @@ const Swap = (props) => {
     setSlippage(0.05);
     setRecepient('');
     setTokenType('tokenIn');
-    setFirstTokenAmount('');
-    setSecondTokenAmount('');
+    isStableSwap ? setFirstTokenAmountStable('') : setFirstTokenAmount('');
+    isStableSwap ? setSecondTokenAmountStable('') : setSecondTokenAmount('');
     setComputedOutDetails({
       tokenOut_amount: '',
     });
@@ -320,111 +408,204 @@ const Swap = (props) => {
     handleClose();
   };
 
+  const redirect = (value) => {
+    setStableSwap(value);
+    resetAllValues();
+    value ? setActiveTab('stableswap') : setActiveTab('swap');
+  };
+
   return (
     <Container fluid>
       <Row>
         <Col sm={8} md={6} className="swap-content-section">
-          <div className={`bg-themed swap-content-container ${hideContent}`}>
-            <Tabs
-              activeKey={activeTab}
-              className="swap-container-tab"
-              onSelect={(e) => setActiveTab(e)}
-              mountOnEnter={true}
-              unmountOnExit={true}
-            >
-              <Tab eventKey="swap" title="Swap">
-                <SwapTab
-                  walletAddress={props.walletAddress}
-                  setFirstTokenAmount={handleTokenInput}
-                  firstTokenAmount={firstTokenAmount}
-                  secondTokenAmount={secondTokenAmount}
-                  connecthWallet={props.connecthWallet}
-                  tokenIn={tokenIn}
-                  tokenOut={tokenOut}
-                  tokens={tokens}
-                  handleTokenType={handleTokenType}
-                  swapData={swapData}
-                  routeData={routeData}
-                  computedOutDetails={computedOutDetails}
-                  userBalances={userBalances}
-                  tokenContractInstances={tokenContractInstances}
-                  getTokenPrice={getTokenPrice}
-                  setSlippage={setSlippage}
-                  setRecepient={setRecepient}
-                  recepient={recepient}
-                  slippage={slippage}
-                  loading={loading}
-                  setLoading={setLoading}
-                  handleLoaderMessage={handleLoaderMessage}
-                  loaderMessage={loaderMessage}
-                  setShowConfirmSwap={setShowConfirmSwap}
-                  showConfirmSwap={showConfirmSwap}
-                  handleClose={handleClose}
-                  setHideContent={setHideContent}
-                  setLoaderMessage={setLoaderMessage}
-                  resetAllValues={resetAllValues}
-                  changeTokenLocation={changeTokenLocation}
-                  handleOutTokenInput={handleOutTokenInput}
-                  showRecepient={showRecepient}
-                  transactionSubmitModal={transactionSubmitModal}
-                  setSecondTokenAmount={setSecondTokenAmount}
-                  fetchUserWalletBalance={fetchUserWalletBalance}
-                  loaderInButton={loaderInButton}
-                  setLoaderInButton={setLoaderInButton}
-                />
-              </Tab>
-              <Tab eventKey="liquidity" title="Liquidity">
-                <LiquidityTab
-                  walletAddress={props.walletAddress}
-                  setFirstTokenAmount={handleTokenInput}
-                  firstTokenAmount={firstTokenAmount}
-                  connecthWallet={props.connecthWallet}
-                  tokenIn={tokenIn}
-                  tokenOut={tokenOut}
-                  handleTokenType={handleTokenType}
-                  swapData={swapData}
-                  computedOutDetails={computedOutDetails}
-                  userBalances={userBalances}
-                  tokenContractInstances={tokenContractInstances}
-                  getTokenPrice={getTokenPrice}
-                  setSlippage={setSlippage}
-                  setRecepient={setRecepient}
-                  recepient={recepient}
-                  slippage={slippage}
-                  loading={loading}
-                  setLoading={setLoading}
-                  handleLoaderMessage={handleLoaderMessage}
-                  loaderMessage={loaderMessage}
-                  handleClose={handleClose}
-                  showConfirmAddSupply={showConfirmAddSupply}
-                  setShowConfirmAddSupply={setShowConfirmAddSupply}
-                  showConfirmRemoveSupply={showConfirmRemoveSupply}
-                  setShowConfirmRemoveSupply={setShowConfirmRemoveSupply}
-                  setHideContent={setHideContent}
-                  setLoaderMessage={setLoaderMessage}
-                  resetAllValues={resetAllValues}
-                  fetchUserWalletBalance={fetchUserWalletBalance}
-                  setTokenIn={setTokenIn}
-                  setTokenOut={setTokenOut}
-                  tokens={tokens}
-                  loaderInButton={loaderInButton}
-                  setLoaderInButton={setLoaderInButton}
-                />
-              </Tab>
-            </Tabs>
+          <p
+            className="redirect-label"
+            style={{ cursor: 'pointer' }}
+            onClick={() => redirect(!isStableSwap)}
+          >
+            {isStableSwap ? 'Redirect to Swap' : 'Redirect to StableSwap'}
+            <span className={clsx('material-icons', 'arrow-forward', 'mt-1')}>
+              arrow_forward_ios_icon
+            </span>
+          </p>
+          <div className="border-swap">
+            <div className="bg-themed my-0 swap-content-container">
+              <Tabs
+                activeKey={activeTab}
+                className="swap-container-tab"
+                onSelect={(e) => setActiveTab(e)}
+                mountOnEnter={true}
+                unmountOnExit={true}
+              >
+                {isStableSwap ? (
+                  <Tab
+                    eventKey="stableswap"
+                    title={
+                      <span>
+                        <span className="mr-2">Stableswap</span>
+                        <StableswapImg />
+                      </span>
+                    }
+                  >
+                    <StableSwap
+                      walletAddress={props.walletAddress}
+                      setFirstTokenAmountStable={handleTokenInput}
+                      firstTokenAmountStable={firstTokenAmountStable}
+                      secondTokenAmountStable={secondTokenAmountStable}
+                      connecthWallet={props.connecthWallet}
+                      tokenIn={tokenInStable}
+                      tokenOut={tokenOutStable}
+                      tokens={stableSwapTokens}
+                      handleTokenType={handleTokenType}
+                      swapData={swapData}
+                      routeData={routeData}
+                      computedOutDetails={computedOutDetails}
+                      userBalances={userBalances}
+                      tokenContractInstances={tokenContractInstances}
+                      getTokenPrice={getTokenPrice}
+                      setSlippage={setSlippage}
+                      setRecepient={setRecepient}
+                      recepient={recepient}
+                      slippage={slippage}
+                      loading={loading}
+                      setLoading={setLoading}
+                      handleLoaderMessage={handleLoaderMessage}
+                      loaderMessage={loaderMessage}
+                      setShowConfirmSwap={setShowConfirmSwap}
+                      showConfirmSwap={showConfirmSwap}
+                      handleClose={handleClose}
+                      setLoaderMessage={setLoaderMessage}
+                      resetAllValues={resetAllValues}
+                      changeTokenLocation={changeTokenLocation}
+                      handleOutTokenInput={handleOutTokenInput}
+                      showRecepient={showRecepient}
+                      transactionSubmitModal={transactionSubmitModal}
+                      setSecondTokenAmountStable={setSecondTokenAmountStable}
+                      fetchUserWalletBalance={fetchUserWalletBalance}
+                      loaderInButton={loaderInButton}
+                      setLoaderInButton={setLoaderInButton}
+                    />
+                  </Tab>
+                ) : (
+                  <Tab eventKey="swap" title="Swap">
+                    <SwapTab
+                      walletAddress={props.walletAddress}
+                      setFirstTokenAmount={handleTokenInput}
+                      firstTokenAmount={firstTokenAmount}
+                      secondTokenAmount={secondTokenAmount}
+                      connecthWallet={props.connecthWallet}
+                      tokenIn={tokenIn}
+                      tokenOut={tokenOut}
+                      tokens={tokens}
+                      handleTokenType={handleTokenType}
+                      swapData={swapData}
+                      routeData={routeData}
+                      computedOutDetails={computedOutDetails}
+                      userBalances={userBalances}
+                      tokenContractInstances={tokenContractInstances}
+                      getTokenPrice={getTokenPrice}
+                      setSlippage={setSlippage}
+                      setRecepient={setRecepient}
+                      recepient={recepient}
+                      slippage={slippage}
+                      loading={loading}
+                      setLoading={setLoading}
+                      handleLoaderMessage={handleLoaderMessage}
+                      loaderMessage={loaderMessage}
+                      setShowConfirmSwap={setShowConfirmSwap}
+                      showConfirmSwap={showConfirmSwap}
+                      handleClose={handleClose}
+                      setLoaderMessage={setLoaderMessage}
+                      resetAllValues={resetAllValues}
+                      changeTokenLocation={changeTokenLocation}
+                      handleOutTokenInput={handleOutTokenInput}
+                      showRecepient={showRecepient}
+                      transactionSubmitModal={transactionSubmitModal}
+                      setSecondTokenAmount={setSecondTokenAmount}
+                      fetchUserWalletBalance={fetchUserWalletBalance}
+                      loaderInButton={loaderInButton}
+                      setLoaderInButton={setLoaderInButton}
+                    />
+                  </Tab>
+                )}
+                <Tab eventKey="liquidity" title="Liquidity">
+                  <LiquidityTab
+                    walletAddress={props.walletAddress}
+                    setFirstTokenAmount={handleTokenInput}
+                    firstTokenAmount={firstTokenAmount}
+                    connecthWallet={props.connecthWallet}
+                    tokenIn={tokenIn}
+                    tokenOut={tokenOut}
+                    handleTokenType={handleTokenType}
+                    swapData={swapData}
+                    computedOutDetails={computedOutDetails}
+                    userBalances={userBalances}
+                    tokenContractInstances={tokenContractInstances}
+                    getTokenPrice={getTokenPrice}
+                    setSlippage={setSlippage}
+                    setRecepient={setRecepient}
+                    recepient={recepient}
+                    slippage={slippage}
+                    loading={loading}
+                    setLoading={setLoading}
+                    handleLoaderMessage={handleLoaderMessage}
+                    loaderMessage={loaderMessage}
+                    handleClose={handleClose}
+                    showConfirmAddSupply={showConfirmAddSupply}
+                    setShowConfirmAddSupply={setShowConfirmAddSupply}
+                    showConfirmRemoveSupply={showConfirmRemoveSupply}
+                    setShowConfirmRemoveSupply={setShowConfirmRemoveSupply}
+                    setLoaderMessage={setLoaderMessage}
+                    resetAllValues={resetAllValues}
+                    fetchUserWalletBalance={fetchUserWalletBalance}
+                    setTokenIn={setTokenIn}
+                    setTokenOut={setTokenOut}
+                    tokens={tokens}
+                    loaderInButton={loaderInButton}
+                    setLoaderInButton={setLoaderInButton}
+                  />
+                </Tab>
+              </Tabs>
 
-            <TransactionSettings
-              recepient={recepient}
-              slippage={slippage}
-              setSlippage={setSlippage}
-              setRecepient={setRecepient}
-              walletAddress={props.walletAddress}
-              handleRecepient={handleRecepient}
-              setShowRecepient={setShowRecepient}
-            />
+              <TransactionSettings
+                recepient={recepient}
+                slippage={slippage}
+                setSlippage={setSlippage}
+                setRecepient={setRecepient}
+                walletAddress={props.walletAddress}
+                handleRecepient={handleRecepient}
+                setShowRecepient={setShowRecepient}
+              />
+            </div>
+          </div>
+          <div className="bottom-footer mt-2 flex flex-row">
+            <div>
+              <img src={props.theme === 'light' ? Graph : GraphDark} alt="graph"></img>
+            </div>
+            <div className="ml-3">
+              <span className="bottom-label">Stable Swap</span>
+              <p className="bottom-desc">Lorem Ipsum is simply dummy text of.</p>
+              {isStableSwap ? (
+                <>
+                  <span className="bottom-last">Learn More</span>
+                </>
+              ) : (
+                <>
+                  <span
+                    className="bottom-last"
+                    onClick={() => redirect(true)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    Try it out
+                  </span>
+                  <span className="new">New</span>
+                </>
+              )}
+            </div>
           </div>
         </Col>
       </Row>
+
       <SwapModal
         show={show}
         activeTab={activeTab}
@@ -457,4 +638,5 @@ export default Swap;
 Swap.propTypes = {
   connecthWallet: PropTypes.any,
   walletAddress: PropTypes.any,
+  theme: PropTypes.any,
 };

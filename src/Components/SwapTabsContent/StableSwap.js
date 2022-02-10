@@ -10,10 +10,11 @@ import {
   swapTokenUsingRouteV3,
   computeTokenOutForRouteBaseByOutAmountV2,
 } from '../../apis/swap/swap-v2';
+import { ReactComponent as Stableswap } from '../../assets/images/SwapModal/stableswap-white.svg';
 
-const SwapTab = (props) => {
-  const [firstTokenAmount, setFirstTokenAmount] = useState();
-  const [secondTokenAmount, setSecondTokenAmount] = useState();
+const StableSwap = (props) => {
+  const [firstTokenAmountStable, setFirstTokenAmountStable] = useState();
+  const [secondTokenAmountStable, setSecondTokenAmountStable] = useState();
   const [routePath, setRoutePath] = useState([]);
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState('');
@@ -31,11 +32,11 @@ const SwapTab = (props) => {
 
   const handleSwapTokenInput = (input, tokenType) => {
     if (input === '' || isNaN(input)) {
-      setFirstTokenAmount('');
-      setSecondTokenAmount('');
+      setFirstTokenAmountStable('');
+      setSecondTokenAmountStable('');
     } else {
       if (tokenType === 'tokenIn') {
-        setFirstTokenAmount(input);
+        setFirstTokenAmountStable(input);
 
         const res = computeTokenOutForRouteBaseV2(input, props.routeData.allRoutes, props.slippage);
 
@@ -55,9 +56,9 @@ const SwapTab = (props) => {
           },
         });
         setRoutePath(res.bestRoute.path);
-        setSecondTokenAmount(res.bestRoute.computations.tokenOutAmount);
+        setSecondTokenAmountStable(res.bestRoute.computations.tokenOutAmount);
       } else if (tokenType === 'tokenOut') {
-        setSecondTokenAmount(input);
+        setSecondTokenAmountStable(input);
 
         const res = computeTokenOutForRouteBaseByOutAmountV2(
           input,
@@ -79,17 +80,17 @@ const SwapTab = (props) => {
           },
         });
         setRoutePath(res.bestRoute.path);
-        setFirstTokenAmount(res.bestRoute.computations.tokenInAmount);
+        setFirstTokenAmountStable(res.bestRoute.computations.tokenInAmount);
       }
     }
   };
 
   useEffect(() => {
-    handleSwapTokenInput(firstTokenAmount, 'tokenIn');
+    handleSwapTokenInput(firstTokenAmountStable, 'tokenIn');
   }, [props.routeData]);
   useEffect(() => {
     setErrorMessage(false);
-  }, [props.tokenOut.name, firstTokenAmount]);
+  }, [props.tokenOut.name, firstTokenAmountStable]);
 
   const callSwapToken = () => {
     props.setShowConfirmSwap(true);
@@ -111,18 +112,18 @@ const SwapTab = (props) => {
       props.handleLoaderMessage('success', 'Transaction confirmed');
       props.setShowConfirmSwap(false);
       //props.setHideContent('');
-      props.setSecondTokenAmount('');
+      props.setSecondTokenAmountStable('');
       props.resetAllValues();
       props.setLoaderInButton(false);
-      setFirstTokenAmount('');
-      setSecondTokenAmount('');
+      setFirstTokenAmountStable('');
+      setSecondTokenAmountStable('');
     } else {
       props.setLoading(false);
       props.handleLoaderMessage('error', 'Transaction failed');
       props.setShowConfirmSwap(false);
       //props.setHideContent('');
       props.resetAllValues();
-      props.setSecondTokenAmount('');
+      props.setSecondTokenAmountStable('');
       props.setLoaderInButton(false);
     }
   };
@@ -138,7 +139,7 @@ const SwapTab = (props) => {
         routePath[1],
         computedData.data.finalMinimumOut,
         recepientAddress,
-        firstTokenAmount,
+        firstTokenAmountStable,
         props.walletAddress,
         props.transactionSubmitModal,
       ).then((swapResp) => {
@@ -152,7 +153,7 @@ const SwapTab = (props) => {
         routePath,
         computedData.data.minimumOut,
         props.walletAddress,
-        firstTokenAmount,
+        firstTokenAmountStable,
         props.transactionSubmitModal,
       ).then((swapResp) => {
         handleSwapResponse(swapResp.success);
@@ -177,17 +178,19 @@ const SwapTab = (props) => {
     setErrorMessage(true);
   };
 
-  // TODO Refactor once again
   const swapContentButton = useMemo(() => {
     if (props.walletAddress) {
-      if (props.tokenOut.name && firstTokenAmount) {
+      if (props.tokenOut.name && firstTokenAmountStable) {
         return (
           <Button
             onClick={callSwapToken}
             color={'primary'}
             className={'mt-4 w-100 flex align-items-center justify-content-center'}
           >
-            Swap
+            <span>
+              <Stableswap />
+              <span className="ml-2">swap</span>
+            </span>
           </Button>
         );
       }
@@ -199,7 +202,10 @@ const SwapTab = (props) => {
             color={'disabled'}
             className={' mt-4 w-100 flex align-items-center justify-content-center'}
           >
-            Swap
+            <span>
+              <Stableswap />
+              <span className="ml-2">swap</span>
+            </span>
           </Button>
         );
       }
@@ -212,7 +218,10 @@ const SwapTab = (props) => {
             loading={true}
             className={' mt-4 w-100 flex align-items-center justify-content-center'}
           >
-            Swap
+            <span>
+              <Stableswap />
+              <span className="ml-2">swap</span>
+            </span>
           </Button>
         );
       }
@@ -222,7 +231,10 @@ const SwapTab = (props) => {
           color={'disabled'}
           className={' mt-4 w-100 flex align-items-center justify-content-center'}
         >
-          Swap
+          <span>
+            <Stableswap />
+            <span className="ml-2">swap</span>
+          </span>
         </Button>
       );
     }
@@ -241,7 +253,7 @@ const SwapTab = (props) => {
     callSwapToken,
     props.routeData,
     props.connecthWallet,
-    firstTokenAmount,
+    firstTokenAmountStable,
     props.loaderInButton,
     props.tokenOut.name,
     props.walletAddress,
@@ -259,10 +271,7 @@ const SwapTab = (props) => {
             )}
           >
             <div className="token-selector-balance-wrapper">
-              <button
-                className="token-selector dropdown-themed"
-                onClick={() => props.handleTokenType('tokenIn')}
-              >
+              <button className="token-selector dropdown-themed">
                 <img src={props.tokenIn.image} className="button-logo" />
                 <span className="span-themed">{props.tokenIn.name} </span>
                 <span className="span-themed material-icons-round">expand_more</span>
@@ -275,7 +284,7 @@ const SwapTab = (props) => {
                   type="text"
                   className="token-user-input"
                   placeholder="0.0"
-                  value={firstTokenAmount}
+                  value={firstTokenAmountStable}
                   onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenIn')}
                 />
               ) : (
@@ -306,9 +315,9 @@ const SwapTab = (props) => {
 
                 <p className="wallet-token-balance">
                   ~$
-                  {props.getTokenPrice.success && firstTokenAmount
+                  {props.getTokenPrice.success && firstTokenAmountStable
                     ? getDollarValue(
-                        firstTokenAmount,
+                        firstTokenAmountStable,
                         props.getTokenPrice.tokenPrice[props.tokenIn.name],
                       )
                     : '0.00'}
@@ -333,10 +342,7 @@ const SwapTab = (props) => {
           >
             <div className="token-selector-balance-wrapper">
               {props.tokenOut.name ? (
-                <button
-                  className="token-selector dropdown-themed"
-                  onClick={() => props.handleTokenType('tokenOut')}
-                >
+                <button className="token-selector dropdown-themed">
                   <img src={props.tokenOut.image} className="button-logo" />
                   <span className="span-themed">{props.tokenOut.name} </span>
                   <span className="span-themed material-icons-round">expand_more</span>
@@ -357,7 +363,9 @@ const SwapTab = (props) => {
                   type="text"
                   className="token-user-input"
                   value={
-                    secondTokenAmount ? secondTokenAmount : props.computedOutDetails.tokenOut_amount
+                    secondTokenAmountStable
+                      ? secondTokenAmountStable
+                      : props.computedOutDetails.tokenOut_amount
                   }
                   placeholder="0.0"
                   onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenOut')}
@@ -368,7 +376,7 @@ const SwapTab = (props) => {
                   className="token-user-input"
                   disabled
                   placeholder="0.0"
-                  value={firstTokenAmount}
+                  value={firstTokenAmountStable}
                 />
               )}
             </div>
@@ -384,9 +392,9 @@ const SwapTab = (props) => {
                 </p>
                 <p className="wallet-token-balance">
                   ~$
-                  {props.getTokenPrice.success && secondTokenAmount
+                  {props.getTokenPrice.success && secondTokenAmountStable
                     ? getDollarValue(
-                        secondTokenAmount,
+                        secondTokenAmountStable,
                         props.getTokenPrice.tokenPrice[props.tokenOut.name],
                       )
                     : '0.00'}
@@ -441,7 +449,7 @@ const SwapTab = (props) => {
               tokenIn={props.tokenIn}
               tokenOut={props.tokenOut}
               routeData={props.routeData}
-              firstTokenAmount={firstTokenAmount}
+              firstTokenAmountStable={firstTokenAmountStable}
             />
           )}
       </div>
@@ -450,25 +458,25 @@ const SwapTab = (props) => {
         show={props.showConfirmSwap}
         computedData={computedData}
         tokenIn={props.tokenIn}
-        firstTokenAmount={firstTokenAmount}
+        firstTokenAmountStable={firstTokenAmountStable}
         tokenOut={props.tokenOut}
         slippage={props.slippage}
         confirmSwapToken={confirmSwapToken}
         onHide={props.handleClose}
         routeData={props.routeData}
         loading={props.loading}
-        isStableSwap={false}
+        isStableSwap={true}
       />
     </>
   );
 };
 
-SwapTab.propTypes = {
+StableSwap.propTypes = {
   changeTokenLocation: PropTypes.any,
   computedOutDetails: PropTypes.any,
   connecthWallet: PropTypes.any,
   fetchUserWalletBalance: PropTypes.any,
-  // firstTokenAmount: PropTypes.any,
+  // firstTokenAmountStable: PropTypes.any,
   getTokenPrice: PropTypes.any,
   handleClose: PropTypes.any,
   handleLoaderMessage: PropTypes.any,
@@ -478,15 +486,15 @@ SwapTab.propTypes = {
   // midTokens: PropTypes.any,
   recepient: PropTypes.any,
   resetAllValues: PropTypes.any,
-  // secondTokenAmount: PropTypes.any,
-  setFirstTokenAmount: PropTypes.any,
+  // secondTokenAmountStable: PropTypes.any,
+  setFirstTokenAmountStable: PropTypes.any,
   //setHideContent: PropTypes.any,
   setLoaderInButton: PropTypes.any,
   setLoaderMessage: PropTypes.any,
   setLoading: PropTypes.any,
   loading: PropTypes.any,
   setRecepient: PropTypes.any,
-  setSecondTokenAmount: PropTypes.any,
+  setSecondTokenAmountStable: PropTypes.any,
   setShowConfirmSwap: PropTypes.any,
   showConfirmSwap: PropTypes.any,
   showRecepient: PropTypes.any,
@@ -501,4 +509,4 @@ SwapTab.propTypes = {
   walletAddress: PropTypes.any,
 };
 
-export default SwapTab;
+export default StableSwap;

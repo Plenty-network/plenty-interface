@@ -6,7 +6,10 @@
     border: 0;
     padding: 12px;
   }
-
+  .confirmSwapHeader {
+    border-bottom: 1px solid var(--theme-border);
+    padding: 16px 20px;
+  }
   .header {
     padding: 14px 14px 26px;
     border-bottom: 1px solid var(--theme-border);
@@ -26,7 +29,9 @@
     cursor: pointer;
     color: var(--theme-text-4);
   }
-
+  .confirmSwapContent {
+    padding: 0px;
+  }
   .content {
     padding: 26px 14px 14px;
 
@@ -164,4 +169,8 @@
     display: flex;
     justify-content: space-between;
   }
+}
+.confirmSwap {
+  max-width: 400px !important;
+  min-height: calc(100% + 11.5rem);
 }
