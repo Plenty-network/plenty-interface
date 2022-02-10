@@ -8,7 +8,7 @@ const Config: IConfig = {
     tezToolTokenPrice: 'https://api.teztools.io/token/prices',
   },
   RPC_NODES: {
-    testnet: 'https://api.hangzhou2net.tzkt.io',
+    testnet: 'https://hangzhounet.smartpy.io/',
     mainnet: 'https://tezos-prod.cryptonomic-infra.tech/',
   },
   TZKT_NODES: {
@@ -1263,6 +1263,16 @@ const Config: IConfig = {
             liquidityToken: 'CTEZ-XTZ-LP',
           },
         },
+      },
+      'CTEZ-XTZ-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1Rp1fLJPFiR3w5iYSB1zxz4aDWL3Biiqhy',
+        mapId: 80419,
+        READ_TYPE: 'FA1.2',
+        CALL_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 6,
+        DEX_PAIRS: {},
       },
     },
     mainnet: {
@@ -4218,8 +4228,8 @@ const Config: IConfig = {
     address: 'KT1CAeUQfyMnBVqkt4QcztmjsjAWYzK6ZPYQ',
     mapId: 55983,
   },
-  NETWORK: 'mainnet',
-  WALLET_NETWORK: 'mainnet',
+  NETWORK: 'testnet',
+  WALLET_NETWORK: 'hangzhounet',
   ADMIN_ADDRESS: 'KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW',
   BURNER: 'tz1ZnK6zYJrC9PfKCPryg9tPW6LrERisTGtg',
 };
