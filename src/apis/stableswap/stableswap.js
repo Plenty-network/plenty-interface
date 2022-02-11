@@ -151,7 +151,6 @@ export async function ctez_to_tez(
   minimumTokenOut,
   recipent,
   tokenInAmount,
-  caller,
   transactionSubmitModal,
 ) {
   try {
@@ -174,7 +173,7 @@ export async function ctez_to_tez(
     Tezos.setWalletProvider(wallet);
     const contractAddress =
       CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
-    const CTEZ = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_CONTRACT;
+    const CTEZ = CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_CONTRACT;
     const tokenInDecimals = CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL;
     const tokenOutDecimals = CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL;
     const contract = await Tezos.wallet.at(contractAddress);
@@ -212,7 +211,7 @@ export async function ctez_to_tez(
     await batchOp.confirmation();
     return {
       success: true,
-      operationId: batchOp.hash,
+      operationId: batchOp.opHash,
     };
   } catch (error) {
     return {
@@ -253,12 +252,16 @@ export async function tez_to_ctez(
     const contract = await Tezos.wallet.at(contractAddress);
     const tokenInDecimals = CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL;
     const tokenOutDecimals = CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL;
+    console.log(Number(tokenInAmount * 10 ** tokenInDecimals));
     const batch = Tezos.wallet.batch([
       {
         kind: OpKind.TRANSACTION,
         ...contract.methods
           .tez_to_ctez(minimumTokenOut * 10 ** tokenOutDecimals, recipent)
-          .toTransferParams({ amount: Number(tokenInAmount * 10 ** tokenInDecimals) }),
+          .toTransferParams({
+            amount: Number(tokenInAmount * 10 ** tokenInDecimals),
+            mutez: true,
+          }),
       },
     ]);
 

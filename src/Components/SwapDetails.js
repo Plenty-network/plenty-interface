@@ -32,12 +32,16 @@ const SwapDetails = (props) => {
               placement="auto"
               overlay={
                 <Tooltip id="swap-token-out-tooltip" {...props}>
-                  {props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn}
+                  {props.isStableSwap
+                    ? props.exchangeRate
+                    : props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn}
                 </Tooltip>
               }
             >
               <div>
-                {props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn
+                {props.isStableSwap
+                  ? props.exchangeRate
+                  : props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn
                   ? props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn.toFixed(3)
                   : 0}{' '}
                 {props.tokenOut.name}
@@ -80,7 +84,7 @@ const SwapDetails = (props) => {
               </OverlayTrigger>
               <p className="swap-detail-amt-details ml-auto">
                 {props.computedOutDetails.data.finalMinimumOut
-                  ? props.computedOutDetails.data.finalMinimumOut.toFixed(8)
+                  ? props.computedOutDetails.data.finalMinimumOut
                   : '0.00'}{' '}
                 {props.tokenOut.name}
               </p>
@@ -181,6 +185,8 @@ SwapDetails.propTypes = {
   tokenIn: PropTypes.any,
   tokenOut: PropTypes.any,
   routePath: PropTypes.any,
+  isStableSwap: PropTypes.any,
+  exchangeRate: PropTypes.any,
 };
 
 export default SwapDetails;

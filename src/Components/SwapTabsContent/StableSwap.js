@@ -3,19 +3,18 @@ import clsx from 'clsx';
 import React, { useEffect, useMemo, useState } from 'react';
 import SwapDetails from '../SwapDetails';
 import ConfirmSwap from './ConfirmSwap';
-import { swapTokens } from '../../apis/swap/swap';
 import Button from '../Ui/Buttons/Button';
 import {
-  computeTokenOutForRouteBaseV2,
-  swapTokenUsingRouteV3,
-  computeTokenOutForRouteBaseByOutAmountV2,
-} from '../../apis/swap/swap-v2';
+  loadSwapDataStable,
+  calculateTokensOutStable,
+  ctez_to_tez,
+  tez_to_ctez,
+} from '../../apis/stableswap/stableswap';
 import { ReactComponent as Stableswap } from '../../assets/images/SwapModal/stableswap-white.svg';
 
 const StableSwap = (props) => {
   const [firstTokenAmountStable, setFirstTokenAmountStable] = useState();
   const [secondTokenAmountStable, setSecondTokenAmountStable] = useState();
-  const [routePath, setRoutePath] = useState([]);
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState('');
   const [computedData, setComputedData] = useState({
@@ -27,60 +26,93 @@ const StableSwap = (props) => {
       minimumOut: [],
       finalMinimumOut: 0,
       priceImpact: 0,
+      exchangeRate: 0,
     },
   });
+  const fetchSwapData = async (input) => {
+    const res = await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
 
-  const handleSwapTokenInput = (input, tokenType) => {
+    const tokenOutResponse = await fetchOutputData(
+      res.ctezPool,
+      res.tezPool,
+      Number(input),
+      2000,
+      props.slippage,
+      res.target,
+      props.tokenIn.name,
+    );
+
+    return tokenOutResponse;
+  };
+  const fetchOutputData = async (poolA, poolB, input, fee, slippage, target, tokenIn) => {
+    const res = await calculateTokensOutStable(poolA, poolB, input, fee, slippage, target, tokenIn);
+    return res;
+  };
+
+  const handleSwapTokenInput = async (input, tokenType) => {
     if (input === '' || isNaN(input)) {
       setFirstTokenAmountStable('');
       setSecondTokenAmountStable('');
     } else {
       if (tokenType === 'tokenIn') {
         setFirstTokenAmountStable(input);
-
-        const res = computeTokenOutForRouteBaseV2(input, props.routeData.allRoutes, props.slippage);
-
-        setComputedData(res);
+        const res = await fetchSwapData(input);
+        setSecondTokenAmountStable(res.tokenOut.toFixed(6));
         setComputedData({
           success: true,
           data: {
-            tokenOutAmount: res.bestRoute.computations.tokenOutAmount,
-            fees: res.bestRoute.computations.fees,
-            totalFees: res.bestRoute.computations.fees[res.bestRoute.computations.fees.length - 1],
-            minimumOut: res.bestRoute.computations.minimumOut,
-            finalMinimumOut:
-              res.bestRoute.computations.minimumOut[
-                res.bestRoute.computations.minimumOut.length - 1
-              ],
-            priceImpact: res.bestRoute.computations.priceImpact,
+            tokenOutAmount: res.tokenOut.toFixed(6),
+            fees: res.fee,
+            totalFees: res.fee,
+            minimumOut: res.minimumOut.toFixed(6),
+            finalMinimumOut: res.minimumOut.toFixed(6),
+            priceImpact: res.priceImpact,
+            exchangeRate: res.exchangeRate,
           },
         });
-        setRoutePath(res.bestRoute.path);
-        setSecondTokenAmountStable(res.bestRoute.computations.tokenOutAmount);
+
+        // setRoutePath(res.bestRoute.path);
+        // setSecondTokenAmountStable(res.bestRoute.computations.tokenOutAmount);
       } else if (tokenType === 'tokenOut') {
         setSecondTokenAmountStable(input);
+        const res = await fetchSwapData(input);
 
-        const res = computeTokenOutForRouteBaseByOutAmountV2(
-          input,
-          props.routeData.allRoutes,
-          props.slippage,
-        );
+        setFirstTokenAmountStable(res.tokenOut.toFixed(6));
+
         setComputedData({
           success: true,
           data: {
-            tokenOutAmount: res.bestRoute.computations.tokenOutAmount,
-            fees: res.bestRoute.computations.fees,
-            totalFees: res.bestRoute.computations.fees[res.bestRoute.computations.fees.length - 1],
-            minimumOut: res.bestRoute.computations.minimumOut,
-            finalMinimumOut:
-              res.bestRoute.computations.minimumOut[
-                res.bestRoute.computations.minimumOut.length - 1
-              ],
-            priceImpact: res.bestRoute.computations.priceImpact,
+            tokenOutAmount: res.tokenOut.toFixed(6),
+            fees: res.fee,
+            totalFees: res.fee,
+            minimumOut: res.minimumOut.toFixed(6),
+            finalMinimumOut: res.minimumOut.toFixed(6),
+            priceImpact: res.priceImpact,
+            exchangeRate: res.exchangeRate,
           },
         });
-        setRoutePath(res.bestRoute.path);
-        setFirstTokenAmountStable(res.bestRoute.computations.tokenInAmount);
+
+        // const res = computeTokenOutForRouteBaseByOutAmountV2(
+        //   input,
+        //   props.routeData.allRoutes,
+        //   props.slippage,
+        // );
+        // setComputedData({
+        //   success: true,
+        //   data: {
+        //     tokenOutAmount: res.bestRoute.computations.tokenOutAmount,
+        //     fees: res.bestRoute.computations.fees,
+        //     totalFees: res.bestRoute.computations.fees[res.bestRoute.computations.fees.length - 1],
+        //     minimumOut: res.bestRoute.computations.minimumOut,
+        //     finalMinimumOut:
+        //       res.bestRoute.computations.minimumOut[
+        //         res.bestRoute.computations.minimumOut.length - 1
+        //       ],
+        //     priceImpact: res.bestRoute.computations.priceImpact,
+        //   },
+        // });
+        // setRoutePath(res.bestRoute.path);
+        // setFirstTokenAmountStable(res.bestRoute.computations.tokenInAmount);
       }
     }
   };
@@ -131,32 +163,34 @@ const StableSwap = (props) => {
   const confirmSwapToken = async () => {
     props.setLoading(true);
     props.setLoaderInButton(true);
+    console.log();
     const recepientAddress = props.recepient ? props.recepient : props.walletAddress;
-
-    if (routePath.length <= 2) {
-      swapTokens(
-        routePath[0],
-        routePath[1],
-        computedData.data.finalMinimumOut,
+    console.log(firstTokenAmountStable);
+    if (props.tokenIn.name === 'ctez') {
+      ctez_to_tez(
+        props.tokenIn.name,
+        props.tokenOut.name,
+        computedData.data.minimumOut.toFixed(6),
         recepientAddress,
-        firstTokenAmountStable,
-        props.walletAddress,
+        Number(firstTokenAmountStable),
+
         props.transactionSubmitModal,
-      ).then((swapResp) => {
-        handleSwapResponse(swapResp.success);
+      ).then((response) => {
+        handleSwapResponse(response.success);
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
       });
     } else {
-      swapTokenUsingRouteV3(
-        routePath,
-        computedData.data.minimumOut,
-        props.walletAddress,
-        firstTokenAmountStable,
+      tez_to_ctez(
+        props.tokenIn.name,
+        props.tokenOut.name,
+        computedData.data.minimumOut.toFixed(6),
+        recepientAddress,
+        Number(firstTokenAmountStable),
         props.transactionSubmitModal,
-      ).then((swapResp) => {
-        handleSwapResponse(swapResp.success);
+      ).then((response) => {
+        handleSwapResponse(response.success);
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
@@ -210,21 +244,21 @@ const StableSwap = (props) => {
         );
       }
 
-      if (props.loaderInButton) {
-        return (
-          <Button
-            onClick={() => null}
-            color={'disabled'}
-            loading={true}
-            className={' mt-4 w-100 flex align-items-center justify-content-center'}
-          >
-            <span>
-              <Stableswap />
-              <span className="ml-2">swap</span>
-            </span>
-          </Button>
-        );
-      }
+      // if (props.loaderInButton) {
+      //   return (
+      //     <Button
+      //       onClick={() => null}
+      //       color={'disabled'}
+      //       loading={true}
+      //       className={' mt-4 w-100 flex align-items-center justify-content-center'}
+      //     >
+      //       <span>
+      //         <Stableswap />
+      //         <span className="ml-2">swap</span>
+      //       </span>
+      //     </Button>
+      //   );
+      // }
       return (
         <Button
           onClick={() => setErrorMessageOnUI('Enter an amount to swap')}
@@ -251,7 +285,6 @@ const StableSwap = (props) => {
     );
   }, [
     callSwapToken,
-    props.routeData,
     props.connecthWallet,
     firstTokenAmountStable,
     props.loaderInButton,
@@ -279,17 +312,13 @@ const StableSwap = (props) => {
             </div>
 
             <div className="token-user-input-wrapper">
-              {props.routeData.success ? (
-                <input
-                  type="text"
-                  className="token-user-input"
-                  placeholder="0.0"
-                  value={firstTokenAmountStable}
-                  onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenIn')}
-                />
-              ) : (
-                <input type="text" className="token-user-input" placeholder="0.0" disabled />
-              )}
+              <input
+                type="text"
+                className="token-user-input"
+                placeholder="0.0"
+                value={firstTokenAmountStable}
+                onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenIn')}
+              />
             </div>
             {props.walletAddress ? (
               <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
@@ -358,7 +387,7 @@ const StableSwap = (props) => {
             </div>
 
             <div className="token-user-input-wrapper">
-              {props.routeData.success && props.tokenOut.name ? (
+              {props.tokenOut.name ? (
                 <input
                   type="text"
                   className="token-user-input"
@@ -439,26 +468,24 @@ const StableSwap = (props) => {
             </p>
           </div>
         ) : null} */}
-        {props.walletAddress &&
-          props.tokenIn.name &&
-          props.tokenOut.name &&
-          props.routeData.success && (
-            <SwapDetails
-              routePath={routePath}
-              computedOutDetails={computedData}
-              tokenIn={props.tokenIn}
-              tokenOut={props.tokenOut}
-              routeData={props.routeData}
-              firstTokenAmountStable={firstTokenAmountStable}
-            />
-          )}
+        {props.walletAddress && props.tokenIn.name && props.tokenOut.name && (
+          <SwapDetails
+            computedOutDetails={computedData}
+            tokenIn={props.tokenIn}
+            tokenOut={props.tokenOut}
+            routeData={props.routeData}
+            firstTokenAmount={firstTokenAmountStable}
+            isStableSwap={true}
+            exchangeRate={computedData.data.exchangeRate.toFixed(6)}
+          />
+        )}
       </div>
 
       <ConfirmSwap
         show={props.showConfirmSwap}
         computedData={computedData}
         tokenIn={props.tokenIn}
-        firstTokenAmountStable={firstTokenAmountStable}
+        firstTokenAmount={Number(firstTokenAmountStable)}
         tokenOut={props.tokenOut}
         slippage={props.slippage}
         confirmSwapToken={confirmSwapToken}
@@ -507,6 +534,7 @@ StableSwap.propTypes = {
   transactionSubmitModal: PropTypes.any,
   userBalances: PropTypes.any,
   walletAddress: PropTypes.any,
+  isStableSwap: PropTypes.any,
 };
 
 export default StableSwap;

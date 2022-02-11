@@ -90,7 +90,7 @@ const ConfirmSwap = (props) => {
               </OverlayTrigger>
               <p className="swap-detail-amt-details ml-auto">
                 {props.computedData?.data?.finalMinimumOut
-                  ? props.computedData.data.finalMinimumOut.toFixed(8)
+                  ? props.computedData.data.finalMinimumOut
                   : '0.00'}{' '}
                 {props.tokenOut.name}
               </p>
@@ -142,32 +142,38 @@ const ConfirmSwap = (props) => {
                 </span>
               </OverlayTrigger>
               <p className="swap-detail-amt-details ml-auto">
-                {props.firstTokenAmount / 400} {props.tokenIn.name}
+                {props.firstTokenAmount / 400}{' '}
+                {props.isStableSwap ? props.tokenOut.name : props.tokenIn.name}
               </p>
             </div>
-
-            <div className="flex flex-row align-items-center">
-              <p className="swap-detail-amt-details">xPlenty Fee </p>
-              <OverlayTrigger
-                key="top"
-                placement="top"
-                overlay={
-                  <Tooltip id={'xplenty-fee-tooltip'} arrowProps={{ styles: { display: 'none' } }}>
-                    A portion of each trade (0.09%) goes to xPLENTY holders as a protocol incentive.
-                  </Tooltip>
-                }
-              >
-                <span
-                  style={{ cursor: 'pointer' }}
-                  className="material-icons-round ml-1 swap-detail-amt-details"
+            {!props.isStableSwap && (
+              <div className="flex flex-row align-items-center">
+                <p className="swap-detail-amt-details">xPlenty Fee </p>
+                <OverlayTrigger
+                  key="top"
+                  placement="top"
+                  overlay={
+                    <Tooltip
+                      id={'xplenty-fee-tooltip'}
+                      arrowProps={{ styles: { display: 'none' } }}
+                    >
+                      A portion of each trade (0.09%) goes to xPLENTY holders as a protocol
+                      incentive.
+                    </Tooltip>
+                  }
                 >
-                  help_outline
-                </span>
-              </OverlayTrigger>
-              <p className="swap-detail-amt-details ml-auto">
-                {props.firstTokenAmount / 1000} {props.tokenIn.name}
-              </p>
-            </div>
+                  <span
+                    style={{ cursor: 'pointer' }}
+                    className="material-icons-round ml-1 swap-detail-amt-details"
+                  >
+                    help_outline
+                  </span>
+                </OverlayTrigger>
+                <p className="swap-detail-amt-details ml-auto">
+                  {props.firstTokenAmount / 1000} {props.tokenIn.name}
+                </p>
+              </div>
+            )}
 
             <div className="flex flex-row align-items-center">
               <p className="swap-detail-amt-details">Slippage tolerance </p>

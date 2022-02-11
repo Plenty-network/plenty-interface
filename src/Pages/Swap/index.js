@@ -13,7 +13,7 @@ import {
 
 import {
   getUserBalanceByRpcStable,
-  // loadSwapDataStable,
+  loadSwapDataStable,
   // calculateTokensOutStable,
 } from '../../apis/stableswap/stableswap';
 
@@ -78,11 +78,6 @@ const Swap = (props) => {
   const [tokenContractInstances, setTokenContractInstances] = useState({});
   const [loaderInButton, setLoaderInButton] = useState(false);
   const [isStableSwap, setStableSwap] = useState(false);
-
-  // useEffect(() => {
-  //   isStableSwap ? setTokenIn(tokenInStable) : setTokenIn(tokenIn);
-  //   isStableSwap ? setTokenOut(tokenOutStable) : setTokenOut(tokenOut);
-  // }, [isStableSwap]);
 
   useEffect(() => {
     splitLocation[1] === 'stableswap' ? redirect(true) : setStableSwap(false);
@@ -264,12 +259,19 @@ const Swap = (props) => {
       });
       isStableSwap ? setFirstTokenAmountStable('') : setFirstTokenAmount('');
       isStableSwap ? setSecondTokenAmountStable('') : setSecondTokenAmount('');
-
-      loadSwapData(tempTokenOut, tempTokenIn).then((data) => {
-        if (data.success) {
-          setSwapData(data);
-        }
-      });
+      if (isStableSwap) {
+        loadSwapData(tempTokenOut, tempTokenIn).then((data) => {
+          if (data.success) {
+            setSwapData(data);
+          }
+        });
+      } else {
+        loadSwapDataStable(tempTokenOut, tempTokenIn).then((data) => {
+          if (data.success) {
+            setSwapData(data);
+          }
+        });
+      }
     }
   };
 
