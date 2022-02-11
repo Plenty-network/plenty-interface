@@ -467,10 +467,24 @@ export async function add_liquidity(
   try {
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+
+    const network = {
+      type: CONFIG.WALLET_NETWORK,
+    };
+    const options = {
+      name: CONFIG.NAME,
+    };
+    const wallet = new BeaconWallet(options);
+    const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
+    if (!WALLET_RESP.success) {
+      throw new Error('Wallet connection failed');
+    }
+    const Tezos = new TezosToolkit(rpcNode);
+    Tezos.setRpcProvider(rpcNode);
+    Tezos.setWalletProvider(wallet);
     const contractAddress =
       CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
     const CTEZ = CONFIG.AMM[connectedNetwork]['ctez'].TOKEN_CONTRACT;
-    const Tezos = new TezosToolkit(rpcNode);
     const contract = await Tezos.wallet.at(contractAddress);
     const ctez_contract = await Tezos.wallet.at(CTEZ);
     const batch = Tezos.wallet.batch([
