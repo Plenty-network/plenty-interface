@@ -445,8 +445,16 @@ export const loadSwapDataStable = async (tokenIn, tokenOut) => {
   }
 };
 
-export const liqCalc = (xtzAmount, tezpool, ctezpool) => {
-  return (Number(xtzAmount) * 10 ** 6 * ctezpool) / tezpool;
+export const liqCalc = (xtzAmount, tezpool, ctezpool, lqtTotal) => {
+  const ctez = (Number(xtzAmount) * 10 ** 6 * ctezpool) / tezpool;
+  const lpToken = (Number(xtzAmount) * 10 ** 6 * lqtTotal) / tezpool;
+  const poolPercent = (lpToken / (lpToken + lqtTotal)) * 100;
+
+  return {
+    ctez,
+    lpToken,
+    poolPercent,
+  };
 };
 
 export const getXtzDollarPrice = async () => {
@@ -542,6 +550,20 @@ export async function remove_liquidity(tokenIn, tokenOut, amount, transactionSub
   try {
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+
+    const network = {
+      type: CONFIG.WALLET_NETWORK,
+    };
+    const options = {
+      name: CONFIG.NAME,
+    };
+    const wallet = new BeaconWallet(options);
+    const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
+    if (!WALLET_RESP.success) {
+      throw new Error('Wallet connection failed');
+    }
+    Tezos.setRpcProvider(rpcNode);
+    Tezos.setWalletProvider(wallet);
     const contractAddress =
       CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
     const Tezos = new TezosToolkit(rpcNode);

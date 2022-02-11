@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import InfoModal from '../../Ui/Modals/InfoModal';
 import ConfirmAddLiquidity from './ConfirmAddLiquidity';
 import Button from '../../Ui/Buttons/Button';
-import { liqCalc, loadSwapDataStable } from '../../../apis/stableswap/stableswap';
+import { add_liquidity, liqCalc, loadSwapDataStable } from '../../../apis/stableswap/stableswap';
 
 const AddLiquidity = (props) => {
   const [estimatedTokenAmout, setEstimatedTokenAmout] = useState('');
@@ -67,7 +67,7 @@ const AddLiquidity = (props) => {
   };
   const confirmAddLiquidity = () => {
     props.setShowConfirmAddSupply(true);
-    props.setHideContent('content-hide');
+    //props.setHideContent('content-hide');
 
     const secondTokenAmountEntered = secondTokenAmount
       ? parseFloat(secondTokenAmount)
@@ -88,10 +88,74 @@ const AddLiquidity = (props) => {
   };
 
   const CallConfirmAddLiquidity = () => {
+    console.log(props.tokenIn.name);
     props.setLoading(true);
     const secondTokenAmountEntered = secondTokenAmount
       ? parseFloat(secondTokenAmount)
       : estimatedTokenAmout.otherTokenAmount;
+    if (props.tokenIn.name === 'xtz') {
+      console.log('checking');
+      add_liquidity(
+        props.tokenIn.name,
+        props.tokenOut.name,
+        props.firstTokenAmount,
+        secondTokenAmountEntered,
+        props.walletAddress,
+        transactionSubmitModal,
+      ).then((data) => {
+        if (data.success) {
+          props.setLoading(false);
+          props.handleLoaderMessage('success', 'Transaction confirmed');
+          props.setShowConfirmAddSupply(false);
+          //props.setHideContent('');
+          props.resetAllValues();
+          setTimeout(() => {
+            props.setLoaderMessage({});
+          }, 5000);
+        } else {
+          props.setLoading(false);
+          props.handleLoaderMessage('error', 'Transaction failed');
+          props.setShowConfirmAddSupply(false);
+          //props.setHideContent('');
+          props.resetAllValues();
+          setTimeout(() => {
+            props.setLoaderMessage({});
+          }, 5000);
+        }
+      });
+    } else {
+      addLiquidity(
+        props.tokenIn.name,
+        props.tokenOut.name,
+        props.firstTokenAmount,
+        secondTokenAmountEntered,
+        props.tokenContractInstances[props.tokenIn.name],
+        props.tokenContractInstances[props.tokenOut.name],
+        props.walletAddress,
+        props.swapData.dexContractInstance,
+        transactionSubmitModal,
+      ).then((data) => {
+        if (data.success) {
+          props.setLoading(false);
+          props.handleLoaderMessage('success', 'Transaction confirmed');
+          props.setShowConfirmAddSupply(false);
+          //props.setHideContent('');
+          props.resetAllValues();
+          setTimeout(() => {
+            props.setLoaderMessage({});
+          }, 5000);
+        } else {
+          props.setLoading(false);
+          props.handleLoaderMessage('error', 'Transaction failed');
+          props.setShowConfirmAddSupply(false);
+          //props.setHideContent('');
+          props.resetAllValues();
+          setTimeout(() => {
+            props.setLoaderMessage({});
+          }, 5000);
+        }
+      });
+    }
     addLiquidity(
       props.tokenIn.name,
       props.tokenOut.name,
@@ -107,7 +171,7 @@ const AddLiquidity = (props) => {
         props.setLoading(false);
         props.handleLoaderMessage('success', 'Transaction confirmed');
         props.setShowConfirmAddSupply(false);
-        props.setHideContent('');
+        //props.setHideContent('');
         props.resetAllValues();
         setTimeout(() => {
           props.setLoaderMessage({});
@@ -116,7 +180,7 @@ const AddLiquidity = (props) => {
         props.setLoading(false);
         props.handleLoaderMessage('error', 'Transaction failed');
         props.setShowConfirmAddSupply(false);
-        props.setHideContent('');
+        //props.setHideContent('');
         props.resetAllValues();
         setTimeout(() => {
           props.setLoaderMessage({});
@@ -371,7 +435,7 @@ AddLiquidity.propTypes = {
   loaderInButton: PropTypes.any,
   resetAllValues: PropTypes.any,
   setFirstTokenAmount: PropTypes.any,
-  setHideContent: PropTypes.any,
+  //setHideContent: PropTypes.any,
   setLoaderMessage: PropTypes.any,
   setLoading: PropTypes.any,
   setShowConfirmAddSupply: PropTypes.any,

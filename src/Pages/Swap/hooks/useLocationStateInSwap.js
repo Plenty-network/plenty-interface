@@ -32,11 +32,11 @@ export const useLocationStateInSwap = () => {
     if (location.pathname === '/swap') {
       return 'swap';
     }
-    if (location.pathname === '/liquidity') {
-      return 'liquidity';
+    if (location.pathname === '/stableswap') {
+      return 'stableswap';
     }
 
-    return 'stableswap';
+    return 'liquidity';
   }, [location.pathname]);
 
   const paramKeys = useMemo(() => {

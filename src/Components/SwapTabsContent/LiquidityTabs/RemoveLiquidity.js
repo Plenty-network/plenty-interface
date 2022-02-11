@@ -7,6 +7,7 @@ import InfoModal from '../../Ui/Modals/InfoModal';
 
 import CONFIG from '../../../config/config';
 import Button from '../../Ui/Buttons/Button';
+import { remove_liquidity } from '../../../apis/stableswap/stableswap';
 
 const RemoveLiquidity = (props) => {
   const [removableTokens, setRemovableTokens] = useState({});
@@ -39,36 +40,66 @@ const RemoveLiquidity = (props) => {
   };
   const confirmRemoveLiquidity = () => {
     props.setLoading(true);
-    removeLiquidity(
-      props.tokenIn.name,
-      props.tokenOut.name,
-      removableTokens.tokenFirst_Out,
-      removableTokens.tokenSecond_Out,
-      removableTokens.removeAmount,
-      props.walletAddress,
-      props.swapData.dexContractInstance,
-      transactionSubmitModal,
-    ).then((data) => {
-      if (data.success) {
-        props.setLoading(false);
-        props.handleLoaderMessage('success', 'Transaction confirmed');
-        props.setShowConfirmRemoveSupply(false);
-        props.setHideContent('');
-        props.resetAllValues();
-        setTimeout(() => {
-          props.setLoaderMessage({});
-        }, 5000);
-      } else {
-        props.setLoading(false);
-        props.handleLoaderMessage('error', 'Transaction failed');
-        props.setShowConfirmRemoveSupply(false);
-        props.setHideContent('');
-        props.resetAllValues();
-        setTimeout(() => {
-          props.setLoaderMessage({});
-        }, 5000);
-      }
-    });
+    if (props.tokenIn.name === 'xtz') {
+      remove_liquidity(
+        props.tokenIn.name,
+        props.tokenOut.name,
+        removableTokens.removeAmount,
+        props.walletAddress,
+        transactionSubmitModal,
+      ).then((data) => {
+        if (data.success) {
+          props.setLoading(false);
+          props.handleLoaderMessage('success', 'Transaction confirmed');
+          props.setShowConfirmRemoveSupply(false);
+          props.setHideContent('');
+          props.resetAllValues();
+          setTimeout(() => {
+            props.setLoaderMessage({});
+          }, 5000);
+        } else {
+          props.setLoading(false);
+          props.handleLoaderMessage('error', 'Transaction failed');
+          props.setShowConfirmRemoveSupply(false);
+          props.setHideContent('');
+          props.resetAllValues();
+          setTimeout(() => {
+            props.setLoaderMessage({});
+          }, 5000);
+        }
+      });
+    } else {
+      removeLiquidity(
+        props.tokenIn.name,
+        props.tokenOut.name,
+        removableTokens.tokenFirst_Out,
+        removableTokens.tokenSecond_Out,
+        removableTokens.removeAmount,
+        props.walletAddress,
+        props.swapData.dexContractInstance,
+        transactionSubmitModal,
+      ).then((data) => {
+        if (data.success) {
+          props.setLoading(false);
+          props.handleLoaderMessage('success', 'Transaction confirmed');
+          props.setShowConfirmRemoveSupply(false);
+          props.setHideContent('');
+          props.resetAllValues();
+          setTimeout(() => {
+            props.setLoaderMessage({});
+          }, 5000);
+        } else {
+          props.setLoading(false);
+          props.handleLoaderMessage('error', 'Transaction failed');
+          props.setShowConfirmRemoveSupply(false);
+          props.setHideContent('');
+          props.resetAllValues();
+          setTimeout(() => {
+            props.setLoaderMessage({});
+          }, 5000);
+        }
+      });
+    }
   };
   let swapContentButton = (
     <Button
