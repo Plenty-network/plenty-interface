@@ -29,6 +29,7 @@ import Loader from '../../Components/loader';
 import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import { tokens } from '../../constants/swapPage';
+import { liquidityTokens } from '../../constants/liquidityTokens';
 import { stableSwapTokens } from '../../constants/stableSwapPage';
 import GraphDark from '../../assets/images/SwapModal/graph-dark.svg';
 import Graph from '../../assets/images/SwapModal/graph.svg';
@@ -626,7 +627,7 @@ const Swap = (props) => {
           activeTab={activeTab}
           onHide={handleClose}
           selectToken={selectToken}
-          tokens={tokens}
+          tokens={activeTab === 'liquidity' ? liquidityTokens : tokens}
           tokenIn={tokenIn}
           tokenOut={tokenOut}
           tokenType={tokenType}
