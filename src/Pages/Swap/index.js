@@ -14,6 +14,7 @@ import {
 import {
   getUserBalanceByRpcStable,
   loadSwapDataStable,
+  //liqCalc,
   //getXtzDollarPrice,
   // calculateTokensOutStable,
 } from '../../apis/stableswap/stableswap';
@@ -112,9 +113,11 @@ const Swap = (props) => {
   }, [tokenInStable, tokenOutStable]);
 
   // useEffect(() => {
-  //   getXtzDollarPrice().then((res) => {
-  //     console.log('XTZ PRICE', res);
-  //   });
+  //   // getXtzDollarPrice().then((res) => {
+  //   //   console.log('XTZ PRICE', res);
+  //   // });
+  //   const res = liqCalc(20, 3013688063, 2926742308, 5938358510);
+  //   console.log('lqtCalc', res);
   // }, []);
   // useEffect(() => {
   //   loadSwapDataStable(tokenInStable.name, tokenOutStable.name).then((res) => {
