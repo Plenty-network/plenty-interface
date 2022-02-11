@@ -467,9 +467,10 @@ export async function add_liquidity(
   try {
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+
     const contractAddress =
       CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
-    const CTEZ = CONFIG.AMM[connectedNetwork]['ctez'].TOKEN_CONTRACT;
+    const CTEZ = CONFIG.STABLESWAP[connectedNetwork]['ctez'].TOKEN_CONTRACT;
     const Tezos = new TezosToolkit(rpcNode);
     const contract = await Tezos.wallet.at(contractAddress);
     const ctez_contract = await Tezos.wallet.at(CTEZ);
