@@ -445,8 +445,16 @@ export const loadSwapDataStable = async (tokenIn, tokenOut) => {
   }
 };
 
-export const liqCalc = (xtzAmount, tezpool, ctezpool) => {
-  return (Number(xtzAmount) * 10 ** 6 * ctezpool) / tezpool;
+export const liqCalc = (xtzAmount, tezpool, ctezpool, lqtTotal) => {
+  const ctez = (Number(xtzAmount) * 10 ** 6 * ctezpool) / tezpool;
+  const lpToken = (Number(xtzAmount) * 10 ** 6 * lqtTotal) / tezpool;
+  const poolPercent = (lpToken / (lpToken + lqtTotal)) * 100;
+
+  return {
+    ctez,
+    lpToken,
+    poolPercent,
+  };
 };
 
 export const getXtzDollarPrice = async () => {
@@ -468,10 +476,23 @@ export async function add_liquidity(
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
 
+    const network = {
+      type: CONFIG.WALLET_NETWORK,
+    };
+    const options = {
+      name: CONFIG.NAME,
+    };
+    const wallet = new BeaconWallet(options);
+    const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
+    if (!WALLET_RESP.success) {
+      throw new Error('Wallet connection failed');
+    }
+    const Tezos = new TezosToolkit(rpcNode);
+    Tezos.setRpcProvider(rpcNode);
+    Tezos.setWalletProvider(wallet);
     const contractAddress =
       CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
-    const CTEZ = CONFIG.STABLESWAP[connectedNetwork]['ctez'].TOKEN_CONTRACT;
-    const Tezos = new TezosToolkit(rpcNode);
+    const CTEZ = CONFIG.AMM[connectedNetwork]['ctez'].TOKEN_CONTRACT;
     const contract = await Tezos.wallet.at(contractAddress);
     const ctez_contract = await Tezos.wallet.at(CTEZ);
     const batch = Tezos.wallet.batch([
@@ -516,10 +537,33 @@ export async function add_liquidity(
   }
 }
 
+export const liqCalcRemove = (liqAmountInput, tezPool, ctezPool, lqtTotal) => {
+  const tezWithdrawn = (liqAmountInput * tezPool) / lqtTotal;
+  const ctezWithdrawn = (liqAmountInput * ctezPool) / lqtTotal;
+  return {
+    tezWithdrawn,
+    ctezWithdrawn,
+  };
+};
+
 export async function remove_liquidity(tokenIn, tokenOut, amount, transactionSubmitModal) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+
+    const network = {
+      type: CONFIG.WALLET_NETWORK,
+    };
+    const options = {
+      name: CONFIG.NAME,
+    };
+    const wallet = new BeaconWallet(options);
+    const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
+    if (!WALLET_RESP.success) {
+      throw new Error('Wallet connection failed');
+    }
+    Tezos.setRpcProvider(rpcNode);
+    Tezos.setWalletProvider(wallet);
     const contractAddress =
       CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
     const Tezos = new TezosToolkit(rpcNode);
