@@ -71,8 +71,8 @@ export const calculateTokensOutStable = async (
       const fee = dy / pair_fee_denom;
       const tokenOut = dy - fee;
       const minimumOut = tokenOut - (slippage * tokenOut) / 100;
-      const exchangeRate = tokenIn_amount / tokenOut; // 1 tokenIn = x tokenOut
-
+      const exchangeRate = tokenOut / tokenIn_amount; // 1 tokenIn = x tokenOut
+      console.log('Exchange Rate', exchangeRate, tokenIn_amount, tokenOut, tokenIn);
       const updated_Ctez_Supply = tezSupply + tokenIn_amount;
       const updated_Tez_Supply = ctezSupply - tokenOut;
 
@@ -106,8 +106,8 @@ export const calculateTokensOutStable = async (
       const fee = dy / pair_fee_denom;
       const tokenOut = dy - fee;
       const minimumOut = tokenOut - (slippage * tokenOut) / 100;
-      const exchangeRate = tokenIn_amount / tokenOut; // 1 tokenIn = x tokenOut
-
+      const exchangeRate = tokenOut / tokenIn_amount; // 1 tokenIn = x tokenOut
+      console.log('Exchange Rate', exchangeRate, tokenIn_amount, tokenOut, tokenIn);
       const updated_Ctez_Supply = tezSupply + tokenIn_amount;
       const updated_Tez_Supply = ctezSupply - tokenOut;
 
@@ -211,9 +211,10 @@ export async function ctez_to_tez(
     await batchOp.confirmation();
     return {
       success: true,
-      operationId: batchOp.opHash,
+      operationId: batchOp.hash,
     };
   } catch (error) {
+    console.log(error);
     return {
       success: false,
       error,
@@ -252,16 +253,12 @@ export async function tez_to_ctez(
     const contract = await Tezos.wallet.at(contractAddress);
     const tokenInDecimals = CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL;
     const tokenOutDecimals = CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL;
-    console.log(Number(tokenInAmount * 10 ** tokenInDecimals));
     const batch = Tezos.wallet.batch([
       {
         kind: OpKind.TRANSACTION,
         ...contract.methods
           .tez_to_ctez(minimumTokenOut * 10 ** tokenOutDecimals, recipent)
-          .toTransferParams({
-            amount: Number(tokenInAmount * 10 ** tokenInDecimals),
-            mutez: true,
-          }),
+          .toTransferParams({ amount: Number(tokenInAmount * 10 ** tokenInDecimals), mutez: true }),
       },
     ]);
 
@@ -448,8 +445,15 @@ export const loadSwapDataStable = async (tokenIn, tokenOut) => {
   }
 };
 
-export const liqCalc = (xtzAmount, ctezpool, tezpool) => {
+export const liqCalc = (xtzAmount, tezpool, ctezpool) => {
   return (Number(xtzAmount) * 10 ** 6 * ctezpool) / tezpool;
+};
+
+export const getXtzDollarPrice = async () => {
+  const xtzDollarValueUrl = CONFIG.API.url;
+  const xtzDollarValue = await axios.get(xtzDollarValueUrl);
+  const xtzPrice = xtzDollarValue.data.market_data.current_price.usd;
+  return xtzPrice;
 };
 
 export async function add_liquidity(

@@ -17,6 +17,16 @@ const StableSwap = (props) => {
   const [secondTokenAmountStable, setSecondTokenAmountStable] = useState();
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState('');
+  const [swapData, setSwapData] = useState({
+    success: false,
+    tezPool: 0,
+    ctezPool: 0,
+    tokenIn: props.tokenIn.name,
+    tokenOut: props.tokenOut.name,
+    lpTokenSupply: 0,
+    lpToken: null,
+    dexContractInstance: null,
+  });
   const [computedData, setComputedData] = useState({
     success: false,
     data: {
@@ -29,16 +39,24 @@ const StableSwap = (props) => {
       exchangeRate: 0,
     },
   });
-  const fetchSwapData = async (input) => {
-    const res = await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
 
+  const getSwapData = async () => {
+    const res = await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
+    setSwapData(res);
+  };
+
+  useEffect(() => {
+    getSwapData();
+  }, []);
+
+  const fetchSwapData = async (input) => {
     const tokenOutResponse = await fetchOutputData(
-      res.ctezPool,
-      res.tezPool,
+      swapData.tezPool,
+      swapData.ctezPool,
       Number(input),
       2000,
       props.slippage,
-      res.target,
+      swapData.target,
       props.tokenIn.name,
     );
 
@@ -139,6 +157,7 @@ const StableSwap = (props) => {
 
   const handleSwapResponse = (status) => {
     if (status) {
+      getSwapData();
       console.log({ status });
       props.setLoading(false);
       props.handleLoaderMessage('success', 'Transaction confirmed');
@@ -170,10 +189,9 @@ const StableSwap = (props) => {
       ctez_to_tez(
         props.tokenIn.name,
         props.tokenOut.name,
-        computedData.data.minimumOut.toFixed(6),
+        computedData.data.minimumOut,
         recepientAddress,
         Number(firstTokenAmountStable),
-
         props.transactionSubmitModal,
       ).then((response) => {
         handleSwapResponse(response.success);
@@ -185,7 +203,7 @@ const StableSwap = (props) => {
       tez_to_ctez(
         props.tokenIn.name,
         props.tokenOut.name,
-        computedData.data.minimumOut.toFixed(6),
+        computedData.data.minimumOut,
         recepientAddress,
         Number(firstTokenAmountStable),
         props.transactionSubmitModal,

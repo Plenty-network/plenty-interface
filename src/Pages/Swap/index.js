@@ -14,6 +14,7 @@ import {
 import {
   getUserBalanceByRpcStable,
   loadSwapDataStable,
+  //getXtzDollarPrice,
   // calculateTokensOutStable,
 } from '../../apis/stableswap/stableswap';
 
@@ -110,6 +111,11 @@ const Swap = (props) => {
     }
   }, [tokenInStable, tokenOutStable]);
 
+  // useEffect(() => {
+  //   getXtzDollarPrice().then((res) => {
+  //     console.log('XTZ PRICE', res);
+  //   });
+  // }, []);
   // useEffect(() => {
   //   loadSwapDataStable(tokenInStable.name, tokenOutStable.name).then((res) => {
   //     console.log('loadSwapDataStable', res);
@@ -260,7 +266,7 @@ const Swap = (props) => {
       });
       isStableSwap ? setFirstTokenAmountStable('') : setFirstTokenAmount('');
       isStableSwap ? setSecondTokenAmountStable('') : setSecondTokenAmount('');
-      if (isStableSwap) {
+      if (!isStableSwap) {
         loadSwapData(tempTokenOut, tempTokenIn).then((data) => {
           if (data.success) {
             setSwapData(data);
