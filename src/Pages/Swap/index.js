@@ -117,7 +117,15 @@ const Swap = (props) => {
   // useEffect(() => {
   //   loadSwapDataStable(tokenInStable.name, tokenOutStable.name).then((res) => {
   //     console.log('loadSwapDataStable', res);
-  //     calculateTokensOutStable(res.ctezPool, res.tezPool, 50000000, 2000, 1).then((res) => {
+  //     calculateTokensOutStable(
+  //       res.tezPool,
+  //       res.ctezPool,
+  //       500000000,
+  //       2000,
+  //       1,
+  //       parseInt(res.target),
+  //       'xtz',
+  //     ).then((res) => {
   //       console.log('calculateTokensOutStable', res);
   //     });
   //   });
