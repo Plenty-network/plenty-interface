@@ -305,6 +305,30 @@ const getPackedKey = (tokenId, address, type) => {
   return packedKey;
 };
 
+export const getxtzBalance = async (identifier, address) => {
+  const token = CONFIG.STABLESWAP[CONFIG.NETWORK][identifier];
+
+  const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
+  const type = token.READ_TYPE;
+  const decimal = token.TOKEN_DECIMAL;
+  const options = {
+    name: CONFIG.NAME,
+  };
+  const wallet = new BeaconWallet(options);
+  const Tezos = new TezosToolkit(rpcNode);
+  Tezos.setRpcProvider(rpcNode);
+  Tezos.setWalletProvider(wallet);
+  if (type === 'XTZ') {
+    const _balance = await Tezos.tz.getBalance(address);
+    const balance = _balance / Math.pow(10, decimal);
+    return {
+      success: true,
+      balance,
+      identifier,
+    };
+  }
+};
+
 /**
  * Gets balance of user of a particular token using RPC
  * @param identifier - Name of token, case-sensitive to CONFIG
@@ -334,13 +358,14 @@ export const getUserBalanceByRpcStable = async (identifier, address) => {
     Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
     if (type === 'XTZ') {
-      const _balance = await Tezos.tz.getBalance(address);
-      const balance = _balance / Math.pow(10, decimal);
-      return {
-        success: true,
-        balance,
-        identifier,
-      };
+      return getxtzBalance(identifier, address);
+      // const _balance = await Tezos.tz.getBalance(address);
+      // const balance = _balance / Math.pow(10, decimal);
+      // return {
+      //   success: true,
+      //   balance,
+      //   identifier,
+      // };
     } else {
       const tokenId = token.TOKEN_ID;
 
@@ -421,7 +446,7 @@ export const loadSwapDataStable = async (tokenIn, tokenOut) => {
 };
 
 export const liqCalc = (xtzAmount, ctezpool, tezpool) => {
-  return (xtzAmount * 10 ** 6 * ctezpool) / tezpool;
+  return (Number(xtzAmount) * 10 ** 6 * ctezpool) / tezpool;
 };
 
 export async function add_liquidity(

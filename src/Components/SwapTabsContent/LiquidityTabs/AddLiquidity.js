@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import InfoModal from '../../Ui/Modals/InfoModal';
 import ConfirmAddLiquidity from './ConfirmAddLiquidity';
 import Button from '../../Ui/Buttons/Button';
+import { liqCalc, loadSwapDataStable } from '../../../apis/stableswap/stableswap';
 
 const AddLiquidity = (props) => {
   const [estimatedTokenAmout, setEstimatedTokenAmout] = useState('');
@@ -13,7 +14,14 @@ const AddLiquidity = (props) => {
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const [transactionId, setTransactionId] = useState('');
 
-  const handleLiquidityInput = (input) => {
+  const getXtz = async (input) => {
+    const res = await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
+    const amt = await liqCalc(input, res.tezPool, res.ctezPool);
+
+    return amt / 10 ** 6;
+  };
+  const handleLiquidityInput = async (input) => {
+    console.log(props.tokenIn);
     setEstimatedTokenAmout({});
     if (input === '' || isNaN(input)) {
       setSecondTokenAmount('');
@@ -23,12 +31,20 @@ const AddLiquidity = (props) => {
       });
       return;
     }
-    const estimatedTokenAmout = estimateOtherToken(
-      input,
-      props.swapData.tokenIn_supply,
-      props.swapData.tokenOut_supply,
-    );
-    setEstimatedTokenAmout(estimatedTokenAmout);
+    if (props.tokenIn.name === 'xtz') {
+      const res = await getXtz(input);
+
+      setEstimatedTokenAmout({
+        otherTokenAmount: res.toFixed(6),
+      });
+    } else {
+      const estimatedTokenAmout = estimateOtherToken(
+        input,
+        props.swapData.tokenIn_supply,
+        props.swapData.tokenOut_supply,
+      );
+      setEstimatedTokenAmout(estimatedTokenAmout);
+    }
   };
   const handleLiquiditySecondInput = (input) => {
     setSecondTokenAmount(input);
