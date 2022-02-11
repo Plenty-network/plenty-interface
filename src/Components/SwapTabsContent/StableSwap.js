@@ -9,6 +9,7 @@ import {
   calculateTokensOutStable,
   ctez_to_tez,
   tez_to_ctez,
+  getXtzDollarPrice,
 } from '../../apis/stableswap/stableswap';
 import { ReactComponent as Stableswap } from '../../assets/images/SwapModal/stableswap-white.svg';
 
@@ -17,6 +18,7 @@ const StableSwap = (props) => {
   const [secondTokenAmountStable, setSecondTokenAmountStable] = useState();
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState('');
+  const [dolar, setDolar] = useState('');
   const [swapData, setSwapData] = useState({
     success: false,
     tezPool: 0,
@@ -44,6 +46,12 @@ const StableSwap = (props) => {
     const res = await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
     setSwapData(res);
   };
+
+  useEffect(() => {
+    getXtzDollarPrice().then((res) => {
+      setDolar(res);
+    });
+  }, []);
 
   useEffect(() => {
     getSwapData();
@@ -362,7 +370,9 @@ const StableSwap = (props) => {
 
                 <p className="wallet-token-balance">
                   ~$
-                  {props.getTokenPrice.success && firstTokenAmountStable
+                  {props.tokenIn.name === 'xtz'
+                    ? dolar * firstTokenAmountStable
+                    : props.getTokenPrice.success && firstTokenAmountStable
                     ? getDollarValue(
                         firstTokenAmountStable,
                         props.getTokenPrice.tokenPrice[props.tokenIn.name],
@@ -439,7 +449,12 @@ const StableSwap = (props) => {
                 </p>
                 <p className="wallet-token-balance">
                   ~$
-                  {props.getTokenPrice.success && secondTokenAmountStable
+                  {props.tokenOut.name === 'xtz'
+                    ? dolar *
+                      (secondTokenAmountStable
+                        ? secondTokenAmountStable
+                        : props.computedOutDetails.tokenOut_amount)
+                    : props.getTokenPrice.success && secondTokenAmountStable
                     ? getDollarValue(
                         secondTokenAmountStable,
                         props.getTokenPrice.tokenPrice[props.tokenOut.name],

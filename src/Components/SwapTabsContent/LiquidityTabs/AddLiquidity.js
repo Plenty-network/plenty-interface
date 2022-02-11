@@ -5,7 +5,12 @@ import React, { useEffect, useState } from 'react';
 import InfoModal from '../../Ui/Modals/InfoModal';
 import ConfirmAddLiquidity from './ConfirmAddLiquidity';
 import Button from '../../Ui/Buttons/Button';
-import { add_liquidity, liqCalc, loadSwapDataStable } from '../../../apis/stableswap/stableswap';
+import {
+  add_liquidity,
+  getXtzDollarPrice,
+  liqCalc,
+  loadSwapDataStable,
+} from '../../../apis/stableswap/stableswap';
 
 const AddLiquidity = (props) => {
   const [estimatedTokenAmout, setEstimatedTokenAmout] = useState('');
@@ -13,13 +18,20 @@ const AddLiquidity = (props) => {
   const [lpTokenAmount, setLpTokenAmount] = useState({});
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const [transactionId, setTransactionId] = useState('');
-
+  const [dolar, setDolar] = useState('');
   const getXtz = async (input) => {
     const res = await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
     const amt = await liqCalc(input, res.tezPool, res.ctezPool);
 
     return amt / 10 ** 6;
   };
+
+  useEffect(() => {
+    getXtzDollarPrice().then((res) => {
+      setDolar(res);
+    });
+  }, []);
+
   const handleLiquidityInput = async (input) => {
     console.log(props.tokenIn);
     setEstimatedTokenAmout({});
@@ -313,7 +325,9 @@ const AddLiquidity = (props) => {
               </p>
               <p className="wallet-token-balance">
                 ~$
-                {props.getTokenPrice.success && props.firstTokenAmount
+                {props.tokenIn.name === 'xtz'
+                  ? dolar * props.firstTokenAmount
+                  : props.getTokenPrice.success && props.firstTokenAmount
                   ? (
                       props.firstTokenAmount * props.getTokenPrice.tokenPrice[props.tokenIn.name]
                     ).toFixed(5)
@@ -380,7 +394,10 @@ const AddLiquidity = (props) => {
               </p>
               <p className="wallet-token-balance">
                 ~$
-                {props.getTokenPrice.success && estimatedTokenAmout.otherTokenAmount
+                {props.tokenIn.name === 'xtz'
+                  ? dolar *
+                    (secondTokenAmount ? secondTokenAmount : estimatedTokenAmout.otherTokenAmount)
+                  : props.getTokenPrice.success && estimatedTokenAmout.otherTokenAmount
                   ? (
                       (secondTokenAmount
                         ? secondTokenAmount
