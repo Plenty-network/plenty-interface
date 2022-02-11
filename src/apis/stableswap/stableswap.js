@@ -515,6 +515,15 @@ export async function add_liquidity(
   }
 }
 
+export const liqCalcRemove = (liqAmountInput, tezPool, ctezPool, lqtTotal) => {
+  const tezWithdrawn = (liqAmountInput * tezPool) / lqtTotal;
+  const ctezWithdrawn = (liqAmountInput * ctezPool) / lqtTotal;
+  return {
+    tezWithdrawn,
+    ctezWithdrawn,
+  };
+};
+
 export async function remove_liquidity(tokenIn, tokenOut, amount, transactionSubmitModal) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
