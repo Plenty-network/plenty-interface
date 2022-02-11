@@ -445,8 +445,15 @@ export const loadSwapDataStable = async (tokenIn, tokenOut) => {
   }
 };
 
-export const liqCalc = (xtzAmount, ctezpool, tezpool) => {
+export const liqCalc = (xtzAmount, tezpool, ctezpool) => {
   return (Number(xtzAmount) * 10 ** 6 * ctezpool) / tezpool;
+};
+
+export const getXtzDollarPrice = async () => {
+  const xtzDollarValueUrl = CONFIG.API.url;
+  const xtzDollarValue = await axios.get(xtzDollarValueUrl);
+  const xtzPrice = xtzDollarValue.data.market_data.current_price.usd;
+  return xtzPrice;
 };
 
 export async function add_liquidity(
