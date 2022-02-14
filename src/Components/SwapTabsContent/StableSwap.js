@@ -299,10 +299,9 @@ const StableSwap = (props) => {
             )}
           >
             <div className="token-selector-balance-wrapper">
-              <button className="token-selector dropdown-themed">
+              <button className="token-selector dropdown-themed stable-swap-token-selector">
                 <img src={props.tokenIn.image} className="button-logo" />
                 <span className="span-themed">{props.tokenIn.name} </span>
-                <span className="span-themed material-icons-round">expand_more</span>
               </button>
             </div>
 
@@ -376,10 +375,9 @@ const StableSwap = (props) => {
           >
             <div className="token-selector-balance-wrapper">
               {props.tokenOut.name ? (
-                <button className="token-selector dropdown-themed">
+                <button className="token-selector dropdown-themed stable-swap-token-selector">
                   <img src={props.tokenOut.image} className="button-logo" />
                   <span className="span-themed">{props.tokenOut.name} </span>
-                  <span className="span-themed material-icons-round">expand_more</span>
                 </button>
               ) : (
                 <button

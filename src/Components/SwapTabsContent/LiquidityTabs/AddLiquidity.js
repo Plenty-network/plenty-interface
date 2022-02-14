@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { addLiquidity, estimateOtherToken, lpTokenOutput } from '../../../apis/swap/swap';
 import React, { useEffect, useState } from 'react';
-
+import clsx from 'clsx';
 import InfoModal from '../../Ui/Modals/InfoModal';
 import ConfirmAddLiquidity from './ConfirmAddLiquidity';
 import Button from '../../Ui/Buttons/Button';
@@ -9,7 +9,6 @@ import {
   add_liquidity,
   getXtzDollarPrice,
   liqCalc,
-  loadSwapDataStable,
   getExchangeRate,
 } from '../../../apis/stableswap/stableswap';
 
@@ -40,9 +39,12 @@ const AddLiquidity = (props) => {
   }, [props]);
 
   const getXtz = async (input) => {
-    const res = await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
-
-    const values = await liqCalc(input, res.tezPool, res.ctezPool, res.lpTokenSupply);
+    const values = await liqCalc(
+      input,
+      props.swapData.tezPool,
+      props.swapData.ctezPool,
+      props.swapData.lpTokenSupply,
+    );
     setPoolShare(values.poolPercent.toFixed(5));
     if (props.tokenIn.name === 'xtz') {
       setLpTokenAmount((values.lpToken / 10 ** 6).toFixed(6));
@@ -134,8 +136,8 @@ const AddLiquidity = (props) => {
       add_liquidity(
         props.tokenIn.name,
         props.tokenOut.name,
-        props.firstTokenAmount,
         secondTokenAmountEntered,
+        props.firstTokenAmount,
         props.walletAddress,
         transactionSubmitModal,
       ).then((data) => {
@@ -271,11 +273,15 @@ const AddLiquidity = (props) => {
         <div className="swap-token-select-box">
           <div className="token-selector-balance-wrapper">
             <button
-              className="token-selector dropdown-themed"
+              className={clsx(
+                props.isStableSwap && 'stable-swap-token-selector',
+                'token-selector dropdown-themed',
+              )}
               {...(props.isStableSwap ? {} : { onClick: () => props.handleTokenType('tokenIn') })}
             >
               <img src={props.tokenIn.image} className="button-logo" />
-              {props.tokenIn.name} <span className="material-icons-round">expand_more</span>
+              {props.tokenIn.name}{' '}
+              {!props.isStableSwap && <span className="material-icons-round">expand_more</span>}
             </button>
           </div>
 
@@ -340,13 +346,17 @@ const AddLiquidity = (props) => {
           <div className="token-selector-balance-wrapper">
             {props.tokenOut.name ? (
               <button
-                className="token-selector dropdown-themed"
+                className={clsx(
+                  props.isStableSwap && 'stable-swap-token-selector',
+                  'token-selector dropdown-themed',
+                )}
                 {...(props.isStableSwap
                   ? {}
                   : { onClick: () => props.handleTokenType('tokenOut') })}
               >
                 <img src={props.tokenOut.image} className="button-logo" />
-                {props.tokenOut.name} <span className="material-icons-round">expand_more</span>
+                {props.tokenOut.name}{' '}
+                {!props.isStableSwap && <span className="material-icons-round">expand_more</span>}
               </button>
             ) : (
               <button

@@ -81,7 +81,11 @@ const MyRoutes = (props) => {
               path="/liquidity/*"
               element={
                 <OtherPages {...otherPageProps}>
-                  <Swap walletAddress={props.userAddress} connecthWallet={connectWallet} />
+                  <Swap
+                    walletAddress={props.userAddress}
+                    connecthWallet={connectWallet}
+                    {...otherPageProps}
+                  />
                 </OtherPages>
               }
             />
@@ -89,7 +93,11 @@ const MyRoutes = (props) => {
               path="/stableswap"
               element={
                 <OtherPages {...otherPageProps}>
-                  <Swap walletAddress={props.userAddress} connecthWallet={connectWallet} />
+                  <Swap
+                    walletAddress={props.userAddress}
+                    connecthWallet={connectWallet}
+                    {...otherPageProps}
+                  />
                 </OtherPages>
               }
             />
@@ -97,7 +105,11 @@ const MyRoutes = (props) => {
               path="/liquidityStable/*"
               element={
                 <OtherPages {...otherPageProps}>
-                  <Swap walletAddress={props.userAddress} connecthWallet={connectWallet} />
+                  <Swap
+                    walletAddress={props.userAddress}
+                    connecthWallet={connectWallet}
+                    {...otherPageProps}
+                  />
                 </OtherPages>
               }
             />

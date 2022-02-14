@@ -188,10 +188,10 @@
   transform: translate(0px, 31px) !important;
 }
 .modal-backdrop.show {
-  opacity: 0.9;
+  opacity: 1.2;
   background-color: rgba(5, 3, 29, 0.5);
   -webkit-backdrop-filter: blur(5px);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(2px);
   padding: 50px;
 }
 .swap-modal,
@@ -806,4 +806,10 @@ input:checked {
 }
 .centered {
   margin: 8.75rem auto;
+}
+.confirm-swap-input-box {
+  min-height: 72px !important;
+}
+.stable-swap-token-selector {
+  padding: 8px 12px !important;
 }
