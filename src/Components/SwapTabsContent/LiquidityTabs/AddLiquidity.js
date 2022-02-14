@@ -10,6 +10,7 @@ import {
   getXtzDollarPrice,
   liqCalc,
   getExchangeRate,
+  loadSwapDataStable,
 } from '../../../apis/stableswap/stableswap';
 
 const AddLiquidity = (props) => {
@@ -35,8 +36,12 @@ const AddLiquidity = (props) => {
   useEffect(() => {
     if (props.isStableSwap) {
       fetchOutputData();
+      getSwapData();
     }
   }, [props]);
+  const getSwapData = async () => {
+    await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
+  };
 
   const getXtz = async (input) => {
     const values = await liqCalc(
@@ -176,6 +181,7 @@ const AddLiquidity = (props) => {
         if (data.success) {
           props.setLoading(false);
           props.handleLoaderMessage('success', 'Transaction confirmed');
+          getSwapData();
           props.setShowConfirmAddSupply(false);
           //props.setHideContent('');
           props.resetAllValues();
@@ -484,4 +490,6 @@ AddLiquidity.propTypes = {
   userBalances: PropTypes.any,
   walletAddress: PropTypes.any,
   isStableSwap: PropTypes.any,
+  getSwapData: PropTypes.func,
+  setSwapData: PropTypes.func,
 };

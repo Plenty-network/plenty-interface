@@ -83,6 +83,12 @@ const StableeSwap = (props) => {
       }
     }
   }, [tokenInStable, tokenOutStable]);
+  const getSwapData = async () => {
+    await loadSwapDataStable(tokenInStable.name, tokenOutStable.name);
+  };
+  useEffect(() => {
+    getSwapData();
+  }, []);
 
   useEffect(() => {
     console.log(isStableSwap);
@@ -257,23 +263,6 @@ const StableeSwap = (props) => {
         tokenOut_amount: '',
         fees: 0,
       });
-    } else {
-      //let computedData;
-
-      if (pairExist) {
-        // computedData = computeTokenOutput(
-        //   parseFloat(input),
-        //   swapData.tokenIn_supply,
-        //   swapData.tokenOut_supply,
-        //   swapData.exchangeFee,
-        //   slippage,
-        // );
-      } else {
-        // computedData = computeTokenOutForRouteBase(parseFloat(input), swapData, slippage);
-      }
-
-      // setComputedOutDetails(computedData);
-      // setLoading(false);
     }
   };
 
@@ -360,30 +349,6 @@ const StableeSwap = (props) => {
     setTransactionId(id);
     setShowTransactionSubmitModal(true);
   };
-
-  // const selectToken = (token) => {
-  //   setLoaderInButton(true);
-  //   setFirstTokenAmount('');
-  //   setSecondTokenAmount('');
-  //   setSwapData({});
-  //   setComputedOutDetails({
-  //     tokenOut_amount: '',
-  //   });
-  //   //setLoading(true);
-
-  //   if (tokenType === 'tokenIn') {
-  //     setTokenIn({
-  //       name: token.name,
-  //       image: token.image,
-  //     });
-  //   } else {
-  //     setTokenOut({
-  //       name: token.name,
-  //       image: token.image,
-  //     });
-  //   }
-  //   handleClose();
-  // };
 
   return (
     <div className="border-swap rightToLeftFadeInAnimation-4-stableswap">
@@ -481,6 +446,7 @@ const StableeSwap = (props) => {
               loaderInButton={false}
               setLoaderInButton={setLoaderInButton}
               isStableSwap={true}
+              getSwapData={getSwapData}
             />
           </Tab>
         </Tabs>

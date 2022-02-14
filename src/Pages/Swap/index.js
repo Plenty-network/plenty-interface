@@ -20,8 +20,9 @@ const Swap = (props) => {
   const [isStableSwap, setStableSwap] = useState(false);
 
   useEffect(() => {
-    (splitLocation[1] === 'stableswap' || splitLocation[1] === 'liquidityStable') &&
-      setStableSwap(true);
+    splitLocation[1] === 'stableswap' || splitLocation[1] === 'liquidityStable'
+      ? setStableSwap(true)
+      : setStableSwap(false);
   }, [splitLocation[1]]);
 
   const redirect = (value) => {

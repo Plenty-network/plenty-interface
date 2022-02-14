@@ -11,13 +11,14 @@
   max-width: 1200px;
 }
 .redirect-label {
-  margin: 100px auto 10px auto;
+  margin: 80px auto 10px auto;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
   line-height: 21px;
   letter-spacing: 0em;
   max-width: 400px;
+  padding-left: 4px;
 }
 .price-formula {
   font-size: 12px;
@@ -35,7 +36,7 @@
 }
 .closedbg {
   background: transparent;
-  border: 1px solid var(--theme-swap-border);
+  border: 1px solid var(--theme-swap-border) !important;
 }
 .new {
   background: var(--theme-primary-button-bg);
@@ -56,6 +57,7 @@
   margin: 0px auto;
   max-width: 400px;
   padding: 16px 25px;
+  margin-top: 10px;
 }
 .bottom-label {
   font-size: 16px;
@@ -108,6 +110,16 @@
   .nav-link.active {
     border-bottom: 3px solid var(--theme-primary-button-bg) !important;
     color: var(--theme-primary-button-bg);
+    // ::after {
+    //   content: '';
+    //   position: absolute;
+    //   border-bottom: 3px solid var(--theme-primary-button-bg) !important;
+    //   left: 6px;
+    //   right: 0;
+    //   top: 57px;
+    //   width: 60px;
+    //   visibility: visible;
+    // }
   }
 }
 .swap-content-box-wrapper {
@@ -530,6 +542,7 @@
   padding: 12px;
   border-radius: 8px;
   margin-top: 12px;
+  border: 1px solid transparent;
 }
 .swap-detail-amt-wrapper {
   display: flex;

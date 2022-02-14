@@ -45,16 +45,16 @@ const StableSwap = (props) => {
   const getSwapData = async () => {
     const res = await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
     setSwapData(res);
+    console.log(res);
   };
+  useEffect(() => {
+    getSwapData();
+  }, []);
 
   useEffect(() => {
     getXtzDollarPrice().then((res) => {
       setDolar(res);
     });
-  }, []);
-
-  useEffect(() => {
-    getSwapData();
   }, []);
 
   const fetchSwapData = async (input) => {
@@ -218,7 +218,7 @@ const StableSwap = (props) => {
           >
             <span>
               <Stableswap />
-              <span className="ml-2">swap</span>
+              <span className="ml-2">Swap</span>
             </span>
           </Button>
         );
@@ -233,7 +233,7 @@ const StableSwap = (props) => {
           >
             <span>
               <Stableswap />
-              <span className="ml-2">swap</span>
+              <span className="ml-2">Swap</span>
             </span>
           </Button>
         );
@@ -262,7 +262,7 @@ const StableSwap = (props) => {
         >
           <span>
             <Stableswap />
-            <span className="ml-2">swap</span>
+            <span className="ml-2">Swap</span>
           </span>
         </Button>
       );
