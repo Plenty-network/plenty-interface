@@ -551,7 +551,7 @@ export const liqCalcRemove = (liqAmountInput, tezPool, ctezPool, lqtTotal) => {
   };
 };
 
-export async function remove_liquidity(tokenIn, tokenOut, amount, transactionSubmitModal) {
+export async function remove_liquidity(tokenIn, tokenOut, amount) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
@@ -577,12 +577,9 @@ export async function remove_liquidity(tokenIn, tokenOut, amount, transactionSub
     const op = await contract.methods.remove_liquidity(Number(amount * 10 ** 6), 0, 0).send();
     await op.confirmation();
 
-    transactionSubmitModal(op.opHash);
-
-    await op.confirmation();
     return {
       success: true,
-      operationId: op.hash,
+      operationId: op.opHash,
     };
   } catch (error) {
     console.log(error);

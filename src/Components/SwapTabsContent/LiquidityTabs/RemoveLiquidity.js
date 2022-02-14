@@ -59,10 +59,11 @@ const RemoveLiquidity = (props) => {
         props.tokenOut.name,
         removableTokens.removeAmount,
         props.walletAddress,
-        transactionSubmitModal,
       ).then((data) => {
+        console.log(data);
         if (data.success) {
           props.setLoading(false);
+          transactionSubmitModal(data.operationId);
           props.handleLoaderMessage('success', 'Transaction confirmed');
           props.setShowConfirmRemoveSupply(false);
           //props.setHideContent('');

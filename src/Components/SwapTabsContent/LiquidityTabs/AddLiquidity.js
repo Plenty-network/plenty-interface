@@ -374,10 +374,19 @@ const AddLiquidity = (props) => {
               <p className="wallet-token-balance">
                 ~$
                 {props.tokenIn.name === 'xtz'
-                  ? (
+                  ? isNaN(
                       dolar *
-                      (secondTokenAmount ? secondTokenAmount : estimatedTokenAmout.otherTokenAmount)
-                    ).toFixed(2)
+                        (secondTokenAmount
+                          ? secondTokenAmount
+                          : estimatedTokenAmout.otherTokenAmount),
+                    )
+                    ? '0.00'
+                    : (
+                        dolar *
+                        (secondTokenAmount
+                          ? secondTokenAmount
+                          : estimatedTokenAmout.otherTokenAmount)
+                      ).toFixed(2)
                   : props.getTokenPrice.success && estimatedTokenAmout.otherTokenAmount
                   ? (
                       (secondTokenAmount

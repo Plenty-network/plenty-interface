@@ -26,6 +26,7 @@ import { tokens } from '../../constants/swapPage';
 import Loader from '../../Components/loader';
 import { useLocationStateInSwap } from './hooks';
 import { getAllRoutes } from '../../apis/swap/swap-v2';
+import '../../assets/scss/animation.scss';
 
 const NormalSwap = (props) => {
   const { activeTab, setActiveTab, tokenIn, setTokenIn, tokenOut, setTokenOut } =
@@ -336,7 +337,7 @@ const NormalSwap = (props) => {
   };
 
   return (
-    <div className="border-swap">
+    <div className="border-swap leftToRightFadeInAnimation-4">
       <div className="bg-themed my-0 swap-content-container">
         <Tabs
           activeKey={activeTab}

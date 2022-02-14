@@ -34,6 +34,7 @@ import { stableSwapTokens } from '../../constants/stableSwapPage';
 
 import { ReactComponent as StableswapImg } from '../../assets/images/SwapModal/stableswap.svg';
 import { useLocationStateStable } from './hooks';
+import '../../assets/scss/animation.scss';
 
 const StableeSwap = (props) => {
   const {
@@ -396,7 +397,7 @@ const StableeSwap = (props) => {
   // };
 
   return (
-    <div className="border-swap">
+    <div className="border-swap rightToLeftFadeInAnimation-4-stableswap">
       <div className="bg-themed my-0 swap-content-container">
         <Tabs
           activeKey={activeTab}

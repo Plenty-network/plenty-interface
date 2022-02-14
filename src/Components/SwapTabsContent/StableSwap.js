@@ -49,11 +49,10 @@ const StableSwap = (props) => {
 
   useEffect(() => {
     getXtzDollarPrice().then((res) => {
-      console.log(res);
       setDolar(res);
     });
   }, []);
-  console.log(dolar * firstTokenAmountStable);
+
   useEffect(() => {
     getSwapData();
   }, []);
@@ -68,7 +67,7 @@ const StableSwap = (props) => {
       swapData.target,
       props.tokenIn.name,
     );
-
+    console.log(tokenOutResponse);
     return tokenOutResponse;
   };
   const fetchOutputData = async (poolA, poolB, input, fee, slippage, target, tokenIn) => {
@@ -83,6 +82,7 @@ const StableSwap = (props) => {
     } else {
       if (tokenType === 'tokenIn') {
         setFirstTokenAmountStable(input);
+
         const res = await fetchSwapData(input);
 
         setSecondTokenAmountStable(res.tokenOut.toFixed(6));
@@ -400,11 +400,7 @@ const StableSwap = (props) => {
                 <input
                   type="text"
                   className="token-user-input"
-                  value={
-                    secondTokenAmountStable
-                      ? secondTokenAmountStable
-                      : props.computedOutDetails.tokenOut_amount
-                  }
+                  value={secondTokenAmountStable}
                   placeholder="0.0"
                   onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenOut')}
                 />
@@ -430,31 +426,18 @@ const StableSwap = (props) => {
                 </p>
                 <p className="wallet-token-balance">
                   ~$
-                  {props.tokenOut.name === 'xtz' ? (
-                    dolar *
-                      (secondTokenAmountStable
-                        ? secondTokenAmountStable
-                        : props.computedOutDetails.tokenOut_amount) ==
-                    null ? (
-                      <span className="shimmer">99999999</span>
-                    ) : secondTokenAmountStable ? (
-                      (
-                        dolar *
-                        (secondTokenAmountStable
-                          ? secondTokenAmountStable
-                          : props.computedOutDetails.tokenOut_amount)
-                      ).toFixed(2)
-                    ) : (
-                      '0.00'
-                    )
-                  ) : props.getTokenPrice.success && secondTokenAmountStable ? (
-                    getDollarValue(
-                      secondTokenAmountStable,
-                      props.getTokenPrice.tokenPrice[props.tokenOut.name],
-                    )
-                  ) : (
-                    '0.00'
-                  )}
+                  {props.tokenOut.name === 'xtz'
+                    ? isNaN(dolar * secondTokenAmountStable)
+                      ? '0.00'
+                      : secondTokenAmountStable
+                      ? (dolar * secondTokenAmountStable).toFixed(2)
+                      : '0.00'
+                    : props.getTokenPrice.success && secondTokenAmountStable
+                    ? getDollarValue(
+                        secondTokenAmountStable,
+                        props.getTokenPrice.tokenPrice[props.tokenOut.name],
+                      )
+                    : '0.00'}
                 </p>
               </div>
             ) : null}
