@@ -58,7 +58,7 @@ const StableSwap = (props) => {
   }, []);
 
   const fetchSwapData = async (input) => {
-    const tokenOutResponse = await fetchOutputData(
+    const tokenOutResponse = await calculateTokensOutStable(
       swapData.tezPool,
       swapData.ctezPool,
       Number(input),
@@ -67,12 +67,8 @@ const StableSwap = (props) => {
       swapData.target,
       props.tokenIn.name,
     );
-    console.log(tokenOutResponse);
+
     return tokenOutResponse;
-  };
-  const fetchOutputData = async (poolA, poolB, input, fee, slippage, target, tokenIn) => {
-    const res = await calculateTokensOutStable(poolA, poolB, input, fee, slippage, target, tokenIn);
-    return res;
   };
 
   const handleSwapTokenInput = async (input, tokenType) => {

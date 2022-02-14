@@ -9,13 +9,7 @@ import {
   fetchtzBTCBalance,
 } from '../../apis/swap/swap';
 
-import {
-  getUserBalanceByRpcStable,
-  loadSwapDataStable,
-  //liqCalc,
-  //getXtzDollarPrice,
-  // calculateTokensOutStable,
-} from '../../apis/stableswap/stableswap';
+import { getUserBalanceByRpcStable, loadSwapDataStable } from '../../apis/stableswap/stableswap';
 
 import { loadSwapData } from '../../apis/swap/swap-v2';
 import config from '../../config/config';
@@ -74,11 +68,6 @@ const StableeSwap = (props) => {
   const [tokenContractInstances, setTokenContractInstances] = useState({});
   const [loaderInButton, setLoaderInButton] = useState(false);
   const isStableSwap = useState(true);
-
-  // useEffect(() => {
-  //   // splitLocation[1] === 'stableswap' ? props.redirect(true) : setStableSwap(false);
-  //   setActiveTab(splitLocation[1]);
-  // }, [splitLocation[1]]);
 
   const pairExist = useMemo(() => {
     return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
