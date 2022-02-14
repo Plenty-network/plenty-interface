@@ -7,8 +7,8 @@ import GraphDark from '../../assets/images/SwapModal/graph-dark.svg';
 import Graph from '../../assets/images/SwapModal/graph.svg';
 
 import { useLocation } from 'react-router';
-import NormalSwap from './NormalSwap';
-import StableeSwap from './StableeSwap';
+import NormalSwap from './Swap';
+import StableeSwap from './StableSwap';
 import { useLocationStateInSwap } from './hooks';
 import '../../assets/scss/animation.scss';
 
@@ -18,17 +18,16 @@ const Swap = (props) => {
   const { pathname } = location;
   const splitLocation = pathname.split('/');
   const [isStableSwap, setStableSwap] = useState(false);
-  const [animationLefttoRight, setanimationLefttoRight] = useState(false);
 
   useEffect(() => {
-    splitLocation[1] === 'stableswap' && setStableSwap(true);
+    splitLocation[1] === 'stableswap' ||
+      (splitLocation[1] === 'liquidityStable' && setStableSwap(true));
   }, [splitLocation[1]]);
 
   const redirect = (value) => {
-    setanimationLefttoRight(true);
     setTimeout(() => {
       setStableSwap(value);
-      //resetAllValues();
+
       value ? setActiveTab('stableswap') : setActiveTab('swap');
     }, 400);
   };

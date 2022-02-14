@@ -16,6 +16,9 @@ const LiquidityTab = (props) => {
     if (location.pathname === '/liquidity/remove') {
       return 'remove';
     }
+    if (location.pathname === '/liquidityStable/remove') {
+      return 'remove';
+    }
 
     return 'add';
   }, [location.pathname]);
@@ -24,7 +27,7 @@ const LiquidityTab = (props) => {
     const tokenAFromParam = searchParams.get('tokenA');
     const tokenBFromParam = searchParams.get('tokenB');
     navigate({
-      pathname: `/liquidity/${tab}`,
+      pathname: props.isStableSwap ? `/liquidityStable/${tab}` : `/liquidity/${tab}`,
       search: `?${createSearchParams({
         ...(tokenAFromParam ? { tokenA: tokenAFromParam } : {}),
         ...(tokenBFromParam ? { tokenB: tokenBFromParam } : {}),
@@ -91,6 +94,7 @@ LiquidityTab.propTypes = {
   tokenIn: PropTypes.any,
   tokenOut: PropTypes.any,
   tokens: PropTypes.any,
+  isStableSwap: PropTypes.any,
 };
 
 export default LiquidityTab;

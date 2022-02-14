@@ -24,10 +24,6 @@ export const useLocationStateStable = () => {
     image: tez,
   });
 
-  // const [tokenInLiquidity, setTokenInLiquidity] = useState({
-  //   name: 'xtz',
-  //   image: tez,
-  // });
   const tokenInLiquidity = {
     name: 'xtz',
     image: tez,
@@ -36,10 +32,6 @@ export const useLocationStateStable = () => {
     name: 'ctez',
     image: ctez,
   };
-  // const [tokenOutLiquidity, setTokenOutLiquidity] = useState({
-  //   name: 'ctez',
-  //   image: ctez,
-  // });
 
   const AMMExists = useMemo(() => {
     return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
