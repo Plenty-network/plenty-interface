@@ -89,7 +89,7 @@ const AddLiquidity = (props) => {
       setEstimatedTokenAmout(estimatedTokenAmout);
     }
   };
-  const handleLiquiditySecondInput = (input) => {
+  const handleLiquiditySecondInput = async (input) => {
     setSecondTokenAmount(input);
     setEstimatedTokenAmout({});
     if (input === '' || isNaN(input)) {
@@ -99,13 +99,22 @@ const AddLiquidity = (props) => {
         otherTokenAmount: '',
       });
     } else {
-      const estimatedTokenAmout = estimateOtherToken(
-        input,
-        props.swapData.tokenOut_supply,
-        props.swapData.tokenIn_supply,
-      );
-      setEstimatedTokenAmout(estimatedTokenAmout);
-      props.setFirstTokenAmount(estimatedTokenAmout.otherTokenAmount);
+      if (props.tokenIn.name === 'xtz') {
+        const res = await getXtz(input);
+
+        setEstimatedTokenAmout({
+          otherTokenAmount: res.toFixed(6),
+        });
+        props.setFirstTokenAmount(res.toFixed(6));
+      } else {
+        const estimatedTokenAmout = estimateOtherToken(
+          input,
+          props.swapData.tokenOut_supply,
+          props.swapData.tokenIn_supply,
+        );
+        setEstimatedTokenAmout(estimatedTokenAmout);
+        props.setFirstTokenAmount(estimatedTokenAmout.otherTokenAmount);
+      }
     }
   };
   const confirmAddLiquidity = () => {
