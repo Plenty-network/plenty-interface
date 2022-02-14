@@ -331,8 +331,10 @@ const StableeSwap = (props) => {
     setSlippage(0.05);
     setRecepient('');
     //setTokenType('tokenIn');
-    isStableSwap ? setFirstTokenAmountStable('') : setFirstTokenAmount('');
-    isStableSwap ? setSecondTokenAmountStable('') : setSecondTokenAmount('');
+    setFirstTokenAmountStable('');
+    setFirstTokenAmount('');
+    setSecondTokenAmountStable('');
+    setSecondTokenAmount('');
     setComputedOutDetails({
       tokenOut_amount: '',
     });
