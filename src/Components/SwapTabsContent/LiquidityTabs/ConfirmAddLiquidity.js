@@ -1,14 +1,50 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import Button from '../../Ui/Buttons/Button';
+import { calculateTokensOutStable } from '../../../apis/stableswap/stableswap';
 
 const ConfirmAddLiquidity = (props) => {
+  const [xtztoctez, setxtztoctez] = useState('0.00');
+  const [cteztoxtz, setcteztoxtz] = useState('0.00');
+
+  const fetchSwapData = async (input, token) => {
+    const tokenOutResponse = await fetchOutputData(
+      props.swapData.tezPool,
+      props.swapData.ctezPool,
+      Number(input),
+      2000,
+      props.slippage,
+      props.swapData.target,
+      token,
+    );
+
+    return tokenOutResponse;
+  };
+  const fetchOutputData = async (poolA, poolB, input, fee, slippage, target, tokenIn) => {
+    const res = await calculateTokensOutStable(poolA, poolB, input, fee, slippage, target, tokenIn);
+    return res;
+  };
+  const fetchOutputData1 = async () => {
+    const res = await fetchSwapData(1, 'xtz');
+
+    setxtztoctez(res.exchangeRate.toFixed(10));
+
+    const res2 = await fetchSwapData(1, 'ctez');
+
+    setcteztoxtz(res2.exchangeRate.toFixed(10));
+  };
+  useEffect(() => {
+    if (props.isStableSwap) {
+      fetchOutputData1();
+    }
+  }, [props.isStableSwap]);
+
   return (
     <Modal
       show={props.showConfirmAddSupply}
       onHide={props.onHide}
-      className="confirm-swap-modal confirm-add-liquidity-modal"
+      className="confirm-swap-modal confirm-add-liquidity-modal "
     >
       <Modal.Header>
         <Modal.Title>You will receive</Modal.Title>
@@ -35,7 +71,11 @@ const ConfirmAddLiquidity = (props) => {
                 </div>
 
                 <div className="token-user-input-wrapper">
-                  <p className="lp-token-info-desc">{props.lpTokenAmount.estimatedLpOutput}</p>
+                  <p className="lp-token-info-desc">
+                    {props.tokenIn.name === 'xtz'
+                      ? props.lpTokenAmount
+                      : props.lpTokenAmount.estimatedLpOutput}
+                  </p>
                   <p className="lp-token-info-desc">
                     {props.tokenIn.name}/{props.tokenOut.name} LP Tokens
                   </p>
@@ -48,16 +88,22 @@ const ConfirmAddLiquidity = (props) => {
             <div className="swap-detail-rates-wrapper flex justify-between">
               <p className="swap-detail-amt-details">Rates</p>
               <div className="token-user-input-wrapper">
-                {props.swapData.tokenOutPerTokenIn ? (
+                {props.swapData ? (
                   <p className="swap-detail-amt-details">
-                    1 {props.tokenIn.name} = {props.swapData.tokenOutPerTokenIn.toFixed(10)}{' '}
+                    1 {props.tokenIn.name} ={' '}
+                    {props.isStableSwap
+                      ? xtztoctez
+                      : props.swapData.tokenOutPerTokenIn?.toFixed(10)}{' '}
                     {props.tokenOut.name}
                   </p>
                 ) : null}
 
-                {props.swapData.tokenOutPerTokenIn ? (
+                {props.swapData ? (
                   <p className="swap-detail-amt-details">
-                    1 {props.tokenOut.name} = {(1 / props.swapData.tokenOutPerTokenIn).toFixed(10)}{' '}
+                    1 {props.tokenOut.name} ={' '}
+                    {props.isStableSwap
+                      ? cteztoxtz
+                      : (1 / props.swapData.tokenOutPerTokenIn).toFixed(10)}{' '}
                     {props.tokenIn.name}
                   </p>
                 ) : null}
@@ -84,11 +130,13 @@ const ConfirmAddLiquidity = (props) => {
             <div className="swap-detail-amt-wrapper">
               <p className="swap-detail-amt-details">Share of Pool </p>
               <p className="swap-detail-amt-details">
-                {(
-                  (props.lpTokenAmount.estimatedLpOutput /
-                    (props.swapData.lpTokenSupply + props.lpTokenAmount.estimatedLpOutput)) *
-                  100
-                ).toFixed(5)}{' '}
+                {props.tokenIn.name === 'xtz'
+                  ? props.poolShare
+                  : (
+                      (props.lpTokenAmount.estimatedLpOutput /
+                        (props.swapData.lpTokenSupply + props.lpTokenAmount.estimatedLpOutput)) *
+                      100
+                    ).toFixed(5)}{' '}
                 %
               </p>
             </div>
@@ -120,6 +168,9 @@ ConfirmAddLiquidity.propTypes = {
   swapData: PropTypes.any,
   tokenIn: PropTypes.any,
   tokenOut: PropTypes.any,
+  poolShare: PropTypes.any,
+  slippage: PropTypes.any,
+  isStableSwap: PropTypes.any,
 };
 
 export default ConfirmAddLiquidity;

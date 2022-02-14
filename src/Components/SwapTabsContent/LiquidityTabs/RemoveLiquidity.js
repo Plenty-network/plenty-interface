@@ -7,32 +7,45 @@ import InfoModal from '../../Ui/Modals/InfoModal';
 
 import CONFIG from '../../../config/config';
 import Button from '../../Ui/Buttons/Button';
-import { remove_liquidity } from '../../../apis/stableswap/stableswap';
+import { remove_liquidity, liqCalcRemove } from '../../../apis/stableswap/stableswap';
 
 const RemoveLiquidity = (props) => {
   const [removableTokens, setRemovableTokens] = useState({});
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
+
   const [transactionId, setTransactionId] = useState('');
 
   const removeLiquidityInput = (input) => {
     const removeAmount = parseFloat(input);
-    let computedRemoveTokens = computeRemoveTokens(
-      removeAmount,
-      props.swapData.lpTokenSupply,
-      props.swapData.tokenIn_supply,
-      props.swapData.tokenOut_supply,
-      props.slippage,
-    );
+    let computedRemoveTokens;
+    if (props.tokenIn.name === 'xtz') {
+      computedRemoveTokens = liqCalcRemove(
+        removeAmount,
+        props.swapData.tezPool,
+        props.swapData.ctezPool,
+        props.swapData.lpTokenSupply,
+      );
+    } else {
+      computedRemoveTokens = computeRemoveTokens(
+        removeAmount,
+        props.swapData.lpTokenSupply,
+        props.swapData.tokenIn_supply,
+        props.swapData.tokenOut_supply,
+        props.slippage,
+      );
+    }
+
     computedRemoveTokens = {
       ...computedRemoveTokens,
       removeAmount: removeAmount,
     };
+
     setRemovableTokens(computedRemoveTokens);
   };
 
   const handleRemoveLiquidity = () => {
     props.setShowConfirmRemoveSupply(true);
-    props.setHideContent('content-hide');
+    //props.setHideContent('content-hide');
   };
   const transactionSubmitModal = (id) => {
     setTransactionId(id);
@@ -52,7 +65,7 @@ const RemoveLiquidity = (props) => {
           props.setLoading(false);
           props.handleLoaderMessage('success', 'Transaction confirmed');
           props.setShowConfirmRemoveSupply(false);
-          props.setHideContent('');
+          //props.setHideContent('');
           props.resetAllValues();
           setTimeout(() => {
             props.setLoaderMessage({});
@@ -61,7 +74,7 @@ const RemoveLiquidity = (props) => {
           props.setLoading(false);
           props.handleLoaderMessage('error', 'Transaction failed');
           props.setShowConfirmRemoveSupply(false);
-          props.setHideContent('');
+          // props.setHideContent('');
           props.resetAllValues();
           setTimeout(() => {
             props.setLoaderMessage({});
@@ -83,7 +96,7 @@ const RemoveLiquidity = (props) => {
           props.setLoading(false);
           props.handleLoaderMessage('success', 'Transaction confirmed');
           props.setShowConfirmRemoveSupply(false);
-          props.setHideContent('');
+          //props.setHideContent('');
           props.resetAllValues();
           setTimeout(() => {
             props.setLoaderMessage({});
@@ -92,7 +105,7 @@ const RemoveLiquidity = (props) => {
           props.setLoading(false);
           props.handleLoaderMessage('error', 'Transaction failed');
           props.setShowConfirmRemoveSupply(false);
-          props.setHideContent('');
+          // props.setHideContent('');
           props.resetAllValues();
           setTimeout(() => {
             props.setLoaderMessage({});
@@ -197,12 +210,14 @@ const RemoveLiquidity = (props) => {
               >
                 Balance:{' '}
                 {props.userBalances[
-                  CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
-                    .liquidityToken
+                  CONFIG.STABLESWAP[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
+                    props.tokenOut.name
+                  ].liquidityToken
                 ] >= 0 ? (
                   props.userBalances[
-                    CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
-                      .liquidityToken
+                    CONFIG.STABLESWAP[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
+                      props.tokenOut.name
+                    ].liquidityToken
                   ]
                 ) : (
                   <div className="shimmer">0.0000</div>
@@ -275,7 +290,7 @@ RemoveLiquidity.propTypes = {
   handleLoaderMessage: PropTypes.any,
   resetAllValues: PropTypes.any,
   setFirstTokenAmount: PropTypes.any,
-  setHideContent: PropTypes.any,
+  //setHideContent: PropTypes.any,
   setLoaderMessage: PropTypes.any,
   setLoading: PropTypes.any,
   setShowConfirmRemoveSupply: PropTypes.any,
@@ -286,4 +301,6 @@ RemoveLiquidity.propTypes = {
   userBalances: PropTypes.any,
   walletAddress: PropTypes.any,
   walletConnected: PropTypes.any,
+
+  isStableSwap: PropTypes.any,
 };

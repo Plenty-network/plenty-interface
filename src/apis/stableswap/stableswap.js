@@ -206,7 +206,7 @@ export async function ctez_to_tez(
         ? console.log('operation getting injected')
         : console.log('operation injected');
     }
-    console.log('Operation hash:', batchOp.opHash);
+
     transactionSubmitModal(batchOp.opHash);
     await batchOp.confirmation();
     return {
@@ -265,7 +265,7 @@ export async function tez_to_ctez(
     const batchOp = await batch.send();
     await batchOp.confirmation();
     transactionSubmitModal(batchOp.opHash);
-    console.log(batchOp.opHash);
+
     return {
       success: true,
       operationId: batchOp.hash,
@@ -375,11 +375,16 @@ export const getUserBalanceByRpcStable = async (identifier, address) => {
 
       const balance = (() => {
         // IIFE
-        let _balance = response.data.int;
+        let _balance;
+        if (identifier === 'ctez') {
+          _balance = response.data.int;
+        } else {
+          _balance = response.data.args[1].int;
+        }
 
         _balance = parseInt(_balance);
         _balance = _balance / Math.pow(10, decimal);
-        console.log(`${identifier} balance:`, _balance);
+
         return _balance;
       })();
 
@@ -400,7 +405,6 @@ export const getUserBalanceByRpcStable = async (identifier, address) => {
 };
 
 export const loadSwapDataStable = async (tokenIn, tokenOut) => {
-  console.log('loadSwapDataStable', tokenIn, tokenOut);
   try {
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
@@ -416,6 +420,7 @@ export const loadSwapDataStable = async (tokenIn, tokenOut) => {
     let lpTokenSupply = await dexStorage.lqtTotal;
     lpTokenSupply = lpTokenSupply.toNumber();
     const lpToken = CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
+
     const ctezStorageUrl = `${rpcNode}chains/main/blocks/head/context/contracts/KT19xSuHb2A86eSbKVsduY8mZv4UVEBPwQ17/storage`;
     const ctezStorage = await axios.get(ctezStorageUrl);
     const target = ctezStorage.data.args[2].int;
@@ -447,8 +452,8 @@ export const loadSwapDataStable = async (tokenIn, tokenOut) => {
 
 export const liqCalc = (xtzAmount, tezpool, ctezpool, lqtTotal) => {
   const ctez = (Number(xtzAmount) * 10 ** 6 * ctezpool) / tezpool;
-  const lpToken = (Number(xtzAmount) * 10 ** 6 * lqtTotal) / tezpool;
-  const poolPercent = (lpToken / (lpToken + lqtTotal)) * 100;
+  const lpToken = Number((Number(xtzAmount) * 10 ** 6 * lqtTotal) / tezpool);
+  const poolPercent = Number((lpToken / (lpToken + lqtTotal)) * 100);
 
   return {
     ctez,
@@ -522,11 +527,11 @@ export async function add_liquidity(
         : console.log('operation injected');
     }
     transactionSubmitModal(batchOp.opHash);
-    console.log('Operation hash:', batchOp.opHash);
+
     await batchOp.confirmation();
     return {
       success: true,
-      operationId: batchOp.hash,
+      operationId: batchOp.opHash,
     };
   } catch (error) {
     console.log(error);
@@ -538,11 +543,11 @@ export async function add_liquidity(
 }
 
 export const liqCalcRemove = (liqAmountInput, tezPool, ctezPool, lqtTotal) => {
-  const tezWithdrawn = (liqAmountInput * tezPool) / lqtTotal;
-  const ctezWithdrawn = (liqAmountInput * ctezPool) / lqtTotal;
+  const tokenFirst_Out = (liqAmountInput * tezPool) / lqtTotal;
+  const tokenSecond_Out = (liqAmountInput * ctezPool) / lqtTotal;
   return {
-    tezWithdrawn,
-    ctezWithdrawn,
+    tokenFirst_Out,
+    tokenSecond_Out,
   };
 };
 
@@ -562,17 +567,18 @@ export async function remove_liquidity(tokenIn, tokenOut, amount, transactionSub
     if (!WALLET_RESP.success) {
       throw new Error('Wallet connection failed');
     }
+    const Tezos = new TezosToolkit(rpcNode);
     Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
     const contractAddress =
       CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
-    const Tezos = new TezosToolkit(rpcNode);
+
     const contract = await Tezos.wallet.at(contractAddress);
     const op = await contract.methods.remove_liquidity(Number(amount * 10 ** 6), 0, 0).send();
     await op.confirmation();
 
     transactionSubmitModal(op.opHash);
-    console.log('Operation hash:', op.opHash);
+
     await op.confirmation();
     return {
       success: true,

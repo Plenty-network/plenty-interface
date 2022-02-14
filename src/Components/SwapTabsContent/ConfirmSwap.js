@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+// import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import React from 'react';
 import SimpleModal from '../Ui/Modals/SimpleModal';
 import Button from '../Ui/Buttons/Button';
 import { ReactComponent as Stableswap } from '../../assets/images/SwapModal/stableswap-white.svg';
+import SwapDetails from '../SwapDetails';
 
 const ConfirmSwap = (props) => {
   return (
@@ -64,8 +65,18 @@ const ConfirmSwap = (props) => {
               </div>
             </div>
           </div>
-
-          <div className="swap-detail-wrapper bg-themed-light">
+          <SwapDetails
+            computedOutDetails={props.computedData}
+            tokenIn={props.tokenIn}
+            tokenOut={props.tokenOut}
+            routeData={props.routeData}
+            isStableSwap={true}
+            firstTokenAmount={props.firstTokenAmount}
+            exchangeRate={props.computedData.data.exchangeRate}
+            slippage={props.slippage}
+            isConfirmSwap={true}
+          />
+          {/* <div className="swap-detail-wrapper bg-themed-light">
             <div className="flex flex-row align-items-center">
               <p className="swap-detail-amt-details">Minimum received </p>
               <OverlayTrigger
@@ -198,7 +209,7 @@ const ConfirmSwap = (props) => {
               </OverlayTrigger>
               <p className="swap-detail-amt-details ml-auto">{props.slippage} %</p>
             </div>
-          </div>
+          </div>*/}
           <Button
             onClick={props.confirmSwapToken}
             color={'primary'}

@@ -137,8 +137,34 @@ const SwapDetails = (props) => {
                 {props.firstTokenAmount / 400} {props.tokenIn.name}
               </p>
             </div>
+            {props.isConfirmSwap ? (
+              <div className="flex flex-row align-items-center">
+                <p className="swap-detail-amt-details">Slippage tolerance </p>
+                <OverlayTrigger
+                  key="top"
+                  placement="top"
+                  overlay={
+                    <Tooltip
+                      id={'slippage-tolerance-tooltip'}
+                      arrowProps={{ styles: { display: 'none' } }}
+                    >
+                      Change the slippage tolerance in the transaction settings.
+                    </Tooltip>
+                  }
+                >
+                  <span
+                    style={{ cursor: 'pointer' }}
+                    className="material-icons-round ml-1 swap-detail-amt-details"
+                  >
+                    help_outline
+                  </span>
+                </OverlayTrigger>
+                <p className="swap-detail-amt-details ml-auto">{props.slippage} %</p>
+              </div>
+            ) : null}
           </>
         ) : null)}
+
       {isOpen && props.firstTokenAmount && swapRoute && <hr />}
       {isOpen && swapRoute && (
         <>
@@ -187,6 +213,8 @@ SwapDetails.propTypes = {
   routePath: PropTypes.any,
   isStableSwap: PropTypes.any,
   exchangeRate: PropTypes.any,
+  slippage: PropTypes.any,
+  isConfirmSwap: PropTypes.any,
 };
 
 export default SwapDetails;

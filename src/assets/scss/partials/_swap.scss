@@ -788,3 +788,15 @@ input:checked {
   letter-spacing: 0px;
   color: #ff5a43;
 }
+.confirmSwap {
+  max-width: 400px !important;
+  min-height: calc(100% + 11.5rem) !important;
+}
+.confirm-add-liquidity-modal {
+  .modal-dialog {
+    margin: 9.75rem auto;
+  }
+}
+.centered {
+  margin: 8.75rem auto;
+}
