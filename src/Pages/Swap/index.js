@@ -39,6 +39,7 @@ import { ReactComponent as StableswapImg } from '../../assets/images/SwapModal/s
 import { useLocationStateInSwap } from './hooks';
 import { getAllRoutes } from '../../apis/swap/swap-v2';
 import { useLocation } from 'react-router';
+import '../../assets/scss/animation.scss';
 
 const Swap = (props) => {
   const {
@@ -81,6 +82,7 @@ const Swap = (props) => {
   const [tokenContractInstances, setTokenContractInstances] = useState({});
   const [loaderInButton, setLoaderInButton] = useState(false);
   const [isStableSwap, setStableSwap] = useState(false);
+  const [animationLefttoRight,setanimationLefttoRight]=useState(false);
 
   useEffect(() => {
     splitLocation[1] === 'stableswap' ? redirect(true) : setStableSwap(false);
@@ -431,9 +433,12 @@ const Swap = (props) => {
   };
 
   const redirect = (value) => {
+    setanimationLefttoRight(true);
+    setTimeout(()=>{
     setStableSwap(value);
     resetAllValues();
     value ? setActiveTab('stableswap') : setActiveTab('swap');
+    },400);
   };
 
   return (
@@ -450,7 +455,7 @@ const Swap = (props) => {
               arrow_forward_ios_icon
             </span>
           </p>
-          <div className="border-swap">
+          <div className={`border-swap ${!animationLefttoRight?'leftToRightFadeInAnimation-4':'rightToLeftFadeInAnimation-4'}`}>
             <div className="bg-themed my-0 swap-content-container">
               <Tabs
                 activeKey={activeTab}
