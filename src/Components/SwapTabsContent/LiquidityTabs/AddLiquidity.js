@@ -10,6 +10,7 @@ import {
   getXtzDollarPrice,
   liqCalc,
   loadSwapDataStable,
+  getExchangeRate,
 } from '../../../apis/stableswap/stableswap';
 
 const AddLiquidity = (props) => {
@@ -20,6 +21,23 @@ const AddLiquidity = (props) => {
   const [transactionId, setTransactionId] = useState('');
   const [dolar, setDolar] = useState('');
   const [poolShare, setPoolShare] = useState('0.0');
+  const [xtztoctez, setxtztoctez] = useState('0.00');
+  const [cteztoxtz, setcteztoxtz] = useState('0.00');
+  const fetchOutputData = async () => {
+    const res = getExchangeRate(
+      props.swapData.tezPool,
+      props.swapData.ctezPool,
+      props.swapData.target,
+    );
+
+    setxtztoctez(res.ctezexchangeRate.toFixed(10));
+    setcteztoxtz(res.tezexchangeRate.toFixed(10));
+  };
+  useEffect(() => {
+    if (props.isStableSwap) {
+      fetchOutputData();
+    }
+  }, [props]);
 
   const getXtz = async (input) => {
     const res = await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
@@ -416,6 +434,8 @@ const AddLiquidity = (props) => {
         estimatedTokenAmout={estimatedTokenAmout}
         secondTokenAmount={secondTokenAmount}
         poolShare={poolShare}
+        xtztoctez={xtztoctez}
+        cteztoxtz={cteztoxtz}
       />
       <InfoModal
         open={showTransactionSubmitModal}

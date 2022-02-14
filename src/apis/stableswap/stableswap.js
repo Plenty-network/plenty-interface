@@ -43,7 +43,23 @@ const newton_dx_to_dy = (x, y, dx, rounds) => {
   const dy = newton(x, y, dx, 0, u, rounds);
   return dy;
 };
+export const getExchangeRate = (tezSupply, ctezSupply, target) => {
+  const dy1 = newton_dx_to_dy(target * ctezSupply, tezSupply * 2 ** 48, 1 * target, 5) / 2 ** 48;
+  const fee1 = dy1 / 2000;
+  const tokenOut1 = dy1 - fee1;
+  const tezexchangeRate = tokenOut1 / 1;
 
+  const dy2 = newton_dx_to_dy(tezSupply * 2 ** 48, target * ctezSupply, 1 * 2 ** 48, 5) / target;
+  const fee2 = dy2 / 2000;
+  const tokenOut2 = dy2 - fee2;
+
+  const ctezexchangeRate = tokenOut2 / 1;
+
+  return {
+    tezexchangeRate,
+    ctezexchangeRate,
+  };
+};
 /**
  * Returns tokensOut from the given amountIn and pool values.
  * @param tokenIn_supply - Pool value of tokenIn

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { computeRemoveTokens, removeLiquidity } from '../../../apis/swap/swap';
 
 import ConfirmRemoveLiquidity from './ConfirmRemoveLiquidity';
@@ -7,13 +7,36 @@ import InfoModal from '../../Ui/Modals/InfoModal';
 
 import CONFIG from '../../../config/config';
 import Button from '../../Ui/Buttons/Button';
-import { remove_liquidity, liqCalcRemove } from '../../../apis/stableswap/stableswap';
+import {
+  remove_liquidity,
+  liqCalcRemove,
+  getExchangeRate,
+} from '../../../apis/stableswap/stableswap';
 
 const RemoveLiquidity = (props) => {
   const [removableTokens, setRemovableTokens] = useState({});
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
 
   const [transactionId, setTransactionId] = useState('');
+
+  const [xtztoctez, setxtztoctez] = useState('0.00');
+  const [cteztoxtz, setcteztoxtz] = useState('0.00');
+
+  const fetchOutputData = async () => {
+    const res = getExchangeRate(
+      props.swapData.tezPool,
+      props.swapData.ctezPool,
+      props.swapData.target,
+    );
+
+    setxtztoctez(res.ctezexchangeRate.toFixed(10));
+    setcteztoxtz(res.tezexchangeRate.toFixed(10));
+  };
+  useEffect(() => {
+    if (props.isStableSwap) {
+      fetchOutputData();
+    }
+  }, [props]);
 
   const removeLiquidityInput = (input) => {
     const removeAmount = parseFloat(input);
@@ -268,6 +291,8 @@ const RemoveLiquidity = (props) => {
         removableTokens={removableTokens}
         confirmRemoveLiquidity={confirmRemoveLiquidity}
         onHide={props.handleClose}
+        xtztoctez={xtztoctez}
+        cteztoxtz={cteztoxtz}
       />
       <InfoModal
         open={showTransactionSubmitModal}

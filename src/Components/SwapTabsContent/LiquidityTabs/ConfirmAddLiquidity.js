@@ -1,45 +1,9 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Modal } from 'react-bootstrap';
 import Button from '../../Ui/Buttons/Button';
-import { calculateTokensOutStable } from '../../../apis/stableswap/stableswap';
 
 const ConfirmAddLiquidity = (props) => {
-  const [xtztoctez, setxtztoctez] = useState('0.00');
-  const [cteztoxtz, setcteztoxtz] = useState('0.00');
-
-  const fetchSwapData = async (input, token) => {
-    const tokenOutResponse = await fetchOutputData(
-      props.swapData.tezPool,
-      props.swapData.ctezPool,
-      Number(input),
-      2000,
-      props.slippage,
-      props.swapData.target,
-      token,
-    );
-
-    return tokenOutResponse;
-  };
-  const fetchOutputData = async (poolA, poolB, input, fee, slippage, target, tokenIn) => {
-    const res = await calculateTokensOutStable(poolA, poolB, input, fee, slippage, target, tokenIn);
-    return res;
-  };
-  const fetchOutputData1 = async () => {
-    const res = await fetchSwapData(1, 'xtz');
-
-    setxtztoctez(res.exchangeRate.toFixed(10));
-
-    const res2 = await fetchSwapData(1, 'ctez');
-
-    setcteztoxtz(res2.exchangeRate.toFixed(10));
-  };
-  useEffect(() => {
-    if (props.isStableSwap) {
-      fetchOutputData1();
-    }
-  }, [props.isStableSwap]);
-
   return (
     <Modal
       show={props.showConfirmAddSupply}
@@ -92,7 +56,7 @@ const ConfirmAddLiquidity = (props) => {
                   <p className="swap-detail-amt-details">
                     1 {props.tokenIn.name} ={' '}
                     {props.isStableSwap
-                      ? xtztoctez
+                      ? props.xtztoctez
                       : props.swapData.tokenOutPerTokenIn?.toFixed(10)}{' '}
                     {props.tokenOut.name}
                   </p>
@@ -102,7 +66,7 @@ const ConfirmAddLiquidity = (props) => {
                   <p className="swap-detail-amt-details">
                     1 {props.tokenOut.name} ={' '}
                     {props.isStableSwap
-                      ? cteztoxtz
+                      ? props.cteztoxtz
                       : (1 / props.swapData.tokenOutPerTokenIn).toFixed(10)}{' '}
                     {props.tokenIn.name}
                   </p>
@@ -171,6 +135,8 @@ ConfirmAddLiquidity.propTypes = {
   poolShare: PropTypes.any,
   slippage: PropTypes.any,
   isStableSwap: PropTypes.any,
+  xtztoctez: PropTypes.any,
+  cteztoxtz: PropTypes.any,
 };
 
 export default ConfirmAddLiquidity;

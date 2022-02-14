@@ -1,44 +1,9 @@
 import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap';
 import Button from '../../Ui/Buttons/Button';
-import React, { useEffect, useState } from 'react';
-import { calculateTokensOutStable } from '../../../apis/stableswap/stableswap';
+import React from 'react';
 
 const ConfirmRemoveLiquidity = (props) => {
-  const [xtztoctez, setxtztoctez] = useState('0.00');
-  const [cteztoxtz, setcteztoxtz] = useState('0.00');
-  const fetchSwapData = async (input, token) => {
-    const tokenOutResponse = await fetchOutputData(
-      props.swapData.tezPool,
-      props.swapData.ctezPool,
-      Number(input),
-      2000,
-      props.slippage,
-      props.swapData.target,
-      token,
-    );
-
-    return tokenOutResponse;
-  };
-  const fetchOutputData = async (poolA, poolB, input, fee, slippage, target, tokenIn) => {
-    const res = await calculateTokensOutStable(poolA, poolB, input, fee, slippage, target, tokenIn);
-    return res;
-  };
-  const fetchOutputData1 = async () => {
-    const res = await fetchSwapData(1, 'xtz');
-
-    setxtztoctez(res.exchangeRate.toFixed(10));
-
-    const res2 = await fetchSwapData(1, 'ctez');
-
-    setcteztoxtz(res2.exchangeRate.toFixed(10));
-  };
-  useEffect(() => {
-    if (props.isStableSwap) {
-      fetchOutputData1();
-    }
-  }, [props.isStableSwap]);
-
   return (
     <Modal
       show={props.showConfirmRemoveSupply}
@@ -117,12 +82,12 @@ const ConfirmRemoveLiquidity = (props) => {
               <div className="token-user-input-wrapper">
                 <p className="swap-detail-amt-details">
                   1 {props.tokenIn.name} ={' '}
-                  {props.isStableSwap ? xtztoctez : props.swapData.tokenOutPerTokenIn}{' '}
+                  {props.isStableSwap ? props.xtztoctez : props.swapData.tokenOutPerTokenIn}{' '}
                   {props.tokenOut.name}
                 </p>
                 <p className="swap-detail-amt-details">
                   1 {props.tokenOut.name} ={' '}
-                  {props.isStableSwap ? cteztoxtz : 1 / props.swapData.tokenOutPerTokenIn}{' '}
+                  {props.isStableSwap ? props.cteztoxtz : 1 / props.swapData.tokenOutPerTokenIn}{' '}
                   {props.tokenIn.name}
                 </p>
               </div>
@@ -154,6 +119,8 @@ ConfirmRemoveLiquidity.propTypes = {
   tokenIn: PropTypes.any,
   tokenOut: PropTypes.any,
   isStableSwap: PropTypes.any,
+  xtztoctez: PropTypes.any,
+  cteztoxtz: PropTypes.any,
 };
 
 export default ConfirmRemoveLiquidity;
