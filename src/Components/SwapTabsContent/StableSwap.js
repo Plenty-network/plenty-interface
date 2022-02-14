@@ -26,6 +26,7 @@ const StableSwap = (props) => {
     tokenIn: props.tokenIn.name,
     tokenOut: props.tokenOut.name,
     lpTokenSupply: 0,
+    target: 0,
     lpToken: null,
     dexContractInstance: null,
   });
@@ -45,11 +46,10 @@ const StableSwap = (props) => {
   const getSwapData = async () => {
     const res = await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
     setSwapData(res);
-    console.log(res);
   };
   useEffect(() => {
     getSwapData();
-  }, []);
+  }, [props]);
 
   useEffect(() => {
     getXtzDollarPrice().then((res) => {
@@ -306,13 +306,17 @@ const StableSwap = (props) => {
             </div>
 
             <div className="token-user-input-wrapper">
-              <input
-                type="text"
-                className="token-user-input"
-                placeholder="0.0"
-                value={firstTokenAmountStable}
-                onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenIn')}
-              />
+              {swapData.success ? (
+                <input
+                  type="text"
+                  className="token-user-input"
+                  placeholder="0.0"
+                  value={firstTokenAmountStable}
+                  onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenIn')}
+                />
+              ) : (
+                <input type="text" className="token-user-input" placeholder="0.0" disabled />
+              )}
             </div>
             {props.walletAddress ? (
               <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
