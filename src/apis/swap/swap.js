@@ -13,7 +13,6 @@ import {
   type4MapIds,
   type5MapIds,
 } from '../../constants/global';
-import { getxtzBalance } from '../stableswap/stableswap';
 /**
  * Returns packed key (expr...) which will help to fetch user specific data from bigmap directly using rpc.
  * @param tokenId - Id of map from where you want to fetch data
@@ -832,9 +831,6 @@ export const computeRemoveTokens = (
  */
 export const getUserBalanceByRpc = async (identifier, address) => {
   try {
-    if (identifier === 'xtz') {
-      return getxtzBalance(identifier, address);
-    }
     //let balance;
     const token = CONFIG.AMM[CONFIG.NETWORK][identifier];
     const mapId = token.mapId;

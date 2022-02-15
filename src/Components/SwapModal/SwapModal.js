@@ -40,28 +40,41 @@ const SwapModal = (props) => {
 
   useEffect(() => {
     const filterTokens = () => {
-      if (props.activeTab === 'swap') {
-        const filterTokens = props.tokens
-          .filter(searchHits)
-          .filter((token) => {
-            if (props.tokenType === 'tokenOut') {
-              return props.tokenIn.name !== token.name;
-            }
+      if (props.isStableSwap) {
+        const d = props.tokens.filter(searchHits).filter((token) => {
+          if (props.tokenType === 'tokenOut') {
+            return props.tokenIn.name === token.name;
+          }
 
-            return props.tokenOut.name !== token.name;
-          })
-          .map((token) => {
-            if (doesPairExist(token)) {
-              return { ...token, routerNeeded: false };
-            }
-
-            return { ...token, routerNeeded: true };
-          });
-
-        setTokensToShow(filterTokens);
+          return props.tokenOut.name === token.name;
+        });
+        console.log(d);
+        setTokensToShow(d);
       } else {
-        const filteredTokens = props.tokens.filter(searchHits).filter(doesPairExist);
-        setTokensToShow(filteredTokens);
+        if (props.activeTab === 'swap') {
+          const filterTokens = props.tokens
+            .filter(searchHits)
+            .filter((token) => {
+              if (props.tokenType === 'tokenOut') {
+                return props.tokenIn.name !== token.name;
+              }
+
+              return props.tokenOut.name !== token.name;
+            })
+            .map((token) => {
+              if (doesPairExist(token)) {
+                return { ...token, routerNeeded: false };
+              }
+
+              return { ...token, routerNeeded: true };
+            });
+
+          setTokensToShow(filterTokens);
+        } else {
+          const filteredTokens = props.tokens.filter(searchHits).filter(doesPairExist);
+
+          setTokensToShow(filteredTokens);
+        }
       }
     };
     filterTokens();
@@ -74,6 +87,7 @@ const SwapModal = (props) => {
     props.tokenOut.name,
     searchHits,
     doesPairExist,
+    props.isStableSwap,
   ]);
 
   return (
@@ -151,6 +165,7 @@ SwapModal.propTypes = {
   tokenOut: PropTypes.any,
   tokenType: PropTypes.any,
   tokens: PropTypes.any,
+  isStableSwap: PropTypes.any,
 };
 
 export default SwapModal;

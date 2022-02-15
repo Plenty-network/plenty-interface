@@ -1286,12 +1286,13 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
           xtz: {
-            contract: '',
-            property: '',
-            liquidityToken: '',
+            contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
+            property: 'ctezPool',
+            liquidityToken: 'CTEZ-XTZ-LP',
           },
         },
       },
+
       xtz: {
         ICON: '',
         TOKEN_CONTRACT: '',
@@ -1301,11 +1302,21 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
           ctez: {
-            contract: '',
-            property: '',
-            liquidityToken: '',
+            contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
+            property: 'tezPool',
+            liquidityToken: 'CTEZ-XTZ-LP',
           },
         },
+      },
+      'CTEZ-XTZ-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1AhTJqRFY3ABSV4kfR3RUS4B66jp1H6A1F',
+        mapId: 108017,
+        READ_TYPE: 'FA1.2',
+        CALL_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 6,
+        DEX_PAIRS: {},
       },
     },
   },
@@ -4269,8 +4280,8 @@ const Config: IConfig = {
     address: 'KT1CAeUQfyMnBVqkt4QcztmjsjAWYzK6ZPYQ',
     mapId: 55983,
   },
-  NETWORK: 'testnet',
-  WALLET_NETWORK: 'hangzhounet',
+  NETWORK: 'mainnet',
+  WALLET_NETWORK: 'mainnet',
   ADMIN_ADDRESS: 'KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW',
   BURNER: 'tz1ZnK6zYJrC9PfKCPryg9tPW6LrERisTGtg',
 };

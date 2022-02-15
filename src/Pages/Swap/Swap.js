@@ -337,8 +337,8 @@ const NormalSwap = (props) => {
   };
 
   return (
-    <div className="border-swap leftToRightFadeInAnimation-4">
-      <div className="bg-themed my-0 swap-content-container">
+    <>
+      <div className="bg-themed my-0 swap-content-container leftToRightFadeInAnimation-4">
         <Tabs
           activeKey={activeTab}
           className="swap-container-tab"
@@ -460,7 +460,7 @@ const NormalSwap = (props) => {
       />
 
       <Loader loading={loading} loaderMessage={loaderMessage} />
-    </div>
+    </>
   );
 };
 

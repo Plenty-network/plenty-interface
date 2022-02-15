@@ -58,6 +58,7 @@
   max-width: 400px;
   padding: 16px 25px;
   margin-top: 10px;
+  border: 1px solid var(--theme-gradient-border);
 }
 .bottom-label {
   font-size: 16px;
@@ -91,6 +92,8 @@
   background-color: #fff;
   border-radius: 15px;
   margin: 100px auto;
+  border: 1px solid var(--theme-gradient-border);
+  box-shadow: var(--theme-swap-boxshadow);
 }
 .swap-container-tab {
   border-bottom: 1px solid var(--theme-border-light);
@@ -205,6 +208,7 @@
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(2px);
   padding: 50px;
+  z-index: 10000;
 }
 .swap-modal,
 .confirm-swap-modal {
@@ -564,7 +568,7 @@
   }
 }
 .open {
-  margin-top: -3px;
+  margin-top: -7px;
 }
 .space-between {
   display: flex;
@@ -810,7 +814,6 @@ input:checked {
 }
 .confirmSwap {
   max-width: 400px !important;
-  min-height: calc(100% + 11.5rem) !important;
 }
 .confirm-add-liquidity-modal {
   .modal-dialog {

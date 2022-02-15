@@ -12,6 +12,7 @@ import {
 } from '../../apis/swap/swap-v2';
 
 const SwapTab = (props) => {
+  console.log(props);
   const [firstTokenAmount, setFirstTokenAmount] = useState();
   const [secondTokenAmount, setSecondTokenAmount] = useState();
   const [routePath, setRoutePath] = useState([]);
@@ -409,28 +410,7 @@ const SwapTab = (props) => {
         {errorMessage && <span className="error-message">{message}</span>}
 
         {swapContentButton}
-        {/* {props.walletAddress && props.routeData.success ? (
-          <div className="flex">
-            <p className="wallet-token-balance whitespace-prewrap  flex flex-row">
-              1 {props.tokenIn.name} ={' '}
-              <OverlayTrigger
-                placement="auto"
-                overlay={
-                  <Tooltip id="swap-token-out-tooltip" {...props}>
-                    {props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn}
-                  </Tooltip>
-                }
-              >
-                <div>
-                  {props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn
-                    ? props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn.toFixed(3)
-                    : 0}{' '}
-                  {props.tokenOut.name}
-                </div>
-              </OverlayTrigger>
-            </p>
-          </div>
-        ) : null} */}
+
         {props.walletAddress &&
           props.tokenIn.name &&
           props.tokenOut.name &&

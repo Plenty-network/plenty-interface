@@ -437,7 +437,7 @@ export const loadSwapDataStable = async (tokenIn, tokenOut) => {
     lpTokenSupply = lpTokenSupply.toNumber();
     const lpToken = CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
 
-    const ctezStorageUrl = `${rpcNode}chains/main/blocks/head/context/contracts/KT19xSuHb2A86eSbKVsduY8mZv4UVEBPwQ17/storage`;
+    const ctezStorageUrl = `${rpcNode}chains/main/blocks/head/context/contracts/KT1GWnsoFZVHGh7roXEER3qeCcgJgrXT3de2/storage`;
     const ctezStorage = await axios.get(ctezStorageUrl);
     const target = ctezStorage.data.args[2].int;
     return {

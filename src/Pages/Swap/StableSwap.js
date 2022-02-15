@@ -8,7 +8,7 @@ import {
   getUserBalanceByRpc,
   fetchtzBTCBalance,
 } from '../../apis/swap/swap';
-
+import { stableSwapTokens } from '../../constants/stableSwapPage';
 import { getUserBalanceByRpcStable, loadSwapDataStable } from '../../apis/stableswap/stableswap';
 
 import { loadSwapData } from '../../apis/swap/swap-v2';
@@ -24,11 +24,13 @@ import { Tab, Tabs } from 'react-bootstrap';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
 
 import { liquidityTokens } from '../../constants/liquidityTokens';
-import { stableSwapTokens } from '../../constants/stableSwapPage';
 
 import { ReactComponent as StableswapImg } from '../../assets/images/SwapModal/stableswap.svg';
 import { useLocationStateStable } from './hooks';
 import '../../assets/scss/animation.scss';
+import SwapModal from '../../Components/SwapModal/SwapModal';
+import tez from '../../assets/images/tez.png';
+import ctez from '../../assets/images/ctez.png';
 
 const StableeSwap = (props) => {
   const {
@@ -49,10 +51,11 @@ const StableeSwap = (props) => {
   const [showConfirmSwap, setShowConfirmSwap] = useState(false);
   const [showConfirmAddSupply, setShowConfirmAddSupply] = useState(false);
   const [showConfirmRemoveSupply, setShowConfirmRemoveSupply] = useState(false);
-
+  const [searchQuery, setSearchQuery] = useState('');
   const [slippage, setSlippage] = useState(0.5);
   const [recepient, setRecepient] = useState('');
-  // const [tokenType, setTokenType] = useState('tokenIn');
+  const [show, setShow] = useState(false);
+  const [tokenType, setTokenType] = useState('tokenIn');
 
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
   const [secondTokenAmount, setSecondTokenAmount] = useState('');
@@ -78,8 +81,17 @@ const StableeSwap = (props) => {
       Object.prototype.hasOwnProperty.call(tokenInStable, 'name') &&
       Object.prototype.hasOwnProperty.call(tokenOutStable, 'name')
     ) {
-      if (tokenInStable.name === tokenOutStable.name) {
-        setTokenOutStable({});
+      if (tokenInStable.name === tokenOutStable.name && tokenInStable.name === 'ctez') {
+        setTokenOutStable({
+          name: 'xtz',
+          image: tez,
+        });
+      }
+      if (tokenInStable.name === tokenOutStable.name && tokenInStable.name === 'xtz') {
+        setTokenOutStable({
+          name: 'ctez',
+          image: ctez,
+        });
       }
     }
   }, [tokenInStable, tokenOutStable]);
@@ -90,6 +102,12 @@ const StableeSwap = (props) => {
     getSwapData();
   }, []);
 
+  const handleTokenType = (type) => {
+    //setHideContent('content-hide');
+    setShow(true);
+    setTokenType(type);
+    setLoading(false);
+  };
   useEffect(() => {
     console.log(isStableSwap);
     const updateBalance = async () => {
@@ -189,12 +207,12 @@ const StableeSwap = (props) => {
   }, [tokenIn, tokenOut, activeTab, tokenInStable, tokenOutStable]);
 
   const handleClose = () => {
-    //setShow(false);
+    setShow(false);
     setShowConfirmSwap(false);
     setShowConfirmAddSupply(false);
     setShowConfirmRemoveSupply(false);
     //setHideContent('');
-    //setSearchQuery('');
+    setSearchQuery('');
     //setLoading(false);
   };
 
@@ -202,16 +220,6 @@ const StableeSwap = (props) => {
     const tempTokenIn = isStableSwap ? tokenInStable.name : tokenIn.name;
     const tempTokenOut = isStableSwap ? tokenOutStable.name : tokenOut.name;
     if (isStableSwap ? tokenOutStable.name : tokenOut.name) {
-      !isStableSwap &&
-        setTokenIn({
-          name: tokenOut.name,
-          image: tokenOut.image,
-        });
-      !isStableSwap &&
-        setTokenOut({
-          name: tokenIn.name,
-          image: tokenIn.image,
-        });
       isStableSwap &&
         setTokenInStable({
           name: tokenOutStable.name,
@@ -243,13 +251,6 @@ const StableeSwap = (props) => {
       }
     }
   };
-
-  // const handleTokenType = (type) => {
-  //   //setHideContent('content-hide');
-  //   //setShow(true);
-  //   // setTokenType(type);
-  //   setLoading(false);
-  // };
 
   const handleTokenInput = (input) => {
     setFirstTokenAmountStable(input);
@@ -300,6 +301,30 @@ const StableeSwap = (props) => {
 
   const fetchUserWalletBalance = () => {
     setLoaderInButton(true);
+  };
+
+  const selectToken = (token) => {
+    setLoaderInButton(true);
+    setFirstTokenAmountStable('');
+    setSecondTokenAmountStable('');
+    setSwapData({});
+    setComputedOutDetails({
+      tokenOut_amount: '',
+    });
+    //setLoading(true);
+
+    if (tokenType === 'tokenIn') {
+      setTokenInStable({
+        name: token.name,
+        image: token.image,
+      });
+    } else {
+      setTokenOutStable({
+        name: token.name,
+        image: token.image,
+      });
+    }
+    handleClose();
   };
 
   useEffect(() => {
@@ -353,8 +378,8 @@ const StableeSwap = (props) => {
   };
 
   return (
-    <div className="border-swap rightToLeftFadeInAnimation-4-stableswap">
-      <div className="bg-themed my-0 swap-content-container">
+    <>
+      <div className="bg-themed my-0 swap-content-container rightToLeftFadeInAnimation-4-stableswap">
         <Tabs
           activeKey={activeTab}
           className="swap-container-tab"
@@ -381,7 +406,7 @@ const StableeSwap = (props) => {
               tokenIn={tokenInStable}
               tokenOut={tokenOutStable}
               tokens={stableSwapTokens}
-              // handleTokenType={handleTokenType}
+              handleTokenType={handleTokenType}
               swapData={swapData}
               //routeData={routeData}
               computedOutDetails={computedOutDetails}
@@ -463,6 +488,21 @@ const StableeSwap = (props) => {
           setShowRecepient={setShowRecepient}
         />
       </div>
+
+      <SwapModal
+        show={show}
+        activeTab={activeTab}
+        onHide={handleClose}
+        selectToken={selectToken}
+        tokens={stableSwapTokens}
+        tokenIn={tokenInStable}
+        tokenOut={tokenOutStable}
+        tokenType={tokenType}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        isStableSwap={true}
+      />
+
       <InfoModal
         open={showTransactionSubmitModal}
         onClose={() => setShowTransactionSubmitModal(false)}
@@ -474,7 +514,7 @@ const StableeSwap = (props) => {
       />
 
       <Loader loading={loading} loaderMessage={loaderMessage} />
-    </div>
+    </>
   );
 };
 
