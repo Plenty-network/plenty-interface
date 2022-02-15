@@ -62,7 +62,7 @@ const StableSwap = (props) => {
       swapData.tezPool,
       swapData.ctezPool,
       Number(input),
-      2000,
+      1000,
       props.slippage,
       swapData.target,
       props.tokenIn.name,

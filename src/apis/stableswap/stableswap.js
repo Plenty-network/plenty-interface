@@ -45,12 +45,12 @@ const newton_dx_to_dy = (x, y, dx, rounds) => {
 };
 export const getExchangeRate = (tezSupply, ctezSupply, target) => {
   const dy1 = newton_dx_to_dy(target * ctezSupply, tezSupply * 2 ** 48, 1 * target, 5) / 2 ** 48;
-  const fee1 = dy1 / 2000;
+  const fee1 = dy1 / 1000;
   const tokenOut1 = dy1 - fee1;
   const tezexchangeRate = tokenOut1 / 1;
 
   const dy2 = newton_dx_to_dy(tezSupply * 2 ** 48, target * ctezSupply, 1 * 2 ** 48, 5) / target;
-  const fee2 = dy2 / 2000;
+  const fee2 = dy2 / 1000;
   const tokenOut2 = dy2 - fee2;
 
   const ctezexchangeRate = tokenOut2 / 1;
@@ -79,18 +79,36 @@ export const calculateTokensOutStable = async (
   target,
   tokenIn,
 ) => {
+  tokenIn_amount = tokenIn_amount * 10 ** 6;
   try {
+    console.log(
+      'tez:',
+      tezSupply,
+      'ctez:',
+      ctezSupply,
+      'tokenIn_amount',
+      tokenIn_amount,
+      'pair_fee_denom:',
+      pair_fee_denom,
+      'slippage:',
+      slippage,
+      'target:',
+      target,
+      'tokenIn:',
+      tokenIn,
+    );
     if (tokenIn === 'ctez') {
       const dy =
         newton_dx_to_dy(target * ctezSupply, tezSupply * 2 ** 48, tokenIn_amount * target, 5) /
         2 ** 48;
-      const fee = dy / pair_fee_denom;
-      const tokenOut = dy - fee;
-      const minimumOut = tokenOut - (slippage * tokenOut) / 100;
+      let fee = dy / pair_fee_denom;
+      let tokenOut = dy - fee;
+      let minimumOut = tokenOut - (slippage * tokenOut) / 100;
+      minimumOut = minimumOut / 10 ** 6;
       const exchangeRate = tokenOut / tokenIn_amount; // 1 tokenIn = x tokenOut
 
-      const updated_Ctez_Supply = tezSupply + tokenIn_amount;
-      const updated_Tez_Supply = ctezSupply - tokenOut;
+      const updated_Ctez_Supply = ctezSupply + tokenIn_amount;
+      const updated_Tez_Supply = tezSupply - tokenOut;
 
       const next_dy =
         newton_dx_to_dy(
@@ -106,8 +124,9 @@ export const calculateTokensOutStable = async (
       priceImpact = priceImpact * 100;
       priceImpact = priceImpact.toFixed(5);
       priceImpact = Math.abs(priceImpact);
-      priceImpact = priceImpact * 100;
-
+      tokenOut = tokenOut / 10 ** 6;
+      fee = fee / 10 ** 6;
+      console.log('fee:', fee);
       return {
         tokenOut,
         fee,
@@ -119,13 +138,14 @@ export const calculateTokensOutStable = async (
       const dy =
         newton_dx_to_dy(tezSupply * 2 ** 48, target * ctezSupply, tokenIn_amount * 2 ** 48, 5) /
         target;
-      const fee = dy / pair_fee_denom;
-      const tokenOut = dy - fee;
-      const minimumOut = tokenOut - (slippage * tokenOut) / 100;
+      let fee = dy / pair_fee_denom;
+      let tokenOut = dy - fee;
+      let minimumOut = tokenOut - (slippage * tokenOut) / 100;
+      minimumOut = minimumOut / 10 ** 6;
       const exchangeRate = tokenOut / tokenIn_amount; // 1 tokenIn = x tokenOut
 
-      const updated_Ctez_Supply = tezSupply + tokenIn_amount;
-      const updated_Tez_Supply = ctezSupply - tokenOut;
+      const updated_Ctez_Supply = ctezSupply - tokenOut;
+      const updated_Tez_Supply = tezSupply + tokenIn_amount;
 
       const next_dy =
         newton_dx_to_dy(
@@ -140,8 +160,9 @@ export const calculateTokensOutStable = async (
       priceImpact = priceImpact * 100;
       priceImpact = priceImpact.toFixed(5);
       priceImpact = Math.abs(priceImpact);
-      priceImpact = priceImpact * 100;
-
+      tokenOut = tokenOut / 10 ** 6;
+      fee = fee / 10 ** 6;
+      console.log('fee:', fee);
       return {
         tokenOut,
         fee,
