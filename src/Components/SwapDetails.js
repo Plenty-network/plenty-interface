@@ -22,8 +22,6 @@ const SwapDetails = (props) => {
 
   return (
     <div className={clsx('swap-detail-wrapper', isOpen ? 'bg-themed-light' : 'closedbg')}>
-      {/* {props.routeData.success ? ( */}
-
       <div className="space-between" onClick={() => setOpen(!isOpen)} style={{ cursor: 'pointer' }}>
         <div className="flex">
           <p className="price-formula whitespace-prewrap  flex flex-row">
@@ -33,14 +31,14 @@ const SwapDetails = (props) => {
               overlay={
                 <Tooltip id="swap-token-out-tooltip" {...props}>
                   {props.isStableSwap
-                    ? props.computedOutDetails.data.exchangeRate
+                    ? props.computedOutDetails.data.exchangeRate.toFixed(6)
                     : props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn}
                 </Tooltip>
               }
             >
               <div>
                 {props.isStableSwap
-                  ? props.computedOutDetails.data.exchangeRate
+                  ? props.computedOutDetails.data.exchangeRate.toFixed(6)
                   : props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn
                   ? props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn.toFixed(3)
                   : 0}{' '}
@@ -50,13 +48,12 @@ const SwapDetails = (props) => {
           </p>
         </div>
         {isOpen ? (
-          <span className="material-icons flex open">keyboard_arrow_up</span>
+          <span className="material-icons-round flex open">keyboard_arrow_up</span>
         ) : (
-          <span className="material-icons flex open">keyboard_arrow_down</span>
+          <span className="material-icons-round flex open">keyboard_arrow_down</span>
         )}
       </div>
 
-      {/* ) : null} */}
       {props.firstTokenAmount &&
         (isOpen ? (
           <>
@@ -134,7 +131,10 @@ const SwapDetails = (props) => {
                 </span>
               </OverlayTrigger>
               <p className="swap-detail-amt-details ml-auto">
-                {props.firstTokenAmount / 400} {props.tokenIn.name}
+                {props.isStableSwap
+                  ? props.computedOutDetails.data.fees.toFixed(6)
+                  : props.firstTokenAmount / 400}
+                {props.isStableSwap ? props.tokenOut.name : props.tokenIn.name}
               </p>
             </div>
             {props.isConfirmSwap ? (
@@ -192,8 +192,8 @@ const SwapDetails = (props) => {
             {swapRoute.map((token, idx) => (
               <div key={token.name} className="d-flex my-2">
                 <Image src={token.image} height={20} width={20} alt={''} />
-                <span className="mx-1 my-auto">{token.name}</span>
-                {swapRoute[idx + 1] && <MdChevronRight className="mr-1" fontSize={20} />}
+                <span className="ml-1 my-auto">{token.name}</span>
+                {swapRoute[idx + 1] && <MdChevronRight className="" fontSize={20} />}
               </div>
             ))}
           </div>

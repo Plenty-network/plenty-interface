@@ -84,6 +84,9 @@
   line-height: 22px;
   letter-spacing: 0px;
   color: var(--theme-primary-button-bg);
+  .learn-more {
+    color: var(--theme-primary-button-bg);
+  }
 }
 .swap-content-container {
   position: relative;
@@ -582,7 +585,7 @@
 
   border-radius: 10px;
   // border: 1px solid var(--theme-border);
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .remove-liquidity-token-info {
@@ -817,7 +820,10 @@ input:checked {
 }
 .confirm-add-liquidity-modal {
   .modal-dialog {
-    margin: 9.75rem auto;
+    margin: 7.75rem auto;
+    @media screen and (min-width: 1400px) {
+      margin: 17.95rem auto;
+    }
   }
 }
 .centered {

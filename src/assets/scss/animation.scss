@@ -6,28 +6,6 @@
     -o-animation: fadein 1s; /* Opera < 12.1 */
     animation: fadein 1s;
   }
-  &-4-false {
-    -webkit-animation: fadein 0.4s; /* Safari, Chrome and Opera > 12.1 */
-    -moz-animation: fadein 0.4s; /* Firefox < 16 */
-    -ms-animation: fadein 0.4s; /* Internet Explorer */
-    -o-animation: fadein 0.4s; /* Opera < 12.1 */
-    animation: fadein 0.4s;
-  }
-  &-4-swap {
-    -webkit-animation: fadein 4s; /* Safari, Chrome and Opera > 12.1 */
-    -moz-animation: fadein 4s; /* Firefox < 16 */
-    -ms-animation: fadein 4s; /* Internet Explorer */
-    -o-animation: fadein 4s; /* Opera < 12.1 */
-    animation: fadein 4s;
-  }
-  &-4-stableswap {
-    -webkit-animation: fadein 4s; /* Safari, Chrome and Opera > 12.1 */
-    -moz-animation: fadein 4s; /* Firefox < 16 */
-    -ms-animation: fadein 4s; /* Internet Explorer */
-    -o-animation: fadein 4s; /* Opera < 12.1 */
-    animation: fadein 4s;
-    opacity: 1;
-  }
 }
 
 @keyframes fadein {
@@ -44,8 +22,8 @@
 /* Firefox < 16 */
 @-moz-keyframes fadein {
   from {
-    opacity: 0.6;
-    transform: translateX(-10px);
+    opacity: 0.4;
+    transform: translateX(-15px);
   }
   to {
     opacity: 1;
@@ -53,13 +31,6 @@
   }
 }
 .rightToLeftFadeInAnimation {
-  &-4 {
-    -webkit-animation: rightToleftF 0.1s; /* Safari, Chrome and Opera > 12.1 */
-    -moz-animation: rightToleftF 0.1s; /* Firefox < 16 */
-    -ms-animation: rightToleftF 0.1s; /* Internet Explorer */
-    -o-animation: rightToleftF 0.1s; /* Opera < 12.1 */
-    animation: rightToleftF 0.1s;
-  }
   &-4-stableswap {
     -webkit-animation: rightToleftF 1s; /* Safari, Chrome and Opera > 12.1 */
     -moz-animation: rightToleftF 1s; /* Firefox < 16 */
@@ -84,10 +55,10 @@
 @-moz-keyframes rightToleftF {
   from {
     opacity: 1;
-    transform: translateX(0px);
+    transform: translateX(15px);
   }
   to {
-    opacity: 0.6;
-    transform: translateX(-100px);
+    opacity: 0.4;
+    transform: translateX(0px);
   }
 }

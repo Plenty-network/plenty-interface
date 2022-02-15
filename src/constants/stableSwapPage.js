@@ -3,7 +3,7 @@ import xtz from '../assets/images/tez.png';
 
 export const stableSwapTokens = [
   {
-    name: 'xtz',
+    name: 'tez',
     image: xtz,
   },
   {

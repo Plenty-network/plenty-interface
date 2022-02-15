@@ -143,6 +143,7 @@ const SwapTab = (props) => {
         props.walletAddress,
         props.transactionSubmitModal,
       ).then((swapResp) => {
+        props.setShowConfirmSwap(false);
         handleSwapResponse(swapResp.success);
         setTimeout(() => {
           props.setLoaderMessage({});
@@ -156,6 +157,7 @@ const SwapTab = (props) => {
         firstTokenAmount,
         props.transactionSubmitModal,
       ).then((swapResp) => {
+        props.setShowConfirmSwap(false);
         handleSwapResponse(swapResp.success);
         setTimeout(() => {
           props.setLoaderMessage({});

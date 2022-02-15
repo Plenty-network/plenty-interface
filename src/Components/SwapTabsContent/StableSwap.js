@@ -172,6 +172,8 @@ const StableSwap = (props) => {
         recepientAddress,
         Number(firstTokenAmountStable),
         props.transactionSubmitModal,
+        props.setShowConfirmSwap,
+        props.resetAllValues,
       ).then((response) => {
         handleSwapResponse(response.success);
         setTimeout(() => {
@@ -186,7 +188,10 @@ const StableSwap = (props) => {
         recepientAddress,
         Number(firstTokenAmountStable),
         props.transactionSubmitModal,
+        props.setShowConfirmSwap,
+        props.resetAllValues,
       ).then((response) => {
+        props.setShowConfirmSwap(false);
         handleSwapResponse(response.success);
         setTimeout(() => {
           props.setLoaderMessage({});
@@ -348,7 +353,7 @@ const StableSwap = (props) => {
 
                 <p className="wallet-token-balance">
                   ~$
-                  {props.tokenIn.name === 'xtz' ? (
+                  {props.tokenIn.name === 'tez' ? (
                     dolar * firstTokenAmountStable == null ? (
                       <span className="shimmer">99999999</span>
                     ) : firstTokenAmountStable ? (
@@ -384,23 +389,14 @@ const StableSwap = (props) => {
             )}
           >
             <div className="token-selector-balance-wrapper">
-              {props.tokenOut.name ? (
-                <button
-                  className="token-selector dropdown-themed stable-swap-token-selector"
-                  onClick={() => props.handleTokenType('tokenOut')}
-                >
-                  <img src={props.tokenOut.image} className="button-logo" />
-                  <span className="span-themed">{props.tokenOut.name} </span>
-                  <span className="span-themed material-icons-round">expand_more</span>
-                </button>
-              ) : (
-                <button
-                  className="token-selector not-selected"
-                  onClick={() => props.handleTokenType('tokenOut')}
-                >
-                  Select a token <span className="material-icons-round">expand_more</span>
-                </button>
-              )}
+              <button
+                className="token-selector dropdown-themed stable-swap-token-selector"
+                onClick={() => props.handleTokenType('tokenOut')}
+              >
+                <img src={props.tokenOut.image} className="button-logo" />
+                <span className="span-themed">{props.tokenOut.name} </span>
+                <span className="span-themed material-icons-round">expand_more</span>
+              </button>
             </div>
 
             <div className="token-user-input-wrapper">
@@ -434,7 +430,7 @@ const StableSwap = (props) => {
                 </p>
                 <p className="wallet-token-balance">
                   ~$
-                  {props.tokenOut.name === 'xtz'
+                  {props.tokenOut.name === 'tez'
                     ? isNaN(dolar * secondTokenAmountStable)
                       ? '0.00'
                       : secondTokenAmountStable

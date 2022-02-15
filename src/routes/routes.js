@@ -72,31 +72,27 @@ const MyRoutes = (props) => {
                   <Swap
                     walletAddress={props.userAddress}
                     connecthWallet={connectWallet}
-                    {...otherPageProps}
+                    theme={otherPageProps.theme}
                   />
                 </OtherPages>
               }
             />
             <Route
-              path="/liquidity/*"
+              path={'/liquidity/*'}
               element={
                 <OtherPages {...otherPageProps}>
-                  <Swap
-                    walletAddress={props.userAddress}
-                    connecthWallet={connectWallet}
-                    {...otherPageProps}
-                  />
+                  <Swap walletAddress={props.userAddress} theme={otherPageProps.theme} />
                 </OtherPages>
               }
             />
             <Route
-              path="/stableswap"
+              path={'/Stableswap/*'}
               element={
                 <OtherPages {...otherPageProps}>
                   <Swap
                     walletAddress={props.userAddress}
                     connecthWallet={connectWallet}
-                    {...otherPageProps}
+                    theme={otherPageProps.theme}
                   />
                 </OtherPages>
               }
@@ -105,11 +101,7 @@ const MyRoutes = (props) => {
               path="/liquidityStable/*"
               element={
                 <OtherPages {...otherPageProps}>
-                  <Swap
-                    walletAddress={props.userAddress}
-                    connecthWallet={connectWallet}
-                    {...otherPageProps}
-                  />
+                  <Swap walletAddress={props.userAddress} theme={otherPageProps.theme} />
                 </OtherPages>
               }
             />
@@ -125,7 +117,7 @@ const MyRoutes = (props) => {
               path="/stake"
               element={
                 <OtherPages {...otherPageProps}>
-                  <Stake walletAddress={props.userAddress} />
+                  <Stake walletAddress={props.userAddress} connecthWallet={connectWallet} />
                 </OtherPages>
               }
             />

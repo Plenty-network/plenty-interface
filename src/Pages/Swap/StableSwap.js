@@ -81,20 +81,41 @@ const StableeSwap = (props) => {
       Object.prototype.hasOwnProperty.call(tokenInStable, 'name') &&
       Object.prototype.hasOwnProperty.call(tokenOutStable, 'name')
     ) {
-      if (tokenInStable.name === tokenOutStable.name && tokenInStable.name === 'ctez') {
-        setTokenOutStable({
-          name: 'xtz',
-          image: tez,
-        });
-      }
-      if (tokenInStable.name === tokenOutStable.name && tokenInStable.name === 'xtz') {
-        setTokenOutStable({
-          name: 'ctez',
-          image: ctez,
-        });
+      if (tokenInStable.name === tokenOutStable.name) {
+        if (tokenInStable.name === 'ctez') {
+          setTokenOutStable({
+            name: 'tez',
+            image: tez,
+          });
+        } else if (tokenInStable.name === 'tez') {
+          setTokenOutStable({
+            name: 'ctez',
+            image: ctez,
+          });
+        }
       }
     }
-  }, [tokenInStable, tokenOutStable]);
+  }, [tokenInStable]);
+  useEffect(() => {
+    if (
+      Object.prototype.hasOwnProperty.call(tokenInStable, 'name') &&
+      Object.prototype.hasOwnProperty.call(tokenOutStable, 'name')
+    ) {
+      if (tokenInStable.name === tokenOutStable.name) {
+        if (tokenOutStable.name === 'tez') {
+          setTokenInStable({
+            name: 'ctez',
+            image: ctez,
+          });
+        } else if (tokenOutStable.name === 'ctez') {
+          setTokenInStable({
+            name: 'tez',
+            image: tez,
+          });
+        }
+      }
+    }
+  }, [tokenOutStable]);
   const getSwapData = async () => {
     await loadSwapDataStable(tokenInStable.name, tokenOutStable.name);
   };
@@ -169,7 +190,7 @@ const StableeSwap = (props) => {
   }, [tokenInStable, tokenOutStable, activeTab]);
 
   useEffect(() => {
-    if (activeTab === 'stableswap') {
+    if (activeTab === 'Stableswap') {
       if (
         Object.prototype.hasOwnProperty.call(tokenInStable, 'name') &&
         Object.prototype.hasOwnProperty.call(tokenOutStable, 'name')
@@ -389,11 +410,11 @@ const StableeSwap = (props) => {
           unmountOnExit={true}
         >
           <Tab
-            eventKey="stableswap"
+            eventKey="Stableswap"
             title={
               <span>
                 <span className="mr-2">Stableswap</span>
-                {activeTab === 'stableswap' ? <StableswapImg /> : <StableswapGrey />}
+                {activeTab === 'Stableswap' ? <StableswapImg /> : <StableswapGrey />}
               </span>
             }
           >

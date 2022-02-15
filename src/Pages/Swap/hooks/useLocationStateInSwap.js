@@ -20,7 +20,7 @@ export const useLocationStateInSwap = () => {
   });
   const [tokenOut, setTokenOut] = useState({});
   const [tokenOutStable, setTokenOutStable] = useState({
-    name: 'xtz',
+    name: 'tez',
     image: tez,
   });
 
@@ -31,9 +31,6 @@ export const useLocationStateInSwap = () => {
   const activeTab = useMemo(() => {
     if (location.pathname === '/swap') {
       return 'swap';
-    }
-    if (location.pathname === '/stableswap') {
-      return 'stableswap';
     }
 
     return 'liquidity';

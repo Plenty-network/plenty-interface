@@ -134,7 +134,7 @@ export const calculateTokensOutStable = async (
         exchangeRate,
         priceImpact,
       };
-    } else if (tokenIn === 'xtz') {
+    } else if (tokenIn === 'tez') {
       const dy =
         newton_dx_to_dy(tezSupply * 2 ** 48, target * ctezSupply, tokenIn_amount * 2 ** 48, 5) /
         target;
@@ -189,6 +189,8 @@ export async function ctez_to_tez(
   recipent,
   tokenInAmount,
   transactionSubmitModal,
+  setShowConfirmSwap,
+  resetAllValues,
 ) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
@@ -243,8 +245,10 @@ export async function ctez_to_tez(
         ? console.log('operation getting injected')
         : console.log('operation injected');
     }
+    setShowConfirmSwap(false);
 
     transactionSubmitModal(batchOp.opHash);
+    resetAllValues();
     await batchOp.confirmation();
     return {
       success: true,
@@ -266,6 +270,8 @@ export async function tez_to_ctez(
   recipent,
   tokenInAmount,
   transactionSubmitModal,
+  setShowConfirmSwap,
+  resetAllValues,
 ) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
@@ -300,8 +306,11 @@ export async function tez_to_ctez(
     ]);
 
     const batchOp = await batch.send();
-    await batchOp.confirmation();
+    setShowConfirmSwap(false);
+
     transactionSubmitModal(batchOp.opHash);
+    resetAllValues();
+    await batchOp.confirmation();
 
     return {
       success: true,

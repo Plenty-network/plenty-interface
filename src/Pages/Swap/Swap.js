@@ -56,11 +56,6 @@ const NormalSwap = (props) => {
   const [tokenContractInstances, setTokenContractInstances] = useState({});
   const [loaderInButton, setLoaderInButton] = useState(false);
   const isStableSwap = useState(false);
-  //console.log(splitLocation[1]);
-  // useEffect(() => {
-  //   //splitLocation[1] === 'stableswap' ? props.redirect(true) : setStableSwap(false);
-  //   setActiveTab(splitLocation[1]);
-  // }, [splitLocation[1]]);
 
   const pairExist = useMemo(() => {
     return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];

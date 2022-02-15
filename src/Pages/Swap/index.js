@@ -20,7 +20,7 @@ const Swap = (props) => {
   const [isStableSwap, setStableSwap] = useState(false);
 
   useEffect(() => {
-    splitLocation[1] === 'stableswap' || splitLocation[1] === 'liquidityStable'
+    splitLocation[1] === 'Stableswap' || splitLocation[1] === 'liquidityStable'
       ? setStableSwap(true)
       : setStableSwap(false);
   }, [splitLocation[1]]);
@@ -29,7 +29,7 @@ const Swap = (props) => {
     setTimeout(() => {
       setStableSwap(value);
 
-      value ? setActiveTab('stableswap') : setActiveTab('swap');
+      value ? setActiveTab('Stableswap') : setActiveTab('swap');
     }, 400);
   };
 
@@ -42,7 +42,7 @@ const Swap = (props) => {
             style={{ cursor: 'pointer' }}
             onClick={() => redirect(!isStableSwap)}
           >
-            {isStableSwap ? 'Redirect to Swap' : 'Redirect to StableSwap'}
+            {isStableSwap ? 'Redirect to Swap' : 'Redirect to Stableswap'}
             <span className={clsx('material-icons', 'arrow-forward', 'mt-1')}>
               arrow_forward_ios_icon
             </span>
@@ -51,18 +51,33 @@ const Swap = (props) => {
           {isStableSwap ? (
             <StableeSwap redirect={redirect} {...props} isStableSwap={isStableSwap} />
           ) : (
-            <NormalSwap {...props} redirect={redirect} isStableSwap={isStableSwap} />
+            <NormalSwap redirect={redirect} {...props} isStableSwap={isStableSwap} />
           )}
           <div className="bottom-footer mt-2 flex flex-row">
             <div>
               <img src={props.theme === 'light' ? Graph : GraphDark} alt="graph"></img>
             </div>
             <div className="ml-3">
-              <span className="bottom-label">Stable Swap</span>
-              <p className="bottom-desc">Lorem Ipsum is simply dummy text of.</p>
+              <span className="bottom-label">Stableswap</span>
+              <p className="bottom-desc">
+                {isStableSwap
+                  ? 'Swap similar assets with low slippage.'
+                  : 'Introducing a new kind of AMM.'}
+              </p>
               {isStableSwap ? (
                 <>
-                  <span className="bottom-last">Learn More</span>
+                  <span className="bottom-last">
+                    <a
+                      href="https://medium.com/plenty-defi/introducing-stable-swaps-on-plenty-trade-similarly-priced-assets-with-low-slippage-518efc56ca40"
+                      className="text-decoration-none"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <span className="learn-more" style={{ cursor: 'pointer' }}>
+                        Learn More
+                      </span>
+                    </a>
+                  </span>
                 </>
               ) : (
                 <>

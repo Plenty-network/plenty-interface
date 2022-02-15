@@ -51,7 +51,7 @@ const AddLiquidity = (props) => {
       props.swapData.lpTokenSupply,
     );
     setPoolShare(values.poolPercent.toFixed(5));
-    if (props.tokenIn.name === 'xtz') {
+    if (props.tokenIn.name === 'tez') {
       setLpTokenAmount((values.lpToken / 10 ** 6).toFixed(6));
     }
     return values.ctez / 10 ** 6;
@@ -74,7 +74,7 @@ const AddLiquidity = (props) => {
       });
       return;
     }
-    if (props.tokenIn.name === 'xtz') {
+    if (props.tokenIn.name === 'tez') {
       const res = await getXtz(input);
 
       setEstimatedTokenAmout({
@@ -99,7 +99,7 @@ const AddLiquidity = (props) => {
         otherTokenAmount: '',
       });
     } else {
-      if (props.tokenIn.name === 'xtz') {
+      if (props.tokenIn.name === 'tez') {
         const res = await getXtz(input);
 
         setEstimatedTokenAmout({
@@ -125,7 +125,7 @@ const AddLiquidity = (props) => {
       ? parseFloat(secondTokenAmount)
       : estimatedTokenAmout.otherTokenAmount;
 
-    if (props.tokenIn.name !== 'xtz') {
+    if (props.tokenIn.name !== 'tez') {
       const lpTokenAmount = lpTokenOutput(
         props.firstTokenAmount,
         secondTokenAmountEntered,
@@ -146,7 +146,7 @@ const AddLiquidity = (props) => {
     const secondTokenAmountEntered = secondTokenAmount
       ? parseFloat(secondTokenAmount)
       : estimatedTokenAmout.otherTokenAmount;
-    if (props.tokenIn.name === 'xtz') {
+    if (props.tokenIn.name === 'tez') {
       add_liquidity(
         props.tokenIn.name,
         props.tokenOut.name,
@@ -339,7 +339,7 @@ const AddLiquidity = (props) => {
               </p>
               <p className="wallet-token-balance">
                 ~$
-                {props.tokenIn.name === 'xtz'
+                {props.tokenIn.name === 'tez'
                   ? (dolar * props.firstTokenAmount).toFixed(2)
                   : props.getTokenPrice.success && props.firstTokenAmount
                   ? (
@@ -416,7 +416,7 @@ const AddLiquidity = (props) => {
               </p>
               <p className="wallet-token-balance">
                 ~$
-                {props.tokenIn.name === 'xtz'
+                {props.tokenIn.name === 'tez'
                   ? isNaN(
                       dolar *
                         (secondTokenAmount
