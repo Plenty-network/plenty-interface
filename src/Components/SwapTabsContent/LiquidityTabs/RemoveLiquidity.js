@@ -177,8 +177,11 @@ const RemoveLiquidity = (props) => {
       props.firstTokenAmount &&
       props.firstTokenAmount >
         props.userBalances[
-          CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
-            .liquidityToken
+          props.isStableSwap
+            ? CONFIG.STABLESWAP[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
+                .liquidityToken
+            : CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
+                .liquidityToken
         ]
     ) {
       swapContentButton = (
@@ -196,7 +199,11 @@ const RemoveLiquidity = (props) => {
   const onClickAmount = () => {
     const value =
       props.userBalances[
-        CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name].liquidityToken
+        props.isStableSwap
+          ? CONFIG.STABLESWAP[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
+              .liquidityToken
+          : CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
+              .liquidityToken
       ].toLocaleString('en-US', {
         maximumFractionDigits: 20,
         useGrouping: false,
@@ -226,7 +233,8 @@ const RemoveLiquidity = (props) => {
             />
           </div>
           <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
-            {CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name] ? (
+            {props.isStableSwap &&
+            CONFIG.STABLESWAP[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name] ? (
               <p
                 className="wallet-token-balance"
                 style={{ cursor: 'pointer' }}
@@ -242,6 +250,28 @@ const RemoveLiquidity = (props) => {
                     CONFIG.STABLESWAP[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
                       props.tokenOut.name
                     ].liquidityToken
+                  ]
+                ) : (
+                  <div className="shimmer">0.0000</div>
+                )}
+                <span className="max-btn"> (Max)</span>
+              </p>
+            ) : null}
+            {!props.isStableSwap &&
+            CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name] ? (
+              <p
+                className="wallet-token-balance"
+                style={{ cursor: 'pointer' }}
+                onClick={onClickAmount}
+              >
+                Balance:{' '}
+                {props.userBalances[
+                  CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
+                    .liquidityToken
+                ] >= 0 ? (
+                  props.userBalances[
+                    CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
+                      .liquidityToken
                   ]
                 ) : (
                   <div className="shimmer">0.0000</div>

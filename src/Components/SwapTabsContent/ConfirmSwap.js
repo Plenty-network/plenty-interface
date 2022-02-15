@@ -70,9 +70,8 @@ const ConfirmSwap = (props) => {
             tokenIn={props.tokenIn}
             tokenOut={props.tokenOut}
             routeData={props.routeData}
-            isStableSwap={true}
+            isStableSwap={props.isStableSwap}
             firstTokenAmount={props.firstTokenAmount}
-            exchangeRate={props.computedData.data.exchangeRate}
             slippage={props.slippage}
             isConfirmSwap={true}
           />

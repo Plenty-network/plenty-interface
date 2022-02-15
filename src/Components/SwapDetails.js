@@ -33,14 +33,14 @@ const SwapDetails = (props) => {
               overlay={
                 <Tooltip id="swap-token-out-tooltip" {...props}>
                   {props.isStableSwap
-                    ? props.exchangeRate
+                    ? props.computedOutDetails.data.exchangeRate
                     : props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn}
                 </Tooltip>
               }
             >
               <div>
                 {props.isStableSwap
-                  ? props.exchangeRate
+                  ? props.computedOutDetails.data.exchangeRate
                   : props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn
                   ? props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn.toFixed(3)
                   : 0}{' '}
@@ -212,7 +212,6 @@ SwapDetails.propTypes = {
   tokenOut: PropTypes.any,
   routePath: PropTypes.any,
   isStableSwap: PropTypes.any,
-  exchangeRate: PropTypes.any,
   slippage: PropTypes.any,
   isConfirmSwap: PropTypes.any,
 };

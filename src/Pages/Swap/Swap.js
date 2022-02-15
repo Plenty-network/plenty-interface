@@ -88,7 +88,7 @@ const NormalSwap = (props) => {
           ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
           : balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
       }
-      if (!userBalancesCopy[tokenIn.name]) {
+      if (!userBalancesCopy[tokenOut.name]) {
         tokenIn.name === tzBTCName
           ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
           : balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));

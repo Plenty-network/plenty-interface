@@ -422,6 +422,7 @@ const SwapTab = (props) => {
               tokenOut={props.tokenOut}
               routeData={props.routeData}
               firstTokenAmount={firstTokenAmount}
+              isStableSwap={false}
             />
           )}
       </div>

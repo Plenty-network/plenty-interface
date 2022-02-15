@@ -109,7 +109,6 @@ const StableeSwap = (props) => {
     setLoading(false);
   };
   useEffect(() => {
-    console.log(isStableSwap);
     const updateBalance = async () => {
       setTokenContractInstances({});
       const userBalancesCopy = { ...userBalances };
@@ -124,8 +123,10 @@ const StableeSwap = (props) => {
                 : getUserBalanceByRpc(tokenIn.name, props.walletAddress),
             );
       }
-      if (isStableSwap ? !userBalancesCopy[tokenInStable.name] : !userBalancesCopy[tokenIn.name]) {
-        (isStableSwap ? tokenInStable.name === tzBTCName : tokenIn.name === tzBTCName)
+      if (
+        isStableSwap ? !userBalancesCopy[tokenOutStable.name] : !userBalancesCopy[tokenOut.name]
+      ) {
+        (isStableSwap ? tokenOutStable.name === tzBTCName : tokenOut.name === tzBTCName)
           ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
           : balancePromises.push(
               isStableSwap
@@ -142,7 +143,7 @@ const StableeSwap = (props) => {
           ? config.STABLESWAP[config.NETWORK][tokenInStable.name].DEX_PAIRS[tokenOutStable.name]
               .liquidityToken
           : config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
-        console.log(lpToken);
+
         balancePromises.push(
           isStableSwap
             ? getUserBalanceByRpcStable(lpToken, props.walletAddress)
