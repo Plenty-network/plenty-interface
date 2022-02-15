@@ -115,7 +115,9 @@ const StableSwap = (props) => {
       }
     }
   };
-
+  useEffect(() => {
+    handleSwapTokenInput(firstTokenAmountStable, 'tokenIn');
+  }, [props.tokenIn]);
   useEffect(() => {
     setErrorMessage(false);
   }, [props.tokenOut.name, firstTokenAmountStable]);
@@ -472,7 +474,6 @@ const StableSwap = (props) => {
             // routeData={props.routeData}
             firstTokenAmount={firstTokenAmountStable}
             isStableSwap={true}
-            exchangeRate={computedData.data.exchangeRate.toFixed(6)}
           />
         )}
       </div>

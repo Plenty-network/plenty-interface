@@ -12,7 +12,6 @@ import {
 } from '../../apis/swap/swap-v2';
 
 const SwapTab = (props) => {
-  console.log(props);
   const [firstTokenAmount, setFirstTokenAmount] = useState();
   const [secondTokenAmount, setSecondTokenAmount] = useState();
   const [routePath, setRoutePath] = useState([]);
@@ -31,6 +30,7 @@ const SwapTab = (props) => {
   });
 
   const handleSwapTokenInput = (input, tokenType) => {
+    console.log(input);
     if (input === '' || isNaN(input)) {
       setFirstTokenAmount('');
       setSecondTokenAmount('');

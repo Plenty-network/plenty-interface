@@ -256,7 +256,7 @@ const StableeSwap = (props) => {
   const handleTokenInput = (input) => {
     setFirstTokenAmountStable(input);
     setFirstTokenAmount(input);
-    console.log(firstTokenAmountStable);
+
     setComputedOutDetails({});
     if (input === '' || isNaN(input)) {
       isStableSwap ? setFirstTokenAmountStable('') : setFirstTokenAmount('');

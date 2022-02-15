@@ -88,7 +88,7 @@ export const calculateTokensOutStable = async (
       const tokenOut = dy - fee;
       const minimumOut = tokenOut - (slippage * tokenOut) / 100;
       const exchangeRate = tokenOut / tokenIn_amount; // 1 tokenIn = x tokenOut
-      console.log('Exchange Rate', exchangeRate, tokenIn_amount, tokenOut, tokenIn);
+
       const updated_Ctez_Supply = tezSupply + tokenIn_amount;
       const updated_Tez_Supply = ctezSupply - tokenOut;
 
@@ -123,7 +123,7 @@ export const calculateTokensOutStable = async (
       const tokenOut = dy - fee;
       const minimumOut = tokenOut - (slippage * tokenOut) / 100;
       const exchangeRate = tokenOut / tokenIn_amount; // 1 tokenIn = x tokenOut
-      console.log('Exchange Rate', exchangeRate, tokenIn_amount, tokenOut, tokenIn);
+
       const updated_Ctez_Supply = tezSupply + tokenIn_amount;
       const updated_Tez_Supply = ctezSupply - tokenOut;
 
