@@ -12,12 +12,16 @@ const SimpleModal = (props) => {
       onHide={props.onClose}
       backdrop="static"
       keyboard={false}
-      dialogClassName={clsx(styles.simpleModal, props.className)}
+      dialogClassName={clsx(
+        styles.simpleModal,
+        props.className,
+        props.isConfirmSwap && styles.confirmSwap,
+      )}
       centered={true}
     >
       {/* * Header */}
       <div
-        className={clsx(styles.header, 'd-flex', {
+        className={clsx('d-flex', props.isConfirmSwap ? styles.confirmSwapHeader : styles.header, {
           [styles.noTitle]: !props.title,
         })}
       >
@@ -31,7 +35,7 @@ const SimpleModal = (props) => {
 
       {/* * Body */}
       <div
-        className={clsx(styles.content, {
+        className={clsx(props.isConfirmSwap ? styles.confirmSwapContent : styles.content, {
           [styles.noTopPadding]: !props.title,
         })}
       >
@@ -48,6 +52,7 @@ SimpleModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   title: PropTypes.string,
+  isConfirmSwap: PropTypes.any,
 };
 
 export default SimpleModal;

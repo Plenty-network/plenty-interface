@@ -15,7 +15,7 @@ export const submitVote = async (voteNumber, dispatchVoteProcessing) => {
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const wallet = new BeaconWallet(options);
     const WALLET_RESP = await CheckIfWalletConnected(wallet);
-    console.log(WALLET_RESP);
+
     if (WALLET_RESP.success) {
       const Tezos = new TezosToolkit(rpcNode);
       Tezos.setRpcProvider(rpcNode);
