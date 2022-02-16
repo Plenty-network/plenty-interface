@@ -64,51 +64,56 @@ export const useLocationStateStable = () => {
   };
 
   useEffect(() => {
-    setTokenParams(
-      {
-        ...(tokenInStable.name ? { [paramKeys.a]: tokenInStable.name } : {}),
-        ...(tokenParams.get(paramKeys.b) ? { [paramKeys.b]: tokenParams.get(paramKeys.b) } : {}),
-      },
-      { replace: true },
-    );
+    if (activeTab === 'Stableswap') {
+      setTokenParams(
+        {
+          ...(tokenInStable.name ? { [paramKeys.a]: tokenInStable.name } : {}),
+          ...(tokenParams.get(paramKeys.b) ? { [paramKeys.b]: tokenParams.get(paramKeys.b) } : {}),
+        },
+        { replace: true },
+      );
+    }
   }, [tokenInStable]);
 
   useEffect(() => {
-    setTokenParams(
-      {
-        ...(tokenParams.get(paramKeys.a) ? { [paramKeys.a]: tokenParams.get(paramKeys.a) } : {}),
-        ...(tokenOutStable.name ? { [paramKeys.b]: tokenOutStable.name } : {}),
-      },
-      { replace: true },
-    );
+    if (activeTab === 'Stableswap') {
+      setTokenParams(
+        {
+          ...(tokenParams.get(paramKeys.a) ? { [paramKeys.a]: tokenParams.get(paramKeys.a) } : {}),
+          ...(tokenOutStable.name ? { [paramKeys.b]: tokenOutStable.name } : {}),
+        },
+        { replace: true },
+      );
+    }
   }, [tokenOutStable]);
 
   useEffect(() => {
-    const paramKey =
-      location.pathname === '/Stableswap' ? { a: 'from', b: 'to' } : { a: 'tokenA', b: 'tokenB' };
+    if (activeTab === 'Stableswap') {
+      const paramKey = location.pathname === '/Stableswap' && { a: 'from', b: 'to' };
 
-    const tokenInFromParam = tokenParams.get(paramKey.a);
-    const tokenOutFromParam = tokenParams.get(paramKey.b);
+      const tokenInFromParam = tokenParams.get(paramKey.a);
+      const tokenOutFromParam = tokenParams.get(paramKey.b);
 
-    if (tokenInFromParam) {
-      const tokenInDatum = stableSwapTokens.find((token) => token.name === tokenInFromParam);
+      if (tokenInFromParam) {
+        const tokenInDatum = stableSwapTokens.find((token) => token.name === tokenInFromParam);
 
-      if (tokenInDatum) {
-        setTokenInStable({
-          name: tokenInDatum.name,
-          image: tokenInDatum.image,
-        });
+        if (tokenInDatum) {
+          setTokenInStable({
+            name: tokenInDatum.name,
+            image: tokenInDatum.image,
+          });
+        }
       }
-    }
 
-    if (tokenOutFromParam) {
-      const tokenOutDatum = stableSwapTokens.find((token) => token.name === tokenOutFromParam);
+      if (tokenOutFromParam) {
+        const tokenOutDatum = stableSwapTokens.find((token) => token.name === tokenOutFromParam);
 
-      if (tokenOutDatum) {
-        setTokenOutStable({
-          name: tokenOutDatum.name,
-          image: tokenOutDatum.image,
-        });
+        if (tokenOutDatum) {
+          setTokenOutStable({
+            name: tokenOutDatum.name,
+            image: tokenOutDatum.image,
+          });
+        }
       }
     }
   }, []);

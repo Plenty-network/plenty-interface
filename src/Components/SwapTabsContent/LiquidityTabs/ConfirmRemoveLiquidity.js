@@ -37,7 +37,7 @@ const ConfirmRemoveLiquidity = (props) => {
 
                 <div className="token-user-input-wrapper">
                   {props.removableTokens.tokenFirst_Out
-                    ? props.removableTokens.tokenFirst_Out.toFixed(12)
+                    ? props.removableTokens.tokenFirst_Out.toFixed(6)
                     : '0.00'}
                 </div>
               </div>
@@ -58,7 +58,7 @@ const ConfirmRemoveLiquidity = (props) => {
 
                 <div className="token-user-input-wrapper">
                   {props.removableTokens.tokenSecond_Out
-                    ? props.removableTokens.tokenSecond_Out.toFixed(12)
+                    ? props.removableTokens.tokenSecond_Out.toFixed(6)
                     : '0.00'}
                 </div>
               </div>
