@@ -96,6 +96,12 @@ const SwapTab = (props) => {
     //props.setHideContent('content-hide');
   };
 
+  const resetVal = () => {
+    props.resetAllValues();
+    setFirstTokenAmount('');
+    props.setSecondTokenAmount('');
+    setSecondTokenAmount('');
+  };
   const getDollarValue = (amount, price) => {
     const calculatedValue = amount * price;
     if (calculatedValue < 100) {
@@ -141,7 +147,7 @@ const SwapTab = (props) => {
         props.walletAddress,
         props.transactionSubmitModal,
         props.setShowConfirmSwap,
-        props.resetAllValues,
+        resetVal,
       ).then((swapResp) => {
         props.setShowConfirmSwap(false);
         handleSwapResponse(swapResp.success);
@@ -157,7 +163,7 @@ const SwapTab = (props) => {
         firstTokenAmount,
         props.transactionSubmitModal,
         props.setShowConfirmSwap,
-        props.resetAllValues,
+        resetVal,
       ).then((swapResp) => {
         props.setShowConfirmSwap(false);
         handleSwapResponse(swapResp.success);

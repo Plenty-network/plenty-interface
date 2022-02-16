@@ -130,6 +130,7 @@ const RemoveLiquidity = (props) => {
         props.walletAddress,
         props.swapData.dexContractInstance,
         transactionSubmitModal,
+        resetValues,
       ).then((data) => {
         if (data.success) {
           props.setLoading(false);
