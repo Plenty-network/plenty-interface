@@ -271,7 +271,7 @@
   .modal-header {
     padding: 0 18px;
     padding-bottom: 16px;
-    border-bottom: 1px solid var(--theme-border);
+    border-bottom: none;
   }
   .modal-body {
     padding: 0;
@@ -842,4 +842,9 @@ input:checked {
 }
 .stable-swap-token-selector {
   padding: 8px 12px !important;
+}
+.header-line {
+  border-bottom: 1px solid var(--theme-border) !important;
+  margin-top: -24px;
+  margin-bottom: 24px;
 }

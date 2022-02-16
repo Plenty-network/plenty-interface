@@ -25,6 +25,7 @@ const ConfirmRemoveLiquidity = (props) => {
       <Modal.Body>
         <>
           <div className="swap-content-box-wrapper">
+            <div className="header-line"></div>
             <div className="swap-content-box">
               <div className="swap-token-select-box">
                 <div className="token-selector-balance-wrapper">

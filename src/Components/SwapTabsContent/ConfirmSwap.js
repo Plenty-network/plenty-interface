@@ -18,6 +18,7 @@ const ConfirmSwap = (props) => {
     >
       <>
         <div className="swap-content-box-wrapper">
+          <div className="header-line"></div>
           <div className="swap-content-box">
             <div className="swap-token-select-box confirm-swap-input-box">
               <div className="token-selector-balance-wrapper">
