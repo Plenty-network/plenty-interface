@@ -142,6 +142,8 @@ const SwapTab = (props) => {
         firstTokenAmount,
         props.walletAddress,
         props.transactionSubmitModal,
+        props.setShowConfirmSwap,
+        props.resetAllValues,
       ).then((swapResp) => {
         props.setShowConfirmSwap(false);
         handleSwapResponse(swapResp.success);
@@ -156,6 +158,8 @@ const SwapTab = (props) => {
         props.walletAddress,
         firstTokenAmount,
         props.transactionSubmitModal,
+        props.setShowConfirmSwap,
+        props.resetAllValues,
       ).then((swapResp) => {
         props.setShowConfirmSwap(false);
         handleSwapResponse(swapResp.success);
