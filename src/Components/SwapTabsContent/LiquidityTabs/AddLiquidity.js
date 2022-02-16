@@ -18,6 +18,8 @@ const AddLiquidity = (props) => {
   const [secondTokenAmount, setSecondTokenAmount] = useState('');
   const [lpTokenAmount, setLpTokenAmount] = useState({});
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
+  const [message, setMessage] = useState('');
   const [transactionId, setTransactionId] = useState('');
   const [dolar, setDolar] = useState('');
   const [poolShare, setPoolShare] = useState('0.0');
@@ -42,7 +44,14 @@ const AddLiquidity = (props) => {
   const getSwapData = async () => {
     await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
   };
+  useEffect(() => {
+    setErrorMessage(false);
+  }, [props.tokenOut.name, props.firstTokenAmount]);
 
+  const setErrorMessageOnUI = (value) => {
+    setMessage(value);
+    setErrorMessage(true);
+  };
   const getXtz = async (input) => {
     const values = await liqCalc(
       input,
@@ -154,6 +163,7 @@ const AddLiquidity = (props) => {
         props.firstTokenAmount,
         props.walletAddress,
         transactionSubmitModal,
+        props.setShowConfirmAddSupply,
       ).then((data) => {
         if (data.success) {
           props.setLoading(false);
@@ -245,11 +255,11 @@ const AddLiquidity = (props) => {
     } else if (!props.tokenOut.name) {
       swapContentButton = (
         <Button
-          onClick={() => null}
-          color={'primary'}
+          onClick={() => setErrorMessageOnUI('Please select a token and then enter the amount')}
+          color={'disabled'}
           className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
         >
-          Select a token
+          Add Liquidity
         </Button>
       );
     } else {
@@ -262,11 +272,11 @@ const AddLiquidity = (props) => {
         ></Button>
       ) : (
         <Button
-          onClick={() => null}
-          color={'primary'}
-          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+          onClick={() => setErrorMessageOnUI('Enter an amount to add liqiidity')}
+          color={'disabled'}
+          className={' mt-4 w-100 flex align-items-center justify-content-center'}
         >
-          Enter an amount
+          Add Liquidity
         </Button>
       );
     }
@@ -285,7 +295,13 @@ const AddLiquidity = (props) => {
   return (
     <>
       <div className="swap-content-box">
-        <div className="swap-token-select-box">
+        <div
+          className={clsx(
+            'swap-token-select-box',
+
+            errorMessage && 'errorBorder',
+          )}
+        >
           <div className="token-selector-balance-wrapper">
             <button
               className={clsx(
@@ -357,7 +373,13 @@ const AddLiquidity = (props) => {
       </div>
 
       <div className="swap-content-box">
-        <div className="swap-token-select-box">
+        <div
+          className={clsx(
+            'swap-token-select-box',
+
+            errorMessage && 'errorBorder',
+          )}
+        >
           <div className="token-selector-balance-wrapper">
             {props.tokenOut.name ? (
               <button
@@ -443,6 +465,7 @@ const AddLiquidity = (props) => {
           ) : null}
         </div>
       </div>
+      {errorMessage && <span className="error-message">{message}</span>}
       <div className="swap-detail-wrapper bg-themed-light">
         <div className="add-liquidity-tip">
           When you add liquidity, you will receive pool tokens representing your position. These
@@ -450,6 +473,7 @@ const AddLiquidity = (props) => {
           at any time.
         </div>
       </div>
+
       {swapContentButton}
       <ConfirmAddLiquidity
         {...props}

@@ -91,7 +91,11 @@ const SwapModal = (props) => {
   ]);
 
   return (
-    <Modal show={props.show} onHide={props.onHide} className="swap-modal modal-themed centered">
+    <Modal
+      show={props.show}
+      onHide={props.onHide}
+      className="swap-modal modal-themed swap-modal-centered "
+    >
       <Modal.Header className="border-bottom-themed flex-column">
         <div className="flex flex-row w-100">
           <Modal.Title className="flex align-items-center">

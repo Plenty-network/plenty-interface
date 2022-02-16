@@ -131,63 +131,65 @@ const StableeSwap = (props) => {
   };
   useEffect(() => {
     const updateBalance = async () => {
-      setTokenContractInstances({});
-      const userBalancesCopy = { ...userBalances };
-      const tzBTCName = 'tzBTC';
-      const balancePromises = [];
-      if (isStableSwap ? !userBalancesCopy[tokenInStable.name] : !userBalancesCopy[tokenIn.name]) {
-        (isStableSwap ? tokenInStable.name === tzBTCName : tokenIn.name === tzBTCName)
-          ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
-          : balancePromises.push(
-              isStableSwap
-                ? getUserBalanceByRpcStable(tokenInStable.name, props.walletAddress)
-                : getUserBalanceByRpc(tokenIn.name, props.walletAddress),
-            );
-      }
-      if (
-        isStableSwap ? !userBalancesCopy[tokenOutStable.name] : !userBalancesCopy[tokenOut.name]
-      ) {
-        (isStableSwap ? tokenOutStable.name === tzBTCName : tokenOut.name === tzBTCName)
-          ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
-          : balancePromises.push(
-              isStableSwap
-                ? getUserBalanceByRpcStable(tokenOutStable.name, props.walletAddress)
-                : getUserBalanceByRpc(tokenOut.name, props.walletAddress),
-            );
-      }
-      if (
-        isStableSwap
-          ? config.STABLESWAP[config.NETWORK][tokenInStable.name].DEX_PAIRS[tokenOutStable.name]
-          : config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]
-      ) {
-        const lpToken = isStableSwap
-          ? config.STABLESWAP[config.NETWORK][tokenInStable.name].DEX_PAIRS[tokenOutStable.name]
-              .liquidityToken
-          : config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
-
-        balancePromises.push(
+      if (props.walletAddress) {
+        setTokenContractInstances({});
+        const userBalancesCopy = { ...userBalances };
+        const tzBTCName = 'tzBTC';
+        const balancePromises = [];
+        if (
+          isStableSwap ? !userBalancesCopy[tokenInStable.name] : !userBalancesCopy[tokenIn.name]
+        ) {
+          (isStableSwap ? tokenInStable.name === tzBTCName : tokenIn.name === tzBTCName)
+            ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
+            : balancePromises.push(
+                isStableSwap
+                  ? getUserBalanceByRpcStable(tokenInStable.name, props.walletAddress)
+                  : getUserBalanceByRpc(tokenIn.name, props.walletAddress),
+              );
+        }
+        if (
+          isStableSwap ? !userBalancesCopy[tokenOutStable.name] : !userBalancesCopy[tokenOut.name]
+        ) {
+          (isStableSwap ? tokenOutStable.name === tzBTCName : tokenOut.name === tzBTCName)
+            ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
+            : balancePromises.push(
+                isStableSwap
+                  ? getUserBalanceByRpcStable(tokenOutStable.name, props.walletAddress)
+                  : getUserBalanceByRpc(tokenOut.name, props.walletAddress),
+              );
+        }
+        if (
           isStableSwap
-            ? getUserBalanceByRpcStable(lpToken, props.walletAddress)
-            : getUserBalanceByRpc(lpToken, props.walletAddress),
-        );
+            ? config.STABLESWAP[config.NETWORK][tokenInStable.name].DEX_PAIRS[tokenOutStable.name]
+            : config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]
+        ) {
+          const lpToken = isStableSwap
+            ? config.STABLESWAP[config.NETWORK][tokenInStable.name].DEX_PAIRS[tokenOutStable.name]
+                .liquidityToken
+            : config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
+
+          balancePromises.push(
+            isStableSwap
+              ? getUserBalanceByRpcStable(lpToken, props.walletAddress)
+              : getUserBalanceByRpc(lpToken, props.walletAddress),
+          );
+        }
+        const balanceResponse = await Promise.all(balancePromises);
+
+        setUserBalances((prev) => ({
+          ...prev,
+          ...balanceResponse.reduce(
+            (acc, cur) => ({
+              ...acc,
+              [cur.identifier]: cur.balance,
+            }),
+            {},
+          ),
+        }));
       }
-      const balanceResponse = await Promise.all(balancePromises);
-
-      console.log('updateBalance', balanceResponse);
-
-      setUserBalances((prev) => ({
-        ...prev,
-        ...balanceResponse.reduce(
-          (acc, cur) => ({
-            ...acc,
-            [cur.identifier]: cur.balance,
-          }),
-          {},
-        ),
-      }));
     };
     updateBalance();
-  }, [tokenInStable, tokenOutStable, activeTab]);
+  }, [tokenInStable, tokenOutStable, activeTab, props.walletAddress]);
 
   useEffect(() => {
     if (activeTab === 'Stableswap') {

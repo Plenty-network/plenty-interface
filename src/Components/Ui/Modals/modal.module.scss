@@ -172,7 +172,11 @@
 }
 .confirmSwap {
   max-width: 400px !important;
-  @media screen and (min-width: 1400px) {
-    min-height: calc(100% - 29.5rem) !important;
+  margin: 5.95rem auto;
+  // min-height: calc(100% + 3.5rem) !important;
+
+  @media screen and (min-width: 1200px) {
+    //min-height: calc(100% - 29.5rem) !important;
+    margin: -12.05rem auto;
   }
 }

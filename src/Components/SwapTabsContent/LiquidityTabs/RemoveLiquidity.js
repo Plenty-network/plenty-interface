@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { computeRemoveTokens, removeLiquidity } from '../../../apis/swap/swap';
-
+import clsx from 'clsx';
 import ConfirmRemoveLiquidity from './ConfirmRemoveLiquidity';
 import InfoModal from '../../Ui/Modals/InfoModal';
 
@@ -21,7 +21,8 @@ const RemoveLiquidity = (props) => {
 
   const [xtztoctez, setxtztoctez] = useState('0.00');
   const [cteztoxtz, setcteztoxtz] = useState('0.00');
-
+  const [errorMessage, setErrorMessage] = useState(false);
+  const [message, setMessage] = useState('');
   const fetchOutputData = async () => {
     const res = getExchangeRate(
       props.swapData.tezPool,
@@ -37,6 +38,15 @@ const RemoveLiquidity = (props) => {
       fetchOutputData();
     }
   }, [props]);
+
+  useEffect(() => {
+    setErrorMessage(false);
+  }, [props.tokenOut.name, props.firstTokenAmount]);
+
+  const setErrorMessageOnUI = (value) => {
+    setMessage(value);
+    setErrorMessage(true);
+  };
 
   const removeLiquidityInput = (input) => {
     const removeAmount = parseFloat(input);
@@ -82,13 +92,14 @@ const RemoveLiquidity = (props) => {
         props.tokenOut.name,
         removableTokens.removeAmount,
         props.walletAddress,
+        props.setShowConfirmRemoveSupply(),
       ).then((data) => {
-        console.log(data);
         if (data.success) {
           props.setLoading(false);
+          props.setShowConfirmRemoveSupply(false);
           transactionSubmitModal(data.operationId);
           props.handleLoaderMessage('success', 'Transaction confirmed');
-          props.setShowConfirmRemoveSupply(false);
+
           //props.setHideContent('');
           props.resetAllValues();
           setTimeout(() => {
@@ -152,11 +163,11 @@ const RemoveLiquidity = (props) => {
   if (props.walletAddress) {
     swapContentButton = (
       <Button
-        onClick={() => null}
-        color={'primary'}
+        onClick={() => setErrorMessageOnUI('Enter an amount to withdraw')}
+        color={'disabled'}
         className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
       >
-        Enter an amount
+        Confirm Withdrawal
       </Button>
     );
   }
@@ -215,7 +226,14 @@ const RemoveLiquidity = (props) => {
   return (
     <>
       <div className="swap-content-box">
-        <div className="swap-token-select-box" style={{ minHeight: '70px' }}>
+        <div
+          className={clsx(
+            'swap-token-select-box',
+
+            errorMessage && 'errorBorder',
+          )}
+          style={{ minHeight: '70px' }}
+        >
           <div className="token-selector-balance-wrapper">
             <p className="remove-liquidity-token-info">Amount to remove</p>
           </div>
@@ -288,7 +306,14 @@ const RemoveLiquidity = (props) => {
       </div>
 
       <div className="swap-content-box">
-        <div className="swap-token-select-box" style={{ minHeight: '70px' }}>
+        <div
+          className={clsx(
+            'swap-token-select-box',
+
+            errorMessage && 'errorBorder',
+          )}
+          style={{ minHeight: '70px' }}
+        >
           <div className="token-selector-balance-wrapper">
             <p className="remove-liquidity-token-info">Receiving</p>
           </div>
@@ -315,6 +340,7 @@ const RemoveLiquidity = (props) => {
           ) : null}
         </div>
       </div>
+      {errorMessage && <span className="error-message">{message}</span>}
       {swapContentButton}
       <ConfirmRemoveLiquidity
         {...props}

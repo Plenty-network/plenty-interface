@@ -5,11 +5,12 @@ export const stableSwapTokens = [
   {
     name: 'tez',
     image: xtz,
+    new: true,
   },
   {
     name: 'ctez',
     image: ctez,
-    new: true,
+    new: false,
     extra: {
       text: 'Get ctez',
       link: 'https://ctez.app',

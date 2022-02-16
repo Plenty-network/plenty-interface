@@ -360,7 +360,17 @@ export const getxtzBalance = async (identifier, address) => {
   const options = {
     name: CONFIG.NAME,
   };
+
+  const network = {
+    type: CONFIG.WALLET_NETWORK,
+  };
+
   const wallet = new BeaconWallet(options);
+
+  const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
+  if (!WALLET_RESP.success) {
+    throw new Error('Wallet connection failed');
+  }
   const Tezos = new TezosToolkit(rpcNode);
   Tezos.setRpcProvider(rpcNode);
   Tezos.setWalletProvider(wallet);
@@ -522,6 +532,7 @@ export async function add_liquidity(
   tezAmount,
   recepient,
   transactionSubmitModal,
+  setShowConfirmAddSupply,
 ) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
@@ -572,6 +583,7 @@ export async function add_liquidity(
         ? console.log('operation getting injected')
         : console.log('operation injected');
     }
+    setShowConfirmAddSupply(false);
     transactionSubmitModal(batchOp.opHash);
 
     await batchOp.confirmation();
@@ -621,6 +633,13 @@ export async function remove_liquidity(tokenIn, tokenOut, amount) {
 
     const contract = await Tezos.wallet.at(contractAddress);
     const op = await contract.methods.remove_liquidity(Number(amount * 10 ** 6), 0, 0).send();
+    // eslint-disable-next-line no-lone-blocks
+    {
+      op.opHash === null
+        ? console.log('operation getting injected')
+        : console.log('operation injected');
+    }
+
     await op.confirmation();
 
     return {

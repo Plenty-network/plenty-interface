@@ -820,8 +820,16 @@ input:checked {
 }
 .confirm-add-liquidity-modal {
   .modal-dialog {
-    margin: 7.75rem auto;
+    margin: 9.95rem auto;
     @media screen and (min-width: 1400px) {
+      margin: 17.95rem auto;
+    }
+  }
+}
+.swap-modal-centered {
+  .modal-dialog {
+    margin: 9.95rem auto;
+    @media screen and (min-width: 1200px) {
       margin: 17.95rem auto;
     }
   }

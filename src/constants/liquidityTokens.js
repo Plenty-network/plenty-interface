@@ -10,7 +10,7 @@ export const liquidityTokens = [
   {
     name: 'ctez',
     image: ctez,
-    new: true,
+    new: false,
     extra: {
       text: 'Get ctez',
       link: 'https://ctez.app',
