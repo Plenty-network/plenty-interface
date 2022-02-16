@@ -197,6 +197,7 @@ const AddLiquidity = (props) => {
         props.walletAddress,
         props.swapData.dexContractInstance,
         transactionSubmitModal,
+        props.resetAllValues,
       ).then((data) => {
         if (data.success) {
           props.setLoading(false);

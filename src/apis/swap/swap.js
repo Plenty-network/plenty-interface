@@ -585,6 +585,7 @@ export const addLiquidity = async (
   caller,
   dexContractInstance,
   transactionSubmitModal,
+  resetAllValues,
 ) => {
   try {
     const network = {
@@ -783,6 +784,7 @@ export const addLiquidity = async (
         .withContractCall(tokenSecondInstance.methods.approve(dexContractAddress, 0));
     }
     const batchOperation = await batch.send();
+    resetAllValues();
     transactionSubmitModal(batchOperation.opHash);
     await batchOperation.confirmation().then(() => batchOperation.opHash);
     return {
@@ -902,6 +904,7 @@ export const removeLiquidity = async (
   caller,
   dexContractInstance,
   transactionSubmitModal,
+  resetAllValues,
 ) => {
   try {
     let tokenFirst = null;
@@ -965,6 +968,7 @@ export const removeLiquidity = async (
         ),
       );
     const batchOperation = await batch.send();
+    resetAllValues();
     transactionSubmitModal(batchOperation.opHash);
     await batchOperation.confirmation().then(() => batchOperation.opHash);
     return {
