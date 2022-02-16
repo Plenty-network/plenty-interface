@@ -215,18 +215,18 @@ const SwapTab = (props) => {
         );
       }
 
-      if (props.loaderInButton) {
-        return (
-          <Button
-            onClick={() => null}
-            color={'disabled'}
-            loading={true}
-            className={' mt-4 w-100 flex align-items-center justify-content-center'}
-          >
-            Swap
-          </Button>
-        );
-      }
+      // if (props.loaderInButton) {
+      //   return (
+      //     <Button
+      //       onClick={() => null}
+      //       color={'disabled'}
+      //       loading={true}
+      //       className={' mt-4 w-100 flex align-items-center justify-content-center'}
+      //     >
+      //       Swap
+      //     </Button>
+      //   );
+      // }
       return (
         <Button
           onClick={() => setErrorMessageOnUI('Enter an amount to swap')}

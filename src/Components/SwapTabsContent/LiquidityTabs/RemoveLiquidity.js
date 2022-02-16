@@ -131,6 +131,7 @@ const RemoveLiquidity = (props) => {
         props.swapData.dexContractInstance,
         transactionSubmitModal,
         resetValues,
+        props.setShowConfirmRemoveSupply,
       ).then((data) => {
         if (data.success) {
           props.setLoading(false);

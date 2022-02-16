@@ -198,6 +198,7 @@ const AddLiquidity = (props) => {
         props.swapData.dexContractInstance,
         transactionSubmitModal,
         props.resetAllValues,
+        props.setShowConfirmAddSupply,
       ).then((data) => {
         if (data.success) {
           props.setLoading(false);
