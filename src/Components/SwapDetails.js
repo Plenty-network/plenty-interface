@@ -38,7 +38,7 @@ const SwapDetails = (props) => {
             >
               <div>
                 {props.isStableSwap
-                  ? props.computedOutDetails.data.exchangeRate.toFixed(6)
+                  ? props.computedOutDetails.data.exchangeRate.toFixed(3)
                   : props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn
                   ? props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn.toFixed(3)
                   : 0}{' '}

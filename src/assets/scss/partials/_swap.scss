@@ -11,7 +11,7 @@
   max-width: 1200px;
 }
 .redirect-label {
-  margin: 80px auto 10px auto;
+  margin: 80px auto 16px auto;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
@@ -75,7 +75,7 @@
   line-height: 22px;
   letter-spacing: 0px;
   color: var(--theme-text-1);
-  margin-bottom: 0px;
+  margin-bottom: 4px;
 }
 .bottom-last {
   font-size: 14px;
@@ -140,6 +140,7 @@
 }
 .errorBorder {
   border: 0.863044px solid rgba(255, 90, 67, 0.5) !important;
+  background: var(--theme-error-bg) !important;
 }
 .swap-token-select-box {
   min-height: 82px;

@@ -30,8 +30,8 @@ const RemoveLiquidity = (props) => {
       props.swapData.target,
     );
 
-    setxtztoctez(res.ctezexchangeRate.toFixed(10));
-    setcteztoxtz(res.tezexchangeRate.toFixed(10));
+    setxtztoctez(res.ctezexchangeRate.toFixed(6));
+    setcteztoxtz(res.tezexchangeRate.toFixed(6));
   };
   useEffect(() => {
     if (props.isStableSwap) {
@@ -92,6 +92,8 @@ const RemoveLiquidity = (props) => {
         props.tokenOut.name,
         removableTokens.removeAmount,
         props.walletAddress,
+        transactionSubmitModal,
+        props.setShowConfirmRemoveSupply,
       ).then((data) => {
         if (data.success) {
           props.setLoading(false);

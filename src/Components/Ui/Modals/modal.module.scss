@@ -174,8 +174,8 @@
   margin: auto;
   // min-height: calc(100% + 3.5rem) !important;
 
-  // @media screen and (min-width: 1400px) {
-  //   //min-height: calc(100% - 29.5rem) !important;
-  //   margin: -12.05rem auto;
-  // }
+  @media screen and (min-height: 1400px) and (min-width: 2500px) {
+    //min-height: calc(100% - 29.5rem) !important;
+    margin: -11rem auto;
+  }
 }

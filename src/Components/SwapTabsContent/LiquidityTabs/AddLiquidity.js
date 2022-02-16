@@ -32,8 +32,8 @@ const AddLiquidity = (props) => {
       props.swapData.target,
     );
 
-    setxtztoctez(res.ctezexchangeRate.toFixed(10));
-    setcteztoxtz(res.tezexchangeRate.toFixed(10));
+    setxtztoctez(res.ctezexchangeRate.toFixed(6));
+    setcteztoxtz(res.tezexchangeRate.toFixed(6));
   };
   useEffect(() => {
     if (props.isStableSwap) {
