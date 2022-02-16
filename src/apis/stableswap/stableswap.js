@@ -609,7 +609,13 @@ export const liqCalcRemove = (liqAmountInput, tezPool, ctezPool, lqtTotal) => {
   };
 };
 
-export async function remove_liquidity(tokenIn, tokenOut, amount) {
+export async function remove_liquidity(
+  tokenIn,
+  tokenOut,
+  amount,
+  transactionSubmitModal,
+  setShowConfirmSwap,
+) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
@@ -639,7 +645,9 @@ export async function remove_liquidity(tokenIn, tokenOut, amount) {
         ? console.log('operation getting injected')
         : console.log('operation injected');
     }
+    setShowConfirmSwap(false);
 
+    transactionSubmitModal(op.opHash);
     await op.confirmation();
 
     return {
