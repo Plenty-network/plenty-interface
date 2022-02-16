@@ -164,6 +164,7 @@ const AddLiquidity = (props) => {
         props.walletAddress,
         transactionSubmitModal,
         props.setShowConfirmAddSupply,
+        props.resetAllValues,
       ).then((data) => {
         if (data.success) {
           props.setLoading(false);

@@ -47,7 +47,10 @@ const RemoveLiquidity = (props) => {
     setMessage(value);
     setErrorMessage(true);
   };
-
+  const resetValues = () => {
+    props.resetAllValues();
+    setRemovableTokens({});
+  };
   const removeLiquidityInput = (input) => {
     const removeAmount = parseFloat(input);
     let computedRemoveTokens;
@@ -93,6 +96,7 @@ const RemoveLiquidity = (props) => {
         removableTokens.removeAmount,
         transactionSubmitModal,
         props.setShowConfirmRemoveSupply,
+        resetValues,
       ).then((data) => {
         if (data.success) {
           props.setLoading(false);
@@ -101,7 +105,7 @@ const RemoveLiquidity = (props) => {
           props.handleLoaderMessage('success', 'Transaction confirmed');
 
           //props.setHideContent('');
-          props.resetAllValues();
+          resetValues();
           setTimeout(() => {
             props.setLoaderMessage({});
           }, 5000);

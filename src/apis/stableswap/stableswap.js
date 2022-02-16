@@ -246,9 +246,9 @@ export async function ctez_to_tez(
         : console.log('operation injected');
     }
     setShowConfirmSwap(false);
-
-    transactionSubmitModal(batchOp.opHash);
     resetAllValues();
+    transactionSubmitModal(batchOp.opHash);
+
     await batchOp.confirmation();
     return {
       success: true,
@@ -307,9 +307,9 @@ export async function tez_to_ctez(
 
     const batchOp = await batch.send();
     setShowConfirmSwap(false);
-
-    transactionSubmitModal(batchOp.opHash);
     resetAllValues();
+    transactionSubmitModal(batchOp.opHash);
+
     await batchOp.confirmation();
 
     return {
@@ -533,6 +533,7 @@ export async function add_liquidity(
   recepient,
   transactionSubmitModal,
   setShowConfirmAddSupply,
+  resetAllValues,
 ) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
@@ -584,6 +585,7 @@ export async function add_liquidity(
         : console.log('operation injected');
     }
     setShowConfirmAddSupply(false);
+    resetAllValues();
     transactionSubmitModal(batchOp.opHash);
 
     await batchOp.confirmation();
@@ -601,8 +603,10 @@ export async function add_liquidity(
 }
 
 export const liqCalcRemove = (liqAmountInput, tezPool, ctezPool, lqtTotal) => {
-  const tokenFirst_Out = (liqAmountInput * tezPool) / lqtTotal;
-  const tokenSecond_Out = (liqAmountInput * ctezPool) / lqtTotal;
+  let tokenFirst_Out = (liqAmountInput * tezPool) / lqtTotal;
+  let tokenSecond_Out = (liqAmountInput * ctezPool) / lqtTotal;
+  tokenFirst_Out = parseFloat(tokenFirst_Out.toFixed(6));
+  tokenSecond_Out = parseFloat(tokenSecond_Out.toFixed(6));
   return {
     tokenFirst_Out,
     tokenSecond_Out,
@@ -615,6 +619,7 @@ export async function remove_liquidity(
   amount,
   transactionSubmitModal,
   setShowConfirmSwap,
+  resetAllValues,
 ) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
@@ -646,7 +651,7 @@ export async function remove_liquidity(
         : console.log('operation injected');
     }
     setShowConfirmSwap(false);
-
+    resetAllValues();
     transactionSubmitModal(op.opHash);
     await op.confirmation();
 
