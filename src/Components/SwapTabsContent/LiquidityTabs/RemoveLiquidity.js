@@ -91,7 +91,6 @@ const RemoveLiquidity = (props) => {
         props.tokenIn.name,
         props.tokenOut.name,
         removableTokens.removeAmount,
-        props.walletAddress,
         transactionSubmitModal,
         props.setShowConfirmRemoveSupply,
       ).then((data) => {
