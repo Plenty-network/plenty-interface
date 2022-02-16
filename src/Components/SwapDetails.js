@@ -22,8 +22,6 @@ const SwapDetails = (props) => {
 
   return (
     <div className={clsx('swap-detail-wrapper', isOpen ? 'bg-themed-light' : 'closedbg')}>
-      {/* {props.routeData.success ? ( */}
-
       <div className="space-between" onClick={() => setOpen(!isOpen)} style={{ cursor: 'pointer' }}>
         <div className="flex">
           <p className="price-formula whitespace-prewrap  flex flex-row">
@@ -32,12 +30,16 @@ const SwapDetails = (props) => {
               placement="auto"
               overlay={
                 <Tooltip id="swap-token-out-tooltip" {...props}>
-                  {props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn}
+                  {props.isStableSwap
+                    ? props.computedOutDetails.data.exchangeRate.toFixed(6)
+                    : props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn}
                 </Tooltip>
               }
             >
               <div>
-                {props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn
+                {props.isStableSwap
+                  ? props.computedOutDetails.data.exchangeRate.toFixed(3)
+                  : props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn
                   ? props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn.toFixed(3)
                   : 0}{' '}
                 {props.tokenOut.name}
@@ -46,13 +48,12 @@ const SwapDetails = (props) => {
           </p>
         </div>
         {isOpen ? (
-          <span className="material-icons flex open">keyboard_arrow_up</span>
+          <span className="material-icons-round flex open">keyboard_arrow_up</span>
         ) : (
-          <span className="material-icons flex open">keyboard_arrow_down</span>
+          <span className="material-icons-round flex open">keyboard_arrow_down</span>
         )}
       </div>
 
-      {/* ) : null} */}
       {props.firstTokenAmount &&
         (isOpen ? (
           <>
@@ -80,7 +81,7 @@ const SwapDetails = (props) => {
               </OverlayTrigger>
               <p className="swap-detail-amt-details ml-auto">
                 {props.computedOutDetails.data.finalMinimumOut
-                  ? props.computedOutDetails.data.finalMinimumOut.toFixed(8)
+                  ? props.computedOutDetails.data.finalMinimumOut
                   : '0.00'}{' '}
                 {props.tokenOut.name}
               </p>
@@ -130,11 +131,40 @@ const SwapDetails = (props) => {
                 </span>
               </OverlayTrigger>
               <p className="swap-detail-amt-details ml-auto">
-                {props.firstTokenAmount / 400} {props.tokenIn.name}
+                {props.isStableSwap
+                  ? props.computedOutDetails.data.fees.toFixed(6)
+                  : props.firstTokenAmount / 400}
+                {props.isStableSwap ? props.tokenOut.name : props.tokenIn.name}
               </p>
             </div>
+            {props.isConfirmSwap ? (
+              <div className="flex flex-row align-items-center">
+                <p className="swap-detail-amt-details">Slippage tolerance </p>
+                <OverlayTrigger
+                  key="top"
+                  placement="top"
+                  overlay={
+                    <Tooltip
+                      id={'slippage-tolerance-tooltip'}
+                      arrowProps={{ styles: { display: 'none' } }}
+                    >
+                      Change the slippage tolerance in the transaction settings.
+                    </Tooltip>
+                  }
+                >
+                  <span
+                    style={{ cursor: 'pointer' }}
+                    className="material-icons-round ml-1 swap-detail-amt-details"
+                  >
+                    help_outline
+                  </span>
+                </OverlayTrigger>
+                <p className="swap-detail-amt-details ml-auto">{props.slippage} %</p>
+              </div>
+            ) : null}
           </>
         ) : null)}
+
       {isOpen && props.firstTokenAmount && swapRoute && <hr />}
       {isOpen && swapRoute && (
         <>
@@ -162,8 +192,8 @@ const SwapDetails = (props) => {
             {swapRoute.map((token, idx) => (
               <div key={token.name} className="d-flex my-2">
                 <Image src={token.image} height={20} width={20} alt={''} />
-                <span className="mx-1 my-auto">{token.name}</span>
-                {swapRoute[idx + 1] && <MdChevronRight className="mr-1" fontSize={20} />}
+                <span className="ml-1 my-auto">{token.name}</span>
+                {swapRoute[idx + 1] && <MdChevronRight className="" fontSize={20} />}
               </div>
             ))}
           </div>
@@ -181,6 +211,9 @@ SwapDetails.propTypes = {
   tokenIn: PropTypes.any,
   tokenOut: PropTypes.any,
   routePath: PropTypes.any,
+  isStableSwap: PropTypes.any,
+  slippage: PropTypes.any,
+  isConfirmSwap: PropTypes.any,
 };
 
 export default SwapDetails;

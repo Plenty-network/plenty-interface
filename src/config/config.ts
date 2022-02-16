@@ -8,12 +8,12 @@ const Config: IConfig = {
     tezToolTokenPrice: 'https://api.teztools.io/token/prices',
   },
   RPC_NODES: {
-    testnet: 'https://testnet.tezster.tech',
+    testnet: 'https://hangzhounet.smartpy.io/',
     mainnet: 'https://tezos-prod.cryptonomic-infra.tech/',
   },
   TZKT_NODES: {
     mainnet: 'https://api.tzkt.io',
-    testnet: 'https://api.granadanet.tzkt.io',
+    testnet: 'https://api.hangzhou2net.tzkt.io',
   },
   TOKENS_PAGE: {
     mainnet: 'https://indexer.plentydefi.com/',
@@ -1231,8 +1231,138 @@ const Config: IConfig = {
   ROUTER: {
     mainnet: 'KT1QzuJg2dJZVSoDf56BmvPGMduWzjYggkf5',
   },
+  STABLESWAP: {
+    testnet: {
+      ctez: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1HZW9FWJt6aU8x4nr6UiBry2eUCA7xEFb1',
+        mapId: 26976,
+        READ_TYPE: 'FA1.2',
+        CALL_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 6,
+        DEX_PAIRS: {
+          tez: {
+            contract: 'KT1AD4khq2R9q6DDbRY5CvUk8MXoshqsatGS',
+            property: 'ctezPool',
+            liquidityToken: 'CTEZ-XTZ-LP',
+          },
+        },
+      },
+      tez: {
+        ICON: '',
+        TOKEN_CONTRACT: '',
+        READ_TYPE: 'XTZ',
+        CALL_TYPE: 'XTZ',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 6,
+        DEX_PAIRS: {
+          ctez: {
+            contract: 'KT1AD4khq2R9q6DDbRY5CvUk8MXoshqsatGS',
+            property: 'tezPool',
+            liquidityToken: 'CTEZ-XTZ-LP',
+          },
+        },
+      },
+      'CTEZ-XTZ-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1Rp1fLJPFiR3w5iYSB1zxz4aDWL3Biiqhy',
+        mapId: 80419,
+        READ_TYPE: 'FA1.2',
+        CALL_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 6,
+        DEX_PAIRS: {},
+      },
+    },
+    mainnet: {
+      ctez: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4',
+        mapId: 20920,
+        READ_TYPE: 'FA1.2',
+        CALL_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 6,
+        DEX_PAIRS: {
+          tez: {
+            contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
+            property: 'ctezPool',
+            liquidityToken: 'CTEZ-XTZ-LP',
+          },
+        },
+      },
+
+      tez: {
+        ICON: '',
+        TOKEN_CONTRACT: '',
+        READ_TYPE: 'XTZ',
+        CALL_TYPE: 'XTZ',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 6,
+        DEX_PAIRS: {
+          ctez: {
+            contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
+            property: 'tezPool',
+            liquidityToken: 'CTEZ-XTZ-LP',
+          },
+        },
+      },
+      'CTEZ-XTZ-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1AhTJqRFY3ABSV4kfR3RUS4B66jp1H6A1F',
+        mapId: 108017,
+        READ_TYPE: 'FA1.2',
+        CALL_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 6,
+        DEX_PAIRS: {},
+      },
+    },
+  },
   AMM: {
     testnet: {
+      ctez: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1HZW9FWJt6aU8x4nr6UiBry2eUCA7xEFb1',
+        mapId: 26976,
+        READ_TYPE: 'FA1.2',
+        CALL_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 6,
+        DEX_PAIRS: {
+          tez: {
+            contract: 'KT1AD4khq2R9q6DDbRY5CvUk8MXoshqsatGS',
+            property: 'ctezPool',
+            liquidityToken: 'CTEZ-XTZ-LP',
+          },
+        },
+      },
+      tez: {
+        ICON: '',
+        TOKEN_CONTRACT: '',
+        READ_TYPE: 'XTZ',
+        CALL_TYPE: 'XTZ',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 6,
+        DEX_PAIRS: {
+          ctez: {
+            contract: 'KT1AD4khq2R9q6DDbRY5CvUk8MXoshqsatGS',
+            property: 'tezPool',
+            liquidityToken: 'CTEZ-XTZ-LP',
+          },
+        },
+      },
+      'CTEZ-XTZ-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1Rp1fLJPFiR3w5iYSB1zxz4aDWL3Biiqhy',
+        mapId: 80419,
+        READ_TYPE: 'FA1.2',
+        CALL_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 6,
+        DEX_PAIRS: {},
+      },
       PLENTY: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1TbkspJ8AzLmNs3ko9xr46ZE4zLpyZu9tX',
@@ -4089,7 +4219,7 @@ const Config: IConfig = {
       { block: 24576, rate: 10, duration: '< 9 days' },
       { block: 24576, rate: 4, duration: '> 9 days' },
     ],
-      type2: [
+    type2: [
       { block: 24576, rate: 4, duration: '< 9 days' },
       { block: 24576, rate: 0, duration: '> 9 days' },
     ],

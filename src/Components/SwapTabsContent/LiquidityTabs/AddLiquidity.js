@@ -1,19 +1,79 @@
 import PropTypes from 'prop-types';
 import { addLiquidity, estimateOtherToken, lpTokenOutput } from '../../../apis/swap/swap';
 import React, { useEffect, useState } from 'react';
-
+import clsx from 'clsx';
 import InfoModal from '../../Ui/Modals/InfoModal';
 import ConfirmAddLiquidity from './ConfirmAddLiquidity';
 import Button from '../../Ui/Buttons/Button';
+import {
+  add_liquidity,
+  getXtzDollarPrice,
+  liqCalc,
+  getExchangeRate,
+  loadSwapDataStable,
+} from '../../../apis/stableswap/stableswap';
 
 const AddLiquidity = (props) => {
   const [estimatedTokenAmout, setEstimatedTokenAmout] = useState('');
   const [secondTokenAmount, setSecondTokenAmount] = useState('');
   const [lpTokenAmount, setLpTokenAmount] = useState({});
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
+  const [message, setMessage] = useState('');
   const [transactionId, setTransactionId] = useState('');
+  const [dolar, setDolar] = useState('');
+  const [poolShare, setPoolShare] = useState('0.0');
+  const [xtztoctez, setxtztoctez] = useState('0.00');
+  const [cteztoxtz, setcteztoxtz] = useState('0.00');
+  const fetchOutputData = async () => {
+    const res = getExchangeRate(
+      props.swapData.tezPool,
+      props.swapData.ctezPool,
+      props.swapData.target,
+    );
 
-  const handleLiquidityInput = (input) => {
+    setxtztoctez(res.ctezexchangeRate.toFixed(6));
+    setcteztoxtz(res.tezexchangeRate.toFixed(6));
+  };
+  useEffect(() => {
+    if (props.isStableSwap) {
+      fetchOutputData();
+      getSwapData();
+    }
+  }, [props]);
+  const getSwapData = async () => {
+    await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
+  };
+  useEffect(() => {
+    setErrorMessage(false);
+  }, [props.tokenOut.name, props.firstTokenAmount]);
+
+  const setErrorMessageOnUI = (value) => {
+    setMessage(value);
+    setErrorMessage(true);
+  };
+  const getXtz = async (input) => {
+    const values = await liqCalc(
+      input,
+      props.swapData.tezPool,
+      props.swapData.ctezPool,
+      props.swapData.lpTokenSupply,
+    );
+    setPoolShare(values.poolPercent.toFixed(5));
+    if (props.tokenIn.name === 'tez') {
+      setLpTokenAmount((values.lpToken / 10 ** 6).toFixed(6));
+    }
+    return values.ctez / 10 ** 6;
+  };
+
+  useEffect(() => {
+    getXtzDollarPrice().then((res) => {
+      setDolar(res);
+    });
+  }, []);
+
+  const handleLiquidityInput = async (input) => {
+    props.setFirstTokenAmount(input);
     setEstimatedTokenAmout({});
     if (input === '' || isNaN(input)) {
       setSecondTokenAmount('');
@@ -23,14 +83,22 @@ const AddLiquidity = (props) => {
       });
       return;
     }
-    const estimatedTokenAmout = estimateOtherToken(
-      input,
-      props.swapData.tokenIn_supply,
-      props.swapData.tokenOut_supply,
-    );
-    setEstimatedTokenAmout(estimatedTokenAmout);
+    if (props.tokenIn.name === 'tez') {
+      const res = await getXtz(input);
+
+      setEstimatedTokenAmout({
+        otherTokenAmount: res.toFixed(6),
+      });
+    } else {
+      const estimatedTokenAmout = estimateOtherToken(
+        input,
+        props.swapData.tokenIn_supply,
+        props.swapData.tokenOut_supply,
+      );
+      setEstimatedTokenAmout(estimatedTokenAmout);
+    }
   };
-  const handleLiquiditySecondInput = (input) => {
+  const handleLiquiditySecondInput = async (input) => {
     setSecondTokenAmount(input);
     setEstimatedTokenAmout({});
     if (input === '' || isNaN(input)) {
@@ -40,31 +108,42 @@ const AddLiquidity = (props) => {
         otherTokenAmount: '',
       });
     } else {
-      const estimatedTokenAmout = estimateOtherToken(
-        input,
-        props.swapData.tokenOut_supply,
-        props.swapData.tokenIn_supply,
-      );
-      setEstimatedTokenAmout(estimatedTokenAmout);
-      props.setFirstTokenAmount(estimatedTokenAmout.otherTokenAmount);
+      if (props.tokenIn.name === 'tez') {
+        const res = await getXtz(input);
+
+        setEstimatedTokenAmout({
+          otherTokenAmount: res.toFixed(6),
+        });
+        props.setFirstTokenAmount(res.toFixed(6));
+      } else {
+        const estimatedTokenAmout = estimateOtherToken(
+          input,
+          props.swapData.tokenOut_supply,
+          props.swapData.tokenIn_supply,
+        );
+        setEstimatedTokenAmout(estimatedTokenAmout);
+        props.setFirstTokenAmount(estimatedTokenAmout.otherTokenAmount);
+      }
     }
   };
   const confirmAddLiquidity = () => {
     props.setShowConfirmAddSupply(true);
-    props.setHideContent('content-hide');
+    //props.setHideContent('content-hide');
 
     const secondTokenAmountEntered = secondTokenAmount
       ? parseFloat(secondTokenAmount)
       : estimatedTokenAmout.otherTokenAmount;
 
-    const lpTokenAmount = lpTokenOutput(
-      props.firstTokenAmount,
-      secondTokenAmountEntered,
-      props.swapData.tokenIn_supply,
-      props.swapData.tokenOut_supply,
-      props.swapData.lpTokenSupply,
-    );
-    setLpTokenAmount(lpTokenAmount);
+    if (props.tokenIn.name !== 'tez') {
+      const lpTokenAmount = lpTokenOutput(
+        props.firstTokenAmount,
+        secondTokenAmountEntered,
+        props.swapData.tokenIn_supply,
+        props.swapData.tokenOut_supply,
+        props.swapData.lpTokenSupply,
+      );
+      setLpTokenAmount(lpTokenAmount);
+    }
   };
   const transactionSubmitModal = (id) => {
     setTransactionId(id);
@@ -76,37 +155,73 @@ const AddLiquidity = (props) => {
     const secondTokenAmountEntered = secondTokenAmount
       ? parseFloat(secondTokenAmount)
       : estimatedTokenAmout.otherTokenAmount;
-    addLiquidity(
-      props.tokenIn.name,
-      props.tokenOut.name,
-      props.firstTokenAmount,
-      secondTokenAmountEntered,
-      props.tokenContractInstances[props.tokenIn.name],
-      props.tokenContractInstances[props.tokenOut.name],
-      props.walletAddress,
-      props.swapData.dexContractInstance,
-      transactionSubmitModal,
-    ).then((data) => {
-      if (data.success) {
-        props.setLoading(false);
-        props.handleLoaderMessage('success', 'Transaction confirmed');
-        props.setShowConfirmAddSupply(false);
-        props.setHideContent('');
-        props.resetAllValues();
-        setTimeout(() => {
-          props.setLoaderMessage({});
-        }, 5000);
-      } else {
-        props.setLoading(false);
-        props.handleLoaderMessage('error', 'Transaction failed');
-        props.setShowConfirmAddSupply(false);
-        props.setHideContent('');
-        props.resetAllValues();
-        setTimeout(() => {
-          props.setLoaderMessage({});
-        }, 5000);
-      }
-    });
+    if (props.tokenIn.name === 'tez') {
+      add_liquidity(
+        props.tokenIn.name,
+        props.tokenOut.name,
+        secondTokenAmountEntered,
+        props.firstTokenAmount,
+        props.walletAddress,
+        transactionSubmitModal,
+        props.setShowConfirmAddSupply,
+        props.resetAllValues,
+      ).then((data) => {
+        if (data.success) {
+          props.setLoading(false);
+          props.handleLoaderMessage('success', 'Transaction confirmed');
+          props.setShowConfirmAddSupply(false);
+          //props.setHideContent('');
+          props.resetAllValues();
+          setTimeout(() => {
+            props.setLoaderMessage({});
+          }, 5000);
+        } else {
+          props.setLoading(false);
+          props.handleLoaderMessage('error', 'Transaction failed');
+          props.setShowConfirmAddSupply(false);
+          //props.setHideContent('');
+          props.resetAllValues();
+          setTimeout(() => {
+            props.setLoaderMessage({});
+          }, 5000);
+        }
+      });
+    } else {
+      addLiquidity(
+        props.tokenIn.name,
+        props.tokenOut.name,
+        props.firstTokenAmount,
+        secondTokenAmountEntered,
+        props.tokenContractInstances[props.tokenIn.name],
+        props.tokenContractInstances[props.tokenOut.name],
+        props.walletAddress,
+        props.swapData.dexContractInstance,
+        transactionSubmitModal,
+        props.resetAllValues,
+        props.setShowConfirmAddSupply,
+      ).then((data) => {
+        if (data.success) {
+          props.setLoading(false);
+          props.handleLoaderMessage('success', 'Transaction confirmed');
+          getSwapData();
+          props.setShowConfirmAddSupply(false);
+          //props.setHideContent('');
+          props.resetAllValues();
+          setTimeout(() => {
+            props.setLoaderMessage({});
+          }, 5000);
+        } else {
+          props.setLoading(false);
+          props.handleLoaderMessage('error', 'Transaction failed');
+          props.setShowConfirmAddSupply(false);
+          //props.setHideContent('');
+          props.resetAllValues();
+          setTimeout(() => {
+            props.setLoaderMessage({});
+          }, 5000);
+        }
+      });
+    }
   };
 
   useEffect(() => {
@@ -143,11 +258,11 @@ const AddLiquidity = (props) => {
     } else if (!props.tokenOut.name) {
       swapContentButton = (
         <Button
-          onClick={() => null}
-          color={'primary'}
+          onClick={() => setErrorMessageOnUI('Please select a token and then enter the amount')}
+          color={'disabled'}
           className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
         >
-          Select a token
+          Add Liquidity
         </Button>
       );
     } else {
@@ -160,11 +275,11 @@ const AddLiquidity = (props) => {
         ></Button>
       ) : (
         <Button
-          onClick={() => null}
-          color={'primary'}
-          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+          onClick={() => setErrorMessageOnUI('Enter an amount to add liqiidity')}
+          color={'disabled'}
+          className={' mt-4 w-100 flex align-items-center justify-content-center'}
         >
-          Enter an amount
+          Add Liquidity
         </Button>
       );
     }
@@ -183,14 +298,24 @@ const AddLiquidity = (props) => {
   return (
     <>
       <div className="swap-content-box">
-        <div className="swap-token-select-box">
+        <div
+          className={clsx(
+            'swap-token-select-box',
+
+            errorMessage && 'errorBorder',
+          )}
+        >
           <div className="token-selector-balance-wrapper">
             <button
-              className="token-selector dropdown-themed"
-              onClick={() => props.handleTokenType('tokenIn')}
+              className={clsx(
+                props.isStableSwap && 'stable-swap-token-selector',
+                'token-selector dropdown-themed',
+              )}
+              {...(props.isStableSwap ? {} : { onClick: () => props.handleTokenType('tokenIn') })}
             >
               <img src={props.tokenIn.image} className="button-logo" />
-              {props.tokenIn.name} <span className="material-icons-round">expand_more</span>
+              {props.tokenIn.name}{' '}
+              {!props.isStableSwap && <span className="material-icons-round">expand_more</span>}
             </button>
           </div>
 
@@ -233,7 +358,9 @@ const AddLiquidity = (props) => {
               </p>
               <p className="wallet-token-balance">
                 ~$
-                {props.getTokenPrice.success && props.firstTokenAmount
+                {props.tokenIn.name === 'tez'
+                  ? (dolar * props.firstTokenAmount).toFixed(2)
+                  : props.getTokenPrice.success && props.firstTokenAmount
                   ? (
                       props.firstTokenAmount * props.getTokenPrice.tokenPrice[props.tokenIn.name]
                     ).toFixed(5)
@@ -249,20 +376,34 @@ const AddLiquidity = (props) => {
       </div>
 
       <div className="swap-content-box">
-        <div className="swap-token-select-box">
+        <div
+          className={clsx(
+            'swap-token-select-box',
+
+            errorMessage && 'errorBorder',
+          )}
+        >
           <div className="token-selector-balance-wrapper">
             {props.tokenOut.name ? (
               <button
-                className="token-selector dropdown-themed"
-                onClick={() => props.handleTokenType('tokenOut')}
+                className={clsx(
+                  props.isStableSwap && 'stable-swap-token-selector',
+                  'token-selector dropdown-themed',
+                )}
+                {...(props.isStableSwap
+                  ? {}
+                  : { onClick: () => props.handleTokenType('tokenOut') })}
               >
                 <img src={props.tokenOut.image} className="button-logo" />
-                {props.tokenOut.name} <span className="material-icons-round">expand_more</span>
+                {props.tokenOut.name}{' '}
+                {!props.isStableSwap && <span className="material-icons-round">expand_more</span>}
               </button>
             ) : (
               <button
                 className="token-selector not-selected"
-                onClick={() => props.handleTokenType('tokenOut')}
+                {...(props.isStableSwap
+                  ? {}
+                  : { onClick: () => props.handleTokenType('tokenOut') })}
               >
                 Select a token <span className="material-icons-round">expand_more</span>
               </button>
@@ -300,7 +441,21 @@ const AddLiquidity = (props) => {
               </p>
               <p className="wallet-token-balance">
                 ~$
-                {props.getTokenPrice.success && estimatedTokenAmout.otherTokenAmount
+                {props.tokenIn.name === 'tez'
+                  ? isNaN(
+                      dolar *
+                        (secondTokenAmount
+                          ? secondTokenAmount
+                          : estimatedTokenAmout.otherTokenAmount),
+                    )
+                    ? '0.00'
+                    : (
+                        dolar *
+                        (secondTokenAmount
+                          ? secondTokenAmount
+                          : estimatedTokenAmout.otherTokenAmount)
+                      ).toFixed(2)
+                  : props.getTokenPrice.success && estimatedTokenAmout.otherTokenAmount
                   ? (
                       (secondTokenAmount
                         ? secondTokenAmount
@@ -313,6 +468,7 @@ const AddLiquidity = (props) => {
           ) : null}
         </div>
       </div>
+      {errorMessage && <span className="error-message">{message}</span>}
       <div className="swap-detail-wrapper bg-themed-light">
         <div className="add-liquidity-tip">
           When you add liquidity, you will receive pool tokens representing your position. These
@@ -320,6 +476,7 @@ const AddLiquidity = (props) => {
           at any time.
         </div>
       </div>
+
       {swapContentButton}
       <ConfirmAddLiquidity
         {...props}
@@ -328,6 +485,9 @@ const AddLiquidity = (props) => {
         onHide={props.handleClose}
         estimatedTokenAmout={estimatedTokenAmout}
         secondTokenAmount={secondTokenAmount}
+        poolShare={poolShare}
+        xtztoctez={xtztoctez}
+        cteztoxtz={cteztoxtz}
       />
       <InfoModal
         open={showTransactionSubmitModal}
@@ -355,7 +515,7 @@ AddLiquidity.propTypes = {
   loaderInButton: PropTypes.any,
   resetAllValues: PropTypes.any,
   setFirstTokenAmount: PropTypes.any,
-  setHideContent: PropTypes.any,
+  //setHideContent: PropTypes.any,
   setLoaderMessage: PropTypes.any,
   setLoading: PropTypes.any,
   setShowConfirmAddSupply: PropTypes.any,
@@ -365,4 +525,7 @@ AddLiquidity.propTypes = {
   tokenOut: PropTypes.any,
   userBalances: PropTypes.any,
   walletAddress: PropTypes.any,
+  isStableSwap: PropTypes.any,
+  getSwapData: PropTypes.func,
+  setSwapData: PropTypes.func,
 };

@@ -40,28 +40,41 @@ const SwapModal = (props) => {
 
   useEffect(() => {
     const filterTokens = () => {
-      if (props.activeTab === 'swap') {
-        const filterTokens = props.tokens
-          .filter(searchHits)
-          .filter((token) => {
-            if (props.tokenType === 'tokenOut') {
-              return props.tokenIn.name !== token.name;
-            }
+      if (props.isStableSwap) {
+        const tokenstoshow = props.tokens.filter(searchHits).filter((token) => {
+          if (props.tokenType === 'tokenOut') {
+            return props.tokenIn.name === token.name;
+          }
 
-            return props.tokenOut.name !== token.name;
-          })
-          .map((token) => {
-            if (doesPairExist(token)) {
-              return { ...token, routerNeeded: false };
-            }
+          return props.tokenOut.name === token.name;
+        });
 
-            return { ...token, routerNeeded: true };
-          });
-
-        setTokensToShow(filterTokens);
+        setTokensToShow(tokenstoshow);
       } else {
-        const filteredTokens = props.tokens.filter(searchHits).filter(doesPairExist);
-        setTokensToShow(filteredTokens);
+        if (props.activeTab === 'swap') {
+          const filterTokens = props.tokens
+            .filter(searchHits)
+            .filter((token) => {
+              if (props.tokenType === 'tokenOut') {
+                return props.tokenIn.name !== token.name;
+              }
+
+              return props.tokenOut.name !== token.name;
+            })
+            .map((token) => {
+              if (doesPairExist(token)) {
+                return { ...token, routerNeeded: false };
+              }
+
+              return { ...token, routerNeeded: true };
+            });
+
+          setTokensToShow(filterTokens);
+        } else {
+          const filteredTokens = props.tokens.filter(searchHits).filter(doesPairExist);
+
+          setTokensToShow(filteredTokens);
+        }
       }
     };
     filterTokens();
@@ -74,10 +87,15 @@ const SwapModal = (props) => {
     props.tokenOut.name,
     searchHits,
     doesPairExist,
+    props.isStableSwap,
   ]);
 
   return (
-    <Modal show={props.show} onHide={props.onHide} className="swap-modal modal-themed">
+    <Modal
+      show={props.show}
+      onHide={props.onHide}
+      className="swap-modal modal-themed swap-modal-centered "
+    >
       <Modal.Header className="border-bottom-themed flex-column">
         <div className="flex flex-row w-100">
           <Modal.Title className="flex align-items-center">
@@ -151,6 +169,7 @@ SwapModal.propTypes = {
   tokenOut: PropTypes.any,
   tokenType: PropTypes.any,
   tokens: PropTypes.any,
+  isStableSwap: PropTypes.any,
 };
 
 export default SwapModal;

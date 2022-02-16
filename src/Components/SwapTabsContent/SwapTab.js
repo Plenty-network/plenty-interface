@@ -96,6 +96,12 @@ const SwapTab = (props) => {
     //props.setHideContent('content-hide');
   };
 
+  const resetVal = () => {
+    props.resetAllValues();
+    setFirstTokenAmount('');
+    props.setSecondTokenAmount('');
+    setSecondTokenAmount('');
+  };
   const getDollarValue = (amount, price) => {
     const calculatedValue = amount * price;
     if (calculatedValue < 100) {
@@ -106,7 +112,6 @@ const SwapTab = (props) => {
 
   const handleSwapResponse = (status) => {
     if (status) {
-      console.log({ status });
       props.setLoading(false);
       props.handleLoaderMessage('success', 'Transaction confirmed');
       props.setShowConfirmSwap(false);
@@ -141,7 +146,10 @@ const SwapTab = (props) => {
         firstTokenAmount,
         props.walletAddress,
         props.transactionSubmitModal,
+        props.setShowConfirmSwap,
+        resetVal,
       ).then((swapResp) => {
+        props.setShowConfirmSwap(false);
         handleSwapResponse(swapResp.success);
         setTimeout(() => {
           props.setLoaderMessage({});
@@ -154,7 +162,10 @@ const SwapTab = (props) => {
         props.walletAddress,
         firstTokenAmount,
         props.transactionSubmitModal,
+        props.setShowConfirmSwap,
+        resetVal,
       ).then((swapResp) => {
+        props.setShowConfirmSwap(false);
         handleSwapResponse(swapResp.success);
         setTimeout(() => {
           props.setLoaderMessage({});
@@ -204,18 +215,18 @@ const SwapTab = (props) => {
         );
       }
 
-      if (props.loaderInButton) {
-        return (
-          <Button
-            onClick={() => null}
-            color={'disabled'}
-            loading={true}
-            className={' mt-4 w-100 flex align-items-center justify-content-center'}
-          >
-            Swap
-          </Button>
-        );
-      }
+      // if (props.loaderInButton) {
+      //   return (
+      //     <Button
+      //       onClick={() => null}
+      //       color={'disabled'}
+      //       loading={true}
+      //       className={' mt-4 w-100 flex align-items-center justify-content-center'}
+      //     >
+      //       Swap
+      //     </Button>
+      //   );
+      // }
       return (
         <Button
           onClick={() => setErrorMessageOnUI('Enter an amount to swap')}
@@ -409,28 +420,7 @@ const SwapTab = (props) => {
         {errorMessage && <span className="error-message">{message}</span>}
 
         {swapContentButton}
-        {/* {props.walletAddress && props.routeData.success ? (
-          <div className="flex">
-            <p className="wallet-token-balance whitespace-prewrap  flex flex-row">
-              1 {props.tokenIn.name} ={' '}
-              <OverlayTrigger
-                placement="auto"
-                overlay={
-                  <Tooltip id="swap-token-out-tooltip" {...props}>
-                    {props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn}
-                  </Tooltip>
-                }
-              >
-                <div>
-                  {props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn
-                    ? props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn.toFixed(3)
-                    : 0}{' '}
-                  {props.tokenOut.name}
-                </div>
-              </OverlayTrigger>
-            </p>
-          </div>
-        ) : null} */}
+
         {props.walletAddress &&
           props.tokenIn.name &&
           props.tokenOut.name &&
@@ -442,6 +432,7 @@ const SwapTab = (props) => {
               tokenOut={props.tokenOut}
               routeData={props.routeData}
               firstTokenAmount={firstTokenAmount}
+              isStableSwap={false}
             />
           )}
       </div>

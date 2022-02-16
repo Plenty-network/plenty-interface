@@ -456,6 +456,8 @@ export const swapTokenUsingRouteV3 = async (
   caller,
   amount,
   transactionSubmitModal,
+  setShowConfirmSwap,
+  resetAllValues,
 ) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
@@ -521,6 +523,8 @@ export const swapTokenUsingRouteV3 = async (
         .withContractCall(routerInstance.methods.routerSwap(DataMap, swapAmount, caller));
     }
     const batchOp = await batch.send();
+    resetAllValues();
+    setShowConfirmSwap(false);
     transactionSubmitModal(batchOp.opHash);
     await batchOp.confirmation();
     return {

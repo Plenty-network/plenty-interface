@@ -1,6 +1,7 @@
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 import plenty from '../../../assets/images/logo_small.png';
+import tez from '../../../assets/images/tez.png';
 import ctez from '../../../assets/images/ctez.png';
 import config from '../../../config/config';
 import { tokens } from '../../../constants/swapPage';
@@ -19,8 +20,8 @@ export const useLocationStateInSwap = () => {
   });
   const [tokenOut, setTokenOut] = useState({});
   const [tokenOutStable, setTokenOutStable] = useState({
-    name: 'PLENTY',
-    image: plenty,
+    name: 'tez',
+    image: tez,
   });
 
   const AMMExists = useMemo(() => {
@@ -31,11 +32,8 @@ export const useLocationStateInSwap = () => {
     if (location.pathname === '/swap') {
       return 'swap';
     }
-    if (location.pathname === '/liquidity') {
-      return 'liquidity';
-    }
 
-    return 'stableswap';
+    return 'liquidity';
   }, [location.pathname]);
 
   const paramKeys = useMemo(() => {
