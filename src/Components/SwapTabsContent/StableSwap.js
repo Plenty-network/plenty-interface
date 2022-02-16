@@ -134,6 +134,13 @@ const StableSwap = (props) => {
     return Math.floor(calculatedValue);
   };
 
+  const resetValues = () => {
+    setFirstTokenAmountStable('');
+    setSecondTokenAmountStable('');
+    props.setSecondTokenAmountStable('');
+    props.resetAllValues();
+  };
+
   const handleSwapResponse = (status) => {
     if (status) {
       getSwapData();
@@ -163,7 +170,7 @@ const StableSwap = (props) => {
     props.setLoaderInButton(true);
 
     const recepientAddress = props.recepient ? props.recepient : props.walletAddress;
-
+    props.resetAllValues();
     if (props.tokenIn.name === 'ctez') {
       ctez_to_tez(
         props.tokenIn.name,
@@ -173,7 +180,7 @@ const StableSwap = (props) => {
         Number(firstTokenAmountStable),
         props.transactionSubmitModal,
         props.setShowConfirmSwap,
-        props.resetAllValues,
+        resetValues,
       ).then((response) => {
         handleSwapResponse(response.success);
         setTimeout(() => {
@@ -189,7 +196,7 @@ const StableSwap = (props) => {
         Number(firstTokenAmountStable),
         props.transactionSubmitModal,
         props.setShowConfirmSwap,
-        props.resetAllValues,
+        resetValues,
       ).then((response) => {
         props.setShowConfirmSwap(false);
         handleSwapResponse(response.success);
