@@ -96,8 +96,6 @@ const NormalSwap = (props) => {
       }
       const balanceResponse = await Promise.all(balancePromises);
 
-      console.log('updateBalance', balanceResponse);
-
       setUserBalances((prev) => ({
         ...prev,
         ...balanceResponse.reduce(

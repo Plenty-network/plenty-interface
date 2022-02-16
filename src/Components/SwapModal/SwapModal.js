@@ -41,15 +41,15 @@ const SwapModal = (props) => {
   useEffect(() => {
     const filterTokens = () => {
       if (props.isStableSwap) {
-        const d = props.tokens.filter(searchHits).filter((token) => {
+        const tokenstoshow = props.tokens.filter(searchHits).filter((token) => {
           if (props.tokenType === 'tokenOut') {
             return props.tokenIn.name === token.name;
           }
 
           return props.tokenOut.name === token.name;
         });
-        console.log(d);
-        setTokensToShow(d);
+
+        setTokensToShow(tokenstoshow);
       } else {
         if (props.activeTab === 'swap') {
           const filterTokens = props.tokens

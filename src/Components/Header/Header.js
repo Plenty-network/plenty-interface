@@ -73,7 +73,6 @@ const Header = (props) => {
     }
   };
   const setHeaderMobile = (value) => {
-    console.log(value);
     if (value !== selectedHeader) {
       toggleExpand(true);
     } else {

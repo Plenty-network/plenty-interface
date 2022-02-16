@@ -81,22 +81,6 @@ export const calculateTokensOutStable = async (
 ) => {
   tokenIn_amount = tokenIn_amount * 10 ** 6;
   try {
-    console.log(
-      'tez:',
-      tezSupply,
-      'ctez:',
-      ctezSupply,
-      'tokenIn_amount',
-      tokenIn_amount,
-      'pair_fee_denom:',
-      pair_fee_denom,
-      'slippage:',
-      slippage,
-      'target:',
-      target,
-      'tokenIn:',
-      tokenIn,
-    );
     if (tokenIn === 'ctez') {
       const dy =
         newton_dx_to_dy(target * ctezSupply, tezSupply * 2 ** 48, tokenIn_amount * target, 5) /
@@ -126,7 +110,7 @@ export const calculateTokensOutStable = async (
       priceImpact = Math.abs(priceImpact);
       tokenOut = tokenOut / 10 ** 6;
       fee = fee / 10 ** 6;
-      console.log('fee:', fee);
+
       return {
         tokenOut,
         fee,
@@ -162,7 +146,7 @@ export const calculateTokensOutStable = async (
       priceImpact = Math.abs(priceImpact);
       tokenOut = tokenOut / 10 ** 6;
       fee = fee / 10 ** 6;
-      console.log('fee:', fee);
+
       return {
         tokenOut,
         fee,

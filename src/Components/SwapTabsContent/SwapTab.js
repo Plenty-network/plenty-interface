@@ -30,7 +30,6 @@ const SwapTab = (props) => {
   });
 
   const handleSwapTokenInput = (input, tokenType) => {
-    console.log(input);
     if (input === '' || isNaN(input)) {
       setFirstTokenAmount('');
       setSecondTokenAmount('');
@@ -107,7 +106,6 @@ const SwapTab = (props) => {
 
   const handleSwapResponse = (status) => {
     if (status) {
-      console.log({ status });
       props.setLoading(false);
       props.handleLoaderMessage('success', 'Transaction confirmed');
       props.setShowConfirmSwap(false);
