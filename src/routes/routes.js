@@ -69,15 +69,39 @@ const MyRoutes = (props) => {
               path={'/swap'}
               element={
                 <OtherPages {...otherPageProps}>
-                  <Swap walletAddress={props.userAddress} connecthWallet={connectWallet} />
+                  <Swap
+                    walletAddress={props.userAddress}
+                    connecthWallet={connectWallet}
+                    theme={otherPageProps.theme}
+                  />
                 </OtherPages>
               }
             />
             <Route
-              path="/liquidity/*"
+              path={'/liquidity/*'}
               element={
                 <OtherPages {...otherPageProps}>
-                  <Swap walletAddress={props.userAddress} connecthWallet={connectWallet} />
+                  <Swap walletAddress={props.userAddress} theme={otherPageProps.theme} />
+                </OtherPages>
+              }
+            />
+            <Route
+              path={'/Stableswap/*'}
+              element={
+                <OtherPages {...otherPageProps}>
+                  <Swap
+                    walletAddress={props.userAddress}
+                    connecthWallet={connectWallet}
+                    theme={otherPageProps.theme}
+                  />
+                </OtherPages>
+              }
+            />
+            <Route
+              path="/liquidityStable/*"
+              element={
+                <OtherPages {...otherPageProps}>
+                  <Swap walletAddress={props.userAddress} theme={otherPageProps.theme} />
                 </OtherPages>
               }
             />
@@ -93,7 +117,7 @@ const MyRoutes = (props) => {
               path="/stake"
               element={
                 <OtherPages {...otherPageProps}>
-                  <Stake walletAddress={props.userAddress} />
+                  <Stake walletAddress={props.userAddress} connecthWallet={connectWallet} />
                 </OtherPages>
               }
             />
@@ -121,18 +145,6 @@ const MyRoutes = (props) => {
                 </OtherPages>
               }
             />
-            {/* <Route
-              path="/vote"
-              element={
-                <Governance
-                  toggleTheme={toggleTheme}
-                  theme={theme}
-                  connectWallet={connectWallet}
-                  disconnectWallet={disconnectUserWallet}
-                  walletAddress={props.userAddress}
-                />
-              }
-            /> */}
           </Routes>
         </React.Suspense>
       </BrowserRouter>

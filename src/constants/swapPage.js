@@ -34,17 +34,17 @@ export const tokens = [
   {
     name: 'CRUNCH',
     image: CRUNCH,
-    new: true,
+    new: false,
   },
   {
     name: 'crDAO',
     image: crDAO,
-    new: true,
+    new: false,
   },
   {
     name: 'ctez',
     image: ctez,
-    new: true,
+    new: false,
     extra: {
       text: 'Get ctez',
       link: 'https://ctez.app',
@@ -58,7 +58,7 @@ export const tokens = [
   {
     name: 'FLAME',
     image: FLAME,
-    new: true,
+    new: false,
   },
   {
     name: 'GIF',
@@ -68,7 +68,7 @@ export const tokens = [
   {
     name: 'INSTA',
     image: INSTA,
-    new: true,
+    new: false,
   },
   {
     name: 'hDAO',
@@ -83,7 +83,7 @@ export const tokens = [
   {
     name: 'kDAO',
     image: kDAO,
-    new: true,
+    new: false,
   },
   {
     name: 'kUSD',
@@ -93,7 +93,7 @@ export const tokens = [
   {
     name: 'PAUL',
     image: PAUL,
-    new: true,
+    new: false,
   },
   {
     name: 'PLENTY',
@@ -103,7 +103,7 @@ export const tokens = [
   {
     name: 'PXL',
     image: PXL,
-    new: true,
+    new: false,
   },
   {
     name: 'QUIPU',
@@ -192,6 +192,6 @@ export const tokens = [
   {
     name: 'YOU',
     image: youGov,
-    new: true,
+    new: false,
   },
 ];
