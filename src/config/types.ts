@@ -21,6 +21,10 @@ export interface IConfig {
     mainnet: Record<string, string>;
   };
   ROUTER: { mainnet: string };
+  STABLESWAP: {
+    testnet: Record<string, IStableAmmContract>;
+    mainnet: Record<string, IStableAmmContract>;
+  };
   AMM: {
     testnet: Record<string, IAmmContract1 | IAmmContract2>;
     mainnet: Record<string, IAmmContract1 | IAmmContract2>;
@@ -51,7 +55,7 @@ interface INodes {
   mainnet: string;
 }
 
-type TTokenType = 'FA2' | 'FA1.2';
+type TTokenType = 'FA2' | 'FA1.2' | 'XTZ';
 
 export interface ITokenContract {
   address: string;
@@ -79,6 +83,17 @@ export interface IFarm {
   message?: string;
   bannerType?: string;
   dualInfo?: Record<'tokenFirst' | 'tokenSecond', IDualToken>;
+}
+
+interface IStableAmmContract {
+  ICON: string;
+  TOKEN_CONTRACT: string;
+  mapId?: number;
+  READ_TYPE: TTokenType;
+  CALL_TYPE: TTokenType;
+  TOKEN_ID: number;
+  TOKEN_DECIMAL: number;
+  DEX_PAIRS: Record<string, IAmmDexPair>;
 }
 
 interface IAmmContract1 {

@@ -66,6 +66,12 @@
   color: var(--theme-primary-gradient-1);
   border: 0;
 }
+.disabled {
+  background: var(--theme-disabled-button);
+  color: var(--theme-disable-button-text);
+  border: 0;
+  font-weight: 700;
+}
 
 .smallBtn {
   height: 26px;

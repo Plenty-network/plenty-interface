@@ -56,6 +56,8 @@ export const swapTokens = async (
   tokenInAmount,
   caller,
   transactionSubmitModal,
+  setShowConfirmSwap,
+  resetAllValues,
 ) => {
   const connectedNetwork = CONFIG.NETWORK;
   const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
@@ -139,7 +141,10 @@ export const swapTokens = async (
           ]),
         );
     }
+
     const batchOperation = await batch.send();
+    resetAllValues();
+    setShowConfirmSwap(false);
     transactionSubmitModal(batchOperation.opHash);
     await batchOperation.confirmation().then(() => batchOperation.opHash);
     return {
@@ -580,6 +585,8 @@ export const addLiquidity = async (
   caller,
   dexContractInstance,
   transactionSubmitModal,
+  resetAllValues,
+  setShowConfirmAddSupply,
 ) => {
   try {
     const network = {
@@ -778,6 +785,8 @@ export const addLiquidity = async (
         .withContractCall(tokenSecondInstance.methods.approve(dexContractAddress, 0));
     }
     const batchOperation = await batch.send();
+    resetAllValues();
+    setShowConfirmAddSupply(false);
     transactionSubmitModal(batchOperation.opHash);
     await batchOperation.confirmation().then(() => batchOperation.opHash);
     return {
@@ -897,6 +906,8 @@ export const removeLiquidity = async (
   caller,
   dexContractInstance,
   transactionSubmitModal,
+  resetAllValues,
+  setShowConfirmRemoveSupply,
 ) => {
   try {
     let tokenFirst = null;
@@ -960,6 +971,8 @@ export const removeLiquidity = async (
         ),
       );
     const batchOperation = await batch.send();
+    resetAllValues();
+    setShowConfirmRemoveSupply(false);
     transactionSubmitModal(batchOperation.opHash);
     await batchOperation.confirmation().then(() => batchOperation.opHash);
     return {

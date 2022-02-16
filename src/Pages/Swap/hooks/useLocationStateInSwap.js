@@ -1,6 +1,8 @@
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 import plenty from '../../../assets/images/logo_small.png';
+import tez from '../../../assets/images/tez.png';
+import ctez from '../../../assets/images/ctez.png';
 import config from '../../../config/config';
 import { tokens } from '../../../constants/swapPage';
 
@@ -8,12 +10,19 @@ export const useLocationStateInSwap = () => {
   const [tokenParams, setTokenParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
-
   const [tokenIn, setTokenIn] = useState({
     name: 'PLENTY',
     image: plenty,
   });
+  const [tokenInStable, setTokenInStable] = useState({
+    name: 'ctez',
+    image: ctez,
+  });
   const [tokenOut, setTokenOut] = useState({});
+  const [tokenOutStable, setTokenOutStable] = useState({
+    name: 'tez',
+    image: tez,
+  });
 
   const AMMExists = useMemo(() => {
     return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
@@ -95,5 +104,16 @@ export const useLocationStateInSwap = () => {
     }
   }, []);
 
-  return { activeTab, setActiveTab, tokenIn, setTokenIn, tokenOut, setTokenOut };
+  return {
+    activeTab,
+    setActiveTab,
+    tokenIn,
+    setTokenIn,
+    tokenOut,
+    setTokenOut,
+    tokenInStable,
+    setTokenInStable,
+    tokenOutStable,
+    setTokenOutStable,
+  };
 };

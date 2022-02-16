@@ -8,7 +8,7 @@ const ConfirmRemoveLiquidity = (props) => {
     <Modal
       show={props.showConfirmRemoveSupply}
       onHide={props.onHide}
-      className="confirm-swap-modal"
+      className="confirm-swap-modal confirm-add-liquidity-modal"
     >
       <Modal.Header>
         <Modal.Title>You will receive</Modal.Title>
@@ -25,6 +25,7 @@ const ConfirmRemoveLiquidity = (props) => {
       <Modal.Body>
         <>
           <div className="swap-content-box-wrapper">
+            <div className="header-line"></div>
             <div className="swap-content-box">
               <div className="swap-token-select-box">
                 <div className="token-selector-balance-wrapper">
@@ -36,7 +37,7 @@ const ConfirmRemoveLiquidity = (props) => {
 
                 <div className="token-user-input-wrapper">
                   {props.removableTokens.tokenFirst_Out
-                    ? props.removableTokens.tokenFirst_Out.toFixed(12)
+                    ? props.removableTokens.tokenFirst_Out.toFixed(6)
                     : '0.00'}
                 </div>
               </div>
@@ -57,7 +58,7 @@ const ConfirmRemoveLiquidity = (props) => {
 
                 <div className="token-user-input-wrapper">
                   {props.removableTokens.tokenSecond_Out
-                    ? props.removableTokens.tokenSecond_Out.toFixed(12)
+                    ? props.removableTokens.tokenSecond_Out.toFixed(6)
                     : '0.00'}
                 </div>
               </div>
@@ -81,10 +82,13 @@ const ConfirmRemoveLiquidity = (props) => {
               <p className="swap-detail-amt-details">Rates</p>
               <div className="token-user-input-wrapper">
                 <p className="swap-detail-amt-details">
-                  1 {props.tokenIn.name} = {props.swapData.tokenOutPerTokenIn} {props.tokenOut.name}
+                  1 {props.tokenIn.name} ={' '}
+                  {props.isStableSwap ? props.xtztoctez : props.swapData.tokenOutPerTokenIn}{' '}
+                  {props.tokenOut.name}
                 </p>
                 <p className="swap-detail-amt-details">
-                  1 {props.tokenOut.name} = {1 / props.swapData.tokenOutPerTokenIn}{' '}
+                  1 {props.tokenOut.name} ={' '}
+                  {props.isStableSwap ? props.cteztoxtz : 1 / props.swapData.tokenOutPerTokenIn}{' '}
                   {props.tokenIn.name}
                 </p>
               </div>
@@ -115,6 +119,9 @@ ConfirmRemoveLiquidity.propTypes = {
   swapData: PropTypes.any,
   tokenIn: PropTypes.any,
   tokenOut: PropTypes.any,
+  isStableSwap: PropTypes.any,
+  xtztoctez: PropTypes.any,
+  cteztoxtz: PropTypes.any,
 };
 
 export default ConfirmRemoveLiquidity;

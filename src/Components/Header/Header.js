@@ -73,7 +73,6 @@ const Header = (props) => {
     }
   };
   const setHeaderMobile = (value) => {
-    console.log(value);
     if (value !== selectedHeader) {
       toggleExpand(true);
     } else {
@@ -138,11 +137,12 @@ const Header = (props) => {
                       className={clsx(
                         selectedHeader === HEADER_MODAL.TRADE ? 'menu-item-active' : 'menu-item',
                         (splitLocation[1] === 'swap' ||
+                          splitLocation[1] === 'Stableswap' ||
+                          splitLocation[1] === 'liquidityStable' ||
                           splitLocation[1] === 'tokens' ||
                           splitLocation[1] === 'liquidity') &&
                           'selected-menu-item-active',
                         'align-self-start align-self-lg-center d-lg-flex align-items-center',
-                        'space-between',
                       )}
                       {...(isMobile ? {} : { as: Link, to: '/swap' })}
                       onMouseEnter={() => setHeader(HEADER_MODAL.TRADE)}
