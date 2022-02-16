@@ -24,8 +24,9 @@ export const lightTheme = {
   dropdownThemed: '#FFFFFF',
   dropdownThemedHighlight: '#eeeeee',
   iconFill: '#4E5D78',
-  iconHoverFill: '#6202ef',
+  iconHoverFill: '#ffffff',
   iconBgStartColor: '#D2D5DB',
+  iconBgHover: '#6202ef',
   iconBgEndColor: '#D2D5DB',
   iconHoverBgStartColor: '#7028E4',
   iconHoverBgEndColor: '#E5B2CA',
@@ -54,10 +55,11 @@ export const darkTheme = {
   btnFrontPage: '#19263A',
   dropdownThemed: '#514b6b',
   dropdownThemedHighlight: '#5e6884',
-  iconFill: '#4E5D78',
-  iconHoverFill: '#6202ef',
-  iconBgStartColor: '#D2D5DB',
-  iconBgEndColor: '#D2D5DB',
+  iconFill: '#FFFFFF',
+  iconHoverFill: '#252146',
+  iconBgStartColor: '#3D395F',
+  iconBgEndColor: '#3D395F',
+  iconBgHover: '#CEAEFE',
   iconHoverBgStartColor: '#7028E4',
   iconHoverBgEndColor: '#E5B2CA',
 };
@@ -77,10 +79,26 @@ export const FrontPageBottomGradientDiv = styled.div`
 export const GlobalStyles = createGlobalStyle`
   .start-color {
     stop-color: ${(props) => props.theme.iconBgStartColor};
+    &:hover {
+      stop-color: ${(props) => props.theme.iconBgHover};
+    }
+  }
+  &:hover {
+   > .start-color{
+    stop-color: ${(props) => props.theme.iconBgHover};
+    }
   }
   
   .end-color {
     stop-color: ${(props) => props.theme.iconBgEndColor};
+    &:hover {
+      stop-color: ${(props) => props.theme.iconBgHover};
+    }
+  }
+  &:hover {
+   > .end-color{
+    stop-color: ${(props) => props.theme.iconBgHover};
+    }
   }
   
   .icon-themed {
@@ -92,32 +110,44 @@ export const GlobalStyles = createGlobalStyle`
       > .icon-fill-themed {
         fill: ${(props) => props.theme.iconHoverFill};
       }
-       
-      // > defs stop:first-child {
-      //   stop-color: ${(props) => props.theme.iconHoverBgStartColor};
-      // }
+    }
+    > .icon-bg-gradient{
+      fill: ${(props) => props.theme.iconBgEndColor};
+    }
+    &:hover {
+      > .icon-bg-gradient{
+      fill: ${(props) => props.theme.iconBgHover};
+      }
+  }
+
+  }
+  .discord-icon-bg-gradient{
+   
+        fill: ${(props) => props.theme.iconBgEndColor};
       
-      // > defs stop:last-child {
-      //   stop-color: ${(props) => props.theme.iconHoverBgEndColor};
-      // }
+    
+    &:hover {
+     
+        fill: ${(props) => props.theme.iconBgHover};
+      
     }
   }
   
-  #medium-icon-bg {
-    fill: url(#medium-icon-bg-gradient);
-  }
+  // #medium-icon-bg {
+  //   fill: url(#medium-icon-bg-gradient);
+  // }
  
-  #twitter-icon-bg {
-    fill: url(#twitter-icon-bg-gradient);
-  }
+  // #twitter-icon-bg {
+  //   fill: url(#twitter-icon-bg-gradient);
+  // }
   
-  #discord-icon-bg {
-    fill: url(#discord-icon-bg-gradient);
-  }
+  // #discord-icon-bg {
+  //   fill: url(#discord-icon-bg-gradient);
+  // }
   
-  #telegram-icon-bg {
-    fill: url(#telegram-icon-bg-gradient);
-  }
+  // #telegram-icon-bg {
+  //   fill: url(#telegram-icon-bg-gradient);
+  // }
   
   .span-themed {
     color: ${(props) => props.theme.span} !important;

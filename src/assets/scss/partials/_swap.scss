@@ -116,16 +116,12 @@
   .nav-link.active {
     border-bottom: 3px solid var(--theme-primary-button-bg) !important;
     color: var(--theme-primary-button-bg);
-    // ::after {
-    //   content: '';
-    //   position: absolute;
-    //   border-bottom: 3px solid var(--theme-primary-button-bg) !important;
-    //   left: 6px;
-    //   right: 0;
-    //   top: 57px;
-    //   width: 60px;
-    //   visibility: visible;
-    // }
+  }
+}
+.remove-border-bottom {
+  .nav-link.active {
+    color: var(--theme-text-1) !important;
+    border: 0 !important;
   }
 }
 .swap-content-box-wrapper {

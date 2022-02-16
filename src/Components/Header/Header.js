@@ -4,6 +4,7 @@ import truncateMiddle from 'truncate-middle';
 import { Col, Container, Nav, Navbar, Row } from 'react-bootstrap';
 import clsx from 'clsx';
 import { ReactComponent as Logo } from '../../assets/images/logo.svg';
+import { ReactComponent as BannerArrow } from '../../assets/images/banner-arrow.svg';
 import { ReactComponent as LogoWhite } from '../../assets/images/logo-white.svg';
 import { Link, useLocation } from 'react-router-dom';
 import { RPC_NODE } from '../../constants/localStorage';
@@ -83,6 +84,20 @@ const Header = (props) => {
 
   return (
     <>
+      {splitLocation[1] !== 'wrappedAssets' && (
+        <div className="banner">
+          <span className="banner-text">
+            A proposal is submitted to the Tezos blockchain – time to vote.. Cast your votes now
+          </span>
+          <Link to="/wrappedAssets" className="text-decoration-none">
+            <span className="bottom-last" style={{ cursor: 'pointer' }}>
+              Try it out
+            </span>
+            <span className="new">New</span>
+            <BannerArrow className="ml-2" />
+          </Link>
+        </div>
+      )}
       <Container className="header" fluid>
         <Row>
           <Col className={clsx('innerHeader')} sm={12} md={12}>

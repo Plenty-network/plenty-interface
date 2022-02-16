@@ -1,35 +1,22 @@
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import React, { useEffect, useMemo, useState } from 'react';
-import SwapDetails from '../SwapDetails';
 import ConfirmSwap from './ConfirmSwap';
+
+import { swapTokens } from '../../apis/swap/swap';
 import Button from '../Ui/Buttons/Button';
 import {
-  loadSwapDataStable,
-  calculateTokensOutStable,
-  ctez_to_tez,
-  tez_to_ctez,
-  getXtzDollarPrice,
-} from '../../apis/stableswap/stableswap';
-import { ReactComponent as Stableswap } from '../../assets/images/SwapModal/stableswap-white.svg';
+  computeTokenOutForRouteBaseV2,
+  swapTokenUsingRouteV3,
+  computeTokenOutForRouteBaseByOutAmountV2,
+} from '../../apis/swap/swap-v2';
 
-const StableSwap = (props) => {
-  const [firstTokenAmountStable, setFirstTokenAmountStable] = useState();
-  const [secondTokenAmountStable, setSecondTokenAmountStable] = useState();
+const SwapContent = (props) => {
+  const [firstTokenAmount, setFirstTokenAmount] = useState();
+  const [secondTokenAmount, setSecondTokenAmount] = useState();
+  const [routePath, setRoutePath] = useState([]);
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState('');
-  const [dolar, setDolar] = useState('0.0');
-  const [swapData, setSwapData] = useState({
-    success: false,
-    tezPool: 0,
-    ctezPool: 0,
-    tokenIn: props.tokenIn.name,
-    tokenOut: props.tokenOut.name,
-    lpTokenSupply: 0,
-    target: 0,
-    lpToken: null,
-    dexContractInstance: null,
-  });
   const [computedData, setComputedData] = useState({
     success: false,
     data: {
@@ -39,93 +26,82 @@ const StableSwap = (props) => {
       minimumOut: [],
       finalMinimumOut: 0,
       priceImpact: 0,
-      exchangeRate: 0,
     },
   });
 
-  const getSwapData = async () => {
-    const res = await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
-    setSwapData(res);
-  };
-  useEffect(() => {
-    getSwapData();
-  }, [props]);
-
-  useEffect(() => {
-    getXtzDollarPrice().then((res) => {
-      setDolar(res);
-    });
-  }, []);
-
-  const fetchSwapData = async (input) => {
-    const tokenOutResponse = await calculateTokensOutStable(
-      swapData.tezPool,
-      swapData.ctezPool,
-      Number(input),
-      1000,
-      props.slippage,
-      swapData.target,
-      props.tokenIn.name,
-    );
-
-    return tokenOutResponse;
-  };
-
-  const handleSwapTokenInput = async (input, tokenType) => {
+  const handleSwapTokenInput = (input, tokenType) => {
     if (input === '' || isNaN(input)) {
-      setFirstTokenAmountStable('');
-      setSecondTokenAmountStable('');
+      setFirstTokenAmount('');
+      setSecondTokenAmount('');
     } else {
       if (tokenType === 'tokenIn') {
-        setFirstTokenAmountStable(input);
+        setFirstTokenAmount(input);
 
-        const res = await fetchSwapData(input);
+        const res = computeTokenOutForRouteBaseV2(input, props.routeData.allRoutes, props.slippage);
 
-        setSecondTokenAmountStable(res.tokenOut.toFixed(6));
+        setComputedData(res);
         setComputedData({
           success: true,
           data: {
-            tokenOutAmount: res.tokenOut.toFixed(6),
-            fees: res.fee,
-            totalFees: res.fee,
-            minimumOut: res.minimumOut.toFixed(6),
-            finalMinimumOut: res.minimumOut.toFixed(6),
-            priceImpact: res.priceImpact,
-            exchangeRate: res.exchangeRate,
+            tokenOutAmount: res.bestRoute.computations.tokenOutAmount,
+            fees: res.bestRoute.computations.fees,
+            totalFees: res.bestRoute.computations.fees[res.bestRoute.computations.fees.length - 1],
+            minimumOut: res.bestRoute.computations.minimumOut,
+            finalMinimumOut:
+              res.bestRoute.computations.minimumOut[
+                res.bestRoute.computations.minimumOut.length - 1
+              ],
+            priceImpact: res.bestRoute.computations.priceImpact,
           },
         });
+        setRoutePath(res.bestRoute.path);
+        setSecondTokenAmount(res.bestRoute.computations.tokenOutAmount);
       } else if (tokenType === 'tokenOut') {
-        setSecondTokenAmountStable(input);
-        const res = await fetchSwapData(input);
+        setSecondTokenAmount(input);
 
-        setFirstTokenAmountStable(res.tokenOut.toFixed(6));
-
+        const res = computeTokenOutForRouteBaseByOutAmountV2(
+          input,
+          props.routeData.allRoutes,
+          props.slippage,
+        );
         setComputedData({
           success: true,
           data: {
-            tokenOutAmount: res.tokenOut.toFixed(6),
-            fees: res.fee,
-            totalFees: res.fee,
-            minimumOut: res.minimumOut.toFixed(6),
-            finalMinimumOut: res.minimumOut.toFixed(6),
-            priceImpact: res.priceImpact,
-            exchangeRate: res.exchangeRate,
+            tokenOutAmount: res.bestRoute.computations.tokenOutAmount,
+            fees: res.bestRoute.computations.fees,
+            totalFees: res.bestRoute.computations.fees[res.bestRoute.computations.fees.length - 1],
+            minimumOut: res.bestRoute.computations.minimumOut,
+            finalMinimumOut:
+              res.bestRoute.computations.minimumOut[
+                res.bestRoute.computations.minimumOut.length - 1
+              ],
+            priceImpact: res.bestRoute.computations.priceImpact,
           },
         });
+        setRoutePath(res.bestRoute.path);
+        setFirstTokenAmount(res.bestRoute.computations.tokenInAmount);
       }
     }
   };
+
   useEffect(() => {
-    handleSwapTokenInput(firstTokenAmountStable, 'tokenIn');
-  }, [props.tokenIn]);
+    handleSwapTokenInput(firstTokenAmount, 'tokenIn');
+  }, [props.routeData]);
   useEffect(() => {
     setErrorMessage(false);
-  }, [props.tokenOut.name, firstTokenAmountStable]);
+  }, [props.tokenOut.name, firstTokenAmount]);
 
   const callSwapToken = () => {
     props.setShowConfirmSwap(true);
+    //props.setHideContent('content-hide');
   };
 
+  const resetVal = () => {
+    props.resetAllValues();
+    setFirstTokenAmount('');
+    props.setSecondTokenAmount('');
+    setSecondTokenAmount('');
+  };
   const getDollarValue = (amount, price) => {
     const calculatedValue = amount * price;
     if (calculatedValue < 100) {
@@ -134,33 +110,24 @@ const StableSwap = (props) => {
     return Math.floor(calculatedValue);
   };
 
-  const resetValues = () => {
-    setFirstTokenAmountStable('');
-    setSecondTokenAmountStable('');
-    props.setSecondTokenAmountStable('');
-    props.resetAllValues();
-  };
-
   const handleSwapResponse = (status) => {
     if (status) {
-      getSwapData();
-
       props.setLoading(false);
       props.handleLoaderMessage('success', 'Transaction confirmed');
       props.setShowConfirmSwap(false);
       //props.setHideContent('');
-      props.setSecondTokenAmountStable('');
+      props.setSecondTokenAmount('');
       props.resetAllValues();
       props.setLoaderInButton(false);
-      setFirstTokenAmountStable('');
-      setSecondTokenAmountStable('');
+      setFirstTokenAmount('');
+      setSecondTokenAmount('');
     } else {
       props.setLoading(false);
       props.handleLoaderMessage('error', 'Transaction failed');
       props.setShowConfirmSwap(false);
       //props.setHideContent('');
       props.resetAllValues();
-      props.setSecondTokenAmountStable('');
+      props.setSecondTokenAmount('');
       props.setLoaderInButton(false);
     }
   };
@@ -168,38 +135,38 @@ const StableSwap = (props) => {
   const confirmSwapToken = async () => {
     props.setLoading(true);
     props.setLoaderInButton(true);
-
     const recepientAddress = props.recepient ? props.recepient : props.walletAddress;
-    props.resetAllValues();
-    if (props.tokenIn.name === 'ctez') {
-      ctez_to_tez(
-        props.tokenIn.name,
-        props.tokenOut.name,
-        computedData.data.minimumOut,
+
+    if (routePath.length <= 2) {
+      swapTokens(
+        routePath[0],
+        routePath[1],
+        computedData.data.finalMinimumOut,
         recepientAddress,
-        Number(firstTokenAmountStable),
+        firstTokenAmount,
+        props.walletAddress,
         props.transactionSubmitModal,
         props.setShowConfirmSwap,
-        resetValues,
-      ).then((response) => {
-        handleSwapResponse(response.success);
+        resetVal,
+      ).then((swapResp) => {
+        props.setShowConfirmSwap(false);
+        handleSwapResponse(swapResp.success);
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
       });
     } else {
-      tez_to_ctez(
-        props.tokenIn.name,
-        props.tokenOut.name,
+      swapTokenUsingRouteV3(
+        routePath,
         computedData.data.minimumOut,
-        recepientAddress,
-        Number(firstTokenAmountStable),
+        props.walletAddress,
+        firstTokenAmount,
         props.transactionSubmitModal,
         props.setShowConfirmSwap,
-        resetValues,
-      ).then((response) => {
+        resetVal,
+      ).then((swapResp) => {
         props.setShowConfirmSwap(false);
-        handleSwapResponse(response.success);
+        handleSwapResponse(swapResp.success);
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
@@ -223,17 +190,14 @@ const StableSwap = (props) => {
 
   const swapContentButton = useMemo(() => {
     if (props.walletAddress) {
-      if (props.tokenOut.name && firstTokenAmountStable) {
+      if (props.tokenOut.name && firstTokenAmount) {
         return (
           <Button
             onClick={callSwapToken}
             color={'primary'}
             className={'mt-4 w-100 flex align-items-center justify-content-center'}
           >
-            <span>
-              <Stableswap />
-              <span className="ml-2">Swap</span>
-            </span>
+            Swap
           </Button>
         );
       }
@@ -245,10 +209,7 @@ const StableSwap = (props) => {
             color={'disabled'}
             className={' mt-4 w-100 flex align-items-center justify-content-center'}
           >
-            <span>
-              <Stableswap />
-              <span className="ml-2">Swap</span>
-            </span>
+            Swap
           </Button>
         );
       }
@@ -259,10 +220,7 @@ const StableSwap = (props) => {
           color={'disabled'}
           className={' mt-4 w-100 flex align-items-center justify-content-center'}
         >
-          <span>
-            <Stableswap />
-            <span className="ml-2">Swap</span>
-          </span>
+          Swap
         </Button>
       );
     }
@@ -279,8 +237,9 @@ const StableSwap = (props) => {
     );
   }, [
     callSwapToken,
+    props.routeData,
     props.connecthWallet,
-    firstTokenAmountStable,
+    firstTokenAmount,
     props.loaderInButton,
     props.tokenOut.name,
     props.walletAddress,
@@ -299,7 +258,7 @@ const StableSwap = (props) => {
           >
             <div className="token-selector-balance-wrapper">
               <button
-                className="token-selector dropdown-themed stable-swap-token-selector"
+                className="token-selector dropdown-themed"
                 onClick={() => props.handleTokenType('tokenIn')}
               >
                 <img src={props.tokenIn.image} className="button-logo" />
@@ -309,12 +268,12 @@ const StableSwap = (props) => {
             </div>
 
             <div className="token-user-input-wrapper">
-              {swapData.success ? (
+              {props.routeData.success ? (
                 <input
                   type="text"
                   className="token-user-input"
                   placeholder="0.0"
-                  value={firstTokenAmountStable}
+                  value={firstTokenAmount}
                   onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenIn')}
                 />
               ) : (
@@ -345,31 +304,18 @@ const StableSwap = (props) => {
 
                 <p className="wallet-token-balance">
                   ~$
-                  {props.tokenIn.name === 'tez' ? (
-                    dolar * firstTokenAmountStable == null ? (
-                      <span className="shimmer">99999999</span>
-                    ) : firstTokenAmountStable ? (
-                      (dolar * firstTokenAmountStable).toFixed(2)
-                    ) : (
-                      '0.00'
-                    )
-                  ) : props.getTokenPrice.success && firstTokenAmountStable ? (
-                    getDollarValue(
-                      firstTokenAmountStable,
-                      props.getTokenPrice.tokenPrice[props.tokenIn.name],
-                    )
-                  ) : (
-                    '0.00'
-                  )}
+                  {props.getTokenPrice.success && firstTokenAmount
+                    ? getDollarValue(
+                        firstTokenAmount,
+                        props.getTokenPrice.tokenPrice[props.tokenIn.name],
+                      )
+                    : '0.00'}
                 </p>
               </div>
             ) : null}
           </div>
         </div>
-        <div
-          className="swap-arrow-center bg-themed icon-animated"
-          onClick={props.changeTokenLocation}
-        >
+        <div className="swap-arrow-center bg-themed ">
           <span className="span-themed material-icons-round">arrow_downward</span>
         </div>
         <div className="swap-content-box">
@@ -381,22 +327,33 @@ const StableSwap = (props) => {
             )}
           >
             <div className="token-selector-balance-wrapper">
-              <button
-                className="token-selector dropdown-themed stable-swap-token-selector"
-                onClick={() => props.handleTokenType('tokenOut')}
-              >
-                <img src={props.tokenOut.image} className="button-logo" />
-                <span className="span-themed">{props.tokenOut.name} </span>
-                <span className="span-themed material-icons-round">expand_more</span>
-              </button>
+              {props.tokenOut.name ? (
+                <button
+                  className="token-selector dropdown-themed"
+                  onClick={() => props.handleTokenType('tokenOut')}
+                >
+                  <img src={props.tokenOut.image} className="button-logo" />
+                  <span className="span-themed">{props.tokenOut.name} </span>
+                  <span className="span-themed material-icons-round">expand_more</span>
+                </button>
+              ) : (
+                <button
+                  className="token-selector not-selected"
+                  onClick={() => props.handleTokenType('tokenOut')}
+                >
+                  Select a token <span className="material-icons-round">expand_more</span>
+                </button>
+              )}
             </div>
 
             <div className="token-user-input-wrapper">
-              {props.tokenOut.name ? (
+              {props.routeData.success && props.tokenOut.name ? (
                 <input
                   type="text"
                   className="token-user-input"
-                  value={secondTokenAmountStable}
+                  value={
+                    secondTokenAmount ? secondTokenAmount : props.computedOutDetails.tokenOut_amount
+                  }
                   placeholder="0.0"
                   onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenOut')}
                 />
@@ -406,7 +363,7 @@ const StableSwap = (props) => {
                   className="token-user-input"
                   disabled
                   placeholder="0.0"
-                  value={firstTokenAmountStable}
+                  value={firstTokenAmount}
                 />
               )}
             </div>
@@ -422,15 +379,9 @@ const StableSwap = (props) => {
                 </p>
                 <p className="wallet-token-balance">
                   ~$
-                  {props.tokenOut.name === 'tez'
-                    ? isNaN(dolar * secondTokenAmountStable)
-                      ? '0.00'
-                      : secondTokenAmountStable
-                      ? (dolar * secondTokenAmountStable).toFixed(2)
-                      : '0.00'
-                    : props.getTokenPrice.success && secondTokenAmountStable
+                  {props.getTokenPrice.success && secondTokenAmount
                     ? getDollarValue(
-                        secondTokenAmountStable,
+                        secondTokenAmount,
                         props.getTokenPrice.tokenPrice[props.tokenOut.name],
                       )
                     : '0.00'}
@@ -453,42 +404,30 @@ const StableSwap = (props) => {
         {errorMessage && <span className="error-message">{message}</span>}
 
         {swapContentButton}
-
-        {props.walletAddress && props.tokenIn.name && props.tokenOut.name && (
-          <SwapDetails
-            computedOutDetails={computedData}
-            tokenIn={props.tokenIn}
-            tokenOut={props.tokenOut}
-            // routeData={props.routeData}
-            firstTokenAmount={firstTokenAmountStable}
-            isStableSwap={true}
-          />
-        )}
       </div>
 
       <ConfirmSwap
         show={props.showConfirmSwap}
         computedData={computedData}
         tokenIn={props.tokenIn}
-        firstTokenAmount={Number(firstTokenAmountStable)}
+        firstTokenAmount={firstTokenAmount}
         tokenOut={props.tokenOut}
         slippage={props.slippage}
         confirmSwapToken={confirmSwapToken}
         onHide={props.handleClose}
-        // routeData={props.routeData}
+        routeData={props.routeData}
         loading={props.loading}
-        isStableSwap={true}
+        isStableSwap={false}
       />
     </>
   );
 };
 
-StableSwap.propTypes = {
-  changeTokenLocation: PropTypes.any,
+SwapContent.propTypes = {
   computedOutDetails: PropTypes.any,
   connecthWallet: PropTypes.any,
   fetchUserWalletBalance: PropTypes.any,
-  // firstTokenAmountStable: PropTypes.any,
+  // firstTokenAmount: PropTypes.any,
   getTokenPrice: PropTypes.any,
   handleClose: PropTypes.any,
   handleLoaderMessage: PropTypes.any,
@@ -498,15 +437,15 @@ StableSwap.propTypes = {
   // midTokens: PropTypes.any,
   recepient: PropTypes.any,
   resetAllValues: PropTypes.any,
-  // secondTokenAmountStable: PropTypes.any,
-  setFirstTokenAmountStable: PropTypes.any,
+  // secondTokenAmount: PropTypes.any,
+  setFirstTokenAmount: PropTypes.any,
   //setHideContent: PropTypes.any,
   setLoaderInButton: PropTypes.any,
   setLoaderMessage: PropTypes.any,
   setLoading: PropTypes.any,
   loading: PropTypes.any,
   setRecepient: PropTypes.any,
-  setSecondTokenAmountStable: PropTypes.any,
+  setSecondTokenAmount: PropTypes.any,
   setShowConfirmSwap: PropTypes.any,
   showConfirmSwap: PropTypes.any,
   showRecepient: PropTypes.any,
@@ -519,7 +458,6 @@ StableSwap.propTypes = {
   transactionSubmitModal: PropTypes.any,
   userBalances: PropTypes.any,
   walletAddress: PropTypes.any,
-  isStableSwap: PropTypes.any,
 };
 
-export default StableSwap;
+export default SwapContent;

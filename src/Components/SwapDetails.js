@@ -133,10 +133,38 @@ const SwapDetails = (props) => {
               <p className="swap-detail-amt-details ml-auto">
                 {props.isStableSwap
                   ? props.computedOutDetails.data.fees.toFixed(6)
-                  : props.firstTokenAmount / 400}
+                  : props.firstTokenAmount / 400}{' '}
                 {props.isStableSwap ? props.tokenOut.name : props.tokenIn.name}
               </p>
             </div>
+            {props.isConfirmSwap && !props.isStableSwap && (
+              <div className="flex flex-row align-items-center">
+                <p className="swap-detail-amt-details">xPlenty Fee </p>
+                <OverlayTrigger
+                  key="top"
+                  placement="top"
+                  overlay={
+                    <Tooltip
+                      id={'xplenty-fee-tooltip'}
+                      arrowProps={{ styles: { display: 'none' } }}
+                    >
+                      A portion of each trade (0.09%) goes to xPLENTY holders as a protocol
+                      incentive.
+                    </Tooltip>
+                  }
+                >
+                  <span
+                    style={{ cursor: 'pointer' }}
+                    className="material-icons-round ml-1 swap-detail-amt-details"
+                  >
+                    help_outline
+                  </span>
+                </OverlayTrigger>
+                <p className="swap-detail-amt-details ml-auto">
+                  {props.firstTokenAmount / 1000} {props.tokenIn.name}
+                </p>
+              </div>
+            )}
             {props.isConfirmSwap ? (
               <div className="flex flex-row align-items-center">
                 <p className="swap-detail-amt-details">Slippage tolerance </p>
