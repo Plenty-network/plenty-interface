@@ -9,6 +9,7 @@ import {
   add_liquidity,
   getXtzDollarPrice,
   liqCalc,
+  liqCalcRev,
   getExchangeRate,
   loadSwapDataStable,
 } from '../../../apis/stableswap/stableswap';
@@ -66,6 +67,20 @@ const AddLiquidity = (props) => {
     return values.ctez / 10 ** 6;
   };
 
+  const liqCa = async (input) => {
+    const values = await liqCalcRev(
+      input,
+      props.swapData.tezPool,
+      props.swapData.ctezPool,
+      props.swapData.lpTokenSupply,
+    );
+    setPoolShare(values.poolPercent.toFixed(5));
+    if (props.tokenIn.name === 'tez') {
+      setLpTokenAmount((values.lpToken / 10 ** 6).toFixed(6));
+    }
+    return values.tez / 10 ** 6;
+  };
+
   useEffect(() => {
     getXtzDollarPrice().then((res) => {
       setDolar(res);
@@ -109,7 +124,7 @@ const AddLiquidity = (props) => {
       });
     } else {
       if (props.tokenIn.name === 'tez') {
-        const res = await getXtz(input);
+        const res = await liqCa(input);
 
         setEstimatedTokenAmout({
           otherTokenAmount: res.toFixed(6),
