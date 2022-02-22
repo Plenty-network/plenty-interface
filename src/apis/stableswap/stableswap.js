@@ -506,6 +506,18 @@ export const liqCalc = (xtzAmount, tezpool, ctezpool, lqtTotal) => {
   };
 };
 
+export const liqCalcRev = (ctezAmount, tezpool, ctezpool, lqtTotal) => {
+  const tez = (Number(ctezAmount) * 10 ** 6 * tezpool) / ctezpool;
+  const lpToken = Number((Number(tez) * lqtTotal) / tezpool);
+  const poolPercent = Number((lpToken / (lpToken + lqtTotal)) * 100);
+
+  return {
+    tez,
+    lpToken,
+    poolPercent,
+  };
+};
+
 export const getXtzDollarPrice = async () => {
   const xtzDollarValueUrl = CONFIG.API.url;
   const xtzDollarValue = await axios.get(xtzDollarValueUrl);
