@@ -78,4 +78,6 @@ ConfirmSwap.propTypes = {
   tokenIn: PropTypes.any,
   tokenOut: PropTypes.any,
   isStableSwap: PropTypes.any,
+  showConfirmTransaction: PropTypes.any,
+  setShowConfirmTransaction: PropTypes.any,
 };

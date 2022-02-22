@@ -37,7 +37,7 @@ const NormalSwap = (props) => {
   const [showConfirmSwap, setShowConfirmSwap] = useState(false);
   const [showConfirmAddSupply, setShowConfirmAddSupply] = useState(false);
   const [showConfirmRemoveSupply, setShowConfirmRemoveSupply] = useState(false);
-
+  const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
   const [slippage, setSlippage] = useState(0.5);
   const [recepient, setRecepient] = useState('');
   const [tokenType, setTokenType] = useState('tokenIn');
@@ -150,6 +150,7 @@ const NormalSwap = (props) => {
     setShowConfirmSwap(false);
     setShowConfirmAddSupply(false);
     setShowConfirmRemoveSupply(false);
+    setShowConfirmTransaction(false);
     //setHideContent('');
     setSearchQuery('');
     //setLoading(false);
@@ -377,6 +378,8 @@ const NormalSwap = (props) => {
               fetchUserWalletBalance={fetchUserWalletBalance}
               loaderInButton={loaderInButton}
               setLoaderInButton={setLoaderInButton}
+              setShowConfirmTransaction={setShowConfirmTransaction}
+              showConfirmTransaction={showConfirmTransaction}
             />
           </Tab>
 
@@ -416,6 +419,8 @@ const NormalSwap = (props) => {
               loaderInButton={loaderInButton}
               setLoaderInButton={setLoaderInButton}
               isStableSwap={false}
+              setShowConfirmTransaction={setShowConfirmTransaction}
+              showConfirmTransaction={showConfirmTransaction}
             />
           </Tab>
         </Tabs>

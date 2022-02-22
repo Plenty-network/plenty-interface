@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import React, { useEffect, useMemo, useState } from 'react';
+import ConfirmTransaction from './ConfirmTransaction';
 import ConfirmSwap from './ConfirmSwap';
-
 import { swapTokens } from '../../apis/swap/swap';
 import Button from '../Ui/Buttons/Button';
 import {
@@ -10,6 +10,7 @@ import {
   swapTokenUsingRouteV3,
   computeTokenOutForRouteBaseByOutAmountV2,
 } from '../../apis/swap/swap-v2';
+//import InfoModal from '../Ui/Modals/InfoModal';
 
 const SwapContent = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -134,6 +135,8 @@ const SwapContent = (props) => {
 
   const confirmSwapToken = async () => {
     props.setLoading(true);
+    props.setShowConfirmSwap(false);
+    props.setShowConfirmTransaction(true);
     props.setLoaderInButton(true);
     const recepientAddress = props.recepient ? props.recepient : props.walletAddress;
 
@@ -148,8 +151,10 @@ const SwapContent = (props) => {
         props.transactionSubmitModal,
         props.setShowConfirmSwap,
         resetVal,
+        props.setShowConfirmTransaction,
       ).then((swapResp) => {
         props.setShowConfirmSwap(false);
+        props.setShowConfirmTransaction(false);
         handleSwapResponse(swapResp.success);
         setTimeout(() => {
           props.setLoaderMessage({});
@@ -164,8 +169,10 @@ const SwapContent = (props) => {
         props.transactionSubmitModal,
         props.setShowConfirmSwap,
         resetVal,
+        props.setShowConfirmTransaction,
       ).then((swapResp) => {
         props.setShowConfirmSwap(false);
+        props.setShowConfirmTransaction(false);
         handleSwapResponse(swapResp.success);
         setTimeout(() => {
           props.setLoaderMessage({});
@@ -405,9 +412,21 @@ const SwapContent = (props) => {
 
         {swapContentButton}
       </div>
-
       <ConfirmSwap
         show={props.showConfirmSwap}
+        computedData={computedData}
+        tokenIn={props.tokenIn}
+        firstTokenAmount={Number(firstTokenAmount)}
+        tokenOut={props.tokenOut}
+        slippage={props.slippage}
+        confirmSwapToken={confirmSwapToken}
+        onHide={props.handleClose}
+        // routeData={props.routeData}
+        loading={props.loading}
+        isStableSwap={true}
+      />
+      <ConfirmTransaction
+        show={props.showConfirmTransaction}
         computedData={computedData}
         tokenIn={props.tokenIn}
         firstTokenAmount={firstTokenAmount}
@@ -417,8 +436,8 @@ const SwapContent = (props) => {
         onHide={props.handleClose}
         routeData={props.routeData}
         loading={props.loading}
-        isStableSwap={false}
       />
+      {/* <InfoModal open={true} message={'Transaction submitted'} buttonText={'View on Tezos'} /> */}
     </>
   );
 };
@@ -458,6 +477,8 @@ SwapContent.propTypes = {
   transactionSubmitModal: PropTypes.any,
   userBalances: PropTypes.any,
   walletAddress: PropTypes.any,
+  showConfirmTransaction: PropTypes.any,
+  setShowConfirmTransaction: PropTypes.any,
 };
 
 export default SwapContent;

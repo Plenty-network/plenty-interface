@@ -58,6 +58,7 @@ export const swapTokens = async (
   transactionSubmitModal,
   setShowConfirmSwap,
   resetAllValues,
+  setShowConfirmTransaction,
 ) => {
   const connectedNetwork = CONFIG.NETWORK;
   const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
@@ -143,6 +144,7 @@ export const swapTokens = async (
     }
 
     const batchOperation = await batch.send();
+    setShowConfirmTransaction(false);
     resetAllValues();
     setShowConfirmSwap(false);
     transactionSubmitModal(batchOperation.opHash);

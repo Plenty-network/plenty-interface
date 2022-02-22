@@ -10,6 +10,7 @@ import {
   swapTokenUsingRouteV3,
   computeTokenOutForRouteBaseByOutAmountV2,
 } from '../../apis/swap/swap-v2';
+import ConfirmTransaction from '../WrappedAssets/ConfirmTransaction';
 
 const SwapTab = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -115,6 +116,7 @@ const SwapTab = (props) => {
       props.setLoading(false);
       props.handleLoaderMessage('success', 'Transaction confirmed');
       props.setShowConfirmSwap(false);
+      props.setShowConfirmTransaction(false);
       //props.setHideContent('');
       props.setSecondTokenAmount('');
       props.resetAllValues();
@@ -125,6 +127,7 @@ const SwapTab = (props) => {
       props.setLoading(false);
       props.handleLoaderMessage('error', 'Transaction failed');
       props.setShowConfirmSwap(false);
+      props.setShowConfirmTransaction(false);
       //props.setHideContent('');
       props.resetAllValues();
       props.setSecondTokenAmount('');
@@ -135,6 +138,8 @@ const SwapTab = (props) => {
   const confirmSwapToken = async () => {
     props.setLoading(true);
     props.setLoaderInButton(true);
+    props.setShowConfirmSwap(false);
+    props.setShowConfirmTransaction(true);
     const recepientAddress = props.recepient ? props.recepient : props.walletAddress;
 
     if (routePath.length <= 2) {
@@ -148,8 +153,10 @@ const SwapTab = (props) => {
         props.transactionSubmitModal,
         props.setShowConfirmSwap,
         resetVal,
+        props.setShowConfirmTransaction,
       ).then((swapResp) => {
         props.setShowConfirmSwap(false);
+        props.setShowConfirmTransaction(false);
         handleSwapResponse(swapResp.success);
         setTimeout(() => {
           props.setLoaderMessage({});
@@ -164,8 +171,10 @@ const SwapTab = (props) => {
         props.transactionSubmitModal,
         props.setShowConfirmSwap,
         resetVal,
+        props.setShowConfirmTransaction,
       ).then((swapResp) => {
         props.setShowConfirmSwap(false);
+        props.setShowConfirmTransaction(false);
         handleSwapResponse(swapResp.success);
         setTimeout(() => {
           props.setLoaderMessage({});
@@ -214,19 +223,6 @@ const SwapTab = (props) => {
           </Button>
         );
       }
-
-      // if (props.loaderInButton) {
-      //   return (
-      //     <Button
-      //       onClick={() => null}
-      //       color={'disabled'}
-      //       loading={true}
-      //       className={' mt-4 w-100 flex align-items-center justify-content-center'}
-      //     >
-      //       Swap
-      //     </Button>
-      //   );
-      // }
       return (
         <Button
           onClick={() => setErrorMessageOnUI('Enter an amount to swap')}
@@ -450,6 +446,18 @@ const SwapTab = (props) => {
         loading={props.loading}
         isStableSwap={false}
       />
+      <ConfirmTransaction
+        show={props.showConfirmTransaction}
+        computedData={computedData}
+        tokenIn={props.tokenIn}
+        firstTokenAmount={firstTokenAmount}
+        tokenOut={props.tokenOut}
+        slippage={props.slippage}
+        confirmSwapToken={confirmSwapToken}
+        onHide={props.handleClose}
+        routeData={props.routeData}
+        loading={props.loading}
+      />
     </>
   );
 };
@@ -490,6 +498,8 @@ SwapTab.propTypes = {
   transactionSubmitModal: PropTypes.any,
   userBalances: PropTypes.any,
   walletAddress: PropTypes.any,
+  setShowConfirmTransaction: PropTypes.any,
+  showConfirmTransaction: PropTypes.any,
 };
 
 export default SwapTab;

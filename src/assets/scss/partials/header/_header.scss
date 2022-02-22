@@ -3,6 +3,12 @@
   background: #f2e9ff;
   text-align: center;
   padding-top: 10px;
+  z-index: 1111;
+  top: 0px;
+  position: sticky;
+  &:hover {
+    background: #eadcff;
+  }
 }
 .banner-text {
   align-items: center;
@@ -390,6 +396,9 @@
 .rotate {
   transform: rotate(180deg);
 }
+.headerBottom-banner {
+  top: 87px !important;
+}
 .headerBottom {
   padding: 20px 50px;
   border-bottom: 0.5px solid var(--theme-header-bottom);
@@ -401,7 +410,7 @@
   position: fixed;
   z-index: 1112;
   width: 100%;
-  top: 87px;
+  top: 135px;
   @media screen and (min-width: 320px) and (max-width: 992px) {
     padding: 10px 20px;
     background-color: var(--theme-bg-header);
@@ -459,12 +468,15 @@
     }
   }
 }
+.header-wrappedAssets {
+  top: 0px !important;
+}
 .header {
   border-bottom: 0.5px solid var(--theme-header-bottom);
   background-color: var(--theme-bg-header);
   position: sticky;
   z-index: 1111;
-  top: 0px;
+  top: 48px;
 
   padding-left: 0px;
   padding-right: 0px;

@@ -175,6 +175,7 @@ export async function ctez_to_tez(
   transactionSubmitModal,
   setShowConfirmSwap,
   resetAllValues,
+  setShowConfirmTransaction,
 ) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
@@ -230,6 +231,7 @@ export async function ctez_to_tez(
         : console.log('operation injected');
     }
     setShowConfirmSwap(false);
+    setShowConfirmTransaction(false);
     resetAllValues();
     transactionSubmitModal(batchOp.opHash);
 
@@ -256,6 +258,7 @@ export async function tez_to_ctez(
   transactionSubmitModal,
   setShowConfirmSwap,
   resetAllValues,
+  setShowConfirmTransaction,
 ) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
@@ -291,6 +294,7 @@ export async function tez_to_ctez(
 
     const batchOp = await batch.send();
     setShowConfirmSwap(false);
+    setShowConfirmTransaction(false);
     resetAllValues();
     transactionSubmitModal(batchOp.opHash);
 

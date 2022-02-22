@@ -9,7 +9,7 @@ const WrappedAssets = (props) => {
   return (
     <Container fluid>
       <Row>
-        <Col sm={8} md={6} className="swap-content-section">
+        <Col sm={8} md={6} className="swap-content-section wrapped-assets-margin-top">
           <SwapWA {...props} />
 
           <div className="bottom-footer mt-2 flex flex-row">

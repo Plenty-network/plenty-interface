@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Button from '../Ui/Buttons/Button';
 import clsx from 'clsx';
 import { Col, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { HEADER_MODAL } from '../../constants/header';
 import Switch from '../Ui/Switch/Switch';
 import useMediaQuery from '../../hooks/mediaQuery';
@@ -13,6 +13,9 @@ import axios from 'axios';
 import { setNode } from '../../redux/slices/settings/settings.slice';
 
 const HeaderBottom = (props) => {
+  const location = useLocation();
+  const { pathname } = location;
+  const splitLocation = pathname.split('/');
   const [nodeSelector, setNodeSelector] = useState(false);
   const isMobile = useMediaQuery('(max-width: 991px)');
   const [open, isOpen] = useState(true);
@@ -125,6 +128,7 @@ const HeaderBottom = (props) => {
             'pt-0': !props.selectedHeader,
             height: props.selectedHeader === HEADER_MODAL.SETTINGS && nodeSelector,
             'more-height': props.selectedHeader === HEADER_MODAL.MORE,
+            'headerBottom-banner': splitLocation[1] === 'wrappedAssets',
           })}
           onMouseLeave={() => isOpen(false)}
         >

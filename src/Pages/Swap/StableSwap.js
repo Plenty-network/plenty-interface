@@ -51,6 +51,7 @@ const StableeSwap = (props) => {
   const [showConfirmSwap, setShowConfirmSwap] = useState(false);
   const [showConfirmAddSupply, setShowConfirmAddSupply] = useState(false);
   const [showConfirmRemoveSupply, setShowConfirmRemoveSupply] = useState(false);
+  const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [slippage, setSlippage] = useState(0.5);
   const [recepient, setRecepient] = useState('');
@@ -235,7 +236,7 @@ const StableeSwap = (props) => {
     setShowConfirmSwap(false);
     setShowConfirmAddSupply(false);
     setShowConfirmRemoveSupply(false);
-    //setHideContent('');
+    setShowConfirmTransaction(false);
     setSearchQuery('');
     //setLoading(false);
   };
@@ -458,6 +459,8 @@ const StableeSwap = (props) => {
               fetchUserWalletBalance={fetchUserWalletBalance}
               loaderInButton={loaderInButton}
               setLoaderInButton={setLoaderInButton}
+              setShowConfirmTransaction={setShowConfirmTransaction}
+              showConfirmTransaction={showConfirmTransaction}
             />
           </Tab>
 
@@ -498,6 +501,8 @@ const StableeSwap = (props) => {
               setLoaderInButton={setLoaderInButton}
               isStableSwap={true}
               getSwapData={getSwapData}
+              setShowConfirmTransaction={setShowConfirmTransaction}
+              showConfirmTransaction={showConfirmTransaction}
             />
           </Tab>
         </Tabs>

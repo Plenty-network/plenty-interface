@@ -31,21 +31,18 @@ const SwapWA = (props) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [show, setShow] = useState(false);
   const [showConfirmSwap, setShowConfirmSwap] = useState(false);
-  const [showConfirmAddSupply, setShowConfirmAddSupply] = useState(false);
-  const [showConfirmRemoveSupply, setShowConfirmRemoveSupply] = useState(false);
-  console.log(showConfirmAddSupply);
-  console.log(showConfirmRemoveSupply);
+
   const [slippage, setSlippage] = useState(0.5);
   const [recepient, setRecepient] = useState('');
   const [tokenType, setTokenType] = useState('tokenIn');
 
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
   const [secondTokenAmount, setSecondTokenAmount] = useState('');
-  // const [firstTokenAmountStable, setFirstTokenAmountStable] = useState('');
-  // const [secondTokenAmountStable, setSecondTokenAmountStable] = useState('');
+
   const [swapData, setSwapData] = useState({});
   const [routeData, setRouteData] = useState({});
   const [computedOutDetails, setComputedOutDetails] = useState({});
+  const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
   const [getTokenPrice, setGetTokenPrice] = useState({});
   const [userBalances, setUserBalances] = useState({});
   const [loading, setLoading] = useState(false);
@@ -108,7 +105,7 @@ const SwapWA = (props) => {
   }, [tokenIn, tokenOut]);
 
   useEffect(() => {
-    if (activeTab === 'swap') {
+    if (activeTab === 'wrappedswap') {
       if (
         Object.prototype.hasOwnProperty.call(tokenIn, 'name') &&
         Object.prototype.hasOwnProperty.call(tokenOut, 'name')
@@ -127,15 +124,12 @@ const SwapWA = (props) => {
   const handleClose = () => {
     setShow(false);
     setShowConfirmSwap(false);
-    setShowConfirmAddSupply(false);
-    setShowConfirmRemoveSupply(false);
-    //setHideContent('');
     setSearchQuery('');
+    setShowConfirmTransaction(false);
     //setLoading(false);
   };
 
   const handleTokenType = (type) => {
-    //setHideContent('content-hide');
     setShow(true);
     setTokenType(type);
     setLoading(false);
@@ -325,6 +319,8 @@ const SwapWA = (props) => {
               fetchUserWalletBalance={fetchUserWalletBalance}
               loaderInButton={loaderInButton}
               setLoaderInButton={setLoaderInButton}
+              setShowConfirmTransaction={setShowConfirmTransaction}
+              showConfirmTransaction={showConfirmTransaction}
             />
           </Tab>
         </Tabs>

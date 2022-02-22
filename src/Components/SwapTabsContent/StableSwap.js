@@ -12,6 +12,7 @@ import {
   getXtzDollarPrice,
 } from '../../apis/stableswap/stableswap';
 import { ReactComponent as Stableswap } from '../../assets/images/SwapModal/stableswap-white.svg';
+import ConfirmTransaction from '../WrappedAssets/ConfirmTransaction';
 
 const StableSwap = (props) => {
   const [firstTokenAmountStable, setFirstTokenAmountStable] = useState();
@@ -168,7 +169,8 @@ const StableSwap = (props) => {
   const confirmSwapToken = async () => {
     props.setLoading(true);
     props.setLoaderInButton(true);
-
+    props.setShowConfirmSwap(false);
+    props.setShowConfirmTransaction(true);
     const recepientAddress = props.recepient ? props.recepient : props.walletAddress;
     props.resetAllValues();
     if (props.tokenIn.name === 'ctez') {
@@ -181,8 +183,10 @@ const StableSwap = (props) => {
         props.transactionSubmitModal,
         props.setShowConfirmSwap,
         resetValues,
+        props.setShowConfirmTransaction,
       ).then((response) => {
         handleSwapResponse(response.success);
+        props.setShowConfirmTransaction(false);
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
@@ -197,8 +201,10 @@ const StableSwap = (props) => {
         props.transactionSubmitModal,
         props.setShowConfirmSwap,
         resetValues,
+        props.setShowConfirmTransaction,
       ).then((response) => {
         props.setShowConfirmSwap(false);
+        props.setShowConfirmTransaction(false);
         handleSwapResponse(response.success);
         setTimeout(() => {
           props.setLoaderMessage({});
@@ -459,7 +465,6 @@ const StableSwap = (props) => {
             computedOutDetails={computedData}
             tokenIn={props.tokenIn}
             tokenOut={props.tokenOut}
-            // routeData={props.routeData}
             firstTokenAmount={firstTokenAmountStable}
             isStableSwap={true}
           />
@@ -478,6 +483,18 @@ const StableSwap = (props) => {
         // routeData={props.routeData}
         loading={props.loading}
         isStableSwap={true}
+      />
+      <ConfirmTransaction
+        show={props.showConfirmTransaction}
+        computedData={computedData}
+        tokenIn={props.tokenIn}
+        firstTokenAmount={firstTokenAmountStable}
+        tokenOut={props.tokenOut}
+        slippage={props.slippage}
+        confirmSwapToken={confirmSwapToken}
+        onHide={props.handleClose}
+        routeData={props.routeData}
+        loading={props.loading}
       />
     </>
   );
@@ -520,6 +537,8 @@ StableSwap.propTypes = {
   userBalances: PropTypes.any,
   walletAddress: PropTypes.any,
   isStableSwap: PropTypes.any,
+  setShowConfirmTransaction: PropTypes.any,
+  showConfirmTransaction: PropTypes.any,
 };
 
 export default StableSwap;

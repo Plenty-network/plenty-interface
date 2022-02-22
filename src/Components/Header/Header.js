@@ -85,7 +85,7 @@ const Header = (props) => {
   return (
     <>
       {splitLocation[1] !== 'wrappedAssets' && (
-        <div className="banner">
+        <div className="banner" onMouseEnter={() => setHeader('')}>
           <span className="banner-text">
             A proposal is submitted to the Tezos blockchain – time to vote.. Cast your votes now
           </span>
@@ -98,7 +98,10 @@ const Header = (props) => {
           </Link>
         </div>
       )}
-      <Container className="header" fluid>
+      <Container
+        className={clsx('header', splitLocation[1] === 'wrappedAssets' && 'header-wrappedAssets')}
+        fluid
+      >
         <Row>
           <Col className={clsx('innerHeader')} sm={12} md={12}>
             <Navbar id="nav-bar" expand="lg" className="px-0 mx-sm-4 menu-wrapper">
