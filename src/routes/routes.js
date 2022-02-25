@@ -150,7 +150,7 @@ const MyRoutes = (props) => {
               path="/wrappedAssets"
               element={
                 <OtherPages {...otherPageProps}>
-                  <WrappedAssets walletAddress={props.userAddress} />
+                  <WrappedAssets walletAddress={props.userAddress} {...otherPageProps} />
                 </OtherPages>
               }
             />

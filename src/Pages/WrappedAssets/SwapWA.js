@@ -18,7 +18,7 @@ import SwapModal from '../../Components/SwapModal/SwapModal';
 import { Tab, Tabs } from 'react-bootstrap';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import { tokens } from '../../constants/swapPage';
-import Loader from '../../Components/loader';
+
 import { useLocationStateInSwap } from '../../Pages/Swap/hooks';
 import { getAllRoutes } from '../../apis/swap/swap-v2';
 import '../../assets/scss/animation.scss';
@@ -321,6 +321,7 @@ const SwapWA = (props) => {
               setLoaderInButton={setLoaderInButton}
               setShowConfirmTransaction={setShowConfirmTransaction}
               showConfirmTransaction={showConfirmTransaction}
+              theme={props.theme}
             />
           </Tab>
         </Tabs>
@@ -349,6 +350,11 @@ const SwapWA = (props) => {
       />
       <InfoModal
         open={showTransactionSubmitModal}
+        firstTokenAmount={firstTokenAmount}
+        secondTokenAmount={secondTokenAmount}
+        tokenIn={tokenIn.name}
+        tokenOut={tokenOut.name}
+        theme={props.theme}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
         buttonText={'View on Tezos'}
@@ -357,7 +363,7 @@ const SwapWA = (props) => {
         }
       />
 
-      <Loader loading={loading} loaderMessage={loaderMessage} />
+      {/* <Loader loading={loading} loaderMessage={loaderMessage} /> */}
     </>
   );
 };

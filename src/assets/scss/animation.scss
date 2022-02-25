@@ -38,12 +38,29 @@
     -o-animation: rightToleftF 1s; /* Opera < 12.1 */
     animation: rightToleftF 1s;
   }
+  &-4-floater {
+    -webkit-animation: rightToleftFloater 1s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: rightToleftFloater 1s; /* Firefox < 16 */
+    -ms-animation: rightToleftFloater 1s; /* Internet Explorer */
+    -o-animation: rightToleftFloater 1s; /* Opera < 12.1 */
+    animation: rightToleftFloater 1s;
+  }
 }
 
 @keyframes rightToleftF {
   from {
     opacity: 0.4;
     transform: translateX(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+@keyframes rightToleftFloater {
+  from {
+    opacity: 0.4;
+    transform: translateX(30px);
   }
   to {
     opacity: 1;

@@ -10,6 +10,7 @@ import {
   swapTokenUsingRouteV3,
   computeTokenOutForRouteBaseByOutAmountV2,
 } from '../../apis/swap/swap-v2';
+import Loader from '../loader';
 //import InfoModal from '../Ui/Modals/InfoModal';
 
 const SwapContent = (props) => {
@@ -118,7 +119,7 @@ const SwapContent = (props) => {
       props.setShowConfirmSwap(false);
       //props.setHideContent('');
       props.setSecondTokenAmount('');
-      props.resetAllValues();
+      //props.resetAllValues();
       props.setLoaderInButton(false);
       setFirstTokenAmount('');
       setSecondTokenAmount('');
@@ -436,8 +437,16 @@ const SwapContent = (props) => {
         onHide={props.handleClose}
         routeData={props.routeData}
         loading={props.loading}
+        theme={props.theme}
       />
-      {/* <InfoModal open={true} message={'Transaction submitted'} buttonText={'View on Tezos'} /> */}
+      <Loader
+        loading={props.loading}
+        loaderMessage={props.loaderMessage}
+        tokenIn={props.tokenIn.name}
+        firstTokenAmount={firstTokenAmount}
+        tokenOut={props.tokenOut.name}
+        secondTokenAmount={computedData.data.tokenOutAmount.toFixed(3)}
+      />
     </>
   );
 };
@@ -461,6 +470,7 @@ SwapContent.propTypes = {
   //setHideContent: PropTypes.any,
   setLoaderInButton: PropTypes.any,
   setLoaderMessage: PropTypes.any,
+  loaderMessage: PropTypes.any,
   setLoading: PropTypes.any,
   loading: PropTypes.any,
   setRecepient: PropTypes.any,
@@ -479,6 +489,7 @@ SwapContent.propTypes = {
   walletAddress: PropTypes.any,
   showConfirmTransaction: PropTypes.any,
   setShowConfirmTransaction: PropTypes.any,
+  theme: PropTypes.any,
 };
 
 export default SwapContent;

@@ -400,7 +400,7 @@
   top: 87px !important;
 }
 .headerBottom {
-  padding: 20px 50px;
+  padding: 20px 0px;
   border-bottom: 0.5px solid var(--theme-header-bottom);
   background-color: var(--theme-bg-header);
   font-size: 16px;
@@ -420,10 +420,20 @@
     top: 0px;
   }
   .innerSubmenus {
-    max-width: 1200px;
-    margin: auto;
-    padding-right: 40px;
+    //max-width: 1200px;
+    //margin: auto;
+    // padding-right: 40px;
+    // padding-left: 40px;
+
+    max-width: 1200px !important;
     padding-left: 40px;
+    padding-right: 40px;
+
+    @media screen and (min-width: 1440px) {
+      max-width: 1230px !important;
+      padding-left: 0px;
+      padding-right: 0px;
+    }
   }
   .topics {
     padding-top: 16px;
@@ -431,6 +441,8 @@
     width: 495px;
     padding-left: 24px;
     margin-bottom: 10px;
+    // //remove latter
+    // background: var(--theme-header-selectedBg);
     &:hover {
       background: var(--theme-header-selectedBg);
       @media screen and (min-width: 320px) and (max-width: 992px) {

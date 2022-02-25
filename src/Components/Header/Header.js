@@ -99,7 +99,11 @@ const Header = (props) => {
         </div>
       )}
       <Container
-        className={clsx('header', splitLocation[1] === 'wrappedAssets' && 'header-wrappedAssets')}
+        className={clsx(
+          'header',
+          (splitLocation[1] === 'wrappedAssets' || splitLocation[1] === 'WrappedAssets') &&
+            'header-wrappedAssets',
+        )}
         fluid
       >
         <Row>
