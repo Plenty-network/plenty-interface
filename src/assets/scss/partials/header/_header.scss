@@ -1,13 +1,13 @@
 .banner {
   height: 48px;
-  background: #f2e9ff;
+  background: var(--theme-banner-bg);
   text-align: center;
   padding-top: 10px;
   z-index: 1111;
   top: 0px;
   position: sticky;
   &:hover {
-    background: #eadcff;
+    background: var(--theme-banner-bg-hover);
   }
 }
 .banner-text {
@@ -17,7 +17,7 @@
   font-weight: 500;
   line-height: 18px;
   letter-spacing: 0em;
-  color: #201c41;
+  color: var(--theme-banner-text);
   margin-right: 24px;
 }
 .headerBg {

@@ -459,6 +459,7 @@ export const swapTokenUsingRouteV3 = async (
   setShowConfirmSwap,
   resetAllValues,
   setShowConfirmTransaction,
+  setShowTransactionSubmitModal,
 ) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
@@ -528,6 +529,9 @@ export const swapTokenUsingRouteV3 = async (
     resetAllValues();
     setShowConfirmSwap(false);
     transactionSubmitModal(batchOp.opHash);
+    setTimeout(() => {
+      setShowTransactionSubmitModal(false);
+    }, 5000);
     await batchOp.confirmation();
     return {
       success: true,

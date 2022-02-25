@@ -6,6 +6,9 @@
   margin: 0px auto;
   border-radius: 15px;
 }
+.confirm-transaction-button-text {
+  color: var(--theme-confirm-transaction-button-text);
+}
 .footer-confirm-transaction {
   font-size: 12px;
   font-style: normal;
@@ -13,7 +16,7 @@
   line-height: 13px;
   letter-spacing: -0.2596491277217865px;
   text-align: center;
-  color: #4e5d78;
+  color: var(--theme-confirm-transaction);
   margin-top: 12px;
 }
 .swap-content-section {

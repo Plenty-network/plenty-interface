@@ -322,6 +322,7 @@ const SwapWA = (props) => {
               setShowConfirmTransaction={setShowConfirmTransaction}
               showConfirmTransaction={showConfirmTransaction}
               theme={props.theme}
+              setShowTransactionSubmitModal={setShowTransactionSubmitModal}
             />
           </Tab>
         </Tabs>

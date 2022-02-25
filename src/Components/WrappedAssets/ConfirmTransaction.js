@@ -49,7 +49,7 @@ const ConfirmTransaction = (props) => {
             <Button
               onClick={props.confirmSwapToken}
               color={'outline-button'}
-              className="mt-4 w-100"
+              className="mt-4 w-100 confirm-transaction-button-text"
             >
               Swap {props.firstTokenAmount} {props.tokenIn.name} for{' '}
               {Number(props.computedData?.data.tokenOutAmount).toFixed(3)} {props.tokenOut.name}

@@ -153,9 +153,13 @@ const SwapContent = (props) => {
         props.setShowConfirmSwap,
         resetVal,
         props.setShowConfirmTransaction,
+        props.setShowTransactionSubmitModal,
       ).then((swapResp) => {
         props.setShowConfirmSwap(false);
         props.setShowConfirmTransaction(false);
+        // setTimeout(() => {
+        //   props.setShowTransactionSubmitModal(false);
+        // }, 5000);
         handleSwapResponse(swapResp.success);
         setTimeout(() => {
           props.setLoaderMessage({});
@@ -171,9 +175,13 @@ const SwapContent = (props) => {
         props.setShowConfirmSwap,
         resetVal,
         props.setShowConfirmTransaction,
+        props.setShowTransactionSubmitModal,
       ).then((swapResp) => {
         props.setShowConfirmSwap(false);
         props.setShowConfirmTransaction(false);
+        // setTimeout(() => {
+        //   props.setShowTransactionSubmitModal(false);
+        // }, 5000);
         handleSwapResponse(swapResp.success);
         setTimeout(() => {
           props.setLoaderMessage({});
@@ -490,6 +498,7 @@ SwapContent.propTypes = {
   showConfirmTransaction: PropTypes.any,
   setShowConfirmTransaction: PropTypes.any,
   theme: PropTypes.any,
+  setShowTransactionSubmitModal: PropTypes.any,
 };
 
 export default SwapContent;

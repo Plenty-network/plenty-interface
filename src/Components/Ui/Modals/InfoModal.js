@@ -9,7 +9,6 @@ import '../../../assets/scss/animation.scss';
 import lottieWeb from 'lottie-web';
 
 const InfoModal = (props) => {
-  console.log(props);
   const container = useRef(null);
   useEffect(() => {
     props.theme === 'light'
@@ -41,7 +40,7 @@ const InfoModal = (props) => {
         className="confirm-swap-modal"
         title="Transaction Submitted"
         open={props.open}
-        onClose={props.onClose}
+        infoModal={true}
       >
         <div className={styles.infoModal}>
           <div id="transactionSubmitted" ref={container}></div>

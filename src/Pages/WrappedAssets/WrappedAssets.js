@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import FooterWA from '../../assets/images/footerWA.svg';
+import FooterWADark from '../../assets/images/footerWAdark.svg';
 import '../../assets/scss/animation.scss';
 import SwapWA from './SwapWA';
 
@@ -14,7 +15,7 @@ const WrappedAssets = (props) => {
 
           <div className="bottom-footer mt-2 flex flex-row">
             <div>
-              <img src={props.theme === 'light' ? FooterWA : FooterWA} alt="graph"></img>
+              <img src={props.theme === 'light' ? FooterWA : FooterWADark} alt="graph"></img>
             </div>
             <div className="ml-3">
               <span className="bottom-label">Swap Wrapped Assets </span>
