@@ -118,7 +118,7 @@ const SwapDetails = (props) => {
                 placement="top"
                 overlay={
                   <Tooltip id={'fee-tooltip'} arrowProps={{ styles: { display: 'none' } }}>
-                    A portion of each trade (0.25%) goes to liquidity providers as a protocol
+                    A portion of each trade (0.10%) goes to liquidity providers as a protocol
                     incentive.
                   </Tooltip>
                 }
