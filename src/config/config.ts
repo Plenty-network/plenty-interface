@@ -4292,7 +4292,7 @@ const Config: IConfig = {
         mapId: 162869,
         TOKEN_ID: 19,
         TOKEN_DECIMAL: 8,
-        REF_TOKEN: 'WBTC.E'
+        REF_TOKEN: 'WBTC.e'
       },
       wWETH: {
         ICON: '',
@@ -4300,7 +4300,7 @@ const Config: IConfig = {
         mapId: 162869,
         TOKEN_ID: 20,
         TOKEN_DECIMAL: 18,
-        REF_TOKEN: 'WETH.E'
+        REF_TOKEN: 'WETH.e'
       },
       wBUSD: {
         ICON: '',
@@ -4308,7 +4308,7 @@ const Config: IConfig = {
         mapId: 162869,
         TOKEN_ID: 1,
         TOKEN_DECIMAL: 18,
-        REF_TOKEN: 'BUSD.E'
+        REF_TOKEN: 'BUSD.e'
       },
       wUSDC: {
         ICON: '',
@@ -4316,7 +4316,7 @@ const Config: IConfig = {
         mapId: 162869,
         TOKEN_ID: 17,
         TOKEN_DECIMAL: 6,
-        REF_TOKEN: 'USDC.E'
+        REF_TOKEN: 'USDC.e'
       },
       wUSDT: {
         ICON: '',
@@ -4324,7 +4324,7 @@ const Config: IConfig = {
         mapId: 162869,
         TOKEN_ID: 18,
         TOKEN_DECIMAL: 6,
-        REF_TOKEN: 'USDT.E'
+        REF_TOKEN: 'USDT.e'
       },
       wMATIC: {
         ICON: '',
@@ -4332,7 +4332,7 @@ const Config: IConfig = {
         mapId: 162869,
         TOKEN_ID: 11,
         TOKEN_DECIMAL: 18,
-        REF_TOKEN: 'MATIC.E'
+        REF_TOKEN: 'MATIC.e'
       },
       wLINK: {
         ICON: '',
@@ -4340,7 +4340,7 @@ const Config: IConfig = {
         mapId: 162869,
         TOKEN_ID: 10,
         TOKEN_DECIMAL: 18,
-        REF_TOKEN: 'LINK.E'
+        REF_TOKEN: 'LINK.e'
       },
       wDAI: {
         ICON: '',
@@ -4348,9 +4348,9 @@ const Config: IConfig = {
         mapId: 162869,
         TOKEN_ID: 5,
         TOKEN_DECIMAL: 18,
-        REF_TOKEN: 'DAI.E'
+        REF_TOKEN: 'DAI.e'
       },
-      'WBTC.E': {
+      'WBTC.e': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1EZBn43coqL6xfT5xL6e49nhEPLp9B8m4n',
         mapId: 162915,
@@ -4358,7 +4358,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 8,
         REF_TOKEN: 'wWBTC'
       },
-      'WETH.E': {
+      'WETH.e': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1EZBn43coqL6xfT5xL6e49nhEPLp9B8m4n',
         mapId: 162915,
@@ -4366,7 +4366,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 18,
         REF_TOKEN: 'wWETH'
       },
-      'BUSD.E': {
+      'BUSD.e': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1EZBn43coqL6xfT5xL6e49nhEPLp9B8m4n',
         mapId: 162915,
@@ -4374,7 +4374,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 18,
         REF_TOKEN: 'wBUSD'
       },
-      'USDC.E': {
+      'USDC.e': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1EZBn43coqL6xfT5xL6e49nhEPLp9B8m4n',
         mapId: 162915,
@@ -4382,7 +4382,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         REF_TOKEN: 'wUSDC'
       },
-      'USDT.E': {
+      'USDT.e': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1EZBn43coqL6xfT5xL6e49nhEPLp9B8m4n',
         mapId: 162915,
@@ -4390,7 +4390,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         REF_TOKEN: 'wUSDT'
       },
-      'MATIC.E': {
+      'MATIC.e': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1EZBn43coqL6xfT5xL6e49nhEPLp9B8m4n',
         mapId: 162915,
@@ -4398,7 +4398,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 18,
         REF_TOKEN: 'wMATIC'
       },
-      'LINK.E': {
+      'LINK.e': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1EZBn43coqL6xfT5xL6e49nhEPLp9B8m4n',
         mapId: 162915,
@@ -4406,7 +4406,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 18,
         REF_TOKEN: 'wLINK'
       },
-      'DAI.E': {
+      'DAI.e': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1EZBn43coqL6xfT5xL6e49nhEPLp9B8m4n',
         mapId: 162915,
