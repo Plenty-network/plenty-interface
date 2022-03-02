@@ -4284,6 +4284,208 @@ const Config: IConfig = {
   WALLET_NETWORK: 'mainnet',
   ADMIN_ADDRESS: 'KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW',
   BURNER: 'tz1ZnK6zYJrC9PfKCPryg9tPW6LrERisTGtg',
+  WRAPPED_ASSETS: {
+    testnet: {
+      wWBTC: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1VoHhkb6wXnoPDvcpbnPFYGTcpJaPfRoEh',
+        mapId: 162869,
+        TOKEN_ID: 19,
+        TOKEN_DECIMAL: 8,
+        REF_TOKEN: 'WBTC.E'
+      },
+      wWETH: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1VoHhkb6wXnoPDvcpbnPFYGTcpJaPfRoEh',
+        mapId: 162869,
+        TOKEN_ID: 20,
+        TOKEN_DECIMAL: 18,
+        REF_TOKEN: 'WETH.E'
+      },
+      wBUSD: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1VoHhkb6wXnoPDvcpbnPFYGTcpJaPfRoEh',
+        mapId: 162869,
+        TOKEN_ID: 1,
+        TOKEN_DECIMAL: 18,
+        REF_TOKEN: 'BUSD.E'
+      },
+      wUSDC: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1VoHhkb6wXnoPDvcpbnPFYGTcpJaPfRoEh',
+        mapId: 162869,
+        TOKEN_ID: 17,
+        TOKEN_DECIMAL: 6,
+        REF_TOKEN: 'USDC.E'
+      },
+      wUSDT: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1VoHhkb6wXnoPDvcpbnPFYGTcpJaPfRoEh',
+        mapId: 162869,
+        TOKEN_ID: 18,
+        TOKEN_DECIMAL: 6,
+        REF_TOKEN: 'USDT.E'
+      },
+      wMATIC: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1VoHhkb6wXnoPDvcpbnPFYGTcpJaPfRoEh',
+        mapId: 162869,
+        TOKEN_ID: 11,
+        TOKEN_DECIMAL: 18,
+        REF_TOKEN: 'MATIC.E'
+      },
+      wLINK: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1VoHhkb6wXnoPDvcpbnPFYGTcpJaPfRoEh',
+        mapId: 162869,
+        TOKEN_ID: 10,
+        TOKEN_DECIMAL: 18,
+        REF_TOKEN: 'LINK.E'
+      },
+      wDAI: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1VoHhkb6wXnoPDvcpbnPFYGTcpJaPfRoEh',
+        mapId: 162869,
+        TOKEN_ID: 5,
+        TOKEN_DECIMAL: 18,
+        REF_TOKEN: 'DAI.E'
+      },
+      'WBTC.E': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1EZBn43coqL6xfT5xL6e49nhEPLp9B8m4n',
+        mapId: 162915,
+        TOKEN_ID: 4,
+        TOKEN_DECIMAL: 8,
+        REF_TOKEN: 'wWBTC'
+      },
+      'WETH.E': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1EZBn43coqL6xfT5xL6e49nhEPLp9B8m4n',
+        mapId: 162915,
+        TOKEN_ID: 5,
+        TOKEN_DECIMAL: 18,
+        REF_TOKEN: 'wWETH'
+      },
+      'BUSD.E': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1EZBn43coqL6xfT5xL6e49nhEPLp9B8m4n',
+        mapId: 162915,
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 18,
+        REF_TOKEN: 'wBUSD'
+      },
+      'USDC.E': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1EZBn43coqL6xfT5xL6e49nhEPLp9B8m4n',
+        mapId: 162915,
+        TOKEN_ID: 2,
+        TOKEN_DECIMAL: 6,
+        REF_TOKEN: 'wUSDC'
+      },
+      'USDT.E': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1EZBn43coqL6xfT5xL6e49nhEPLp9B8m4n',
+        mapId: 162915,
+        TOKEN_ID: 3,
+        TOKEN_DECIMAL: 6,
+        REF_TOKEN: 'wUSDT'
+      },
+      'MATIC.E': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1EZBn43coqL6xfT5xL6e49nhEPLp9B8m4n',
+        mapId: 162915,
+        TOKEN_ID: 1,
+        TOKEN_DECIMAL: 18,
+        REF_TOKEN: 'wMATIC'
+      },
+      'LINK.E': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1EZBn43coqL6xfT5xL6e49nhEPLp9B8m4n',
+        mapId: 162915,
+        TOKEN_ID: 6,
+        TOKEN_DECIMAL: 18,
+        REF_TOKEN: 'wLINK'
+      },
+      'DAI.E': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1EZBn43coqL6xfT5xL6e49nhEPLp9B8m4n',
+        mapId: 162915,
+        TOKEN_ID: 7,
+        TOKEN_DECIMAL: 18,
+        REF_TOKEN: 'wDAI'
+      },
+    },
+    mainnet: {
+      wWBTC: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+        mapId: 0,
+        TOKEN_ID: 19,
+        TOKEN_DECIMAL: 8,
+        REF_TOKEN: 'WBTC.E'
+      },
+      wWETH: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+        mapId: 0,
+        TOKEN_ID: 20,
+        TOKEN_DECIMAL: 18,
+        REF_TOKEN: 'WETH.E'
+      },
+      wBUSD: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+        mapId: 0,
+        TOKEN_ID: 1,
+        TOKEN_DECIMAL: 18,
+        REF_TOKEN: 'BUSD.E'
+      },
+      wUSDC: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+        mapId: 0,
+        TOKEN_ID: 17,
+        TOKEN_DECIMAL: 6,
+        REF_TOKEN: 'USDC.E'
+      },
+      wUSDT: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+        mapId: 0,
+        TOKEN_ID: 18,
+        TOKEN_DECIMAL: 6,
+        REF_TOKEN: 'USDT.E'
+      },
+      wMATIC: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+        mapId: 0,
+        TOKEN_ID: 11,
+        TOKEN_DECIMAL: 18,
+        REF_TOKEN: 'MATIC.E'
+      },
+      wLINK: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+        mapId: 0,
+        TOKEN_ID: 10,
+        TOKEN_DECIMAL: 18,
+        REF_TOKEN: 'LINK.E'
+      },
+      wDAI: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
+        mapId: 0,
+        TOKEN_ID: 5,
+        TOKEN_DECIMAL: 18,
+        REF_TOKEN: 'DAI.E'
+      },
+    }
+  },
+  WRAPPED_ASSETS_SWAP_CONTRACT : {
+    testnet: 'KT1D5QJhRM7t2ibHPYYqWQs4o9nianxa9E49',
+    mainnet: ''
+  }
 };
 
 export default Config;
