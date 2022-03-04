@@ -4419,66 +4419,66 @@ const Config: IConfig = {
       wWBTC: {
         ICON: '',
         TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
-        mapId: 0,
+        mapId: 1772,
         TOKEN_ID: 19,
         TOKEN_DECIMAL: 8,
-        REF_TOKEN: 'WBTC.E'
+        REF_TOKEN: 'WBTC.e'
       },
       wWETH: {
         ICON: '',
         TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
-        mapId: 0,
+        mapId: 1772,
         TOKEN_ID: 20,
         TOKEN_DECIMAL: 18,
-        REF_TOKEN: 'WETH.E'
+        REF_TOKEN: 'WETH.e'
       },
       wBUSD: {
         ICON: '',
         TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
-        mapId: 0,
+        mapId: 1772,
         TOKEN_ID: 1,
         TOKEN_DECIMAL: 18,
-        REF_TOKEN: 'BUSD.E'
+        REF_TOKEN: 'BUSD.e'
       },
       wUSDC: {
         ICON: '',
         TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
-        mapId: 0,
+        mapId: 1772,
         TOKEN_ID: 17,
         TOKEN_DECIMAL: 6,
-        REF_TOKEN: 'USDC.E'
+        REF_TOKEN: 'USDC.e'
       },
       wUSDT: {
         ICON: '',
         TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
-        mapId: 0,
+        mapId: 1772,
         TOKEN_ID: 18,
         TOKEN_DECIMAL: 6,
-        REF_TOKEN: 'USDT.E'
+        REF_TOKEN: 'USDT.e'
       },
       wMATIC: {
         ICON: '',
         TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
-        mapId: 0,
+        mapId: 1772,
         TOKEN_ID: 11,
         TOKEN_DECIMAL: 18,
-        REF_TOKEN: 'MATIC.E'
+        REF_TOKEN: 'MATIC.e'
       },
       wLINK: {
         ICON: '',
         TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
-        mapId: 0,
+        mapId: 1772,
         TOKEN_ID: 10,
         TOKEN_DECIMAL: 18,
-        REF_TOKEN: 'LINK.E'
+        REF_TOKEN: 'LINK.e'
       },
       wDAI: {
         ICON: '',
         TOKEN_CONTRACT: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
-        mapId: 0,
+        mapId: 1772,
         TOKEN_ID: 5,
         TOKEN_DECIMAL: 18,
-        REF_TOKEN: 'DAI.E'
+        REF_TOKEN: 'DAI.e'
       },
     }
   },

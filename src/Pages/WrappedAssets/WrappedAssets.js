@@ -5,10 +5,11 @@ import FooterWA from '../../assets/images/footerWA.svg';
 import FooterWADark from '../../assets/images/footerWAdark.svg';
 import '../../assets/scss/animation.scss';
 import SwapWA from './SwapWA';
+import '../../assets/scss/partials/_wrappedAssets.scss';
 
 const WrappedAssets = (props) => {
   return (
-    <Container fluid>
+    <Container fluid className={props.theme === 'light' ? 'bg-img-light' : 'bg-img-dark'}>
       <Row>
         <Col sm={8} md={6} className="swap-content-section wrapped-assets-margin-top">
           <SwapWA {...props} />
