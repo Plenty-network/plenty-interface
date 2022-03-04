@@ -4,24 +4,11 @@ import { Col, Container, Row } from 'react-bootstrap';
 import FooterWA from '../../assets/images/footerWA.svg';
 import '../../assets/scss/animation.scss';
 import SwapWA from './SwapWA';
-import cubeLight from '../../assets/images/WrappedAssets/cube-light.png';
-import cubeDark from '../../assets/images/WrappedAssets/cube-dark.png';
+import '../../assets/scss/partials/_wrappedAssets.scss';
 
 const WrappedAssets = (props) => {
-  const lightBG = {
-    backgroundImage: `url(${cubeLight})`,
-    backgroundPosition: 'center top',
-    backgroundRepeat: 'no-repeat',
-  };
-
-  const darkBG = {
-    backgroundImage: `url(${cubeDark})`,
-    backgroundPosition: 'center top',
-    backgroundRepeat: 'no-repeat',
-  };
-
   return (
-    <Container fluid style={props.theme === 'light' ? lightBG : darkBG}>
+    <Container fluid className={props.theme === 'light' ? 'bg-img-light' : 'bg-img-dark'}>
       <Row>
         <Col sm={8} md={6} className="swap-content-section wrapped-assets-margin-top">
           <SwapWA {...props} />
