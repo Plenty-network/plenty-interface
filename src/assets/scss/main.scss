@@ -32,34 +32,62 @@
 .pb-20 {
   padding-bottom: 20px;
 }
+.status-text {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: 0px;
+  color: var(--theme-floater-text);
+}
+.view-tezos {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: 0px;
+  color: var(--theme-primary-button-bg);
+}
 
 .loading-data-wrapper {
   position: fixed;
-  bottom: 60px;
-  right: 72px;
+  top: 135px;
+  right: 40px;
 }
+// .mobile-loader-data-wrapper {
+//   position: fixed;
+//   bottom: 65px;
+//   left: 10px;
+//   right: 40px;
+// }
 
 .loader-message-wrapper {
-  @extend .loading-data-wrapper;
-  bottom: 24px;
-  right: 24px;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 20px;
-  letter-spacing: -0.4px;
-  padding: 16px 24px;
-  border-radius: 7.34783px;
-
-  &.success {
-    background-color: rgba(35, 193, 89, 0.14);
-    color: #23c159;
+  position: fixed;
+  top: 135px;
+  right: 40px;
+  padding: 20px;
+  background: var(--theme-flash-bg);
+  border: 0.5px solid var(--theme-flash-border);
+  box-sizing: border-box;
+  box-shadow: 0px 11px 44px rgba(16, 3, 34, 0.18);
+  width: 390px;
+  height: 93px;
+  border-radius: 8px;
+  z-index: 1;
+  @media screen and (max-width: 991px) {
+    left: 10px;
+    right: 40px;
+    top: 736px;
   }
+  // &.success {
+  //   background-color: rgba(35, 193, 89, 0.14);
+  //   color: #23c159;
+  // }
 
-  &.error {
-    background-color: rgba(193, 35, 35, 0.14);
-    color: #c12323;
-  }
+  // &.error {
+  //   background-color: rgba(193, 35, 35, 0.14);
+  //   color: #c12323;
+  // }
 
   > span {
     vertical-align: middle;
@@ -84,7 +112,20 @@
     display: inline-block;
   }
 }
-
+#container {
+  margin-right: auto;
+  margin-left: auto;
+  position: relative;
+  width: 95px;
+  height: 95px;
+}
+#transactionSubmitted {
+  margin-right: auto;
+  margin-left: auto;
+  position: relative;
+  width: 153px;
+  height: 153px;
+}
 $h1-font-sizes: (
   null: 38px,
   480px: 40px,

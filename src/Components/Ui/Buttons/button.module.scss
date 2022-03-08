@@ -72,6 +72,15 @@
   border: 0;
   font-weight: 700;
 }
+.outline-button {
+  border: 0.4px solid #4e5d78;
+  background: rgba(78, 93, 120, 0.02);
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--theme-confirm-transaction-button-text);
+}
 
 .smallBtn {
   height: 26px;

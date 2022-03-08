@@ -1,3 +1,25 @@
+.banner {
+  height: 48px;
+  background: var(--theme-banner-bg);
+  text-align: center;
+  padding-top: 10px;
+  z-index: 1111;
+  top: 0px;
+  position: sticky;
+  &:hover {
+    background: var(--theme-banner-bg-hover);
+  }
+}
+.banner-text {
+  align-items: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0em;
+  color: var(--theme-banner-text);
+  margin-right: 24px;
+}
 .headerBg {
   background: var(--theme-governance-headerBg);
   @media screen and (min-width: 320px) and (max-width: 992px) {
@@ -374,8 +396,11 @@
 .rotate {
   transform: rotate(180deg);
 }
+.headerBottom-banner {
+  top: 87px !important;
+}
 .headerBottom {
-  padding: 20px 50px;
+  padding: 20px 0px;
   border-bottom: 0.5px solid var(--theme-header-bottom);
   background-color: var(--theme-bg-header);
   font-size: 16px;
@@ -385,7 +410,7 @@
   position: fixed;
   z-index: 1112;
   width: 100%;
-  top: 87px;
+  top: 135px;
   @media screen and (min-width: 320px) and (max-width: 992px) {
     padding: 10px 20px;
     background-color: var(--theme-bg-header);
@@ -394,12 +419,30 @@
     position: relative;
     top: 0px;
   }
+  .innerSubmenus {
+    //max-width: 1200px;
+    //margin: auto;
+    // padding-right: 40px;
+    // padding-left: 40px;
+
+    max-width: 1200px !important;
+    padding-left: 40px;
+    padding-right: 40px;
+
+    @media screen and (min-width: 1440px) {
+      max-width: 1230px !important;
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+  }
   .topics {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 16px;
+    padding-bottom: 16px;
     width: 495px;
     padding-left: 24px;
     margin-bottom: 10px;
+    // //remove latter
+    // background: var(--theme-header-selectedBg);
     &:hover {
       background: var(--theme-header-selectedBg);
       @media screen and (min-width: 320px) and (max-width: 992px) {
@@ -437,6 +480,13 @@
     }
   }
 }
+.header-wrappedAssets {
+  top: 0px !important;
+}
+.removing-margin {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
 .header {
   border-bottom: 0.5px solid var(--theme-header-bottom);
   background-color: var(--theme-bg-header);
@@ -444,11 +494,30 @@
   z-index: 1111;
   top: 0px;
 
+  padding-left: 0px;
+  padding-right: 0px;
+  @media screen and (min-width: 1440px) {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
   @media screen and (min-width: 320px) and (max-width: 992px) {
     border-bottom: none;
   }
+  .innerHeaderWidth {
+    max-width: 1200px !important;
+    margin: auto;
+    @media screen and (min-width: 1440px) {
+      max-width: 1230px !important;
+    }
+  }
   .innerHeader {
+    padding-left: 40px;
+    padding-right: 40px;
     @media screen and (min-width: 320px) and (max-width: 992px) {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    @media screen and (min-width: 1440px) {
       padding-left: 0px;
       padding-right: 0px;
     }

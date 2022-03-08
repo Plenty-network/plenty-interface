@@ -21,9 +21,8 @@ import SwapTab from '../../Components/SwapTabsContent/SwapTab';
 import LiquidityTab from '../../Components/SwapTabsContent/LiquidityTab';
 
 import { Tab, Tabs } from 'react-bootstrap';
-import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import { tokens } from '../../constants/swapPage';
-import Loader from '../../Components/loader';
+
 import { useLocationStateInSwap } from './hooks';
 import { getAllRoutes } from '../../apis/swap/swap-v2';
 import '../../assets/scss/animation.scss';
@@ -37,7 +36,7 @@ const NormalSwap = (props) => {
   const [showConfirmSwap, setShowConfirmSwap] = useState(false);
   const [showConfirmAddSupply, setShowConfirmAddSupply] = useState(false);
   const [showConfirmRemoveSupply, setShowConfirmRemoveSupply] = useState(false);
-
+  const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
   const [slippage, setSlippage] = useState(0.5);
   const [recepient, setRecepient] = useState('');
   const [tokenType, setTokenType] = useState('tokenIn');
@@ -150,6 +149,7 @@ const NormalSwap = (props) => {
     setShowConfirmSwap(false);
     setShowConfirmAddSupply(false);
     setShowConfirmRemoveSupply(false);
+    setShowConfirmTransaction(false);
     //setHideContent('');
     setSearchQuery('');
     //setLoading(false);
@@ -297,13 +297,13 @@ const NormalSwap = (props) => {
     setRecepient(elem);
   };
 
-  const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
-  const [transactionId, setTransactionId] = useState('');
+  // const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
+  // const [transactionId, setTransactionId] = useState('');
 
-  const transactionSubmitModal = (id) => {
-    setTransactionId(id);
-    setShowTransactionSubmitModal(true);
-  };
+  // const transactionSubmitModal = (id) => {
+  //   setTransactionId(id);
+  //   setShowTransactionSubmitModal(true);
+  // };
 
   const selectToken = (token) => {
     setLoaderInButton(true);
@@ -372,11 +372,13 @@ const NormalSwap = (props) => {
               changeTokenLocation={changeTokenLocation}
               handleOutTokenInput={handleOutTokenInput}
               showRecepient={showRecepient}
-              transactionSubmitModal={transactionSubmitModal}
               setSecondTokenAmount={setSecondTokenAmount}
               fetchUserWalletBalance={fetchUserWalletBalance}
               loaderInButton={loaderInButton}
               setLoaderInButton={setLoaderInButton}
+              setShowConfirmTransaction={setShowConfirmTransaction}
+              showConfirmTransaction={showConfirmTransaction}
+              theme={props.theme}
             />
           </Tab>
 
@@ -416,6 +418,8 @@ const NormalSwap = (props) => {
               loaderInButton={loaderInButton}
               setLoaderInButton={setLoaderInButton}
               isStableSwap={false}
+              setShowConfirmTransaction={setShowConfirmTransaction}
+              showConfirmTransaction={showConfirmTransaction}
             />
           </Tab>
         </Tabs>
@@ -442,7 +446,7 @@ const NormalSwap = (props) => {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
       />
-      <InfoModal
+      {/* <InfoModal
         open={showTransactionSubmitModal}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
@@ -450,9 +454,9 @@ const NormalSwap = (props) => {
         onBtnClick={
           transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
         }
-      />
+      /> */}
 
-      <Loader loading={loading} loaderMessage={loaderMessage} />
+      {/* <Loader loading={loading} loaderMessage={loaderMessage} /> */}
     </>
   );
 };

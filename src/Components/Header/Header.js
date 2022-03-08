@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import truncateMiddle from 'truncate-middle';
 import { Col, Container, Nav, Navbar, Row } from 'react-bootstrap';
 import clsx from 'clsx';
 import { ReactComponent as Logo } from '../../assets/images/logo.svg';
+import { ReactComponent as BannerArrow } from '../../assets/images/banner-arrow.svg';
 import { ReactComponent as LogoWhite } from '../../assets/images/logo-white.svg';
 import { Link, useLocation } from 'react-router-dom';
 import { RPC_NODE } from '../../constants/localStorage';
@@ -13,8 +15,10 @@ import Button from '../Ui/Buttons/Button';
 import HeaderBottom from './HeaderBottom';
 import useMediaQuery from '../../hooks/mediaQuery';
 import { HEADER_MODAL } from '../../constants/header';
+import '../../assets/scss/animation.scss';
 
 const Header = (props) => {
+  const loader = useSelector((state) => state.settings.loader);
   const isMobile = useMediaQuery('(max-width: 991px)');
   const location = useLocation();
   const { pathname } = location;
@@ -43,7 +47,10 @@ const Header = (props) => {
     if (props.walletAddress) {
       return (
         <Button onClick={props.disconnectWallet} className="button-bg w-100">
-          <span>{truncateMiddle(props.walletAddress, 4, 4, '...')}</span>
+          <div className="flex flex-row mx-2">
+            <span>{truncateMiddle(props.walletAddress, 4, 4, '...')}</span>
+            {loader && <span className="loader-button ml-2"></span>}
+          </div>
         </Button>
       );
     } else {
@@ -83,8 +90,32 @@ const Header = (props) => {
 
   return (
     <>
-      <Container className="header" fluid>
-        <Row>
+      <Container
+        className={clsx(
+          'header',
+          (splitLocation[1] === 'wrappedAssets' || splitLocation[1] === 'WrappedAssets') &&
+            'header-wrappedAssets',
+        )}
+        fluid
+      >
+        {splitLocation[1] !== 'wrappedAssets' && (
+          <div className="banner" onMouseEnter={() => setHeader('')}>
+            <span className="banner-text">
+              {isMobile
+                ? 'Swap Wrapped Assets now'
+                : 'A proposal is submitted to the Tezos blockchain – time to vote.. Cast your votes now'}
+            </span>
+            <Link to="/wrappedAssets" className="text-decoration-none">
+              <span className="bottom-last" style={{ cursor: 'pointer' }}>
+                Try it out
+              </span>
+              <span className="new">New</span>
+              <BannerArrow className="ml-2" />
+            </Link>
+          </div>
+        )}
+
+        <Row className="removing-margin">
           <Col className={clsx('innerHeader')} sm={12} md={12}>
             <Navbar id="nav-bar" expand="lg" className="px-0 mx-sm-4 menu-wrapper">
               <Navbar.Brand as={Link} to="/" className="mx-3 mx-sm-0">
@@ -345,6 +376,7 @@ const Header = (props) => {
 
 const mapStateToProps = (state) => ({
   rpcNode: state.settings.rpcNode,
+  loader: state.settings.loader,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -12,10 +12,15 @@ import {
   getXtzDollarPrice,
 } from '../../apis/stableswap/stableswap';
 import { ReactComponent as Stableswap } from '../../assets/images/SwapModal/stableswap-white.svg';
+import ConfirmTransaction from '../WrappedAssets/ConfirmTransaction';
+import InfoModal from '../Ui/Modals/InfoModal';
+import Loader from '../loader';
 
 const StableSwap = (props) => {
   const [firstTokenAmountStable, setFirstTokenAmountStable] = useState();
   const [secondTokenAmountStable, setSecondTokenAmountStable] = useState();
+  const [firstAmount, setFirstAmount] = useState(0);
+  const [secondAmount, setSecondAmount] = useState(0);
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState('');
   const [dolar, setDolar] = useState('0.0');
@@ -56,6 +61,19 @@ const StableSwap = (props) => {
       setDolar(res);
     });
   }, []);
+
+  useEffect(() => {
+    firstTokenAmountStable && setFirstAmount(firstTokenAmountStable);
+    secondTokenAmountStable && setSecondAmount(secondTokenAmountStable);
+  }, [firstTokenAmountStable, secondTokenAmountStable]);
+
+  const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
+  const [transactionId, setTransactionId] = useState('');
+
+  const transactionSubmitModal = (id) => {
+    setTransactionId(id);
+    setShowTransactionSubmitModal(true);
+  };
 
   const fetchSwapData = async (input) => {
     const tokenOutResponse = await calculateTokensOutStable(
@@ -168,7 +186,8 @@ const StableSwap = (props) => {
   const confirmSwapToken = async () => {
     props.setLoading(true);
     props.setLoaderInButton(true);
-
+    props.setShowConfirmSwap(false);
+    props.setShowConfirmTransaction(true);
     const recepientAddress = props.recepient ? props.recepient : props.walletAddress;
     props.resetAllValues();
     if (props.tokenIn.name === 'ctez') {
@@ -178,11 +197,14 @@ const StableSwap = (props) => {
         computedData.data.minimumOut,
         recepientAddress,
         Number(firstTokenAmountStable),
-        props.transactionSubmitModal,
+        transactionSubmitModal,
         props.setShowConfirmSwap,
         resetValues,
+        props.setShowConfirmTransaction,
+        setShowTransactionSubmitModal,
       ).then((response) => {
         handleSwapResponse(response.success);
+        props.setShowConfirmTransaction(false);
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
@@ -194,11 +216,14 @@ const StableSwap = (props) => {
         computedData.data.minimumOut,
         recepientAddress,
         Number(firstTokenAmountStable),
-        props.transactionSubmitModal,
+        transactionSubmitModal,
         props.setShowConfirmSwap,
         resetValues,
+        props.setShowConfirmTransaction,
+        setShowTransactionSubmitModal,
       ).then((response) => {
         props.setShowConfirmSwap(false);
+        props.setShowConfirmTransaction(false);
         handleSwapResponse(response.success);
         setTimeout(() => {
           props.setLoaderMessage({});
@@ -253,21 +278,6 @@ const StableSwap = (props) => {
         );
       }
 
-      // if (props.loaderInButton) {
-      //   return (
-      //     <Button
-      //       onClick={() => null}
-      //       color={'disabled'}
-      //       loading={true}
-      //       className={' mt-4 w-100 flex align-items-center justify-content-center'}
-      //     >
-      //       <span>
-      //         <Stableswap />
-      //         <span className="ml-2">swap</span>
-      //       </span>
-      //     </Button>
-      //   );
-      // }
       return (
         <Button
           onClick={() => setErrorMessageOnUI('Enter an amount to swap')}
@@ -474,7 +484,6 @@ const StableSwap = (props) => {
             computedOutDetails={computedData}
             tokenIn={props.tokenIn}
             tokenOut={props.tokenOut}
-            // routeData={props.routeData}
             firstTokenAmount={firstTokenAmountStable}
             isStableSwap={true}
           />
@@ -493,6 +502,41 @@ const StableSwap = (props) => {
         // routeData={props.routeData}
         loading={props.loading}
         isStableSwap={true}
+      />
+      <ConfirmTransaction
+        show={props.showConfirmTransaction}
+        computedData={computedData}
+        tokenIn={props.tokenIn}
+        firstTokenAmount={firstTokenAmountStable}
+        tokenOut={props.tokenOut}
+        slippage={props.slippage}
+        confirmSwapToken={confirmSwapToken}
+        onHide={props.handleClose}
+        routeData={props.routeData}
+        loading={props.loading}
+        secondTokenAmount={secondAmount}
+      />
+      <InfoModal
+        open={showTransactionSubmitModal}
+        firstTokenAmount={firstAmount}
+        secondTokenAmount={secondAmount}
+        tokenIn={props.tokenIn.name}
+        tokenOut={props.tokenOut.name}
+        theme={props.theme}
+        onClose={() => setShowTransactionSubmitModal(false)}
+        message={'Transaction submitted'}
+        buttonText={'View on Tezos'}
+        onBtnClick={
+          transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
+        }
+      />
+      <Loader
+        loading={props.loading}
+        loaderMessage={props.loaderMessage}
+        tokenIn={props.tokenIn.name}
+        firstTokenAmount={firstAmount}
+        tokenOut={props.tokenOut.name}
+        secondTokenAmount={secondAmount}
       />
     </>
   );
@@ -517,6 +561,7 @@ StableSwap.propTypes = {
   setFirstTokenAmountStable: PropTypes.any,
   //setHideContent: PropTypes.any,
   setLoaderInButton: PropTypes.any,
+  loaderMessage: PropTypes.any,
   setLoaderMessage: PropTypes.any,
   setLoading: PropTypes.any,
   loading: PropTypes.any,
@@ -535,6 +580,9 @@ StableSwap.propTypes = {
   userBalances: PropTypes.any,
   walletAddress: PropTypes.any,
   isStableSwap: PropTypes.any,
+  setShowConfirmTransaction: PropTypes.any,
+  showConfirmTransaction: PropTypes.any,
+  theme: PropTypes.any,
 };
 
 export default StableSwap;
