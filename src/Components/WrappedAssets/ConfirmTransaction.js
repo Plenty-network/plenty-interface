@@ -52,7 +52,7 @@ const ConfirmTransaction = (props) => {
               className="mt-4 w-100 confirm-transaction-button-text"
             >
               Swap {props.firstTokenAmount} {props.tokenIn.name} for{' '}
-              {Number(props.computedData?.data.tokenOutAmount).toFixed(3)} {props.tokenOut.name}
+              {Number(props.secondTokenAmount).toFixed(3)} {props.tokenOut.name}
             </Button>
             <div className="footer-confirm-transaction">
               Confirm this transaction on your wallet
@@ -67,7 +67,6 @@ const ConfirmTransaction = (props) => {
 export default ConfirmTransaction;
 
 ConfirmTransaction.propTypes = {
-  computedData: PropTypes.any,
   confirmSwapToken: PropTypes.any,
   firstTokenAmount: PropTypes.any,
   loading: PropTypes.any,
@@ -78,4 +77,5 @@ ConfirmTransaction.propTypes = {
   tokenIn: PropTypes.any,
   tokenOut: PropTypes.any,
   theme: PropTypes.any,
+  secondTokenAmount: PropTypes.any,
 };

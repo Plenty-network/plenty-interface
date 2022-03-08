@@ -483,12 +483,16 @@
 .header-wrappedAssets {
   top: 0px !important;
 }
+.removing-margin {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
 .header {
   border-bottom: 0.5px solid var(--theme-header-bottom);
   background-color: var(--theme-bg-header);
   position: sticky;
   z-index: 1111;
-  top: 48px;
+  top: 0px;
 
   padding-left: 0px;
   padding-right: 0px;

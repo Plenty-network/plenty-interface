@@ -7,25 +7,24 @@ import {
   computeTokenOutForRouteBaseByOutAmount,
   computeTokenOutput,
   getTokenPrices,
-  getUserBalanceByRpc,
   fetchtzBTCBalance,
 } from '../../apis/swap/swap';
+import { getUserBalanceByRpc, getReferenceToken } from '../../apis/wrappedAssets/WrappedAssets';
 
 import config from '../../config/config';
 
 import TransactionSettings from '../../Components/TransactionSettings/TransactionSettings';
-import SwapModal from '../../Components/SwapModal/SwapModal';
-import { Tab, Tabs } from 'react-bootstrap';
-import InfoModal from '../../Components/Ui/Modals/InfoModal';
-import { tokens } from '../../constants/swapPage';
+import WrappedTokenModal from '../../Components/WrappedAssets/WrappedTokens';
 
-import { useLocationStateInSwap } from '../../Pages/Swap/hooks';
-import { getAllRoutes } from '../../apis/swap/swap-v2';
+import { Tab, Tabs } from 'react-bootstrap';
+
+import { wrappedTokens } from '../../constants/wrappedAssets';
+import { useLocationStateInWrappedAssets } from '../Swap/hooks/useLocationStateInWrappedAssets';
 import '../../assets/scss/animation.scss';
 import SwapContent from '../../Components/WrappedAssets/SwapContent';
 
 const SwapWA = (props) => {
-  const { tokenIn, setTokenIn, tokenOut, setTokenOut } = useLocationStateInSwap();
+  const { tokenIn, setTokenIn, tokenOut, setTokenOut } = useLocationStateInWrappedAssets();
   const activeTab = 'wrappedswap';
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -40,7 +39,7 @@ const SwapWA = (props) => {
   const [secondTokenAmount, setSecondTokenAmount] = useState('');
 
   const [swapData, setSwapData] = useState({});
-  const [routeData, setRouteData] = useState({});
+
   const [computedOutDetails, setComputedOutDetails] = useState({});
   const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
   const [getTokenPrice, setGetTokenPrice] = useState({});
@@ -52,7 +51,7 @@ const SwapWA = (props) => {
   const isStableSwap = useState(false);
 
   const pairExist = useMemo(() => {
-    return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
+    return !!config.WRAPPED_ASSETS[config.NETWORK][tokenIn.name].REF_TOKEN[tokenOut.name];
   }, [tokenIn, tokenOut]);
 
   useEffect(() => {
@@ -60,8 +59,10 @@ const SwapWA = (props) => {
       Object.prototype.hasOwnProperty.call(tokenIn, 'name') &&
       Object.prototype.hasOwnProperty.call(tokenOut, 'name')
     ) {
-      if (tokenIn.name === tokenOut.name) {
-        setTokenOut({});
+      if (tokenIn.name) {
+        const tokenout = getReferenceToken(tokenIn.name);
+
+        setTokenOut(tokenout);
       }
     }
   }, [tokenIn, tokenOut]);
@@ -82,12 +83,12 @@ const SwapWA = (props) => {
           ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
           : balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));
       }
-      if (config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]) {
-        const lpToken =
-          config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
+      // if (config.WRAPPED_ASSETS[config.NETWORK][tokenIn.name].REF_TOKEN[tokenOut.name]) {
+      //   const lpToken =
+      //     config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
 
-        balancePromises.push(getUserBalanceByRpc(lpToken, props.walletAddress));
-      }
+      //   balancePromises.push(getUserBalanceByRpc(lpToken, props.walletAddress));
+      // }
       const balanceResponse = await Promise.all(balancePromises);
 
       setUserBalances((prev) => ({
@@ -110,13 +111,13 @@ const SwapWA = (props) => {
         Object.prototype.hasOwnProperty.call(tokenIn, 'name') &&
         Object.prototype.hasOwnProperty.call(tokenOut, 'name')
       ) {
-        getAllRoutes(tokenIn.name, tokenOut.name).then((response) => {
-          if (response.success) {
-            setRouteData(response);
-            setSwapData(response.bestRouteUntilNoInput.swapData);
-            setLoaderInButton(false);
-          }
-        });
+        // getAllRoutes(tokenIn.name, tokenOut.name).then((response) => {
+        //   if (response.success) {
+        //     setRouteData(response);
+        //     setSwapData(response.bestRouteUntilNoInput.swapData);
+        //     setLoaderInButton(false);
+        //   }
+        // });
       }
     }
   }, [tokenIn, tokenOut, activeTab]);
@@ -241,13 +242,13 @@ const SwapWA = (props) => {
     setRecepient(elem);
   };
 
-  const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
-  const [transactionId, setTransactionId] = useState('');
+  // const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
+  // const [transactionId, setTransactionId] = useState('');
 
-  const transactionSubmitModal = (id) => {
-    setTransactionId(id);
-    setShowTransactionSubmitModal(true);
-  };
+  // const transactionSubmitModal = (id) => {
+  //   setTransactionId(id);
+  //   setShowTransactionSubmitModal(true);
+  // };
 
   const selectToken = (token) => {
     setLoaderInButton(true);
@@ -291,10 +292,9 @@ const SwapWA = (props) => {
               connecthWallet={props.connecthWallet}
               tokenIn={tokenIn}
               tokenOut={tokenOut}
-              tokens={tokens}
+              tokens={wrappedTokens}
               handleTokenType={handleTokenType}
               swapData={swapData}
-              routeData={routeData}
               computedOutDetails={computedOutDetails}
               userBalances={userBalances}
               tokenContractInstances={tokenContractInstances}
@@ -314,7 +314,6 @@ const SwapWA = (props) => {
               resetAllValues={resetAllValues}
               handleOutTokenInput={handleOutTokenInput}
               showRecepient={showRecepient}
-              transactionSubmitModal={transactionSubmitModal}
               setSecondTokenAmount={setSecondTokenAmount}
               fetchUserWalletBalance={fetchUserWalletBalance}
               loaderInButton={loaderInButton}
@@ -322,7 +321,6 @@ const SwapWA = (props) => {
               setShowConfirmTransaction={setShowConfirmTransaction}
               showConfirmTransaction={showConfirmTransaction}
               theme={props.theme}
-              setShowTransactionSubmitModal={setShowTransactionSubmitModal}
             />
           </Tab>
         </Tabs>
@@ -337,22 +335,23 @@ const SwapWA = (props) => {
           setShowRecepient={setShowRecepient}
         />
       </div>
-      <SwapModal
+      <WrappedTokenModal
         show={show}
         activeTab={activeTab}
         onHide={handleClose}
         selectToken={selectToken}
-        tokens={tokens}
+        tokens={wrappedTokens}
         tokenIn={tokenIn}
         tokenOut={tokenOut}
         tokenType={tokenType}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
       />
-      <InfoModal
+
+      {/* <InfoModal
         open={showTransactionSubmitModal}
-        firstTokenAmount={firstTokenAmount}
-        secondTokenAmount={secondTokenAmount}
+        firstTokenAmount={firstAmount}
+        secondTokenAmount={secondAmount}
         tokenIn={tokenIn.name}
         tokenOut={tokenOut.name}
         theme={props.theme}
@@ -362,7 +361,7 @@ const SwapWA = (props) => {
         onBtnClick={
           transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
         }
-      />
+      /> */}
 
       {/* <Loader loading={loading} loaderMessage={loaderMessage} /> */}
     </>

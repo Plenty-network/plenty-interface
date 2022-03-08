@@ -1,16 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container } from 'react-bootstrap';
 import FooterWA from '../../assets/images/footerWA.svg';
 import FooterWADark from '../../assets/images/footerWAdark.svg';
 import '../../assets/scss/animation.scss';
 import SwapWA from './SwapWA';
 import '../../assets/scss/partials/_wrappedAssets.scss';
+import { WrappedAssetsGradientDiv } from '../../themes';
 
 const WrappedAssets = (props) => {
   return (
-    <Container fluid className={props.theme === 'light' ? 'bg-img-light' : 'bg-img-dark'}>
-      <Row>
+    <WrappedAssetsGradientDiv className={'flex flex-grow-1 bg-img-light '}>
+      <Container fluid className="removing-padding">
         <Col sm={8} md={6} className="swap-content-section wrapped-assets-margin-top">
           <SwapWA {...props} />
 
@@ -41,8 +42,8 @@ const WrappedAssets = (props) => {
             </div>
           </div>
         </Col>
-      </Row>
-    </Container>
+      </Container>
+    </WrappedAssetsGradientDiv>
   );
 };
 

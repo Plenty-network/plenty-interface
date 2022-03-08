@@ -40,7 +40,7 @@ const InfoModal = (props) => {
         className="confirm-swap-modal"
         title="Transaction Submitted"
         open={props.open}
-        infoModal={true}
+        onClose={props.onClose}
       >
         <div className={styles.infoModal}>
           <div id="transactionSubmitted" ref={container}></div>
@@ -50,7 +50,7 @@ const InfoModal = (props) => {
               {props.buttonText} <Link className="ml-2 mb-1" />
             </div>
           )}
-          <Button color={'outline-button'} className="mt-3 w-100">
+          <Button color={'outline-button'} className="mt-3 w-100 submitted-text">
             Swap {props.firstTokenAmount} {props.tokenIn} for {props.secondTokenAmount}{' '}
             {props.tokenOut}
           </Button>

@@ -1,10 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import clsx from 'clsx';
 import { PuffLoader } from 'react-spinners';
 import { ReactComponent as SuccessImg } from '../assets/images/status.svg';
+import { ReactComponent as ErrorImg } from '../assets/images/errorImg.svg';
 import '../assets/scss/animation.scss';
+import useMediaQuery from '../hooks/mediaQuery';
 
 const Loader = (props) => {
+  const isMobile = useMediaQuery('(max-width: 991px)');
+
+  const closeFlashMessage = () => {
+    props.setLoaderMessage({});
+  };
   if (props.loading) {
     return (
       <div className="loading-data-wrapper">
@@ -14,10 +22,15 @@ const Loader = (props) => {
   }
 
   if (props.loaderMessage.type) {
-    const loaderMessage = props.loaderMessage.message;
     return (
       <div
-        className={`loader-message-wrapper rightToLeftFadeInAnimation-4-floater ${props.loaderMessage.type}`}
+        className={clsx(
+          'loader-message-wrapper',
+          props.loaderMessage.type,
+          isMobile
+            ? 'bottomToTopFadeInAnimation-4-floater'
+            : 'rightToLeftFadeInAnimation-4-floater',
+        )}
       >
         {props.loaderMessage.type === 'success' ? (
           props.tokenIn ? (
@@ -33,7 +46,13 @@ const Loader = (props) => {
                 <div className="view-tezos">View on tezos</div>
               </div>
               <div>
-                <span className="material-icons-round ml-3">close</span>
+                <span
+                  className="material-icons-round ml-3"
+                  onClick={closeFlashMessage}
+                  style={{ cursor: 'pointer' }}
+                >
+                  close
+                </span>
               </div>
             </div>
           ) : (
@@ -46,14 +65,36 @@ const Loader = (props) => {
                 <div className="view-tezos">View on tezos</div>
               </div>
               <div>
-                <span className="material-icons-round ml-3">close</span>
+                <span
+                  className="material-icons-round ml-3"
+                  onClick={closeFlashMessage}
+                  style={{ cursor: 'pointer' }}
+                >
+                  close
+                </span>
               </div>
             </div>
           )
         ) : (
           <>
-            <span className="material-icons-round">cancel</span>
-            {loaderMessage}
+            <div className="flex flex-row">
+              <div>
+                <ErrorImg />
+              </div>
+              <div className="ml-3">
+                <span className="status-text">Tranaction Failed</span>
+                <div className="view-tezos">View on tezos</div>
+              </div>
+              <div>
+                <span
+                  className="material-icons-round ml-3"
+                  onClick={closeFlashMessage}
+                  style={{ cursor: 'pointer' }}
+                >
+                  close
+                </span>
+              </div>
+            </div>
           </>
         )}
       </div>
@@ -72,4 +113,5 @@ Loader.propTypes = {
   firstTokenAmount: PropTypes.any,
   tokenOut: PropTypes.any,
   secondTokenAmount: PropTypes.any,
+  setLoaderMessage: PropTypes.func,
 };

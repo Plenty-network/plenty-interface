@@ -19,9 +19,7 @@ import TransactionSettings from '../../Components/TransactionSettings/Transactio
 import StableSwap from '../../Components/SwapTabsContent/StableSwap';
 import { ReactComponent as StableswapGrey } from '../../assets/images/SwapModal/Stableswap-grey.svg';
 import LiquidityTab from '../../Components/SwapTabsContent/LiquidityTab';
-import Loader from '../../Components/loader';
 import { Tab, Tabs } from 'react-bootstrap';
-import InfoModal from '../../Components/Ui/Modals/InfoModal';
 
 import { liquidityTokens } from '../../constants/liquidityTokens';
 
@@ -394,13 +392,13 @@ const StableeSwap = (props) => {
     setRecepient(elem);
   };
 
-  const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
-  const [transactionId, setTransactionId] = useState('');
+  // const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
+  // const [transactionId, setTransactionId] = useState('');
 
-  const transactionSubmitModal = (id) => {
-    setTransactionId(id);
-    setShowTransactionSubmitModal(true);
-  };
+  // const transactionSubmitModal = (id) => {
+  //   setTransactionId(id);
+  //   setShowTransactionSubmitModal(true);
+  // };
 
   return (
     <>
@@ -454,13 +452,14 @@ const StableeSwap = (props) => {
               changeTokenLocation={changeTokenLocation}
               handleOutTokenInput={handleOutTokenInput}
               showRecepient={showRecepient}
-              transactionSubmitModal={transactionSubmitModal}
+              // transactionSubmitModal={transactionSubmitModal}
               setSecondTokenAmountStable={setSecondTokenAmountStable}
               fetchUserWalletBalance={fetchUserWalletBalance}
               loaderInButton={loaderInButton}
               setLoaderInButton={setLoaderInButton}
               setShowConfirmTransaction={setShowConfirmTransaction}
               showConfirmTransaction={showConfirmTransaction}
+              theme={props.theme}
             />
           </Tab>
 
@@ -532,7 +531,7 @@ const StableeSwap = (props) => {
         isStableSwap={true}
       />
 
-      <InfoModal
+      {/* <InfoModal
         open={showTransactionSubmitModal}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
@@ -540,9 +539,16 @@ const StableeSwap = (props) => {
         onBtnClick={
           transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
         }
-      />
+      /> */}
 
-      <Loader loading={loading} loaderMessage={loaderMessage} />
+      {/* <Loader
+        loading={loading}
+        loaderMessage={loaderMessage}
+        tokenIn={props.tokenIn.name}
+        firstTokenAmount={firstAmount}
+        tokenOut={props.tokenOut.name}
+        secondTokenAmount={secondAmount}
+      /> */}
     </>
   );
 };

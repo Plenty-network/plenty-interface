@@ -38,7 +38,7 @@
   font-weight: 700;
   line-height: 22px;
   letter-spacing: 0px;
-  color: #333333;
+  color: var(--theme-floater-text);
 }
 .view-tezos {
   font-size: 12px;
@@ -46,7 +46,7 @@
   font-weight: 500;
   line-height: 22px;
   letter-spacing: 0px;
-  color: #6202ef;
+  color: var(--theme-primary-button-bg);
 }
 
 .loading-data-wrapper {
@@ -54,21 +54,31 @@
   top: 135px;
   right: 40px;
 }
+// .mobile-loader-data-wrapper {
+//   position: fixed;
+//   bottom: 65px;
+//   left: 10px;
+//   right: 40px;
+// }
 
 .loader-message-wrapper {
-  // bottom: 24px;
   position: fixed;
   top: 135px;
   right: 40px;
   padding: 20px;
-  background: white;
-  border: 0.5px solid #b0b7c3;
+  background: var(--theme-flash-bg);
+  border: 0.5px solid var(--theme-flash-border);
   box-sizing: border-box;
   box-shadow: 0px 11px 44px rgba(16, 3, 34, 0.18);
   width: 390px;
   height: 93px;
   border-radius: 8px;
-
+  z-index: 1;
+  @media screen and (max-width: 991px) {
+    left: 10px;
+    right: 40px;
+    top: 736px;
+  }
   // &.success {
   //   background-color: rgba(35, 193, 89, 0.14);
   //   color: #23c159;
