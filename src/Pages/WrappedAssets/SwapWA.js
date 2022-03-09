@@ -9,8 +9,7 @@ import {
   getTokenPrices,
   fetchtzBTCBalance,
 } from '../../apis/swap/swap';
-import { getUserBalanceByRpc, getReferenceToken } from '../../apis/wrappedAssets/WrappedAssets';
-
+import { getUserBalanceByRpc, getReferenceToken } from '../../apis/WrappedAssets/WrappedAssets';
 import config from '../../config/config';
 
 import TransactionSettings from '../../Components/TransactionSettings/TransactionSettings';
