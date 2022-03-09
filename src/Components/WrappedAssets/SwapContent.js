@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import Button from '../Ui/Buttons/Button';
 import Loader from '../loader';
 import InfoModal from '../Ui/Modals/InfoModal';
-import { swapWrappedAssets } from '../../apis/wrappedAssets/WrappedAssets';
+import { swapWrappedAssets } from '../../apis/WrappedAssets/WrappedAssets';
 import { setLoader } from '../../redux/slices/settings/settings.slice';
 
 const SwapContent = (props) => {
