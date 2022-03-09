@@ -14,7 +14,7 @@ import OtherPages from '../Pages/OtherPages';
 const Swap = React.lazy(() => import('../Pages/Swap'));
 const Farms = React.lazy(() => import('../Pages/Farms'));
 const Tokens = React.lazy(() => import('../Pages/Tokens/Tokens'));
-const Liquidity = React.lazy(() => import('../Pages/Liquidity'));
+const Liquidity = React.lazy(() => import('../Pages/LiquidityNew'));
 const Frontpage = React.lazy(() => import('../Pages/Frontpage/Frontpage'));
 const Stake = React.lazy(() => import('../Pages/xPlenty'));
 const Governance = React.lazy(() => import('../Pages/Governance/Governance'));
@@ -82,7 +82,7 @@ const MyRoutes = (props) => {
               path={'/liquidity/*'}
               element={
                 <OtherPages {...otherPageProps}>
-                  <Swap walletAddress={props.userAddress} theme={otherPageProps.theme} />
+                  <Liquidity walletAddress={props.userAddress} theme={otherPageProps.theme} />
                 </OtherPages>
               }
             />
@@ -150,7 +150,11 @@ const MyRoutes = (props) => {
               path="/wrappedAssets"
               element={
                 <OtherPages {...otherPageProps}>
-                  <WrappedAssets walletAddress={props.userAddress} theme={otherPageProps.theme} />
+                  <WrappedAssets
+                    walletAddress={props.userAddress}
+                    theme={otherPageProps.theme}
+                    connecthWallet={connectWallet}
+                  />
                 </OtherPages>
               }
             />

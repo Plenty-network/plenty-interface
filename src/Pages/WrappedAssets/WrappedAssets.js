@@ -16,7 +16,7 @@ const WrappedAssets = (props) => {
           <SwapWA {...props} />
 
           <div className="bottom-footer mt-2 flex flex-row">
-            <div>
+            <div className="footer-illustration">
               <img src={props.theme === 'light' ? FooterWA : FooterWADark} alt="graph"></img>
             </div>
             <div className="ml-3">

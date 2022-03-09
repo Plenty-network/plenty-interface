@@ -98,6 +98,7 @@
   --theme-flash-bg: #ffffff;
   --theme-flash-border: #b0b7c3;
   --theme-floater-text: #333333;
+  --theme-nav-link-border: #f1f1f1;
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -206,6 +207,7 @@
   --theme-flash-bg: rgba(18, 11, 67, 1);
   --theme-flash-border: #4e5d78;
   --theme-floater-text: #ffffff;
+  --theme-nav-link-border: rgba(255, 255, 255, 0.15);
 }
 
 :root.theme-transiton {

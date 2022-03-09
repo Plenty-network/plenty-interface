@@ -32,6 +32,8 @@
   align-items: center;
   padding-top: 18px;
   padding-bottom: 18px;
+  margin-left: 105px;
+  margin-right: 105px;
 }
 
 .dropdown-toggle:after {
@@ -397,20 +399,20 @@
   transform: rotate(180deg);
 }
 .headerBottom-banner {
-  top: 87px !important;
+  top: 86.5px !important;
 }
 .headerBottom {
-  padding: 20px 0px;
+  padding: 40px 0px;
   border-bottom: 0.5px solid var(--theme-header-bottom);
   background-color: var(--theme-bg-header);
   font-size: 16px;
   letter-spacing: 0px;
   font-style: normal;
-  height: 279px;
+  height: 360px;
   position: fixed;
   z-index: 1112;
   width: 100%;
-  top: 135px;
+  top: 134.5px;
   @media screen and (min-width: 320px) and (max-width: 992px) {
     padding: 10px 20px;
     background-color: var(--theme-bg-header);
@@ -426,8 +428,10 @@
     // padding-left: 40px;
 
     max-width: 1200px !important;
-    padding-left: 40px;
-    padding-right: 40px;
+    // padding-left: 40px;
+    // padding-right: 40px;
+    margin-left: 105px;
+    margin-right: 105px;
 
     @media screen and (min-width: 1440px) {
       max-width: 1230px !important;
@@ -436,13 +440,13 @@
     }
   }
   .topics {
-    padding-top: 16px;
-    padding-bottom: 16px;
-    width: 495px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    //width: 495px;
     padding-left: 24px;
-    margin-bottom: 10px;
-    // //remove latter
-    // background: var(--theme-header-selectedBg);
+    margin-bottom: 32px;
+
+    //background: var(--theme-header-selectedBg);
     &:hover {
       background: var(--theme-header-selectedBg);
       @media screen and (min-width: 320px) and (max-width: 992px) {
@@ -471,7 +475,7 @@
         width: 100%;
       }
       .parainside {
-        width: 80%;
+        width: 74%;
         color: var(--theme-header-description);
         @media screen and (min-width: 320px) and (max-width: 992px) {
           width: 100%;
@@ -511,8 +515,8 @@
     }
   }
   .innerHeader {
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
     @media screen and (min-width: 320px) and (max-width: 992px) {
       padding-left: 20px;
       padding-right: 20px;
@@ -604,11 +608,10 @@ input[type='radio']:checked:after {
 .seperator {
   border-right: 1px solid var(--theme-header-seperator);
   height: 27.43px;
-  left: 25px;
   position: relative;
   opacity: 0.1;
-  margin-left: 30px;
-  margin-right: 47px;
+  margin-left: 40px;
+  margin-right: 26px;
   @media screen and (min-width: 320px) and (max-width: 992px) {
     display: none;
   }
@@ -698,7 +701,7 @@ input[type='radio']:checked:after {
   color: #8a94a6;
 }
 .height {
-  height: 520px;
+  height: 570px;
 }
 .selected-label {
   color: var(--theme-governance-buttonBorder);
@@ -728,4 +731,14 @@ input[type='radio']:checked:after {
 }
 .showw {
   display: block;
+}
+.nodeSelector-width {
+  width: 600px !important;
+}
+.toggle-header {
+  margin-right: 70px !important;
+  margin-top: 8px !important;
+}
+.vote-width {
+  width: 69% !important;
 }

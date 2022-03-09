@@ -16,9 +16,22 @@ import HeaderBottom from './HeaderBottom';
 import useMediaQuery from '../../hooks/mediaQuery';
 import { HEADER_MODAL } from '../../constants/header';
 import '../../assets/scss/animation.scss';
+//import Loader from '../loader';
 
 const Header = (props) => {
   const loader = useSelector((state) => state.settings.loader);
+  // const firstTokenAmount = useSelector((state) => state.settings.firstTokenAmount);
+  // const secondTokenAmount = useSelector((state) => state.settings.secondTokenAmount);
+  // const tokenIn = useSelector((state) => state.settings.tokenIn);
+  // const tokenOut = useSelector((state) => state.settings.tokenOut);
+  // const opertaionId = useSelector((state) => state.settings.opertaionId);
+  // const loaderMessage = useSelector((state) => state.settings.loaderMessage);
+  // console.log(firstTokenAmount);
+  // console.log(secondTokenAmount);
+  // const loaderMessage = {
+  //   type: 'success',
+  //   message: 'success',
+  // };
   const isMobile = useMediaQuery('(max-width: 991px)');
   const location = useLocation();
   const { pathname } = location;
@@ -117,7 +130,7 @@ const Header = (props) => {
 
         <Row className="removing-margin">
           <Col className={clsx('innerHeader')} sm={12} md={12}>
-            <Navbar id="nav-bar" expand="lg" className="px-0 mx-sm-4 menu-wrapper">
+            <Navbar id="nav-bar" expand="lg" className="px-0 menu-wrapper">
               <Navbar.Brand as={Link} to="/" className="mx-3 mx-sm-0">
                 {props.isGradientBgPage ? (
                   <LogoWhite />
@@ -370,6 +383,13 @@ const Header = (props) => {
           />
         </div>
       )}
+      {/* <Loader
+        loaderMessage={loaderMessage}
+        tokenIn={tokenIn}
+        firstTokenAmount={firstTokenAmount}
+        tokenOut={tokenOut}
+        secondTokenAmount={secondTokenAmount}
+      /> */}
     </>
   );
 };
@@ -377,6 +397,11 @@ const Header = (props) => {
 const mapStateToProps = (state) => ({
   rpcNode: state.settings.rpcNode,
   loader: state.settings.loader,
+  firstTokenAmount: state.settings.firstTokenAmount,
+  secondTokenAmount: state.settings.secondTokenAmount,
+  tokenIn: state.settings.tokenIn,
+  tokenOut: state.settings.tokenOut,
+  opertaionId: state.settings.opertaionId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -387,7 +412,6 @@ Header.propTypes = {
   connectWallet: PropTypes.func,
   disconnectWallet: PropTypes.func,
   isGradientBgPage: PropTypes.bool,
-
   setNode: PropTypes.func,
   theme: PropTypes.string,
   toggleTheme: PropTypes.func,
