@@ -34,7 +34,7 @@ const Loader = (props) => {
       >
         {props.loaderMessage.type === 'success' ? (
           props.tokenIn ? (
-            <div className="flex flex-row">
+            <div className="d-flex ">
               <div>
                 <SuccessImg />
               </div>
@@ -48,9 +48,9 @@ const Loader = (props) => {
                   <span className=" material-icons-round launch-icon-flash">launch</span>
                 </div>
               </div>
-              <div>
+              <div className="ml-auto">
                 <span
-                  className="ml-auto material-icons-round close-icon-floater"
+                  className=" material-icons-round "
                   onClick={closeFlashMessage}
                   style={{ cursor: 'pointer' }}
                 >
@@ -70,7 +70,7 @@ const Loader = (props) => {
                   <span className="ml-3 material-icons-round launch-icon-flash">launch</span>
                 </div>
               </div>
-              <div>
+              <div className="ml-auto">
                 <span
                   className="material-icons-round ml-3"
                   onClick={closeFlashMessage}
@@ -94,9 +94,9 @@ const Loader = (props) => {
                   <span className="material-icons-round launch-icon-flash">launch</span>
                 </div>
               </div>
-              <div>
+              <div className="ml-auto">
                 <span
-                  className="material-icons-round  close-icon-floater-error"
+                  className="material-icons-round "
                   onClick={closeFlashMessage}
                   style={{ cursor: 'pointer' }}
                 >

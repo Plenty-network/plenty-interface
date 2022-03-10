@@ -34,6 +34,10 @@
   padding-bottom: 18px;
   margin-left: 105px;
   margin-right: 105px;
+  @media screen and (min-width: 320px) and (max-width: 992px) {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 }
 
 .dropdown-toggle:after {
@@ -438,6 +442,10 @@
       padding-left: 0px;
       padding-right: 0px;
     }
+    @media screen and (min-width: 320px) and (max-width: 992px) {
+      margin-left: 0px;
+      margin-right: 0px;
+    }
   }
   .topics {
     padding-top: 24px;
@@ -458,6 +466,7 @@
       padding-top: 16px;
       padding-bottom: 16px;
       padding-left: 0px;
+      margin-bottom: 10px;
     }
     .heading {
       font-weight: 500;

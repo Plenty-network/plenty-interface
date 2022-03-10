@@ -18,10 +18,10 @@ const SwapContent = (props) => {
 
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState('');
-  const check = {
-    type: 'success',
-    message: 'success',
-  };
+  // const check = {
+  //   type: 'success',
+  //   message: 'success',
+  // };
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const [transactionId, setTransactionId] = useState('');
 
@@ -382,7 +382,7 @@ const SwapContent = (props) => {
       />
       <Loader
         loading={props.loading}
-        loaderMessage={check}
+        loaderMessage={props.loaderMessage}
         tokenIn={props.tokenIn.name}
         firstTokenAmount={firstAmount}
         tokenOut={props.tokenOut.name}
