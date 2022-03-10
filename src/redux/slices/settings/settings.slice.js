@@ -5,6 +5,12 @@ export const settingsSlice = createSlice({
   initialState: {
     rpcNode: '',
     loader: false,
+    firstTokenAmount: 0,
+    secondTokenAmount: 0,
+    tokenIn: '',
+    tokenOut: '',
+    opertaionId: '',
+    loaderMessage: {},
   },
   reducers: {
     setNode: (state, action) => {
@@ -13,10 +19,36 @@ export const settingsSlice = createSlice({
     setLoader: (state, action) => {
       state.loader = action.payload;
     },
+    setFirstTokenAmountFloater: (state, action) => {
+      state.firstTokenAmount = action.payload;
+    },
+    setSecondTokenAmountFloater: (state, action) => {
+      state.secondTokenAmount = action.payload;
+    },
+    setTokenInFloater: (state, action) => {
+      state.tokenIn = action.payload;
+    },
+    setTokenOutFloater: (state, action) => {
+      state.tokenOut = action.payload;
+    },
+    setOpertaionIdFloater: (state, action) => {
+      state.opertaionId = action.payload;
+    },
+    setLoaderMessageFloater: (state, action) => {
+      state.loaderMessage = action.payload;
+    },
   },
 });
 
-export const { setNode } = settingsSlice.actions;
-export const { setLoader } = settingsSlice.actions;
+export const {
+  setNode,
+  setLoader,
+  setFirstTokenAmountFloater,
+  setLoaderMessageFloater,
+  setOpertaionIdFloater,
+  setSecondTokenAmountFloater,
+  setTokenInFloater,
+  setTokenOutFloater,
+} = settingsSlice.actions;
 
 export default settingsSlice.reducer;

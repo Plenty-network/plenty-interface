@@ -24,6 +24,7 @@ const StableSwap = (props) => {
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState('');
   const [dolar, setDolar] = useState('0.0');
+
   const [swapData, setSwapData] = useState({
     success: false,
     tezPool: 0,

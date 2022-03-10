@@ -18,7 +18,10 @@ const SwapContent = (props) => {
 
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState('');
-
+  // const check = {
+  //   type: 'success',
+  //   message: 'success',
+  // };
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const [transactionId, setTransactionId] = useState('');
 
