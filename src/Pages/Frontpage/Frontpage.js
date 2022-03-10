@@ -32,7 +32,6 @@ import plentyBig from '../../assets/images/frontpage/plentybig.svg';
 import { ReactComponent as Medium } from '../../assets/images/frontpage/medium.svg';
 import { ReactComponent as Twitter } from '../../assets/images/frontpage/twitter.svg';
 import { ReactComponent as Discord } from '../../assets/images/frontpage/discord.svg';
-import { ReactComponent as Telegram } from '../../assets/images/frontpage/telegram.svg';
 import plentyMedium from '../../assets/images/frontpage/plentymedium.svg';
 import LinkTile from '../../Components/LinkTile/LinkTile';
 import Accordion from '../../Components/Ui/Accordion/Accordion';
@@ -350,9 +349,9 @@ const Frontpage = ({
               <a href={'https://discord.gg/9wZ4CuvkuJ'} target="_blank" rel="noreferrer">
                 <Discord className="mr-2 icon-themed" />
               </a>
-              <a href={'https://t.me/PlentyDeFi'} target="_blank" rel="noreferrer">
+              {/* <a href={'https://t.me/PlentyDeFi'} target="_blank" rel="noreferrer">
                 <Telegram className="mr-2 icon-themed" />
-              </a>
+              </a> */}
               <a href={'https://twitter.com/PlentyDeFi'} target="_blank" rel="noreferrer">
                 <Twitter className="mr-2 icon-themed" />
               </a>
