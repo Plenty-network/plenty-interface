@@ -1,0 +1,300 @@
+import axios from 'axios';
+import CONFIG from '../../config/config';
+import { getUserBalanceByRpc } from '../swap/swap';
+import { getUserBalanceByRpcStable } from '../stableswap/stableswap';
+
+/**
+ * Iterates through all the tokens in config and returns list of token pairs for which liquidity is available for the connected wallet.
+ * @param {*} tokenList - List of tokens from config file.
+ * @param {boolean} isStable - If the list from config is stable or not.
+ * @param {string} walletAddress - Address of the wallet connected.
+ * @returns - Array of token pairs for which liquidity is available.
+ */
+const getListOfPositions = async (tokenList, isStable, walletAddress) => {
+  const tempLPTokenObj = {};
+  const listOfAvailablePostions = [];
+  const tokensPromiseList = [];
+
+  // Parse all the tokens and then their dex pairs to get the lpTokens.
+  for (const [token, tokenValue] of Object.entries(tokenList)) {
+    if (
+      Object.prototype.hasOwnProperty.call(tokenValue, 'DEX_PAIRS') &&
+      Object.keys(tokenValue.DEX_PAIRS).length !== 0
+    ) {
+      for (const [pairedtToken, pairedtTokenValue] of Object.entries(tokenValue.DEX_PAIRS)) {
+        const liquidityToken = pairedtTokenValue.liquidityToken;
+        // Check if the lp token is not already parsed and proceed only if not.
+        if (!tempLPTokenObj[liquidityToken]) {
+          tokensPromiseList.push({
+            tokenA: token,
+            tokenB: pairedtToken,
+            isStable,
+            func: isStable ? getUserBalanceByRpcStable : getUserBalanceByRpc,
+            argOne: liquidityToken,
+            argTwo: walletAddress,
+          });
+        }
+        tempLPTokenObj[liquidityToken] = true;
+      }
+    }
+  }
+  const promiseResults = await Promise.allSettled(
+    tokensPromiseList.map((promise) => promise.func(promise.argOne, promise.argTwo)),
+  );
+
+  promiseResults.forEach((result, index) => {
+    if (result.status === 'fulfilled' && result.value.success) {
+      listOfAvailablePostions.push({
+        tokenA: tokensPromiseList[index].tokenA,
+        tokenB: tokensPromiseList[index].tokenB,
+        isStable: tokensPromiseList[index].isStable,
+        lpBalance: result.value.balance,
+      });
+    }
+  });
+  return listOfAvailablePostions;
+};
+
+/**
+ * Fetch the list of all the pair of tokens including stable pairs, for which the connected wallet has liquidity available.
+ * @param {string} walletAddress - Address of the wallet connected.
+ * @returns List of pair of tokens or an error message.
+ */
+export const getLiquidityPositionsForUser = async (walletAddress) => {
+  try {
+    const connectedNetwork = CONFIG.NETWORK;
+    const tokenList = CONFIG.AMM[connectedNetwork];
+    const stableTokenList = CONFIG.STABLESWAP[connectedNetwork];
+    const stableTokenResult = await getListOfPositions(stableTokenList, true, walletAddress);
+    const tokenResult = await getListOfPositions(tokenList, false, walletAddress);
+    const finalResult = [...tokenResult, ...stableTokenResult];
+
+    return {
+      success: true,
+      data: finalResult,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error,
+    };
+  }
+};
+
+/**
+ * Check if the entered pair of tokens is stable or not.
+ * @param {string} tokenA - First token from the pair selected.
+ * @param {string} tokenB - Second token from the pair selected.
+ * @returns Whether the pair of tokens is stable or not.
+ */
+export const isTokenPairStable = (tokenA, tokenB) => {
+  const connectedNetwork = CONFIG.NETWORK;
+  return CONFIG.STABLESWAP[connectedNetwork][tokenA] &&
+    CONFIG.STABLESWAP[connectedNetwork][tokenA].DEX_PAIRS[tokenB]
+    ? true
+    : false;
+};
+
+/**
+ * Check if liquidity position exists for a pair of tokens.
+ * @param {string} tokenA - First token from the pair selected.
+ * @param {string} tokenB - Second token from the pair selected.
+ * @param {string} walletAddress - Address of the wallet connected.
+ * @returns Basic details of liquidity if pair exists else a no; or an error message.
+ */
+export const getLpTokenBalanceForPair = async (tokenA, tokenB, walletAddress) => {
+  try {
+    const connectedNetwork = CONFIG.NETWORK;
+    const isPairStable = isTokenPairStable(tokenA, tokenB);
+    const liquidityToken = isPairStable
+      ? CONFIG.STABLESWAP[connectedNetwork][tokenA].DEX_PAIRS[tokenB].liquidityToken
+      : CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].liquidityToken;
+    const result = isPairStable
+      ? await getUserBalanceByRpcStable(liquidityToken, walletAddress)
+      : await getUserBalanceByRpc(liquidityToken, walletAddress);
+    return result.success
+      ? { success: true, isLiquidityAvailable: true, lpBalance: result.balance, isPairStable }
+      : { success: true, isLiquidityAvailable: false, lpBalance: 0, isPairStable };
+  } catch (error) {
+    return {
+      success: false,
+      error,
+    };
+  }
+};
+
+/**
+ * Get the required details of liquidity position for seleted pair of tokens.
+ * @param {string} tokenA - First token from the pair selected.
+ * @param {string} tokenB - Second token from the pair selected.
+ * @param {string} walletAddress - Address of the wallet connected.
+ * @returns Details of liquidity position or an error message.
+ */
+export const getLiquidityPositionDetails = async (tokenA, tokenB, walletAddress) => {
+  try {
+    const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const liquidityToken = CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].liquidityToken;
+    const lpTokenDecimal = CONFIG.AMM[connectedNetwork][liquidityToken].TOKEN_DECIMAL;
+    const tokenPairContract = CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].contract;
+    const tokenAContractAddress = CONFIG.AMM[connectedNetwork][tokenA].TOKEN_CONTRACT;
+    const tokenAID = CONFIG.AMM[connectedNetwork][tokenA].TOKEN_ID;
+    const tokenADecimal = CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL;
+    const tokenBContractAddress = CONFIG.AMM[connectedNetwork][tokenB].TOKEN_CONTRACT;
+    const tokenBID = CONFIG.AMM[connectedNetwork][tokenB].TOKEN_ID;
+    const tokenBDecimal = CONFIG.AMM[connectedNetwork][tokenB].TOKEN_DECIMAL;
+    const poolBalances = {};
+    let lpBalance = 0;
+
+    const result = await getUserBalanceByRpc(liquidityToken, walletAddress);
+    if (result.success) {
+      lpBalance = result.balance;
+    } else {
+      throw new Error('Liquidity not available for the selected pair.');
+    }
+    // Convert the balance to actual value stored in storage, for calculation.
+    const lpTokenBalance = lpBalance * 10 ** lpTokenDecimal;
+
+    const storageResponse = await axios.get(
+      `${rpcNode}chains/main/blocks/head/context/contracts/${tokenPairContract}/storage`,
+    );
+    const tokenOneAddress = storageResponse.data.args[0].args[2].string;
+    const tokenOneID = Number(storageResponse.data.args[1].args[0].args[0].int);
+    const tokenOnePool = Number(storageResponse.data.args[1].args[1].int);
+    const tokenTwoAddress = storageResponse.data.args[1].args[2].string;
+    const tokenTwoID = Number(storageResponse.data.args[2].args[1].int);
+    const tokenTwoPool = Number(storageResponse.data.args[4].int);
+    const lpTokenSupply = Number(storageResponse.data.args[5].int);
+
+    // Token pool share percentage.
+    const lpTokenShare = (lpTokenBalance * 100) / lpTokenSupply;
+
+    // Check if the order of pair sent in arguments is same as order of pair stored in contract storage and calculate balance accordingly[Swap or No Swap].
+    if (
+      tokenAContractAddress === tokenOneAddress &&
+      tokenAID === tokenOneID &&
+      tokenBContractAddress === tokenTwoAddress &&
+      tokenBID === tokenTwoID
+    ) {
+      // No swap.
+      poolBalances['tokenAPoolBalance'] =
+        (lpTokenBalance * tokenOnePool) / lpTokenSupply / 10 ** tokenADecimal;
+      poolBalances['tokenBPoolBalance'] =
+        (lpTokenBalance * tokenTwoPool) / lpTokenSupply / 10 ** tokenBDecimal;
+    } else if (
+      tokenAContractAddress === tokenTwoAddress &&
+      tokenAID === tokenTwoID &&
+      tokenBContractAddress === tokenOneAddress &&
+      tokenBID === tokenOneID
+    ) {
+      // Swap.
+      poolBalances['tokenAPoolBalance'] =
+        (lpTokenBalance * tokenTwoPool) / lpTokenSupply / 10 ** tokenADecimal;
+      poolBalances['tokenBPoolBalance'] =
+        (lpTokenBalance * tokenOnePool) / lpTokenSupply / 10 ** tokenBDecimal;
+    } else {
+      throw new Error('Invalid Token Pairs');
+    }
+
+    return {
+      success: true,
+      data: {
+        tokenA,
+        tokenB,
+        tokenAPoolBalance: poolBalances.tokenAPoolBalance,
+        tokenBPoolBalance: poolBalances.tokenBPoolBalance,
+        lpBalance,
+        lpTokenShare,
+      },
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error,
+    };
+  }
+};
+
+/**
+ * Get the required details of liquidity position for seleted stable pair of tokens.
+ * @param {string} tokenA - First token from the stable pair selected.
+ * @param {string} tokenB - Second token from the stable pair selected.
+ * @param {string} walletAddress - Address of the wallet connected.
+ * @returns Details of liquidity position for the stable pair or an error message.
+ */
+export const getLiquidityPositionDetailsStable = async (tokenA, tokenB, walletAddress) => {
+  try {
+    const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const liquidityToken =
+      CONFIG.STABLESWAP[connectedNetwork][tokenA].DEX_PAIRS[tokenB].liquidityToken;
+    const lpTokenDecimal = CONFIG.STABLESWAP[connectedNetwork][liquidityToken].TOKEN_DECIMAL;
+    const tokenPairContract =
+      CONFIG.STABLESWAP[connectedNetwork][tokenA].DEX_PAIRS[tokenB].contract;
+    const tokenAContractAddress = CONFIG.STABLESWAP[connectedNetwork][tokenA].TOKEN_CONTRACT;
+    const tokenADecimal = CONFIG.STABLESWAP[connectedNetwork][tokenA].TOKEN_DECIMAL;
+    const tokenBContractAddress = CONFIG.STABLESWAP[connectedNetwork][tokenB].TOKEN_CONTRACT;
+    const tokenBDecimal = CONFIG.STABLESWAP[connectedNetwork][tokenB].TOKEN_DECIMAL;
+    const poolBalances = {};
+    let lpBalance = 0;
+
+    const result = await getUserBalanceByRpcStable(liquidityToken, walletAddress);
+
+    if (result.success) {
+      lpBalance = result.balance;
+    } else {
+      throw new Error('Liquidity not available for the selected pair.');
+    }
+    // Convert the balance to actual value stored in storage, for calculation.
+    const lpTokenBalance = lpBalance * 10 ** lpTokenDecimal;
+
+    const storageResponse = await axios.get(
+      `${rpcNode}chains/main/blocks/head/context/contracts/${tokenPairContract}/storage`,
+    );
+    const tokenOneAddress = storageResponse.data.args[0].args[0].args[2].string;
+    const tokenOnePool = Number(storageResponse.data.args[0].args[1].int);
+    const tokenTwoAddress = '';
+    const tokenTwoPool = Number(storageResponse.data.args[3].int);
+    const lpTokenSupply = Number(storageResponse.data.args[1].args[1].int);
+
+    // Token pool share percentage.
+    const lpTokenShare = (lpTokenBalance * 100) / lpTokenSupply;
+
+    // Check if the order of pair sent in arguments is same as order of pair stored in contract storage and calculate balance accordingly[Swap or No Swap].
+    if (tokenAContractAddress === tokenOneAddress && tokenBContractAddress === tokenTwoAddress) {
+      // No swap.
+      poolBalances['tokenAPoolBalance'] =
+        (lpTokenBalance * tokenOnePool) / lpTokenSupply / 10 ** tokenADecimal;
+      poolBalances['tokenBPoolBalance'] =
+        (lpTokenBalance * tokenTwoPool) / lpTokenSupply / 10 ** tokenBDecimal;
+    } else if (
+      tokenAContractAddress === tokenTwoAddress &&
+      tokenBContractAddress === tokenOneAddress
+    ) {
+      // Swap.
+      poolBalances['tokenAPoolBalance'] =
+        (lpTokenBalance * tokenTwoPool) / lpTokenSupply / 10 ** tokenADecimal;
+      poolBalances['tokenBPoolBalance'] =
+        (lpTokenBalance * tokenOnePool) / lpTokenSupply / 10 ** tokenBDecimal;
+    } else {
+      throw new Error('Invalid Token Pairs');
+    }
+
+    return {
+      success: true,
+      data: {
+        tokenA,
+        tokenB,
+        tokenAPoolBalance: poolBalances.tokenAPoolBalance,
+        tokenBPoolBalance: poolBalances.tokenBPoolBalance,
+        lpBalance,
+        lpTokenShare,
+      },
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error,
+    };
+  }
+};
