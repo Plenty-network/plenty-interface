@@ -2,6 +2,8 @@ import axios from 'axios';
 import CONFIG from '../../config/config';
 import { getUserBalanceByRpc } from '../swap/swap';
 import { getUserBalanceByRpcStable } from '../stableswap/stableswap';
+import { tokens } from '../../constants/swapPage';
+import { stableSwapTokens } from '../../constants/stableSwapPage';
 
 /**
  * Iterates through all the tokens in config and returns list of token pairs for which liquidity is available for the connected wallet.
@@ -25,9 +27,15 @@ const getListOfPositions = async (tokenList, isStable, walletAddress) => {
         const liquidityToken = pairedtTokenValue.liquidityToken;
         // Check if the lp token is not already parsed and proceed only if not.
         if (!tempLPTokenObj[liquidityToken]) {
+          const tokenA = isStable
+            ? stableSwapTokens.find((stableToken) => stableToken.name === token)
+            : tokens.find((normalToken) => normalToken.name === token);
+          const tokenB = isStable
+            ? stableSwapTokens.find((stableToken) => stableToken.name === pairedtToken)
+            : tokens.find((normalToken) => normalToken.name === pairedtToken);
           tokensPromiseList.push({
-            tokenA: token,
-            tokenB: pairedtToken,
+            tokenA: { name: tokenA.name, image: tokenA.image },
+            tokenB: { name: tokenB.name, image: tokenB.image },
             isStable,
             func: isStable ? getUserBalanceByRpcStable : getUserBalanceByRpc,
             argOne: liquidityToken,
