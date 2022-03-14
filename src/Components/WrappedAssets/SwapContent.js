@@ -117,7 +117,6 @@ const SwapContent = (props) => {
       props.setShowConfirmTransaction,
       setShowTransactionSubmitModal,
     ).then((response) => {
-      console.log(response);
       props.setShowConfirmSwap(false);
       props.setShowConfirmTransaction(false);
       // setTimeout(() => {

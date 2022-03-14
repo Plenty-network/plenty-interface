@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Modal } from 'react-bootstrap';
 import Button from '../../Ui/Buttons/Button';
+import InfoIcon from '../../../assets/images/SwapModal/info.svg';
 
 const ConfirmAddLiquidity = (props) => {
   return (
@@ -27,21 +28,19 @@ const ConfirmAddLiquidity = (props) => {
           <div className="swap-content-box-wrapper">
             <div className="header-line"></div>
             <div className="swap-content-box">
-              <div className="swap-token-select-box">
-                <div className="token-selector-balance-wrapper">
-                  <button className="token-selector">
-                    <img src={props.tokenIn.image} className="button-logo" />
-                    <img src={props.tokenOut.image} className="button-logo" />
-                  </button>
+              <div className="confirm-supply-token-box">
+                <div className="confirm-supply-tokens">
+                  <img height="37" width="37" src={props.tokenIn.image} />
+                  <img height="37" width="37" src={props.tokenOut.image} className="ml-1" />
                 </div>
 
-                <div className="token-user-input-wrapper">
+                <div className="lp-token-details">
                   <p className="lp-token-info-desc">
                     {props.tokenIn.name === 'tez'
                       ? props.lpTokenAmount
                       : props.lpTokenAmount.estimatedLpOutput}
                   </p>
-                  <p className="lp-token-info-desc">
+                  <p className="mt-2 lp-token-info-desc-bottom">
                     {props.tokenIn.name}/{props.tokenOut.name} LP Tokens
                   </p>
                 </div>
@@ -49,67 +48,68 @@ const ConfirmAddLiquidity = (props) => {
             </div>
           </div>
 
-          <div className="swap-detail-wrapper">
-            <div className="swap-detail-rates-wrapper flex justify-between">
-              <p className="swap-detail-amt-details">Rates</p>
-              <div className="token-user-input-wrapper">
-                {props.swapData ? (
-                  <p className="swap-detail-amt-details">
-                    1 {props.tokenIn.name} ={' '}
-                    {props.isStableSwap
-                      ? props.xtztoctez
-                      : props.swapData.tokenOutPerTokenIn?.toFixed(10)}{' '}
-                    {props.tokenOut.name}
-                  </p>
-                ) : null}
+          <div className="rates-confirm-supply flex justify-between">
+            <p className="rates-label">
+              <img width="15" height="15" className="mr-1" src={InfoIcon} /> Rates
+            </p>
+            <div className="">
+              {props.swapData ? (
+                <p className="confirm-supply-amt-details">
+                  1 {props.tokenIn.name} ={' '}
+                  {props.isStableSwap
+                    ? props.xtztoctez
+                    : props.swapData.tokenOutPerTokenIn?.toFixed(10)}{' '}
+                  {props.tokenOut.name}
+                </p>
+              ) : null}
 
-                {props.swapData ? (
-                  <p className="swap-detail-amt-details">
-                    1 {props.tokenOut.name} ={' '}
-                    {props.isStableSwap
-                      ? props.cteztoxtz
-                      : (1 / props.swapData.tokenOutPerTokenIn).toFixed(10)}{' '}
-                    {props.tokenIn.name}
-                  </p>
-                ) : null}
-              </div>
+              {props.swapData ? (
+                <p className="mt-1 confirm-supply-amt-details">
+                  1 {props.tokenOut.name} ={' '}
+                  {props.isStableSwap
+                    ? props.cteztoxtz
+                    : (1 / props.swapData.tokenOutPerTokenIn).toFixed(10)}{' '}
+                  {props.tokenIn.name}
+                </p>
+              ) : null}
             </div>
-
-            <div className="swap-detail-amt-wrapper">
-              <p className="swap-detail-amt-details">{props.tokenIn.name} deposited </p>
-              <p className="swap-detail-amt-details">
+          </div>
+          <div className="confirm-supply-bottom">
+            <div className="swap-detail-amt-wrapper mb-0">
+              <p className="confirm-supply-details-label">{props.tokenIn.name} deposited </p>
+              <p className="confirm-supply-details-value">
                 {props.firstTokenAmount} {props.tokenIn.name}
               </p>
             </div>
 
-            <div className="swap-detail-amt-wrapper">
-              <p className="swap-detail-amt-details">{props.tokenOut.name} deposited </p>
-              <p className="swap-detail-amt-details">
+            <div className="swap-detail-amt-wrapper mb-0">
+              <p className="confirm-supply-details-label">{props.tokenOut.name} deposited </p>
+              <p className="confirm-supply-details-value">
                 {props.secondTokenAmount
                   ? props.secondTokenAmount
                   : props.estimatedTokenAmout.otherTokenAmount}{' '}
                 {props.tokenOut.name}
               </p>
             </div>
-
-            <div className="swap-detail-amt-wrapper">
-              <p className="swap-detail-amt-details">Share of Pool </p>
-              <p className="swap-detail-amt-details">
-                {props.tokenIn.name === 'tez'
-                  ? props.poolShare
-                  : (
-                      (props.lpTokenAmount.estimatedLpOutput /
-                        (props.swapData.lpTokenSupply + props.lpTokenAmount.estimatedLpOutput)) *
-                      100
-                    ).toFixed(5)}{' '}
-                %
-              </p>
+          </div>
+          <div className="share-pool flex justify-between">
+            <div className="share-pool-label">Share of Pool </div>
+            <div className="confirm-supply-details-sharevalue">
+              {props.tokenIn.name === 'tez'
+                ? props.poolShare
+                : (
+                    (props.lpTokenAmount.estimatedLpOutput /
+                      (props.swapData.lpTokenSupply + props.lpTokenAmount.estimatedLpOutput)) *
+                    100
+                  ).toFixed(5)}{' '}
+              %
             </div>
-
+          </div>
+          <div className="confirm-supply-button">
             <Button
               onClick={props.CallConfirmAddLiquidity}
               color={'primary'}
-              className={'mt-4 w-100'}
+              className={'mt-4 w-100 '}
               loading={props.loading}
             >
               Confirm Supply

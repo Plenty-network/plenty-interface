@@ -36,6 +36,17 @@
   max-width: 400px;
   padding-left: 4px;
 }
+.redirect-label-lp {
+  margin: 80px auto 13.5px auto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: 0em;
+  max-width: 848px;
+  padding-left: 4px;
+  color: var(--theme-primary-button-bg);
+}
 .price-formula {
   font-size: 12px;
   font-style: normal;
@@ -156,11 +167,17 @@
   position: relative;
   margin-top: 20px;
 }
+.lq-content-box-wrapper {
+  margin-top: 0px;
+}
 .swap-content-box {
   margin: 4px 0;
   &:last-child {
     margin-bottom: 20px;
   }
+}
+.lq-content-box {
+  margin-top: 24px;
 }
 .errorBorder {
   border: 0.863044px solid rgba(255, 90, 67, 0.5) !important;
@@ -182,6 +199,61 @@
   &:hover {
     border: 1px solid var(--theme-border-light);
   }
+}
+.confirm-supply-token-box {
+  min-height: 82px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: var(--theme-input-bg);
+  mix-blend-mode: normal;
+  border: 1px solid var(--theme-border);
+  box-sizing: border-box;
+  border-radius: 8px;
+
+  &:hover {
+    border: 1px solid var(--theme-border-light);
+  }
+}
+.remove-lq-border {
+  height: 135px !important;
+}
+.remove-value-lq {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 26px;
+  letter-spacing: 0px;
+  color: #333333;
+}
+.remove-token-lq {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0px;
+  color: #333333;
+}
+.lq-token-select-box {
+  min-height: 87px;
+  display: flex;
+
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: var(--theme-input-bg);
+  mix-blend-mode: normal;
+
+  border: 1px solid var(--theme-border);
+  box-sizing: border-box;
+  border-radius: 8px;
+
+  &:hover {
+    border: 1px solid var(--theme-border-light);
+  }
+}
+.remove-lq-input-height {
+  min-height: 135px !important;
 }
 .token-selector {
   background-color: var(--theme-bg-4);
@@ -209,6 +281,65 @@
     vertical-align: middle;
   }
 }
+.token-selector-lq {
+  border-right: 0.863044px solid rgba(0, 0, 0, 0.08);
+  width: 212px;
+  height: 87px;
+}
+.remove-lq-input {
+  text-align: right !important;
+  margin-left: 0px;
+  padding-right: 32px;
+}
+.token-selector-lq-remove {
+  border-right: 0.863044px solid rgba(0, 0, 0, 0.08);
+  width: 273px;
+  height: 87px;
+  padding-left: 24px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 21px;
+  letter-spacing: 0em;
+}
+.expand-more-icon {
+  margin-top: 9px;
+  color: #4e5d78;
+}
+.liquidity-token-selector {
+  padding-left: 20px;
+  padding-right: 40px;
+  padding-top: 22.5px;
+  padding-bottom: 22.5px;
+  border: 0px;
+  background: transparent;
+  width: 212px;
+  // background-color: var(--theme-bg-4);
+  // box-shadow: 0px 10px 30px rgba(138, 149, 158, 0.09);
+  // font-style: normal;
+  // font-weight: 500;
+  // font-size: 14px;
+  // line-height: 18px;
+  // color: var(--theme-text-1);
+  // border-radius: 6px;
+  // padding: 8px 12px;
+  // cursor: pointer;
+  // border: 0;
+  // &.not-selected {
+  //   padding: 10px 6px;
+
+  //   //color: var(--theme-primary-gradient-1);
+  //   //
+  //   //&:hover {
+  //   //  opacity: 85%;
+  //   //}
+  // }
+  // > span {
+  //   font-size: 16px;
+  //   vertical-align: middle;
+  // }
+}
+
 .button-logo {
   width: 22px;
   margin-right: 10px;
@@ -217,6 +348,11 @@
   position: absolute;
   top: 32px;
   right: 22px;
+}
+.transaction-setting-lq {
+  position: absolute;
+  top: 8px;
+  right: 20px;
 }
 .transaction-settings-dropdown {
   width: 290px;
@@ -333,6 +469,10 @@
     }
   }
 }
+.lp-token-details {
+  margin-right: auto;
+  padding-left: 16px;
+}
 .token-user-input-wrapper {
   flex: 0 0 50%;
   font-style: normal;
@@ -341,8 +481,18 @@
   line-height: 18px;
   color: var(--theme-text-1);
 }
+
 .token-selector-balance-wrapper {
   flex: 0 0 50%;
+}
+.confirm-supply-tokens {
+  width: 121px;
+  background: white;
+  border-right: 0.863044px solid rgba(0, 0, 0, 0.08);
+  height: 77px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  padding: 20px;
 }
 .search-coin-wrapper {
   width: 100%;
@@ -447,6 +597,55 @@
     color: var(--theme-text-1);
   }
 }
+.second-input {
+  margin-top: 14px;
+}
+.input-lq {
+  width: 532px;
+  padding-left: 24px;
+}
+.input-lq-remove {
+  width: 487px;
+  padding-left: 24px;
+  padding-right: 20px;
+}
+.max-button {
+  background: #f9fafa;
+  color: #6202ef;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 500;
+  padding: 4px 10px;
+  border: 0.863044px solid #6202ef;
+  box-sizing: border-box;
+  border-radius: 8px;
+  height: 24px;
+}
+.lq-arrow-center {
+  position: absolute;
+  left: 195px;
+  margin-top: 3px;
+  transform: translateY(-50%);
+  background-color: var(--theme-bg-1);
+  text-align: center;
+  width: 36px;
+  height: 36px;
+  padding: 2px;
+  border: 1.47412px solid #cfced6;
+  box-shadow: 0px 12.7223px 38.1669px rgba(138, 149, 158, 0.09);
+  border-radius: 10.3886px;
+
+  cursor: pointer;
+  > span {
+    margin: auto;
+    font-size: 30px;
+
+    color: var(--theme-text-1);
+  }
+}
+.remove-lq-arrow-center {
+  left: 295px !important;
+}
 .icon-animated {
   transition: transform 0.3s ease-in-out;
 
@@ -479,6 +678,63 @@
     font-weight: 500;
     font-size: 16px;
     line-height: 24px;
+    color: #b0b7c3;
+  }
+}
+.remove-tokens {
+  background: #ffffff;
+  border-radius: 8px;
+  width: 196px;
+  height: 80px;
+  padding: 19px 20px;
+}
+.confirm-supply-button {
+  margin: 0 18px 32px 18px;
+}
+.confirm-supply-bottom {
+  background: #f9fafa;
+  padding-top: 18px;
+  padding-bottom: 0px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  margin: 0 18px;
+}
+.share-pool {
+  background: rgba(98, 2, 239, 0.04);
+  margin: 0 18px;
+  padding-top: 0px;
+  padding-bottom: 7px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+.input-width {
+  width: 50%;
+}
+.token-user-input-lq {
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 31px;
+  letter-spacing: 0em;
+
+  width: 100%;
+  text-align: left;
+
+  color: var(--theme-text-1);
+  border: 0;
+  background-color: transparent;
+  outline: none;
+  padding-left: 16px;
+  &::placeholder {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 31px;
+    letter-spacing: 0em;
     color: #b0b7c3;
   }
 }
@@ -524,6 +780,23 @@
 .whitespace-prewrap {
   white-space: pre-wrap;
 }
+.balance-lq {
+  padding: 15px 15px 15px 10px;
+  height: 47px;
+  background: #f9fafa;
+  mix-blend-mode: normal;
+  border: 0.863044px solid #b0b7c3;
+  box-sizing: border-box;
+  border-radius: 8px;
+  .bal {
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0em;
+    color: #a4aebf;
+  }
+}
 .wallet-token-balance {
   font-style: normal;
   font-weight: 500;
@@ -531,6 +804,136 @@
   line-height: 14px;
   color: var(--theme-text-4);
   margin: 10px 0 0;
+}
+.lq-details {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e7e7e7;
+  box-sizing: border-box;
+  border-radius: 8px;
+  height: 68px;
+  margin-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.your-positions {
+  margin-top: 20px;
+  padding: 20px 24px;
+  background: #ffffff;
+  border: 1px solid #e7e7e7;
+  box-sizing: border-box;
+  border-radius: 8px;
+  .your-positions-label {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 21px;
+    letter-spacing: 0em;
+    color: #201c41;
+  }
+  .token-name-lp {
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0px;
+    color: rgba(51, 51, 51, 0.8);
+  }
+  .tokenin-value {
+    margin-top: 6px;
+    background: #f2f2f2;
+    border-radius: 8px;
+    padding: 7px 12px;
+    color: #333333;
+    .value {
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 20px;
+      letter-spacing: 0px;
+    }
+    .tokenName {
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px;
+      letter-spacing: 0px;
+    }
+  }
+  .lp-pair {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 31px;
+    letter-spacing: 0em;
+    color: #333333;
+    margin-left: 12.62px;
+  }
+  .pool-tokens {
+    background: rgba(98, 2, 239, 0.04);
+    border-radius: 8px;
+    padding: 13.21px 24px;
+    width: 154px;
+    .label {
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px;
+      letter-spacing: 0px;
+      color: rgba(51, 51, 51, 0.8);
+    }
+    .pool-value {
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 26px;
+      letter-spacing: 0px;
+      color: #6202ef;
+    }
+  }
+  .pool-share {
+    margin-top: 16px;
+    background: rgba(98, 2, 239, 0.04);
+    border-radius: 8px;
+    padding: 10.5px 24px;
+    width: 174px;
+    .label {
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px;
+      letter-spacing: 0px;
+      color: rgba(51, 51, 51, 0.8);
+    }
+    .pool-value {
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 26px;
+      letter-spacing: 0px;
+      color: #6202ef;
+    }
+  }
+}
+.details {
+  padding: 8px 12px;
+  background: #f9fafa;
+  border-radius: 8px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+}
+.wallet-token-balance-lq {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0em;
+  color: #4f5e79;
+  margin-left: 20px;
+  opacity: 0.6;
+  margin-bottom: 0px !important;
 }
 .add-liquidity-tip {
   font-style: normal;
@@ -583,6 +986,54 @@
   margin-bottom: 4px;
 }
 .swap-detail-amt-details {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 13px;
+  color: var(--theme-swap-info-text);
+  margin: 0;
+  > span {
+    vertical-align: middle;
+    font-size: 12px;
+    cursor: pointer;
+  }
+}
+.confirm-supply-details-label {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0em;
+  color: #505e79;
+}
+.share-pool-label {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0px;
+  color: #333333;
+}
+.confirm-supply-details-value {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0em;
+  color: #333333;
+}
+.confirm-supply-details-sharevalue {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 26px;
+  letter-spacing: 0px;
+  color: #6202ef;
+}
+.confirm-supply-amt-details {
+  background: #f9fafa;
+  border-radius: 8px;
+  padding: 8px 12px;
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
@@ -747,10 +1198,22 @@ input:checked {
   }
 }
 .lp-token-info-desc {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 11px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #201c41;
+  margin: 0;
+}
+.lp-token-info-desc-bottom {
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
-  font-size: 14px;
-  line-height: 18px;
+  line-height: 11px;
+  letter-spacing: 0em;
+  text-align: left;
   color: var(--theme-text-1);
   margin: 0;
 }
@@ -758,6 +1221,20 @@ input:checked {
   padding: 22px 0;
   border-bottom: 1px solid var(--theme-border);
   margin-bottom: 16px;
+}
+.rates-confirm-supply {
+  padding: 0 18px;
+  margin-bottom: 20px;
+}
+.rates-confirm-supply-remove {
+  margin: 10px 26px;
+}
+.rates-label {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0px;
 }
 .slippage-info {
   font-style: normal;
@@ -899,4 +1376,56 @@ input:checked {
 .close-icon-floater-error {
   position: relative;
   left: 145px;
+}
+.liq-label {
+  margin: 0px auto 13.5px auto;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 31px;
+  letter-spacing: 0em;
+  max-width: 848px;
+  position: relative;
+  color: #201c41;
+  padding-left: 4px;
+}
+.liquidity-content-container {
+  position: relative;
+  max-width: 848px;
+  padding: 26px 40px;
+  background-color: transparent;
+  border-radius: 15px;
+  margin: 24px auto;
+  border: 1px solid var(--theme-gradient-border);
+  box-shadow: var(--theme-swap-boxshadow);
+}
+.input-label {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0em;
+  color: #b0b7c3;
+  position: relative;
+  top: -5px;
+}
+.token-name {
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 23px;
+  letter-spacing: 0em;
+  color: #201c41;
+  top: -6px;
+  position: relative;
+}
+
+.position {
+  width: 848px;
+  height: 96px;
+  background: #ffffff;
+  border: 1px solid #e7e7e7;
+  box-sizing: border-box;
+  border-radius: 8px;
+  margin: 20px auto;
 }
