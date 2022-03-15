@@ -453,7 +453,8 @@ const Config: IConfig = {
           ],
         },
         'uUSD - uDEFI': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1RENb4rWNFPP5QJSYT4rRGGsk1tPgLLwu2',
               mapId: 22813,
@@ -461,7 +462,6 @@ const Config: IConfig = {
               tokenDecimal: 12,
             },
           ],
-          inactive: [],
         },
         'ctez - kUSD': {
           active: [],
@@ -3073,7 +3073,8 @@ const Config: IConfig = {
         ],
       },
       'uUSD - uDEFI': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1RQvdYD9yc763j8FiVLyXbKPVVbZqGRx5m',
             CONTRACT: 'KT1RENb4rWNFPP5QJSYT4rRGGsk1tPgLLwu2',
@@ -3088,11 +3089,10 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=uUSD&tokenB=uDEFI',
             isDualFarm: false,
-            message: 'YOU rewards 😍',
-            bannerType: 'info',
+            message: 'Rewards ended March 14',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'PLENTY - cTez': {
         active: [
