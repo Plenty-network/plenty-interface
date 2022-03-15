@@ -11,6 +11,7 @@ import CONFIG from '../../config/config';
 import ConfirmRemoveLiquidity from '../../Components/SwapTabsContent/LiquidityTabs/ConfirmRemoveLiquidity';
 
 const RemoveLiquidityNew = (props) => {
+  console.log(props);
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
@@ -287,7 +288,6 @@ const RemoveLiquidityNew = (props) => {
                     ) : (
                       <div className="shimmer">0.0000</div>
                     )}{' '}
-                    {props.tokenIn.name}
                   </p>
                 ) : null}
               </div>
@@ -377,44 +377,63 @@ const RemoveLiquidityNew = (props) => {
       </div> */}
 
       {swapContentButton}
-      <div className="your-positions">
-        <div className="d-flex justify-content-between">
-          <div className="left">
-            <div className="your-positions-label mb-2">Your Positions</div>
-            <img width="50" height="50" src={props.tokenIn.image} />
-            <img width="50" height="50" src={props.tokenOut.image} className="ml-2" />
-            <span className="lp-pair">
-              {props.tokenIn.name} / {props.tokenOut.name}
-            </span>
-            <div className="d-flex mt-2">
-              <div>
-                <div className="token-name-lp">{props.tokenIn.name}</div>
-                <div className="tokenin-value">
-                  <span className="value">40.293820</span>{' '}
-                  <span className="tokenName"> {props.tokenIn.name}</span>
+      {props.isPositionAvailable ? (
+        <div className="your-positions">
+          <div className="d-flex justify-content-between">
+            <div className="left">
+              <div className="your-positions-label mb-2">Your Positions</div>
+              <img width="50" height="50" src={props.tokenIn.image} />
+              <img width="50" height="50" src={props.tokenOut.image} className="ml-2" />
+              <span className="lp-pair">
+                {props.tokenIn.name} / {props.tokenOut.name}
+              </span>
+              <div className="d-flex mt-2">
+                <div>
+                  <div className="token-name-lp">{props.tokenIn.name}</div>
+                  <div className="tokenin-value">
+                    <span className="value">
+                      {props.positionDetails.data
+                        ? props.positionDetails.data.tokenAPoolBalance.toFixed(10)
+                        : '0.00'}
+                    </span>{' '}
+                    <span className="tokenName"> {props.tokenIn.name}</span>
+                  </div>
                 </div>
-              </div>
-              <div className="ml-2">
-                <div className="token-name-lp">{props.tokenOut.name}</div>
-                <div className="tokenin-value">
-                  <span className="value">40.293820</span>{' '}
-                  <span className="tokenName">{props.tokenOut.name}</span>
+                <div className="ml-2">
+                  <div className="token-name-lp">{props.tokenOut.name}</div>
+                  <div className="tokenin-value">
+                    <span className="value">
+                      {props.positionDetails.data
+                        ? props.positionDetails.data.tokenBPoolBalance.toFixed(10)
+                        : '0.00'}
+                    </span>{' '}
+                    <span className="tokenName">{props.tokenOut.name}</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="ml-auto right">
-            <div className="pool-tokens ml-auto">
-              <div className="label">Pool Tokens</div>
-              <div className="pool-value">0.0038292</div>
-            </div>
-            <div className="pool-share">
-              <div className="label">Your pool share</div>
-              <div className="pool-value">0.0048492%</div>
+            <div className="ml-auto right">
+              <div className="pool-tokens ml-auto">
+                <div className="label">Pool Tokens</div>
+                <div className="pool-value">
+                  {props.positionDetails.data
+                    ? props.positionDetails.data.lpBalance.toFixed(6)
+                    : '0.00'}
+                </div>
+              </div>
+              <div className="pool-share">
+                <div className="label">Your pool share</div>
+                <div className="pool-value">
+                  {props.positionDetails.data
+                    ? props.positionDetails.data.lpTokenShare.toFixed(6)
+                    : '0.00'}{' '}
+                  %
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : null}
       <ConfirmRemoveLiquidity
         {...props}
         removableTokens={removableTokens}
@@ -463,4 +482,6 @@ RemoveLiquidityNew.propTypes = {
   getSwapData: PropTypes.func,
   setSwapData: PropTypes.func,
   slippage: PropTypes.any,
+  positionDetails: PropTypes.any,
+  isPositionAvailable: PropTypes.any,
 };

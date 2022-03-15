@@ -16,6 +16,10 @@ import RemoveLiquidityNew from './RemoveLiquidityNew';
 import { tokens } from '../../constants/swapPage';
 import SwapModal from '../../Components/SwapModal/SwapModal';
 import { LiquidityPositions } from './LiquidityPositions';
+import {
+  getLiquidityPositionDetails,
+  getLpTokenBalanceForPair,
+} from '../../apis/Liquidity/Liquidity';
 
 const LiquidityNew = (props) => {
   const { tokenIn, setTokenIn, tokenOut, setTokenOut } = useLocationStateInLiquidity();
@@ -39,6 +43,22 @@ const LiquidityNew = (props) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [isLiquidityPosition, setLiquidityPosition] = useState(false);
+  const [positionDetails, setPositionDetails] = useState({});
+  const [isPositionAvailable, setPositionAvailable] = useState(false);
+
+  useEffect(async () => {
+    const ress = await getLpTokenBalanceForPair(tokenIn.name, tokenOut.name, props.walletAddress);
+
+    setPositionAvailable(ress.isLiquidityAvailable);
+    if (ress.isLiquidityAvailable) {
+      const res = await getLiquidityPositionDetails(
+        tokenIn.name,
+        tokenOut.name,
+        props.walletAddress,
+      );
+      setPositionDetails(res);
+    }
+  }, [tokenIn, tokenOut]);
 
   useEffect(() => {
     //setLoading(true);
@@ -54,12 +74,14 @@ const LiquidityNew = (props) => {
     if (location.pathname === '/liquidity/remove') {
       return 'remove';
     }
-    if (location.pathname === '/liquidityStable/remove') {
-      return 'remove';
-    }
 
     return 'add';
   }, [location.pathname]);
+  useEffect(() => {
+    if (location.pathname.includes('liquidity')) {
+      setLiquidityPosition(false);
+    }
+  }, [searchParams]);
 
   const handleClose = () => {
     setShow(false);
@@ -108,7 +130,7 @@ const LiquidityNew = (props) => {
       }));
     };
     updateBalance();
-  }, [props]);
+  }, [tokenIn, tokenOut, props]);
 
   const selectToken = (token) => {
     setLoaderInButton(true);
@@ -193,34 +215,34 @@ const LiquidityNew = (props) => {
     setLiquidityPosition(value);
   };
 
-  // useEffect(() => {
-  //   const tokenAFromParam = searchParams.get('tokenA');
-  //   const tokenBFromParam = searchParams.get('tokenB');
+  useEffect(() => {
+    const tokenAFromParam = searchParams.get('tokenA');
+    const tokenBFromParam = searchParams.get('tokenB');
 
-  //   if (tokenAFromParam !== tokenBFromParam) {
-  //     if (tokenAFromParam) {
-  //       props.tokens.map((token) => {
-  //         if (token.name === tokenAFromParam) {
-  //           props.setTokenIn({
-  //             name: tokenAFromParam,
-  //             image: token.image,
-  //           });
-  //         }
-  //       });
-  //     }
+    if (tokenAFromParam !== tokenBFromParam) {
+      if (tokenAFromParam) {
+        tokens.map((token) => {
+          if (token.name === tokenAFromParam) {
+            setTokenIn({
+              name: tokenAFromParam,
+              image: token.image,
+            });
+          }
+        });
+      }
 
-  //     if (tokenBFromParam) {
-  //       props.tokens.map((token) => {
-  //         if (token.name === tokenBFromParam) {
-  //           props.setTokenOut({
-  //             name: tokenBFromParam,
-  //             image: token.image,
-  //           });
-  //         }
-  //       });
-  //     }
-  //   }
-  // }, []);
+      if (tokenBFromParam) {
+        tokens.map((token) => {
+          if (token.name === tokenBFromParam) {
+            setTokenOut({
+              name: tokenBFromParam,
+              image: token.image,
+            });
+          }
+        });
+      }
+    }
+  }, [searchParams]);
 
   return (
     <Container fluid className="removing-padding">
@@ -229,12 +251,19 @@ const LiquidityNew = (props) => {
         style={{ cursor: 'pointer' }}
         onClick={() => redirectLiquidityPositions(!isLiquidityPosition)}
       >
-        View Liquidity Positions
-        <span className={clsx('material-icons', 'arrow-forward', 'mt-1')}>
-          arrow_forward_ios_icon
-        </span>
+        {isLiquidityPosition && (
+          <span className={clsx('material-icons', 'arrow-forward', 'mt-1', 'ml-0')}>
+            arrow_back_ios_icon
+          </span>
+        )}
+        {isLiquidityPosition ? 'Back' : 'View Liquidity Positions'}
+        {!isLiquidityPosition && (
+          <span className={clsx('material-icons', 'arrow-forward', 'mt-1')}>
+            arrow_forward_ios_icon
+          </span>
+        )}
       </p>
-      <div className="liq-label">Liquidity</div>
+      <div className="liq-label">{isLiquidityPosition ? 'Liquidity Positions' : 'Liquidity'}</div>
       {!isLiquidityPosition ? (
         <Col sm={8} md={6} className="liquidity-content-container">
           <div className="">
@@ -279,46 +308,56 @@ const LiquidityNew = (props) => {
                   setLoaderInButton={setLoaderInButton}
                   setShowConfirmTransaction={setShowConfirmTransaction}
                   showConfirmTransaction={showConfirmTransaction}
+                  positionDetails={positionDetails}
+                  setPositionAvailable={setPositionAvailable}
+                  isPositionAvailable={isPositionAvailable}
+                  setPositionDetails={setPositionDetails}
                   {...props}
                 />
               </Tab>
-              <Tab eventKey="remove" title="Remove">
-                <RemoveLiquidityNew
-                  walletAddress={props.walletAddress}
-                  connecthWallet={props.connecthWallet}
-                  tokenIn={tokenIn}
-                  tokenOut={tokenOut}
-                  handleTokenType={handleTokenType}
-                  swapData={swapData}
-                  userBalances={userBalances}
-                  tokenContractInstances={tokenContractInstances}
-                  getTokenPrice={getTokenPrice}
-                  setSlippage={setSlippage}
-                  setRecepient={setRecepient}
-                  recepient={recepient}
-                  slippage={slippage}
-                  loading={loading}
-                  setLoading={setLoading}
-                  handleLoaderMessage={handleLoaderMessage}
-                  loaderMessage={loaderMessage}
-                  handleClose={handleClose}
-                  showConfirmAddSupply={showConfirmAddSupply}
-                  setShowConfirmAddSupply={setShowConfirmAddSupply}
-                  showConfirmRemoveSupply={showConfirmRemoveSupply}
-                  setShowConfirmRemoveSupply={setShowConfirmRemoveSupply}
-                  setLoaderMessage={setLoaderMessage}
-                  resetAllValues={resetAllValues}
-                  fetchUserWalletBalance={fetchUserWalletBalance}
-                  setTokenIn={setTokenIn}
-                  setTokenOut={setTokenOut}
-                  tokens={tokens}
-                  loaderInButton={loaderInButton}
-                  setLoaderInButton={setLoaderInButton}
-                  isStableSwap={false}
-                  setShowConfirmTransaction={setShowConfirmTransaction}
-                  showConfirmTransaction={showConfirmTransaction}
-                />
-              </Tab>
+              {isPositionAvailable ? (
+                <Tab eventKey="remove" title="Remove">
+                  <RemoveLiquidityNew
+                    walletAddress={props.walletAddress}
+                    connecthWallet={props.connecthWallet}
+                    tokenIn={tokenIn}
+                    tokenOut={tokenOut}
+                    handleTokenType={handleTokenType}
+                    swapData={swapData}
+                    userBalances={userBalances}
+                    tokenContractInstances={tokenContractInstances}
+                    getTokenPrice={getTokenPrice}
+                    setSlippage={setSlippage}
+                    setRecepient={setRecepient}
+                    recepient={recepient}
+                    slippage={slippage}
+                    loading={loading}
+                    setLoading={setLoading}
+                    handleLoaderMessage={handleLoaderMessage}
+                    loaderMessage={loaderMessage}
+                    handleClose={handleClose}
+                    showConfirmAddSupply={showConfirmAddSupply}
+                    setShowConfirmAddSupply={setShowConfirmAddSupply}
+                    showConfirmRemoveSupply={showConfirmRemoveSupply}
+                    setShowConfirmRemoveSupply={setShowConfirmRemoveSupply}
+                    setLoaderMessage={setLoaderMessage}
+                    resetAllValues={resetAllValues}
+                    fetchUserWalletBalance={fetchUserWalletBalance}
+                    setTokenIn={setTokenIn}
+                    setTokenOut={setTokenOut}
+                    tokens={tokens}
+                    loaderInButton={loaderInButton}
+                    setLoaderInButton={setLoaderInButton}
+                    isStableSwap={false}
+                    setShowConfirmTransaction={setShowConfirmTransaction}
+                    showConfirmTransaction={showConfirmTransaction}
+                    positionDetails={positionDetails}
+                    setPositionAvailable={setPositionAvailable}
+                    isPositionAvailable={isPositionAvailable}
+                    setPositionDetails={setPositionDetails}
+                  />
+                </Tab>
+              ) : null}
             </Tabs>
             <div className="transaction-setting-lq">
               <TransactionSettings
@@ -332,7 +371,7 @@ const LiquidityNew = (props) => {
           </div>
         </Col>
       ) : (
-        <LiquidityPositions />
+        <LiquidityPositions walletAddress={props.walletAddress} />
       )}
       <SwapModal
         show={show}

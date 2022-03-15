@@ -60,6 +60,12 @@
   border: 0;
   font-weight: bold;
 }
+.primaryOutline {
+  color: var(--theme-primary-button-bg);
+  background: white;
+  border: 1px solid var(--theme-primary-button-bg);
+  font-weight: bold;
+}
 
 .secondary {
   background: var(--theme-secondary-1);

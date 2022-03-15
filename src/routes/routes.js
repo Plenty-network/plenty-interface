@@ -9,13 +9,13 @@ import { connect } from 'react-redux';
 import * as walletActions from '../redux/actions/wallet/wallet.action';
 import useThemes from '../hooks/theme';
 import OtherPages from '../Pages/OtherPages';
-import LiquidityNew from '../Pages/LiquidityNew';
 
 // * Lazy loading
 const Swap = React.lazy(() => import('../Pages/Swap'));
 const Farms = React.lazy(() => import('../Pages/Farms'));
 const Tokens = React.lazy(() => import('../Pages/Tokens/Tokens'));
-const Liquidity = React.lazy(() => import('../Pages/LiquidityNew'));
+const Liquidity = React.lazy(() => import('../Pages/Liquidity'));
+const LiquidityNew = React.lazy(() => import('../Pages/LiquidityNew'));
 const Frontpage = React.lazy(() => import('../Pages/Frontpage/Frontpage'));
 const Stake = React.lazy(() => import('../Pages/xPlenty'));
 const Governance = React.lazy(() => import('../Pages/Governance/Governance'));
