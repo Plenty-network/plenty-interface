@@ -1,6 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
 import styled from 'styled-components';
 import lineBg from './assets/images/banner-bg.png';
+import waBglight from './assets/images/WrappedAssets/ic_cube-light.svg';
+import waBg from './assets/images/WrappedAssets/ic_cube-dark_1200912.svg';
 
 export const lightTheme = {
   name: 'light',
@@ -14,6 +16,7 @@ export const lightTheme = {
   // frontPageBottomGradient: `linear-gradient(94.97deg, #7028E4 4%, #E5B2CA 142.86%)`,
   frontPageGradient: `url(${lineBg}), linear-gradient(180.62deg,#7028E4 100.71%,#E5B2CA 0%)`,
   frontPageBottomGradient: `url(${lineBg}), linear-gradient(180.62deg,#7028E4 100.71%,#E5B2CA 0%)`,
+  WrappedAssetsGradient: `url(${waBglight})`,
   topGradient: 'linear-gradient(178.62deg, #7028E4 16.71%, #E5B2CA 217.99%)',
   bg: '#FFFFFF',
   bgAlt: '#FFFFFF',
@@ -44,6 +47,7 @@ export const darkTheme = {
   logoFrontPage: '#FFFFFF',
   frontPageGradient: `url(${lineBg})`,
   frontPageBottomGradient: `url(${lineBg})`,
+  WrappedAssetsGradient: `url(${waBg})`,
   topGradient: 'transparent',
   // frontPageGradient: ``,
   // frontPageBottomGradient: ``,
@@ -66,6 +70,9 @@ export const darkTheme = {
 
 export const FrontPageGradientDiv = styled.div`
   background-image: ${(props) => props.theme.frontPageGradient};
+`;
+export const WrappedAssetsGradientDiv = styled.div`
+  background-image: ${(props) => props.theme.WrappedAssetsGradient};
 `;
 
 export const TopGradientDiv = styled.div`

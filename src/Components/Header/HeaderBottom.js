@@ -127,16 +127,16 @@ const HeaderBottom = (props) => {
           className={clsx('headerBottom', {
             'pt-0': !props.selectedHeader,
             height: props.selectedHeader === HEADER_MODAL.SETTINGS && nodeSelector,
-            'more-height': props.selectedHeader === HEADER_MODAL.MORE,
+
             'headerBottom-banner': splitLocation[1] === 'wrappedAssets',
           })}
           onMouseLeave={() => isOpen(false)}
         >
-          <div className="innerSubmenus">
+          <div className=" innerSubmenus">
             {props.selectedHeader === HEADER_MODAL.TRADE && (
               <Row>
-                <Col lg={6} xs={12}>
-                  <div className="topics">
+                <Col xl={5} lg={6} xs={12}>
+                  <div className=" topics">
                     <Link to="/swap" className="text-decoration-none">
                       <p className="heading">SWAP</p>
                       <div className="flex   para">
@@ -150,7 +150,7 @@ const HeaderBottom = (props) => {
                     </Link>
                   </div>
                 </Col>
-                <Col lg={6} xs={12}>
+                <Col xl={5} lg={6} xs={12}>
                   <div className="topics">
                     <Link to="/Stableswap" className="text-decoration-none">
                       <p className="heading">STABLESWAP</p>
@@ -166,7 +166,7 @@ const HeaderBottom = (props) => {
                     </Link>
                   </div>
                 </Col>
-                <Col lg={6} xs={12}>
+                <Col xl={5} lg={6} xs={12}>
                   <div className="topics">
                     <Link to="/tokens" className="text-decoration-none">
                       <p className="heading">TOKENS</p>
@@ -185,7 +185,7 @@ const HeaderBottom = (props) => {
             )}
             {props.selectedHeader === HEADER_MODAL.EARN && (
               <Row>
-                <Col lg={6} xs={12}>
+                <Col xl={5} lg={6} xs={12}>
                   <div className="topics">
                     <Link to="/farms" className="text-decoration-none">
                       <p className="heading">FARM</p>
@@ -201,7 +201,7 @@ const HeaderBottom = (props) => {
                     </Link>
                   </div>
                 </Col>
-                <Col lg={6} xs={12}>
+                <Col xl={5} lg={6} xs={12}>
                   <div className="topics">
                     <Link to="/stake" className="text-decoration-none">
                       <p className="heading">STAKE</p>
@@ -217,7 +217,7 @@ const HeaderBottom = (props) => {
                     </Link>
                   </div>
                 </Col>
-                <Col lg={6} xs={12}>
+                <Col xl={5} lg={6} xs={12}>
                   <div className="topics">
                     <Link to="/liquidity-pools" className="text-decoration-none">
                       <p className="heading">POOL</p>
@@ -242,7 +242,7 @@ const HeaderBottom = (props) => {
                     <Link to="/vote" className="text-decoration-none">
                       <p className="heading">VOTE</p>
                       <div className="flex  para para">
-                        <div className="parainside">
+                        <div className="parainside vote-width">
                           Use xPLENTY to vote for Plenty Improvement Proposals.
                         </div>
                         <div>
@@ -333,7 +333,9 @@ const HeaderBottom = (props) => {
                         <span className="ml-3 material-icons-round launch-icon">launch</span>
                       </div>
                       <div className="flex   ">
-                        <div className="parainside">Swap tez for ctez or mint ctez.</div>
+                        <div className="parainside">
+                          Swap tez for ctez or mint ctez in an oven and earn baking rewards.
+                        </div>
                       </div>
                     </a>
                   </div>
@@ -365,7 +367,7 @@ const HeaderBottom = (props) => {
               open &&
               (!nodeSelector ? (
                 <Row>
-                  <Col lg={6} xs={12}>
+                  <Col xl={6} lg={6} xs={12}>
                     <div className="topics " onClick={() => setNodeSelector(true)}>
                       <p className="heading">NODE SELECTOR</p>
                       <div className="flex   para">
@@ -379,14 +381,14 @@ const HeaderBottom = (props) => {
                       </div>
                     </div>
                   </Col>
-                  <Col lg={6} xs={12}>
-                    <div className="topics toogleMode">
+                  <Col xl={6} lg={6} xs={12}>
+                    <div className="topics toogleMode ">
                       <div className="flex justify-between">
                         <span className="">
                           <span>THEME</span>
                           <div>{props.theme === 'light' ? 'Light' : 'Dark'}</div>
                         </span>
-                        <span className="mr-4">
+                        <span className="mr-4 toggle-header">
                           <Switch
                             value={props.theme === 'light'}
                             onChange={props.toggleTheme}

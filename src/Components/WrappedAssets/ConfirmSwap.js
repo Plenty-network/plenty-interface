@@ -45,7 +45,7 @@ const ConfirmSwap = (props) => {
               </div>
 
               <div className="token-user-input-wrapper" style={{ textAlign: 'right' }}>
-                {props.computedData?.data?.tokenOutAmount}
+                {props.secondTokenAmount}
               </div>
             </div>
           </div>
@@ -77,7 +77,7 @@ ConfirmSwap.propTypes = {
   slippage: PropTypes.any,
   tokenIn: PropTypes.any,
   tokenOut: PropTypes.any,
-  isStableSwap: PropTypes.any,
   showConfirmTransaction: PropTypes.any,
   setShowConfirmTransaction: PropTypes.any,
+  secondTokenAmount: PropTypes.any,
 };

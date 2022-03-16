@@ -70,7 +70,7 @@
   background: var(--theme-disabled-button);
   color: var(--theme-disable-button-text);
   border: 0;
-  font-weight: 700;
+  font-weight: 500;
 }
 .outline-button {
   border: 0.4px solid #4e5d78;
@@ -79,7 +79,7 @@
   font-weight: bold;
   font-size: 14px;
   line-height: 20px;
-  color: #201c41;
+  color: var(--theme-confirm-transaction-button-text);
 }
 
 .smallBtn {

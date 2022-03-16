@@ -195,4 +195,5 @@ interface IWrappedToken {
   TOKEN_ID: number;
   TOKEN_DECIMAL: number;
   REF_TOKEN: string;
+  READ_TYPE: TTokenType;
 }

@@ -1,12 +1,38 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import SimpleModal from '../Ui/Modals/SimpleModal';
 import Button from '../Ui/Buttons/Button';
-import '../../assets/scss/animation.scss';
+import lottieWeb from 'lottie-web';
 
 const ConfirmTransaction = (props) => {
+  const container = useRef(null);
+  useEffect(() => {
+    props.theme === 'light'
+      ? lottieWeb.loadAnimation({
+          container: container.current,
+          path: './loader.json',
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          name: 'Demo Animation',
+        })
+      : lottieWeb.loadAnimation({
+          container: container.current,
+          path: './loader-dark.json',
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          name: 'Demo Animation',
+        });
+  }, [props]);
   return (
     <>
+      <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.7/lottie.min.js"
+        integrity="sha512-HDCfX3BneBQMfloBfluMQe6yio+OfXnbKAbI0SnfcZ4YfZL670nc52Aue1bBhgXa+QdWsBdhMVR2hYROljf+Fg=="
+        crossOrigin="anonymous"
+      ></script>
+
       <SimpleModal
         className="confirm-swap-modal"
         open={props.show}
@@ -18,28 +44,15 @@ const ConfirmTransaction = (props) => {
         <>
           <div className="swap-content-box-wrapper">
             <div className="header-line"></div>
-            {/* <button id="containerrr"></button> */}
-            <div className="lds-default">
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
+            <div id="container" ref={container}></div>
+
             <Button
               onClick={props.confirmSwapToken}
               color={'outline-button'}
-              className="mt-4 w-100"
+              className="mt-4 w-100 confirm-transaction-button-text"
             >
               Swap {props.firstTokenAmount} {props.tokenIn.name} for{' '}
-              {Number(props.computedData?.data.tokenOutAmount).toFixed(3)} {props.tokenOut.name}
+              {Number(props.secondTokenAmount).toFixed(3)} {props.tokenOut.name}
             </Button>
             <div className="footer-confirm-transaction">
               Confirm this transaction on your wallet
@@ -54,7 +67,6 @@ const ConfirmTransaction = (props) => {
 export default ConfirmTransaction;
 
 ConfirmTransaction.propTypes = {
-  computedData: PropTypes.any,
   confirmSwapToken: PropTypes.any,
   firstTokenAmount: PropTypes.any,
   loading: PropTypes.any,
@@ -64,4 +76,6 @@ ConfirmTransaction.propTypes = {
   slippage: PropTypes.any,
   tokenIn: PropTypes.any,
   tokenOut: PropTypes.any,
+  theme: PropTypes.any,
+  secondTokenAmount: PropTypes.any,
 };

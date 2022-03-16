@@ -88,6 +88,17 @@
   --theme-gradient-border: #e7e7e7;
   --theme-swap-boxshadow: 0px 16.9px 32.3304px rgba(149, 165, 192, 0.14);
   --theme-error-bg: rgba(255, 90, 67, 0.05);
+  --theme-banner-bg: #f2e9ff;
+  --theme-banner-bg-hover: #eadcff;
+  --theme-banner-text: #201c41;
+  --theme-confirm-transaction: #4e5d78;
+  --theme-confirm-transaction-button-text: #201c41;
+  --theme-loader-border-top: rgba(255, 255, 255, 0.2);
+  --theme-loader-border: #ffffff;
+  --theme-flash-bg: #ffffff;
+  --theme-flash-border: #b0b7c3;
+  --theme-floater-text: #333333;
+  --theme-nav-link-border: #f1f1f1;
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -186,6 +197,17 @@
   --theme-gradient-border: #393456;
   --theme-swap-boxshadow: 0px 2px 49px rgba(34, 6, 73, 0.39);
   --theme-error-bg: rgba(255, 90, 67, 0.05);
+  --theme-banner-bg: rgba(206, 174, 254, 0.07);
+  --theme-banner-bg-hover: rgba(206, 174, 254, 0.18);
+  --theme-banner-text: #ffffff;
+  --theme-confirm-transaction: #b0b7c3;
+  --theme-confirm-transaction-button-text: #f9fafa;
+  --theme-loader-border: #1c1357;
+  --theme-loader-border-top: rgba(254, 253, 255, 0.6);
+  --theme-flash-bg: rgba(18, 11, 67, 1);
+  --theme-flash-border: #4e5d78;
+  --theme-floater-text: #ffffff;
+  --theme-nav-link-border: rgba(255, 255, 255, 0.15);
 }
 
 :root.theme-transiton {

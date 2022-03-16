@@ -3,32 +3,37 @@ import clsx from 'clsx';
 import React, { useEffect, useMemo, useState } from 'react';
 import ConfirmTransaction from './ConfirmTransaction';
 import ConfirmSwap from './ConfirmSwap';
-import { swapTokens } from '../../apis/swap/swap';
+import { connect } from 'react-redux';
 import Button from '../Ui/Buttons/Button';
-import {
-  computeTokenOutForRouteBaseV2,
-  swapTokenUsingRouteV3,
-  computeTokenOutForRouteBaseByOutAmountV2,
-} from '../../apis/swap/swap-v2';
-//import InfoModal from '../Ui/Modals/InfoModal';
+import Loader from '../loader';
+import InfoModal from '../Ui/Modals/InfoModal';
+import { swapWrappedAssets } from '../../apis/WrappedAssets/WrappedAssets';
+import { setLoader } from '../../redux/slices/settings/settings.slice';
 
 const SwapContent = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
   const [secondTokenAmount, setSecondTokenAmount] = useState();
-  const [routePath, setRoutePath] = useState([]);
+  const [firstAmount, setFirstAmount] = useState(0);
+  const [secondAmount, setSecondAmount] = useState(0);
+
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState('');
-  const [computedData, setComputedData] = useState({
-    success: false,
-    data: {
-      tokenOutAmount: 0,
-      fees: [],
-      totalFees: 0,
-      minimumOut: [],
-      finalMinimumOut: 0,
-      priceImpact: 0,
-    },
-  });
+  // const check = {
+  //   type: 'success',
+  //   message: 'success',
+  // };
+  const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
+  const [transactionId, setTransactionId] = useState('');
+
+  const transactionSubmitModal = (id) => {
+    setTransactionId(id);
+    setShowTransactionSubmitModal(true);
+  };
+
+  useEffect(() => {
+    firstTokenAmount && setFirstAmount(firstTokenAmount);
+    secondTokenAmount && setSecondAmount(secondTokenAmount);
+  }, [firstTokenAmount, secondTokenAmount]);
 
   const handleSwapTokenInput = (input, tokenType) => {
     if (input === '' || isNaN(input)) {
@@ -37,50 +42,10 @@ const SwapContent = (props) => {
     } else {
       if (tokenType === 'tokenIn') {
         setFirstTokenAmount(input);
-
-        const res = computeTokenOutForRouteBaseV2(input, props.routeData.allRoutes, props.slippage);
-
-        setComputedData(res);
-        setComputedData({
-          success: true,
-          data: {
-            tokenOutAmount: res.bestRoute.computations.tokenOutAmount,
-            fees: res.bestRoute.computations.fees,
-            totalFees: res.bestRoute.computations.fees[res.bestRoute.computations.fees.length - 1],
-            minimumOut: res.bestRoute.computations.minimumOut,
-            finalMinimumOut:
-              res.bestRoute.computations.minimumOut[
-                res.bestRoute.computations.minimumOut.length - 1
-              ],
-            priceImpact: res.bestRoute.computations.priceImpact,
-          },
-        });
-        setRoutePath(res.bestRoute.path);
-        setSecondTokenAmount(res.bestRoute.computations.tokenOutAmount);
+        setSecondTokenAmount(input);
       } else if (tokenType === 'tokenOut') {
         setSecondTokenAmount(input);
-
-        const res = computeTokenOutForRouteBaseByOutAmountV2(
-          input,
-          props.routeData.allRoutes,
-          props.slippage,
-        );
-        setComputedData({
-          success: true,
-          data: {
-            tokenOutAmount: res.bestRoute.computations.tokenOutAmount,
-            fees: res.bestRoute.computations.fees,
-            totalFees: res.bestRoute.computations.fees[res.bestRoute.computations.fees.length - 1],
-            minimumOut: res.bestRoute.computations.minimumOut,
-            finalMinimumOut:
-              res.bestRoute.computations.minimumOut[
-                res.bestRoute.computations.minimumOut.length - 1
-              ],
-            priceImpact: res.bestRoute.computations.priceImpact,
-          },
-        });
-        setRoutePath(res.bestRoute.path);
-        setFirstTokenAmount(res.bestRoute.computations.tokenInAmount);
+        setFirstTokenAmount(input);
       }
     }
   };
@@ -115,6 +80,7 @@ const SwapContent = (props) => {
     if (status) {
       props.setLoading(false);
       props.handleLoaderMessage('success', 'Transaction confirmed');
+      props.setLoader(false);
       props.setShowConfirmSwap(false);
       //props.setHideContent('');
       props.setSecondTokenAmount('');
@@ -125,6 +91,7 @@ const SwapContent = (props) => {
     } else {
       props.setLoading(false);
       props.handleLoaderMessage('error', 'Transaction failed');
+      props.setLoader(false);
       props.setShowConfirmSwap(false);
       //props.setHideContent('');
       props.resetAllValues();
@@ -135,50 +102,32 @@ const SwapContent = (props) => {
 
   const confirmSwapToken = async () => {
     props.setLoading(true);
+    props.setLoader(true);
     props.setShowConfirmSwap(false);
     props.setShowConfirmTransaction(true);
     props.setLoaderInButton(true);
     const recepientAddress = props.recepient ? props.recepient : props.walletAddress;
-
-    if (routePath.length <= 2) {
-      swapTokens(
-        routePath[0],
-        routePath[1],
-        computedData.data.finalMinimumOut,
-        recepientAddress,
-        firstTokenAmount,
-        props.walletAddress,
-        props.transactionSubmitModal,
-        props.setShowConfirmSwap,
-        resetVal,
-        props.setShowConfirmTransaction,
-      ).then((swapResp) => {
-        props.setShowConfirmSwap(false);
-        props.setShowConfirmTransaction(false);
-        handleSwapResponse(swapResp.success);
-        setTimeout(() => {
-          props.setLoaderMessage({});
-        }, 5000);
-      });
-    } else {
-      swapTokenUsingRouteV3(
-        routePath,
-        computedData.data.minimumOut,
-        props.walletAddress,
-        firstTokenAmount,
-        props.transactionSubmitModal,
-        props.setShowConfirmSwap,
-        resetVal,
-        props.setShowConfirmTransaction,
-      ).then((swapResp) => {
-        props.setShowConfirmSwap(false);
-        props.setShowConfirmTransaction(false);
-        handleSwapResponse(swapResp.success);
-        setTimeout(() => {
-          props.setLoaderMessage({});
-        }, 5000);
-      });
-    }
+    swapWrappedAssets(
+      props.tokenIn.name,
+      firstTokenAmount,
+      recepientAddress,
+      transactionSubmitModal,
+      props.setShowConfirmSwap,
+      resetVal,
+      props.setShowConfirmTransaction,
+      setShowTransactionSubmitModal,
+    ).then((response) => {
+      console.log(response);
+      props.setShowConfirmSwap(false);
+      props.setShowConfirmTransaction(false);
+      // setTimeout(() => {
+      //   props.setShowTransactionSubmitModal(false);
+      // }, 5000);
+      handleSwapResponse(response.success);
+      setTimeout(() => {
+        props.setLoaderMessage({});
+      }, 5000);
+    });
   };
 
   const onClickAmount = () => {
@@ -275,17 +224,13 @@ const SwapContent = (props) => {
             </div>
 
             <div className="token-user-input-wrapper">
-              {props.routeData.success ? (
-                <input
-                  type="text"
-                  className="token-user-input"
-                  placeholder="0.0"
-                  value={firstTokenAmount}
-                  onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenIn')}
-                />
-              ) : (
-                <input type="text" className="token-user-input" placeholder="0.0" disabled />
-              )}
+              <input
+                type="text"
+                className="token-user-input"
+                placeholder="0.0"
+                value={firstTokenAmount}
+                onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenIn')}
+              />
             </div>
             {props.walletAddress ? (
               <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
@@ -334,33 +279,18 @@ const SwapContent = (props) => {
             )}
           >
             <div className="token-selector-balance-wrapper">
-              {props.tokenOut.name ? (
-                <button
-                  className="token-selector dropdown-themed"
-                  onClick={() => props.handleTokenType('tokenOut')}
-                >
-                  <img src={props.tokenOut.image} className="button-logo" />
-                  <span className="span-themed">{props.tokenOut.name} </span>
-                  <span className="span-themed material-icons-round">expand_more</span>
-                </button>
-              ) : (
-                <button
-                  className="token-selector not-selected"
-                  onClick={() => props.handleTokenType('tokenOut')}
-                >
-                  Select a token <span className="material-icons-round">expand_more</span>
-                </button>
-              )}
+              <button className="token-selector dropdown-themed">
+                <img src={props.tokenOut.image} className="button-logo" />
+                <span className="span-themed">{props.tokenOut.name} </span>
+              </button>
             </div>
 
             <div className="token-user-input-wrapper">
-              {props.routeData.success && props.tokenOut.name ? (
+              {props.tokenOut.name ? (
                 <input
                   type="text"
                   className="token-user-input"
-                  value={
-                    secondTokenAmount ? secondTokenAmount : props.computedOutDetails.tokenOut_amount
-                  }
+                  value={secondTokenAmount}
                   placeholder="0.0"
                   onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenOut')}
                 />
@@ -414,38 +344,68 @@ const SwapContent = (props) => {
       </div>
       <ConfirmSwap
         show={props.showConfirmSwap}
-        computedData={computedData}
         tokenIn={props.tokenIn}
         firstTokenAmount={Number(firstTokenAmount)}
+        secondTokenAmount={Number(secondTokenAmount)}
         tokenOut={props.tokenOut}
         slippage={props.slippage}
         confirmSwapToken={confirmSwapToken}
         onHide={props.handleClose}
-        // routeData={props.routeData}
         loading={props.loading}
-        isStableSwap={true}
       />
       <ConfirmTransaction
         show={props.showConfirmTransaction}
-        computedData={computedData}
         tokenIn={props.tokenIn}
-        firstTokenAmount={firstTokenAmount}
+        firstTokenAmount={firstAmount}
         tokenOut={props.tokenOut}
         slippage={props.slippage}
         confirmSwapToken={confirmSwapToken}
         onHide={props.handleClose}
         routeData={props.routeData}
         loading={props.loading}
+        theme={props.theme}
+        secondTokenAmount={secondAmount}
       />
-      {/* <InfoModal open={true} message={'Transaction submitted'} buttonText={'View on Tezos'} /> */}
+      <InfoModal
+        open={showTransactionSubmitModal}
+        firstTokenAmount={firstAmount}
+        secondTokenAmount={secondAmount}
+        tokenIn={props.tokenIn.name}
+        tokenOut={props.tokenOut.name}
+        theme={props.theme}
+        onClose={() => setShowTransactionSubmitModal(false)}
+        message={'Transaction submitted'}
+        buttonText={'View on Tezos'}
+        onBtnClick={
+          transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
+        }
+      />
+      <Loader
+        loading={props.loading}
+        loaderMessage={props.loaderMessage}
+        tokenIn={props.tokenIn.name}
+        firstTokenAmount={firstAmount}
+        tokenOut={props.tokenOut.name}
+        secondTokenAmount={secondAmount}
+        setLoaderMessage={props.setLoaderMessage}
+      />
     </>
   );
 };
+
+const mapStateToProps = (state) => ({
+  loader: state.settings.loader,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setLoader: (value) => dispatch(setLoader(value)),
+});
 
 SwapContent.propTypes = {
   computedOutDetails: PropTypes.any,
   connecthWallet: PropTypes.any,
   fetchUserWalletBalance: PropTypes.any,
+  setLoader: PropTypes.func,
   // firstTokenAmount: PropTypes.any,
   getTokenPrice: PropTypes.any,
   handleClose: PropTypes.any,
@@ -461,6 +421,7 @@ SwapContent.propTypes = {
   //setHideContent: PropTypes.any,
   setLoaderInButton: PropTypes.any,
   setLoaderMessage: PropTypes.any,
+  loaderMessage: PropTypes.any,
   setLoading: PropTypes.any,
   loading: PropTypes.any,
   setRecepient: PropTypes.any,
@@ -479,6 +440,12 @@ SwapContent.propTypes = {
   walletAddress: PropTypes.any,
   showConfirmTransaction: PropTypes.any,
   setShowConfirmTransaction: PropTypes.any,
+  theme: PropTypes.any,
+  setShowTransactionSubmitModal: PropTypes.any,
+  transactionId: PropTypes.any,
+  showTransactionSubmitModal: PropTypes.any,
 };
 
-export default SwapContent;
+//export default SwapContent;
+
+export default connect(mapStateToProps, mapDispatchToProps)(SwapContent);

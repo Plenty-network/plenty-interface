@@ -1,11 +1,11 @@
 .bg-img-light {
-    background-image: url('../../images/WrappedAssets/cube-light.png');
-    background-position: center top;
-    background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .bg-img-dark {
-    background-image: url('../../images/WrappedAssets/cube-dark.png');
-    background-position: center top;
-    background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: contain;
 }

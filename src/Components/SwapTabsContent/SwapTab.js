@@ -11,10 +11,14 @@ import {
   computeTokenOutForRouteBaseByOutAmountV2,
 } from '../../apis/swap/swap-v2';
 import ConfirmTransaction from '../WrappedAssets/ConfirmTransaction';
+import InfoModal from '../Ui/Modals/InfoModal';
+import Loader from '../loader';
 
 const SwapTab = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
   const [secondTokenAmount, setSecondTokenAmount] = useState();
+  const [firstAmount, setFirstAmount] = useState(0);
+  const [secondAmount, setSecondAmount] = useState(0);
   const [routePath, setRoutePath] = useState([]);
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState('');
@@ -29,6 +33,19 @@ const SwapTab = (props) => {
       priceImpact: 0,
     },
   });
+
+  useEffect(() => {
+    firstTokenAmount && setFirstAmount(firstTokenAmount);
+    secondTokenAmount && setSecondAmount(secondTokenAmount);
+  }, [firstTokenAmount, secondTokenAmount]);
+
+  const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
+  const [transactionId, setTransactionId] = useState('');
+
+  const transactionSubmitModal = (id) => {
+    setTransactionId(id);
+    setShowTransactionSubmitModal(true);
+  };
 
   const handleSwapTokenInput = (input, tokenType) => {
     if (input === '' || isNaN(input)) {
@@ -150,10 +167,11 @@ const SwapTab = (props) => {
         recepientAddress,
         firstTokenAmount,
         props.walletAddress,
-        props.transactionSubmitModal,
+        transactionSubmitModal,
         props.setShowConfirmSwap,
         resetVal,
         props.setShowConfirmTransaction,
+        setShowTransactionSubmitModal,
       ).then((swapResp) => {
         props.setShowConfirmSwap(false);
         props.setShowConfirmTransaction(false);
@@ -168,10 +186,11 @@ const SwapTab = (props) => {
         computedData.data.minimumOut,
         props.walletAddress,
         firstTokenAmount,
-        props.transactionSubmitModal,
+        transactionSubmitModal,
         props.setShowConfirmSwap,
         resetVal,
         props.setShowConfirmTransaction,
+        setShowTransactionSubmitModal,
       ).then((swapResp) => {
         props.setShowConfirmSwap(false);
         props.setShowConfirmTransaction(false);
@@ -457,6 +476,29 @@ const SwapTab = (props) => {
         onHide={props.handleClose}
         routeData={props.routeData}
         loading={props.loading}
+        secondTokenAmount={secondAmount}
+      />
+      <InfoModal
+        open={showTransactionSubmitModal}
+        firstTokenAmount={firstAmount}
+        secondTokenAmount={secondAmount}
+        tokenIn={props.tokenIn.name}
+        tokenOut={props.tokenOut.name}
+        theme={props.theme}
+        onClose={() => setShowTransactionSubmitModal(false)}
+        message={'Transaction submitted'}
+        buttonText={'View on Tezos'}
+        onBtnClick={
+          transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
+        }
+      />
+      <Loader
+        loading={props.loading}
+        loaderMessage={props.loaderMessage}
+        tokenIn={props.tokenIn.name}
+        firstTokenAmount={firstAmount}
+        tokenOut={props.tokenOut.name}
+        secondTokenAmount={secondAmount}
       />
     </>
   );
@@ -471,6 +513,7 @@ SwapTab.propTypes = {
   getTokenPrice: PropTypes.any,
   handleClose: PropTypes.any,
   handleLoaderMessage: PropTypes.any,
+  loaderMessage: PropTypes.any,
   handleOutTokenInput: PropTypes.any,
   handleTokenType: PropTypes.any,
   loaderInButton: PropTypes.any,
@@ -500,6 +543,7 @@ SwapTab.propTypes = {
   walletAddress: PropTypes.any,
   setShowConfirmTransaction: PropTypes.any,
   showConfirmTransaction: PropTypes.any,
+  theme: PropTypes.any,
 };
 
 export default SwapTab;

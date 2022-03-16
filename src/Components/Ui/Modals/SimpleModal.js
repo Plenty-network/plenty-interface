@@ -26,10 +26,11 @@ const SimpleModal = (props) => {
         })}
       >
         <div className={clsx(styles.title, 'flex-grow-1')}>{props.title}</div>
-
-        <div className={styles.closeBtn} onClick={props.onClose}>
-          <span className="material-icons-round">close</span>
-        </div>
+        {!props.infoModal && (
+          <div className={styles.closeBtn} onClick={props.onClose}>
+            <span className="material-icons-round">close</span>
+          </div>
+        )}
       </div>
       {/* * Header */}
 
@@ -53,6 +54,7 @@ SimpleModal.propTypes = {
   open: PropTypes.bool.isRequired,
   title: PropTypes.string,
   isConfirmSwap: PropTypes.any,
+  infoModal: PropTypes.any,
 };
 
 export default SimpleModal;

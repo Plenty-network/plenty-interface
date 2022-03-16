@@ -67,6 +67,9 @@
       transform-origin: 50% 50%;
     }
   }
+  .submitted-text {
+    color: var(--theme-confirm-transaction-button-text);
+  }
 }
 
 .stakeModal {
@@ -180,3 +183,10 @@
     margin: -11rem auto;
   }
 }
+// .info-modal {
+//   .simpleModal {
+//     .closeBtn {
+//       display: none !important;
+//     }
+//   }
+// }
