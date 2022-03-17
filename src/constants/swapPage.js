@@ -30,6 +30,7 @@ import INSTA from '../assets/images/INSTA.png';
 import kDAO from '../assets/images/kDAO.png';
 import PXL from '../assets/images/PXL.png';
 import PAUL from '../assets/images/PAUL.png';
+import tez from '../assets/images/tez.png';
 export const tokens = [
   {
     name: 'CRUNCH',
@@ -39,6 +40,11 @@ export const tokens = [
   {
     name: 'crDAO',
     image: crDAO,
+    new: false,
+  },
+  {
+    name: 'tez',
+    image: tez,
     new: false,
   },
   {
