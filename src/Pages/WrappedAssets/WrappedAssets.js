@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { Col, Container } from 'react-bootstrap';
 import FooterWA from '../../assets/images/footerWA.svg';
 import FooterWADark from '../../assets/images/footerWAdark.svg';
@@ -7,10 +6,16 @@ import '../../assets/scss/animation.scss';
 import SwapWA from './SwapWA';
 import '../../assets/scss/partials/_wrappedAssets.scss';
 import { WrappedAssetsGradientDiv } from '../../themes';
+import useDivHeight from './hooks/useDivHeight';
 
 const WrappedAssets = (props) => {
+  const divHeight = useDivHeight();
+
   return (
-    <WrappedAssetsGradientDiv className={'flex flex-grow-1 bg-img-light '}>
+    <WrappedAssetsGradientDiv
+      className={'flex flex-grow-1 wa-bg-img '}
+      style={{ height: divHeight }}
+    >
       <Container fluid className="removing-padding">
         <Col sm={8} md={6} className="swap-content-section wrapped-assets-margin-top">
           <SwapWA {...props} />

@@ -61,9 +61,9 @@ export const getUserBalanceByRpc = async (identifier, address) => {
     const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
     const packedKey = getPackedKey(tokenId, address, type);
     const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
-    console.log(await axios.get(url));
+    //console.log(await axios.get(url));
     const response = await axios.get(url);
-    console.log(response);
+    //console.log(response);
     const balance = (() => {
       // IIFE
       let _balance;
@@ -172,7 +172,7 @@ export const swapWrappedAssets = async (
       );
 
     const batchOp = await batch.send();
-    console.log(batchOp);
+    //console.log(batchOp);
     {
       batchOp.opHash === null
         ? console.log('operation getting injected')
