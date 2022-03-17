@@ -51,8 +51,7 @@ const InfoModal = (props) => {
             </div>
           )}
           <Button color={'outline-button'} className="mt-3 w-100 submitted-text">
-            Swap {props.firstTokenAmount} {props.tokenIn} for {props.secondTokenAmount}{' '}
-            {props.tokenOut}
+            {props.InfoMessage}
           </Button>
         </div>
       </SimpleModal>
@@ -73,6 +72,7 @@ InfoModal.propTypes = {
   tokenIn: PropTypes.any,
   tokenOut: PropTypes.any,
   theme: PropTypes.any,
+  InfoMessage: PropTypes.any,
 };
 
 export default InfoModal;

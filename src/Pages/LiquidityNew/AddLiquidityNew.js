@@ -8,15 +8,16 @@ import {
   getExchangeRate,
   loadSwapDataStable,
 } from '../../apis/stableswap/stableswap';
-import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import React, { useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import InfoIcon from '../../assets/images/SwapModal/info.svg';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import ConfirmAddLiquidity from '../../Components/SwapTabsContent/LiquidityTabs/ConfirmAddLiquidity';
 import Button from '../../Components/Ui/Buttons/Button';
+import { setLoader } from '../../redux/slices/settings/settings.slice';
 
 const AddLiquidityNew = (props) => {
-  console.log(props);
   const [estimatedTokenAmout, setEstimatedTokenAmout] = useState('');
   const [secondTokenAmount, setSecondTokenAmount] = useState('');
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
@@ -101,6 +102,14 @@ const AddLiquidityNew = (props) => {
     });
   }, []);
 
+  const InfoMessage = useMemo(() => {
+    return (
+      <span>
+        {lpTokenAmount.estimatedLpOutput} {props.tokenIn.name}/{props.tokenOut.name} LP Tokens
+      </span>
+    );
+  }, [lpTokenAmount.estimatedLpOutput]);
+
   const handleLiquidityInput = async (input) => {
     setFirstTokenAmount(input);
     setEstimatedTokenAmout({});
@@ -181,6 +190,7 @@ const AddLiquidityNew = (props) => {
 
   const CallConfirmAddLiquidity = () => {
     props.setLoading(true);
+    props.setLoader(true);
     const secondTokenAmountEntered = secondTokenAmount
       ? parseFloat(secondTokenAmount)
       : estimatedTokenAmout.otherTokenAmount;
@@ -198,6 +208,7 @@ const AddLiquidityNew = (props) => {
         if (data.success) {
           props.setLoading(false);
           props.handleLoaderMessage('success', 'Transaction confirmed');
+          props.setLoader(false);
           props.setShowConfirmAddSupply(false);
           //props.setHideContent('');
           props.resetAllValues();
@@ -207,6 +218,7 @@ const AddLiquidityNew = (props) => {
         } else {
           props.setLoading(false);
           props.handleLoaderMessage('error', 'Transaction failed');
+          props.setLoader(false);
           props.setShowConfirmAddSupply(false);
           //props.setHideContent('');
           props.resetAllValues();
@@ -279,6 +291,7 @@ const AddLiquidityNew = (props) => {
         <Button
           onClick={confirmAddLiquidity}
           color={'primary'}
+          startIcon={'add'}
           className={'mt-4 w-100 flex align-items-center justify-content-center'}
         >
           Add Liquidity
@@ -289,6 +302,7 @@ const AddLiquidityNew = (props) => {
         <Button
           onClick={() => setErrorMessageOnUI('Please select a token and then enter the amount')}
           color={'disabled'}
+          startIcon={'add'}
           className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
         >
           Add Liquidity
@@ -306,6 +320,7 @@ const AddLiquidityNew = (props) => {
         <Button
           onClick={() => setErrorMessageOnUI('Enter an amount to add liqiidity')}
           color={'disabled'}
+          startIcon={'add'}
           className={' mt-4 w-100 flex align-items-center justify-content-center'}
         >
           Add Liquidity
@@ -378,11 +393,10 @@ const AddLiquidityNew = (props) => {
                 <p className="bal">
                   Balance:{' '}
                   {props.userBalances[props.tokenIn.name] >= 0 ? (
-                    props.userBalances[props.tokenIn.name].toFixed(4)
+                    props.userBalances[props.tokenIn.name].toFixed(2)
                   ) : (
-                    <div className="shimmer">0.0000</div>
+                    <div className="shimmer">0.00</div>
                   )}{' '}
-                  {props.tokenIn.name}
                 </p>
               ) : null}
             </div>
@@ -473,11 +487,10 @@ const AddLiquidityNew = (props) => {
                 <p className="bal">
                   Balance:{' '}
                   {props.userBalances[props.tokenOut.name] >= 0 ? (
-                    props.userBalances[props.tokenOut.name].toFixed(4)
+                    props.userBalances[props.tokenOut.name].toFixed(2)
                   ) : (
-                    <div className="shimmer">0.0000</div>
+                    <div className="shimmer">0.00</div>
                   )}{' '}
-                  {props.tokenOut.name}
                 </p>
               ) : null}
             </div>
@@ -489,10 +502,18 @@ const AddLiquidityNew = (props) => {
         <div>
           <img src={InfoIcon} />
         </div>
-        <div className="details">0.00949454 plenty per ctez</div>
-        <div className="details">105.324 ctez per plenty</div>
-        <div className="details">Share of pool: 0%</div>
-        <div className="details">0.25% LP fee</div>
+        <div className="details">
+          0.00949454 <span className="content">plenty per ctez</span>
+        </div>
+        <div className="details">
+          105.324 <span className="content">ctez per plenty</span>
+        </div>
+        <div className="details">
+          <span className="content">Share of pool:</span> 0%
+        </div>
+        <div className="details">
+          0.25% <span className="content">LP fee</span>
+        </div>
       </div>
       {/* <div className="swap-detail-wrapper bg-themed-light">
         <div className="add-liquidity-tip">
@@ -507,7 +528,7 @@ const AddLiquidityNew = (props) => {
         <div className="your-positions">
           <div className="d-flex justify-content-between">
             <div className="left">
-              <div className="your-positions-label mb-2">Your Positions</div>
+              <div className="your-positions-label ">Your Positions</div>
               <img width="50" height="50" src={props.tokenIn.image} />
               <img width="50" height="50" src={props.tokenOut.image} className="ml-2" />
               <span className="lp-pair">
@@ -574,6 +595,8 @@ const AddLiquidityNew = (props) => {
       />
       <InfoModal
         open={showTransactionSubmitModal}
+        InfoMessage={InfoMessage}
+        theme={props.theme}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
         buttonText={'View on Tezos'}
@@ -585,12 +608,21 @@ const AddLiquidityNew = (props) => {
   );
 };
 
-export default AddLiquidityNew;
+const mapStateToProps = (state) => ({
+  loader: state.settings.loader,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setLoader: (value) => dispatch(setLoader(value)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(AddLiquidityNew);
 
 AddLiquidityNew.propTypes = {
+  theme: PropTypes.any,
   connecthWallet: PropTypes.any,
   fetchUserWalletBalance: PropTypes.any,
   firstTokenAmount: PropTypes.any,
+  setLoader: PropTypes.func,
   getTokenPrice: PropTypes.any,
   handleClose: PropTypes.any,
   handleLoaderMessage: PropTypes.any,

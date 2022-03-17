@@ -68,6 +68,15 @@ const SwapContent = (props) => {
     props.setSecondTokenAmount('');
     setSecondTokenAmount('');
   };
+
+  const InfoMessage = useMemo(() => {
+    return (
+      <span>
+        Swap {firstAmount} {props.tokenIn.name} for {secondAmount} {props.tokenOut.name}
+      </span>
+    );
+  }, [firstAmount, secondAmount]);
+
   const getDollarValue = (amount, price) => {
     const calculatedValue = amount * price;
     if (calculatedValue < 100) {
@@ -125,7 +134,7 @@ const SwapContent = (props) => {
       handleSwapResponse(response.success);
       setTimeout(() => {
         props.setLoaderMessage({});
-      }, 5000);
+      }, 6000);
     });
   };
 
@@ -326,17 +335,7 @@ const SwapContent = (props) => {
             ) : null}
           </div>
         </div>
-        {props.showRecepient ? (
-          <input
-            type="text"
-            className="slipping-tolerance-input full-width"
-            placeholder="Send to:"
-            onChange={(e) => props.setRecepient(e.target.value)}
-            value={props.recepient}
-          />
-        ) : (
-          ''
-        )}
+
         {errorMessage && <span className="error-message">{message}</span>}
 
         {swapContentButton}
@@ -372,6 +371,7 @@ const SwapContent = (props) => {
         tokenIn={props.tokenIn.name}
         tokenOut={props.tokenOut.name}
         theme={props.theme}
+        InfoMessage={InfoMessage}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
         buttonText={'View on Tezos'}

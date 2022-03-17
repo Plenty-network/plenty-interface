@@ -4,19 +4,24 @@ import { FormControl, InputGroup, Modal } from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
 import config from '../../config/config';
 
-const SwapModal = (props) => {
+const LiquidityModal = (props) => {
   console.log(props.tokens);
   const [tokensToShow, setTokensToShow] = useState([]);
 
   const doesPairExist = useCallback(
     (token) => {
       if (props.tokenType === 'tokenOut') {
+        if (token.name === 'tez' || props.tokenIn.name === 'tez') {
+          return false;
+        }
         if (config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[token.name]) {
           return true;
         }
       } else {
         if (props.tokenOut.name) {
           if (config.AMM[config.NETWORK][props.tokenOut.name].DEX_PAIRS[token.name]) {
+            return true;
+          } else if (token.name === 'tez') {
             return true;
           }
         } else {
@@ -159,7 +164,7 @@ const SwapModal = (props) => {
   );
 };
 
-SwapModal.propTypes = {
+LiquidityModal.propTypes = {
   activeTab: PropTypes.any,
   onHide: PropTypes.any,
   searchQuery: PropTypes.any,
@@ -173,4 +178,4 @@ SwapModal.propTypes = {
   isStableSwap: PropTypes.any,
 };
 
-export default SwapModal;
+export default LiquidityModal;

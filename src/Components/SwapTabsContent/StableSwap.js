@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import React, { useEffect, useMemo, useState } from 'react';
 import SwapDetails from '../SwapDetails';
 import ConfirmSwap from './ConfirmSwap';
+import { connect } from 'react-redux';
 import Button from '../Ui/Buttons/Button';
 import {
   loadSwapDataStable,
@@ -15,6 +16,7 @@ import { ReactComponent as Stableswap } from '../../assets/images/SwapModal/stab
 import ConfirmTransaction from '../WrappedAssets/ConfirmTransaction';
 import InfoModal from '../Ui/Modals/InfoModal';
 import Loader from '../loader';
+import { setLoader } from '../../redux/slices/settings/settings.slice';
 
 const StableSwap = (props) => {
   const [firstTokenAmountStable, setFirstTokenAmountStable] = useState();
@@ -134,6 +136,15 @@ const StableSwap = (props) => {
       }
     }
   };
+
+  const InfoMessage = useMemo(() => {
+    return (
+      <span>
+        Swap {firstAmount} {props.tokenIn.name} for {secondAmount} {props.tokenOut.name}
+      </span>
+    );
+  }, [firstAmount, secondAmount]);
+
   useEffect(() => {
     handleSwapTokenInput(firstTokenAmountStable, 'tokenIn');
   }, [props.tokenIn]);
@@ -166,6 +177,7 @@ const StableSwap = (props) => {
 
       props.setLoading(false);
       props.handleLoaderMessage('success', 'Transaction confirmed');
+      props.setLoader(false);
       props.setShowConfirmSwap(false);
       //props.setHideContent('');
       props.setSecondTokenAmountStable('');
@@ -176,6 +188,7 @@ const StableSwap = (props) => {
     } else {
       props.setLoading(false);
       props.handleLoaderMessage('error', 'Transaction failed');
+      props.setLoader(false);
       props.setShowConfirmSwap(false);
       //props.setHideContent('');
       props.resetAllValues();
@@ -186,6 +199,7 @@ const StableSwap = (props) => {
 
   const confirmSwapToken = async () => {
     props.setLoading(true);
+    props.setLoader(true);
     props.setLoaderInButton(true);
     props.setShowConfirmSwap(false);
     props.setShowConfirmTransaction(true);
@@ -508,6 +522,7 @@ const StableSwap = (props) => {
         show={props.showConfirmTransaction}
         computedData={computedData}
         tokenIn={props.tokenIn}
+        theme={props.theme}
         firstTokenAmount={firstTokenAmountStable}
         tokenOut={props.tokenOut}
         slippage={props.slippage}
@@ -523,6 +538,7 @@ const StableSwap = (props) => {
         secondTokenAmount={secondAmount}
         tokenIn={props.tokenIn.name}
         tokenOut={props.tokenOut.name}
+        InfoMessage={InfoMessage}
         theme={props.theme}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
@@ -543,11 +559,20 @@ const StableSwap = (props) => {
   );
 };
 
+const mapStateToProps = (state) => ({
+  loader: state.settings.loader,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setLoader: (value) => dispatch(setLoader(value)),
+});
+
 StableSwap.propTypes = {
   changeTokenLocation: PropTypes.any,
   computedOutDetails: PropTypes.any,
   connecthWallet: PropTypes.any,
   fetchUserWalletBalance: PropTypes.any,
+  setLoader: PropTypes.func,
   // firstTokenAmountStable: PropTypes.any,
   getTokenPrice: PropTypes.any,
   handleClose: PropTypes.any,
@@ -586,4 +611,4 @@ StableSwap.propTypes = {
   theme: PropTypes.any,
 };
 
-export default StableSwap;
+export default connect(mapStateToProps, mapDispatchToProps)(StableSwap);

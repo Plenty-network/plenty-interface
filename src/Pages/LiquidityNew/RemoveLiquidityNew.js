@@ -3,12 +3,13 @@ import { computeRemoveTokens, removeLiquidity } from '../../apis/swap/swap';
 import { remove_liquidity, liqCalcRemove, getExchangeRate } from '../../apis/stableswap/stableswap';
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
-
+import { connect } from 'react-redux';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
 
 import Button from '../../Components/Ui/Buttons/Button';
 import CONFIG from '../../config/config';
 import ConfirmRemoveLiquidity from '../../Components/SwapTabsContent/LiquidityTabs/ConfirmRemoveLiquidity';
+import { setLoader } from '../../redux/slices/settings/settings.slice';
 
 const RemoveLiquidityNew = (props) => {
   console.log(props);
@@ -77,6 +78,13 @@ const RemoveLiquidityNew = (props) => {
     };
     setRemovableTokens(computedRemoveTokens);
   };
+  // const InfoMessage = useMemo(() => {
+  //   return (
+  //     <span>
+  //       {lpTokenAmount.estimatedLpOutput} {props.tokenIn.name}/{props.tokenOut.name} LP Tokens
+  //     </span>
+  //   );
+  // }, [lpTokenAmount.estimatedLpOutput]);
 
   const handleRemoveLiquidity = () => {
     props.setShowConfirmRemoveSupply(true);
@@ -84,6 +92,7 @@ const RemoveLiquidityNew = (props) => {
   };
   const confirmRemoveLiquidity = () => {
     props.setLoading(true);
+    props.setLoader(true);
     if (props.tokenIn.name === 'tez') {
       remove_liquidity(
         props.tokenIn.name,
@@ -98,7 +107,7 @@ const RemoveLiquidityNew = (props) => {
           props.setShowConfirmRemoveSupply(false);
           transactionSubmitModal(data.operationId);
           props.handleLoaderMessage('success', 'Transaction confirmed');
-
+          props.setLoader(false);
           //props.setHideContent('');
           resetValues();
           setTimeout(() => {
@@ -107,6 +116,7 @@ const RemoveLiquidityNew = (props) => {
         } else {
           props.setLoading(false);
           props.handleLoaderMessage('error', 'Transaction failed');
+          props.setLoader(false);
           props.setShowConfirmRemoveSupply(false);
           // props.setHideContent('');
           props.resetAllValues();
@@ -131,6 +141,7 @@ const RemoveLiquidityNew = (props) => {
         if (data.success) {
           props.setLoading(false);
           props.handleLoaderMessage('success', 'Transaction confirmed');
+          props.setLoader(false);
           props.setShowConfirmRemoveSupply(false);
           //props.setHideContent('');
           props.resetAllValues();
@@ -140,6 +151,7 @@ const RemoveLiquidityNew = (props) => {
         } else {
           props.setLoading(false);
           props.handleLoaderMessage('error', 'Transaction failed');
+          props.setLoader(false);
           props.setShowConfirmRemoveSupply(false);
           // props.setHideContent('');
           props.resetAllValues();
@@ -381,7 +393,7 @@ const RemoveLiquidityNew = (props) => {
         <div className="your-positions">
           <div className="d-flex justify-content-between">
             <div className="left">
-              <div className="your-positions-label mb-2">Your Positions</div>
+              <div className="your-positions-label ">Your Positions</div>
               <img width="50" height="50" src={props.tokenIn.image} />
               <img width="50" height="50" src={props.tokenOut.image} className="ml-2" />
               <span className="lp-pair">
@@ -455,10 +467,19 @@ const RemoveLiquidityNew = (props) => {
   );
 };
 
-export default RemoveLiquidityNew;
+const mapStateToProps = (state) => ({
+  loader: state.settings.loader,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setLoader: (value) => dispatch(setLoader(value)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(RemoveLiquidityNew);
 
 RemoveLiquidityNew.propTypes = {
+  theme: PropTypes.any,
   connecthWallet: PropTypes.any,
+  setLoader: PropTypes.any,
   fetchUserWalletBalance: PropTypes.any,
   firstTokenAmount: PropTypes.any,
   getTokenPrice: PropTypes.any,

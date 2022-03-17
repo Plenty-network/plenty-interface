@@ -39,11 +39,11 @@
     animation: rightToleftF 1s;
   }
   &-4-floater {
-    -webkit-animation: rightToleftFloater 1s; /* Safari, Chrome and Opera > 12.1 */
-    -moz-animation: rightToleftFloater 1s; /* Firefox < 16 */
-    -ms-animation: rightToleftFloater 1s; /* Internet Explorer */
-    -o-animation: rightToleftFloater 1s; /* Opera < 12.1 */
-    animation: rightToleftFloater 1s;
+    -webkit-animation: rightToleftFloater 2s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: rightToleftFloater 2s; /* Firefox < 16 */
+    -ms-animation: rightToleftFloater 2s; /* Internet Explorer */
+    -o-animation: rightToleftFloater 2s; /* Opera < 12.1 */
+    animation: rightToleftFloater 2s;
   }
 }
 .bottomToTopFadeInAnimation {
@@ -69,7 +69,7 @@
 @keyframes rightToleftFloater {
   from {
     opacity: 0.4;
-    transform: translateX(30px);
+    transform: translateX(50px);
   }
   to {
     opacity: 1;

@@ -1,11 +1,15 @@
-.bg-img-light {
-  background-position: 0 100%;
+.wa-bg-img {
+  background-position: left top;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: 115% 130%;
+  /* height: 87vh; */
 }
 
-.bg-img-dark {
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-  background-size: contain;
+@media screen and (max-width: 768px), screen and (orientation: portrait) {
+  .wa-bg-img {
+    background-position: right top;
+    background-repeat: no-repeat;
+    background-size: 92% 30%;
+    /* height: 87vh; */
+  }
 }

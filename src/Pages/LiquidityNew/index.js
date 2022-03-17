@@ -13,13 +13,16 @@ import { getUserBalanceByRpc, fetchtzBTCBalance, getTokenPrices } from '../../ap
 import { loadSwapData } from '../../apis/swap/swap-v2';
 import TransactionSettings from '../../Components/TransactionSettings/TransactionSettings';
 import RemoveLiquidityNew from './RemoveLiquidityNew';
-import { tokens } from '../../constants/swapPage';
-import SwapModal from '../../Components/SwapModal/SwapModal';
+import { liquidityTokens } from '../../constants/liquidityTokens';
 import { LiquidityPositions } from './LiquidityPositions';
 import {
   getLiquidityPositionDetails,
+  getLiquidityPositionDetailsStable,
   getLpTokenBalanceForPair,
+  isTokenPairStable,
 } from '../../apis/Liquidity/Liquidity';
+import LiquidityModal from '../../Components/LiquidityModal/LiquidityModal';
+import ctez from '../../assets/images/ctez.png';
 
 const LiquidityNew = (props) => {
   const { tokenIn, setTokenIn, tokenOut, setTokenOut } = useLocationStateInLiquidity();
@@ -46,16 +49,33 @@ const LiquidityNew = (props) => {
   const [positionDetails, setPositionDetails] = useState({});
   const [isPositionAvailable, setPositionAvailable] = useState(false);
 
+  useEffect(() => {
+    console.log(tokenIn);
+    if (tokenIn.name === 'tez') {
+      setTokenOut({
+        name: 'ctez',
+        image: ctez,
+      });
+    }
+  }, [tokenIn]);
+
   useEffect(async () => {
+    const isStable = isTokenPairStable(tokenIn.name, tokenOut.name);
+
     const ress = await getLpTokenBalanceForPair(tokenIn.name, tokenOut.name, props.walletAddress);
 
     setPositionAvailable(ress.isLiquidityAvailable);
     if (ress.isLiquidityAvailable) {
-      const res = await getLiquidityPositionDetails(
-        tokenIn.name,
-        tokenOut.name,
-        props.walletAddress,
-      );
+      let res;
+      if (isStable) {
+        res = await getLiquidityPositionDetailsStable(
+          tokenIn.name,
+          tokenOut.name,
+          props.walletAddress,
+        );
+      } else {
+        res = await getLiquidityPositionDetails(tokenIn.name, tokenOut.name, props.walletAddress);
+      }
       setPositionDetails(res);
     }
   }, [tokenIn, tokenOut]);
@@ -144,6 +164,12 @@ const LiquidityNew = (props) => {
         name: token.name,
         image: token.image,
       });
+      if (token.name === 'tez') {
+        setTokenOut({
+          name: 'ctez',
+          image: ctez,
+        });
+      }
     } else {
       setTokenOut({
         name: token.name,
@@ -221,7 +247,7 @@ const LiquidityNew = (props) => {
 
     if (tokenAFromParam !== tokenBFromParam) {
       if (tokenAFromParam) {
-        tokens.map((token) => {
+        liquidityTokens.map((token) => {
           if (token.name === tokenAFromParam) {
             setTokenIn({
               name: tokenAFromParam,
@@ -232,7 +258,7 @@ const LiquidityNew = (props) => {
       }
 
       if (tokenBFromParam) {
-        tokens.map((token) => {
+        liquidityTokens.map((token) => {
           if (token.name === tokenBFromParam) {
             setTokenOut({
               name: tokenBFromParam,
@@ -263,13 +289,13 @@ const LiquidityNew = (props) => {
           </span>
         )}
       </p>
-      <div className="liq-label">{isLiquidityPosition ? 'Liquidity Positions' : 'Liquidity'}</div>
+      {/* <div className="liq-label">{isLiquidityPosition ? 'Liquidity Positions' : 'Liquidity'}</div> */}
       {!isLiquidityPosition ? (
         <Col sm={8} md={6} className="liquidity-content-container">
           <div className="">
             <Tabs
               activeKey={activeKey}
-              className="swap-container-tab"
+              className="liq-container-tab"
               onSelect={(e) => changeLiquidityType(e)}
               mountOnEnter={true}
               unmountOnExit={true}
@@ -303,7 +329,7 @@ const LiquidityNew = (props) => {
                   fetchUserWalletBalance={fetchUserWalletBalance}
                   setTokenIn={setTokenIn}
                   setTokenOut={setTokenOut}
-                  tokens={tokens}
+                  tokens={liquidityTokens}
                   loaderInButton={loaderInButton}
                   setLoaderInButton={setLoaderInButton}
                   setShowConfirmTransaction={setShowConfirmTransaction}
@@ -312,12 +338,14 @@ const LiquidityNew = (props) => {
                   setPositionAvailable={setPositionAvailable}
                   isPositionAvailable={isPositionAvailable}
                   setPositionDetails={setPositionDetails}
+                  theme={props.theme}
                   {...props}
                 />
               </Tab>
               {isPositionAvailable ? (
                 <Tab eventKey="remove" title="Remove">
                   <RemoveLiquidityNew
+                    theme={props.theme}
                     walletAddress={props.walletAddress}
                     connecthWallet={props.connecthWallet}
                     tokenIn={tokenIn}
@@ -345,7 +373,7 @@ const LiquidityNew = (props) => {
                     fetchUserWalletBalance={fetchUserWalletBalance}
                     setTokenIn={setTokenIn}
                     setTokenOut={setTokenOut}
-                    tokens={tokens}
+                    tokens={liquidityTokens}
                     loaderInButton={loaderInButton}
                     setLoaderInButton={setLoaderInButton}
                     isStableSwap={false}
@@ -373,12 +401,12 @@ const LiquidityNew = (props) => {
       ) : (
         <LiquidityPositions walletAddress={props.walletAddress} />
       )}
-      <SwapModal
+      <LiquidityModal
         show={show}
         activeTab={activeTab}
         onHide={handleClose}
         selectToken={selectToken}
-        tokens={tokens}
+        tokens={liquidityTokens}
         tokenIn={tokenIn}
         tokenOut={tokenOut}
         tokenType={tokenType}

@@ -170,7 +170,7 @@ export const swapWrappedAssets = async (
       );
 
     const batchOp = await batch.send();
-    console.log(batchOp);
+    //console.log(batchOp);
     {
       batchOp.opHash === null
         ? console.log('operation getting injected')

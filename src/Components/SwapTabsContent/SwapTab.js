@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import React, { useEffect, useMemo, useState } from 'react';
 import SwapDetails from '../SwapDetails';
 import ConfirmSwap from './ConfirmSwap';
+import { connect } from 'react-redux';
 import { swapTokens } from '../../apis/swap/swap';
 import Button from '../Ui/Buttons/Button';
 import {
@@ -13,6 +14,7 @@ import {
 import ConfirmTransaction from '../WrappedAssets/ConfirmTransaction';
 import InfoModal from '../Ui/Modals/InfoModal';
 import Loader from '../loader';
+import { setLoader } from '../../redux/slices/settings/settings.slice';
 
 const SwapTab = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -132,6 +134,7 @@ const SwapTab = (props) => {
     if (status) {
       props.setLoading(false);
       props.handleLoaderMessage('success', 'Transaction confirmed');
+      props.setLoader(false);
       props.setShowConfirmSwap(false);
       props.setShowConfirmTransaction(false);
       //props.setHideContent('');
@@ -143,6 +146,7 @@ const SwapTab = (props) => {
     } else {
       props.setLoading(false);
       props.handleLoaderMessage('error', 'Transaction failed');
+      props.setLoader(false);
       props.setShowConfirmSwap(false);
       props.setShowConfirmTransaction(false);
       //props.setHideContent('');
@@ -154,6 +158,7 @@ const SwapTab = (props) => {
 
   const confirmSwapToken = async () => {
     props.setLoading(true);
+    props.setLoader(true);
     props.setLoaderInButton(true);
     props.setShowConfirmSwap(false);
     props.setShowConfirmTransaction(true);
@@ -201,7 +206,13 @@ const SwapTab = (props) => {
       });
     }
   };
-
+  const InfoMessage = useMemo(() => {
+    return (
+      <span>
+        Swap {firstAmount} {props.tokenIn.name} for {secondAmount} {props.tokenOut.name}
+      </span>
+    );
+  }, [firstAmount, secondAmount]);
   const onClickAmount = () => {
     const value =
       props.userBalances[props.tokenIn.name].toLocaleString('en-US', {
@@ -471,6 +482,7 @@ const SwapTab = (props) => {
         tokenIn={props.tokenIn}
         firstTokenAmount={firstTokenAmount}
         tokenOut={props.tokenOut}
+        theme={props.theme}
         slippage={props.slippage}
         confirmSwapToken={confirmSwapToken}
         onHide={props.handleClose}
@@ -482,6 +494,7 @@ const SwapTab = (props) => {
         open={showTransactionSubmitModal}
         firstTokenAmount={firstAmount}
         secondTokenAmount={secondAmount}
+        InfoMessage={InfoMessage}
         tokenIn={props.tokenIn.name}
         tokenOut={props.tokenOut.name}
         theme={props.theme}
@@ -503,12 +516,19 @@ const SwapTab = (props) => {
     </>
   );
 };
+const mapStateToProps = (state) => ({
+  loader: state.settings.loader,
+});
 
+const mapDispatchToProps = (dispatch) => ({
+  setLoader: (value) => dispatch(setLoader(value)),
+});
 SwapTab.propTypes = {
   changeTokenLocation: PropTypes.any,
   computedOutDetails: PropTypes.any,
   connecthWallet: PropTypes.any,
   fetchUserWalletBalance: PropTypes.any,
+  setLoader: PropTypes.func,
   // firstTokenAmount: PropTypes.any,
   getTokenPrice: PropTypes.any,
   handleClose: PropTypes.any,
@@ -546,4 +566,4 @@ SwapTab.propTypes = {
   theme: PropTypes.any,
 };
 
-export default SwapTab;
+export default connect(mapStateToProps, mapDispatchToProps)(SwapTab);

@@ -11,8 +11,6 @@ import {
 } from '../../apis/swap/swap';
 import { getUserBalanceByRpc, getReferenceToken } from '../../apis/WrappedAssets/WrappedAssets';
 import config from '../../config/config';
-
-import TransactionSettings from '../../Components/TransactionSettings/TransactionSettings';
 import WrappedTokenModal from '../../Components/WrappedAssets/WrappedTokens';
 
 import { Tab, Tabs } from 'react-bootstrap';
@@ -236,10 +234,10 @@ const SwapWA = (props) => {
       tokenOut_amount: '',
     });
   };
-  const [showRecepient, setShowRecepient] = useState(false);
-  const handleRecepient = (elem) => {
-    setRecepient(elem);
-  };
+  // const [showRecepient, setShowRecepient] = useState(false);
+  // const handleRecepient = (elem) => {
+  //   setRecepient(elem);
+  // };
 
   // const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   // const [transactionId, setTransactionId] = useState('');
@@ -312,7 +310,6 @@ const SwapWA = (props) => {
               setLoaderMessage={setLoaderMessage}
               resetAllValues={resetAllValues}
               handleOutTokenInput={handleOutTokenInput}
-              showRecepient={showRecepient}
               setSecondTokenAmount={setSecondTokenAmount}
               fetchUserWalletBalance={fetchUserWalletBalance}
               loaderInButton={loaderInButton}
@@ -324,7 +321,7 @@ const SwapWA = (props) => {
           </Tab>
         </Tabs>
 
-        <TransactionSettings
+        {/* <TransactionSettings
           recepient={recepient}
           slippage={slippage}
           setSlippage={setSlippage}
@@ -332,7 +329,7 @@ const SwapWA = (props) => {
           walletAddress={props.walletAddress}
           handleRecepient={handleRecepient}
           setShowRecepient={setShowRecepient}
-        />
+        /> */}
       </div>
       <WrappedTokenModal
         show={show}

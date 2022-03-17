@@ -6,6 +6,7 @@ import Button from '../../Components/Ui/Buttons/Button';
 import { Link, createSearchParams } from 'react-router-dom';
 import {
   getLiquidityPositionDetails,
+  getLiquidityPositionDetailsStable,
   getLiquidityPositionsForUser,
 } from '../../apis/Liquidity/Liquidity';
 
@@ -17,25 +18,42 @@ export const LiquidityPositions = (props) => {
 
   useEffect(async () => {
     const res = await getLiquidityPositionsForUser(props.walletAddress);
+    console.log(res);
     setPositions(res.data);
   }, [props]);
 
-  const openManage = async (value, index, flag) => {
-    setOpen(flag);
+  const openManage = async (value, index, flag, isStable) => {
+    // setOpen(flag);
+
+    if (index !== indexPosition) {
+      setOpen(true);
+    } else {
+      setOpen(flag);
+    }
     setIndex(index);
-    const ress = await getLiquidityPositionDetails(
-      value.tokenA.name,
-      value.tokenB.name,
-      props.walletAddress,
-    );
+    let ress = {};
+    if (isStable) {
+      ress = await getLiquidityPositionDetailsStable(
+        value.tokenA.name,
+        value.tokenB.name,
+        props.walletAddress,
+      );
+      console.log(ress);
+    } else {
+      ress = await getLiquidityPositionDetails(
+        value.tokenA.name,
+        value.tokenB.name,
+        props.walletAddress,
+      );
+    }
 
     setPositionDetails(ress.data);
   };
-
+  console.log(positions);
   return (
     <>
       {positions.length > 0 ? (
-        positions.map((position, index) => {
+        positions?.map((position, index) => {
           return (
             <>
               <div
@@ -50,19 +68,24 @@ export const LiquidityPositions = (props) => {
                   <img width="44" height="44" className="ml-1 mr-3" src={position.tokenB.image} />
                   {position.tokenA.name} / {position.tokenB.name}
                 </div>
-                <div className="lp-fee">
-                  <span className="lp-fee-value mr-1">{position.isStable ? '0.10' : '0.25'}</span>{' '}
-                  LP fee
-                  {position.isStable && (
-                    <>
-                      <span className="divider-lq mx-2"></span>
-                      <img src={StableSwap} />
-                    </>
-                  )}
-                </div>
-                <div className="manage-label" onClick={() => openManage(position, index, !isOpen)}>
-                  Manage
-                  <span className="material-icons-round manage-arrow ">keyboard_arrow_down</span>
+                <div className="d-flex">
+                  <div className="lp-fee">
+                    <span className="lp-fee-value mr-1">{position.isStable ? '0.10' : '0.25'}</span>{' '}
+                    LP fee
+                    {position.isStable && (
+                      <>
+                        <span className="divider-lq mx-2"></span>
+                        <img src={StableSwap} />
+                      </>
+                    )}
+                  </div>
+                  <div
+                    className="manage-label"
+                    onClick={() => openManage(position, index, !isOpen, position.isStable)}
+                  >
+                    Manage
+                    <span className="material-icons-round manage-arrow ">keyboard_arrow_down</span>
+                  </div>
                 </div>
               </div>
               {isOpen && indexPosition === index && (
@@ -110,6 +133,7 @@ export const LiquidityPositions = (props) => {
                           tokenB: position.tokenB.name,
                         })}`,
                       }}
+                      className="w-100"
                     >
                       <Button color={'primaryOutline'} className={'mr-3 w-100  '}>
                         Remove
@@ -124,6 +148,7 @@ export const LiquidityPositions = (props) => {
                           tokenB: position.tokenB.name,
                         })}`,
                       }}
+                      className="w-100"
                     >
                       <Button color={'primary'} className={' w-100 ml-3 '}>
                         Add
