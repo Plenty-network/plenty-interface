@@ -1,8 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
 import styled from 'styled-components';
 import lineBg from './assets/images/banner-bg.png';
-import waBglight from './assets/images/WrappedAssets/ic_cube-light.svg';
-import waBg from './assets/images/WrappedAssets/ic_cube-dark_1200912.svg';
+import waBglight from './assets/images/WrappedAssets/ic_light-1440.svg';
+import waBg from './assets/images/WrappedAssets/ic_dark-1440.svg';
 
 export const lightTheme = {
   name: 'light',
