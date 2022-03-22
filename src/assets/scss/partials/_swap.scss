@@ -168,6 +168,9 @@
     font-size: 16px;
     line-height: 23px;
     padding-bottom: 12px;
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-right: 40px;
     color: var(--theme-text-1);
     border: 0 !important;
     background-color: transparent !important;
@@ -179,6 +182,8 @@
     border-bottom: 3px solid var(--theme-primary-button-bg) !important;
     color: var(--theme-primary-button-bg);
     padding-bottom: 12px;
+    padding-right: 0px;
+    padding-left: 0px;
   }
 }
 .remove-border-bottom {
@@ -312,6 +317,11 @@
   border-right: 0.863044px solid var(--theme-border-global);
   width: 213px;
   height: 87px;
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    border-right: 0px;
+    width: auto;
+    height: 73px;
+  }
 }
 .remove-lq-input {
   text-align: right !important;
@@ -343,30 +353,9 @@
   width: 212px;
   border-top-left-radius: 16px;
   border-bottom-left-radius: 16px;
-  // background-color: var(--theme-bg-4);
-  // box-shadow: 0px 10px 30px rgba(138, 149, 158, 0.09);
-  // font-style: normal;
-  // font-weight: 500;
-  // font-size: 14px;
-  // line-height: 18px;
-  // color: var(--theme-text-1);
-  // border-radius: 6px;
-  // padding: 8px 12px;
-  // cursor: pointer;
-  // border: 0;
-  // &.not-selected {
-  //   padding: 10px 6px;
-
-  //   //color: var(--theme-primary-gradient-1);
-  //   //
-  //   //&:hover {
-  //   //  opacity: 85%;
-  //   //}
-  // }
-  // > span {
-  //   font-size: 16px;
-  //   vertical-align: middle;
-  // }
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    background: transparent;
+  }
 }
 
 .button-logo {
@@ -631,6 +620,17 @@
 .input-lq {
   width: 532px;
   padding-left: 24px;
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    width: 358px;
+    margin: 8px 12px 24px;
+    padding-left: 16px;
+    padding-right: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border: 0.803667px solid var(--theme-border-global);
+    border-radius: 16px;
+    background: rgba(138, 149, 158, 0.05);
+  }
 }
 .input-lq-remove {
   width: 487px;
@@ -839,11 +839,16 @@
   background: var(--theme-lq-details-bg);
   border: 1px solid var(--theme-border-global);
   box-sizing: border-box;
-  border-radius: 8px;
+  border-radius: 16px;
   height: 68px;
   margin-top: 20px;
   padding-left: 20px;
   padding-right: 20px;
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    height: auto;
+    padding: 16px 10px;
+    margin-top: 16px;
+  }
 }
 .your-positions {
   margin-top: 20px;
@@ -1437,6 +1442,10 @@ input:checked {
   margin: 24px auto;
   border: 1px solid var(--theme-gradient-border);
   box-shadow: var(--theme-swap-boxshadow);
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    max-width: 414px;
+    padding: 24px 16px;
+  }
 }
 .input-label {
   font-size: 12px;
