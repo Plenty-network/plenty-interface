@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import StableSwap from '../../assets/images/lq-stableswap.svg';
+import StableSwapDark from '../../assets/images/lq-stableswap-dark.svg';
 import Button from '../../Components/Ui/Buttons/Button';
 import { Link, createSearchParams } from 'react-router-dom';
 import {
@@ -18,7 +19,7 @@ export const LiquidityPositions = (props) => {
 
   useEffect(async () => {
     const res = await getLiquidityPositionsForUser(props.walletAddress);
-    console.log(res);
+
     setPositions(res.data);
   }, [props]);
 
@@ -38,7 +39,6 @@ export const LiquidityPositions = (props) => {
         value.tokenB.name,
         props.walletAddress,
       );
-      console.log(ress);
     } else {
       ress = await getLiquidityPositionDetails(
         value.tokenA.name,
@@ -49,7 +49,7 @@ export const LiquidityPositions = (props) => {
 
     setPositionDetails(ress.data);
   };
-  console.log(positions);
+
   return (
     <>
       {positions.length > 0 ? (
@@ -75,7 +75,7 @@ export const LiquidityPositions = (props) => {
                     {position.isStable && (
                       <>
                         <span className="divider-lq mx-2"></span>
-                        <img src={StableSwap} />
+                        <img src={props.theme === 'light' ? StableSwap : StableSwapDark} />
                       </>
                     )}
                   </div>
@@ -180,4 +180,5 @@ export const LiquidityPositions = (props) => {
 
 LiquidityPositions.propTypes = {
   walletAddress: PropTypes.any,
+  theme: PropTypes.any,
 };

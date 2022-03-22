@@ -26,8 +26,7 @@ const Header = (props) => {
   // const tokenOut = useSelector((state) => state.settings.tokenOut);
   // const opertaionId = useSelector((state) => state.settings.opertaionId);
   // const loaderMessage = useSelector((state) => state.settings.loaderMessage);
-  // console.log(firstTokenAmount);
-  // console.log(secondTokenAmount);
+
   // const loaderMessage = {
   //   type: 'success',
   //   message: 'success',

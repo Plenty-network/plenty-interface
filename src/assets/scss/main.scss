@@ -159,13 +159,15 @@ h1 {
 }
 
 .tooltip-inner {
-  background: var(--theme-card-bg);
-  color: var(--theme-text-1);
+  background: black;
+  color: white;
   opacity: 1;
 }
 
 .tooltip > .arrow {
-  opacity: 0;
+  opacity: 1;
+  top: 42px;
+  left: 20px;
 }
 
 .shimmer {

@@ -176,7 +176,6 @@ const SwapTab = (props) => {
         props.setShowConfirmSwap,
         resetVal,
         props.setShowConfirmTransaction,
-        setShowTransactionSubmitModal,
       ).then((swapResp) => {
         props.setShowConfirmSwap(false);
         props.setShowConfirmTransaction(false);
@@ -195,7 +194,6 @@ const SwapTab = (props) => {
         props.setShowConfirmSwap,
         resetVal,
         props.setShowConfirmTransaction,
-        setShowTransactionSubmitModal,
       ).then((swapResp) => {
         props.setShowConfirmSwap(false);
         props.setShowConfirmTransaction(false);

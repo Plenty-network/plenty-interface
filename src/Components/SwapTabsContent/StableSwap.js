@@ -216,7 +216,6 @@ const StableSwap = (props) => {
         props.setShowConfirmSwap,
         resetValues,
         props.setShowConfirmTransaction,
-        setShowTransactionSubmitModal,
       ).then((response) => {
         handleSwapResponse(response.success);
         props.setShowConfirmTransaction(false);
@@ -235,7 +234,6 @@ const StableSwap = (props) => {
         props.setShowConfirmSwap,
         resetValues,
         props.setShowConfirmTransaction,
-        setShowTransactionSubmitModal,
       ).then((response) => {
         props.setShowConfirmSwap(false);
         props.setShowConfirmTransaction(false);

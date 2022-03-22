@@ -113,7 +113,6 @@ export const swapWrappedAssets = async (
   setShowConfirmSwap,
   resetAllValues,
   setShowConfirmTransaction,
-  setShowTransactionSubmitModal,
 ) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
@@ -180,9 +179,7 @@ export const swapWrappedAssets = async (
     resetAllValues();
     setShowConfirmSwap(false);
     transactionSubmitModal(batchOp.opHash);
-    setTimeout(() => {
-      setShowTransactionSubmitModal(false);
-    }, 5000);
+
     await batchOp.confirmation();
 
     return {

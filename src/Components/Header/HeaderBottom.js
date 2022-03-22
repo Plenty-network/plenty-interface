@@ -233,6 +233,21 @@ const HeaderBottom = (props) => {
                     </Link>
                   </div>
                 </Col>
+                <Col xl={5} lg={6} xs={12}>
+                  <div className="topics">
+                    <Link to="/liquidity" className="text-decoration-none">
+                      <p className="heading">LIQUIDTY</p>
+                      <div className="flex para ">
+                        <div className="parainside">
+                          Lorem Ipsum is simply dummy text of the printing and typesetting.
+                        </div>
+                        <div>
+                          <span className=" material-icons-round arrowforward">arrow_forward</span>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                </Col>
               </Row>
             )}
             {props.selectedHeader === HEADER_MODAL.VOTE && (

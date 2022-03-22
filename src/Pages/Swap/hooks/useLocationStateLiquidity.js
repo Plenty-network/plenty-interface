@@ -18,24 +18,29 @@ export const useLocationStateInLiquidity = () => {
     name: 'PLENTY',
     image: plenty,
   });
-
+  useEffect(() => {
+    if (tokenIn.name === 'tez') {
+      setTokenOut({
+        name: 'ctez',
+        image: ctez,
+      });
+    }
+  }, [tokenIn]);
   const AMMExists = useMemo(() => {
-    return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
+    if (tokenIn.name === 'tez')
+      return !!config.STABLESWAP[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
+    else return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
   }, [tokenIn, tokenOut]);
 
   const activeTab = useMemo(() => {
-    if (location.pathname === '/swap') {
-      return 'swap';
+    if (location.pathname === '/liquidity') {
+      return 'liquidity';
     }
 
-    return 'liquidity';
+    return 'liquidityPositions';
   }, [location.pathname]);
 
   const paramKeys = useMemo(() => {
-    if (activeTab === 'swap') {
-      return { a: 'from', b: 'to' };
-    }
-
     return { a: 'tokenA', b: 'tokenB' };
   }, [activeTab]);
 

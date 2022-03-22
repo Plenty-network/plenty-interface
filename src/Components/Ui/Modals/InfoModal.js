@@ -16,7 +16,7 @@ const InfoModal = (props) => {
           container: container.current,
           path: 'animation-light.json',
           renderer: 'svg',
-          loop: true,
+          loop: false,
           autoplay: true,
           name: 'Demo Animation',
         })
@@ -24,7 +24,7 @@ const InfoModal = (props) => {
           container: container.current,
           path: 'animation-dark.json',
           renderer: 'svg',
-          loop: true,
+          loop: false,
           autoplay: true,
           name: 'Demo Animation',
         });

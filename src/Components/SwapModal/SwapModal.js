@@ -5,7 +5,6 @@ import { BsSearch } from 'react-icons/bs';
 import config from '../../config/config';
 
 const SwapModal = (props) => {
-  console.log(props.tokens);
   const [tokensToShow, setTokensToShow] = useState([]);
 
   const doesPairExist = useCallback(

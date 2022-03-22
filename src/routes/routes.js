@@ -88,6 +88,14 @@ const MyRoutes = (props) => {
               }
             />
             <Route
+              path={'/liquidityPositions'}
+              element={
+                <OtherPages {...otherPageProps}>
+                  <LiquidityNew walletAddress={props.userAddress} theme={otherPageProps.theme} />
+                </OtherPages>
+              }
+            />
+            <Route
               path={'/Stableswap/*'}
               element={
                 <OtherPages {...otherPageProps}>

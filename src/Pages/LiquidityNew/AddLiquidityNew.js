@@ -8,14 +8,16 @@ import {
   getExchangeRate,
   loadSwapDataStable,
 } from '../../apis/stableswap/stableswap';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import React, { useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
-import InfoIcon from '../../assets/images/SwapModal/info.svg';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import ConfirmAddLiquidity from '../../Components/SwapTabsContent/LiquidityTabs/ConfirmAddLiquidity';
 import Button from '../../Components/Ui/Buttons/Button';
 import { setLoader } from '../../redux/slices/settings/settings.slice';
+import LiquidityInfo from '../../Components/SwapTabsContent/LiquidityTabs/LiquidityInfo';
+import { isTokenPairStable } from '../../apis/Liquidity/Liquidity';
 
 const AddLiquidityNew = (props) => {
   const [estimatedTokenAmout, setEstimatedTokenAmout] = useState('');
@@ -42,7 +44,7 @@ const AddLiquidityNew = (props) => {
     setcteztoxtz(res.tezexchangeRate.toFixed(6));
   };
   useEffect(() => {
-    if (props.isStableSwap) {
+    if (isTokenPairStable(props.tokenIn.name, props.tokenOut.name)) {
       fetchOutputData();
       getSwapData();
     }
@@ -309,14 +311,15 @@ const AddLiquidityNew = (props) => {
         </Button>
       );
     } else {
-      swapContentButton = props.loaderInButton ? (
-        <Button
-          onClick={() => null}
-          color={'primary'}
-          loading={true}
-          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
-        ></Button>
-      ) : (
+      // swapContentButton = props.loaderInButton ? (
+      //   <Button
+      //     onClick={() => null}
+      //     color={'primary'}
+      //     loading={true}
+      //     className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+      //   ></Button>
+      // ) : (
+      swapContentButton = (
         <Button
           onClick={() => setErrorMessageOnUI('Enter an amount to add liqiidity')}
           color={'disabled'}
@@ -353,9 +356,12 @@ const AddLiquidityNew = (props) => {
             </button>
           </div>
           <div className="d-flex  align-items-center input-lq">
-            <div className="max-button" onClick={onClickAmount}>
-              MAX
-            </div>
+            {props.walletAddress ? (
+              <div className="max-button" onClick={onClickAmount}>
+                MAX
+              </div>
+            ) : null}
+
             <div className="input-width">
               {props.swapData.success && props.userBalances[props.tokenIn.name] ? (
                 <input
@@ -388,18 +394,29 @@ const AddLiquidityNew = (props) => {
                   : '0.00'}
               </p>
             </div>
-            <div className="balance-lq ml-auto">
-              {props.walletAddress && props.tokenIn.name ? (
-                <p className="bal">
-                  Balance:{' '}
-                  {props.userBalances[props.tokenIn.name] >= 0 ? (
-                    props.userBalances[props.tokenIn.name].toFixed(2)
-                  ) : (
-                    <div className="shimmer">0.00</div>
-                  )}{' '}
-                </p>
-              ) : null}
-            </div>
+            {props.walletAddress && props.tokenIn.name ? (
+              <OverlayTrigger
+                placement="top"
+                overlay={
+                  <Tooltip id="button-tooltip" {...props}>
+                    {props.userBalances[props.tokenIn.name]
+                      ? props.userBalances[props.tokenIn.name]
+                      : 0.0}
+                  </Tooltip>
+                }
+              >
+                <div className="balance-lq ml-auto">
+                  <p className="bal">
+                    Balance:{' '}
+                    {props.userBalances[props.tokenIn.name] >= 0 ? (
+                      props.userBalances[props.tokenIn.name].toFixed(2)
+                    ) : (
+                      <div className="shimmer">0.00</div>
+                    )}{' '}
+                  </p>
+                </div>
+              </OverlayTrigger>
+            ) : null}
           </div>
         </div>
       </div>
@@ -450,7 +467,11 @@ const AddLiquidityNew = (props) => {
           </div>
 
           <div className="d-flex  align-items-center input-lq">
-            <div className="max-button">MAX</div>
+            {props.walletAddress ? (
+              <div className="max-button" onClick={onClickAmount}>
+                MAX
+              </div>
+            ) : null}
             <div className="input-width">
               {props.swapData.success ? (
                 <input
@@ -482,40 +503,46 @@ const AddLiquidityNew = (props) => {
                   : '0.00'} */}
               </p>
             </div>
-            <div className="balance-lq ml-auto">
-              {props.walletAddress && props.tokenOut.name ? (
-                <p className="bal">
-                  Balance:{' '}
-                  {props.userBalances[props.tokenOut.name] >= 0 ? (
-                    props.userBalances[props.tokenOut.name].toFixed(2)
-                  ) : (
-                    <div className="shimmer">0.00</div>
-                  )}{' '}
-                </p>
-              ) : null}
-            </div>
+            {props.walletAddress && props.tokenOut.name ? (
+              <OverlayTrigger
+                placement="top"
+                overlay={
+                  <Tooltip id="button-tooltip" {...props}>
+                    {props.userBalances[props.tokenOut.name]
+                      ? props.userBalances[props.tokenOut.name]
+                      : 0.0}
+                  </Tooltip>
+                }
+              >
+                <div className="balance-lq ml-auto">
+                  <p className="bal">
+                    Balance:{' '}
+                    {props.userBalances[props.tokenOut.name] >= 0 ? (
+                      props.userBalances[props.tokenOut.name].toFixed(2)
+                    ) : (
+                      <div className="shimmer">0.00</div>
+                    )}{' '}
+                  </p>
+                </div>
+              </OverlayTrigger>
+            ) : null}
           </div>
         </div>
       </div>
       {errorMessage && <span className="error-message">{message}</span>}
-      <div className="lq-details d-flex justify-content-between align-items-center">
-        <div>
-          <img src={InfoIcon} />
-        </div>
-        <div className="details">
-          0.00949454 <span className="content">plenty per ctez</span>
-        </div>
-        <div className="details">
-          105.324 <span className="content">ctez per plenty</span>
-        </div>
-        <div className="details">
-          <span className="content">Share of pool:</span> 0%
-        </div>
-        <div className="details">
-          0.25% <span className="content">LP fee</span>
-        </div>
-      </div>
-      {/* <div className="swap-detail-wrapper bg-themed-light">
+      <LiquidityInfo
+        tokenIn={props.tokenIn}
+        tokenOut={props.tokenOut}
+        lpTokenAmount={lpTokenAmount}
+        swapData={props.swapData}
+        poolShare={poolShare}
+        xtztoctez={xtztoctez}
+        cteztoxtz={cteztoxtz}
+        isStable={isTokenPairStable(props.tokenIn.name, props.tokenOut.name)}
+        theme={props.theme}
+      />
+
+      {/* <div className="swap-detail-wrapper bg-themed-light"> }
         <div className="add-liquidity-tip">
           When you add liquidity, you will receive pool tokens representing your position. These
           tokens automatically earn fees proportional to your share of the pool, and can be redeemed

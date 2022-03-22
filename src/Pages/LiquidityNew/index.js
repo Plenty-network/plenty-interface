@@ -11,6 +11,7 @@ import config from '../../config/config';
 import { useLocationStateInLiquidity } from '../Swap/hooks/useLocationStateLiquidity';
 import { getUserBalanceByRpc, fetchtzBTCBalance, getTokenPrices } from '../../apis/swap/swap';
 import { loadSwapData } from '../../apis/swap/swap-v2';
+
 import TransactionSettings from '../../Components/TransactionSettings/TransactionSettings';
 import RemoveLiquidityNew from './RemoveLiquidityNew';
 import { liquidityTokens } from '../../constants/liquidityTokens';
@@ -23,9 +24,12 @@ import {
 } from '../../apis/Liquidity/Liquidity';
 import LiquidityModal from '../../Components/LiquidityModal/LiquidityModal';
 import ctez from '../../assets/images/ctez.png';
+import { getUserBalanceByRpcStable, loadSwapDataStable } from '../../apis/stableswap/stableswap';
 
 const LiquidityNew = (props) => {
-  const { tokenIn, setTokenIn, tokenOut, setTokenOut } = useLocationStateInLiquidity();
+  const { tokenIn, setTokenIn, tokenOut, setTokenOut, setActiveTab } =
+    useLocationStateInLiquidity();
+
   const [searchQuery, setSearchQuery] = useState('');
   const [swapData, setSwapData] = useState({});
   const [tokenType, setTokenType] = useState('tokenIn');
@@ -44,13 +48,14 @@ const LiquidityNew = (props) => {
   const activeTab = 'liquidity';
   const location = useLocation();
   const navigate = useNavigate();
+  const { pathname } = location;
+  const splitLocation = pathname.split('/');
   const [searchParams] = useSearchParams();
   const [isLiquidityPosition, setLiquidityPosition] = useState(false);
   const [positionDetails, setPositionDetails] = useState({});
   const [isPositionAvailable, setPositionAvailable] = useState(false);
 
   useEffect(() => {
-    console.log(tokenIn);
     if (tokenIn.name === 'tez') {
       setTokenOut({
         name: 'ctez',
@@ -78,7 +83,7 @@ const LiquidityNew = (props) => {
       }
       setPositionDetails(res);
     }
-  }, [tokenIn, tokenOut]);
+  }, [tokenIn, tokenOut, props]);
 
   useEffect(() => {
     //setLoading(true);
@@ -116,38 +121,58 @@ const LiquidityNew = (props) => {
 
   useEffect(() => {
     const updateBalance = async () => {
-      setTokenContractInstances({});
-      const userBalancesCopy = { ...userBalances };
-      const tzBTCName = 'tzBTC';
-      const balancePromises = [];
-      if (!userBalancesCopy[tokenIn.name]) {
-        tokenIn.name === tzBTCName
-          ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
-          : balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
-      }
-      if (!userBalancesCopy[tokenOut.name]) {
-        tokenIn.name === tzBTCName
-          ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
-          : balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));
-      }
-      if (config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]) {
-        const lpToken =
-          config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
+      if (props.walletAddress) {
+        setTokenContractInstances({});
+        const userBalancesCopy = { ...userBalances };
+        const tzBTCName = 'tzBTC';
+        const balancePromises = [];
+        if (!userBalancesCopy[tokenIn.name]) {
+          tokenIn.name === tzBTCName
+            ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
+            : balancePromises.push(
+                isTokenPairStable(tokenIn.name, tokenOut.name)
+                  ? getUserBalanceByRpcStable(tokenIn.name, props.walletAddress)
+                  : getUserBalanceByRpc(tokenIn.name, props.walletAddress),
+              );
+        }
+        if (!userBalancesCopy[tokenOut.name]) {
+          tokenOut.name === tzBTCName
+            ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
+            : balancePromises.push(
+                isTokenPairStable(tokenIn.name, tokenOut.name)
+                  ? getUserBalanceByRpcStable(tokenOut.name, props.walletAddress)
+                  : getUserBalanceByRpc(tokenOut.name, props.walletAddress),
+              );
+        }
+        if (
+          isTokenPairStable(tokenIn.name, tokenOut.name)
+            ? config.STABLESWAP[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]
+            : config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]
+        ) {
+          const lpToken = isTokenPairStable(tokenIn.name, tokenOut.name)
+            ? config.STABLESWAP[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]
+                .liquidityToken
+            : config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
 
-        balancePromises.push(getUserBalanceByRpc(lpToken, props.walletAddress));
-      }
-      const balanceResponse = await Promise.all(balancePromises);
+          balancePromises.push(
+            isTokenPairStable(tokenIn.name, tokenOut.name)
+              ? getUserBalanceByRpcStable(lpToken, props.walletAddress)
+              : getUserBalanceByRpc(lpToken, props.walletAddress),
+          );
+        }
+        const balanceResponse = await Promise.all(balancePromises);
 
-      setUserBalances((prev) => ({
-        ...prev,
-        ...balanceResponse.reduce(
-          (acc, cur) => ({
-            ...acc,
-            [cur.identifier]: cur.balance,
-          }),
-          {},
-        ),
-      }));
+        setUserBalances((prev) => ({
+          ...prev,
+          ...balanceResponse.reduce(
+            (acc, cur) => ({
+              ...acc,
+              [cur.identifier]: cur.balance,
+            }),
+            {},
+          ),
+        }));
+      }
     };
     updateBalance();
   }, [tokenIn, tokenOut, props]);
@@ -185,15 +210,25 @@ const LiquidityNew = (props) => {
         Object.prototype.hasOwnProperty.call(tokenIn, 'name') &&
         Object.prototype.hasOwnProperty.call(tokenOut, 'name')
       ) {
-        const pairExists = !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
+        const pairExists = isTokenPairStable(tokenIn.name, tokenOut.name)
+          ? !!config.STABLESWAP[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]
+          : !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
         if (pairExists) {
-          loadSwapData(tokenIn.name, tokenOut.name).then((data) => {
-            if (data.success) {
-              setSwapData(data);
-              //setLoading(false);
-              setLoaderInButton(false);
-            }
-          });
+          isTokenPairStable(tokenIn.name, tokenOut.name)
+            ? loadSwapDataStable(tokenIn.name, tokenOut.name).then((data) => {
+                if (data.success) {
+                  setSwapData(data);
+                  //setLoading(false);
+                  setLoaderInButton(false);
+                }
+              })
+            : loadSwapData(tokenIn.name, tokenOut.name).then((data) => {
+                if (data.success) {
+                  setSwapData(data);
+                  //setLoading(false);
+                  setLoaderInButton(false);
+                }
+              });
         }
       }
     }
@@ -239,7 +274,14 @@ const LiquidityNew = (props) => {
   };
   const redirectLiquidityPositions = (value) => {
     setLiquidityPosition(value);
+
+    value ? setActiveTab('liquidityPositions') : setActiveTab('liquidity');
   };
+  useEffect(() => {
+    splitLocation[1] === 'liquidityPositions'
+      ? setLiquidityPosition(true)
+      : setLiquidityPosition(false);
+  }, [splitLocation[1]]);
 
   useEffect(() => {
     const tokenAFromParam = searchParams.get('tokenA');
@@ -289,6 +331,7 @@ const LiquidityNew = (props) => {
           </span>
         )}
       </p>
+      {isLiquidityPosition && <div className="liq-label">Liquidity Positions</div>}
       {/* <div className="liq-label">{isLiquidityPosition ? 'Liquidity Positions' : 'Liquidity'}</div> */}
       {!isLiquidityPosition ? (
         <Col sm={8} md={6} className="liquidity-content-container">
@@ -399,7 +442,7 @@ const LiquidityNew = (props) => {
           </div>
         </Col>
       ) : (
-        <LiquidityPositions walletAddress={props.walletAddress} />
+        <LiquidityPositions walletAddress={props.walletAddress} theme={props.theme} />
       )}
       <LiquidityModal
         show={show}

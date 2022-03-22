@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import React from 'react';
 import { Col, Container } from 'react-bootstrap';
 import FooterWA from '../../assets/images/footerWA.svg';
 import FooterWADark from '../../assets/images/footerWAdark.svg';
@@ -6,16 +7,10 @@ import '../../assets/scss/animation.scss';
 import SwapWA from './SwapWA';
 import '../../assets/scss/partials/_wrappedAssets.scss';
 import { WrappedAssetsGradientDiv } from '../../themes';
-import useDivHeight from './hooks/useDivHeight';
 
 const WrappedAssets = (props) => {
-  const divHeight = useDivHeight();
-
   return (
-    <WrappedAssetsGradientDiv
-      className={'flex flex-grow-1 wa-bg-img '}
-      style={{ height: divHeight }}
-    >
+    <WrappedAssetsGradientDiv className={'flex flex-grow-1 bg-img-light '}>
       <Container fluid className="removing-padding">
         <Col sm={8} md={6} className="swap-content-section wrapped-assets-margin-top">
           <SwapWA {...props} />
@@ -27,7 +22,7 @@ const WrappedAssets = (props) => {
             <div className="ml-3">
               <span className="bottom-label">Swap Wrapped Assets </span>
               <p className="bottom-desc">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                Lorem Ipsum is simply dummy text of the printing and typesetting.
               </p>
 
               <>
@@ -40,6 +35,7 @@ const WrappedAssets = (props) => {
                   >
                     <span className="learn-more" style={{ cursor: 'pointer' }}>
                       Learn More
+                      <span className="material-icons-round launch-icon-flash">launch</span>
                     </span>
                   </a>
                 </span>

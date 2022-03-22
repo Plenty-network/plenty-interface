@@ -24,6 +24,7 @@
   --theme-bg-3: #fafbfc;
   --theme-bg-4: #ffffff;
   --theme-border: #f1f1f1;
+  --theme-border-global: rgba(0, 0, 0, 0.08);
   --theme-border-light: #d5d5d5;
   --theme-default-btn: #5c0fae;
   --theme-plenty-badge-bg: rgba(92, 15, 174, 0.16);
@@ -99,6 +100,20 @@
   --theme-flash-border: #b0b7c3;
   --theme-floater-text: #333333;
   --theme-nav-link-border: #f1f1f1;
+  --theme-input-bg-global: #f9fafa;
+  --theme-balance-border: #b0b7c3;
+  --theme-balance-text-color: #a4aebf;
+  --theme-lq-details-bg: #ffffff;
+  --theme-lq-details-individual-bg: #f9fafa;
+  --theme-lq-details-content: rgba(51, 51, 51, 0.6);
+  --theme-info-icon: #b0b7c3;
+  --theme-lp-pair-bg: rgba(98, 2, 239, 0.04);
+  --theme-lp-pair-text: rgba(51, 51, 51, 0.8);
+  --theme-share-pool-bg: rgba(98, 2, 239, 0.04);
+  --theme-confirm-supply-text: #505e79;
+  --theme-remove-lq: #ffffff;
+  --theme-your-position: #ffffff;
+  --theme-details-border-left: #f3f3f3;
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -127,6 +142,7 @@
   --theme-bg-3: #fafbfc; // TODO find
   --theme-bg-4: #343052;
   --theme-border: #4e576c;
+  --theme-border-global: rgba(78, 87, 108, 0.4);
   --theme-border-light: #6a7695;
   --theme-default-btn: #ffffff;
   --theme-plenty-badge-bg: rgba(208, 189, 230, 0.2);
@@ -208,6 +224,20 @@
   --theme-flash-border: #4e5d78;
   --theme-floater-text: #ffffff;
   --theme-nav-link-border: rgba(255, 255, 255, 0.15);
+  --theme-input-bg-global: #211c49;
+  --theme-balance-border: rgba(176, 183, 195, 0.5);
+  --theme-balance-text-color: rgba(176, 183, 195, 0.5);
+  --theme-lq-details-bg: #221f43;
+  --theme-lq-details-individual-bg: #2d2a51;
+  --theme-lq-details-content: rgba(138, 148, 166, 0.6);
+  --theme-info-icon: #ccd2e3;
+  --theme-lp-pair-bg: rgba(206, 174, 254, 0.05);
+  --theme-lp-pair-text: #f9fafa;
+  --theme-share-pool-bg: rgba(206, 174, 254, 0.2);
+  --theme-confirm-supply-text: #b0b7c3;
+  --theme-remove-lq: #2d2856;
+  --theme-your-position: #211c49;
+  --theme-details-border-left: rgba(206, 174, 254, 0.15);
 }
 
 :root.theme-transiton {

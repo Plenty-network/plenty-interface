@@ -93,7 +93,7 @@ const ConfirmAddLiquidity = (props) => {
             </div>
           </div>
           <div className="share-pool flex justify-between">
-            <div className="share-pool-label">Share of Pool </div>
+            <div className="share-pool-label">Your pool share</div>
             <div className="confirm-supply-details-sharevalue">
               {props.tokenIn.name === 'tez'
                 ? props.poolShare

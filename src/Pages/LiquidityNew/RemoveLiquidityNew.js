@@ -12,7 +12,6 @@ import ConfirmRemoveLiquidity from '../../Components/SwapTabsContent/LiquidityTa
 import { setLoader } from '../../redux/slices/settings/settings.slice';
 
 const RemoveLiquidityNew = (props) => {
-  console.log(props);
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
@@ -304,29 +303,6 @@ const RemoveLiquidityNew = (props) => {
                 ) : null}
               </div>
             </div>
-
-            {/* <div>
-              {props.swapData.success && props.userBalances[props.tokenIn.name] ? (
-                <input
-                  type="text"
-                  className="token-user-input-lq remove-lq-input"
-                  placeholder="0.0"
-                  value={firstTokenAmount}
-                  onChange={(e) => {
-                    props.setFirstTokenAmount(e.target.value);
-                    removeLiquidityInput(e.target.value);
-                  }}
-                />
-              ) : (
-                <input
-                  type="text"
-                  className="token-user-input-lq remove-lq-input"
-                  placeholder="0.0"
-                  disabled
-                  value={firstTokenAmount}
-                />
-              )}
-            </div>*/}
           </div>
         </div>
       </div>

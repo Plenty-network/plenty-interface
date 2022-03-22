@@ -124,7 +124,6 @@ const SwapContent = (props) => {
       props.setShowConfirmSwap,
       resetVal,
       props.setShowConfirmTransaction,
-      setShowTransactionSubmitModal,
     ).then((response) => {
       props.setShowConfirmSwap(false);
       props.setShowConfirmTransaction(false);
