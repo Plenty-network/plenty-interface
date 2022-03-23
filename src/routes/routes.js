@@ -15,6 +15,7 @@ const Swap = React.lazy(() => import('../Pages/Swap'));
 const Farms = React.lazy(() => import('../Pages/Farms'));
 const Tokens = React.lazy(() => import('../Pages/Tokens/Tokens'));
 const Liquidity = React.lazy(() => import('../Pages/Liquidity'));
+const LiquidityNew = React.lazy(() => import('../Pages/LiquidityNew'));
 const Frontpage = React.lazy(() => import('../Pages/Frontpage/Frontpage'));
 const Stake = React.lazy(() => import('../Pages/xPlenty'));
 const Governance = React.lazy(() => import('../Pages/Governance/Governance'));
@@ -82,7 +83,15 @@ const MyRoutes = (props) => {
               path={'/liquidity/*'}
               element={
                 <OtherPages {...otherPageProps}>
-                  <Swap walletAddress={props.userAddress} theme={otherPageProps.theme} />
+                  <LiquidityNew walletAddress={props.userAddress} theme={otherPageProps.theme} />
+                </OtherPages>
+              }
+            />
+            <Route
+              path={'/liquidityPositions'}
+              element={
+                <OtherPages {...otherPageProps}>
+                  <LiquidityNew walletAddress={props.userAddress} theme={otherPageProps.theme} />
                 </OtherPages>
               }
             />

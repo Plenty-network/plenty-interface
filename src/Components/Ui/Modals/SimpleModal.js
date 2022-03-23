@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal } from 'react-bootstrap';
+import { Modal, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 import styles from './modal.module.scss';
 import clsx from 'clsx';
@@ -25,7 +25,29 @@ const SimpleModal = (props) => {
           [styles.noTitle]: !props.title,
         })}
       >
-        <div className={clsx(styles.title, 'flex-grow-1')}>{props.title}</div>
+        <div className={clsx(styles.title, 'flex-grow-1')}>
+          {props.title}
+          {props.title === 'Transaction Submitted' && (
+            <OverlayTrigger
+              placement="right"
+              overlay={
+                <Tooltip id="button-tooltip-ts" {...props}>
+                  In order to be confirmed, a transaction from the mempool needs to be included in a
+                  block. Unlike the maximum size of a block which is fixed, the maximum number of
+                  transactions which can be included in a block varies, because not all transactions
+                  have the same size.
+                </Tooltip>
+              }
+            >
+              <span
+                style={{ cursor: 'pointer' }}
+                className="material-icons-round ml-1  info-transaction-submitted"
+              >
+                help_outline
+              </span>
+            </OverlayTrigger>
+          )}
+        </div>
         {!props.infoModal && (
           <div className={styles.closeBtn} onClick={props.onClose}>
             <span className="material-icons-round">close</span>
