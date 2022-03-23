@@ -10,16 +10,11 @@ import {
   getUserBalanceByRpc,
   fetchtzBTCBalance,
 } from '../../apis/swap/swap';
-
 import { loadSwapData } from '../../apis/swap/swap-v2';
 import config from '../../config/config';
-
 import TransactionSettings from '../../Components/TransactionSettings/TransactionSettings';
 import SwapModal from '../../Components/SwapModal/SwapModal';
 import SwapTab from '../../Components/SwapTabsContent/SwapTab';
-
-import LiquidityTab from '../../Components/SwapTabsContent/LiquidityTab';
-
 import { Tab, Tabs } from 'react-bootstrap';
 import { tokens } from '../../constants/swapPage';
 
@@ -34,8 +29,6 @@ const NormalSwap = (props) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [show, setShow] = useState(false);
   const [showConfirmSwap, setShowConfirmSwap] = useState(false);
-  const [showConfirmAddSupply, setShowConfirmAddSupply] = useState(false);
-  const [showConfirmRemoveSupply, setShowConfirmRemoveSupply] = useState(false);
   const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
   const [slippage, setSlippage] = useState(0.5);
   const [recepient, setRecepient] = useState('');
@@ -43,8 +36,6 @@ const NormalSwap = (props) => {
 
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
   const [secondTokenAmount, setSecondTokenAmount] = useState('');
-  // const [firstTokenAmountStable, setFirstTokenAmountStable] = useState('');
-  // const [secondTokenAmountStable, setSecondTokenAmountStable] = useState('');
   const [swapData, setSwapData] = useState({});
   const [routeData, setRouteData] = useState({});
   const [computedOutDetails, setComputedOutDetails] = useState({});
@@ -146,12 +137,8 @@ const NormalSwap = (props) => {
   const handleClose = () => {
     setShow(false);
     setShowConfirmSwap(false);
-    setShowConfirmAddSupply(false);
-    setShowConfirmRemoveSupply(false);
     setShowConfirmTransaction(false);
-    //setHideContent('');
     setSearchQuery('');
-    //setLoading(false);
   };
 
   const changeTokenLocation = () => {
@@ -184,7 +171,6 @@ const NormalSwap = (props) => {
   };
 
   const handleTokenType = (type) => {
-    //setHideContent('content-hide');
     setShow(true);
     setTokenType(type);
     setLoading(false);
@@ -264,12 +250,10 @@ const NormalSwap = (props) => {
   }, [props.walletAddress]);
 
   useEffect(() => {
-    //setLoading(true);
     setLoaderInButton(true);
 
     getTokenPrices().then((tokenPrice) => {
       setGetTokenPrice(tokenPrice);
-      //setLoading(false);
     });
   }, []);
 
@@ -296,14 +280,6 @@ const NormalSwap = (props) => {
     setRecepient(elem);
   };
 
-  // const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
-  // const [transactionId, setTransactionId] = useState('');
-
-  // const transactionSubmitModal = (id) => {
-  //   setTransactionId(id);
-  //   setShowTransactionSubmitModal(true);
-  // };
-
   const selectToken = (token) => {
     setLoaderInButton(true);
     setFirstTokenAmount('');
@@ -312,7 +288,6 @@ const NormalSwap = (props) => {
     setComputedOutDetails({
       tokenOut_amount: '',
     });
-    //setLoading(true);
 
     if (tokenType === 'tokenIn') {
       setTokenIn({
@@ -378,47 +353,6 @@ const NormalSwap = (props) => {
               setShowConfirmTransaction={setShowConfirmTransaction}
               showConfirmTransaction={showConfirmTransaction}
               theme={props.theme}
-            />
-          </Tab>
-
-          <Tab eventKey="liquidity" title="Liquidity">
-            <LiquidityTab
-              walletAddress={props.walletAddress}
-              setFirstTokenAmount={handleTokenInput}
-              firstTokenAmount={firstTokenAmount}
-              connecthWallet={props.connecthWallet}
-              tokenIn={tokenIn}
-              tokenOut={tokenOut}
-              handleTokenType={handleTokenType}
-              swapData={swapData}
-              computedOutDetails={computedOutDetails}
-              userBalances={userBalances}
-              tokenContractInstances={tokenContractInstances}
-              getTokenPrice={getTokenPrice}
-              setSlippage={setSlippage}
-              setRecepient={setRecepient}
-              recepient={recepient}
-              slippage={slippage}
-              loading={loading}
-              setLoading={setLoading}
-              handleLoaderMessage={handleLoaderMessage}
-              loaderMessage={loaderMessage}
-              handleClose={handleClose}
-              showConfirmAddSupply={showConfirmAddSupply}
-              setShowConfirmAddSupply={setShowConfirmAddSupply}
-              showConfirmRemoveSupply={showConfirmRemoveSupply}
-              setShowConfirmRemoveSupply={setShowConfirmRemoveSupply}
-              setLoaderMessage={setLoaderMessage}
-              resetAllValues={resetAllValues}
-              fetchUserWalletBalance={fetchUserWalletBalance}
-              setTokenIn={setTokenIn}
-              setTokenOut={setTokenOut}
-              tokens={tokens}
-              loaderInButton={loaderInButton}
-              setLoaderInButton={setLoaderInButton}
-              isStableSwap={false}
-              setShowConfirmTransaction={setShowConfirmTransaction}
-              showConfirmTransaction={showConfirmTransaction}
             />
           </Tab>
         </Tabs>
