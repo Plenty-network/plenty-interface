@@ -19,7 +19,6 @@ export const getHomeStatsData = () => {
         }
       })
       .catch(() => {
-        // console.log(error)
         dispatch({ type: actions.HOME_STATS_FETCH_FAILED });
       });
   };
@@ -38,7 +37,6 @@ export const getTVL = () => {
         }
       })
       .catch(() => {
-        // console.log(error)
         dispatch({ type: actions.TVL_FETCH_FAILED });
       });
   };
@@ -153,7 +151,6 @@ export const getTVLOfUser = (userAddress) => {
         }
       })
       .catch(() => {
-        // console.log(error)
         dispatch({ type: actions.USER_TVL_FETCH_FAILED });
       });
   };

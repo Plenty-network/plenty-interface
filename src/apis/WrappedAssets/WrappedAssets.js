@@ -61,9 +61,7 @@ export const getUserBalanceByRpc = async (identifier, address) => {
     const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
     const packedKey = getPackedKey(tokenId, address, type);
     const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
-    console.log(await axios.get(url));
     const response = await axios.get(url);
-    console.log(response);
     const balance = (() => {
       // IIFE
       let _balance;
@@ -115,7 +113,6 @@ export const swapWrappedAssets = async (
   setShowConfirmSwap,
   resetAllValues,
   setShowConfirmTransaction,
-  setShowTransactionSubmitModal,
 ) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
@@ -172,7 +169,7 @@ export const swapWrappedAssets = async (
       );
 
     const batchOp = await batch.send();
-    console.log(batchOp);
+    //console.log(batchOp);
     {
       batchOp.opHash === null
         ? console.log('operation getting injected')
@@ -182,9 +179,7 @@ export const swapWrappedAssets = async (
     resetAllValues();
     setShowConfirmSwap(false);
     transactionSubmitModal(batchOp.opHash);
-    setTimeout(() => {
-      setShowTransactionSubmitModal(false);
-    }, 5000);
+
     await batchOp.confirmation();
 
     return {
@@ -192,7 +187,6 @@ export const swapWrappedAssets = async (
       operationId: batchOp.opHash,
     };
   } catch (error) {
-    //console.log(error.message);
     return {
       success: false,
       error,

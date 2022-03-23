@@ -22,7 +22,7 @@ const WrappedAssets = (props) => {
             <div className="ml-3">
               <span className="bottom-label">Swap Wrapped Assets </span>
               <p className="bottom-desc">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                Lorem Ipsum is simply dummy text of the printing and typesetting.
               </p>
 
               <>
@@ -35,6 +35,7 @@ const WrappedAssets = (props) => {
                   >
                     <span className="learn-more" style={{ cursor: 'pointer' }}>
                       Learn More
+                      <span className="material-icons-round launch-icon-flash">launch</span>
                     </span>
                   </a>
                 </span>
