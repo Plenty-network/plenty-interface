@@ -54,7 +54,6 @@ const NormalSwap = (props) => {
   const [loaderMessage, setLoaderMessage] = useState({});
   const [tokenContractInstances, setTokenContractInstances] = useState({});
   const [loaderInButton, setLoaderInButton] = useState(false);
-  const isStableSwap = useState(false);
 
   const pairExist = useMemo(() => {
     return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
@@ -267,11 +266,11 @@ const NormalSwap = (props) => {
   useEffect(() => {
     //setLoading(true);
     setLoaderInButton(true);
-    !isStableSwap &&
-      getTokenPrices().then((tokenPrice) => {
-        setGetTokenPrice(tokenPrice);
-        //setLoading(false);
-      });
+
+    getTokenPrices().then((tokenPrice) => {
+      setGetTokenPrice(tokenPrice);
+      //setLoading(false);
+    });
   }, []);
 
   const handleLoaderMessage = (type, message) => {
