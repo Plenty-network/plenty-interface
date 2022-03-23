@@ -26,7 +26,7 @@ const LiquidityInfo = (props) => {
           }
         >
           <div className="details">
-            {props.isStable ? props.xtztoctez : props.swapData.tokenOutPerTokenIn?.toFixed(3)}{' '}
+            {props.isStable ? props.xtztoctez : props.swapData.tokenOutPerTokenIn?.toFixed(2)}{' '}
             <span className="content">
               {props.tokenIn.name} per {props.tokenOut.name}
             </span>
@@ -43,7 +43,7 @@ const LiquidityInfo = (props) => {
           }
         >
           <div className="details">
-            {props.isStable ? props.cteztoxtz : (1 / props.swapData.tokenOutPerTokenIn).toFixed(3)}{' '}
+            {props.isStable ? props.cteztoxtz : (1 / props.swapData.tokenOutPerTokenIn).toFixed(2)}{' '}
             <span className="content">
               {props.tokenOut.name} per {props.tokenIn.name}
             </span>
@@ -57,16 +57,20 @@ const LiquidityInfo = (props) => {
             <Tooltip id="button-tooltip" {...props}>
               {props.tokenIn.name === 'tez'
                 ? props.poolShare
-                : (props.lpTokenAmount.estimatedLpOutput /
+                : props.lpTokenAmount.estimatedLpOutput
+                ? (props.lpTokenAmount.estimatedLpOutput /
                     (props.swapData.lpTokenSupply + props.lpTokenAmount.estimatedLpOutput)) *
-                  100}
+                  100
+                : '0'}
             </Tooltip>
           }
         >
           <div className="details">
             <span className="content">Share of pool:</span>{' '}
             {props.tokenIn.name === 'tez'
-              ? props.poolShare
+              ? Number(props.poolShare) > 0
+                ? Number(props.poolShare).toFixed(3)
+                : '0'
               : props.lpTokenAmount.estimatedLpOutput
               ? (
                   (props.lpTokenAmount.estimatedLpOutput /
