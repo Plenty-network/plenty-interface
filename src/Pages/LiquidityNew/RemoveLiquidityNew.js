@@ -367,7 +367,7 @@ const RemoveLiquidityNew = (props) => {
       {swapContentButton}
       {props.isPositionAvailable ? (
         <div className="your-positions">
-          <div className="d-flex justify-content-between">
+          <div className="d-sm-flex justify-content-between">
             <div className="left">
               <div className="your-positions-label ">Your Positions</div>
               <img width="50" height="50" src={props.tokenIn.image} />
@@ -401,7 +401,7 @@ const RemoveLiquidityNew = (props) => {
               </div>
             </div>
             <div className="ml-auto right">
-              <div className="pool-tokens ml-auto">
+              <div className="pool-tokens ml-sm-auto">
                 <div className="label">Pool Tokens</div>
                 <div className="pool-value">
                   {props.positionDetails.data

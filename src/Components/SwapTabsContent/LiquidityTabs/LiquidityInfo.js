@@ -1,16 +1,21 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import clsx from 'clsx';
 import InfoIcon from '../../../assets/images/SwapModal/info.svg';
 import InfoIconDark from '../../../assets/images/SwapModal/info-dark.svg';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import useMediaQuery from '../../../hooks/mediaQuery';
 
 const LiquidityInfo = (props) => {
+  const isMobile = useMediaQuery('(max-width: 991px)');
   return (
     <div className="lq-details d-flex flex-wrap justify-content-between align-items-center">
-      <div>
-        <img src={props.theme === 'light' ? InfoIcon : InfoIconDark} />
-      </div>
-      <div>
+      {!isMobile && (
+        <div>
+          <img src={props.theme === 'light' ? InfoIcon : InfoIconDark} />
+        </div>
+      )}
+      <div className={clsx(isMobile && 'order-1')}>
         <OverlayTrigger
           placement="top"
           overlay={
@@ -27,7 +32,7 @@ const LiquidityInfo = (props) => {
           </div>
         </OverlayTrigger>
       </div>
-      <div>
+      <div className={clsx(isMobile && 'order-3', isMobile && 'mt-2')}>
         <OverlayTrigger
           placement="top"
           overlay={
@@ -44,7 +49,7 @@ const LiquidityInfo = (props) => {
           </div>
         </OverlayTrigger>
       </div>
-      <div>
+      <div className={clsx(isMobile && 'order-2')}>
         <OverlayTrigger
           placement="top"
           overlay={
@@ -70,7 +75,7 @@ const LiquidityInfo = (props) => {
           </div>
         </OverlayTrigger>
       </div>
-      <div className="details">
+      <div className={clsx(isMobile && 'order-4', 'details', isMobile && 'mt-2')}>
         {props.isStable ? '0.10' : '0.25'}% <span className="content">LP fee</span>
       </div>
     </div>

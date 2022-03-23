@@ -70,8 +70,8 @@ export const LiquidityPositions = (props) => {
                 </div>
                 <div className="d-flex">
                   <div className="lp-fee">
-                    <span className="lp-fee-value mr-1">{position.isStable ? '0.10' : '0.25'}</span>{' '}
-                    LP fee
+                    <span className="lp-fee-value mr-1">{position.isStable ? '0.10' : '0.25'}</span>
+                    % LP fee
                     {position.isStable && (
                       <>
                         <span className="divider-lq mx-2"></span>
@@ -129,8 +129,8 @@ export const LiquidityPositions = (props) => {
                       to={{
                         pathname: '/liquidity/remove',
                         search: `?${createSearchParams({
-                          tokenA: position.tokenA.name,
-                          tokenB: position.tokenB.name,
+                          tokenA: position.isStable ? position.tokenB.name : position.tokenA.name,
+                          tokenB: position.isStable ? position.tokenA.name : position.tokenB.name,
                         })}`,
                       }}
                       className="w-100"
@@ -144,8 +144,8 @@ export const LiquidityPositions = (props) => {
                       to={{
                         pathname: '/liquidity/add',
                         search: `?${createSearchParams({
-                          tokenA: position.tokenA.name,
-                          tokenB: position.tokenB.name,
+                          tokenA: position.isStable ? position.tokenB.name : position.tokenA.name,
+                          tokenB: position.isStable ? position.tokenA.name : position.tokenB.name,
                         })}`,
                       }}
                       className="w-100"

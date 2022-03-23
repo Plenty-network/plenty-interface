@@ -174,6 +174,10 @@
     color: var(--theme-text-1);
     border: 0 !important;
     background-color: transparent !important;
+    @media screen and (min-width: 320px) and (max-width: 768px) {
+      padding-right: 30px;
+      padding-left: 30px;
+    }
     & .active {
       border-bottom: 2px solid var(--theme-primary-1) !important;
     }
@@ -184,6 +188,10 @@
     padding-bottom: 12px;
     padding-right: 0px;
     padding-left: 0px;
+    @media screen and (min-width: 320px) and (max-width: 768px) {
+      padding-right: 30px;
+      padding-left: 30px;
+    }
   }
 }
 .remove-border-bottom {
@@ -338,6 +346,11 @@
   font-weight: 700;
   line-height: 21px;
   letter-spacing: 0em;
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    border-right: 0px;
+    height: auto;
+    margin-top: 20px;
+  }
 }
 .expand-more-icon {
   margin-top: 12px;
@@ -636,6 +649,17 @@
   width: 487px;
   padding-left: 24px;
   padding-right: 20px;
+  @media screen and (min-width: 320px) and (max-width: 768px) {
+    width: 358px;
+    margin: 8px 12px 24px;
+    padding-left: 16px;
+    padding-right: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border: 0.803667px solid var(--theme-border-global);
+    border-radius: 16px;
+    background: rgba(138, 149, 158, 0.05);
+  }
 }
 .max-button {
   background: var(--theme-input-bg);
@@ -857,6 +881,12 @@
   border: 1px solid var(--theme-border-global);
   box-sizing: border-box;
   border-radius: 8px;
+  .right {
+    @media screen and (min-width: 320px) and (max-width: 768px) {
+      display: flex;
+      margin-top: 16px;
+    }
+  }
   .your-positions-label {
     font-size: 16px;
     font-style: normal;
@@ -910,6 +940,9 @@
     border-radius: 8px;
     padding: 13.21px 24px;
     width: 154px;
+    @media screen and (min-width: 320px) and (max-width: 768px) {
+      padding: 10.5px 24px;
+    }
     .label {
       font-size: 12px;
       font-style: normal;
@@ -933,6 +966,11 @@
     border-radius: 8px;
     padding: 10.5px 24px;
     width: 174px;
+    @media screen and (min-width: 320px) and (max-width: 768px) {
+      padding: 10.5px 24px;
+      margin-top: 0px;
+      margin-left: 10px;
+    }
     .label {
       font-size: 12px;
       font-style: normal;
