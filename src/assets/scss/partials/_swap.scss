@@ -1,7 +1,21 @@
 #button-tooltip {
-  background: black;
+  background: #282828;
   color: white;
   border-radius: 8px;
+  z-index: 99999999999999999;
+}
+#button-tooltip-ts {
+  background: #282828;
+  color: white;
+  border-radius: 8px;
+  z-index: 99999999999999999;
+  margin-left: 20px;
+  > .arrow {
+    opacity: 1;
+    z-index: 99999999999999999;
+    top: 51px !important;
+    left: -6px !important;
+  }
 }
 .border-swap {
   position: relative;
@@ -9,7 +23,7 @@
   padding: 1px;
   max-width: 400px;
   margin: 0px auto;
-  border-radius: 15px;
+  border-radius: 16px;
 }
 .confirm-transaction-button-text {
   color: var(--theme-confirm-transaction-button-text);
@@ -51,6 +65,10 @@
   max-width: 848px;
   padding-left: 4px;
   color: var(--theme-primary-button-bg);
+  @media screen and (min-width: 320px) and (max-width: 900px) {
+    max-width: 414px;
+    padding-left: 20px;
+  }
 }
 .price-formula {
   font-size: 12px;
@@ -86,7 +104,7 @@
 }
 .bottom-footer {
   background-color: var(--theme-card-bg);
-  border-radius: 8px;
+  border-radius: 16px;
   margin: 0px auto;
   max-width: 400px;
   padding: 16px 25px;
@@ -135,7 +153,7 @@
   max-width: 400px;
   padding: 26px 22px;
   background-color: #fff;
-  border-radius: 15px;
+  border-radius: 16px;
   margin: 100px auto;
   border: 1px solid var(--theme-gradient-border);
   box-shadow: var(--theme-swap-boxshadow);
@@ -174,7 +192,7 @@
     color: var(--theme-text-1);
     border: 0 !important;
     background-color: transparent !important;
-    @media screen and (min-width: 320px) and (max-width: 768px) {
+    @media screen and (min-width: 320px) and (max-width: 900px) {
       padding-right: 30px;
       padding-left: 30px;
     }
@@ -188,7 +206,7 @@
     padding-bottom: 12px;
     padding-right: 0px;
     padding-left: 0px;
-    @media screen and (min-width: 320px) and (max-width: 768px) {
+    @media screen and (min-width: 320px) and (max-width: 900px) {
       padding-right: 30px;
       padding-left: 30px;
     }
@@ -234,11 +252,16 @@
   padding: 12px;
   border: 1px solid var(--theme-border);
   box-sizing: border-box;
-  border-radius: 8px;
+  border-radius: 16px;
 
   &:hover {
     border: 1px solid var(--theme-border-light);
   }
+}
+.removing-padding-confirm-supply {
+  padding: 0px !important;
+  min-height: 47px;
+  border: 1px solid var(--theme-border-global) !important;
 }
 .confirm-supply-token-box {
   min-height: 82px;
@@ -250,7 +273,7 @@
   mix-blend-mode: normal;
   border: 1px solid var(--theme-border-global);
   box-sizing: border-box;
-  border-radius: 8px;
+  border-radius: 16px;
 
   &:hover {
     border: 1px solid var(--theme-border-light);
@@ -258,6 +281,9 @@
 }
 .remove-lq-border {
   height: 135px !important;
+  @media screen and (min-width: 320px) and (max-width: 900px) {
+    height: auto !important;
+  }
 }
 .remove-value-lq {
   font-size: 20px;
@@ -325,7 +351,7 @@
   border-right: 0.863044px solid var(--theme-border-global);
   width: 213px;
   height: 87px;
-  @media screen and (min-width: 320px) and (max-width: 768px) {
+  @media screen and (min-width: 320px) and (max-width: 900px) {
     border-right: 0px;
     width: auto;
     height: 73px;
@@ -346,10 +372,11 @@
   font-weight: 700;
   line-height: 21px;
   letter-spacing: 0em;
-  @media screen and (min-width: 320px) and (max-width: 768px) {
+  @media screen and (min-width: 320px) and (max-width: 900px) {
     border-right: 0px;
     height: auto;
     margin-top: 20px;
+    margin-bottom: 10px;
   }
 }
 .expand-more-icon {
@@ -366,7 +393,7 @@
   width: 212px;
   border-top-left-radius: 16px;
   border-bottom-left-radius: 16px;
-  @media screen and (min-width: 320px) and (max-width: 768px) {
+  @media screen and (min-width: 320px) and (max-width: 900px) {
     background: transparent;
   }
 }
@@ -393,7 +420,7 @@
   color: var(--theme-text-1);
   box-sizing: border-box;
   padding: 20px 32px;
-  border-radius: 15px;
+  border-radius: 16px;
   transform: translate(0px, 31px) !important;
 }
 .modal-backdrop.show {
@@ -413,7 +440,7 @@
   .modal-content {
     max-width: 402px;
     padding: 24px 30px;
-    border-radius: 15px;
+    border-radius: 16px;
     border: 0;
     background-color: var(--theme-card-bg);
   }
@@ -515,6 +542,27 @@
 .token-selector-balance-wrapper {
   flex: 0 0 50%;
 }
+.confirm-supply-remove {
+  width: 146px;
+  background: var(--theme-card-bg);
+  height: 47px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .token-left {
+    border: 0px;
+    color: var(--theme-text-1);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    background: none;
+  }
+}
 .confirm-supply-tokens {
   width: 121px;
   background: var(--theme-card-bg);
@@ -537,7 +585,7 @@
 .search-coin-input {
   width: 100%;
   background-color: var(--theme-input-bg);
-  border-radius: 8px;
+  border-radius: 16px;
   box-shadow: none;
   padding: 16px 30px;
   padding-left: 62px;
@@ -633,7 +681,7 @@
 .input-lq {
   width: 532px;
   padding-left: 24px;
-  @media screen and (min-width: 320px) and (max-width: 768px) {
+  @media screen and (min-width: 320px) and (max-width: 900px) {
     width: 358px;
     margin: 8px 12px 24px;
     padding-left: 16px;
@@ -649,7 +697,7 @@
   width: 487px;
   padding-left: 24px;
   padding-right: 20px;
-  @media screen and (min-width: 320px) and (max-width: 768px) {
+  @media screen and (min-width: 320px) and (max-width: 900px) {
     width: 358px;
     margin: 8px 12px 24px;
     padding-left: 16px;
@@ -698,6 +746,9 @@
 }
 .remove-lq-arrow-center {
   left: 295px !important;
+  @media screen and (min-width: 320px) and (max-width: 900px) {
+    left: 176px !important;
+  }
 }
 .icon-animated {
   transition: transform 0.3s ease-in-out;
@@ -736,7 +787,7 @@
 }
 .remove-tokens {
   background: var(--theme-remove-lq);
-  border-radius: 8px;
+  border-radius: 16px;
   width: 196px;
   height: 80px;
   padding: 19px 20px;
@@ -868,7 +919,7 @@
   margin-top: 20px;
   padding-left: 20px;
   padding-right: 20px;
-  @media screen and (min-width: 320px) and (max-width: 768px) {
+  @media screen and (min-width: 320px) and (max-width: 900px) {
     height: auto;
     padding: 16px 10px;
     margin-top: 16px;
@@ -880,9 +931,15 @@
   background: var(--theme-your-position);
   border: 1px solid var(--theme-border-global);
   box-sizing: border-box;
-  border-radius: 8px;
+  border-radius: 16px;
+  .content-your-position {
+    display: flex !important;
+    @media screen and (min-width: 320px) and (max-width: 900px) {
+      display: block !important;
+    }
+  }
   .right {
-    @media screen and (min-width: 320px) and (max-width: 768px) {
+    @media screen and (min-width: 320px) and (max-width: 900px) {
       display: flex;
       margin-top: 16px;
     }
@@ -940,8 +997,10 @@
     border-radius: 8px;
     padding: 13.21px 24px;
     width: 154px;
-    @media screen and (min-width: 320px) and (max-width: 768px) {
+    margin-left: auto;
+    @media screen and (min-width: 320px) and (max-width: 900px) {
       padding: 10.5px 24px;
+      margin-left: 0px;
     }
     .label {
       font-size: 12px;
@@ -966,7 +1025,7 @@
     border-radius: 8px;
     padding: 10.5px 24px;
     width: 174px;
-    @media screen and (min-width: 320px) and (max-width: 768px) {
+    @media screen and (min-width: 320px) and (max-width: 900px) {
       padding: 10.5px 24px;
       margin-top: 0px;
       margin-left: 10px;
@@ -1027,7 +1086,7 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 8px;
-  border-radius: 6px;
+  border-radius: 16px;
   background-color: var(--theme-bg-1);
 
   &.nav-tabs {
@@ -1045,7 +1104,7 @@
     color: var(--theme-text-1);
     &.active {
       background-color: var(--theme-bg-2);
-      border-radius: 6px;
+      border-radius: 16px;
       color: var(--theme-text-1);
       transform: scale(1.03);
       transform-origin: 50% 50%;
@@ -1055,7 +1114,7 @@
 .swap-detail-wrapper {
   mix-blend-mode: normal;
   padding: 12px;
-  border-radius: 8px;
+  border-radius: 16px;
   margin-top: 12px;
   border: 1px solid transparent;
 }
@@ -1075,6 +1134,21 @@
   > span {
     vertical-align: middle;
     font-size: 12px;
+    cursor: pointer;
+  }
+}
+.info-transaction-submitted {
+  top: 3px;
+  position: relative;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 13px;
+  color: var(--theme-swap-info-text);
+  margin: 0;
+  > span {
+    vertical-align: middle;
+    font-size: 16px;
     cursor: pointer;
   }
 }
@@ -1114,7 +1188,7 @@
 }
 .confirm-supply-amt-details {
   background: var(--theme-lq-details-individual-bg);
-  border-radius: 8px;
+  border-radius: 16px;
   padding: 8px 12px;
   font-style: normal;
   font-weight: 500;
@@ -1470,17 +1544,21 @@ input:checked {
   position: relative;
   color: var(--theme-banner-text);
   padding-left: 4px;
+  @media screen and (min-width: 320px) and (max-width: 900px) {
+    max-width: 414px;
+    padding-left: 20px;
+  }
 }
 .liquidity-content-container {
   position: relative;
   max-width: 848px;
   padding: 20px 40px;
   background-color: transparent;
-  border-radius: 15px;
+  border-radius: 16px;
   margin: 24px auto;
   border: 1px solid var(--theme-gradient-border);
   box-shadow: var(--theme-swap-boxshadow);
-  @media screen and (min-width: 320px) and (max-width: 768px) {
+  @media screen and (min-width: 320px) and (max-width: 900px) {
     max-width: 414px;
     padding: 24px 16px;
   }
@@ -1516,6 +1594,10 @@ input:checked {
   border-radius: 16px;
   margin: 20px auto;
   padding: 26px 24px;
+  @media screen and (min-width: 320px) and (max-width: 900px) {
+    width: 394px;
+    padding: 16px;
+  }
   .token-label {
     font-size: 24px;
     font-style: normal;
@@ -1523,6 +1605,18 @@ input:checked {
     line-height: 31px;
     letter-spacing: 0em;
     color: var(--theme-text-1);
+    @media screen and (min-width: 320px) and (max-width: 900px) {
+      font-size: 16px;
+      line-height: 21px;
+    }
+    .token-img {
+      width: 44px;
+      height: 44px;
+      @media screen and (min-width: 320px) and (max-width: 900px) {
+        width: 24.87px;
+        height: 24.87px;
+      }
+    }
   }
 }
 
@@ -1533,6 +1627,9 @@ input:checked {
   background: var(--theme-input-bg-global);
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
+  @media screen and (min-width: 320px) and (max-width: 900px) {
+    padding: 16px;
+  }
 }
 .manage-label {
   font-size: 14px;
@@ -1547,6 +1644,9 @@ input:checked {
   top: 8px;
   margin-left: 10.3px;
   margin-right: 15px;
+  @media screen and (min-width: 320px) and (max-width: 900px) {
+    margin-right: 0px;
+  }
 }
 .lp-fee {
   padding: 8px 12px;
@@ -1559,6 +1659,10 @@ input:checked {
   line-height: 20px;
   letter-spacing: 0px;
   color: var(--theme-text-1);
+  @media screen and (min-width: 320px) and (max-width: 900px) {
+    padding: 8px;
+    margin-right: 0px;
+  }
 }
 .lp-fee-value {
   font-size: 14px;
@@ -1575,7 +1679,6 @@ input:checked {
 .position-details {
   background: var(--theme-card-bg);
   border: 1px solid var(--theme-border-global);
-
   box-sizing: border-box;
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
@@ -1583,6 +1686,10 @@ input:checked {
   width: 848px;
   margin-right: auto;
   margin-left: auto;
+  @media screen and (min-width: 320px) and (max-width: 900px) {
+    width: 394px;
+    padding: 16px;
+  }
 }
 .pooled {
   background: var(--theme-lq-details-individual-bg);
@@ -1612,6 +1719,10 @@ input:checked {
   border-radius: 8px;
   padding: 12px 0px 12px 24px;
   border-left: 8px solid var(--theme-details-border-left);
+  @media screen and (min-width: 320px) and (max-width: 900px) {
+    margin-top: 10px;
+    padding: 12px 0px 12px 14px;
+  }
   .label {
     font-size: 12px;
     font-style: normal;
@@ -1636,14 +1747,22 @@ input:checked {
   border: 1px solid var(--theme-border-global);
   width: 848px;
   height: 355px;
-  border-radius: 8px;
+  border-radius: 16px;
   margin: 20px auto;
-
-  .header {
+  @media screen and (min-width: 320px) and (max-width: 900px) {
+    width: 394px;
+    height: 250px;
+  }
+  .header-lq {
     background: var(--theme-card-bg);
     padding: 33.5px 40px;
-    border-top-right-radius: 8px;
-    border-top-left-radius: 8px;
+    border-top-right-radius: 16px;
+    border-top-left-radius: 16px;
+    border-bottom: 1px solid var(--theme-border-global);
+
+    @media screen and (min-width: 320px) and (max-width: 900px) {
+      padding: 16px;
+    }
   }
   .content {
     font-size: 16px;
@@ -1653,5 +1772,24 @@ input:checked {
     letter-spacing: 0em;
     height: 244px;
     color: var(--theme-text-1);
+    @media screen and (min-width: 320px) and (max-width: 900px) {
+      height: 140px;
+    }
   }
+}
+.no-positions {
+  border: 1px solid var(--theme-border-global);
+  width: 848px;
+  height: 250px;
+  border-radius: 16px;
+  margin: 20px auto;
+  background: var(--theme-card-bg);
+  line-height: 250px;
+
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+
+  letter-spacing: 0em;
+  text-align: center;
 }

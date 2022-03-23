@@ -28,9 +28,9 @@ const ConfirmRemoveLiquidity = (props) => {
           <div className="swap-content-box-wrapper">
             <div className="header-line"></div>
             <div className="swap-content-box">
-              <div className="swap-token-select-box">
-                <div className="token-selector-balance-wrapper">
-                  <button className="token-selector">
+              <div className="swap-token-select-box removing-padding-confirm-supply">
+                <div className="confirm-supply-remove">
+                  <button className="token-left">
                     <img src={props.tokenIn.image} className="button-logo" />
                     {props.tokenIn.name}{' '}
                   </button>
@@ -49,9 +49,9 @@ const ConfirmRemoveLiquidity = (props) => {
             </div>
 
             <div className="swap-content-box">
-              <div className="swap-token-select-box">
-                <div className="token-selector-balance-wrapper">
-                  <button className="token-selector">
+              <div className="swap-token-select-box removing-padding-confirm-supply">
+                <div className="confirm-supply-remove">
+                  <button className="token-left">
                     <img src={props.tokenOut.image} className="button-logo" />
                     {props.tokenOut.name}{' '}
                   </button>

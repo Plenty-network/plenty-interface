@@ -10,17 +10,24 @@ import {
   getLiquidityPositionDetailsStable,
   getLiquidityPositionsForUser,
 } from '../../apis/Liquidity/Liquidity';
+import useMediaQuery from '../../hooks/mediaQuery';
 
 export const LiquidityPositions = (props) => {
+  const isMobile = useMediaQuery('(max-width: 991px)');
   const [positions, setPositions] = useState([]);
   const [positionDetails, setPositionDetails] = useState({});
   const [isOpen, setOpen] = useState(false);
   const [indexPosition, setIndex] = useState(-1);
+  const [isEmpty, setEmpty] = useState(false);
 
   useEffect(async () => {
     const res = await getLiquidityPositionsForUser(props.walletAddress);
-
-    setPositions(res.data);
+    if (res.success) {
+      setEmpty(false);
+      setPositions(res.data);
+    } else {
+      setEmpty(true);
+    }
   }, [props]);
 
   const openManage = async (value, index, flag, isStable) => {
@@ -52,7 +59,9 @@ export const LiquidityPositions = (props) => {
 
   return (
     <>
-      {positions.length > 0 ? (
+      {isEmpty ? (
+        <div className="no-positions">No Liquidity positions!</div>
+      ) : positions.length > 0 ? (
         positions?.map((position, index) => {
           return (
             <>
@@ -64,8 +73,8 @@ export const LiquidityPositions = (props) => {
                 key={index}
               >
                 <div className="token-label">
-                  <img width="44" height="44" src={position.tokenA.image} />
-                  <img width="44" height="44" className="ml-1 mr-3" src={position.tokenB.image} />
+                  <img className="token-img" src={position.tokenA.image} />
+                  <img className="ml-1 mr-sm-3 mr-2 token-img" src={position.tokenB.image} />
                   {position.tokenA.name} / {position.tokenB.name}
                 </div>
                 <div className="d-flex">
@@ -83,14 +92,14 @@ export const LiquidityPositions = (props) => {
                     className="manage-label"
                     onClick={() => openManage(position, index, !isOpen, position.isStable)}
                   >
-                    Manage
+                    {!isMobile && 'Manage'}
                     <span className="material-icons-round manage-arrow ">keyboard_arrow_down</span>
                   </div>
                 </div>
               </div>
               {isOpen && indexPosition === index && (
                 <div className={clsx('position-details ', isOpen && 'openLqDetails-manage')}>
-                  <div className=" d-flex justify-content-between">
+                  <div className=" d-sm-flex justify-content-between">
                     <div>
                       <div className="pooled">
                         POOLED {position.tokenA.name}:{' '}
@@ -162,12 +171,16 @@ export const LiquidityPositions = (props) => {
         })
       ) : (
         <div className="loading-positions">
-          <div className="header d-flex">
+          <div className="header-lq d-flex">
             <div className="shimmer-circle">999</div>
             <div className="ml-3 shimmer-circle">999</div>
             <div className="ml-3 shimmer">99999999999999</div>
-            <div className="ml-3 shimmer">99999999</div>
-            <div className="ml-4 shimmer">999</div>
+            {!isMobile && (
+              <>
+                <div className="ml-3 shimmer">99999999</div>
+                <div className="ml-4 shimmer">999</div>
+              </>
+            )}
           </div>
           <div className="content flex justify-content-center align-items-center">
             Loading Positions...

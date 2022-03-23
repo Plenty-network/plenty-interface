@@ -41,7 +41,9 @@ export const useLocationStateInLiquidity = () => {
   }, [location.pathname]);
 
   const paramKeys = useMemo(() => {
-    return { a: 'tokenA', b: 'tokenB' };
+    if (activeTab === 'liquidity') {
+      return { a: 'tokenA', b: 'tokenB' };
+    }
   }, [activeTab]);
 
   const setActiveTab = (elem) => {
@@ -55,23 +57,27 @@ export const useLocationStateInLiquidity = () => {
   };
 
   useEffect(() => {
-    setTokenParams(
-      {
-        ...(tokenIn.name ? { [paramKeys.a]: tokenIn.name } : {}),
-        ...(tokenParams.get(paramKeys.b) ? { [paramKeys.b]: tokenParams.get(paramKeys.b) } : {}),
-      },
-      { replace: true },
-    );
+    if (activeTab === 'liquidity') {
+      setTokenParams(
+        {
+          ...(tokenIn.name ? { [paramKeys.a]: tokenIn.name } : {}),
+          ...(tokenParams.get(paramKeys.b) ? { [paramKeys.b]: tokenParams.get(paramKeys.b) } : {}),
+        },
+        { replace: true },
+      );
+    }
   }, [tokenIn]);
 
   useEffect(() => {
-    setTokenParams(
-      {
-        ...(tokenParams.get(paramKeys.a) ? { [paramKeys.a]: tokenParams.get(paramKeys.a) } : {}),
-        ...(tokenOut.name ? { [paramKeys.b]: tokenOut.name } : {}),
-      },
-      { replace: true },
-    );
+    if (activeTab === 'liquidity') {
+      setTokenParams(
+        {
+          ...(tokenParams.get(paramKeys.a) ? { [paramKeys.a]: tokenParams.get(paramKeys.a) } : {}),
+          ...(tokenOut.name ? { [paramKeys.b]: tokenOut.name } : {}),
+        },
+        { replace: true },
+      );
+    }
   }, [tokenOut]);
 
   useEffect(() => {

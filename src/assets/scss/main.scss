@@ -159,15 +159,18 @@ h1 {
 }
 
 .tooltip-inner {
-  background: black;
+  background: #282828;
   color: white;
   opacity: 1;
+
+  z-index: 99999999999999999;
 }
 
 .tooltip > .arrow {
   opacity: 1;
   top: 42px;
   left: 20px;
+  z-index: 99999999999999999;
 }
 
 .shimmer {

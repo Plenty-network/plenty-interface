@@ -8,6 +8,7 @@ import useMediaQuery from '../../../hooks/mediaQuery';
 
 const LiquidityInfo = (props) => {
   const isMobile = useMediaQuery('(max-width: 991px)');
+
   return (
     <div className="lq-details d-flex flex-wrap justify-content-between align-items-center">
       {!isMobile && (
@@ -66,11 +67,13 @@ const LiquidityInfo = (props) => {
             <span className="content">Share of pool:</span>{' '}
             {props.tokenIn.name === 'tez'
               ? props.poolShare
-              : (
+              : props.lpTokenAmount.estimatedLpOutput
+              ? (
                   (props.lpTokenAmount.estimatedLpOutput /
                     (props.swapData.lpTokenSupply + props.lpTokenAmount.estimatedLpOutput)) *
                   100
-                ).toFixed(3)}{' '}
+                ).toFixed(3)
+              : '0'}{' '}
             %
           </div>
         </OverlayTrigger>

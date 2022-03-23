@@ -419,7 +419,7 @@ const LiquidityNew = (props) => {
                     tokens={liquidityTokens}
                     loaderInButton={loaderInButton}
                     setLoaderInButton={setLoaderInButton}
-                    isStableSwap={false}
+                    isStableSwap={isTokenPairStable(tokenIn.name, tokenOut.name)}
                     setShowConfirmTransaction={setShowConfirmTransaction}
                     showConfirmTransaction={showConfirmTransaction}
                     positionDetails={positionDetails}

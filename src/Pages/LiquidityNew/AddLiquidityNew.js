@@ -185,6 +185,23 @@ const AddLiquidityNew = (props) => {
       setLpTokenAmount(lpTokenAmount);
     }
   };
+
+  useEffect(() => {
+    const secondTokenAmountEntered = secondTokenAmount
+      ? parseFloat(secondTokenAmount)
+      : estimatedTokenAmout.otherTokenAmount;
+    if (props.tokenIn.name !== 'tez') {
+      const lpTokenAmount = lpTokenOutput(
+        firstTokenAmount,
+        secondTokenAmountEntered,
+        props.swapData.tokenIn_supply,
+        props.swapData.tokenOut_supply,
+        props.swapData.lpTokenSupply,
+      );
+      setLpTokenAmount(lpTokenAmount);
+    }
+  }, [firstTokenAmount, secondTokenAmount]);
+
   const transactionSubmitModal = (id) => {
     setTransactionId(id);
     setShowTransactionSubmitModal(true);
@@ -401,7 +418,8 @@ const AddLiquidityNew = (props) => {
                   <Tooltip id="button-tooltip" {...props}>
                     {props.userBalances[props.tokenIn.name]
                       ? props.userBalances[props.tokenIn.name]
-                      : 0.0}
+                      : 0.0}{' '}
+                    {props.tokenIn.name}
                   </Tooltip>
                 }
               >
@@ -510,7 +528,8 @@ const AddLiquidityNew = (props) => {
                   <Tooltip id="button-tooltip" {...props}>
                     {props.userBalances[props.tokenOut.name]
                       ? props.userBalances[props.tokenOut.name]
-                      : 0.0}
+                      : 0.0}{' '}
+                    {props.tokenOut.name}
                   </Tooltip>
                 }
               >
@@ -553,7 +572,7 @@ const AddLiquidityNew = (props) => {
       {swapContentButton}
       {props.isPositionAvailable ? (
         <div className="your-positions">
-          <div className="d-sm-flex justify-content-between">
+          <div className=" content-your-position justify-content-between">
             <div className="left">
               <div className="your-positions-label ">Your Positions</div>
               <img width="50" height="50" src={props.tokenIn.image} />
@@ -587,7 +606,7 @@ const AddLiquidityNew = (props) => {
               </div>
             </div>
             <div className="ml-auto right">
-              <div className="pool-tokens ml-sm-auto">
+              <div className="pool-tokens ">
                 <div className="label">Pool Tokens</div>
                 <div className="pool-value">
                   {props.positionDetails.data

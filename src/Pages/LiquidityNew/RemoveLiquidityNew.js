@@ -10,6 +10,7 @@ import Button from '../../Components/Ui/Buttons/Button';
 import CONFIG from '../../config/config';
 import ConfirmRemoveLiquidity from '../../Components/SwapTabsContent/LiquidityTabs/ConfirmRemoveLiquidity';
 import { setLoader } from '../../redux/slices/settings/settings.slice';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 const RemoveLiquidityNew = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
@@ -283,25 +284,71 @@ const RemoveLiquidityNew = (props) => {
                   : '0.00'} */}
                 </p>
               </div>
-              <div className="balance-lq ml-auto">
-                {props.walletAddress && props.tokenIn.name ? (
-                  <p className="bal">
-                    Balance:{' '}
-                    {props.userBalances[
-                      CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
-                        .liquidityToken
-                    ] >= 0 ? (
-                      props.userBalances[
-                        CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
-                          props.tokenOut.name
-                        ].liquidityToken
-                      ].toFixed(4)
-                    ) : (
-                      <div className="shimmer">0.0000</div>
-                    )}{' '}
-                  </p>
-                ) : null}
-              </div>
+              {props.walletAddress && props.tokenOut.name ? (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    <Tooltip id="button-tooltip" {...props}>
+                      {props.isStableSwap
+                        ? props.userBalances[
+                            CONFIG.STABLESWAP[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
+                              props.tokenOut.name
+                            ].liquidityToken
+                          ]
+                          ? props.userBalances[
+                              CONFIG.STABLESWAP[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
+                                props.tokenOut.name
+                              ].liquidityToken
+                            ]
+                          : 0.0
+                        : props.userBalances[
+                            CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
+                              props.tokenOut.name
+                            ].liquidityToken
+                          ]
+                        ? props.userBalances[
+                            CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
+                              props.tokenOut.name
+                            ].liquidityToken
+                          ]
+                        : 0.0}{' '}
+                    </Tooltip>
+                  }
+                >
+                  <div className="balance-lq ml-auto">
+                    <p className="bal">
+                      Balance:{' '}
+                      {props.isStableSwap ? (
+                        props.userBalances[
+                          CONFIG.STABLESWAP[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
+                            props.tokenOut.name
+                          ].liquidityToken
+                        ] >= 0 ? (
+                          props.userBalances[
+                            CONFIG.STABLESWAP[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
+                              props.tokenOut.name
+                            ].liquidityToken
+                          ].toFixed(4)
+                        ) : (
+                          <div className="shimmer">0.0000</div>
+                        )
+                      ) : props.userBalances[
+                          CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
+                            props.tokenOut.name
+                          ].liquidityToken
+                        ] >= 0 ? (
+                        props.userBalances[
+                          CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
+                            props.tokenOut.name
+                          ].liquidityToken
+                        ].toFixed(4)
+                      ) : (
+                        <div className="shimmer">0.0000</div>
+                      )}{' '}
+                    </p>
+                  </div>
+                </OverlayTrigger>
+              ) : null}
             </div>
           </div>
         </div>
@@ -367,7 +414,7 @@ const RemoveLiquidityNew = (props) => {
       {swapContentButton}
       {props.isPositionAvailable ? (
         <div className="your-positions">
-          <div className="d-sm-flex justify-content-between">
+          <div className="content-your-position  justify-content-between">
             <div className="left">
               <div className="your-positions-label ">Your Positions</div>
               <img width="50" height="50" src={props.tokenIn.image} />
@@ -401,7 +448,7 @@ const RemoveLiquidityNew = (props) => {
               </div>
             </div>
             <div className="ml-auto right">
-              <div className="pool-tokens ml-sm-auto">
+              <div className="pool-tokens ">
                 <div className="label">Pool Tokens</div>
                 <div className="pool-value">
                   {props.positionDetails.data
