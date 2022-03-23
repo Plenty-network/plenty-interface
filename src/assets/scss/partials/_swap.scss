@@ -546,8 +546,8 @@
   width: 146px;
   background: var(--theme-card-bg);
   height: 47px;
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -568,8 +568,8 @@
   background: var(--theme-card-bg);
   border-right: 0.863044px solid var(--theme-border-global);
   height: 77px;
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
   padding: 20px;
 }
 .search-coin-wrapper {
@@ -737,6 +737,9 @@
   border-radius: 10.3886px;
 
   cursor: pointer;
+  @media screen and (min-width: 320px) and (max-width: 900px) {
+    left: 169px !important;
+  }
   > span {
     margin: auto;
     font-size: 30px;
@@ -801,8 +804,8 @@
   padding-bottom: 0px;
   padding-left: 12px;
   padding-right: 12px;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
   margin: 0 18px;
 }
 .share-pool {
@@ -812,8 +815,8 @@
   padding-bottom: 7px;
   padding-left: 12px;
   padding-right: 12px;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
 }
 .input-width {
   width: 50%;
@@ -892,6 +895,9 @@
   border: 0.863044px solid var(--theme-balance-border);
   box-sizing: border-box;
   border-radius: 8px;
+  @media screen and (min-width: 320px) and (max-width: 900px) {
+    padding: 14px 8px;
+  }
   .bal {
     font-size: 12px;
     font-style: normal;
@@ -1477,17 +1483,18 @@ input:checked {
   max-width: 400px !important;
 }
 .confirm-add-liquidity-modal {
+  height: 100vh;
   .modal-dialog {
-    margin: 9.95rem auto;
-    @media screen and (min-width: 1400px) {
+    margin: 6.95rem auto;
+    @media screen and (min-width: 1400px) and (min-height: 900px) {
       margin: 17.95rem auto;
     }
   }
 }
 .swap-modal-centered {
   .modal-dialog {
-    margin: 9.95rem auto;
-    @media screen and (min-width: 1200px) {
+    margin: 6.95rem auto;
+    @media screen and (min-width: 1400px) and (min-height: 900px) {
       margin: 17.95rem auto;
     }
   }

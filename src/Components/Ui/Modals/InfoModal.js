@@ -67,10 +67,6 @@ InfoModal.propTypes = {
   message: PropTypes.string.isRequired,
   buttonText: PropTypes.string,
   onBtnClick: PropTypes.func,
-  firstTokenAmount: PropTypes.any,
-  secondTokenAmount: PropTypes.any,
-  tokenIn: PropTypes.any,
-  tokenOut: PropTypes.any,
   theme: PropTypes.any,
   InfoMessage: PropTypes.any,
 };
