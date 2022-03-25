@@ -533,6 +533,7 @@ export async function add_liquidity(
   transactionSubmitModal,
   setShowConfirmAddSupply,
   resetAllValues,
+  setShowConfirmTransaction,
 ) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
@@ -584,6 +585,7 @@ export async function add_liquidity(
         : console.log('operation injected');
     }
     setShowConfirmAddSupply(false);
+    setShowConfirmTransaction(false);
     resetAllValues();
     transactionSubmitModal(batchOp.opHash);
 
@@ -619,6 +621,7 @@ export async function remove_liquidity(
   transactionSubmitModal,
   setShowConfirmSwap,
   resetAllValues,
+  setShowConfirmTransaction,
 ) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
@@ -650,6 +653,7 @@ export async function remove_liquidity(
         : console.log('operation injected');
     }
     setShowConfirmSwap(false);
+    setShowConfirmTransaction(true);
     resetAllValues();
     transactionSubmitModal(op.opHash);
     await op.confirmation();

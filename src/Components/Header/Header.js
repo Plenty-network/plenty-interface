@@ -181,9 +181,7 @@ const Header = (props) => {
                         selectedHeader === HEADER_MODAL.TRADE ? 'menu-item-active' : 'menu-item',
                         (splitLocation[1] === 'swap' ||
                           splitLocation[1] === 'Stableswap' ||
-                          splitLocation[1] === 'liquidityStable' ||
-                          splitLocation[1] === 'tokens' ||
-                          splitLocation[1] === 'liquidity') &&
+                          splitLocation[1] === 'tokens') &&
                           'selected-menu-item-active',
                         'align-self-start align-self-lg-center d-lg-flex align-items-center',
                       )}
@@ -195,7 +193,7 @@ const Header = (props) => {
                         Trade
                       </span>
                       <span
-                        className={clsx('material-icons', 'arrow', {
+                        className={clsx('material-icons', 'arrow-header', {
                           rotate:
                             selectedHeader === HEADER_MODAL.TRADE && (isMobile ? isExpanded : true),
                         })}
@@ -217,7 +215,9 @@ const Header = (props) => {
                         selectedHeader === HEADER_MODAL.EARN ? 'menu-item-active' : 'menu-item',
                         (splitLocation[1] === 'farms' ||
                           splitLocation[1] === 'liquidity-pools' ||
-                          splitLocation[1] === 'stake') &&
+                          splitLocation[1] === 'stake' ||
+                          splitLocation[1] === 'liquidity' ||
+                          splitLocation[1] === 'liquidityPositions') &&
                           'selected-menu-item-active',
                         'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
@@ -229,7 +229,7 @@ const Header = (props) => {
                         Earn
                       </span>
                       <span
-                        className={clsx('material-icons', 'arrow', {
+                        className={clsx('material-icons', 'arrow-header', {
                           rotate:
                             selectedHeader === HEADER_MODAL.EARN && (isMobile ? isExpanded : true),
                         })}
@@ -260,7 +260,7 @@ const Header = (props) => {
                         Vote
                       </span>
                       <span
-                        className={clsx('material-icons', 'arrow', {
+                        className={clsx('material-icons', 'arrow-header', {
                           rotate:
                             selectedHeader === HEADER_MODAL.VOTE && (isMobile ? isExpanded : true),
                         })}
@@ -290,7 +290,7 @@ const Header = (props) => {
                         More
                       </span>
                       <span
-                        className={clsx('material-icons', 'arrow', {
+                        className={clsx('material-icons', 'arrow-header', {
                           rotate:
                             selectedHeader === HEADER_MODAL.MORE && (isMobile ? isExpanded : true),
                         })}
@@ -321,7 +321,7 @@ const Header = (props) => {
                         <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                           Settings
                         </span>
-                        <span className={clsx('material-icons', 'arrow', 'align-self-end')}>
+                        <span className={clsx('material-icons', 'arrow-header', 'align-self-end')}>
                           settings
                         </span>
                       </Nav.Link>

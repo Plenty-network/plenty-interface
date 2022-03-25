@@ -145,9 +145,10 @@ export const swapTokens = async (
 
     const batchOperation = await batch.send();
     setShowConfirmTransaction(false);
-    resetAllValues();
+
     setShowConfirmSwap(false);
     transactionSubmitModal(batchOperation.opHash);
+    resetAllValues();
 
     await batchOperation.confirmation().then(() => batchOperation.opHash);
     return {
@@ -590,6 +591,7 @@ export const addLiquidity = async (
   transactionSubmitModal,
   resetAllValues,
   setShowConfirmAddSupply,
+  setShowConfirmTransaction,
 ) => {
   try {
     const network = {
@@ -788,9 +790,11 @@ export const addLiquidity = async (
         .withContractCall(tokenSecondInstance.methods.approve(dexContractAddress, 0));
     }
     const batchOperation = await batch.send();
-    resetAllValues();
+
     setShowConfirmAddSupply(false);
+    setShowConfirmTransaction(false);
     transactionSubmitModal(batchOperation.opHash);
+    resetAllValues();
     await batchOperation.confirmation().then(() => batchOperation.opHash);
     return {
       success: true,
@@ -911,6 +915,7 @@ export const removeLiquidity = async (
   transactionSubmitModal,
   resetAllValues,
   setShowConfirmRemoveSupply,
+  setShowConfirmTransaction,
 ) => {
   try {
     let tokenFirst = null;
@@ -974,9 +979,11 @@ export const removeLiquidity = async (
         ),
       );
     const batchOperation = await batch.send();
-    resetAllValues();
+
     setShowConfirmRemoveSupply(false);
+    setShowConfirmTransaction(false);
     transactionSubmitModal(batchOperation.opHash);
+    resetAllValues();
     await batchOperation.confirmation().then(() => batchOperation.opHash);
     return {
       success: true,

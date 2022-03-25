@@ -256,8 +256,6 @@ const LiquidityNew = (props) => {
     setSlippage(0.05);
     setRecepient('');
     setTokenType('tokenIn');
-    // setFirstTokenAmount('');
-    // setSecondTokenAmount('');
   };
 
   const changeLiquidityType = (tab) => {
