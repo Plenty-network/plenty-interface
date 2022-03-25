@@ -180,6 +180,7 @@
 }
 .liq-container-tab {
   border-bottom: 1px solid var(--theme-nav-link-border);
+
   > a {
     font-style: normal;
     font-weight: bold;
@@ -193,8 +194,9 @@
     border: 0 !important;
     background-color: transparent !important;
     @media screen and (min-width: 320px) and (max-width: 900px) {
-      padding-right: 30px;
-      padding-left: 30px;
+      width: 186px;
+      margin-right: 0px;
+      text-align: center;
     }
     & .active {
       border-bottom: 2px solid var(--theme-primary-1) !important;
@@ -207,8 +209,8 @@
     padding-right: 0px;
     padding-left: 0px;
     @media screen and (min-width: 320px) and (max-width: 900px) {
-      padding-right: 30px;
-      padding-left: 30px;
+      width: 186px;
+      text-align: center;
     }
   }
 }
@@ -260,7 +262,15 @@
 }
 .removing-padding-confirm-supply {
   padding: 0px !important;
+  display: flex;
+  //justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: var(--theme-input-bg);
+  mix-blend-mode: normal;
+  box-sizing: border-box;
   min-height: 47px;
+  border-radius: 8px !important;
   border: 1px solid var(--theme-border-global) !important;
 }
 .confirm-supply-token-box {
@@ -280,7 +290,7 @@
   }
 }
 .remove-lq-border {
-  height: 135px !important;
+  height: 120px !important;
   @media screen and (min-width: 320px) and (max-width: 900px) {
     height: auto !important;
   }
@@ -319,7 +329,7 @@
   }
 }
 .remove-lq-input-height {
-  min-height: 135px !important;
+  min-height: 120px !important;
 }
 .token-selector {
   background-color: var(--theme-bg-4);
@@ -544,13 +554,14 @@
 }
 .confirm-supply-remove {
   width: 146px;
+  border-right: 1px solid var(--theme-border-global);
   background: var(--theme-card-bg);
   height: 47px;
   border-top-left-radius: 16px;
   border-bottom-left-radius: 16px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  padding-left: 16px;
   .token-left {
     border: 0px;
     color: var(--theme-text-1);
@@ -567,7 +578,7 @@
   width: 121px;
   background: var(--theme-card-bg);
   border-right: 0.863044px solid var(--theme-border-global);
-  height: 77px;
+  height: 79.5px;
   border-top-left-radius: 16px;
   border-bottom-left-radius: 16px;
   padding: 20px;
@@ -675,8 +686,28 @@
     color: var(--theme-text-1);
   }
 }
+.arrow-center-remove-lq {
+  position: absolute;
+  left: 155px;
+  right: 0;
+  transform: translateY(-50%);
+  background-color: var(--theme-bg-1);
+  text-align: center;
+  width: 24px;
+  height: 24px;
+  padding: 2px;
+  border: 1px solid var(--theme-border);
+  border-radius: 8px;
+  cursor: pointer;
+  > span {
+    margin: auto;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--theme-text-1);
+  }
+}
 .second-input {
-  margin-top: 14px;
+  margin-top: 8px;
 }
 .input-lq {
   width: 532px;
@@ -800,23 +831,23 @@
 }
 .confirm-supply-bottom {
   background: var(--theme-expand-button-bg);
-  padding-top: 18px;
-  padding-bottom: 0px;
+  padding-top: 16px;
+  padding-bottom: 16px;
   padding-left: 12px;
   padding-right: 12px;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
   margin: 0 18px;
 }
 .share-pool {
   background: var(--theme-share-pool-bg);
   margin: 0 18px;
-  padding-top: 0px;
-  padding-bottom: 7px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   padding-left: 12px;
   padding-right: 12px;
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 .input-width {
   width: 50%;
@@ -938,6 +969,12 @@
   border: 1px solid var(--theme-border-global);
   box-sizing: border-box;
   border-radius: 16px;
+  @media screen and (min-width: 320px) and (max-width: 900px) {
+    border-radius: 0px;
+    border: 1px solid var(--theme-border-global);
+    margin-right: -15px;
+    margin-left: -15px;
+  }
   .content-your-position {
     display: flex !important;
     @media screen and (min-width: 320px) and (max-width: 900px) {
@@ -1002,7 +1039,8 @@
     background: var(--theme-lp-pair-bg);
     border-radius: 8px;
     padding: 13.21px 24px;
-    width: 154px;
+    width: 136px;
+    height: 69px;
     margin-left: auto;
     @media screen and (min-width: 320px) and (max-width: 900px) {
       padding: 10.5px 24px;
@@ -1030,7 +1068,8 @@
     background: var(--theme-lp-pair-bg);
     border-radius: 8px;
     padding: 10.5px 24px;
-    width: 174px;
+    width: 146px;
+    height: 69px;
     @media screen and (min-width: 320px) and (max-width: 900px) {
       padding: 10.5px 24px;
       margin-top: 0px;
@@ -1055,12 +1094,12 @@
   }
 }
 .details {
-  padding: 8px 12px;
+  padding: 8px 8px;
   background: var(--theme-lq-details-individual-bg);
   border-radius: 8px;
   font-style: normal;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 13.5px;
   line-height: 20px;
   color: var(--theme-header-text);
   .content {
@@ -1171,7 +1210,7 @@
   margin-top: 4px;
   font-style: normal;
   font-weight: 500;
-  line-height: 20px;
+
   letter-spacing: 0px;
   color: var(--theme-header-text);
 }
@@ -1188,13 +1227,13 @@
   margin-top: 4px;
   font-style: normal;
   font-weight: 700;
-  line-height: 26px;
+
   letter-spacing: 0px;
   color: var(--theme-governance-buttonBorder);
 }
 .confirm-supply-amt-details {
   background: var(--theme-lq-details-individual-bg);
-  border-radius: 16px;
+  border-radius: 8px;
   padding: 8px 12px;
   font-style: normal;
   font-weight: 500;
@@ -1202,6 +1241,11 @@
   line-height: 13px;
   color: var(--theme-swap-info-text);
   margin: 0;
+  text-align: right;
+  .rates-value {
+    color: var(--theme-header-text);
+    font-weight: 700;
+  }
   > span {
     vertical-align: middle;
     font-size: 12px;
@@ -1376,7 +1420,7 @@ input:checked {
   line-height: 11px;
   letter-spacing: 0em;
   text-align: left;
-  color: var(--theme-text-1);
+  color: var(--theme-lp-token);
   margin: 0;
 }
 .swap-detail-rates-wrapper {
@@ -1389,7 +1433,7 @@ input:checked {
   margin-bottom: 20px;
 }
 .rates-confirm-supply-remove {
-  margin: 10px 26px;
+  margin: 10px 18px;
 }
 .rates-label {
   font-size: 14px;
@@ -1402,9 +1446,10 @@ input:checked {
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
-  line-height: 13px;
-  color: var(--theme-text-1);
-  padding: 14px 34px;
+  text-align: center;
+  line-height: 20px;
+  color: var(--theme-modal-text);
+  padding: 15px 18px;
   padding-top: 0;
 }
 
@@ -1568,6 +1613,22 @@ input:checked {
   @media screen and (min-width: 320px) and (max-width: 900px) {
     max-width: 414px;
     padding: 24px 16px;
+    border: 0px;
+    border-top: 1px solid var(--theme-gradient-border);
+    border-radius: 0px;
+  }
+}
+.add-liq-border {
+  @media screen and (min-width: 320px) and (max-width: 900px) {
+    border-top: 1px solid var(--theme-gradient-border);
+    border-radius: 0px;
+
+    width: 414px;
+    margin-top: 24px;
+    margin-right: -15px;
+    margin-left: -15px;
+    padding-right: 0px !important;
+    padding-left: 0px !important;
   }
 }
 .input-label {
@@ -1721,7 +1782,7 @@ input:checked {
   margin-top: 24px;
 }
 .lq-details-right {
-  width: 207px;
+  width: 172px;
   background: var(--theme-lq-details-individual-bg);
   border-radius: 8px;
   padding: 12px 0px 12px 24px;
@@ -1799,4 +1860,41 @@ input:checked {
 
   letter-spacing: 0em;
   text-align: center;
+}
+.confirm-add-liquidity-modal {
+  .modal-header {
+    align-items: center !important;
+  }
+}
+.add-padding {
+  padding-left: 16px;
+}
+.add-margin-b {
+  margin-bottom: 12px !important;
+}
+.divider-confirm-supply-remove {
+  border-bottom: 0.863044px solid #f1f1f1;
+  margin: 10px 24px;
+}
+.remove-footer {
+  margin: 10px 24px;
+  .lp-pair-remove {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0px;
+    color: var(--theme-modal-text);
+  }
+  .lp-pair-value {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: 0px;
+    color: var(--theme-header-text);
+  }
+}
+.rotate {
+  transform: rotate(180deg);
 }

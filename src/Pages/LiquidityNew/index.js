@@ -11,8 +11,6 @@ import config from '../../config/config';
 import { useLocationStateInLiquidity } from '../Swap/hooks/useLocationStateLiquidity';
 import { getUserBalanceByRpc, fetchtzBTCBalance, getTokenPrices } from '../../apis/swap/swap';
 import { loadSwapData } from '../../apis/swap/swap-v2';
-
-import TransactionSettings from '../../Components/TransactionSettings/TransactionSettings';
 import RemoveLiquidityNew from './RemoveLiquidityNew';
 import { liquidityTokens } from '../../constants/liquidityTokens';
 import { LiquidityPositions } from './LiquidityPositions';
@@ -58,7 +56,7 @@ const LiquidityNew = (props) => {
   useEffect(() => {
     if (tokenIn.name === 'tez') {
       setTokenOut({
-        name: 'ctez',
+        name: 'CTEZ',
         image: ctez,
       });
     }
@@ -81,6 +79,7 @@ const LiquidityNew = (props) => {
       } else {
         res = await getLiquidityPositionDetails(tokenIn.name, tokenOut.name, props.walletAddress);
       }
+
       setPositionDetails(res);
     }
   }, [tokenIn, tokenOut, props]);
@@ -191,7 +190,7 @@ const LiquidityNew = (props) => {
       });
       if (token.name === 'tez') {
         setTokenOut({
-          name: 'ctez',
+          name: 'CTEZ',
           image: ctez,
         });
       }
@@ -331,7 +330,7 @@ const LiquidityNew = (props) => {
           </span>
         )}
       </p>
-      {isLiquidityPosition && <div className="liq-label">Liquidity Positions</div>}
+      {isLiquidityPosition && <div className="liq-label">Your Liquidity Positions</div>}
       {/* <div className="liq-label">{isLiquidityPosition ? 'Liquidity Positions' : 'Liquidity'}</div> */}
       {!isLiquidityPosition ? (
         <Col sm={8} md={6} className="liquidity-content-container">
@@ -430,15 +429,6 @@ const LiquidityNew = (props) => {
                 </Tab>
               ) : null}
             </Tabs>
-            <div className="transaction-setting-lq">
-              <TransactionSettings
-                recepient={recepient}
-                slippage={slippage}
-                setSlippage={setSlippage}
-                setRecepient={setRecepient}
-                walletAddress={props.walletAddress}
-              />
-            </div>
           </div>
         </Col>
       ) : (

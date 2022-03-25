@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Modal } from 'react-bootstrap';
 import Button from '../../Ui/Buttons/Button';
-import InfoIcon from '../../../assets/images/SwapModal/info.svg';
 
 const ConfirmAddLiquidity = (props) => {
   return (
@@ -49,9 +48,7 @@ const ConfirmAddLiquidity = (props) => {
           </div>
 
           <div className="rates-confirm-supply flex justify-between">
-            <p className="rates-label">
-              <img width="15" height="15" className="mr-1" src={InfoIcon} /> Rates
-            </p>
+            <p className="rates-label">Rates</p>
             <div className="">
               {props.swapData ? (
                 <p className="confirm-supply-amt-details">
@@ -75,21 +72,21 @@ const ConfirmAddLiquidity = (props) => {
             </div>
           </div>
           <div className="confirm-supply-bottom">
-            <div className="swap-detail-amt-wrapper mb-0">
-              <p className="confirm-supply-details-label">{props.tokenIn.name} deposited </p>
-              <p className="confirm-supply-details-value">
+            <div className="swap-detail-amt-wrapper">
+              <div className="confirm-supply-details-label">{props.tokenIn.name} deposited </div>
+              <div className="confirm-supply-details-value">
                 {props.firstTokenAmount} {props.tokenIn.name}
-              </p>
+              </div>
             </div>
 
             <div className="swap-detail-amt-wrapper mb-0">
-              <p className="confirm-supply-details-label">{props.tokenOut.name} deposited </p>
-              <p className="confirm-supply-details-value">
+              <div className="confirm-supply-details-label">{props.tokenOut.name} deposited </div>
+              <div className="confirm-supply-details-value">
                 {props.secondTokenAmount
                   ? props.secondTokenAmount
                   : props.estimatedTokenAmout.otherTokenAmount}{' '}
                 {props.tokenOut.name}
-              </p>
+              </div>
             </div>
           </div>
           <div className="share-pool flex justify-between">
@@ -112,7 +109,7 @@ const ConfirmAddLiquidity = (props) => {
               className={'mt-4 w-100 '}
               loading={props.loading}
             >
-              Confirm Supply
+              Confirm
             </Button>
           </div>
         </>
