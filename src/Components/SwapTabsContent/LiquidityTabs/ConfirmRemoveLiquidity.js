@@ -100,7 +100,7 @@ const ConfirmRemoveLiquidity = (props) => {
           <div className="divider-confirm-supply-remove"></div>
           <div className="flex justify-content-between remove-footer">
             <div className="lp-pair-remove">
-              {props.tokenIn.name} / {props.tokenOut.name}
+              {props.tokenIn.name} / {props.tokenOut.name} Burned
             </div>
             <div className="lp-pair-value">0.00</div>
           </div>

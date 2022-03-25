@@ -464,31 +464,31 @@ export const getFarmsDataAPI = async (isActive) => {
           key === 'uUSD - YOU' ||
           key === 'uUSD - uDEFI' ||
           key === 'uUSD - wUSDC' ||
-          key === 'ctez - kUSD' ||
-          key === 'ctez - USDtz' ||
-          key === 'ctez - wUSDT' ||
-          key === 'ctez - wBUSD' ||
-          key === 'ctez - wUSDC' ||
-          key === 'ctez - wDAI' ||
-          key === 'ctez - KALAM' ||
-          key === 'ctez - GIF' ||
-          key === 'ctez - ETHtz' ||
-          key === 'ctez - QUIPU' ||
-          key === 'ctez - hDAO' ||
-          key === 'ctez - kDAO' ||
-          key === 'ctez - wWETH' ||
-          key === 'ctez - uUSD' ||
-          key === 'ctez - FLAME' ||
-          key === 'ctez - SMAK' ||
-          key === 'ctez - crDAO' ||
-          key === 'ctez - PXL' ||
-          key === 'ctez - UNO' ||
-          key === 'ctez - WRAP' ||
-          key === 'ctez - wWBTC' ||
-          key === 'ctez - tzBTC' ||
-          key === 'ctez - PAUL' ||
-          key === 'ctez - INSTA' ||
-          key === 'ctez - CRUNCH'
+          key === 'CTEZ - kUSD' ||
+          key === 'CTEZ - USDtz' ||
+          key === 'CTEZ - wUSDT' ||
+          key === 'CTEZ - wBUSD' ||
+          key === 'CTEZ - wUSDC' ||
+          key === 'CTEZ - wDAI' ||
+          key === 'CTEZ - KALAM' ||
+          key === 'CTEZ - GIF' ||
+          key === 'CTEZ - ETHtz' ||
+          key === 'CTEZ - QUIPU' ||
+          key === 'CTEZ - hDAO' ||
+          key === 'CTEZ - kDAO' ||
+          key === 'CTEZ - wWETH' ||
+          key === 'CTEZ - uUSD' ||
+          key === 'CTEZ - FLAME' ||
+          key === 'CTEZ - SMAK' ||
+          key === 'CTEZ - crDAO' ||
+          key === 'CTEZ - PXL' ||
+          key === 'CTEZ - UNO' ||
+          key === 'CTEZ - WRAP' ||
+          key === 'CTEZ - wWBTC' ||
+          key === 'CTEZ - tzBTC' ||
+          key === 'CTEZ - PAUL' ||
+          key === 'CTEZ - INSTA' ||
+          key === 'CTEZ - CRUNCH'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(

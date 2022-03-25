@@ -352,17 +352,11 @@ const SwapContent = (props) => {
       />
       <ConfirmTransaction
         show={props.showConfirmTransaction}
-        tokenIn={props.tokenIn}
-        firstTokenAmount={firstAmount}
-        tokenOut={props.tokenOut}
-        slippage={props.slippage}
-        confirmSwapToken={confirmSwapToken}
-        onHide={props.handleClose}
-        routeData={props.routeData}
-        loading={props.loading}
+        content={InfoMessage}
         theme={props.theme}
-        secondTokenAmount={secondAmount}
+        onHide={props.handleClose}
       />
+
       <InfoModal
         open={showTransactionSubmitModal}
         firstTokenAmount={firstAmount}

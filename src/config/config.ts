@@ -463,7 +463,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - kUSD': {
+        'CTEZ - kUSD': {
           active: [],
           inactive: [
             {
@@ -474,7 +474,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - wUSDC': {
+        'CTEZ - wUSDC': {
           active: [],
           inactive: [
             {
@@ -485,7 +485,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - KALAM': {
+        'CTEZ - KALAM': {
           active: [],
           inactive: [
             {
@@ -496,7 +496,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - USDtz': {
+        'CTEZ - USDtz': {
           active: [],
           inactive: [
             {
@@ -507,7 +507,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - wUSDT': {
+        'CTEZ - wUSDT': {
           active: [],
           inactive: [
             {
@@ -518,7 +518,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - wBUSD': {
+        'CTEZ - wBUSD': {
           active: [],
           inactive: [
             {
@@ -529,7 +529,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - wDAI': {
+        'CTEZ - wDAI': {
           active: [],
           inactive: [
             {
@@ -540,7 +540,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - GIF': {
+        'CTEZ - GIF': {
           active: [],
           inactive: [
             {
@@ -551,7 +551,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - tzBTC': {
+        'CTEZ - tzBTC': {
           active: [],
           inactive: [
             {
@@ -562,7 +562,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - PAUL': {
+        'CTEZ - PAUL': {
           active: [],
           inactive: [
             {
@@ -573,7 +573,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - INSTA': {
+        'CTEZ - INSTA': {
           active: [],
           inactive: [
             {
@@ -584,7 +584,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - ETHtz': {
+        'CTEZ - ETHtz': {
           active: [],
           inactive: [
             {
@@ -595,7 +595,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - QUIPU': {
+        'CTEZ - QUIPU': {
           active: [],
           inactive: [
             {
@@ -606,7 +606,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - hDAO': {
+        'CTEZ - hDAO': {
           active: [],
           inactive: [
             {
@@ -617,7 +617,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - kDAO': {
+        'CTEZ - kDAO': {
           active: [],
           inactive: [
             {
@@ -628,7 +628,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - wWETH': {
+        'CTEZ - wWETH': {
           active: [],
           inactive: [
             {
@@ -639,7 +639,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - CRUNCH': {
+        'CTEZ - CRUNCH': {
           active: [],
           inactive: [
             {
@@ -650,7 +650,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - UNO': {
+        'CTEZ - UNO': {
           active: [],
           inactive: [
             {
@@ -661,7 +661,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - WRAP': {
+        'CTEZ - WRAP': {
           active: [],
           inactive: [
             {
@@ -672,7 +672,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - PXL': {
+        'CTEZ - PXL': {
           active: [],
           inactive: [
             {
@@ -683,7 +683,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - crDAO': {
+        'CTEZ - crDAO': {
           active: [],
           inactive: [
             {
@@ -694,7 +694,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - SMAK': {
+        'CTEZ - SMAK': {
           active: [],
           inactive: [
             {
@@ -705,7 +705,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - FLAME': {
+        'CTEZ - FLAME': {
           active: [],
           inactive: [
             {
@@ -716,7 +716,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - uUSD': {
+        'CTEZ - uUSD': {
           active: [],
           inactive: [
             {
@@ -727,7 +727,7 @@ const Config: IConfig = {
             },
           ],
         },
-        'ctez - wWBTC': {
+        'CTEZ - wWBTC': {
           active: [],
           inactive: [
             {
@@ -1032,175 +1032,175 @@ const Config: IConfig = {
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - kUSD': {
+      'CTEZ - kUSD': {
         address: 'KT19bFNh8pZCRtTy7Pi9kpEcb2Yd7KWArAik',
         mapId: 44750,
         decimal: 12,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - USDtz': {
+      'CTEZ - USDtz': {
         address: 'KT1DQfEUBsaZo43G3j1CbFF9BiWZXS72DuCh',
         mapId: 44781,
         decimal: 6,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - wUSDC': {
+      'CTEZ - wUSDC': {
         address: 'KT19bFNh8pZCRtTy7Pi9kpEcb2Yd7KWArAik',
         mapId: 44803,
         decimal: 6,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - wUSDT': {
+      'CTEZ - wUSDT': {
         address: 'KT1KgCx6CYVSyLxfiFdo5hVuMwZBPQy1XZaf',
         mapId: 44806,
         decimal: 6,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - wBUSD': {
+      'CTEZ - wBUSD': {
         address: 'KT1K7GRKUWzfNJ9jzGprb13XDVqqp6GE67ZU',
         mapId: 44819,
         decimal: 12,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - wDAI': {
+      'CTEZ - wDAI': {
         address: 'KT1VLLdUaMfFbJw87b1PaVG1ac6UYM5xzqC5',
         mapId: 44829,
         decimal: 12,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - KALAM': {
+      'CTEZ - KALAM': {
         address: 'KT1N3mKQMnWEwt4FB3J4qP2X8LwYgndGDZrn',
         mapId: 44834,
         decimal: 8,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - GIF': {
+      'CTEZ - GIF': {
         address: 'KT1KdPxrn7UTx6CUWxuUBaGx4bVv6ZJKWUWr',
         mapId: 44857,
         decimal: 7,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - ETHtz': {
+      'CTEZ - ETHtz': {
         address: 'KT1GAvdLT9tkpKkRmkuChuL9T83esBtatgKm',
         mapId: 44870,
         decimal: 12,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - QUIPU': {
+      'CTEZ - QUIPU': {
         address: 'KT1C6Q4Mnnpns8vSQy7kJitZNMsED24SMw9m',
         mapId: 44884,
         decimal: 6,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - hDAO': {
+      'CTEZ - hDAO': {
         address: 'KT1DidqBuSaxGbVaDq2gLVkfh262dYyoGeSH',
         mapId: 44890,
         decimal: 6,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - kDAO': {
+      'CTEZ - kDAO': {
         address: 'KT1KmkH1T2CQV2Q5AcMeZy3GHhwNac48FBap',
         mapId: 44912,
         decimal: 12,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - wWETH': {
+      'CTEZ - wWETH': {
         address: 'KT1BAiXZkKG4R9W7LAKiAQahC8Wg7ZpJBaEs',
         mapId: 44916,
         decimal: 12,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - uUSD': {
+      'CTEZ - uUSD': {
         address: 'KT1BX8F7Xrtsy1tJ91iLovu4nJ8ZyVv4Dac2',
         mapId: 44924,
         decimal: 9,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - FLAME': {
+      'CTEZ - FLAME': {
         address: 'KT1UfvQiYexnpag6rZ3LMGsn5YFiEHrXrtbq',
         mapId: 44943,
         decimal: 6,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - SMAK': {
+      'CTEZ - SMAK': {
         address: 'KT1NeR3ExLddfdAbs5nwpQMm6DqBekyJTc4R',
         mapId: 44946,
         decimal: 4,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - crDAO': {
+      'CTEZ - crDAO': {
         address: 'KT1MQcJCLZL8ASHYGmT5LVzeXV64ruy7RAuH',
         mapId: 44954,
         decimal: 7,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - PXL': {
+      'CTEZ - PXL': {
         address: 'KT1GhzTxzgXgdv1rRCppAB5D4poXiUgp8yoU',
         mapId: 44994,
         decimal: 6,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - UNO': {
+      'CTEZ - UNO': {
         address: 'KT1WKWhTNMY4h4eHunbsnJ1oAtDWXCz4qNQm',
         mapId: 45316,
         decimal: 7,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - WRAP': {
+      'CTEZ - WRAP': {
         address: 'KT1MX73dim8HKqQLjTHvkJnpRUp37C1HXdkt',
         mapId: 44767,
         decimal: 7,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - wWBTC': {
+      'CTEZ - wWBTC': {
         address: 'KT1XWRUcvtcgpsETcasdUnNkq9rJeWmz8ihD',
         mapId: 44790,
         decimal: 7,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - tzBTC': {
+      'CTEZ - tzBTC': {
         address: 'KT1TMZjKBvSVKzETZTyRsTxYEu4uZLLs6VpJ',
         mapId: 44904,
         decimal: 7,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - PAUL': {
+      'CTEZ - PAUL': {
         address: 'KT1N93veCzepAPydFGGUhDFiA69PoawasxXi',
         mapId: 46392,
         decimal: 7,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - CRUNCH': {
+      'CTEZ - CRUNCH': {
         address: 'KT1QSA2SMDEKzEnJhGrVGheWb94Ux8Wyfuy6',
         mapId: 44763,
         decimal: 7,
         type: 'FA1.2',
         tokenId: 0,
       },
-      'ctez - INSTA': {
+      'CTEZ - INSTA': {
         address: 'KT1GkTwzN2gR6UdBicDSu2JEaRtv5KAPunrj',
         mapId: 44957,
         decimal: 7,
@@ -1244,7 +1244,7 @@ const Config: IConfig = {
         DEX_PAIRS: {
           tez: {
             contract: 'KT1AD4khq2R9q6DDbRY5CvUk8MXoshqsatGS',
-            property: 'ctezPool',
+            property: 'CTEZPool',
             liquidityToken: 'CTEZ-XTZ-LP',
           },
         },
@@ -1287,7 +1287,7 @@ const Config: IConfig = {
         DEX_PAIRS: {
           tez: {
             contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
-            property: 'ctezPool',
+            property: 'CTEZPool',
             liquidityToken: 'CTEZ-XTZ-LP',
           },
         },
@@ -1322,7 +1322,7 @@ const Config: IConfig = {
   },
   AMM: {
     testnet: {
-      ctez: {
+      CTEZ: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1HZW9FWJt6aU8x4nr6UiBry2eUCA7xEFb1',
         mapId: 26976,
@@ -1333,7 +1333,7 @@ const Config: IConfig = {
         DEX_PAIRS: {
           tez: {
             contract: 'KT1AD4khq2R9q6DDbRY5CvUk8MXoshqsatGS',
-            property: 'ctezPool',
+            property: 'CTEZPool',
             liquidityToken: 'CTEZ-XTZ-LP',
           },
         },
@@ -1346,7 +1346,7 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
-          ctez: {
+          CTEZ: {
             contract: 'KT1AD4khq2R9q6DDbRY5CvUk8MXoshqsatGS',
             property: 'tezPool',
             liquidityToken: 'CTEZ-XTZ-LP',
@@ -1457,7 +1457,7 @@ const Config: IConfig = {
       //   TOKEN_ID: 0,
       //   TOKEN_DECIMAL: 6,
       //   DEX_PAIRS: {
-      //     ctez: {
+      //     CTEZ: {
       //       contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
       //       property: 'tezPool',
       //       liquidityToken: 'CTEZ-XTZ-LP',
@@ -1602,7 +1602,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1PZpbmKtGE6ZyYeF8entfjuGGT7CRUCF5g',
             property: 'token1_pool',
-            liquidityToken: 'ctez-wusdc-lp',
+            liquidityToken: 'CTEZ-wusdc-lp',
           },
           // USDtz: {
           //   contract: 'KT1EJMMismkf6TQdMzgx8hb1HpiiRVV8ZSm4',
@@ -1633,7 +1633,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1GN7PHpFsH43ypFyE2hxNMdxqTuiCGm4Pm',
             property: 'token1_pool',
-            liquidityToken: 'ctez-wbusd-lp',
+            liquidityToken: 'CTEZ-wbusd-lp',
           },
         },
       },
@@ -1654,7 +1654,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1XPUvZHc1YKTJYnGbB755V95hDgvS1qQYf',
             property: 'token1_pool',
-            liquidityToken: 'ctez-wwbtc-lp',
+            liquidityToken: 'CTEZ-wwbtc-lp',
           },
         },
       },
@@ -1675,7 +1675,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1AfTwam4bNPawLv4bWqSj9GsVDPsf5F5bQ',
             property: 'token1_pool',
-            liquidityToken: 'ctez-wusdt-lp',
+            liquidityToken: 'CTEZ-wusdt-lp',
           },
         },
       },
@@ -1696,7 +1696,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1L5qd9xPWjiEX6ZNovhaty228ASg6jCE5p',
             property: 'token1_pool',
-            liquidityToken: 'ctez-wdai-lp',
+            liquidityToken: 'CTEZ-wdai-lp',
           },
         },
       },
@@ -1749,7 +1749,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1WwqM2MH38PSQbECxPngBVLSbqJUHzCFAH',
             property: 'token1_pool',
-            liquidityToken: 'ctez-wweth-lp',
+            liquidityToken: 'CTEZ-wweth-lp',
           },
           // ETHtz: {
           //   contract: 'KT196bPdVJqY1DF3y7aQ9Cn5tcGQeMrrjWTp',
@@ -1775,7 +1775,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1XLFZ2RS8vCUmHwBG39mq7zELhnLKn9JUz',
             property: 'token1_pool',
-            liquidityToken: 'ctez-uno-lp',
+            liquidityToken: 'CTEZ-uno-lp',
           },
         },
       },
@@ -1811,7 +1811,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1Rx3pQzsn4FBuuYhcWsqUS7vWFx3ktqSWD',
             property: 'token1_pool',
-            liquidityToken: 'ctez-uusd-lp',
+            liquidityToken: 'CTEZ-uusd-lp',
           },
         },
       },
@@ -1869,7 +1869,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1PWAXfPatPWBNJUxTHin4ECin1kYJHHnsr',
             property: 'token1_pool',
-            liquidityToken: 'ctez-usdtz-lp',
+            liquidityToken: 'CTEZ-usdtz-lp',
           },
           // kUSD: {
           //   contract: 'KT1TnsQ6JqzyTz5PHMsGj28WwJyBtgc146aJ',
@@ -1900,7 +1900,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT19Qe4KbEVAiaVeNsgo9Tkqa6qvZho8c4W5',
             property: 'token1_pool',
-            liquidityToken: 'ctez-wrap-lp',
+            liquidityToken: 'CTEZ-wrap-lp',
           },
         },
       },
@@ -1921,7 +1921,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1VnFPwDGJRt5ufMgcWafM2WWcZCC77gpT3',
             property: 'token1_pool',
-            liquidityToken: 'ctez-gif-lp',
+            liquidityToken: 'CTEZ-gif-lp',
           },
         },
       },
@@ -1942,7 +1942,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1Wryxte8NnVCm569yb8dcSPmvFBVs4ufD6',
             property: 'token1_pool',
-            liquidityToken: 'ctez-tzbtc-lp',
+            liquidityToken: 'CTEZ-tzbtc-lp',
           },
         },
       },
@@ -1957,7 +1957,7 @@ const Config: IConfig = {
         DEX_PAIRS: {
           // tez: {
           //   contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
-          //   property: 'ctezPool',
+          //   property: 'CTEZPool',
           //   liquidityToken: 'CTEZ-XTZ-LP',
           // },
           PLENTY: {
@@ -1968,127 +1968,127 @@ const Config: IConfig = {
           kUSD: {
             contract: 'KT1X1nkqJDR1UHwbfpcnME5Z7agJLjUQNguB',
             property: 'token2_pool',
-            liquidityToken: 'ctez-kusd-lp',
+            liquidityToken: 'CTEZ-kusd-lp',
           },
           WRAP: {
             contract: 'KT19Qe4KbEVAiaVeNsgo9Tkqa6qvZho8c4W5',
             property: 'token2_pool',
-            liquidityToken: 'ctez-wrap-lp',
+            liquidityToken: 'CTEZ-wrap-lp',
           },
           USDtz: {
             contract: 'KT1PWAXfPatPWBNJUxTHin4ECin1kYJHHnsr',
             property: 'token2_pool',
-            liquidityToken: 'ctez-usdtz-lp',
+            liquidityToken: 'CTEZ-usdtz-lp',
           },
           wWBTC: {
             contract: 'KT1XPUvZHc1YKTJYnGbB755V95hDgvS1qQYf',
             property: 'token2_pool',
-            liquidityToken: 'ctez-wwbtc-lp',
+            liquidityToken: 'CTEZ-wwbtc-lp',
           },
           wUSDC: {
             contract: 'KT1PZpbmKtGE6ZyYeF8entfjuGGT7CRUCF5g',
             property: 'token2_pool',
-            liquidityToken: 'ctez-wusdc-lp',
+            liquidityToken: 'CTEZ-wusdc-lp',
           },
           wUSDT: {
             contract: 'KT1AfTwam4bNPawLv4bWqSj9GsVDPsf5F5bQ',
             property: 'token2_pool',
-            liquidityToken: 'ctez-wusdt-lp',
+            liquidityToken: 'CTEZ-wusdt-lp',
           },
           wBUSD: {
             contract: 'KT1GN7PHpFsH43ypFyE2hxNMdxqTuiCGm4Pm',
             property: 'token2_pool',
-            liquidityToken: 'ctez-wbusd-lp',
+            liquidityToken: 'CTEZ-wbusd-lp',
           },
           wDAI: {
             contract: 'KT1L5qd9xPWjiEX6ZNovhaty228ASg6jCE5p',
             property: 'token2_pool',
-            liquidityToken: 'ctez-wdai-lp',
+            liquidityToken: 'CTEZ-wdai-lp',
           },
           KALAM: {
             contract: 'KT1HuZVo3ZKRhkaHDsYXZ2fvmVfkY1FrbEDj',
             property: 'token2_pool',
-            liquidityToken: 'ctez-kalam-lp',
+            liquidityToken: 'CTEZ-kalam-lp',
           },
           GIF: {
             contract: 'KT1VnFPwDGJRt5ufMgcWafM2WWcZCC77gpT3',
             property: 'token2_pool',
-            liquidityToken: 'ctez-gif-lp',
+            liquidityToken: 'CTEZ-gif-lp',
           },
           ETHtz: {
             contract: 'KT1GSYhwanehtwCK3NPfkMFbD1bNQmvosbqL',
             property: 'token2_pool',
-            liquidityToken: 'ctez-ethtz-lp',
+            liquidityToken: 'CTEZ-ethtz-lp',
           },
           QUIPU: {
             contract: 'KT1Ss8rb1UFVqG2LYEU5g4NEbK5SqW5Xadwp',
             property: 'token2_pool',
-            liquidityToken: 'ctez-quipu-lp',
+            liquidityToken: 'CTEZ-quipu-lp',
           },
           hDAO: {
             contract: 'KT1RSxExbbRwQdYBpRHWup9vxvw1Hp25vFVM',
             property: 'token2_pool',
-            liquidityToken: 'ctez-hdao-lp',
+            liquidityToken: 'CTEZ-hdao-lp',
           },
           tzBTC: {
             contract: 'KT1Wryxte8NnVCm569yb8dcSPmvFBVs4ufD6',
             property: 'token2_pool',
-            liquidityToken: 'ctez-tzbtc-lp',
+            liquidityToken: 'CTEZ-tzbtc-lp',
           },
           wWETH: {
             contract: 'KT1WwqM2MH38PSQbECxPngBVLSbqJUHzCFAH',
             property: 'token2_pool',
-            liquidityToken: 'ctez-wweth-lp',
+            liquidityToken: 'CTEZ-wweth-lp',
           },
           uUSD: {
             contract: 'KT1Rx3pQzsn4FBuuYhcWsqUS7vWFx3ktqSWD',
             property: 'token2_pool',
-            liquidityToken: 'ctez-uusd-lp',
+            liquidityToken: 'CTEZ-uusd-lp',
           },
           SMAK: {
             contract: 'KT1Qg4FmXDmViQgyYLT5QkgZQSmPKvKjZbzn',
             property: 'token2_pool',
-            liquidityToken: 'ctez-smak-lp',
+            liquidityToken: 'CTEZ-smak-lp',
           },
           UNO: {
             contract: 'KT1XLFZ2RS8vCUmHwBG39mq7zELhnLKn9JUz',
             property: 'token2_pool',
-            liquidityToken: 'ctez-uno-lp',
+            liquidityToken: 'CTEZ-uno-lp',
           },
           CRUNCH: {
             contract: 'KT1WZztBneC9NrhVqvo9yXq8St7p8c1JVTxm',
             property: 'token2_pool',
-            liquidityToken: 'ctez-crunch-lp',
+            liquidityToken: 'CTEZ-crunch-lp',
           },
           PXL: {
             contract: 'KT1WR19YA8Go6GbTvtrMpUEEGSuQYxgz2ZVW',
             property: 'token2_pool',
-            liquidityToken: 'ctez-pxl-lp',
+            liquidityToken: 'CTEZ-pxl-lp',
           },
           INSTA: {
             contract: 'KT1EnESbHxmzd2XeENyYNege4L5TKxeatJk9',
             property: 'token2_pool',
-            liquidityToken: 'ctez-insta-lp',
+            liquidityToken: 'CTEZ-insta-lp',
           },
           crDAO: {
             contract: 'KT1JkHBYp3Pq4TRSkFdc2CRoXFgDkJrfCqUe',
             property: 'token2_pool',
-            liquidityToken: 'ctez-crdao-lp',
+            liquidityToken: 'CTEZ-crdao-lp',
           },
           FLAME: {
             contract: 'KT1Bp3JAeeMP4GvJaspFw6zah6WydqqqHPNw',
             property: 'token2_pool',
-            liquidityToken: 'ctez-flame-lp',
+            liquidityToken: 'CTEZ-flame-lp',
           },
           kDAO: {
             contract: 'KT1SP9WsMeLFTiHBXqEumTASYbF3CXh22aVV',
             property: 'token2_pool',
-            liquidityToken: 'ctez-kdao-lp',
+            liquidityToken: 'CTEZ-kdao-lp',
           },
           PAUL: {
             contract: 'KT1LixgLzdK4nseeD6MmmVpokuw9CvpVX9KW',
             property: 'token2_pool',
-            liquidityToken: 'ctez-paul-lp',
+            liquidityToken: 'CTEZ-paul-lp',
           },
         },
       },
@@ -2104,7 +2104,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1LixgLzdK4nseeD6MmmVpokuw9CvpVX9KW',
             property: 'token1_pool',
-            liquidityToken: 'ctez-paul-lp',
+            liquidityToken: 'CTEZ-paul-lp',
           },
         },
       },
@@ -2125,7 +2125,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1HuZVo3ZKRhkaHDsYXZ2fvmVfkY1FrbEDj',
             property: 'token1_pool',
-            liquidityToken: 'ctez-kalam-lp',
+            liquidityToken: 'CTEZ-kalam-lp',
           },
         },
       },
@@ -2151,7 +2151,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1X1nkqJDR1UHwbfpcnME5Z7agJLjUQNguB',
             property: 'token1_pool',
-            liquidityToken: 'ctez-kusd-lp',
+            liquidityToken: 'CTEZ-kusd-lp',
           },
         },
       },
@@ -2172,7 +2172,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1RSxExbbRwQdYBpRHWup9vxvw1Hp25vFVM',
             property: 'token1_pool',
-            liquidityToken: 'ctez-hdao-lp',
+            liquidityToken: 'CTEZ-hdao-lp',
           },
         },
       },
@@ -2193,7 +2193,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1GSYhwanehtwCK3NPfkMFbD1bNQmvosbqL',
             property: 'token1_pool',
-            liquidityToken: 'ctez-ethtz-lp',
+            liquidityToken: 'CTEZ-ethtz-lp',
           },
           // wWETH: {
           //   contract: 'KT196bPdVJqY1DF3y7aQ9Cn5tcGQeMrrjWTp',
@@ -2219,7 +2219,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1Qg4FmXDmViQgyYLT5QkgZQSmPKvKjZbzn',
             property: 'token1_pool',
-            liquidityToken: 'ctez-smak-lp',
+            liquidityToken: 'CTEZ-smak-lp',
           },
         },
       },
@@ -2240,7 +2240,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1Ss8rb1UFVqG2LYEU5g4NEbK5SqW5Xadwp',
             property: 'token1_pool',
-            liquidityToken: 'ctez-quipu-lp',
+            liquidityToken: 'CTEZ-quipu-lp',
           },
         },
       },
@@ -2256,7 +2256,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1WZztBneC9NrhVqvo9yXq8St7p8c1JVTxm',
             property: 'token1_pool',
-            liquidityToken: 'ctez-crunch-lp',
+            liquidityToken: 'CTEZ-crunch-lp',
           },
         },
       },
@@ -2272,7 +2272,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1Bp3JAeeMP4GvJaspFw6zah6WydqqqHPNw',
             property: 'token1_pool',
-            liquidityToken: 'ctez-flame-lp',
+            liquidityToken: 'CTEZ-flame-lp',
           },
         },
       },
@@ -2288,7 +2288,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1SP9WsMeLFTiHBXqEumTASYbF3CXh22aVV',
             property: 'token1_pool',
-            liquidityToken: 'ctez-kdao-lp',
+            liquidityToken: 'CTEZ-kdao-lp',
           },
         },
       },
@@ -2304,7 +2304,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1EnESbHxmzd2XeENyYNege4L5TKxeatJk9',
             property: 'token1_pool',
-            liquidityToken: 'ctez-insta-lp',
+            liquidityToken: 'CTEZ-insta-lp',
           },
         },
       },
@@ -2320,7 +2320,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1JkHBYp3Pq4TRSkFdc2CRoXFgDkJrfCqUe',
             property: 'token1_pool',
-            liquidityToken: 'ctez-crdao-lp',
+            liquidityToken: 'CTEZ-crdao-lp',
           },
         },
       },
@@ -2336,7 +2336,7 @@ const Config: IConfig = {
           CTEZ: {
             contract: 'KT1WR19YA8Go6GbTvtrMpUEEGSuQYxgz2ZVW',
             property: 'token1_pool',
-            liquidityToken: 'ctez-pxl-lp',
+            liquidityToken: 'CTEZ-pxl-lp',
           },
         },
       },
@@ -2592,7 +2592,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 12,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-usdtz-lp': {
+      'CTEZ-usdtz-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1DQfEUBsaZo43G3j1CbFF9BiWZXS72DuCh',
         mapId: 44781,
@@ -2601,7 +2601,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-wwbtc-lp': {
+      'CTEZ-wwbtc-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1XWRUcvtcgpsETcasdUnNkq9rJeWmz8ihD',
         mapId: 44790,
@@ -2610,7 +2610,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 7,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-wusdc-lp': {
+      'CTEZ-wusdc-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1SXZTX9ZCW5atMnBng1y4pmdS2xi231oMt',
         mapId: 44803,
@@ -2619,7 +2619,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-wusdt-lp': {
+      'CTEZ-wusdt-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1KgCx6CYVSyLxfiFdo5hVuMwZBPQy1XZaf',
         mapId: 44806,
@@ -2628,7 +2628,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-wbusd-lp': {
+      'CTEZ-wbusd-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1K7GRKUWzfNJ9jzGprb13XDVqqp6GE67ZU',
         mapId: 44819,
@@ -2637,7 +2637,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 12,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-wdai-lp': {
+      'CTEZ-wdai-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1VLLdUaMfFbJw87b1PaVG1ac6UYM5xzqC5',
         mapId: 44829,
@@ -2646,7 +2646,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 12,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-kalam-lp': {
+      'CTEZ-kalam-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1N3mKQMnWEwt4FB3J4qP2X8LwYgndGDZrn',
         mapId: 44834,
@@ -2655,7 +2655,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 8,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-gif-lp': {
+      'CTEZ-gif-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1KdPxrn7UTx6CUWxuUBaGx4bVv6ZJKWUWr',
         mapId: 44857,
@@ -2664,7 +2664,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 7,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-ethtz-lp': {
+      'CTEZ-ethtz-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1GAvdLT9tkpKkRmkuChuL9T83esBtatgKm',
         mapId: 44870,
@@ -2673,7 +2673,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 12,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-quipu-lp': {
+      'CTEZ-quipu-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1C6Q4Mnnpns8vSQy7kJitZNMsED24SMw9m',
         mapId: 44884,
@@ -2682,7 +2682,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-hdao-lp': {
+      'CTEZ-hdao-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1DidqBuSaxGbVaDq2gLVkfh262dYyoGeSH',
         mapId: 44890,
@@ -2691,7 +2691,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-tzbtc-lp': {
+      'CTEZ-tzbtc-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1TMZjKBvSVKzETZTyRsTxYEu4uZLLs6VpJ',
         mapId: 44904,
@@ -2700,7 +2700,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 7,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-wweth-lp': {
+      'CTEZ-wweth-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1BAiXZkKG4R9W7LAKiAQahC8Wg7ZpJBaEs',
         mapId: 44916,
@@ -2709,7 +2709,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 12,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez--lp': {
+      'CTEZ--lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1RQvdYD9yc763j8FiVLyXbKPVVbZqGRx5m',
         READ_TYPE: 'FA1.2',
@@ -2717,7 +2717,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 12,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-uusd-lp': {
+      'CTEZ-uusd-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1BX8F7Xrtsy1tJ91iLovu4nJ8ZyVv4Dac2',
         mapId: 44924,
@@ -2726,7 +2726,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 9,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-smak-lp': {
+      'CTEZ-smak-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1NeR3ExLddfdAbs5nwpQMm6DqBekyJTc4R',
         mapId: 44946,
@@ -2735,7 +2735,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 4,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-uno-lp': {
+      'CTEZ-uno-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1WKWhTNMY4h4eHunbsnJ1oAtDWXCz4qNQm',
         mapId: 45316,
@@ -2744,7 +2744,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 7,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-kusd-lp': {
+      'CTEZ-kusd-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT19bFNh8pZCRtTy7Pi9kpEcb2Yd7KWArAik',
         mapId: 44750,
@@ -2753,7 +2753,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 12,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-wrap-lp': {
+      'CTEZ-wrap-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1MX73dim8HKqQLjTHvkJnpRUp37C1HXdkt',
         mapId: 44767,
@@ -2762,7 +2762,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 7,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-crunch-lp': {
+      'CTEZ-crunch-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1QSA2SMDEKzEnJhGrVGheWb94Ux8Wyfuy6',
         mapId: 44763,
@@ -2771,7 +2771,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 7,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-kdao-lp': {
+      'CTEZ-kdao-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1KmkH1T2CQV2Q5AcMeZy3GHhwNac48FBap',
         mapId: 44912,
@@ -2780,7 +2780,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 12,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-flame-lp': {
+      'CTEZ-flame-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1UfvQiYexnpag6rZ3LMGsn5YFiEHrXrtbq',
         mapId: 44943,
@@ -2789,7 +2789,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-crdao-lp': {
+      'CTEZ-crdao-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1MQcJCLZL8ASHYGmT5LVzeXV64ruy7RAuH',
         mapId: 44954,
@@ -2798,7 +2798,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 7,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-insta-lp': {
+      'CTEZ-insta-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1GkTwzN2gR6UdBicDSu2JEaRtv5KAPunrj',
         mapId: 44957,
@@ -2807,7 +2807,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 7,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-pxl-lp': {
+      'CTEZ-pxl-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1GhzTxzgXgdv1rRCppAB5D4poXiUgp8yoU',
         mapId: 44994,
@@ -2816,7 +2816,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-paul-lp': {
+      'CTEZ-paul-lp': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1N93veCzepAPydFGGUhDFiA69PoawasxXi',
         mapId: 46392,
@@ -3128,7 +3128,7 @@ const Config: IConfig = {
             TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             DECIMAL: 18,
             withdrawalFeeType: 'type2',
-            liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=ctez',
+            liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=CTEZ',
             isDualFarm: false,
           },
         ],
@@ -3642,7 +3642,7 @@ const Config: IConfig = {
         ],
         inactive: [],
       },
-      'ctez - kUSD': {
+      'CTEZ - kUSD': {
         active: [],
         inactive: [
           {
@@ -3650,7 +3650,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1L8N5RZg4CM2VSnuC8t1CGLiQpzVoN6P1u',
             DEX: 'KT1X1nkqJDR1UHwbfpcnME5Z7agJLjUQNguB',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / kUSD LP',
+            CARD_TYPE: 'CTEZ / kUSD LP',
             TOKEN_DECIMAL: 12,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -3664,7 +3664,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - USDtz': {
+      'CTEZ - USDtz': {
         active: [],
         inactive: [
           {
@@ -3672,7 +3672,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1MeeKpbSaAP9YDb6B7qBDvEGZq274715s2',
             DEX: 'KT1PWAXfPatPWBNJUxTHin4ECin1kYJHHnsr',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / USDtz LP',
+            CARD_TYPE: 'CTEZ / USDtz LP',
             TOKEN_DECIMAL: 6,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -3686,7 +3686,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - wUSDC': {
+      'CTEZ - wUSDC': {
         active: [],
         inactive: [
           {
@@ -3694,7 +3694,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1V71rxAhuHCggnBUXfceBM6RpHzUUJMYyK',
             DEX: 'KT1PZpbmKtGE6ZyYeF8entfjuGGT7CRUCF5g',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / wUSDC LP',
+            CARD_TYPE: 'CTEZ / wUSDC LP',
             TOKEN_DECIMAL: 6,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -3708,7 +3708,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - wUSDT': {
+      'CTEZ - wUSDT': {
         active: [],
         inactive: [
           {
@@ -3716,7 +3716,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1PYtm173zVdPEMoNecUBRhqgFbdVHPDj3p',
             DEX: 'KT1AfTwam4bNPawLv4bWqSj9GsVDPsf5F5bQ',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / wUSDT LP',
+            CARD_TYPE: 'CTEZ / wUSDT LP',
             TOKEN_DECIMAL: 6,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -3730,7 +3730,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - wBUSD': {
+      'CTEZ - wBUSD': {
         active: [],
         inactive: [
           {
@@ -3738,7 +3738,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1MCtUoNZTpGsPNyEvCZ88i6aRVow91axPr',
             DEX: 'KT1GN7PHpFsH43ypFyE2hxNMdxqTuiCGm4Pm',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / wBUSD LP',
+            CARD_TYPE: 'CTEZ / wBUSD LP',
             TOKEN_DECIMAL: 12,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -3752,7 +3752,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - wDAI': {
+      'CTEZ - wDAI': {
         active: [],
         inactive: [
           {
@@ -3760,7 +3760,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1ELuj8v8nB3Me7dEyjoxkNtjr6ywWXFWYK',
             DEX: 'KT1L5qd9xPWjiEX6ZNovhaty228ASg6jCE5p',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / wDAI LP',
+            CARD_TYPE: 'CTEZ / wDAI LP',
             TOKEN_DECIMAL: 12,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -3774,7 +3774,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - KALAM': {
+      'CTEZ - KALAM': {
         active: [],
         inactive: [
           {
@@ -3782,7 +3782,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1HmigpaNyaxx9Zvf7zEPGgqd8bdLTnrgdU',
             DEX: 'KT1HuZVo3ZKRhkaHDsYXZ2fvmVfkY1FrbEDj',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / KALAM LP',
+            CARD_TYPE: 'CTEZ / KALAM LP',
             TOKEN_DECIMAL: 8,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -3796,7 +3796,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - GIF': {
+      'CTEZ - GIF': {
         active: [],
         inactive: [
           {
@@ -3804,7 +3804,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1BaDfS92GJRDpBhrZh2a29ZyNmEjaYApkK',
             DEX: 'KT1VnFPwDGJRt5ufMgcWafM2WWcZCC77gpT3',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / GIF LP',
+            CARD_TYPE: 'CTEZ / GIF LP',
             TOKEN_DECIMAL: 7,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -3818,7 +3818,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - ETHtz': {
+      'CTEZ - ETHtz': {
         active: [],
         inactive: [
           {
@@ -3826,7 +3826,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1U2XwrY1oTfxzrcb1ZrQuFrUJTQWAJaHWt',
             DEX: 'KT1GSYhwanehtwCK3NPfkMFbD1bNQmvosbqL',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / ETHtz LP',
+            CARD_TYPE: 'CTEZ / ETHtz LP',
             TOKEN_DECIMAL: 12,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -3840,7 +3840,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - QUIPU': {
+      'CTEZ - QUIPU': {
         active: [],
         inactive: [
           {
@@ -3848,7 +3848,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1L71FDbzYwe9bxY4MnzU3ZUgUzbe3V588Y',
             DEX: 'KT1Ss8rb1UFVqG2LYEU5g4NEbK5SqW5Xadwp',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / QUIPU LP',
+            CARD_TYPE: 'CTEZ / QUIPU LP',
             TOKEN_DECIMAL: 6,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -3862,7 +3862,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - hDAO': {
+      'CTEZ - hDAO': {
         active: [],
         inactive: [
           {
@@ -3870,7 +3870,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1BZ8Napzts13b9kLGBWCwhMmx6zmAzRMkG',
             DEX: 'KT1RSxExbbRwQdYBpRHWup9vxvw1Hp25vFVM',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / hDAO LP',
+            CARD_TYPE: 'CTEZ / hDAO LP',
             TOKEN_DECIMAL: 6,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -3884,7 +3884,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - kDAO': {
+      'CTEZ - kDAO': {
         active: [],
         inactive: [
           {
@@ -3892,7 +3892,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1DornVnLZWu3VaJnDLB2RubSFSPBZaKq4W',
             DEX: 'KT1SP9WsMeLFTiHBXqEumTASYbF3CXh22aVV',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / kDAO LP',
+            CARD_TYPE: 'CTEZ / kDAO LP',
             TOKEN_DECIMAL: 12,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -3906,7 +3906,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - wWETH': {
+      'CTEZ - wWETH': {
         active: [],
         inactive: [
           {
@@ -3914,7 +3914,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1JfEmUp9w2n9aWJweKpEWAESRjrCywcW3M',
             DEX: 'KT1WwqM2MH38PSQbECxPngBVLSbqJUHzCFAH',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / wWETH LP',
+            CARD_TYPE: 'CTEZ / wWETH LP',
             TOKEN_DECIMAL: 12,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -3928,7 +3928,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - uUSD': {
+      'CTEZ - uUSD': {
         active: [],
         inactive: [
           {
@@ -3936,7 +3936,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1VutBNeCNEHtk6jVkY8v3FE848GNsxjT76',
             DEX: 'KT1Rx3pQzsn4FBuuYhcWsqUS7vWFx3ktqSWD',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / uUSD LP',
+            CARD_TYPE: 'CTEZ / uUSD LP',
             TOKEN_DECIMAL: 9,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -3950,7 +3950,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - FLAME': {
+      'CTEZ - FLAME': {
         active: [],
         inactive: [
           {
@@ -3958,7 +3958,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1HsdhTQqha8k6WrvhD9d6CQhHGb3XCtLub',
             DEX: 'KT1Bp3JAeeMP4GvJaspFw6zah6WydqqqHPNw',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / FLAME LP',
+            CARD_TYPE: 'CTEZ / FLAME LP',
             TOKEN_DECIMAL: 6,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -3972,7 +3972,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - SMAK': {
+      'CTEZ - SMAK': {
         active: [],
         inactive: [
           {
@@ -3980,7 +3980,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1MSWvuDNcjnxP3mBK4mePLpVLfrjZ3i2nH',
             DEX: 'KT1Qg4FmXDmViQgyYLT5QkgZQSmPKvKjZbzn',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / SMAK LP',
+            CARD_TYPE: 'CTEZ / SMAK LP',
             TOKEN_DECIMAL: 4,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -3994,7 +3994,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - crDAO': {
+      'CTEZ - crDAO': {
         active: [],
         inactive: [
           {
@@ -4002,7 +4002,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1BfAAVACnEAb3CMMxPLb1VdDnyuNq5AWEc',
             DEX: 'KT1JkHBYp3Pq4TRSkFdc2CRoXFgDkJrfCqUe',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / crDAO LP',
+            CARD_TYPE: 'CTEZ / crDAO LP',
             TOKEN_DECIMAL: 7,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -4016,7 +4016,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - PXL': {
+      'CTEZ - PXL': {
         active: [],
         inactive: [
           {
@@ -4024,7 +4024,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1HpcPqU2atG75bpSy6hUzuWdULi7Kx9eaw',
             DEX: 'KT1WR19YA8Go6GbTvtrMpUEEGSuQYxgz2ZVW',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / PXL LP',
+            CARD_TYPE: 'CTEZ / PXL LP',
             TOKEN_DECIMAL: 6,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -4038,7 +4038,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - UNO': {
+      'CTEZ - UNO': {
         active: [],
         inactive: [
           {
@@ -4046,7 +4046,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1Xt9HvkrbzYtaYhD9im37hE69Zit5bvhPw',
             DEX: 'KT1XLFZ2RS8vCUmHwBG39mq7zELhnLKn9JUz',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / UNO LP',
+            CARD_TYPE: 'CTEZ / UNO LP',
             TOKEN_DECIMAL: 7,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -4060,7 +4060,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - WRAP': {
+      'CTEZ - WRAP': {
         active: [],
         inactive: [
           {
@@ -4068,7 +4068,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1LPhjjaFaqcgynzewegLckJUmpQQzm1xj2',
             DEX: 'KT19Qe4KbEVAiaVeNsgo9Tkqa6qvZho8c4W5',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / WRAP LP',
+            CARD_TYPE: 'CTEZ / WRAP LP',
             TOKEN_DECIMAL: 7,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -4082,7 +4082,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - wWBTC': {
+      'CTEZ - wWBTC': {
         active: [],
         inactive: [
           {
@@ -4090,7 +4090,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1VmvPo8bLYh1xVC9TpzwWtrczjzEMS2mEk',
             DEX: 'KT1XPUvZHc1YKTJYnGbB755V95hDgvS1qQYf',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / wWBTC LP',
+            CARD_TYPE: 'CTEZ / wWBTC LP',
             TOKEN_DECIMAL: 7,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -4104,7 +4104,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - tzBTC': {
+      'CTEZ - tzBTC': {
         active: [],
         inactive: [
           {
@@ -4112,7 +4112,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1SQ4fqsxrKwN5mqCi2yNLvb99S6sRGWGZZ',
             DEX: 'KT1Wryxte8NnVCm569yb8dcSPmvFBVs4ufD6',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / tzBTC LP',
+            CARD_TYPE: 'CTEZ / tzBTC LP',
             TOKEN_DECIMAL: 7,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -4126,7 +4126,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - PAUL': {
+      'CTEZ - PAUL': {
         active: [],
         inactive: [
           {
@@ -4134,7 +4134,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1K3NERNpLxRmREpmjqt7LsvEr2SbC9Cs6o',
             DEX: 'KT1LixgLzdK4nseeD6MmmVpokuw9CvpVX9KW',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / PAUL LP',
+            CARD_TYPE: 'CTEZ / PAUL LP',
             TOKEN_DECIMAL: 7,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -4148,7 +4148,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - INSTA': {
+      'CTEZ - INSTA': {
         active: [],
         inactive: [
           {
@@ -4156,7 +4156,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1UwhcK52Pk3VsFyFmFocVzSmKY8wRHGdDC',
             DEX: 'KT1EnESbHxmzd2XeENyYNege4L5TKxeatJk9',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / INSTA LP',
+            CARD_TYPE: 'CTEZ / INSTA LP',
             TOKEN_DECIMAL: 7,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
@@ -4170,7 +4170,7 @@ const Config: IConfig = {
           },
         ],
       },
-      'ctez - CRUNCH': {
+      'CTEZ - CRUNCH': {
         active: [],
         inactive: [
           {
@@ -4178,7 +4178,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1CoCHHKAUE8vobDwaWQDDBzrBkasCuzkwi',
             DEX: 'KT1WZztBneC9NrhVqvo9yXq8St7p8c1JVTxm',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'ctez / CRUNCH LP',
+            CARD_TYPE: 'CTEZ / CRUNCH LP',
             TOKEN_DECIMAL: 7,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,

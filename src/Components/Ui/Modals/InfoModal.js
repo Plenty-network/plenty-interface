@@ -28,7 +28,7 @@ const InfoModal = (props) => {
           autoplay: true,
           name: 'Demo Animation',
         });
-  }, [props]);
+  }, [props.open]);
   return (
     <>
       <script
@@ -43,7 +43,7 @@ const InfoModal = (props) => {
         onClose={props.onClose}
       >
         <div className={styles.infoModal}>
-          <div id="transactionSubmitted" ref={container}></div>
+          {props.open && <div id="transactionSubmitted" ref={container}></div>}
 
           {props.buttonText && (
             <div onClick={props.onBtnClick} className={clsx(styles.button, 'font-weight-bold')}>
