@@ -10,7 +10,7 @@ export const useLocationStateInLiquidity = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [tokenIn, setTokenIn] = useState({
-    name: 'ctez',
+    name: 'CTEZ',
     image: ctez,
   });
 
@@ -21,7 +21,7 @@ export const useLocationStateInLiquidity = () => {
   useEffect(() => {
     if (tokenIn.name === 'tez') {
       setTokenOut({
-        name: 'ctez',
+        name: 'CTEZ',
         image: ctez,
       });
     }

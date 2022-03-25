@@ -205,7 +205,7 @@ const StableSwap = (props) => {
     props.setShowConfirmTransaction(true);
     const recepientAddress = props.recepient ? props.recepient : props.walletAddress;
     props.resetAllValues();
-    if (props.tokenIn.name === 'ctez') {
+    if (props.tokenIn.name === 'CTEZ') {
       ctez_to_tez(
         props.tokenIn.name,
         props.tokenOut.name,

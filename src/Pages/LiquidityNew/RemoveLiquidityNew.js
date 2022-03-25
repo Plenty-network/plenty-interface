@@ -181,7 +181,7 @@ const RemoveLiquidityNew = (props) => {
         color={'disabled'}
         className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
       >
-        Confirm Withdrawal
+        Remove Liquidity
       </Button>
     );
   }
@@ -192,7 +192,7 @@ const RemoveLiquidityNew = (props) => {
         color={'primary'}
         className={'mt-4 w-100 flex align-items-center justify-content-center'}
       >
-        Confirm Withdrawal
+        Remove Liquidity
       </Button>
     );
   }
@@ -273,16 +273,6 @@ const RemoveLiquidityNew = (props) => {
                     value={firstTokenAmount}
                   />
                 )}
-                <p className="wallet-token-balance-lq">
-                  $0.0
-                  {/* {props.tokenIn.name === 'tez'
-                  ? (dolar * firstTokenAmount).toFixed(2)
-                  : props.getTokenPrice.success && firstTokenAmount
-                  ? (
-                      firstTokenAmount * props.getTokenPrice.tokenPrice[props.tokenIn.name]
-                    ).toFixed(5)
-                  : '0.00'} */}
-                </p>
               </div>
               {props.walletAddress && props.tokenOut.name ? (
                 <OverlayTrigger
@@ -428,7 +418,7 @@ const RemoveLiquidityNew = (props) => {
                   <div className="tokenin-value">
                     <span className="value">
                       {props.positionDetails.data
-                        ? props.positionDetails.data.tokenAPoolBalance.toFixed(10)
+                        ? props.positionDetails.data.tokenAPoolBalance.toFixed(4)
                         : '0.00'}
                     </span>{' '}
                     <span className="tokenName"> {props.tokenIn.name}</span>
@@ -439,7 +429,7 @@ const RemoveLiquidityNew = (props) => {
                   <div className="tokenin-value">
                     <span className="value">
                       {props.positionDetails.data
-                        ? props.positionDetails.data.tokenBPoolBalance.toFixed(10)
+                        ? props.positionDetails.data.tokenBPoolBalance.toFixed(4)
                         : '0.00'}
                     </span>{' '}
                     <span className="tokenName">{props.tokenOut.name}</span>
@@ -452,15 +442,15 @@ const RemoveLiquidityNew = (props) => {
                 <div className="label">Pool Tokens</div>
                 <div className="pool-value">
                   {props.positionDetails.data
-                    ? props.positionDetails.data.lpBalance.toFixed(6)
+                    ? props.positionDetails.data.lpBalance.toFixed(4)
                     : '0.00'}
                 </div>
               </div>
               <div className="pool-share">
-                <div className="label">Your pool share</div>
+                <div className="label">Pool share</div>
                 <div className="pool-value">
                   {props.positionDetails.data
-                    ? props.positionDetails.data.lpTokenShare.toFixed(6)
+                    ? props.positionDetails.data.lpTokenShare.toFixed(4)
                     : '0.00'}{' '}
                   %
                 </div>

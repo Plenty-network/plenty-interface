@@ -262,6 +262,7 @@ const AddLiquidityNew = (props) => {
       ).then((data) => {
         if (data.success) {
           props.setLoading(false);
+          props.setLoader(false);
           props.handleLoaderMessage('success', 'Transaction confirmed');
           getSwapData();
           props.setShowConfirmAddSupply(false);
@@ -272,6 +273,7 @@ const AddLiquidityNew = (props) => {
           }, 5000);
         } else {
           props.setLoading(false);
+          props.setLoader(false);
           props.handleLoaderMessage('error', 'Transaction failed');
           props.setShowConfirmAddSupply(false);
           //props.setHideContent('');
@@ -406,7 +408,7 @@ const AddLiquidityNew = (props) => {
                   ? (dolar * firstTokenAmount).toFixed(2)
                   : props.getTokenPrice.success && props.firstTokenAmount
                   ? (firstTokenAmount * props.getTokenPrice.tokenPrice[props.tokenIn.name]).toFixed(
-                      5,
+                      2,
                     )
                   : '0.00'}
               </p>
@@ -427,7 +429,7 @@ const AddLiquidityNew = (props) => {
                   <p className="bal">
                     Balance:{' '}
                     {props.userBalances[props.tokenIn.name] >= 0 ? (
-                      props.userBalances[props.tokenIn.name].toFixed(2)
+                      props.userBalances[props.tokenIn.name].toFixed(4)
                     ) : (
                       <div className="shimmer">0.00</div>
                     )}{' '}
@@ -511,7 +513,7 @@ const AddLiquidityNew = (props) => {
                 />
               )}
               <p className="wallet-token-balance-lq">
-                $0.0
+                $0.00
                 {/* {props.tokenIn.name === 'tez'
                   ? (dolar * props.firstTokenAmount).toFixed(2)
                   : props.getTokenPrice.success && props.firstTokenAmount
@@ -537,7 +539,7 @@ const AddLiquidityNew = (props) => {
                   <p className="bal">
                     Balance:{' '}
                     {props.userBalances[props.tokenOut.name] >= 0 ? (
-                      props.userBalances[props.tokenOut.name].toFixed(2)
+                      props.userBalances[props.tokenOut.name].toFixed(4)
                     ) : (
                       <div className="shimmer">0.00</div>
                     )}{' '}
@@ -570,6 +572,7 @@ const AddLiquidityNew = (props) => {
       </div> */}
 
       {swapContentButton}
+      <div className="add-liq-border"></div>
       {props.isPositionAvailable ? (
         <div className="your-positions">
           <div className=" content-your-position justify-content-between">
@@ -586,10 +589,10 @@ const AddLiquidityNew = (props) => {
                   <div className="tokenin-value">
                     <span className="value">
                       {props.positionDetails.data
-                        ? props.positionDetails.data.tokenAPoolBalance.toFixed(10)
+                        ? props.positionDetails.data.tokenAPoolBalance.toFixed(4)
                         : '0.00'}
                     </span>{' '}
-                    <span className="tokenName"> {props.tokenIn.name}</span>
+                    {/* <span className="tokenName"> {props.tokenIn.name}</span> */}
                   </div>
                 </div>
                 <div className="ml-2">
@@ -597,10 +600,10 @@ const AddLiquidityNew = (props) => {
                   <div className="tokenin-value">
                     <span className="value">
                       {props.positionDetails.data
-                        ? props.positionDetails.data.tokenBPoolBalance.toFixed(10)
+                        ? props.positionDetails.data.tokenBPoolBalance.toFixed(4)
                         : '0.00'}
                     </span>{' '}
-                    <span className="tokenName">{props.tokenOut.name}</span>
+                    {/* <span className="tokenName">{props.tokenOut.name}</span> */}
                   </div>
                 </div>
               </div>
@@ -610,15 +613,15 @@ const AddLiquidityNew = (props) => {
                 <div className="label">Pool Tokens</div>
                 <div className="pool-value">
                   {props.positionDetails.data
-                    ? props.positionDetails.data.lpBalance.toFixed(6)
+                    ? props.positionDetails.data.lpBalance.toFixed(4)
                     : '0.00'}
                 </div>
               </div>
               <div className="pool-share">
-                <div className="label">Your pool share</div>
+                <div className="label">Pool share</div>
                 <div className="pool-value">
                   {props.positionDetails.data
-                    ? props.positionDetails.data.lpTokenShare.toFixed(6)
+                    ? props.positionDetails.data.lpTokenShare.toFixed(4)
                     : '0.00'}{' '}
                   %
                 </div>
