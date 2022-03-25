@@ -10,6 +10,7 @@ import {
   getLiquidityPositionDetailsStable,
   getLiquidityPositionsForUser,
 } from '../../apis/Liquidity/Liquidity';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import useMediaQuery from '../../hooks/mediaQuery';
 
 export const LiquidityPositions = (props) => {
@@ -89,6 +90,7 @@ export const LiquidityPositions = (props) => {
                   </div>
                   <div
                     className="manage-label"
+                    style={{ cursor: 'pointer' }}
                     onClick={() => openManage(position, index, !isOpen, position.isStable)}
                   >
                     {!isMobile && 'Manage'}
@@ -108,31 +110,71 @@ export const LiquidityPositions = (props) => {
                     <div>
                       <div className="pooled">
                         POOLED {position.tokenA.name}:{' '}
-                        <span className="value">
-                          {positionDetails ? positionDetails.tokenAPoolBalance?.toFixed(4) : '0.00'}{' '}
-                          {position.tokenA.name}
-                        </span>
+                        <OverlayTrigger
+                          placement="top"
+                          overlay={
+                            <Tooltip id="button-tooltip" {...props}>
+                              {positionDetails ? positionDetails.tokenAPoolBalance : '0.00'}
+                            </Tooltip>
+                          }
+                        >
+                          <span className="value">
+                            {positionDetails
+                              ? positionDetails.tokenAPoolBalance?.toFixed(4)
+                              : '0.00'}{' '}
+                            {position.tokenA.name}
+                          </span>
+                        </OverlayTrigger>
                       </div>
                       <div className="pooled mt-1">
                         POOLED {position.tokenB.name}:{' '}
-                        <span className="value">
-                          {positionDetails ? positionDetails.tokenBPoolBalance?.toFixed(4) : '0.00'}{' '}
-                          {position.tokenB.name}
-                        </span>
+                        <OverlayTrigger
+                          placement="top"
+                          overlay={
+                            <Tooltip id="button-tooltip" {...props}>
+                              {positionDetails ? positionDetails.tokenBPoolBalance : '0.00'}
+                            </Tooltip>
+                          }
+                        >
+                          <span className="value">
+                            {positionDetails
+                              ? positionDetails.tokenBPoolBalance?.toFixed(4)
+                              : '0.00'}{' '}
+                            {position.tokenB.name}
+                          </span>
+                        </OverlayTrigger>
                       </div>
                     </div>
                     <div className="d-flex">
                       <div className="lq-details-right">
                         <div className="label">Pool share</div>
-                        <div className="value">
-                          {positionDetails ? positionDetails.lpTokenShare?.toFixed(4) : '0.00'} %
-                        </div>
+                        <OverlayTrigger
+                          placement="top"
+                          overlay={
+                            <Tooltip id="button-tooltip" {...props}>
+                              {positionDetails ? positionDetails.lpTokenShare : '0.00'}
+                            </Tooltip>
+                          }
+                        >
+                          <div className="value">
+                            {positionDetails ? positionDetails.lpTokenShare?.toFixed(4) : '0.00'} %
+                          </div>
+                        </OverlayTrigger>
                       </div>
                       <div className="ml-2 lq-details-right">
                         <div className="label">Pool tokens</div>
-                        <div className="value">
-                          {positionDetails ? positionDetails.lpBalance?.toFixed(4) : '0.00'}
-                        </div>
+                        <OverlayTrigger
+                          placement="top"
+                          overlay={
+                            <Tooltip id="button-tooltip" {...props}>
+                              {positionDetails ? positionDetails.lpBalance : '0.00'}
+                            </Tooltip>
+                          }
+                        >
+                          <div className="value">
+                            {positionDetails ? positionDetails.lpBalance?.toFixed(4) : '0.00'}
+                          </div>
+                        </OverlayTrigger>
                       </div>
                     </div>
                   </div>

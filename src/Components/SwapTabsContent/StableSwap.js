@@ -219,6 +219,7 @@ const StableSwap = (props) => {
       ).then((response) => {
         handleSwapResponse(response.success);
         props.setShowConfirmTransaction(false);
+        props.setLoader(false);
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
@@ -237,6 +238,7 @@ const StableSwap = (props) => {
       ).then((response) => {
         props.setShowConfirmSwap(false);
         props.setShowConfirmTransaction(false);
+        props.setLoader(false);
         handleSwapResponse(response.success);
         setTimeout(() => {
           props.setLoaderMessage({});
@@ -518,17 +520,11 @@ const StableSwap = (props) => {
       />
       <ConfirmTransaction
         show={props.showConfirmTransaction}
-        computedData={computedData}
-        tokenIn={props.tokenIn}
+        content={InfoMessage}
         theme={props.theme}
-        firstTokenAmount={firstTokenAmountStable}
-        tokenOut={props.tokenOut}
-        slippage={props.slippage}
         confirmSwapToken={confirmSwapToken}
         onHide={props.handleClose}
-        routeData={props.routeData}
         loading={props.loading}
-        secondTokenAmount={secondAmount}
       />
       <InfoModal
         open={showTransactionSubmitModal}

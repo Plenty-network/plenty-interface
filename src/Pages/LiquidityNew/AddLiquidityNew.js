@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import { addLiquidity, estimateOtherToken, lpTokenOutput } from '../../apis/swap/swap';
 import {
   add_liquidity,
-  getXtzDollarPrice,
   liqCalc,
   liqCalcRev,
   getExchangeRate,
@@ -10,7 +9,7 @@ import {
 } from '../../apis/stableswap/stableswap';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import ConfirmAddLiquidity from '../../Components/SwapTabsContent/LiquidityTabs/ConfirmAddLiquidity';
@@ -18,6 +17,7 @@ import Button from '../../Components/Ui/Buttons/Button';
 import { setLoader } from '../../redux/slices/settings/settings.slice';
 import LiquidityInfo from '../../Components/SwapTabsContent/LiquidityTabs/LiquidityInfo';
 import { isTokenPairStable } from '../../apis/Liquidity/Liquidity';
+import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransaction';
 
 const AddLiquidityNew = (props) => {
   const [estimatedTokenAmout, setEstimatedTokenAmout] = useState('');
@@ -28,10 +28,11 @@ const AddLiquidityNew = (props) => {
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState('');
   const [transactionId, setTransactionId] = useState('');
-  const [dolar, setDolar] = useState('');
+  // const [dolar, setDolar] = useState('');
   const [poolShare, setPoolShare] = useState('0.0');
   const [xtztoctez, setxtztoctez] = useState('0.00');
   const [cteztoxtz, setcteztoxtz] = useState('0.00');
+  const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
 
   const fetchOutputData = async () => {
     const res = getExchangeRate(
@@ -53,6 +54,10 @@ const AddLiquidityNew = (props) => {
     await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
   };
 
+  const resetAllValuesLiq = () => {
+    setFirstTokenAmount('');
+    setSecondTokenAmount('');
+  };
   const onClickAmount = () => {
     const value =
       props.userBalances[props.tokenIn.name].toLocaleString('en-US', {
@@ -98,19 +103,19 @@ const AddLiquidityNew = (props) => {
     return values.tez / 10 ** 6;
   };
 
-  useEffect(() => {
-    getXtzDollarPrice().then((res) => {
-      setDolar(res);
-    });
-  }, []);
+  // useEffect(() => {
+  //   getXtzDollarPrice().then((res) => {
+  //     setDolar(res);
+  //   });
+  // }, []);
 
-  const InfoMessage = useMemo(() => {
-    return (
-      <span>
-        {lpTokenAmount.estimatedLpOutput} {props.tokenIn.name}/{props.tokenOut.name} LP Tokens
-      </span>
-    );
-  }, [lpTokenAmount.estimatedLpOutput]);
+  // const InfoMessage = useMemo(() => {
+  //   return (
+  //     <span>
+  //       {lpTokenAmount.estimatedLpOutput} {props.tokenIn.name}/{props.tokenOut.name} LP Tokens
+  //     </span>
+  //   );
+  // }, [lpTokenAmount.estimatedLpOutput]);
 
   const handleLiquidityInput = async (input) => {
     setFirstTokenAmount(input);
@@ -210,6 +215,8 @@ const AddLiquidityNew = (props) => {
   const CallConfirmAddLiquidity = () => {
     props.setLoading(true);
     props.setLoader(true);
+    props.setShowConfirmAddSupply(false);
+    setShowConfirmTransaction(true);
     const secondTokenAmountEntered = secondTokenAmount
       ? parseFloat(secondTokenAmount)
       : estimatedTokenAmout.otherTokenAmount;
@@ -222,15 +229,17 @@ const AddLiquidityNew = (props) => {
         props.walletAddress,
         transactionSubmitModal,
         props.setShowConfirmAddSupply,
-        props.resetAllValues,
+        resetAllValuesLiq,
+        setShowConfirmTransaction,
       ).then((data) => {
         if (data.success) {
           props.setLoading(false);
           props.handleLoaderMessage('success', 'Transaction confirmed');
           props.setLoader(false);
           props.setShowConfirmAddSupply(false);
+          setShowConfirmTransaction(false);
           //props.setHideContent('');
-          props.resetAllValues();
+          resetAllValuesLiq();
           setTimeout(() => {
             props.setLoaderMessage({});
           }, 5000);
@@ -239,8 +248,9 @@ const AddLiquidityNew = (props) => {
           props.handleLoaderMessage('error', 'Transaction failed');
           props.setLoader(false);
           props.setShowConfirmAddSupply(false);
+          setShowConfirmTransaction(false);
           //props.setHideContent('');
-          props.resetAllValues();
+          resetAllValuesLiq();
           setTimeout(() => {
             props.setLoaderMessage({});
           }, 5000);
@@ -257,8 +267,9 @@ const AddLiquidityNew = (props) => {
         props.walletAddress,
         props.swapData.dexContractInstance,
         transactionSubmitModal,
-        props.resetAllValues,
+        resetAllValuesLiq,
         props.setShowConfirmAddSupply,
+        setShowConfirmTransaction,
       ).then((data) => {
         if (data.success) {
           props.setLoading(false);
@@ -266,8 +277,9 @@ const AddLiquidityNew = (props) => {
           props.handleLoaderMessage('success', 'Transaction confirmed');
           getSwapData();
           props.setShowConfirmAddSupply(false);
+          setShowConfirmTransaction(false);
           //props.setHideContent('');
-          props.resetAllValues();
+          resetAllValuesLiq();
           setTimeout(() => {
             props.setLoaderMessage({});
           }, 5000);
@@ -276,8 +288,9 @@ const AddLiquidityNew = (props) => {
           props.setLoader(false);
           props.handleLoaderMessage('error', 'Transaction failed');
           props.setShowConfirmAddSupply(false);
+          setShowConfirmTransaction(false);
           //props.setHideContent('');
-          props.resetAllValues();
+          resetAllValuesLiq();
           setTimeout(() => {
             props.setLoaderMessage({});
           }, 5000);
@@ -376,7 +389,7 @@ const AddLiquidityNew = (props) => {
           </div>
           <div className="d-flex  align-items-center input-lq">
             {props.walletAddress ? (
-              <div className="max-button" onClick={onClickAmount}>
+              <div className="max-button" style={{ cursor: 'pointer' }} onClick={onClickAmount}>
                 MAX
               </div>
             ) : null}
@@ -402,7 +415,7 @@ const AddLiquidityNew = (props) => {
                   value={firstTokenAmount}
                 />
               )}
-              <p className="wallet-token-balance-lq">
+              {/* <p className="wallet-token-balance-lq">
                 $
                 {props.tokenIn.name === 'tez'
                   ? (dolar * firstTokenAmount).toFixed(2)
@@ -411,7 +424,7 @@ const AddLiquidityNew = (props) => {
                       2,
                     )
                   : '0.00'}
-              </p>
+              </p> */}
             </div>
             {props.walletAddress && props.tokenIn.name ? (
               <OverlayTrigger
@@ -420,7 +433,7 @@ const AddLiquidityNew = (props) => {
                   <Tooltip id="button-tooltip" {...props}>
                     {props.userBalances[props.tokenIn.name]
                       ? props.userBalances[props.tokenIn.name]
-                      : 0.0}{' '}
+                      : 0.0}
                     {props.tokenIn.name}
                   </Tooltip>
                 }
@@ -488,7 +501,7 @@ const AddLiquidityNew = (props) => {
 
           <div className="d-flex  align-items-center input-lq">
             {props.walletAddress ? (
-              <div className="max-button" onClick={onClickAmount}>
+              <div className="max-button" style={{ cursor: 'pointer' }} onClick={onClickAmount}>
                 MAX
               </div>
             ) : null}
@@ -512,16 +525,10 @@ const AddLiquidityNew = (props) => {
                   value={firstTokenAmount}
                 />
               )}
-              <p className="wallet-token-balance-lq">
+              {/* <p className="wallet-token-balance-lq">
                 $0.00
-                {/* {props.tokenIn.name === 'tez'
-                  ? (dolar * props.firstTokenAmount).toFixed(2)
-                  : props.getTokenPrice.success && props.firstTokenAmount
-                  ? (
-                      props.firstTokenAmount * props.getTokenPrice.tokenPrice[props.tokenIn.name]
-                    ).toFixed(5)
-                  : '0.00'} */}
-              </p>
+                
+              </p> */}
             </div>
             {props.walletAddress && props.tokenOut.name ? (
               <OverlayTrigger
@@ -530,7 +537,7 @@ const AddLiquidityNew = (props) => {
                   <Tooltip id="button-tooltip" {...props}>
                     {props.userBalances[props.tokenOut.name]
                       ? props.userBalances[props.tokenOut.name]
-                      : 0.0}{' '}
+                      : 0.0}
                     {props.tokenOut.name}
                   </Tooltip>
                 }
@@ -586,45 +593,85 @@ const AddLiquidityNew = (props) => {
               <div className="d-flex mt-2">
                 <div>
                   <div className="token-name-lp">{props.tokenIn.name}</div>
-                  <div className="tokenin-value">
-                    <span className="value">
-                      {props.positionDetails.data
-                        ? props.positionDetails.data.tokenAPoolBalance.toFixed(4)
-                        : '0.00'}
-                    </span>{' '}
-                    {/* <span className="tokenName"> {props.tokenIn.name}</span> */}
-                  </div>
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={
+                      <Tooltip id="button-tooltip" {...props}>
+                        {props.positionDetails.data
+                          ? props.positionDetails.data.tokenAPoolBalance
+                          : '0.00'}
+                      </Tooltip>
+                    }
+                  >
+                    <div className="tokenin-value">
+                      <span className="value">
+                        {props.positionDetails.data
+                          ? props.positionDetails.data.tokenAPoolBalance.toFixed(4)
+                          : '0.00'}
+                      </span>{' '}
+                    </div>
+                  </OverlayTrigger>
                 </div>
                 <div className="ml-2">
                   <div className="token-name-lp">{props.tokenOut.name}</div>
-                  <div className="tokenin-value">
-                    <span className="value">
-                      {props.positionDetails.data
-                        ? props.positionDetails.data.tokenBPoolBalance.toFixed(4)
-                        : '0.00'}
-                    </span>{' '}
-                    {/* <span className="tokenName">{props.tokenOut.name}</span> */}
-                  </div>
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={
+                      <Tooltip id="button-tooltip" {...props}>
+                        {props.positionDetails.data
+                          ? props.positionDetails.data.tokenBPoolBalance
+                          : '0.00'}
+                      </Tooltip>
+                    }
+                  >
+                    <div className="tokenin-value">
+                      <span className="value">
+                        {props.positionDetails.data
+                          ? props.positionDetails.data.tokenBPoolBalance.toFixed(4)
+                          : '0.00'}
+                      </span>{' '}
+                    </div>
+                  </OverlayTrigger>
                 </div>
               </div>
             </div>
             <div className="ml-auto right">
               <div className="pool-tokens ">
                 <div className="label">Pool Tokens</div>
-                <div className="pool-value">
-                  {props.positionDetails.data
-                    ? props.positionDetails.data.lpBalance.toFixed(4)
-                    : '0.00'}
-                </div>
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    <Tooltip id="button-tooltip" {...props}>
+                      {props.positionDetails.data ? props.positionDetails.data.lpBalance : '0.00'}
+                    </Tooltip>
+                  }
+                >
+                  <div className="pool-value">
+                    {props.positionDetails.data
+                      ? props.positionDetails.data.lpBalance.toFixed(4)
+                      : '0.00'}
+                  </div>
+                </OverlayTrigger>
               </div>
               <div className="pool-share">
                 <div className="label">Pool share</div>
-                <div className="pool-value">
-                  {props.positionDetails.data
-                    ? props.positionDetails.data.lpTokenShare.toFixed(4)
-                    : '0.00'}{' '}
-                  %
-                </div>
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    <Tooltip id="button-tooltip" {...props}>
+                      {props.positionDetails.data
+                        ? props.positionDetails.data.lpTokenShare
+                        : '0.00'}
+                    </Tooltip>
+                  }
+                >
+                  <div className="pool-value">
+                    {props.positionDetails.data
+                      ? props.positionDetails.data.lpTokenShare.toFixed(4)
+                      : '0.00'}{' '}
+                    %
+                  </div>
+                </OverlayTrigger>
               </div>
             </div>
           </div>
@@ -642,9 +689,15 @@ const AddLiquidityNew = (props) => {
         xtztoctez={xtztoctez}
         cteztoxtz={cteztoxtz}
       />
+      <ConfirmTransaction
+        show={showConfirmTransaction}
+        theme={props.theme}
+        content={'Adding Liquidity'}
+        onHide={props.handleClose}
+      />
       <InfoModal
         open={showTransactionSubmitModal}
-        InfoMessage={InfoMessage}
+        InfoMessage={'Adding Liquidity'}
         theme={props.theme}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
@@ -677,7 +730,7 @@ AddLiquidityNew.propTypes = {
   handleLoaderMessage: PropTypes.any,
   handleTokenType: PropTypes.any,
   loaderInButton: PropTypes.any,
-  resetAllValues: PropTypes.any,
+  resetAllValuesLiq: PropTypes.any,
   setFirstTokenAmount: PropTypes.any,
   //setHideContent: PropTypes.any,
   setLoaderMessage: PropTypes.any,

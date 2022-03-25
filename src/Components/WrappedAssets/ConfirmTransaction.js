@@ -24,7 +24,7 @@ const ConfirmTransaction = (props) => {
           autoplay: true,
           name: 'Demo Animation',
         });
-  }, [props]);
+  }, [props.show]);
   return (
     <>
       <script
@@ -44,15 +44,16 @@ const ConfirmTransaction = (props) => {
         <>
           <div className="swap-content-box-wrapper">
             <div className="header-line"></div>
-            <div id="container" ref={container}></div>
+            {props.show && <div id="container" ref={container}></div>}
 
             <Button
               onClick={props.confirmSwapToken}
               color={'outline-button'}
               className="mt-4 w-100 confirm-transaction-button-text"
             >
-              Swap {props.firstTokenAmount} {props.tokenIn.name} for{' '}
-              {Number(props.secondTokenAmount).toFixed(6)} {props.tokenOut.name}
+              {props.content}
+              {/* Swap {props.firstTokenAmount} {props.tokenIn.name} for{' '}
+              {Number(props.secondTokenAmount).toFixed(6)} {props.tokenOut.name} */}
             </Button>
             <div className="footer-confirm-transaction">
               Confirm this transaction on your wallet
@@ -68,14 +69,8 @@ export default ConfirmTransaction;
 
 ConfirmTransaction.propTypes = {
   confirmSwapToken: PropTypes.any,
-  firstTokenAmount: PropTypes.any,
-  loading: PropTypes.any,
-  routeData: PropTypes.any,
   onHide: PropTypes.any,
   show: PropTypes.any,
-  slippage: PropTypes.any,
-  tokenIn: PropTypes.any,
-  tokenOut: PropTypes.any,
   theme: PropTypes.any,
-  secondTokenAmount: PropTypes.any,
+  content: PropTypes.any,
 };
