@@ -114,6 +114,8 @@
   --theme-remove-lq: #ffffff;
   --theme-your-position: #ffffff;
   --theme-details-border-left: #f3f3f3;
+  --theme-lp-token: rgba(78, 93, 120, 0.8);
+  --theme-modal-text: #8a94a6;
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -238,6 +240,8 @@
   --theme-remove-lq: #2d2856;
   --theme-your-position: #211c49;
   --theme-details-border-left: rgba(206, 174, 254, 0.15);
+  --theme-lp-token: #b0b7c3;
+  --theme-modal-text: #b0b7c3;
 }
 
 :root.theme-transiton {

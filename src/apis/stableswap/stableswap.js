@@ -81,7 +81,7 @@ export const calculateTokensOutStable = async (
 ) => {
   tokenIn_amount = tokenIn_amount * 10 ** 6;
   try {
-    if (tokenIn === 'ctez') {
+    if (tokenIn === 'CTEZ') {
       const dy =
         newton_dx_to_dy(target * ctezSupply, tezSupply * 2 ** 48, tokenIn_amount * target, 5) /
         2 ** 48;
@@ -419,7 +419,7 @@ export const getUserBalanceByRpcStable = async (identifier, address) => {
       const balance = (() => {
         // IIFE
         let _balance;
-        if (identifier === 'ctez') {
+        if (identifier === 'CTEZ') {
           _balance = response.data.int;
         } else {
           _balance = response.data.args[1].int;
@@ -554,7 +554,7 @@ export async function add_liquidity(
     Tezos.setWalletProvider(wallet);
     const contractAddress =
       CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
-    const CTEZ = CONFIG.AMM[connectedNetwork]['ctez'].TOKEN_CONTRACT;
+    const CTEZ = CONFIG.AMM[connectedNetwork]['CTEZ'].TOKEN_CONTRACT;
     const contract = await Tezos.wallet.at(contractAddress);
     const ctez_contract = await Tezos.wallet.at(CTEZ);
     const batch = Tezos.wallet.batch([

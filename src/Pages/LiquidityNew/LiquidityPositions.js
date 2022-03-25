@@ -22,6 +22,7 @@ export const LiquidityPositions = (props) => {
 
   useEffect(async () => {
     const res = await getLiquidityPositionsForUser(props.walletAddress);
+
     if (res.success) {
       setEmpty(false);
       setPositions(res.data);
@@ -31,8 +32,6 @@ export const LiquidityPositions = (props) => {
   }, [props]);
 
   const openManage = async (value, index, flag, isStable) => {
-    // setOpen(flag);
-
     if (index !== indexPosition) {
       setOpen(true);
     } else {
@@ -93,7 +92,13 @@ export const LiquidityPositions = (props) => {
                     onClick={() => openManage(position, index, !isOpen, position.isStable)}
                   >
                     {!isMobile && 'Manage'}
-                    <span className="material-icons-round manage-arrow ">keyboard_arrow_down</span>
+                    <span
+                      className={clsx('material-icons-round', 'manage-arrow', {
+                        rotate: indexPosition === index && isOpen,
+                      })}
+                    >
+                      expand_more
+                    </span>
                   </div>
                 </div>
               </div>
@@ -104,29 +109,29 @@ export const LiquidityPositions = (props) => {
                       <div className="pooled">
                         POOLED {position.tokenA.name}:{' '}
                         <span className="value">
-                          {positionDetails ? positionDetails.tokenAPoolBalance?.toFixed(8) : '0.00'}{' '}
+                          {positionDetails ? positionDetails.tokenAPoolBalance?.toFixed(4) : '0.00'}{' '}
                           {position.tokenA.name}
                         </span>
                       </div>
                       <div className="pooled mt-1">
                         POOLED {position.tokenB.name}:{' '}
                         <span className="value">
-                          {positionDetails ? positionDetails.tokenBPoolBalance?.toFixed(8) : '0.00'}{' '}
+                          {positionDetails ? positionDetails.tokenBPoolBalance?.toFixed(4) : '0.00'}{' '}
                           {position.tokenB.name}
                         </span>
                       </div>
                     </div>
                     <div className="d-flex">
                       <div className="lq-details-right">
-                        <div className="label">Your pool share</div>
+                        <div className="label">Pool share</div>
                         <div className="value">
-                          {positionDetails ? positionDetails.lpTokenShare?.toFixed(10) : '0.00'} %
+                          {positionDetails ? positionDetails.lpTokenShare?.toFixed(4) : '0.00'} %
                         </div>
                       </div>
                       <div className="ml-2 lq-details-right">
-                        <div className="label">Your total pool tokens</div>
+                        <div className="label">Pool tokens</div>
                         <div className="value">
-                          {positionDetails ? positionDetails.lpBalance?.toFixed(10) : '0.00'}
+                          {positionDetails ? positionDetails.lpBalance?.toFixed(4) : '0.00'}
                         </div>
                       </div>
                     </div>

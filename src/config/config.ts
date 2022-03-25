@@ -1233,7 +1233,7 @@ const Config: IConfig = {
   },
   STABLESWAP: {
     testnet: {
-      ctez: {
+      CTEZ: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1HZW9FWJt6aU8x4nr6UiBry2eUCA7xEFb1',
         mapId: 26976,
@@ -1257,7 +1257,7 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
-          ctez: {
+          CTEZ: {
             contract: 'KT1AD4khq2R9q6DDbRY5CvUk8MXoshqsatGS',
             property: 'tezPool',
             liquidityToken: 'CTEZ-XTZ-LP',
@@ -1276,7 +1276,7 @@ const Config: IConfig = {
       },
     },
     mainnet: {
-      ctez: {
+      CTEZ: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4',
         mapId: 20920,
@@ -1301,7 +1301,7 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
-          ctez: {
+          CTEZ: {
             contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
             property: 'tezPool',
             liquidityToken: 'CTEZ-XTZ-LP',
@@ -1578,7 +1578,7 @@ const Config: IConfig = {
             property: 'token2_pool',
             liquidityToken: 'PlentywDAIlp',
           },
-          ctez: {
+          CTEZ: {
             contract: 'KT1C9gJRfkpPbNdBn3XyYbrUHT6XgfPzZqXP',
             property: 'token2_pool',
             liquidityToken: 'PlentyCtezlp',
@@ -1599,7 +1599,7 @@ const Config: IConfig = {
             property: 'token1_pool',
             liquidityToken: 'PlentywUSDClp',
           },
-          ctez: {
+          CTEZ: {
             contract: 'KT1PZpbmKtGE6ZyYeF8entfjuGGT7CRUCF5g',
             property: 'token1_pool',
             liquidityToken: 'ctez-wusdc-lp',
@@ -1630,7 +1630,7 @@ const Config: IConfig = {
             property: 'token1_pool',
             liquidityToken: 'PlentywBUSDlp',
           },
-          ctez: {
+          CTEZ: {
             contract: 'KT1GN7PHpFsH43ypFyE2hxNMdxqTuiCGm4Pm',
             property: 'token1_pool',
             liquidityToken: 'ctez-wbusd-lp',
@@ -1651,7 +1651,7 @@ const Config: IConfig = {
             property: 'token1_pool',
             liquidityToken: 'PlentywWBTClp',
           },
-          ctez: {
+          CTEZ: {
             contract: 'KT1XPUvZHc1YKTJYnGbB755V95hDgvS1qQYf',
             property: 'token1_pool',
             liquidityToken: 'ctez-wwbtc-lp',
@@ -1672,7 +1672,7 @@ const Config: IConfig = {
             property: 'token1_pool',
             liquidityToken: 'PlentywUSDTlp',
           },
-          ctez: {
+          CTEZ: {
             contract: 'KT1AfTwam4bNPawLv4bWqSj9GsVDPsf5F5bQ',
             property: 'token1_pool',
             liquidityToken: 'ctez-wusdt-lp',
@@ -1693,7 +1693,7 @@ const Config: IConfig = {
             property: 'token1_pool',
             liquidityToken: 'PlentywDAIlp',
           },
-          ctez: {
+          CTEZ: {
             contract: 'KT1L5qd9xPWjiEX6ZNovhaty228ASg6jCE5p',
             property: 'token1_pool',
             liquidityToken: 'ctez-wdai-lp',
@@ -1746,7 +1746,7 @@ const Config: IConfig = {
             property: 'token1_pool',
             liquidityToken: 'Plenty-wWETH-LP',
           },
-          ctez: {
+          CTEZ: {
             contract: 'KT1WwqM2MH38PSQbECxPngBVLSbqJUHzCFAH',
             property: 'token1_pool',
             liquidityToken: 'ctez-wweth-lp',
@@ -1772,7 +1772,7 @@ const Config: IConfig = {
             property: 'token1_pool',
             liquidityToken: 'Plenty-UNO-LP',
           },
-          ctez: {
+          CTEZ: {
             contract: 'KT1XLFZ2RS8vCUmHwBG39mq7zELhnLKn9JUz',
             property: 'token1_pool',
             liquidityToken: 'ctez-uno-lp',
@@ -1808,7 +1808,7 @@ const Config: IConfig = {
             property: 'token2_pool',
             liquidityToken: 'uusd-udefi-LP',
           },
-          ctez: {
+          CTEZ: {
             contract: 'KT1Rx3pQzsn4FBuuYhcWsqUS7vWFx3ktqSWD',
             property: 'token1_pool',
             liquidityToken: 'ctez-uusd-lp',
@@ -1866,7 +1866,7 @@ const Config: IConfig = {
             property: 'token1_pool',
             liquidityToken: 'Plentyusdtzlp',
           },
-          ctez: {
+          CTEZ: {
             contract: 'KT1PWAXfPatPWBNJUxTHin4ECin1kYJHHnsr',
             property: 'token1_pool',
             liquidityToken: 'ctez-usdtz-lp',
@@ -1897,7 +1897,7 @@ const Config: IConfig = {
             property: 'token1_pool',
             liquidityToken: 'Plentywraplp',
           },
-          ctez: {
+          CTEZ: {
             contract: 'KT19Qe4KbEVAiaVeNsgo9Tkqa6qvZho8c4W5',
             property: 'token1_pool',
             liquidityToken: 'ctez-wrap-lp',
@@ -1918,7 +1918,7 @@ const Config: IConfig = {
             property: 'token1_pool',
             liquidityToken: 'PlentyGiflp',
           },
-          ctez: {
+          CTEZ: {
             contract: 'KT1VnFPwDGJRt5ufMgcWafM2WWcZCC77gpT3',
             property: 'token1_pool',
             liquidityToken: 'ctez-gif-lp',
@@ -1939,14 +1939,14 @@ const Config: IConfig = {
             property: 'token1_pool',
             liquidityToken: 'PlentytzBTClp',
           },
-          ctez: {
+          CTEZ: {
             contract: 'KT1Wryxte8NnVCm569yb8dcSPmvFBVs4ufD6',
             property: 'token1_pool',
             liquidityToken: 'ctez-tzbtc-lp',
           },
         },
       },
-      ctez: {
+      CTEZ: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4',
         mapId: 20920,
@@ -2101,7 +2101,7 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 8,
         DEX_PAIRS: {
-          ctez: {
+          CTEZ: {
             contract: 'KT1LixgLzdK4nseeD6MmmVpokuw9CvpVX9KW',
             property: 'token1_pool',
             liquidityToken: 'ctez-paul-lp',
@@ -2122,7 +2122,7 @@ const Config: IConfig = {
             property: 'token1_pool',
             liquidityToken: 'Plentykalamlp',
           },
-          ctez: {
+          CTEZ: {
             contract: 'KT1HuZVo3ZKRhkaHDsYXZ2fvmVfkY1FrbEDj',
             property: 'token1_pool',
             liquidityToken: 'ctez-kalam-lp',
@@ -2148,7 +2148,7 @@ const Config: IConfig = {
             property: 'token1_pool',
             liquidityToken: 'PLENTY-kUSD-LP',
           },
-          ctez: {
+          CTEZ: {
             contract: 'KT1X1nkqJDR1UHwbfpcnME5Z7agJLjUQNguB',
             property: 'token1_pool',
             liquidityToken: 'ctez-kusd-lp',
@@ -2169,7 +2169,7 @@ const Config: IConfig = {
             property: 'token1_pool',
             liquidityToken: 'Plenty-hDAO-LP',
           },
-          ctez: {
+          CTEZ: {
             contract: 'KT1RSxExbbRwQdYBpRHWup9vxvw1Hp25vFVM',
             property: 'token1_pool',
             liquidityToken: 'ctez-hdao-lp',
@@ -2190,7 +2190,7 @@ const Config: IConfig = {
             property: 'token1_pool',
             liquidityToken: 'Plenty-ETHtz-LP',
           },
-          ctez: {
+          CTEZ: {
             contract: 'KT1GSYhwanehtwCK3NPfkMFbD1bNQmvosbqL',
             property: 'token1_pool',
             liquidityToken: 'ctez-ethtz-lp',
@@ -2216,7 +2216,7 @@ const Config: IConfig = {
             property: 'token1_pool',
             liquidityToken: 'Plenty-SMAK-LP',
           },
-          ctez: {
+          CTEZ: {
             contract: 'KT1Qg4FmXDmViQgyYLT5QkgZQSmPKvKjZbzn',
             property: 'token1_pool',
             liquidityToken: 'ctez-smak-lp',
@@ -2237,7 +2237,7 @@ const Config: IConfig = {
             property: 'token1_pool',
             liquidityToken: 'Plenty-QUIPU-LP',
           },
-          ctez: {
+          CTEZ: {
             contract: 'KT1Ss8rb1UFVqG2LYEU5g4NEbK5SqW5Xadwp',
             property: 'token1_pool',
             liquidityToken: 'ctez-quipu-lp',
@@ -2253,7 +2253,7 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 8,
         DEX_PAIRS: {
-          ctez: {
+          CTEZ: {
             contract: 'KT1WZztBneC9NrhVqvo9yXq8St7p8c1JVTxm',
             property: 'token1_pool',
             liquidityToken: 'ctez-crunch-lp',
@@ -2269,7 +2269,7 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
-          ctez: {
+          CTEZ: {
             contract: 'KT1Bp3JAeeMP4GvJaspFw6zah6WydqqqHPNw',
             property: 'token1_pool',
             liquidityToken: 'ctez-flame-lp',
@@ -2285,7 +2285,7 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 18,
         DEX_PAIRS: {
-          ctez: {
+          CTEZ: {
             contract: 'KT1SP9WsMeLFTiHBXqEumTASYbF3CXh22aVV',
             property: 'token1_pool',
             liquidityToken: 'ctez-kdao-lp',
@@ -2301,7 +2301,7 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 9,
         DEX_PAIRS: {
-          ctez: {
+          CTEZ: {
             contract: 'KT1EnESbHxmzd2XeENyYNege4L5TKxeatJk9',
             property: 'token1_pool',
             liquidityToken: 'ctez-insta-lp',
@@ -2317,7 +2317,7 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 8,
         DEX_PAIRS: {
-          ctez: {
+          CTEZ: {
             contract: 'KT1JkHBYp3Pq4TRSkFdc2CRoXFgDkJrfCqUe',
             property: 'token1_pool',
             liquidityToken: 'ctez-crdao-lp',
@@ -2333,7 +2333,7 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
-          ctez: {
+          CTEZ: {
             contract: 'KT1WR19YA8Go6GbTvtrMpUEEGSuQYxgz2ZVW',
             property: 'token1_pool',
             liquidityToken: 'ctez-pxl-lp',
