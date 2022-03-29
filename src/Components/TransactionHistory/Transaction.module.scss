@@ -1,8 +1,7 @@
 .border {
   padding: 1px;
-  margin-top: 100px;
+  margin-top: 60px;
   border-radius: 8px;
-  width: 400px;
   @media screen and (min-width: 320px) and (max-width: 767px) {
     background: none;
     margin: 20px auto;
@@ -21,10 +20,11 @@
   position: sticky;
 }
 .tokenbg {
-  width: 42px;
-  height: 42px;
-  background-color: #e3e9e9;
+  width: 44px;
+  height: 44px;
+  background-color: #F9FAFA;
   border-radius: 7px;
+  margin-right: 10px;
 }
 .tokens {
   height: 26px;
@@ -35,10 +35,10 @@
 .amt {
   font-size: 12px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 16px;
   letter-spacing: 0em;
-  color: #16a135;
+  color: #8A959E;
 
   margin-bottom: 0px;
 }
@@ -49,33 +49,63 @@
   line-height: 16px;
   letter-spacing: 0em;
   color: #6202ef;
+  margin-bottom: 0;
+  cursor: pointer;
 }
+
+.action {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0em;
+  color: #F16500;
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
 .value {
-  font-size: 14px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 700;
-  line-height: 18px;
+  line-height: 21px;
   letter-spacing: 0em;
   color: #464e5f;
   margin-bottom: 0px;
 }
 .bridgeModal {
-  box-shadow: 0px 2px 32px -5px rgba(100, 96, 105, 0.15);
+  box-shadow: 0px 16.9px 32.3304px rgba(149, 165, 192, 0.14);
   border:1px solid var(--theme-bridge-votingBorder);
-  border-radius: 8px;
-  padding: 24px 24px;
+  border-radius: 12px;
+  padding: 22px 32px;
   margin: auto;
   overflow-y: auto;
-  width: 400px;
+  width: 520px;
+  max-height: 600px;
+  &::-webkit-scrollbar {
+    background-color: #7a8699;
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #f6f8fc;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #babac0;
+    border-radius: 8px;
+    border: 5px solid #7a8699;
+  }
   @media screen and (min-width: 320px) and (max-width: 767px) {
-    max-width: 440px;
+    //max-width: 440px;
     border-radius: 0px;
     box-shadow: none;
     padding: 20px 20px;
     margin: 0 auto;
+    width: auto;
   }
   .arrowback {
     margin-bottom: 0px;
+    display: flex;
+    align-items: center;
   }
   .res {
     font-style: normal;
@@ -106,14 +136,17 @@
     }
   }
   .heading {
-    font-size: 16px;
+    font-size: 20px;
     font-style: normal;
     font-weight: 700;
     line-height: 17px;
     letter-spacing: 0px;
     color: #292a2e;
-    margin-top: 7px;
+    margin-bottom: 0px;
+    //margin-top: 7px;
   }
+
+  
 }
 
 .lineBottom {
@@ -121,3 +154,30 @@
   width: 100%;
 }
 
+.detailWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.resultsInfoWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.filterImageWrapper {
+  display: flex;
+  align-items: center;
+  width: 72px;
+  justify-content: space-between;
+}
+
+.headingWrapper {
+  height: 34px;
+  align-items: center;
+}
+
+.filterIcon {
+  cursor: pointer;
+  position: relative;
+  right: 10%;
+}

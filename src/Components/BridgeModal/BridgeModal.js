@@ -1,15 +1,18 @@
 /* eslint-disable no-unused-vars */
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './BridgeModal.module.scss';
 import Button from '../Ui/Buttons/Button';
-import { ReactComponent as Avalanche } from '../../assets/images/bridge/avalanche.svg';
-import AvalancheRed from '../../assets/images/bridge/avalanche_red.svg';
+// import AvalancheRed from '../../assets/images/bridge/avax_red.svg';
+// //import { ReactComponent as Avalanche } from '../../assets/images/bridge/avax.svg';
+// import Avalanche from '../../assets/images/bridge/avax.svg';
+import ethereum from '../../assets/images/bridge/eth.svg';
 import tezos from '../../assets/images/bridge/tezos.svg';
-import arrowDown from '../../assets/images/bridge/arrow_down.svg';
-import arrowUp from '../../assets/images/bridge/arrow_up.svg';
-import { tokens } from '../../constants/swapPage';
+//import { tokens } from '../../constants/swapPage';
+import { tokensList } from '../../constants/bridges';
 import SwapModal from '../SwapModal/SwapModal';
 import plenty from '../../assets/images/logo_small.png';
 import { getTokenPrices, getUserBalanceByRpc, fetchtzBTCBalance } from '../../apis/swap/swap';
@@ -17,20 +20,30 @@ import config from '../../config/config';
 import { ethers } from 'ethers';
 import dummyApiCall from '../../apis/dummyApiCall';
 import '../../assets/scss/animation.scss';
+import switchImg from '../../assets/images/bridge/bridge-switch.svg';
+import { bridgesList } from '../../constants/bridges';
+import SelectorModal from '../Bridges/SelectorModal';
+
+
 const BridgeModal = (props) => {
-  const [firstTokenAmount, setFirstTokenAmount] = useState();
-  const [secondTokenAmount, setSecondTokenAmount] = useState();
+  //const [firstTokenAmount, setFirstTokenAmount] = useState();
+  //const [secondTokenAmount, setSecondTokenAmount] = useState();
 
   const [errorMessage, setErrorMessage] = useState(null);
+  const [isError, setIsError] = useState(false);
   const [defaultAccount, setDefaultAccount] = useState(null);
   const [userBalance, setUserBalance] = useState(null);
   const [connButtonText, setConnButtonText] = useState('Connect Wallet');
   const [provider, setProvider] = useState(null);
 
-  const [tokenIn, setTokenIn] = useState({
-    name: 'PLENTY',
-    image: plenty,
+  /* const [tokenIn, setTokenIn] = useState({
+    name: tokensList['ETHEREUM'][0].name,
+    image: tokensList['ETHEREUM'][0].image,
   });
+  const [tokenOut, setTokenOut] = useState({
+    name: `${tokensList['ETHEREUM'][0].name}.e`,   //Change after creating config.
+    image: ''
+  }); */
   const [searchQuery, setSearchQuery] = useState('');
   const [show, setShow] = useState(false);
 
@@ -38,7 +51,51 @@ const BridgeModal = (props) => {
   const [tokenType, setTokenType] = useState('tokenIn');
   const [getTokenPrice, setGetTokenPrice] = useState({});
   const [isLoading,SetisLoading]=useState(false);
-  const tokenOut = {};
+  const wrapFeePercentage = useRef(0.15); //Get from config on load
+  const unwrapFeePercentage = useRef(0.15); //Get from config on load
+
+
+  //const [fromBridge, setFromBridge] = useState({name: 'ETHEREUM', image: ethereum, buttonImage: ethereum});
+  //const [toBridge, setToBridge] = useState({name: 'TEZOS', image: tezos, buttonImage: ''});
+  //const [connectBridgeWallet, setConnectBrigeWallet] = useState({name: fromBridge.name, image: fromBridge.image, buttonImage: fromBridge.buttonImage});
+  //const [fee, setFee] = useState(0);
+  //const [selector, setSelector] = useState('BRIDGES');
+  const selector = useRef('BRIDGES');
+  //const [operation, setOperation] = useState('BRIDGE');
+  //const operation = useRef('BRIDGE');
+  //const [tokenList, setTokenList] = useState(tokensList[fromBridge.name]);
+
+  // Destructuring all props to respective variable names.
+  const {
+    walletAddress,
+    transaction,
+    setTransaction,
+    fromBridge,
+    toBridge,
+    tokenIn,
+    tokenOut,
+    firstTokenAmount,
+    secondTokenAmount,
+    fee,
+    currentProgress,
+    operation,
+    setFromBridge,
+    setToBridge,
+    setTokenIn,
+    setTokenOut,
+    setFirstTokenAmount,
+    setSecondTokenAmount,
+    setFee,
+    SetCurrentProgress,
+    setOperation,
+    tokenList,
+    setTokenList
+  } = props;
+
+  //const [tokenList, setTokenList] = useState(tokensList[fromBridge.name]);
+  const [connectBridgeWallet, setConnectBrigeWallet] = useState({name: fromBridge.name, image: fromBridge.image, buttonImage: fromBridge.buttonImage});
+
+
   useEffect(() => {
     const updateBalance = async () => {
       const userBalancesCopy = { ...userBalances };
@@ -46,20 +103,20 @@ const BridgeModal = (props) => {
       const balancePromises = [];
       if (!userBalancesCopy[tokenIn.name]) {
         tokenIn.name === tzBTCName
-          ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
-          : balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
+          ? balancePromises.push(fetchtzBTCBalance(walletAddress))
+          : balancePromises.push(getUserBalanceByRpc(tokenIn.name, walletAddress));
       }
       if (!userBalancesCopy[tokenOut.name]) {
         tokenOut.name === tzBTCName
-          ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
-          : balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));
+          ? balancePromises.push(fetchtzBTCBalance(walletAddress))
+          : balancePromises.push(getUserBalanceByRpc(tokenOut.name, walletAddress));
       }
-      if (config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]) {
+      /* if (config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]) {
         const lpToken =
           config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
 
-        balancePromises.push(getUserBalanceByRpc(lpToken, props.walletAddress));
-      }
+        balancePromises.push(getUserBalanceByRpc(lpToken, walletAddress));
+      } */
       const balanceResponse = await Promise.all(balancePromises);
 
       setUserBalances((prev) => ({
@@ -67,7 +124,7 @@ const BridgeModal = (props) => {
         ...balanceResponse.reduce(
           (acc, cur) => ({
             ...acc,
-            [cur.identifier]: cur.balance,
+            [cur.identifier]: 10,//cur.balance,
           }),
           {},
         ),
@@ -103,11 +160,18 @@ const BridgeModal = (props) => {
   const handleFromTokenInput = (input, tokenType) => {
     if (input === '' || isNaN(input)) {
       setFirstTokenAmount('');
+      setSecondTokenAmount('');
+      setFee(0);
     } else {
       if (tokenType === 'tokenIn') {
         setFirstTokenAmount(input);
         const toAmt = input * 0.9985;
         setSecondTokenAmount(toAmt);
+      }
+      if(operation === 'BRIDGE') {
+        setFee((input * wrapFeePercentage.current)/100);
+      } else {
+        setFee((input * unwrapFeePercentage.current)/100);
       }
     }
   };
@@ -123,6 +187,7 @@ const BridgeModal = (props) => {
       }
     }
   };
+
  const handelClickWithMetaAddedBtn = () => {
   SetisLoading(true);
   dummyApiCall({isfinished:true}).then((res)=>{
@@ -144,10 +209,12 @@ const BridgeModal = (props) => {
         })
         .catch((error) => {
           setErrorMessage(error.message);
+          setIsError(true);
         });
     } else {
       console.log('Need to install MetaMask');
       setErrorMessage('Please install MetaMask browser extension to interact');
+      setIsError(true);
     }
   };
 
@@ -165,6 +232,7 @@ const BridgeModal = (props) => {
       })
       .catch((error) => {
         setErrorMessage(error.message);
+        setIsError(true);
       });
   };
 
@@ -187,117 +255,244 @@ const BridgeModal = (props) => {
     setShow(true);
     setTokenType(type);
   };
-  const setTransaction = (value) => {
+  /* const setTransaction = (value) => {
     if (value) {
       props.setTransaction(value);
     }
+  }; */
+  
+
+  //From Bridge Related
+
+  const selectBridge = (bridge) => {
+    setFirstTokenAmount('');
+    setSecondTokenAmount('');
+    setFee(0);
+    if(bridge.name === 'TEZOS') {
+      const currentFrom = {name: fromBridge.name, image: fromBridge.image, buttonImage: fromBridge.buttonImage};
+      setToBridge({name: currentFrom.name, image: currentFrom.image, buttonImage: currentFrom.buttonImage});
+      //setFromBridge({name: bridge.name, image: bridge.image, buttonImage: bridge.buttonImage});
+      setOperation('UNBRIDGE');
+      //operation.current = 'UNBRIDGE';
+      //call switch function
+    } else {
+      //setFromBridge({name: bridge.name, image: bridge.image, buttonImage: bridge.buttonImage});
+      setConnectBrigeWallet({name: bridge.name, image: bridge.image, buttonImage: bridge.buttonImage});
+      if(operation === 'UNBRIDGE') {
+        setToBridge({name: 'TEZOS', image: tezos, buttonImage: ''});
+        setOperation('BRIDGE');
+        //operation.current = 'BRIDGE';
+      }
+      
+    }
+    setFromBridge({name: bridge.name, image: bridge.image, buttonImage: bridge.buttonImage});
+    handleClose();
   };
+
+  /* useEffect(() => {
+    setTokenList(tokensList[fromBridge.name]);
+    setTokenIn({
+      name: tokensList[fromBridge.name][0].name,
+      image: tokensList[fromBridge.name][0].image
+    });
+    //Change after creating config.
+    setTokenOut({
+      name: `${tokensList[fromBridge.name][0].name}.e`,
+      image: tokensList[fromBridge.name][0].image
+    });
+  }, [fromBridge]); */
+
+  const handleBridgeSelect = () => {
+    //setSelector('BRIDGES');
+    selector.current = 'BRIDGES';
+    setShow(true);
+  };
+
+  //From Token Related
+
   const selectToken = (token) => {
     setFirstTokenAmount('');
     setSecondTokenAmount('');
+    setFee(0);
 
-    if (tokenType === 'tokenIn') {
+    setTokenIn({
+      name: token.name,
+      image: token.image,
+    });
+    //Change after creating config.
+    setTokenOut({
+      name: `${token.name}.e`,
+      image: token.image,
+    });
+    /* if (tokenType === 'tokenIn') {
       setTokenIn({
         name: token.name,
         image: token.image,
       });
-    }
+    } */
     handleClose();
   };
+
+
+  const handleTokenSelect = () => {
+    setIsError(false);
+    if(!walletAddress) {
+      setErrorMessage('Please connect to tezos wallet.');
+      setIsError(true);
+    } else {
+      //setSelector('TOKENS');
+      selector.current = 'TOKENS';
+      setShow(true);
+    } 
+  };
+
+  //To Bridge/Token/Switch Related
+
+  const switchHandler = () => {
+    //setOperation((prevOperation) => prevOperation === 'BRIDGE' ? 'UNBRIDGE' : 'BRIDGE');
+    setFirstTokenAmount('');
+    setSecondTokenAmount('');
+    setFee(0);
+    const currentFrom = {name: fromBridge.name, image: fromBridge.image, buttonImage: fromBridge.buttonImage};
+    const currentTo = {name: toBridge.name, image: toBridge.image, buttonImage: toBridge.buttonImage};
+    setFromBridge({name: currentTo.name, image: currentTo.image, buttonImage: currentTo.buttonImage});
+    setToBridge({name: currentFrom.name, image: currentFrom.image, buttonImage: currentFrom.buttonImage});
+    if(operation === 'BRIDGE') {
+      setOperation('UNBRIDGE');
+      //operation.current = 'UNBRIDGE';
+    } else {
+      setOperation('BRIDGE');
+      //operation.current = 'BRIDGE';
+    }
+  };
+  
   return (
     <div
-      className={`justify-content-center mx-auto col-20 col-md-10 col-lg-10 col-xl-10 mb-5 ${styles.gov}`}
+      className={`justify-content-center mx-auto col-20 col-md-10 col-lg-10 col-xl-10 mb-3 ${styles.gov}`}
     >
       <div className={styles.border}>
         <div className={` ${styles.bridgeModal} leftToRightFadeInAnimation-4`}>
           <div className={styles.resultsHeader}>
             <p className={styles.heading}>Bridge Tokens</p>
-            <p
-              className={styles.res}
-              onClick={() => {
-                setTransaction(2);
-              }}
-              style={{ cursor: 'pointer' }}
-            >
-              View History
-            </p>
+            {walletAddress ? (
+              <p
+                className={styles.res}
+                onClick={() => {
+                  setTransaction(2);
+                }}
+                style={{ cursor: 'pointer' }}
+              >
+                View History
+              </p>
+            ) : null}
           </div>
           <div className={`mb-2 ${styles.lineBottom} `}></div>
-          <div className={`mt-2 ${styles.selectBox}`} onClick={() => handleTokenType('tokenIn')}>
-            <div className="token-user-input-wrapper" style={{ textAlign: 'left' }}>
-              <img src={tokenIn.image} className="button-logo" />
-              {tokenIn.name}
-            </div>
-            <span className="span-themed material-icons-round">expand_more</span>
-          </div>
           <div className={`mt-4 ${styles.from}`}>From</div>
-          <div className={`mt-3 ${styles.selectBox} ${styles.inputSelectBox}`}>
-            <div className="token-user-input-wrapper" style={{ textAlign: 'left' }}>
+          <div className={`mt-2 ${styles.fromBridgeSelectBox}`}>
+            <div>
+              <p className={`mb-1 ${styles.fromLabelTop}`}>Select chain: </p>
+              <p className={`mb-0 ${styles.fromLabelBottom}`}>Choose your entry chain</p>
+            </div>
+            <div
+              className={clsx(styles.bridgeSelector, styles.selector)}
+              onClick={handleBridgeSelect}
+            >
+              <img src={fromBridge.image} className="button-logo" />
+              <span>{fromBridge.name} </span>
+              <span className="span-themed material-icons-round">expand_more</span>
+            </div>
+          </div>
+          <div className={`my-3 ${styles.lineMid} `}></div>
+          <p className={styles.midLabel}>Choose your token and enter the amount</p>
+          <div className={`mt-2 ${styles.tokenSelectBox} ${styles.inputSelectBox}`}>
+            <div className={'flex align-items-center'}>
+              <div
+                className={clsx(styles.selector, styles.toTokenSelector)}
+                onClick={handleTokenSelect}
+              >
+                <img src={tokenIn.image} className="button-logo" />
+                <span>{tokenIn.name} </span>
+                <span className="span-themed material-icons-round">expand_more</span>
+              </div>
+              <span
+                onClick={onClickAmount}
+                className={`flex justify-content-center align-items-center ml-2 ${styles.selectMaxBtn}`}
+              >
+                MAX
+              </span>
+            </div>
+            <div className={clsx(styles.inputWrapper)}>
               <input
                 type="text"
-                className={styles.tokenUserInput}
+                className={`text-right ${styles.tokenUserInput}`}
                 placeholder="0.0"
                 value={firstTokenAmount}
                 onChange={(e) => handleFromTokenInput(e.target.value, 'tokenIn')}
               />
             </div>
-
-            <div className={styles.tokenSelector}>
-              <img src={AvalancheRed} className="button-logo" />
-              AVALANCHE{' '}
-            </div>
           </div>
+          <div className="flex justify-between" style={{ flex: '0 0 100%', marginBottom: '2vh' }}>
+            <p className={clsx(styles.errorText)}>{isError ? errorMessage : ' '}</p>
+            <p className="wallet-token-balance">
+              {walletAddress ? (
+                <>
+                  Balance:{' '}
+                  {userBalances[tokenIn.name] >= 0 ? (
+                    userBalances[tokenIn.name]
+                  ) : (
+                    <div className="shimmer">0.0000</div>
+                  )}
+                </>
+              ) : (
+                ' '
+              )}
 
-          {props.walletAddress ? (
-            <div className="flex justify-between mb-5" style={{ flex: '0 0 100%' }}>
-              <p
-                className="wallet-token-balance"
-                onClick={onClickAmount}
-                style={{ cursor: 'pointer' }}
-              >
-                Balance:{' '}
-                {userBalances[tokenIn.name] >= 0 ? (
-                  userBalances[tokenIn.name]
-                ) : (
-                  <div className="shimmer">0.0000</div>
-                )}{' '}
-                <span className="max-btn">(Max)</span>
-              </p>
-
-              <p className="wallet-token-balance">
-                ~$
+              {/* ~$
                 {getTokenPrice.success && firstTokenAmount
                   ? getDollarValue(firstTokenAmount, getTokenPrice.tokenPrice[tokenIn.name])
-                  : '0.00'}
-              </p>
-            </div>
-          ) : null}
-
-          <div className={styles.arrowSwap}>
-            <img src={arrowDown} alt={'arrowdown'} className={styles.arrow} />
-            <img src={arrowUp} alt={'arrowup'} className={styles.arrow} />
+                  : '0.00'} */}
+            </p>
           </div>
+          <OverlayTrigger
+            overlay={(props) => (
+              <Tooltip id={styles.switchTooltip} className='switchTooltip' {...props}>Switch</Tooltip>
+            )}
+            placement="right"
+          >
+            <div
+              className={`mx-auto flex justify-content-center align-items-center ${styles.arrowSwap}`}
+              onClick={switchHandler}
+            >
+              <img src={switchImg} alt={'switch-image'} />
+            </div>
+          </OverlayTrigger>
 
           <div className={`mt-2 ${styles.to}`}>To</div>
-          <div className={`mt-3 ${styles.selectBox} ${styles.inputSelectBox}`}>
-            <div className="token-user-input-wrapper" style={{ textAlign: 'left' }}>
-              <p className={styles.toLabel}>you will receive</p>
-
-              <input
-                type="text"
-                className={styles.tokenUserInput}
-                placeholder="0.0"
-                value={secondTokenAmount}
-                onChange={(e) => handleToTokenInput(e.target.value, 'tokenIn')}
-              />
+          <div className={`mt-3 ${styles.toBridgeSelectBox} ${styles.inputSelectBox}`}>
+            <div className={clsx(styles.toBridgeWrapper)}>
+              <div className={styles.toBridgeSelector}>
+                <img src={toBridge.image} className="button-logo" />
+                <span>{toBridge.name} </span>
+              </div>
+              <div className={clsx(styles.lineHorizontal, 'mx-2')}></div>
+              <div className={clsx(styles.inputWrapper)}>
+                <p className={styles.toLabel}>you will receive</p>
+                <input
+                  type="text"
+                  className={`text-left ${styles.toTokenOutput}`}
+                  placeholder="0.0"
+                  value={secondTokenAmount}
+                  disabled
+                />
+              </div>
             </div>
-
-            <div className={styles.tokenSelector}>
-              <img src={tezos} className="button-logo" />
-              TEZOS{' '}
-            </div>
+            <span
+              className={`flex justify-content-center align-items-center ml-2 ${styles.toTokenLabel}`}
+            >
+              {tokenOut.name}
+            </span>
           </div>
-          <p className="mt-2 wallet-token-balance">Estimated fee: 100</p>
+          <p className={clsx('mt-2', styles.feeEstimateText)}>{`Estimated fee: ${fee}`}</p>
 
           {defaultAccount === null ? (
             <>
@@ -307,8 +502,9 @@ const BridgeModal = (props) => {
               >
                 <div className={clsx('connect-wallet-btn')}>
                   <div className="flex flex-row align-items-center">
-                    <Avalanche />
-                    <span className="ml-2">Connect to Avalanche wallet</span>
+                    {/* <Avalanche /> */}
+                    <img src={connectBridgeWallet.buttonImage} />
+                    <span className="ml-2">Connect to {connectBridgeWallet.name} wallet</span>
                   </div>
                 </div>
               </Button>
@@ -322,7 +518,7 @@ const BridgeModal = (props) => {
               >
                 <div className={clsx('connect-wallet-btn')}>
                   <div className="flex flex-row align-items-center">
-                    <Avalanche />
+                    {/* <Avalanche /> */}
                     <span className="ml-2">{defaultAccount}</span>
                     {/* <span>{userBalance}</span> */}
                   </div>
@@ -333,18 +529,19 @@ const BridgeModal = (props) => {
           )}
         </div>
       </div>
-
-      <SwapModal
+      {/* Change selectToken and tokens prop for wrapped tokens after adding them. */}
+      <SelectorModal
         show={show}
-        activeTab="swap"
         onHide={handleClose}
-        selectToken={selectToken}
-        tokens={tokens}
-        tokenIn={tokenIn}
-        tokenOut={tokenOut}
-        tokenType="tokenIn"
+        selectToken={
+          selector.current === 'BRIDGES' ? selectBridge : selectToken
+        }
+        tokens={
+          selector.current === 'BRIDGES' ? bridgesList : tokenList
+        }
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
+        title={selector.current === 'BRIDGES' ? 'Select a Bridge' : 'Select a Token'}
       />
     </div>
   );
@@ -354,6 +551,26 @@ BridgeModal.propTypes = {
   transaction: PropTypes.any,
   setTransaction: PropTypes.any,
   walletAddress: PropTypes.any,
+  fromBridge: PropTypes.any,
+  toBridge: PropTypes.any,
+  tokenIn: PropTypes.any,
+  tokenOut: PropTypes.any,
+  firstTokenAmount: PropTypes.any,
+  secondTokenAmount: PropTypes.any,
+  fee: PropTypes.any,
+  currentProgress: PropTypes.any,
+  operation: PropTypes.any,
+  setFromBridge: PropTypes.any,
+  setToBridge: PropTypes.any,
+  setTokenIn: PropTypes.any,
+  setTokenOut: PropTypes.any,
+  setFirstTokenAmount: PropTypes.any,
+  setSecondTokenAmount: PropTypes.any,
+  setFee: PropTypes.any,
+  SetCurrentProgress: PropTypes.any,
+  setOperation: PropTypes.any,
+  tokenList: PropTypes.any,
+  setTokenList: PropTypes.any
 };
 
 export default BridgeModal;

@@ -81,6 +81,9 @@
   --theme-thead-text: var(--theme-text-3);
   --theme-toggler: #ffffff;
   --theme-toggler-bg: #c1c7d0;
+
+  --theme-bridge-from-ip-bg: #fcfcfc;
+  --theme-bridge-to-ip-bg: rgba(98, 2, 239, 0.05);
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -171,6 +174,9 @@
   --theme-thead-text: #edecef;
   --theme-toggler: #6202ef;
   --theme-toggler-bg: #343052;
+
+  --theme-bridge-from-ip-bg: rgba(138, 149, 158, 0.05);
+  --theme-bridge-to-ip-bg: rgba(206, 174, 254, 0.05);
 }
 
 :root.theme-transiton {

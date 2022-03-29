@@ -1,0 +1,104 @@
+.sortBox {
+  //position: absolute;
+  z-index: 10000;
+  position: absolute;
+  width: 224px;
+  min-height: 150px;
+  left: 20vw;
+  top: 60px;
+  background: #ffffff;
+  border: 1px solid rgba(98, 2, 239, 0.1);
+  box-sizing: border-box;
+  box-shadow: 0px 5px 15px rgba(32, 28, 65, 0.14);
+  border-radius: 6px;
+  //padding: 20px 14px;
+}
+
+.sortHeading {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #8a959e;
+  margin-bottom: 2px;
+}
+
+.sortButtonsContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 9px 0px;
+  margin-bottom: 0px;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.05em;
+  color: #4e5d78;
+  -webkit-user-select: none;
+  user-select: none;
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    &:checked {
+      & ~ .radioOption {
+        //background-color: #2196F3;
+        background-image: url('../../../assets/images/bridge/check-violet.svg');
+        background-size: contain;
+        &:after {
+          display: block;
+        }
+      }
+    }
+  }
+  &:hover {
+    background-color: rgba(98, 2, 239, 0.06);
+    // input {
+    // 	& ~ .radioOption {
+    // 		//background-color: #ccc;
+    // 	}
+    // }
+  }
+
+  .sortLabelText {
+    margin-left: 22px;
+  }
+  /* .radioOption {
+          &:after {
+              left: 5px;
+              top: 1px;
+              width: 5px;
+              height: 10px;
+              border: solid white;
+              border-width: 0 2px 2px 0;
+              -webkit-transform: rotate(45deg);
+              transform: rotate(45deg);
+          }
+      } */
+}
+
+.radioOption {
+  position: absolute;
+  right: 0;
+  height: 15px;
+  width: 15px;
+  margin-right: 22px;
+  background-image: url('../../../assets/images/bridge/check-grey.svg');
+  background-size: contain;
+  //background-color: #eee;
+  /* &:after {
+          content: "";
+          position: absolute;
+          display: none;
+      } */
+}
+
+.lineBottom {
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
+    width: 90%;
+}

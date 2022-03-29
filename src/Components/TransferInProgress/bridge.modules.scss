@@ -2,9 +2,6 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    .shaded{
-        background: #F9FAFA;
-    }
     .purple{
         border: 1px solid #B080F7 !important;
         background: #FDFBFF;
@@ -18,7 +15,7 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        border-radius: 0px 0px 8px 8px;
+        border-radius: 4px;
     }
     .border-tile{
      display: flex;
@@ -26,14 +23,21 @@
      align-items: center;
      flex-direction: row;
      mix-blend-mode: normal;
-     border: 1px solid #ebebeb;
+     border: 1px solid #F4F4F4;
+     border-radius: 4px;
      box-sizing: border-box;
-     border-radius: 8px;
      padding: 9px 16px;
      .left-div{
      p{
          font-size: 10px;
          margin-bottom: 7px;
+     }
+     .value-text {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 21px;
+        color: #292A2E;
      }
      .containerwithicon{
          display: flex;
@@ -44,14 +48,24 @@
              flex: 1;
              display: flex;
              flex-direction: column;
-             text-transform: uppercase;
+             //text-transform: uppercase;
              .fromreceived{
                 font-family: DM Sans;
                 font-style: normal;
                 font-weight: 500;
-                font-size: 10px;
-                line-height: 13px;
-                color: #B0B7C3;
+                font-size: 12px;
+                line-height: 16px;
+                color: #8792A2;
+             }
+             .value-text {
+                font-style: normal;
+                font-weight: 700;
+                font-size: 16px;
+                line-height: 21px;
+                color: #292A2E;
+             }
+             .success-text {
+                color: #4E5D78;
              }
          }
         img{
@@ -60,9 +74,22 @@
         }
      }
     }
-     .right-div{
+     .loading-div{
        width: 45px;
      }
+    }
+    .shaded{
+        box-shadow: 0px 4px 9px 9px rgba(39, 59, 74, 0.04);
+        border-radius: 8px;
+        background: #FFFFFF;
+        border: 0.803667px solid rgba(0, 0, 0, 0.08);
+        margin-bottom: 10px;
+    }
+    .success{
+        border-radius: 4px;
+        background: rgba(22, 161, 53, 0.02);
+        border: 1px solid #16A135;
+        margin-bottom: 10px;
     }
 }
 .leftToRightFadeInAnimation {
