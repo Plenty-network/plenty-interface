@@ -613,7 +613,13 @@ const CheckIfWalletConnected = async (wallet) => {
  * @param position - Array based position in farm in CONFIG
  * @returns {Promise<{success: boolean, operationId: string}|{success: boolean, error}>}
  */
-export const stakeFarmAPI = async (amount, farmIdentifier, isActive, position) => {
+export const stakeFarmAPI = async (
+  amount,
+  farmIdentifier,
+  isActive,
+  position,
+  setShowConfirmTransaction,
+) => {
   try {
     const options = {
       name: CONFIG.NAME,
@@ -714,6 +720,7 @@ export const stakeFarmAPI = async (amount, farmIdentifier, isActive, position) =
           );
       }
       const batchOperation = await batch.send();
+      setShowConfirmTransaction(false);
       store.dispatch(stakingOnFarmProcessing(batchOperation));
       await batchOperation.confirmation().then(() => batchOperation.opHash);
       return {
@@ -738,7 +745,13 @@ export const stakeFarmAPI = async (amount, farmIdentifier, isActive, position) =
  * @param position - Array based position in farm in CONFIG
  * @returns {Promise<{success: boolean, operationId: string}|{success: boolean, error}>}
  */
-export const unstakeAPI = async (stakesToUnstake, farmIdentifier, isActive, position) => {
+export const unstakeAPI = async (
+  stakesToUnstake,
+  farmIdentifier,
+  isActive,
+  position,
+  setShowConfirmTransaction,
+) => {
   try {
     const options = {
       name: CONFIG.NAME,
@@ -776,6 +789,7 @@ export const unstakeAPI = async (stakesToUnstake, farmIdentifier, isActive, posi
       });
       const batch = await Tezos.wallet.batch(unstakeBatch);
       const batchOperation = await batch.send();
+      setShowConfirmTransaction(false);
       store.dispatch(unstakingOnFarmProcessing(batchOperation));
       await batchOperation.confirmation().then(() => batchOperation.hash);
       return {
@@ -808,7 +822,7 @@ export const unstakeAPI = async (stakesToUnstake, farmIdentifier, isActive, posi
  * @param position - Array based position in farm in CONFIG
  * @returns {Promise<{success: boolean, operationId: string}|{success: boolean, error}>}
  */
-export const harvestAPI = async (farmIdentifier, isActive, position) => {
+export const harvestAPI = async (farmIdentifier, isActive, position, setShowConfirmTransaction) => {
   try {
     const options = {
       name: CONFIG.NAME,
@@ -832,6 +846,7 @@ export const harvestAPI = async (farmIdentifier, isActive, position) => {
         ].CONTRACT,
       );
       const operation = await contractInstance.methods.GetReward(1).send();
+      setShowConfirmTransaction(false);
       await operation.confirmation().then(() => operation.opHash);
       return {
         success: true,

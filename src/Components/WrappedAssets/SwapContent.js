@@ -88,6 +88,7 @@ const SwapContent = (props) => {
   const handleSwapResponse = (status) => {
     if (status) {
       props.setLoading(false);
+      setShowTransactionSubmitModal(false);
       props.handleLoaderMessage('success', 'Transaction confirmed');
       props.setLoader(false);
       props.setShowConfirmSwap(false);
@@ -99,6 +100,7 @@ const SwapContent = (props) => {
       setSecondTokenAmount('');
     } else {
       props.setLoading(false);
+      setShowTransactionSubmitModal(false);
       props.handleLoaderMessage('error', 'Transaction failed');
       props.setLoader(false);
       props.setShowConfirmSwap(false);
@@ -374,6 +376,7 @@ const SwapContent = (props) => {
       />
       <Loader
         loading={props.loading}
+        content={InfoMessage}
         loaderMessage={props.loaderMessage}
         tokenIn={props.tokenIn.name}
         firstTokenAmount={firstAmount}

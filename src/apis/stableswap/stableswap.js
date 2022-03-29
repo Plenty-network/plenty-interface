@@ -466,6 +466,7 @@ export const loadSwapDataStable = async (tokenIn, tokenOut) => {
 
     const ctezStorageUrl = `${rpcNode}chains/main/blocks/head/context/contracts/KT1GWnsoFZVHGh7roXEER3qeCcgJgrXT3de2/storage`;
     const ctezStorage = await axios.get(ctezStorageUrl);
+
     const target = ctezStorage.data.args[2].int;
     return {
       success: true,

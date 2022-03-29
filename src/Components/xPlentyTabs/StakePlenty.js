@@ -21,10 +21,18 @@ const StakePlenty = (props) => {
     );
   };
   const buyHandler = () => {
+    props.setShowConfirmTransaction(true);
+    props.setLoader(true);
     let plentyInputWithFormat = plentyInput * Math.pow(10, 18);
     plentyInputWithFormat = Math.floor(plentyInputWithFormat);
 
-    props.buyxPlenty(plentyInputWithFormat, props.expectedxPlenty, props.walletAddress);
+    props.buyxPlenty(
+      plentyInputWithFormat,
+      props.expectedxPlenty,
+      props.walletAddress,
+      props.setShowConfirmTransaction,
+      props.setLoader,
+    );
   };
 
   const onMaxClick = (value) => {
@@ -173,4 +181,6 @@ StakePlenty.propTypes = {
   setExpectedxPlenty: PropTypes.any,
   walletAddress: PropTypes.any,
   xPlentyData: PropTypes.any,
+  setShowConfirmTransaction: PropTypes.any,
+  setLoader: PropTypes.any,
 };

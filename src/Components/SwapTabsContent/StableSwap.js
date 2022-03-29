@@ -170,12 +170,22 @@ const StableSwap = (props) => {
     props.setSecondTokenAmountStable('');
     props.resetAllValues();
   };
+  const handleCloseModal = () => {
+    props.setShowConfirmSwap(false);
+    props.setShowConfirmTransaction(false);
+
+    props.setLoader(false);
+    resetValues();
+    props.resetAllValues();
+    props.setLoading(false);
+  };
 
   const handleSwapResponse = (status) => {
     if (status) {
       getSwapData();
 
       props.setLoading(false);
+      setShowTransactionSubmitModal(false);
       props.handleLoaderMessage('success', 'Transaction confirmed');
       props.setLoader(false);
       props.setShowConfirmSwap(false);
@@ -187,6 +197,7 @@ const StableSwap = (props) => {
       setSecondTokenAmountStable('');
     } else {
       props.setLoading(false);
+      setShowTransactionSubmitModal(false);
       props.handleLoaderMessage('error', 'Transaction failed');
       props.setLoader(false);
       props.setShowConfirmSwap(false);
@@ -523,15 +534,11 @@ const StableSwap = (props) => {
         content={InfoMessage}
         theme={props.theme}
         confirmSwapToken={confirmSwapToken}
-        onHide={props.handleClose}
+        onHide={handleCloseModal}
         loading={props.loading}
       />
       <InfoModal
         open={showTransactionSubmitModal}
-        firstTokenAmount={firstAmount}
-        secondTokenAmount={secondAmount}
-        tokenIn={props.tokenIn.name}
-        tokenOut={props.tokenOut.name}
         InfoMessage={InfoMessage}
         theme={props.theme}
         onClose={() => setShowTransactionSubmitModal(false)}
@@ -543,11 +550,13 @@ const StableSwap = (props) => {
       />
       <Loader
         loading={props.loading}
+        content={InfoMessage}
         loaderMessage={props.loaderMessage}
         tokenIn={props.tokenIn.name}
         firstTokenAmount={firstAmount}
         tokenOut={props.tokenOut.name}
         secondTokenAmount={secondAmount}
+        setLoaderMessage={props.setLoaderMessage}
       />
     </>
   );

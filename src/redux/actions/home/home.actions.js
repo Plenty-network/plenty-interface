@@ -107,11 +107,11 @@ const dispatchHarvestAllProcessing = (batchOperation) => {
   });
 };
 
-export const harvestAll = (userAddress) => {
+export const harvestAll = (userAddress, setShowConfirmTransaction) => {
   return (dispatch) => {
     dispatch({ type: actions.HARVEST_ALL_INITIATION });
     homeApis
-      .harvestAllHelper(userAddress, dispatchHarvestAllProcessing)
+      .harvestAllHelper(userAddress, dispatchHarvestAllProcessing, setShowConfirmTransaction)
       .then((res) => {
         if (res.success) {
           dispatch({
@@ -120,14 +120,18 @@ export const harvestAll = (userAddress) => {
           }); // snack transaction success
           dispatch(getPlentyToHarvest(userAddress));
           dispatch(getPlentyBalanceOfUser(userAddress));
+          setShowConfirmTransaction(false);
         } else {
+          setShowConfirmTransaction(false);
           throw res.error;
         }
       })
       .catch((error) => {
+        setShowConfirmTransaction(false);
         dispatch({ type: actions.HARVEST_ALL_FAILED, payload: error });
       })
       .finally(() => {
+        setShowConfirmTransaction(false);
         setTimeout(() => {
           dispatch({
             type: actions.OPEN_CLOSE_HOME_MODAL,

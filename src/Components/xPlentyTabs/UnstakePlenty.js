@@ -23,8 +23,15 @@ const UnstakePlenty = (props) => {
   const sellHandler = () => {
     let xPlentyInputWithFormat = xPlentyInput * Math.pow(10, 18);
     xPlentyInputWithFormat = Math.floor(xPlentyInputWithFormat);
-
-    props.sellXPlenty(xPlentyInputWithFormat, props.expectedPlenty, props.walletAddress);
+    props.setShowConfirmTransaction(true);
+    props.setLoader(true);
+    props.sellXPlenty(
+      xPlentyInputWithFormat,
+      props.expectedPlenty,
+      props.walletAddress,
+      props.setShowConfirmTransaction,
+      props.setLoader,
+    );
   };
 
   let xplentyButton = (
@@ -179,6 +186,8 @@ UnstakePlenty.propTypes = {
   walletAddress: PropTypes.any,
   xPlentyData: PropTypes.any,
   xplentyBalance: PropTypes.any,
+  setShowConfirmTransaction: PropTypes.any,
+  setLoader: PropTypes.any,
 };
 
 export default UnstakePlenty;

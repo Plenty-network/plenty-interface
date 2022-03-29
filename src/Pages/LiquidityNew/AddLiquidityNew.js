@@ -29,7 +29,11 @@ const AddLiquidityNew = (props) => {
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState('');
   const [transactionId, setTransactionId] = useState('');
-  // const [dolar, setDolar] = useState('');
+
+  // const c = {
+  //   type: 'success',
+  //   message: 'success',
+  // };
   const [poolShare, setPoolShare] = useState('0.0');
   const [xtztoctez, setxtztoctez] = useState('0.00');
   const [cteztoxtz, setcteztoxtz] = useState('0.00');
@@ -65,8 +69,8 @@ const AddLiquidityNew = (props) => {
         maximumFractionDigits: 20,
         useGrouping: false,
       }) ?? 0;
-    setFirstTokenAmount(value.substring(0, value.length - 1));
-    handleLiquidityInput(value.substring(0, value.length - 1));
+    setFirstTokenAmount(value.substring(0, value.length));
+    handleLiquidityInput(value.substring(0, value.length));
   };
   useEffect(() => {
     setErrorMessage(false);
@@ -211,6 +215,14 @@ const AddLiquidityNew = (props) => {
   const transactionSubmitModal = (id) => {
     setTransactionId(id);
     setShowTransactionSubmitModal(true);
+  };
+  const handleCloseModal = () => {
+    setShowConfirmTransaction(false);
+
+    props.setLoader(false);
+    resetAllValuesLiq();
+
+    props.setLoading(false);
   };
 
   const CallConfirmAddLiquidity = () => {
@@ -688,7 +700,7 @@ const AddLiquidityNew = (props) => {
         show={showConfirmTransaction}
         theme={props.theme}
         content={'Adding Liquidity'}
-        onHide={props.handleClose}
+        onHide={handleCloseModal}
       />
       <InfoModal
         open={showTransactionSubmitModal}
@@ -704,6 +716,7 @@ const AddLiquidityNew = (props) => {
       <Loader
         loading={props.loading}
         loaderMessage={props.loaderMessage}
+        content={'Liquidity added successfully'}
         tokenIn={props.tokenIn.name}
         tokenOut={props.tokenOut.name}
       />

@@ -6,6 +6,7 @@ import { ReactComponent as SuccessImg } from '../assets/images/status.svg';
 import { ReactComponent as ErrorImg } from '../assets/images/errorImg.svg';
 import '../assets/scss/animation.scss';
 import useMediaQuery from '../hooks/mediaQuery';
+import { PuffLoader } from 'react-spinners';
 
 const Loader = (props) => {
   const isMobile = useMediaQuery('(max-width: 991px)');
@@ -13,13 +14,14 @@ const Loader = (props) => {
   const closeFlashMessage = () => {
     props.setLoaderMessage({});
   };
-  // if (props.loading) {
-  //   return (
-  //     <div className="loading-data-wrapper">
-  //       <PuffLoader color="var(--theme-primary-1)" size={36} />
-  //     </div>
-  //   );
-  // }
+
+  if (props.loading) {
+    return (
+      <div className="loading-data-wrapper">
+        <PuffLoader color="var(--theme-primary-1)" size={36} />
+      </div>
+    );
+  }
 
   if (props.loaderMessage.type) {
     return (
@@ -33,16 +35,13 @@ const Loader = (props) => {
         )}
       >
         {props.loaderMessage.type === 'success' ? (
-          props.tokenIn ? (
+          props.content ? (
             <div className="d-flex ">
               <div>
                 <SuccessImg />
               </div>
               <div className="floater-text">
-                <span className="status-text">
-                  Swap of {props.firstTokenAmount} {props.tokenIn} for {props.secondTokenAmount}{' '}
-                  {props.tokenOut}{' '}
-                </span>
+                <span className="status-text">{props.content}</span>
                 <div className="view-tezos">
                   View on tezos{' '}
                   <span className=" material-icons-round launch-icon-flash">launch</span>
@@ -123,4 +122,5 @@ Loader.propTypes = {
   tokenOut: PropTypes.any,
   secondTokenAmount: PropTypes.any,
   setLoaderMessage: PropTypes.func,
+  content: PropTypes.any,
 };
