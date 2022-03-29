@@ -159,8 +159,8 @@ h1 {
 }
 
 .tooltip-inner {
-  background: #282828;
-  color: white;
+  background: var(--theme-tooltip-bg);
+  color: var(--theme-tooltip-text);
   opacity: 1;
   max-width: 300px !important;
   z-index: 99999999999999999;
