@@ -1,6 +1,6 @@
 #button-tooltip {
-  background: #282828;
-  color: white;
+  background: var(--theme-tooltip-bg);
+  color: var(--theme-tooltip-text);
   border-radius: 8px;
   z-index: 99999999999999999;
   max-width: 300px !important;
@@ -12,24 +12,24 @@
   &::after {
     content: '';
     position: absolute;
-    top: 74%;
+    top: 70%;
     left: 50%;
     border-width: 5px;
     border-style: solid;
-    border-color: transparent #282828 transparent transparent;
+    border-color: transparent var(--theme-tooltip-bg) transparent transparent;
     transform: rotate(-90deg);
   }
 }
 #button-tooltip-ts {
-  background: #282828;
-  color: white;
+  background: var(--theme-tooltip-bg);
+  color: var(--theme-tooltip-text);
 
   border-radius: 8px;
   z-index: 99999999999999999;
   //margin-left: 20px;
   > .arrow {
     //margin-left: 20px;
-    background: #282828;
+    background: var(--theme-tooltip-bg);
     opacity: 1;
     z-index: 99999999999999999;
     // top: 51px !important;
@@ -409,7 +409,9 @@
   }
 }
 .expand-more-icon {
-  margin-top: 12px;
+  margin-top: 11px;
+  position: relative;
+  top: 4px;
   color: var(--theme-text-1);
 }
 .liquidity-token-selector {
@@ -426,7 +428,9 @@
     background: transparent;
   }
 }
-
+.expand-more-div {
+  margin-left: 6px;
+}
 .button-logo {
   width: 22px;
   margin-right: 10px;
@@ -771,6 +775,9 @@
   box-sizing: border-box;
   border-radius: 8px;
   height: 24px;
+  @media screen and (min-width: 320px) and (max-width: 900px) {
+    margin-right: 10px;
+  }
 }
 .lq-arrow-center {
   position: absolute;
@@ -870,6 +877,9 @@
 }
 .input-width {
   width: 50%;
+  @media screen and (min-width: 320px) and (max-width: 900px) {
+    width: 36%;
+  }
 }
 .token-user-input-lq {
   font-size: 24px;
@@ -886,6 +896,9 @@
   background-color: transparent;
   outline: none;
   padding-left: 16px;
+  @media screen and (min-width: 320px) and (max-width: 900px) {
+    padding-left: 0px;
+  }
   &::placeholder {
     font-size: 24px;
     font-style: normal;

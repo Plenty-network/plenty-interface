@@ -116,6 +116,8 @@
   --theme-details-border-left: #f3f3f3;
   --theme-lp-token: rgba(78, 93, 120, 0.8);
   --theme-modal-text: #8a94a6;
+  --theme-tooltip-bg: #0d0831;
+  --theme-tooltip-text: #ffffff;
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -242,6 +244,8 @@
   --theme-details-border-left: rgba(206, 174, 254, 0.15);
   --theme-lp-token: #b0b7c3;
   --theme-modal-text: #b0b7c3;
+  --theme-tooltip-bg: #ffffff;
+  --theme-tooltip-text: #0d0831;
 }
 
 :root.theme-transiton {
