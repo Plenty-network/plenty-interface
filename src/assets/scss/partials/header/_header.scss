@@ -1,11 +1,16 @@
 .banner {
-  height: 48px;
+  //height: 48px;
   background: var(--theme-banner-bg);
   text-align: center;
   padding-top: 10px;
+  padding-bottom: 10px;
   z-index: 1111;
   top: 0px;
   position: sticky;
+  @media screen and (min-width: 320px) and (max-width: 992px) {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
   &:hover {
     background: var(--theme-banner-bg-hover);
   }
@@ -19,6 +24,9 @@
   letter-spacing: 0em;
   color: var(--theme-banner-text);
   margin-right: 24px;
+  @media screen and (min-width: 320px) and (max-width: 992px) {
+    margin-right: 12px;
+  }
 }
 .headerBg {
   background: var(--theme-governance-headerBg);

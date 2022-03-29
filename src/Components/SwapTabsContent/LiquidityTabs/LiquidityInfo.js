@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import clsx from 'clsx';
+import StableSwap from '../../../assets/images/lq-stableswap.svg';
 
+import StableSwapDark from '../../../assets/images/lq-stableswap-dark.svg';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import useMediaQuery from '../../../hooks/mediaQuery';
 
@@ -45,20 +47,40 @@ const LiquidityInfo = (props) => {
         </OverlayTrigger>
       </div>
       <div className={clsx(isMobile && 'order-2', 'ml-2')}>
-        <OverlayTrigger
-          placement="top"
-          overlay={
-            <Tooltip id="button-tooltip" {...props}>
+        {props.tokenIn.name === 'tez' ? (
+          props.poolShare
+        ) : props.lpTokenAmount.estimatedLpOutput > 0 ? (
+          <OverlayTrigger
+            placement="top"
+            overlay={
+              <Tooltip id="button-tooltip" {...props}>
+                {props.tokenIn.name === 'tez'
+                  ? props.poolShare
+                  : props.lpTokenAmount.estimatedLpOutput
+                  ? (props.lpTokenAmount.estimatedLpOutput /
+                      (props.swapData.lpTokenSupply + props.lpTokenAmount.estimatedLpOutput)) *
+                    100
+                  : '0'}
+              </Tooltip>
+            }
+          >
+            <div className="details">
+              <span className="content">Share of pool:</span>{' '}
               {props.tokenIn.name === 'tez'
-                ? props.poolShare
+                ? Number(props.poolShare) > 0
+                  ? Number(props.poolShare).toFixed(4)
+                  : '0'
                 : props.lpTokenAmount.estimatedLpOutput
-                ? (props.lpTokenAmount.estimatedLpOutput /
-                    (props.swapData.lpTokenSupply + props.lpTokenAmount.estimatedLpOutput)) *
-                  100
-                : '0'}
-            </Tooltip>
-          }
-        >
+                ? (
+                    (props.lpTokenAmount.estimatedLpOutput /
+                      (props.swapData.lpTokenSupply + props.lpTokenAmount.estimatedLpOutput)) *
+                    100
+                  ).toFixed(4)
+                : '0'}{' '}
+              %
+            </div>
+          </OverlayTrigger>
+        ) : (
           <div className="details">
             <span className="content">Share of pool:</span>{' '}
             {props.tokenIn.name === 'tez'
@@ -74,10 +96,16 @@ const LiquidityInfo = (props) => {
               : '0'}{' '}
             %
           </div>
-        </OverlayTrigger>
+        )}
       </div>
       <div className={clsx(isMobile && 'order-4', 'details', isMobile && 'mt-2', 'ml-2')}>
         {props.isStable ? '0.10' : '0.25'}% <span className="content">LP fee</span>
+        {props.isStable && (
+          <>
+            <span className="divider-lq mx-2"></span>
+            <img src={props.theme === 'light' ? StableSwap : StableSwapDark} />
+          </>
+        )}
       </div>
     </div>
   );

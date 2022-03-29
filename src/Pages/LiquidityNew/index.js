@@ -311,23 +311,25 @@ const LiquidityNew = (props) => {
 
   return (
     <Container fluid className="removing-padding">
-      <p
-        className="redirect-label-lp"
-        style={{ cursor: 'pointer' }}
-        onClick={() => redirectLiquidityPositions(!isLiquidityPosition)}
-      >
-        {isLiquidityPosition && (
-          <span className={clsx('material-icons', 'arrow-forward', 'mt-1', 'ml-0')}>
-            arrow_back_ios_icon
-          </span>
-        )}
-        {isLiquidityPosition ? 'Back' : 'View Liquidity Positions'}
-        {!isLiquidityPosition && (
-          <span className={clsx('material-icons', 'arrow-forward', 'mt-1')}>
-            arrow_forward_ios_icon
-          </span>
-        )}
-      </p>
+      {props.walletAddress && (
+        <p
+          className="redirect-label-lp"
+          style={{ cursor: 'pointer' }}
+          onClick={() => redirectLiquidityPositions(!isLiquidityPosition)}
+        >
+          {isLiquidityPosition && (
+            <span className={clsx('material-icons', 'arrow-forward', 'mt-1', 'ml-0')}>
+              arrow_back_ios_icon
+            </span>
+          )}
+          {isLiquidityPosition ? 'Back' : 'View Liquidity Positions'}
+          {!isLiquidityPosition && (
+            <span className={clsx('material-icons', 'arrow-forward', 'mt-1')}>
+              arrow_forward_ios_icon
+            </span>
+          )}
+        </p>
+      )}
       {isLiquidityPosition && <div className="liq-label">Your Liquidity Positions</div>}
       {/* <div className="liq-label">{isLiquidityPosition ? 'Liquidity Positions' : 'Liquidity'}</div> */}
       {!isLiquidityPosition ? (

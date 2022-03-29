@@ -18,6 +18,7 @@ import { setLoader } from '../../redux/slices/settings/settings.slice';
 import LiquidityInfo from '../../Components/SwapTabsContent/LiquidityTabs/LiquidityInfo';
 import { isTokenPairStable } from '../../apis/Liquidity/Liquidity';
 import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransaction';
+import Loader from '../../Components/loader';
 
 const AddLiquidityNew = (props) => {
   const [estimatedTokenAmout, setEstimatedTokenAmout] = useState('');
@@ -234,6 +235,7 @@ const AddLiquidityNew = (props) => {
       ).then((data) => {
         if (data.success) {
           props.setLoading(false);
+          setShowTransactionSubmitModal(false);
           props.handleLoaderMessage('success', 'Transaction confirmed');
           props.setLoader(false);
           props.setShowConfirmAddSupply(false);
@@ -245,6 +247,7 @@ const AddLiquidityNew = (props) => {
           }, 5000);
         } else {
           props.setLoading(false);
+          setShowTransactionSubmitModal(false);
           props.handleLoaderMessage('error', 'Transaction failed');
           props.setLoader(false);
           props.setShowConfirmAddSupply(false);
@@ -274,6 +277,7 @@ const AddLiquidityNew = (props) => {
         if (data.success) {
           props.setLoading(false);
           props.setLoader(false);
+          setShowTransactionSubmitModal(false);
           props.handleLoaderMessage('success', 'Transaction confirmed');
           getSwapData();
           props.setShowConfirmAddSupply(false);
@@ -286,6 +290,7 @@ const AddLiquidityNew = (props) => {
         } else {
           props.setLoading(false);
           props.setLoader(false);
+          setShowTransactionSubmitModal(false);
           props.handleLoaderMessage('error', 'Transaction failed');
           props.setShowConfirmAddSupply(false);
           setShowConfirmTransaction(false);
@@ -381,7 +386,7 @@ const AddLiquidityNew = (props) => {
                   <span className="input-label">Input</span>
                   <div className="token-name">{props.tokenIn.name}</div>
                 </div>{' '}
-                <div className="ml-auto">
+                <div className="expand-more-div">
                   <span className="material-icons-round expand-more-icon">expand_more</span>
                 </div>
               </div>
@@ -415,16 +420,6 @@ const AddLiquidityNew = (props) => {
                   value={firstTokenAmount}
                 />
               )}
-              {/* <p className="wallet-token-balance-lq">
-                $
-                {props.tokenIn.name === 'tez'
-                  ? (dolar * firstTokenAmount).toFixed(2)
-                  : props.getTokenPrice.success && props.firstTokenAmount
-                  ? (firstTokenAmount * props.getTokenPrice.tokenPrice[props.tokenIn.name]).toFixed(
-                      2,
-                    )
-                  : '0.00'}
-              </p> */}
             </div>
             {props.walletAddress && props.tokenIn.name ? (
               <OverlayTrigger
@@ -482,7 +477,7 @@ const AddLiquidityNew = (props) => {
                     <span className="input-label">Input</span>
                     <div className="token-name">{props.tokenOut.name}</div>
                   </div>{' '}
-                  <div className="ml-auto">
+                  <div className="expand-more-div">
                     <span className="material-icons-round expand-more-icon">expand_more</span>
                   </div>
                 </div>
@@ -706,6 +701,12 @@ const AddLiquidityNew = (props) => {
           transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
         }
       />
+      <Loader
+        loading={props.loading}
+        loaderMessage={props.loaderMessage}
+        tokenIn={props.tokenIn.name}
+        tokenOut={props.tokenOut.name}
+      />
     </>
   );
 };
@@ -721,6 +722,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(AddLiquidityNew);
 
 AddLiquidityNew.propTypes = {
   theme: PropTypes.any,
+  loaderMessage: PropTypes.any,
+  loading: PropTypes.any,
   connecthWallet: PropTypes.any,
   fetchUserWalletBalance: PropTypes.any,
   firstTokenAmount: PropTypes.any,

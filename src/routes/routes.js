@@ -83,7 +83,11 @@ const MyRoutes = (props) => {
               path={'/liquidity/*'}
               element={
                 <OtherPages {...otherPageProps}>
-                  <LiquidityNew walletAddress={props.userAddress} theme={otherPageProps.theme} />
+                  <LiquidityNew
+                    walletAddress={props.userAddress}
+                    connecthWallet={connectWallet}
+                    theme={otherPageProps.theme}
+                  />
                 </OtherPages>
               }
             />
