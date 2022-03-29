@@ -136,9 +136,12 @@ const NormalSwap = (props) => {
 
   const handleClose = () => {
     setShow(false);
+    //setLoader(false);
+    resetAllValues();
     setShowConfirmSwap(false);
     setShowConfirmTransaction(false);
     setSearchQuery('');
+    setLoading(false);
   };
 
   const changeTokenLocation = () => {

@@ -969,7 +969,11 @@ const getCurrentBlockLevel = async () => {
   return response.data[0].level;
 };
 
-export const harvestAllHelper = async (userAddress, dispatchHarvestAllProcessing) => {
+export const harvestAllHelper = async (
+  userAddress,
+  dispatchHarvestAllProcessing,
+  setShowConfirmTransaction,
+) => {
   try {
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -1032,6 +1036,7 @@ export const harvestAllHelper = async (userAddress, dispatchHarvestAllProcessing
         }
         const batch = await Tezos.wallet.batch(harvestBatch);
         const batchOperation = await batch.send();
+        setShowConfirmTransaction(false);
         dispatchHarvestAllProcessing(batchOperation);
         const batchConfirm = await batchOperation.confirmation();
         return {

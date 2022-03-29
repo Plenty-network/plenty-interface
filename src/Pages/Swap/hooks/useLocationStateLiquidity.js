@@ -14,10 +14,7 @@ export const useLocationStateInLiquidity = () => {
     image: ctez,
   });
 
-  const [tokenOut, setTokenOut] = useState({
-    name: 'PLENTY',
-    image: plenty,
-  });
+  const [tokenOut, setTokenOut] = useState({ name: 'PLENTY', image: plenty });
   useEffect(() => {
     if (tokenIn.name === 'tez') {
       setTokenOut({

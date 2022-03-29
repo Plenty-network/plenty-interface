@@ -53,14 +53,14 @@ const LiquidityNew = (props) => {
   const [positionDetails, setPositionDetails] = useState({});
   const [isPositionAvailable, setPositionAvailable] = useState(false);
 
-  useEffect(() => {
-    if (tokenIn.name === 'tez') {
-      setTokenOut({
-        name: 'CTEZ',
-        image: ctez,
-      });
-    }
-  }, [tokenIn]);
+  // useEffect(() => {
+  //   if (tokenIn.name === 'tez') {
+  //     setTokenOut({
+  //       name: 'CTEZ',
+  //       image: ctez,
+  //     });
+  //   }
+  // }, [tokenIn]);
 
   useEffect(async () => {
     const isStable = isTokenPairStable(tokenIn.name, tokenOut.name);
@@ -212,6 +212,7 @@ const LiquidityNew = (props) => {
         const pairExists = isTokenPairStable(tokenIn.name, tokenOut.name)
           ? !!config.STABLESWAP[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]
           : !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
+
         if (pairExists) {
           isTokenPairStable(tokenIn.name, tokenOut.name)
             ? loadSwapDataStable(tokenIn.name, tokenOut.name).then((data) => {

@@ -6,8 +6,9 @@ import lottieWeb from 'lottie-web';
 
 const ConfirmTransaction = (props) => {
   const container = useRef(null);
+
   useEffect(() => {
-    props.theme === 'light'
+    props.show && props.theme === 'light'
       ? lottieWeb.loadAnimation({
           container: container.current,
           path: './loader.json',

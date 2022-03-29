@@ -43,44 +43,59 @@ export const getFarmsDataThunk = (isActive) => (dispatch) => {
     });
 };
 
-export const stakeOnFarmThunk = (amount, farmIdentifier, isActive, position) => (dispatch) => {
-  dispatch(initiateStakingOperationOnFarm());
-  stakeFarmAPI(amount, farmIdentifier, isActive, position)
-    .then((response) => {
-      dispatch(stakingOnFarmSuccessFull(response));
-    })
-    .catch(() => {
-      dispatch(stakingOnFarmFailed());
-    })
-    .finally(() => {
-      setTimeout(() => dispatch(dismissSnackbar()), 5000);
-    });
-};
-
-export const unstakeOnFarmThunk =
-  (stakesToUnstake, farmIdentifier, isActive, position) => (dispatch) => {
-    dispatch(initiateUnstakingOperationOnFarm());
-    unstakeAPI(stakesToUnstake, farmIdentifier, isActive, position)
+export const stakeOnFarmThunk =
+  (amount, farmIdentifier, isActive, position, setShowConfirmTransaction) => (dispatch) => {
+    dispatch(initiateStakingOperationOnFarm());
+    stakeFarmAPI(amount, farmIdentifier, isActive, position, setShowConfirmTransaction)
       .then((response) => {
-        dispatch(unstakingOnFarmSuccessFull(response));
+        dispatch(stakingOnFarmSuccessFull(response));
+        setShowConfirmTransaction(false);
       })
       .catch(() => {
-        dispatch(unstakingOnFarmFailed());
+        dispatch(stakingOnFarmFailed());
+        setShowConfirmTransaction(false);
       })
       .finally(() => {
         setTimeout(() => dispatch(dismissSnackbar()), 5000);
+        setShowConfirmTransaction(false);
       });
   };
 
-export const harvestOnFarmThunk = (farmIdentifier, isActive, position) => {
+export const unstakeOnFarmThunk =
+  (stakesToUnstake, farmIdentifier, isActive, position, setShowConfirmTransaction) =>
+  (dispatch) => {
+    dispatch(initiateUnstakingOperationOnFarm());
+    unstakeAPI(stakesToUnstake, farmIdentifier, isActive, position, setShowConfirmTransaction)
+      .then((response) => {
+        dispatch(unstakingOnFarmSuccessFull(response));
+        setShowConfirmTransaction(false);
+      })
+      .catch(() => {
+        dispatch(unstakingOnFarmFailed());
+        setShowConfirmTransaction(false);
+      })
+      .finally(() => {
+        setTimeout(() => dispatch(dismissSnackbar()), 5000);
+        setShowConfirmTransaction(false);
+      });
+  };
+
+export const harvestOnFarmThunk = (
+  farmIdentifier,
+  isActive,
+  position,
+  setShowConfirmTransaction,
+) => {
   return (dispatch) => {
     dispatch(initiateHarvestingOperationOnFarm(farmIdentifier));
-    harvestAPI(farmIdentifier, isActive, position)
+    harvestAPI(farmIdentifier, isActive, position, setShowConfirmTransaction)
       .then((response) => {
         dispatch(harvestingOnFarmSuccessFull(response));
+        setShowConfirmTransaction(false);
       })
       .catch(() => {
         dispatch(harvestingOnFarmFailed());
+        setShowConfirmTransaction(false);
       });
   };
 };

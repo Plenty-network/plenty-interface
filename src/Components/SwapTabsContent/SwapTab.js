@@ -48,6 +48,15 @@ const SwapTab = (props) => {
     setTransactionId(id);
     setShowTransactionSubmitModal(true);
   };
+  const handleCloseModal = () => {
+    props.setShowConfirmSwap(false);
+    props.setShowConfirmTransaction(false);
+
+    props.setLoader(false);
+    resetVal();
+    props.resetAllValues();
+    props.setLoading(false);
+  };
 
   const handleSwapTokenInput = (input, tokenType) => {
     if (input === '' || isNaN(input)) {
@@ -133,6 +142,7 @@ const SwapTab = (props) => {
   const handleSwapResponse = (status) => {
     if (status) {
       props.setLoading(false);
+      setShowTransactionSubmitModal(false);
       props.handleLoaderMessage('success', 'Transaction confirmed');
       props.setLoader(false);
       props.setShowConfirmSwap(false);
@@ -145,6 +155,7 @@ const SwapTab = (props) => {
       setSecondTokenAmount('');
     } else {
       props.setLoading(false);
+      setShowTransactionSubmitModal(false);
       props.handleLoaderMessage('error', 'Transaction failed');
       props.setLoader(false);
       props.setShowConfirmSwap(false);
@@ -480,15 +491,11 @@ const SwapTab = (props) => {
         show={props.showConfirmTransaction}
         content={InfoMessage}
         theme={props.theme}
-        onHide={props.handleClose}
+        onHide={handleCloseModal}
       />
       <InfoModal
         open={showTransactionSubmitModal}
-        firstTokenAmount={firstAmount}
-        secondTokenAmount={secondAmount}
         InfoMessage={InfoMessage}
-        tokenIn={props.tokenIn.name}
-        tokenOut={props.tokenOut.name}
         theme={props.theme}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
@@ -499,11 +506,13 @@ const SwapTab = (props) => {
       />
       <Loader
         loading={props.loading}
+        content={InfoMessage}
         loaderMessage={props.loaderMessage}
         tokenIn={props.tokenIn.name}
         firstTokenAmount={firstAmount}
         tokenOut={props.tokenOut.name}
         secondTokenAmount={secondAmount}
+        setLoaderMessage={props.setLoaderMessage}
       />
     </>
   );

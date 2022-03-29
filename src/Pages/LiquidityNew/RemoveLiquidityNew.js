@@ -12,6 +12,7 @@ import ConfirmRemoveLiquidity from '../../Components/SwapTabsContent/LiquidityTa
 import { setLoader } from '../../redux/slices/settings/settings.slice';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransaction';
+import Loader from '../../Components/loader';
 
 const RemoveLiquidityNew = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
@@ -50,6 +51,7 @@ const RemoveLiquidityNew = (props) => {
   };
   const resetValues = () => {
     props.resetAllValues();
+    setFirstTokenAmount('');
     setRemovableTokens({});
   };
 
@@ -79,13 +81,14 @@ const RemoveLiquidityNew = (props) => {
     };
     setRemovableTokens(computedRemoveTokens);
   };
-  // const InfoMessage = useMemo(() => {
-  //   return (
-  //     <span>
-  //       {lpTokenAmount.estimatedLpOutput} {props.tokenIn.name}/{props.tokenOut.name} LP Tokens
-  //     </span>
-  //   );
-  // }, [lpTokenAmount.estimatedLpOutput]);
+  const handleCloseModal = () => {
+    setShowConfirmTransaction(false);
+
+    props.setLoader(false);
+    resetValues();
+
+    props.setLoading(false);
+  };
 
   const handleRemoveLiquidity = () => {
     props.setShowConfirmRemoveSupply(true);
@@ -110,6 +113,7 @@ const RemoveLiquidityNew = (props) => {
           props.setLoading(false);
           props.setShowConfirmRemoveSupply(false);
           transactionSubmitModal(data.operationId);
+          setShowTransactionSubmitModal(false);
           props.handleLoaderMessage('success', 'Transaction confirmed');
           props.setLoader(false);
           setShowConfirmTransaction(false);
@@ -119,6 +123,7 @@ const RemoveLiquidityNew = (props) => {
           }, 5000);
         } else {
           props.setLoading(false);
+          setShowTransactionSubmitModal(false);
           props.handleLoaderMessage('error', 'Transaction failed');
           props.setLoader(false);
           props.setShowConfirmRemoveSupply(false);
@@ -145,6 +150,7 @@ const RemoveLiquidityNew = (props) => {
       ).then((data) => {
         if (data.success) {
           props.setLoading(false);
+          setShowTransactionSubmitModal(false);
           props.handleLoaderMessage('success', 'Transaction confirmed');
           props.setLoader(false);
           props.setShowConfirmRemoveSupply(false);
@@ -156,6 +162,7 @@ const RemoveLiquidityNew = (props) => {
           }, 5000);
         } else {
           props.setLoading(false);
+          setShowTransactionSubmitModal(false);
           props.handleLoaderMessage('error', 'Transaction failed');
           props.setLoader(false);
           props.setShowConfirmRemoveSupply(false);
@@ -245,8 +252,8 @@ const RemoveLiquidityNew = (props) => {
         maximumFractionDigits: 20,
         useGrouping: false,
       }) ?? 0;
-    setFirstTokenAmount(value.substring(0, value.length - 1));
-    removeLiquidityInput(value.substring(0, value.length - 1));
+    setFirstTokenAmount(value.substring(0, value.length));
+    removeLiquidityInput(value.substring(0, value.length));
   };
 
   return (
@@ -260,7 +267,7 @@ const RemoveLiquidityNew = (props) => {
                 MAX
               </div>
               <div className="input-width">
-                {props.swapData.success && props.userBalances[props.tokenIn.name] ? (
+                {props.userBalances[props.tokenIn.name] ? (
                   <input
                     type="text"
                     className="token-user-input-lq"
@@ -511,17 +518,24 @@ const RemoveLiquidityNew = (props) => {
         show={showConfirmTransaction}
         theme={props.theme}
         content={'Removing Liquidity'}
-        onHide={props.handleClose}
+        onHide={handleCloseModal}
       />
       <InfoModal
         open={showTransactionSubmitModal}
-        InfoMessage={'Removing Liquidity'}
+        InfoMessage={'Liquidity removed succesfully'}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
         buttonText={'View on Tezos'}
         onBtnClick={
           transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
         }
+      />
+      <Loader
+        loading={props.loading}
+        loaderMessage={props.loaderMessage}
+        content={'liquidity Removed'}
+        tokenIn={props.tokenIn.name}
+        tokenOut={props.tokenOut.name}
       />
     </>
   );
@@ -538,6 +552,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(RemoveLiquidityNew);
 
 RemoveLiquidityNew.propTypes = {
   theme: PropTypes.any,
+  loaderMessage: PropTypes.any,
+  loading: PropTypes.any,
   connecthWallet: PropTypes.any,
   setLoader: PropTypes.any,
   fetchUserWalletBalance: PropTypes.any,

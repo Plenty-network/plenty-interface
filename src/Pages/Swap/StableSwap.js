@@ -227,7 +227,8 @@ const StableeSwap = (props) => {
     setShowConfirmSwap(false);
     setShowConfirmTransaction(false);
     setSearchQuery('');
-    //setLoading(false);
+    resetAllValues();
+    setLoading(false);
   };
 
   const changeTokenLocation = () => {
@@ -469,25 +470,6 @@ const StableeSwap = (props) => {
         setSearchQuery={setSearchQuery}
         isStableSwap={true}
       />
-
-      {/* <InfoModal
-        open={showTransactionSubmitModal}
-        onClose={() => setShowTransactionSubmitModal(false)}
-        message={'Transaction submitted'}
-        buttonText={'View on Tezos'}
-        onBtnClick={
-          transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
-        }
-      /> */}
-
-      {/* <Loader
-        loading={loading}
-        loaderMessage={loaderMessage}
-        tokenIn={props.tokenIn.name}
-        firstTokenAmount={firstAmount}
-        tokenOut={props.tokenOut.name}
-        secondTokenAmount={secondAmount}
-      /> */}
     </>
   );
 };

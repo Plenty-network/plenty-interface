@@ -11,7 +11,7 @@ import lottieWeb from 'lottie-web';
 const InfoModal = (props) => {
   const container = useRef(null);
   useEffect(() => {
-    props.theme === 'light'
+    props.open && props.theme === 'light'
       ? lottieWeb.loadAnimation({
           container: container.current,
           path: 'animation-light.json',
