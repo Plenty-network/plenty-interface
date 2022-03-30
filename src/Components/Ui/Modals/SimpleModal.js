@@ -16,8 +16,8 @@ const SimpleModal = (props) => {
         styles.simpleModal,
         props.className,
         props.isConfirmSwap && styles.confirmSwap,
-        props.title === 'Transaction Submitted' && styles.centerAlign,
-        props.title === 'Confirm Transaction' && styles.removeCloseIcon,
+        props.title === 'Transaction Submitted' && 'centerAlign',
+        props.title === 'Confirm Transaction' && 'removeCloseIcon',
       )}
       centered={true}
     >
