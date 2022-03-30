@@ -1,0 +1,23 @@
+.govContainer {
+  color: var(--theme-governance-text);
+  background: var(--theme-governance-bg);
+  @media screen and (min-width: 320px) and (max-width: 992px) {
+    background: var(--theme-governance-mobileBg);
+  }
+  @media screen and (min-width: 1068px) and (max-width: 1185px) {
+    background: var(--theme-governance-bg-1);
+  }
+  @media screen and (min-width: 1186px) {
+    background: var(--theme-governance-bg-2);
+  }
+
+  .gov {
+    padding: 0px 0px;
+    margin-right: 0px;
+  }
+
+  .govContainerInner {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+}
