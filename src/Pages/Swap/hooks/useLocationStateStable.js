@@ -20,12 +20,12 @@ export const useLocationStateStable = () => {
   });
   const [tokenOut, setTokenOut] = useState({});
   const [tokenOutStable, setTokenOutStable] = useState({
-    name: 'tez',
+    name: 'TEZ',
     image: tez,
   });
 
   const tokenInLiquidity = {
-    name: 'tez',
+    name: 'TEZ',
     image: tez,
   };
   const tokenOutLiquidity = {

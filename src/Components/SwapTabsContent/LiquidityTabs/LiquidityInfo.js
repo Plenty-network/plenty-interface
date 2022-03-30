@@ -15,6 +15,7 @@ const LiquidityInfo = (props) => {
       <div className={clsx(isMobile && 'order-1')}>
         <OverlayTrigger
           placement="top"
+          show={true}
           overlay={
             <Tooltip id="button-tooltip" {...props}>
               {props.isStable ? props.xtztoctez : props.swapData.tokenOutPerTokenIn}
@@ -29,7 +30,7 @@ const LiquidityInfo = (props) => {
           </div>
         </OverlayTrigger>
       </div>
-      <div className={clsx(isMobile && 'order-3', isMobile && 'mt-2', 'ml-2')}>
+      <div className={clsx(isMobile && 'order-3', isMobile && 'mt-2 ', !isMobile && 'ml-2')}>
         <OverlayTrigger
           placement="top"
           overlay={
@@ -47,14 +48,13 @@ const LiquidityInfo = (props) => {
         </OverlayTrigger>
       </div>
       <div className={clsx(isMobile && 'order-2', 'ml-2')}>
-        {props.tokenIn.name === 'tez' ? (
-          props.poolShare
-        ) : props.lpTokenAmount.estimatedLpOutput > 0 ? (
+        {(props.tokenIn.name === 'TEZ' ? props.poolShare : props.lpTokenAmount.estimatedLpOutput) >
+        0 ? (
           <OverlayTrigger
             placement="top"
             overlay={
               <Tooltip id="button-tooltip" {...props}>
-                {props.tokenIn.name === 'tez'
+                {props.tokenIn.name === 'TEZ'
                   ? props.poolShare
                   : props.lpTokenAmount.estimatedLpOutput
                   ? (props.lpTokenAmount.estimatedLpOutput /
@@ -66,7 +66,7 @@ const LiquidityInfo = (props) => {
           >
             <div className="details">
               <span className="content">Share of pool:</span>{' '}
-              {props.tokenIn.name === 'tez'
+              {props.tokenIn.name === 'TEZ'
                 ? Number(props.poolShare) > 0
                   ? Number(props.poolShare).toFixed(4)
                   : '0'
@@ -83,7 +83,7 @@ const LiquidityInfo = (props) => {
         ) : (
           <div className="details">
             <span className="content">Share of pool:</span>{' '}
-            {props.tokenIn.name === 'tez'
+            {props.tokenIn.name === 'TEZ'
               ? Number(props.poolShare) > 0
                 ? Number(props.poolShare).toFixed(4)
                 : '0'

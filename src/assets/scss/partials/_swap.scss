@@ -738,7 +738,7 @@
   padding-left: 24px;
   @media screen and (min-width: 320px) and (max-width: 900px) {
     width: 358px;
-    margin: 8px 12px 24px;
+    margin: 8px 20px 24px;
     padding-left: 16px;
     padding-right: 8px;
     padding-top: 8px;
@@ -1634,11 +1634,14 @@ input:checked {
     padding-left: 20px;
   }
 }
+.liq-margin {
+  margin-top: 80px !important;
+}
 .liquidity-content-container {
   position: relative;
   max-width: 848px;
   padding: 20px 40px;
-  background-color: transparent;
+  background-color: var(--theme-card-bg);
   border-radius: 16px;
   margin: 24px auto;
   border: 1px solid var(--theme-gradient-border);

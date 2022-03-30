@@ -51,6 +51,7 @@ const ConfirmTransaction = (props) => {
               onClick={props.confirmSwapToken}
               color={'outline-button'}
               className="mt-4 w-100 confirm-transaction-button-text"
+              style={{ cursor: 'default' }}
             >
               {props.content}
               {/* Swap {props.firstTokenAmount} {props.tokenIn.name} for{' '}

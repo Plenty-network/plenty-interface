@@ -88,7 +88,7 @@ const AddLiquidityNew = (props) => {
       props.swapData.lpTokenSupply,
     );
     setPoolShare(values.poolPercent.toFixed(5));
-    if (props.tokenIn.name === 'tez') {
+    if (props.tokenIn.name === 'TEZ') {
       setLpTokenAmount((values.lpToken / 10 ** 6).toFixed(6));
     }
     return values.ctez / 10 ** 6;
@@ -102,25 +102,11 @@ const AddLiquidityNew = (props) => {
       props.swapData.lpTokenSupply,
     );
     setPoolShare(values.poolPercent.toFixed(5));
-    if (props.tokenIn.name === 'tez') {
+    if (props.tokenIn.name === 'TEZ') {
       setLpTokenAmount((values.lpToken / 10 ** 6).toFixed(6));
     }
     return values.tez / 10 ** 6;
   };
-
-  // useEffect(() => {
-  //   getXtzDollarPrice().then((res) => {
-  //     setDolar(res);
-  //   });
-  // }, []);
-
-  // const InfoMessage = useMemo(() => {
-  //   return (
-  //     <span>
-  //       {lpTokenAmount.estimatedLpOutput} {props.tokenIn.name}/{props.tokenOut.name} LP Tokens
-  //     </span>
-  //   );
-  // }, [lpTokenAmount.estimatedLpOutput]);
 
   const handleLiquidityInput = async (input) => {
     setFirstTokenAmount(input);
@@ -133,7 +119,7 @@ const AddLiquidityNew = (props) => {
       });
       return;
     }
-    if (props.tokenIn.name === 'tez') {
+    if (props.tokenIn.name === 'TEZ') {
       const res = await getXtz(input);
 
       setEstimatedTokenAmout({
@@ -158,7 +144,7 @@ const AddLiquidityNew = (props) => {
         otherTokenAmount: '',
       });
     } else {
-      if (props.tokenIn.name === 'tez') {
+      if (props.tokenIn.name === 'TEZ') {
         const res = await liqCa(input);
 
         setEstimatedTokenAmout({
@@ -184,7 +170,7 @@ const AddLiquidityNew = (props) => {
       ? parseFloat(secondTokenAmount)
       : estimatedTokenAmout.otherTokenAmount;
 
-    if (props.tokenIn.name !== 'tez') {
+    if (props.tokenIn.name !== 'TEZ') {
       const lpTokenAmount = lpTokenOutput(
         firstTokenAmount,
         secondTokenAmountEntered,
@@ -200,7 +186,7 @@ const AddLiquidityNew = (props) => {
     const secondTokenAmountEntered = secondTokenAmount
       ? parseFloat(secondTokenAmount)
       : estimatedTokenAmout.otherTokenAmount;
-    if (props.tokenIn.name !== 'tez') {
+    if (props.tokenIn.name !== 'TEZ') {
       const lpTokenAmount = lpTokenOutput(
         firstTokenAmount,
         secondTokenAmountEntered,
@@ -233,7 +219,7 @@ const AddLiquidityNew = (props) => {
     const secondTokenAmountEntered = secondTokenAmount
       ? parseFloat(secondTokenAmount)
       : estimatedTokenAmout.otherTokenAmount;
-    if (props.tokenIn.name === 'tez') {
+    if (props.tokenIn.name === 'TEZ') {
       add_liquidity(
         props.tokenIn.name,
         props.tokenOut.name,
@@ -513,7 +499,7 @@ const AddLiquidityNew = (props) => {
               </div>
             ) : null}
             <div className="input-width">
-              {props.swapData.success ? (
+              {props.swapData.success && props.userBalances[props.tokenOut.name] ? (
                 <input
                   type="text"
                   className="token-user-input-lq"

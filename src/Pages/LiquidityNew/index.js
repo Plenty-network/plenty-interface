@@ -53,14 +53,14 @@ const LiquidityNew = (props) => {
   const [positionDetails, setPositionDetails] = useState({});
   const [isPositionAvailable, setPositionAvailable] = useState(false);
 
-  // useEffect(() => {
-  //   if (tokenIn.name === 'tez') {
-  //     setTokenOut({
-  //       name: 'CTEZ',
-  //       image: ctez,
-  //     });
-  //   }
-  // }, [tokenIn]);
+  useEffect(() => {
+    if (tokenIn.name === 'TEZ') {
+      setTokenOut({
+        name: 'CTEZ',
+        image: ctez,
+      });
+    }
+  }, [tokenIn]);
 
   useEffect(async () => {
     const isStable = isTokenPairStable(tokenIn.name, tokenOut.name);
@@ -188,7 +188,7 @@ const LiquidityNew = (props) => {
         name: token.name,
         image: token.image,
       });
-      if (token.name === 'tez') {
+      if (token.name === 'TEZ') {
         setTokenOut({
           name: 'CTEZ',
           image: ctez,
@@ -275,10 +275,12 @@ const LiquidityNew = (props) => {
 
     value ? setActiveTab('liquidityPositions') : setActiveTab('liquidity');
   };
+
   useEffect(() => {
     splitLocation[1] === 'liquidityPositions'
       ? setLiquidityPosition(true)
       : setLiquidityPosition(false);
+    splitLocation[1] === 'liquidity' && setActiveTab('liquidity');
   }, [splitLocation[1]]);
 
   useEffect(() => {
@@ -334,7 +336,11 @@ const LiquidityNew = (props) => {
       {isLiquidityPosition && <div className="liq-label">Your Liquidity Positions</div>}
       {/* <div className="liq-label">{isLiquidityPosition ? 'Liquidity Positions' : 'Liquidity'}</div> */}
       {!isLiquidityPosition ? (
-        <Col sm={8} md={6} className="liquidity-content-container">
+        <Col
+          sm={8}
+          md={6}
+          className={clsx('liquidity-content-container', !props.walletAddress && 'liq-margin')}
+        >
           <div className="">
             <Tabs
               activeKey={activeKey}
