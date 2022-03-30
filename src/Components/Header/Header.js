@@ -245,7 +245,7 @@ const Header = (props) => {
                         {...props}
                       />
                     )}
-                    <Nav.Link
+                    {/* <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.BRIDGE ? 'menu-item-active' : 'menu-item',
                         splitLocation[1] === 'bridge' && 'selected-menu-item-active',
@@ -269,7 +269,7 @@ const Header = (props) => {
                       </span>
                     </Nav.Link>
 
-                    {/* {selectedHeader === HEADER_MODAL.BRIDGE && isMobile && (
+                 {selectedHeader === HEADER_MODAL.BRIDGE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
                         isExpanded={isExpanded}
