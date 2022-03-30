@@ -113,6 +113,7 @@ const allPathsUtil = (current, destination, paths, vis, path) => {
   if (current === destination) {
     paths.push([...path]);
   }
+  // Traversing the AMM pairs (neighbours) of current token recursively
   for (const pairToken in CONFIG.AMM[CONFIG.NETWORK][current].DEX_PAIRS) {
     if (!Object.hasOwnProperty.call(vis, pairToken) || vis[pairToken] === false) {
       allPathsUtil(pairToken, destination, paths, vis, path);
@@ -129,11 +130,12 @@ const allPathsUtil = (current, destination, paths, vis, path) => {
  */
 export const getAllRoutes = async (tokenIn, tokenOut) => {
   try {
-    const paths = [];
-    const path = [];
-    const vis = {};
-    const routeDataPromises = [];
+    const paths = []; // All possible routes between tokenIn and tokenOut will be stored in path
+    const path = []; // Current path which is being iterated
+    const vis = {}; // To keep track of visited tokens
+    const routeDataPromises = []; // promises to get swap data for all routes will be pushed here
     const bestRoute = {
+      // best route will be stored here (until no input)
       path: [],
       swapData: [],
       tokenOutPerTokenIn: 0,
@@ -141,12 +143,16 @@ export const getAllRoutes = async (tokenIn, tokenOut) => {
 
     allPathsUtil(tokenIn, tokenOut, paths, vis, path);
     paths.forEach((path) => {
+      // Filtering out routes whose length are greater than 4 for performance reasons.
       if (path.length <= 4) {
         routeDataPromises.push(getRouteSwapData(path));
       }
     });
     const routeDataResponses = await Promise.all(routeDataPromises);
-
+    /*
+      When there is no input, but we need to show swap rate
+      We select the best swapRate using tokenOutPerTokenIn method
+     */
     for (const i in routeDataResponses) {
       if (routeDataResponses[i].tokenOutPerTokenIn > bestRoute.tokenOutPerTokenIn) {
         bestRoute.tokenOutPerTokenIn = routeDataResponses[i].tokenOutPerTokenIn;
@@ -287,8 +293,10 @@ export const computeTokenOutForRouteBaseV2 = (input, allRoutes, slippage) => {
         path: route.path,
       });
     });
+    // Assuming first route is best route
     bestRoute.computations = computeResponses[0].computations;
     bestRoute.path = computeResponses[0].path;
+    // Checking for best route among all routes based on maximum tokenOutAmount
     computeResponses.forEach((route) => {
       if (route.computations.tokenOutAmount > bestRoute.computations.tokenOutAmount) {
         bestRoute.computations = route.computations;
@@ -409,8 +417,10 @@ export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, allRoutes
         path: route.path,
       };
     });
+    // Assuming first route is best route
     bestRoute.computations = computeResponses[0].computations;
     bestRoute.path = computeResponses[0].path;
+    // Checking for best route among all routes based on minimum tokenInAmount
     computeResponses.forEach((route) => {
       if (route.computations.tokenInAmount < bestRoute.computations.tokenInAmount) {
         bestRoute.computations = route.computations;
@@ -431,13 +441,24 @@ export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, allRoutes
     };
   }
 };
-
+/**
+ *
+ * @param path - Array of tokenNames from In to Out
+ * @param minimum_Out_All - Array of minimum of for each swap
+ * @param caller - recipient
+ * @param amount - input token amount
+ * @param transactionSubmitModal - Callback to open transaction submitted modal
+ * @returns {Promise<{success: boolean}>}
+ */
 export const swapTokenUsingRouteV3 = async (
   path,
   minimum_Out_All,
   caller,
   amount,
   transactionSubmitModal,
+  setShowConfirmSwap,
+  resetAllValues,
+  setShowConfirmTransaction,
 ) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
@@ -503,7 +524,11 @@ export const swapTokenUsingRouteV3 = async (
         .withContractCall(routerInstance.methods.routerSwap(DataMap, swapAmount, caller));
     }
     const batchOp = await batch.send();
+    setShowConfirmTransaction(false);
+    resetAllValues();
+    setShowConfirmSwap(false);
     transactionSubmitModal(batchOp.opHash);
+
     await batchOp.confirmation();
     return {
       success: true,

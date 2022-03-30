@@ -118,6 +118,7 @@ const Governance = (props) => {
       </Container>
       <InfoModal
         open={showTransactionSubmitModal}
+        InfoMessage={'Vote submitted'}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
         buttonText={'View on Tezos'}
@@ -127,7 +128,7 @@ const Governance = (props) => {
             : null
         }
       />
-      <Loader loading={props.loading} loaderMessage={loaderMessage} />
+      <Loader loading={props.loading} loaderMessage={loaderMessage} content={'vote submitted'} />
     </>
   );
 };

@@ -72,6 +72,7 @@ const FarmModals = () => {
       />
       <InfoModal
         open={modalData.open === FARM_PAGE_MODAL.TRANSACTION_SUCCESS}
+        InfoMessage={'farms'}
         onClose={onClose}
         message={'Transaction submitted'}
         buttonText={'View on Tezos'}
@@ -85,6 +86,7 @@ const FarmModals = () => {
         <Loader
           loading={stakeOperations.processing || unstakeOperations.processing}
           loaderMessage={loaderMessage}
+          content={'farm'}
         />
       )}
     </>

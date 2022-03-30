@@ -214,6 +214,7 @@ FarmCard.propTypes = {
   userAddress: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]).isRequired,
   userStakes: PropTypes.number.isRequired,
   theme: PropTypes.any,
+  setShowConfirmTransaction: PropTypes.any,
 };
 
 export default FarmCard;

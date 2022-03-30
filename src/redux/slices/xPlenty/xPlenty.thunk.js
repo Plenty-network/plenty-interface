@@ -44,29 +44,41 @@ export const getExpectedxPlentyThunk = (plentyBalance, totalSupply, plentyAmount
   dispatch(setExpectedxPlenty(expectedxPlenty));
 };
 
-export const buyXPlentyThunk = (plentyAmount, minimumExpected, recipient) => (dispatch) => {
-  dispatch(initiateBuying());
-  buyXPlenty(plentyAmount, minimumExpected, recipient)
-    .then((response) => {
-      dispatch(buyingSuccessfull(response));
-    })
-    .catch((error) => {
-      console.log(error);
-      dispatch(buyingFailed());
-    });
-};
+export const buyXPlentyThunk =
+  (plentyAmount, minimumExpected, recipient, setShowConfirmTransaction, setLoader) =>
+  (dispatch) => {
+    dispatch(initiateBuying());
+    buyXPlenty(plentyAmount, minimumExpected, recipient, setShowConfirmTransaction)
+      .then((response) => {
+        setLoader(false);
+        setShowConfirmTransaction(false);
+        dispatch(buyingSuccessfull(response));
+      })
+      .catch((error) => {
+        setShowConfirmTransaction(false);
+        setLoader(false);
+        console.log(error);
+        dispatch(buyingFailed());
+      });
+  };
 
-export const sellXPlentyThunk = (xPlentyAmount, minimumExpected, recipient) => (dispatch) => {
-  dispatch(initiateSelling());
-  sellXPlenty(xPlentyAmount, minimumExpected, recipient)
-    .then((response) => {
-      dispatch(sellingSuccessfull(response));
-    })
-    .catch((error) => {
-      console.log(error);
-      dispatch(sellingFailed());
-    });
-};
+export const sellXPlentyThunk =
+  (xPlentyAmount, minimumExpected, recipient, setShowConfirmTransaction, setLoader) =>
+  (dispatch) => {
+    dispatch(initiateSelling());
+    sellXPlenty(xPlentyAmount, minimumExpected, recipient, setShowConfirmTransaction)
+      .then((response) => {
+        setShowConfirmTransaction(false);
+        setLoader(false);
+        dispatch(sellingSuccessfull(response));
+      })
+      .catch((error) => {
+        console.log(error);
+        setShowConfirmTransaction(false);
+        setLoader(false);
+        dispatch(sellingFailed());
+      });
+  };
 
 export const closetransactionInjectionModalThunk = () => (dispatch) => {
   dispatch(closetransactionInjectionModal());

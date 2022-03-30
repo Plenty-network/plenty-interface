@@ -93,11 +93,15 @@ const UnstakeModal = (props) => {
   };
 
   const onUnstake = () => {
+    props.onClose();
+    props.setShowConfirmTransaction(true);
+    props.setConfirmTransactionContent('UnStaking');
     props.unstakeOnFarm(
       selected,
       props.modalData.identifier,
       props.isActiveOpen,
       props.modalData.position,
+      props.setShowConfirmTransaction,
     );
   };
 
@@ -209,6 +213,8 @@ UnstakeModal.propTypes = {
     failed: PropTypes.bool,
   }),
   userStakes: PropTypes.any,
+  setShowConfirmTransaction: PropTypes.any,
+  setConfirmTransactionContent: PropTypes.any,
 };
 
 export default UnstakeModal;

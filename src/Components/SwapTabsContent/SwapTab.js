@@ -1,21 +1,29 @@
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import React, { useEffect, useMemo, useState } from 'react';
 import SwapDetails from '../SwapDetails';
 import ConfirmSwap from './ConfirmSwap';
+import { connect } from 'react-redux';
 import { swapTokens } from '../../apis/swap/swap';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
 import Button from '../Ui/Buttons/Button';
 import {
   computeTokenOutForRouteBaseV2,
   swapTokenUsingRouteV3,
   computeTokenOutForRouteBaseByOutAmountV2,
 } from '../../apis/swap/swap-v2';
+import ConfirmTransaction from '../WrappedAssets/ConfirmTransaction';
+import InfoModal from '../Ui/Modals/InfoModal';
+import Loader from '../loader';
+import { setLoader } from '../../redux/slices/settings/settings.slice';
 
 const SwapTab = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
   const [secondTokenAmount, setSecondTokenAmount] = useState();
+  const [firstAmount, setFirstAmount] = useState(0);
+  const [secondAmount, setSecondAmount] = useState(0);
   const [routePath, setRoutePath] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(false);
+  const [message, setMessage] = useState('');
   const [computedData, setComputedData] = useState({
     success: false,
     data: {
@@ -27,6 +35,28 @@ const SwapTab = (props) => {
       priceImpact: 0,
     },
   });
+
+  useEffect(() => {
+    firstTokenAmount && setFirstAmount(firstTokenAmount);
+    secondTokenAmount && setSecondAmount(secondTokenAmount);
+  }, [firstTokenAmount, secondTokenAmount]);
+
+  const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
+  const [transactionId, setTransactionId] = useState('');
+
+  const transactionSubmitModal = (id) => {
+    setTransactionId(id);
+    setShowTransactionSubmitModal(true);
+  };
+  const handleCloseModal = () => {
+    props.setShowConfirmSwap(false);
+    props.setShowConfirmTransaction(false);
+
+    props.setLoader(false);
+    resetVal();
+    props.resetAllValues();
+    props.setLoading(false);
+  };
 
   const handleSwapTokenInput = (input, tokenType) => {
     if (input === '' || isNaN(input)) {
@@ -86,12 +116,21 @@ const SwapTab = (props) => {
   useEffect(() => {
     handleSwapTokenInput(firstTokenAmount, 'tokenIn');
   }, [props.routeData]);
+  useEffect(() => {
+    setErrorMessage(false);
+  }, [props.tokenOut.name, firstTokenAmount]);
 
   const callSwapToken = () => {
     props.setShowConfirmSwap(true);
-    props.setHideContent('content-hide');
+    //props.setHideContent('content-hide');
   };
 
+  const resetVal = () => {
+    props.resetAllValues();
+    setFirstTokenAmount('');
+    props.setSecondTokenAmount('');
+    setSecondTokenAmount('');
+  };
   const getDollarValue = (amount, price) => {
     const calculatedValue = amount * price;
     if (calculatedValue < 100) {
@@ -102,11 +141,13 @@ const SwapTab = (props) => {
 
   const handleSwapResponse = (status) => {
     if (status) {
-      console.log({ status });
       props.setLoading(false);
+      setShowTransactionSubmitModal(false);
       props.handleLoaderMessage('success', 'Transaction confirmed');
+      props.setLoader(false);
       props.setShowConfirmSwap(false);
-      props.setHideContent('');
+      props.setShowConfirmTransaction(false);
+      //props.setHideContent('');
       props.setSecondTokenAmount('');
       props.resetAllValues();
       props.setLoaderInButton(false);
@@ -114,9 +155,12 @@ const SwapTab = (props) => {
       setSecondTokenAmount('');
     } else {
       props.setLoading(false);
+      setShowTransactionSubmitModal(false);
       props.handleLoaderMessage('error', 'Transaction failed');
+      props.setLoader(false);
       props.setShowConfirmSwap(false);
-      props.setHideContent('');
+      props.setShowConfirmTransaction(false);
+      //props.setHideContent('');
       props.resetAllValues();
       props.setSecondTokenAmount('');
       props.setLoaderInButton(false);
@@ -125,7 +169,10 @@ const SwapTab = (props) => {
 
   const confirmSwapToken = async () => {
     props.setLoading(true);
+    props.setLoader(true);
     props.setLoaderInButton(true);
+    props.setShowConfirmSwap(false);
+    props.setShowConfirmTransaction(true);
     const recepientAddress = props.recepient ? props.recepient : props.walletAddress;
 
     if (routePath.length <= 2) {
@@ -136,8 +183,14 @@ const SwapTab = (props) => {
         recepientAddress,
         firstTokenAmount,
         props.walletAddress,
-        props.transactionSubmitModal,
+        transactionSubmitModal,
+        props.setShowConfirmSwap,
+        resetVal,
+        props.setShowConfirmTransaction,
       ).then((swapResp) => {
+        props.setShowConfirmSwap(false);
+        props.setLoader(false);
+        props.setShowConfirmTransaction(false);
         handleSwapResponse(swapResp.success);
         setTimeout(() => {
           props.setLoaderMessage({});
@@ -149,8 +202,14 @@ const SwapTab = (props) => {
         computedData.data.minimumOut,
         props.walletAddress,
         firstTokenAmount,
-        props.transactionSubmitModal,
+        transactionSubmitModal,
+        props.setShowConfirmSwap,
+        resetVal,
+        props.setShowConfirmTransaction,
       ).then((swapResp) => {
+        props.setShowConfirmSwap(false);
+        props.setLoader(false);
+        props.setShowConfirmTransaction(false);
         handleSwapResponse(swapResp.success);
         setTimeout(() => {
           props.setLoaderMessage({});
@@ -158,7 +217,13 @@ const SwapTab = (props) => {
       });
     }
   };
-
+  const InfoMessage = useMemo(() => {
+    return (
+      <span>
+        Swap {firstAmount} {props.tokenIn.name} for {secondAmount} {props.tokenOut.name}
+      </span>
+    );
+  }, [firstAmount, secondAmount]);
   const onClickAmount = () => {
     const value =
       props.userBalances[props.tokenIn.name].toLocaleString('en-US', {
@@ -166,6 +231,11 @@ const SwapTab = (props) => {
         useGrouping: false,
       }) ?? 0;
     handleSwapTokenInput(value, 'tokenIn');
+  };
+
+  const setErrorMessageOnUI = (value) => {
+    setMessage(value);
+    setErrorMessage(true);
   };
 
   // TODO Refactor once again
@@ -186,32 +256,21 @@ const SwapTab = (props) => {
       if (!props.tokenOut.name) {
         return (
           <Button
-            onClick={() => null}
-            color={'primary'}
-            className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+            onClick={() => setErrorMessageOnUI('Please select a token and then enter the amount')}
+            color={'disabled'}
+            className={' mt-4 w-100 flex align-items-center justify-content-center'}
           >
-            Select a token
+            Swap
           </Button>
-        );
-      }
-
-      if (props.loaderInButton) {
-        return (
-          <Button
-            onClick={() => null}
-            color={'primary'}
-            loading={true}
-            className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
-          />
         );
       }
       return (
         <Button
-          onClick={() => null}
-          color={'primary'}
-          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+          onClick={() => setErrorMessageOnUI('Enter an amount to swap')}
+          color={'disabled'}
+          className={' mt-4 w-100 flex align-items-center justify-content-center'}
         >
-          Enter an amount
+          Swap
         </Button>
       );
     }
@@ -240,7 +299,13 @@ const SwapTab = (props) => {
     <>
       <div className="swap-content-box-wrapper">
         <div className="swap-content-box">
-          <div className="swap-token-select-box bg-themed-light">
+          <div
+            className={clsx(
+              'swap-token-select-box',
+              'bg-themed-light',
+              errorMessage && 'errorBorder',
+            )}
+          >
             <div className="token-selector-balance-wrapper">
               <button
                 className="token-selector dropdown-themed"
@@ -300,16 +365,20 @@ const SwapTab = (props) => {
             ) : null}
           </div>
         </div>
-
         <div
           className="swap-arrow-center bg-themed icon-animated"
           onClick={props.changeTokenLocation}
         >
           <span className="span-themed material-icons-round">arrow_downward</span>
         </div>
-
         <div className="swap-content-box">
-          <div className="swap-token-select-box bg-themed-light">
+          <div
+            className={clsx(
+              'swap-token-select-box',
+              'bg-themed-light',
+              errorMessage && 'errorBorder',
+            )}
+          >
             <div className="token-selector-balance-wrapper">
               {props.tokenOut.name ? (
                 <button
@@ -374,29 +443,6 @@ const SwapTab = (props) => {
             ) : null}
           </div>
         </div>
-
-        {props.walletAddress && props.routeData.success ? (
-          <div className="flex">
-            <p className="wallet-token-balance whitespace-prewrap ml-auto flex flex-row">
-              1 {props.tokenIn.name} ={' '}
-              <OverlayTrigger
-                placement="auto"
-                overlay={
-                  <Tooltip id="swap-token-out-tooltip" {...props}>
-                    {props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn}
-                  </Tooltip>
-                }
-              >
-                <div>
-                  {props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn
-                    ? props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn.toFixed(3)
-                    : 0}{' '}
-                  {props.tokenOut.name}
-                </div>
-              </OverlayTrigger>
-            </p>
-          </div>
-        ) : null}
         {props.showRecepient ? (
           <input
             type="text"
@@ -408,17 +454,24 @@ const SwapTab = (props) => {
         ) : (
           ''
         )}
+        {errorMessage && <span className="error-message">{message}</span>}
+
         {swapContentButton}
-        {props.walletAddress && props.tokenIn.name && props.tokenOut.name && (
-          <SwapDetails
-            routePath={routePath}
-            computedOutDetails={computedData}
-            tokenIn={props.tokenIn}
-            tokenOut={props.tokenOut}
-            routeData={props.routeData}
-            firstTokenAmount={firstTokenAmount}
-          />
-        )}
+
+        {props.walletAddress &&
+          props.tokenIn.name &&
+          props.tokenOut.name &&
+          props.routeData.success && (
+            <SwapDetails
+              routePath={routePath}
+              computedOutDetails={computedData}
+              tokenIn={props.tokenIn}
+              tokenOut={props.tokenOut}
+              routeData={props.routeData}
+              firstTokenAmount={firstTokenAmount}
+              isStableSwap={false}
+            />
+          )}
       </div>
 
       <ConfirmSwap
@@ -432,20 +485,56 @@ const SwapTab = (props) => {
         onHide={props.handleClose}
         routeData={props.routeData}
         loading={props.loading}
+        isStableSwap={false}
+      />
+      <ConfirmTransaction
+        show={props.showConfirmTransaction}
+        content={InfoMessage}
+        theme={props.theme}
+        onHide={handleCloseModal}
+      />
+      <InfoModal
+        open={showTransactionSubmitModal}
+        InfoMessage={InfoMessage}
+        theme={props.theme}
+        onClose={() => setShowTransactionSubmitModal(false)}
+        message={'Transaction submitted'}
+        buttonText={'View on Tezos'}
+        onBtnClick={
+          transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
+        }
+      />
+      <Loader
+        loading={props.loading}
+        content={InfoMessage}
+        loaderMessage={props.loaderMessage}
+        tokenIn={props.tokenIn.name}
+        firstTokenAmount={firstAmount}
+        tokenOut={props.tokenOut.name}
+        secondTokenAmount={secondAmount}
+        setLoaderMessage={props.setLoaderMessage}
       />
     </>
   );
 };
+const mapStateToProps = (state) => ({
+  loader: state.settings.loader,
+});
 
+const mapDispatchToProps = (dispatch) => ({
+  setLoader: (value) => dispatch(setLoader(value)),
+});
 SwapTab.propTypes = {
   changeTokenLocation: PropTypes.any,
   computedOutDetails: PropTypes.any,
   connecthWallet: PropTypes.any,
   fetchUserWalletBalance: PropTypes.any,
+  setLoader: PropTypes.func,
   // firstTokenAmount: PropTypes.any,
   getTokenPrice: PropTypes.any,
   handleClose: PropTypes.any,
   handleLoaderMessage: PropTypes.any,
+  loaderMessage: PropTypes.any,
   handleOutTokenInput: PropTypes.any,
   handleTokenType: PropTypes.any,
   loaderInButton: PropTypes.any,
@@ -454,7 +543,7 @@ SwapTab.propTypes = {
   resetAllValues: PropTypes.any,
   // secondTokenAmount: PropTypes.any,
   setFirstTokenAmount: PropTypes.any,
-  setHideContent: PropTypes.any,
+  //setHideContent: PropTypes.any,
   setLoaderInButton: PropTypes.any,
   setLoaderMessage: PropTypes.any,
   setLoading: PropTypes.any,
@@ -473,6 +562,9 @@ SwapTab.propTypes = {
   transactionSubmitModal: PropTypes.any,
   userBalances: PropTypes.any,
   walletAddress: PropTypes.any,
+  setShowConfirmTransaction: PropTypes.any,
+  showConfirmTransaction: PropTypes.any,
+  theme: PropTypes.any,
 };
 
-export default SwapTab;
+export default connect(mapStateToProps, mapDispatchToProps)(SwapTab);

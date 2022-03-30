@@ -6,7 +6,9 @@
     border: 0;
     padding: 12px;
   }
-
+  .confirmSwapHeader {
+    padding: 16px 20px;
+  }
   .header {
     padding: 14px 14px 26px;
     border-bottom: 1px solid var(--theme-border);
@@ -26,7 +28,9 @@
     cursor: pointer;
     color: var(--theme-text-4);
   }
-
+  .confirmSwapContent {
+    padding: 0px;
+  }
   .content {
     padding: 26px 14px 14px;
 
@@ -56,11 +60,15 @@
     color: var(--theme-primary-button-bg);
     cursor: pointer;
     user-select: none;
+    font-size: 14px;
 
     &:active {
       transform: scale(0.98);
       transform-origin: 50% 50%;
     }
+  }
+  .submitted-text {
+    color: var(--theme-confirm-transaction-button-text);
   }
 }
 
@@ -163,5 +171,15 @@
   .totalRow {
     display: flex;
     justify-content: space-between;
+  }
+}
+.confirmSwap {
+  max-width: 400px !important;
+  margin: auto;
+  // min-height: calc(100% + 3.5rem) !important;
+
+  @media screen and (min-height: 1400px) and (min-width: 2500px) {
+    //min-height: calc(100% - 29.5rem) !important;
+    margin: -11rem auto;
   }
 }

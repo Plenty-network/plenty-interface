@@ -63,7 +63,7 @@ const fetchStorageForDualStakingContract = async (
 
     const APRSecond =
       (rewardRateSecond * 1051200 * tokenSecondPrice) / (totalSupply * priceOfStakeTokenInUsd);
-
+    // Add two APR's to show cumulative APR
     let APR = APRFirst + APRSecond;
     APR = APR * 100;
 
@@ -72,7 +72,7 @@ const fetchStorageForDualStakingContract = async (
 
     const DPYSecond =
       (rewardRateSecond * 2880 * tokenSecondPrice) / (totalSupply * priceOfStakeTokenInUsd);
-
+    // Add two DPY's to show cumulative DPY
     let DPY = DPYFirst + DPYSecond;
     DPY = DPY * 100;
 
@@ -323,7 +323,8 @@ const getPriceForPlentyLpTokens = async (
     for (const i in tokenPricesData) {
       if (
         tokenPricesData[i].tokenAddress === token1Address &&
-        tokenPricesData[i].type === token1Type
+        tokenPricesData[i].type === token1Type &&
+        tokenPricesData[i].symbol !== 'uBTC'
       ) {
         tokenData['token0'] = {
           tokenName: tokenPricesData[i].symbol,
@@ -463,31 +464,31 @@ export const getFarmsDataAPI = async (isActive) => {
           key === 'uUSD - YOU' ||
           key === 'uUSD - uDEFI' ||
           key === 'uUSD - wUSDC' ||
-          key === 'ctez - kUSD' ||
-          key === 'ctez - USDtz' ||
-          key === 'ctez - wUSDT' ||
-          key === 'ctez - wBUSD' ||
-          key === 'ctez - wUSDC' ||
-          key === 'ctez - wDAI' ||
-          key === 'ctez - KALAM' ||
-          key === 'ctez - GIF' ||
-          key === 'ctez - ETHtz' ||
-          key === 'ctez - QUIPU' ||
-          key === 'ctez - hDAO' ||
-          key === 'ctez - kDAO' ||
-          key === 'ctez - wWETH' ||
-          key === 'ctez - uUSD' ||
-          key === 'ctez - FLAME' ||
-          key === 'ctez - SMAK' ||
-          key === 'ctez - crDAO' ||
-          key === 'ctez - PXL' ||
-          key === 'ctez - UNO' ||
-          key === 'ctez - WRAP' ||
-          key === 'ctez - wWBTC' ||
-          key === 'ctez - tzBTC' ||
-          key === 'ctez - PAUL' ||
-          key === 'ctez - INSTA' ||
-          key === 'ctez - CRUNCH'
+          key === 'CTEZ - kUSD' ||
+          key === 'CTEZ - USDtz' ||
+          key === 'CTEZ - wUSDT' ||
+          key === 'CTEZ - wBUSD' ||
+          key === 'CTEZ - wUSDC' ||
+          key === 'CTEZ - wDAI' ||
+          key === 'CTEZ - KALAM' ||
+          key === 'CTEZ - GIF' ||
+          key === 'CTEZ - ETHtz' ||
+          key === 'CTEZ - QUIPU' ||
+          key === 'CTEZ - hDAO' ||
+          key === 'CTEZ - kDAO' ||
+          key === 'CTEZ - wWETH' ||
+          key === 'CTEZ - uUSD' ||
+          key === 'CTEZ - FLAME' ||
+          key === 'CTEZ - SMAK' ||
+          key === 'CTEZ - crDAO' ||
+          key === 'CTEZ - PXL' ||
+          key === 'CTEZ - UNO' ||
+          key === 'CTEZ - WRAP' ||
+          key === 'CTEZ - wWBTC' ||
+          key === 'CTEZ - tzBTC' ||
+          key === 'CTEZ - PAUL' ||
+          key === 'CTEZ - INSTA' ||
+          key === 'CTEZ - CRUNCH'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(
@@ -504,9 +505,12 @@ export const getFarmsDataAPI = async (isActive) => {
     const response = await Promise.all(dexPromises);
     const lpPricesInUsd = {};
     for (const i in response) {
+      // Condition for PLP token
       if (response[i].lpPriceInXtz * xtzPriceInUsd) {
         lpPricesInUsd[response[i].identifier] = response[i].lpPriceInXtz * xtzPriceInUsd;
-      } else {
+      }
+      // Condition for QPT token
+      else {
         lpPricesInUsd[response[i].identifier] = response[i].totalAmount;
       }
     }
@@ -609,7 +613,13 @@ const CheckIfWalletConnected = async (wallet) => {
  * @param position - Array based position in farm in CONFIG
  * @returns {Promise<{success: boolean, operationId: string}|{success: boolean, error}>}
  */
-export const stakeFarmAPI = async (amount, farmIdentifier, isActive, position) => {
+export const stakeFarmAPI = async (
+  amount,
+  farmIdentifier,
+  isActive,
+  position,
+  setShowConfirmTransaction,
+) => {
   try {
     const options = {
       name: CONFIG.NAME,
@@ -710,6 +720,7 @@ export const stakeFarmAPI = async (amount, farmIdentifier, isActive, position) =
           );
       }
       const batchOperation = await batch.send();
+      setShowConfirmTransaction(false);
       store.dispatch(stakingOnFarmProcessing(batchOperation));
       await batchOperation.confirmation().then(() => batchOperation.opHash);
       return {
@@ -734,7 +745,13 @@ export const stakeFarmAPI = async (amount, farmIdentifier, isActive, position) =
  * @param position - Array based position in farm in CONFIG
  * @returns {Promise<{success: boolean, operationId: string}|{success: boolean, error}>}
  */
-export const unstakeAPI = async (stakesToUnstake, farmIdentifier, isActive, position) => {
+export const unstakeAPI = async (
+  stakesToUnstake,
+  farmIdentifier,
+  isActive,
+  position,
+  setShowConfirmTransaction,
+) => {
   try {
     const options = {
       name: CONFIG.NAME,
@@ -755,6 +772,7 @@ export const unstakeAPI = async (stakesToUnstake, farmIdentifier, isActive, posi
         ].CONTRACT,
       );
       let amount;
+      // Creating multiple un-staking operation for batching them
       const unstakeBatch = stakesToUnstake.map((stake) => {
         amount =
           stake.amount *
@@ -771,6 +789,7 @@ export const unstakeAPI = async (stakesToUnstake, farmIdentifier, isActive, posi
       });
       const batch = await Tezos.wallet.batch(unstakeBatch);
       const batchOperation = await batch.send();
+      setShowConfirmTransaction(false);
       store.dispatch(unstakingOnFarmProcessing(batchOperation));
       await batchOperation.confirmation().then(() => batchOperation.hash);
       return {
@@ -803,7 +822,7 @@ export const unstakeAPI = async (stakesToUnstake, farmIdentifier, isActive, posi
  * @param position - Array based position in farm in CONFIG
  * @returns {Promise<{success: boolean, operationId: string}|{success: boolean, error}>}
  */
-export const harvestAPI = async (farmIdentifier, isActive, position) => {
+export const harvestAPI = async (farmIdentifier, isActive, position, setShowConfirmTransaction) => {
   try {
     const options = {
       name: CONFIG.NAME,
@@ -827,6 +846,7 @@ export const harvestAPI = async (farmIdentifier, isActive, position) => {
         ].CONTRACT,
       );
       const operation = await contractInstance.methods.GetReward(1).send();
+      setShowConfirmTransaction(false);
       await operation.confirmation().then(() => operation.opHash);
       return {
         success: true,

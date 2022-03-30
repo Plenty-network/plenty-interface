@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styles from './frontpage.module.scss';
 import Button from '../../Components/Ui/Buttons/Button';
 import Label from '../../Components/Ui/Label/Label';
@@ -32,7 +32,6 @@ import plentyBig from '../../assets/images/frontpage/plentybig.svg';
 import { ReactComponent as Medium } from '../../assets/images/frontpage/medium.svg';
 import { ReactComponent as Twitter } from '../../assets/images/frontpage/twitter.svg';
 import { ReactComponent as Discord } from '../../assets/images/frontpage/discord.svg';
-import { ReactComponent as Telegram } from '../../assets/images/frontpage/telegram.svg';
 import plentyMedium from '../../assets/images/frontpage/plentymedium.svg';
 import LinkTile from '../../Components/LinkTile/LinkTile';
 import Accordion from '../../Components/Ui/Accordion/Accordion';
@@ -54,6 +53,7 @@ import Footer from '../../Components/Footer/Footer';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import { HOME_PAGE_MODAL } from '../../constants/homePage';
 import NumericLabel from 'react-pretty-numbers';
+import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransaction';
 
 const Frontpage = ({
   homeStats,
@@ -75,6 +75,7 @@ const Frontpage = ({
   xplentyBalance,
   theme,
 }) => {
+  const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
   useEffect(() => {
     const getAllData = () => {
       getHomeStats();
@@ -89,11 +90,15 @@ const Frontpage = ({
     const intervalId = setInterval(getAllData(), 60 * 1000);
     return () => clearInterval(intervalId);
   }, [wallet, rpcNode]);
+  const handleClose = () => {
+    setShowConfirmTransaction(false);
+  };
 
   const walletConnected = !!wallet;
 
   const onHarvestAll = () => {
-    !!wallet && harvestAll(wallet);
+    setShowConfirmTransaction(true);
+    !!wallet && harvestAll(wallet, setShowConfirmTransaction);
   };
 
   const loaderMessage = useMemo(() => {
@@ -350,9 +355,9 @@ const Frontpage = ({
               <a href={'https://discord.gg/9wZ4CuvkuJ'} target="_blank" rel="noreferrer">
                 <Discord className="mr-2 icon-themed" />
               </a>
-              <a href={'https://t.me/PlentyDeFi'} target="_blank" rel="noreferrer">
+              {/* <a href={'https://t.me/PlentyDeFi'} target="_blank" rel="noreferrer">
                 <Telegram className="mr-2 icon-themed" />
-              </a>
+              </a> */}
               <a href={'https://twitter.com/PlentyDeFi'} target="_blank" rel="noreferrer">
                 <Twitter className="mr-2 icon-themed" />
               </a>
@@ -540,6 +545,7 @@ const Frontpage = ({
       </Container>
       <InfoModal
         open={modalData.open === HOME_PAGE_MODAL.TRANSACTION_SUCCESS}
+        InfoMessage={'Harvesting All'}
         onClose={() => openCloseModal({ open: HOME_PAGE_MODAL.NULL, transactionId: '' })}
         message={'Transaction submitted'}
         buttonText={'View on Tezos'}
@@ -550,8 +556,18 @@ const Frontpage = ({
         }
       />
       {modalData.snackbar && (
-        <Loader loading={harvestAllOperations.processing} loaderMessage={loaderMessage} />
+        <Loader
+          loading={harvestAllOperations.processing}
+          loaderMessage={loaderMessage}
+          content={'harvest all done'}
+        />
       )}
+      <ConfirmTransaction
+        show={showConfirmTransaction}
+        theme={theme}
+        content={'Harvesting all'}
+        onHide={handleClose}
+      />
     </>
   );
 };
@@ -575,7 +591,8 @@ const mapDispatchToProps = (dispatch) => ({
   getPlentyToHarvest: (wallet) => dispatch(getPlentyToHarvest(wallet)),
   getPlentyBalanceOfUser: (wallet) => dispatch(getPlentyBalanceOfUser(wallet)),
   getTVLOfUser: (wallet) => dispatch(getTVLOfUser(wallet)),
-  harvestAll: (wallet) => dispatch(harvestAll(wallet)),
+  harvestAll: (wallet, setShowConfirmTransaction) =>
+    dispatch(harvestAll(wallet, setShowConfirmTransaction)),
   openCloseModal: (payload) => dispatch(onModalOpenClose(payload)),
 });
 

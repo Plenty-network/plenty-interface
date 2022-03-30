@@ -22,11 +22,15 @@ const StakeModal = (props) => {
   }, [props.open]);
 
   const onStake = () => {
+    props.onClose();
+    props.setShowConfirmTransaction(true);
+    props.setConfirmTransactionContent('Staking');
     props.stakeOnFarm(
       parseFloat(inputValue),
       props.modalData.identifier,
       props.isActiveOpen,
       props.modalData.position,
+      props.setShowConfirmTransaction,
     );
   };
 
@@ -110,6 +114,8 @@ StakeModal.propTypes = {
     failed: PropTypes.bool,
   }),
   walletBalances: PropTypes.any,
+  setShowConfirmTransaction: PropTypes.any,
+  setConfirmTransactionContent: PropTypes.any,
 };
 
 export default StakeModal;

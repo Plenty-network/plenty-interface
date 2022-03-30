@@ -29,8 +29,13 @@ import * as walletActions from '../redux/actions/wallet/wallet.action';
 import InfoModal from '../Components/Ui/Modals/InfoModal';
 import Label from '../Components/Ui/Label/Label';
 import Image from 'react-bootstrap/Image';
+import ConfirmTransaction from '../Components/WrappedAssets/ConfirmTransaction';
+import { setLoader } from '../redux/slices/settings/settings.slice';
 
 const Stake = (props) => {
+  const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
+  const [activeKey, setActiveKey] = useState('stake');
+
   useEffect(() => {
     props.getxPlentyData();
     props.fetchUserBalances(props.walletAddress);
@@ -45,11 +50,20 @@ const Stake = (props) => {
         message: props.toastMessage,
       });
       setTimeout(() => {
-        props.closeToast();
         setLoaderMessage({});
-      }, 5000);
+        props.closeToast();
+      }, 10000);
     }
   }, [props.isToastOpen]);
+
+  const handleClose = () => {
+    setShowConfirmTransaction(false);
+    props.isProcessing(false);
+  };
+  const getSelectedTab = (value) => {
+    setActiveKey(value);
+  };
+
   return (
     <>
       <Container fluid>
@@ -73,42 +87,6 @@ const Stake = (props) => {
                   distributed to the xPLENTY holders according to the amount of their staked tokens
                   and stake duration.
                 </p>
-
-                {/*<ul className="xplenty-number-info">*/}
-                {/*  <li>*/}
-                {/*    <p>Value Locked</p>*/}
-                {/*    <p className="xplenty-numbers">*/}
-                {/*      {props.xPlentyData.data.ValueLockedToShow*/}
-                {/*        ?*/}
-                {/*          <NumericLabel params={currencyOptionsWithSymbol}>*/}
-                {/*            {parseInt(props.xPlentyData.data.ValueLockedToShow)}*/}
-                {/*          </NumericLabel>*/}
-                {/*        : null}*/}
-                {/*    </p>*/}
-                {/*  </li>*/}
-                {/*  <li>*/}
-                {/*    <p>xPlenty Supply</p>*/}
-                {/*    <p className="xplenty-numbers">*/}
-                {/*      {props.xPlentyData.data.xPlentySupplyToShow*/}
-                {/*        ?*/}
-                {/*          <NumericLabel params={currencyOptions}>*/}
-                {/*            {parseInt(props.xPlentyData.data.xPlentySupplyToShow)}*/}
-                {/*          </NumericLabel>*/}
-                {/*        : null}*/}
-                {/*    </p>*/}
-                {/*  </li>*/}
-                {/*  <li>*/}
-                {/*    <p>Plenty Staked</p>*/}
-                {/*    <p className="xplenty-numbers">*/}
-                {/*      {props.xPlentyData.data.plentyStakedToShow*/}
-                {/*        ?*/}
-                {/*          <NumericLabel params={currencyOptions}>*/}
-                {/*            {parseInt(props.xPlentyData.data.plentyStakedToShow)}*/}
-                {/*          </NumericLabel>*/}
-                {/*        : null}*/}
-                {/*    </p>*/}
-                {/*  </li>*/}
-                {/*</ul>*/}
               </div>
               <div className="col-12 col-lg-5 col-xl-4">
                 <div className="swap-token-select-box-wrapper">
@@ -134,7 +112,11 @@ const Stake = (props) => {
 
                 <div className="xplenty-content-container-wrapper">
                   <div className="bg-themed position-relative xplenty-content xplenty-content-container">
-                    <Tabs defaultActiveKey="stake" className="swap-container-tab">
+                    <Tabs
+                      defaultActiveKey="stake"
+                      onSelect={(e) => getSelectedTab(e)}
+                      className="swap-container-tab"
+                    >
                       <Tab eventKey="stake" title="Stake PLENTY">
                         <StakePlenty
                           xPlentyData={props.xPlentyData}
@@ -147,6 +129,9 @@ const Stake = (props) => {
                           connectWallet={props.connectWallet}
                           isProcessing={props.isProcessing}
                           isToastOpen={props.isToastOpen}
+                          showConfirmTransaction={showConfirmTransaction}
+                          setShowConfirmTransaction={setShowConfirmTransaction}
+                          setLoader={props.setLoader}
                         />
                       </Tab>
 
@@ -161,6 +146,9 @@ const Stake = (props) => {
                           connectWallet={props.connectWallet}
                           isProcessing={props.isProcessing}
                           isToastOpen={props.isToastOpen}
+                          showConfirmTransaction={showConfirmTransaction}
+                          setShowConfirmTransaction={setShowConfirmTransaction}
+                          setLoader={props.setLoader}
                         />
                       </Tab>
                     </Tabs>
@@ -230,10 +218,23 @@ const Stake = (props) => {
           </Col>
         </Row>
       </Container>
-      <Loader loading={props.isProcessing} loaderMessage={loaderMessage} />
+      <ConfirmTransaction
+        show={showConfirmTransaction}
+        theme={props.theme}
+        content={activeKey === 'stake' ? 'staking' : 'unstaking'}
+        onHide={handleClose}
+      />
+      <Loader
+        loading={props.isProcessing}
+        loaderMessage={loaderMessage}
+        content={activeKey === 'stake' ? 'staking done' : 'unstaking done'}
+        tokenIn={true}
+        setLoaderMessage={setLoaderMessage}
+      />
       <InfoModal
         open={props.isTransactionInjectionModalOpen}
         onClose={props.closetransactionInjectionModal}
+        InfoMessage={activeKey === 'stake' ? 'staking done' : 'unstaking done'}
         message={'Transaction submitted'}
         buttonText={'View on Tezos'}
         onBtnClick={
@@ -242,7 +243,6 @@ const Stake = (props) => {
             : null
         }
       />
-      <Loader loading={false} loaderMessage={loaderMessage} />
     </>
   );
 };
@@ -262,8 +262,7 @@ const mapStateToProps = (state) => {
     toastMessage: state.xPlenty.toastMessage,
     isInfoType: state.xPlenty.isInfoType,
     currentOpHash: state.xPlenty.currentOpHash,
-    //toastMessage
-    //isInfoType
+    loader: state.settings.loader,
   };
 };
 
@@ -273,21 +272,45 @@ const mapDispatchToProps = (dispatch) => {
     getxPlentyData: () => dispatch(xPlentyComputationsThunk()),
     setExpectedxPlenty: (plentyBalance, totalSupply, plentyAmount) =>
       dispatch(getExpectedxPlentyThunk(plentyBalance, totalSupply, plentyAmount)),
-    buyxPlenty: (plentyBalance, totalSupply, plentyAmount) =>
-      dispatch(buyXPlentyThunk(plentyBalance, totalSupply, plentyAmount)),
+    buyxPlenty: (plentyBalance, totalSupply, plentyAmount, setShowConfirmTransaction, setLoader) =>
+      dispatch(
+        buyXPlentyThunk(
+          plentyBalance,
+          totalSupply,
+          plentyAmount,
+          setShowConfirmTransaction,
+          setLoader,
+        ),
+      ),
     setExpectedPlenty: (plentyBalance, totalSupply, xplentyAmount) =>
       dispatch(getExpectedPlentyThunk(plentyBalance, totalSupply, xplentyAmount)),
-    sellXPlenty: (xPlentyAmount, minimumExpected, recipient) =>
-      dispatch(sellXPlentyThunk(xPlentyAmount, minimumExpected, recipient)),
+    sellXPlenty: (
+      xPlentyAmount,
+      minimumExpected,
+      recipient,
+      setShowConfirmTransaction,
+      setLoader,
+    ) =>
+      dispatch(
+        sellXPlentyThunk(
+          xPlentyAmount,
+          minimumExpected,
+          recipient,
+          setShowConfirmTransaction,
+          setLoader,
+        ),
+      ),
     fetchUserBalances: (address) => dispatch(userActions.fetchUserBalances(address)),
     closetransactionInjectionModal: () => dispatch(closetransactionInjectionModalThunk()),
     closeToast: () => dispatch(closeToastThunk()),
+    setLoader: (value) => dispatch(setLoader(value)),
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stake);
 
 Stake.propTypes = {
+  theme: PropTypes.any,
   buyxPlenty: PropTypes.any,
   closeToast: PropTypes.any,
   closetransactionInjectionModal: PropTypes.any,
@@ -307,4 +330,5 @@ Stake.propTypes = {
   walletAddress: PropTypes.any,
   walletBalances: PropTypes.any,
   xPlentyData: PropTypes.any,
+  setLoader: PropTypes.any,
 };

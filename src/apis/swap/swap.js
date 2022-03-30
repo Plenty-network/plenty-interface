@@ -56,6 +56,9 @@ export const swapTokens = async (
   tokenInAmount,
   caller,
   transactionSubmitModal,
+  setShowConfirmSwap,
+  resetAllValues,
+  setShowConfirmTransaction,
 ) => {
   const connectedNetwork = CONFIG.NETWORK;
   const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
@@ -139,8 +142,14 @@ export const swapTokens = async (
           ]),
         );
     }
+
     const batchOperation = await batch.send();
+    setShowConfirmTransaction(false);
+
+    setShowConfirmSwap(false);
     transactionSubmitModal(batchOperation.opHash);
+    resetAllValues();
+
     await batchOperation.confirmation().then(() => batchOperation.opHash);
     return {
       success: true,
@@ -580,6 +589,9 @@ export const addLiquidity = async (
   caller,
   dexContractInstance,
   transactionSubmitModal,
+  resetAllValues,
+  setShowConfirmAddSupply,
+  setShowConfirmTransaction,
 ) => {
   try {
     const network = {
@@ -778,7 +790,11 @@ export const addLiquidity = async (
         .withContractCall(tokenSecondInstance.methods.approve(dexContractAddress, 0));
     }
     const batchOperation = await batch.send();
+
+    setShowConfirmAddSupply(false);
+    setShowConfirmTransaction(false);
     transactionSubmitModal(batchOperation.opHash);
+    resetAllValues();
     await batchOperation.confirmation().then(() => batchOperation.opHash);
     return {
       success: true,
@@ -832,10 +848,11 @@ export const computeRemoveTokens = (
 export const getUserBalanceByRpc = async (identifier, address) => {
   try {
     //let balance;
-    const mapId = CONFIG.AMM[CONFIG.NETWORK][identifier].mapId;
-    const type = CONFIG.AMM[CONFIG.NETWORK][identifier].READ_TYPE;
-    const decimal = CONFIG.AMM[CONFIG.NETWORK][identifier].TOKEN_DECIMAL;
-    const tokenId = CONFIG.AMM[CONFIG.NETWORK][identifier].TOKEN_ID;
+    const token = CONFIG.AMM[CONFIG.NETWORK][identifier];
+    const mapId = token.mapId;
+    const type = token.READ_TYPE;
+    const decimal = token.TOKEN_DECIMAL;
+    const tokenId = token.TOKEN_ID;
     const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
     const packedKey = getPackedKey(tokenId, address, type);
     const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
@@ -896,6 +913,9 @@ export const removeLiquidity = async (
   caller,
   dexContractInstance,
   transactionSubmitModal,
+  resetAllValues,
+  setShowConfirmRemoveSupply,
+  setShowConfirmTransaction,
 ) => {
   try {
     let tokenFirst = null;
@@ -959,7 +979,11 @@ export const removeLiquidity = async (
         ),
       );
     const batchOperation = await batch.send();
+
+    setShowConfirmRemoveSupply(false);
+    setShowConfirmTransaction(false);
     transactionSubmitModal(batchOperation.opHash);
+    resetAllValues();
     await batchOperation.confirmation().then(() => batchOperation.opHash);
     return {
       success: true,
@@ -1095,7 +1119,7 @@ export const fetchWalletBalance = async (
           symbol: icon,
           contractInstance: contract,
         };
-      } else if (icon === 'ctez') {
+      } else if (icon === 'CTEZ') {
         const userDetails = await storage.tokens.get(addressOfUser);
         let userBalance = userDetails;
         userBalance = userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
@@ -1456,7 +1480,7 @@ export const getTokenPrices = async () => {
         }
       }
     }
-    tokenPrice['ctez'] = promisesResponse[1].ctezPriceInUSD;
+    tokenPrice['CTEZ'] = promisesResponse[1].ctezPriceInUSD;
     tokenPrice['uDEFI'] = promisesResponse[2].uDEFIinUSD;
     return {
       success: true,
