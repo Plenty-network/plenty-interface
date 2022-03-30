@@ -78,8 +78,7 @@ export const useLocationStateInLiquidity = () => {
   }, [tokenOut]);
 
   useEffect(() => {
-    const paramKey =
-      location.pathname === '/swap' ? { a: 'from', b: 'to' } : { a: 'tokenA', b: 'tokenB' };
+    const paramKey = { a: 'tokenA', b: 'tokenB' };
 
     const tokenInFromParam = tokenParams.get(paramKey.a);
     const tokenOutFromParam = tokenParams.get(paramKey.b);
