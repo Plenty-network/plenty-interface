@@ -18,7 +18,6 @@ const Liquidity = React.lazy(() => import('../Pages/Liquidity'));
 const LiquidityNew = React.lazy(() => import('../Pages/LiquidityNew'));
 const Frontpage = React.lazy(() => import('../Pages/Frontpage/Frontpage'));
 const Stake = React.lazy(() => import('../Pages/xPlenty'));
-const Bridge = React.lazy(() => import('../Pages/Bridge/Bridge'));
 const Governance = React.lazy(() => import('../Pages/Governance/Governance'));
 const WrappedAssets = React.lazy(() => import('../Pages/WrappedAssets/WrappedAssets'));
 
@@ -149,14 +148,6 @@ const MyRoutes = (props) => {
               element={
                 <OtherPages {...otherPageProps}>
                   <Liquidity walletAddress={props.userAddress} />
-                </OtherPages>
-              }
-            />
-            <Route
-              path="/bridge"
-              element={
-                <OtherPages {...otherPageProps}>
-                  <Bridge walletAddress={props.userAddress} />
                 </OtherPages>
               }
             />
