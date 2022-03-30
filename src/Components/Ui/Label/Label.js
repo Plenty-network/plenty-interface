@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styles from '../../Ui/Label/label.module.scss';
 import Image from 'react-bootstrap/Image';
 import clsx from 'clsx';
-import styles from '../../Ui/Label/label.module.scss';
 
 const Label = (props) => {
   return (
