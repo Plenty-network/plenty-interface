@@ -15,7 +15,6 @@ const LiquidityInfo = (props) => {
       <div className={clsx(isMobile && 'order-1')}>
         <OverlayTrigger
           placement="top"
-          show={true}
           overlay={
             <Tooltip id="button-tooltip" {...props}>
               {props.isStable ? props.xtztoctez : props.swapData.tokenOutPerTokenIn}
