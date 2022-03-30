@@ -10,7 +10,7 @@ const LiquidityModal = (props) => {
   const doesPairExist = useCallback(
     (token) => {
       if (props.tokenType === 'tokenOut') {
-        if (token.name === 'tez' || props.tokenIn.name === 'tez') {
+        if (token.name === 'TEZ' || props.tokenIn.name === 'TEZ') {
           return false;
         }
         if (config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[token.name]) {
@@ -20,7 +20,7 @@ const LiquidityModal = (props) => {
         if (props.tokenOut.name) {
           if (config.AMM[config.NETWORK][props.tokenOut.name].DEX_PAIRS[token.name]) {
             return true;
-          } else if (token.name === 'tez') {
+          } else if (token.name === 'TEZ') {
             return true;
           }
         } else {

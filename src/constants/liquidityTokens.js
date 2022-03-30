@@ -32,7 +32,7 @@ import PXL from '../assets/images/PXL.png';
 import PAUL from '../assets/images/PAUL.png';
 export const liquidityTokens = [
   {
-    name: 'tez',
+    name: 'TEZ',
     image: xtz,
     new: true,
   },

@@ -76,10 +76,10 @@ const StableeSwap = (props) => {
       if (tokenInStable.name === tokenOutStable.name) {
         if (tokenInStable.name === 'CTEZ') {
           setTokenOutStable({
-            name: 'tez',
+            name: 'TEZ',
             image: tez,
           });
-        } else if (tokenInStable.name === 'tez') {
+        } else if (tokenInStable.name === 'TEZ') {
           setTokenOutStable({
             name: 'CTEZ',
             image: ctez,
@@ -94,14 +94,14 @@ const StableeSwap = (props) => {
       Object.prototype.hasOwnProperty.call(tokenOutStable, 'name')
     ) {
       if (tokenInStable.name === tokenOutStable.name) {
-        if (tokenOutStable.name === 'tez') {
+        if (tokenOutStable.name === 'TEZ') {
           setTokenInStable({
             name: 'CTEZ',
             image: ctez,
           });
         } else if (tokenOutStable.name === 'CTEZ') {
           setTokenInStable({
-            name: 'tez',
+            name: 'TEZ',
             image: tez,
           });
         }

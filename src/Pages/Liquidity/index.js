@@ -27,7 +27,7 @@ const LiquidityPage = () => {
     isLoading,
     error,
   } = useGetLiquidityQuery({ pollingInterval: 3_000 });
-  console.log(data);
+
   const { imgPaths } = useLazyImages({ data: data.liquidity, page: 'liquidity' });
 
   const { isOnlyFavTokens, setIsOnlyFavTokens, favoriteTokens, editFavoriteTokenList } =

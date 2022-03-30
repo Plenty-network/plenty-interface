@@ -1242,14 +1242,14 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
-          tez: {
+          TEZ: {
             contract: 'KT1AD4khq2R9q6DDbRY5CvUk8MXoshqsatGS',
             property: 'CTEZPool',
             liquidityToken: 'CTEZ-XTZ-LP',
           },
         },
       },
-      tez: {
+      TEZ: {
         ICON: '',
         TOKEN_CONTRACT: '',
         READ_TYPE: 'XTZ',
@@ -1285,7 +1285,7 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
-          tez: {
+          TEZ: {
             contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
             property: 'CTEZPool',
             liquidityToken: 'CTEZ-XTZ-LP',
@@ -1293,7 +1293,7 @@ const Config: IConfig = {
         },
       },
 
-      tez: {
+      TEZ: {
         ICON: '',
         TOKEN_CONTRACT: '',
         READ_TYPE: 'XTZ',
@@ -1331,14 +1331,14 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
-          tez: {
+          TEZ: {
             contract: 'KT1AD4khq2R9q6DDbRY5CvUk8MXoshqsatGS',
             property: 'CTEZPool',
             liquidityToken: 'CTEZ-XTZ-LP',
           },
         },
       },
-      tez: {
+      TEZ: {
         ICON: '',
         TOKEN_CONTRACT: '',
         READ_TYPE: 'XTZ',
@@ -1955,11 +1955,6 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
-          // tez: {
-          //   contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
-          //   property: 'CTEZPool',
-          //   liquidityToken: 'CTEZ-XTZ-LP',
-          // },
           PLENTY: {
             contract: 'KT1C9gJRfkpPbNdBn3XyYbrUHT6XgfPzZqXP',
             property: 'token1_pool',

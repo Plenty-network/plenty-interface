@@ -245,6 +245,37 @@ const Header = (props) => {
                         {...props}
                       />
                     )}
+                    <Nav.Link
+                      className={clsx(
+                        selectedHeader === HEADER_MODAL.BRIDGE ? 'menu-item-active' : 'menu-item',
+                        splitLocation[1] === 'bridge' && 'selected-menu-item-active',
+                        'align-self-end align-self-lg-center d-lg-flex align-items-center',
+                      )}
+                      {...(isMobile ? {} : { as: Link, to: '/bridge' })}
+                      onMouseEnter={() => setHeader(HEADER_MODAL.BRIDGE)}
+                      onClick={() => setHeaderMobile(HEADER_MODAL.BRIDGE)}
+                    >
+                      <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
+                        Bridge
+                      </span>
+                      <span
+                        className={clsx('material-icons', 'arrow', {
+                          rotate:
+                            selectedHeader === HEADER_MODAL.BRIDGE &&
+                            (isMobile ? isExpanded : true),
+                        })}
+                      >
+                        expand_more
+                      </span>
+                    </Nav.Link>
+
+                    {/* {selectedHeader === HEADER_MODAL.BRIDGE && isMobile && (
+                      <HeaderBottom
+                        selectedHeader={selectedHeader}
+                        isExpanded={isExpanded}
+                        {...props}
+                      />
+                    )} */}
 
                     <Nav.Link
                       className={clsx(

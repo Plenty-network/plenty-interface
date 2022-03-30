@@ -50,7 +50,11 @@ const InfoModal = (props) => {
               {props.buttonText} <Link className="ml-2 mb-1" />
             </div>
           )}
-          <Button color={'outline-button'} className="mt-3 w-100 submitted-text">
+          <Button
+            style={{ cursor: 'default' }}
+            color={'outline-button'}
+            className="mt-3 w-100 submitted-text"
+          >
             {props.InfoMessage}
           </Button>
         </div>

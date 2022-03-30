@@ -396,7 +396,7 @@ const StableSwap = (props) => {
 
                 <p className="wallet-token-balance">
                   ~$
-                  {props.tokenIn.name === 'tez' ? (
+                  {props.tokenIn.name === 'TEZ' ? (
                     dolar * firstTokenAmountStable == null ? (
                       <span className="shimmer">99999999</span>
                     ) : firstTokenAmountStable ? (
@@ -473,7 +473,7 @@ const StableSwap = (props) => {
                 </p>
                 <p className="wallet-token-balance">
                   ~$
-                  {props.tokenOut.name === 'tez'
+                  {props.tokenOut.name === 'TEZ'
                     ? isNaN(dolar * secondTokenAmountStable)
                       ? '0.00'
                       : secondTokenAmountStable

@@ -18,10 +18,7 @@ const SwapContent = (props) => {
 
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState('');
-  // const check = {
-  //   type: 'success',
-  //   message: 'success',
-  // };
+
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const [transactionId, setTransactionId] = useState('');
 
@@ -30,10 +27,10 @@ const SwapContent = (props) => {
     setShowTransactionSubmitModal(true);
   };
 
-  useEffect(() => {
-    firstTokenAmount && setFirstAmount(firstTokenAmount);
-    secondTokenAmount && setSecondAmount(secondTokenAmount);
-  }, [firstTokenAmount, secondTokenAmount]);
+  // useEffect(() => {
+  //   firstTokenAmount && setFirstAmount(firstTokenAmount);
+  //   secondTokenAmount && setSecondAmount(secondTokenAmount);
+  // }, [firstTokenAmount, secondTokenAmount]);
 
   const handleSwapTokenInput = (input, tokenType) => {
     if (input === '' || isNaN(input)) {
@@ -117,6 +114,8 @@ const SwapContent = (props) => {
     props.setShowConfirmSwap(false);
     props.setShowConfirmTransaction(true);
     props.setLoaderInButton(true);
+    firstTokenAmount && setFirstAmount(firstTokenAmount);
+    secondTokenAmount && setSecondAmount(secondTokenAmount);
     const recepientAddress = props.recepient ? props.recepient : props.walletAddress;
     swapWrappedAssets(
       props.tokenIn.name,
@@ -325,10 +324,10 @@ const SwapContent = (props) => {
                 </p>
                 <p className="wallet-token-balance">
                   ~$
-                  {props.getTokenPrice.success && secondTokenAmount
+                  {props.getTokenPrice.success && firstTokenAmount
                     ? getDollarValue(
-                        secondTokenAmount,
-                        props.getTokenPrice.tokenPrice[props.tokenOut.name],
+                        firstTokenAmount,
+                        props.getTokenPrice.tokenPrice[props.tokenIn.name],
                       )
                     : '0.00'}
                 </p>
