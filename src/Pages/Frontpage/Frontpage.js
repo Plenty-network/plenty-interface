@@ -548,7 +548,7 @@ const Frontpage = ({
         InfoMessage={'Harvesting All'}
         onClose={() => openCloseModal({ open: HOME_PAGE_MODAL.NULL, transactionId: '' })}
         message={'Transaction submitted'}
-        buttonText={'View on Tezos'}
+        buttonText={'View on TzKT'}
         onBtnClick={
           !modalData.transactionId
             ? undefined

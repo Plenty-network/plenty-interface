@@ -118,6 +118,7 @@
   --theme-modal-text: #8a94a6;
   --theme-tooltip-bg: #0d0831;
   --theme-tooltip-text: #ffffff;
+  --theme-confirm-transaction-border: rgba(78, 93, 120, 0.5);
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -246,6 +247,7 @@
   --theme-modal-text: #b0b7c3;
   --theme-tooltip-bg: #ffffff;
   --theme-tooltip-text: #0d0831;
+  --theme-confirm-transaction-border: rgba(138, 149, 158, 0.4);
 }
 
 :root.theme-transiton {

@@ -236,7 +236,7 @@ const Stake = (props) => {
         onClose={props.closetransactionInjectionModal}
         InfoMessage={activeKey === 'stake' ? 'staking done' : 'unstaking done'}
         message={'Transaction submitted'}
-        buttonText={'View on Tezos'}
+        buttonText={'View on TzKT'}
         onBtnClick={
           props.currentOpHash
             ? () => window.open(`https://tzkt.io/${props.currentOpHash}`, '_blank')

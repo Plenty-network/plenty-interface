@@ -65,14 +65,20 @@ const SwapContent = (props) => {
     props.setSecondTokenAmount('');
     setSecondTokenAmount('');
   };
-
-  const InfoMessage = useMemo(() => {
+  const InfoMessage1 = useMemo(() => {
     return (
       <span>
-        Swap {firstAmount} {props.tokenIn.name} for {secondAmount} {props.tokenOut.name}
+        Swapping {firstAmount} {props.tokenIn.name}
       </span>
     );
-  }, [firstAmount, secondAmount]);
+  }, [firstAmount]);
+  const InfoMessage2 = useMemo(() => {
+    return (
+      <span>
+        {firstAmount} {props.tokenIn.name} Swapped
+      </span>
+    );
+  }, [firstAmount]);
 
   const getDollarValue = (amount, price) => {
     const calculatedValue = amount * price;
@@ -353,7 +359,7 @@ const SwapContent = (props) => {
       />
       <ConfirmTransaction
         show={props.showConfirmTransaction}
-        content={InfoMessage}
+        content={InfoMessage1}
         theme={props.theme}
         onHide={props.handleClose}
       />
@@ -365,17 +371,17 @@ const SwapContent = (props) => {
         tokenIn={props.tokenIn.name}
         tokenOut={props.tokenOut.name}
         theme={props.theme}
-        InfoMessage={InfoMessage}
+        InfoMessage={InfoMessage1}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
-        buttonText={'View on Tezos'}
+        buttonText={'View on TzKT'}
         onBtnClick={
           transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
         }
       />
       <Loader
         loading={props.loading}
-        content={InfoMessage}
+        content={InfoMessage2}
         loaderMessage={props.loaderMessage}
         tokenIn={props.tokenIn.name}
         firstTokenAmount={firstAmount}
