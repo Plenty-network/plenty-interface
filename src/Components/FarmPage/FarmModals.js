@@ -75,7 +75,7 @@ const FarmModals = () => {
         InfoMessage={'farms'}
         onClose={onClose}
         message={'Transaction submitted'}
-        buttonText={'View on Tezos'}
+        buttonText={'View on TzKT'}
         onBtnClick={
           !modalData.transactionId
             ? undefined

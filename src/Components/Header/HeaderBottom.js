@@ -239,7 +239,7 @@ const HeaderBottom = (props) => {
                       <p className="heading">LIQUIDTY</p>
                       <div className="flex para ">
                         <div className="parainside">
-                          Lorem Ipsum is simply dummy text of the printing and typesetting.
+                          Add liquidity to receive LP tokens and trading fees
                         </div>
                         <div>
                           <span className=" material-icons-round arrowforward">arrow_forward</span>

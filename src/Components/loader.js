@@ -43,7 +43,7 @@ const Loader = (props) => {
               <div className="floater-text">
                 <span className="status-text">{props.content}</span>
                 <div className="view-tezos">
-                  View on tezos{' '}
+                  View on TzKT{' '}
                   <span className=" material-icons-round launch-icon-flash">launch</span>
                 </div>
               </div>
@@ -65,7 +65,7 @@ const Loader = (props) => {
               <div className="ml-3">
                 <span className="status-text">Swap of 2 wUSDC for 2.293 USDC.e </span>
                 <div className="view-tezos">
-                  View on tezos{' '}
+                  View on TzKT{' '}
                   <span className="ml-3 material-icons-round launch-icon-flash">launch</span>
                 </div>
               </div>
@@ -89,7 +89,7 @@ const Loader = (props) => {
               <div className="floater-text">
                 <span className="status-text">Tranaction Failed</span>
                 <div className="view-tezos">
-                  View on tezos{' '}
+                  View on TzKT{' '}
                   <span className="material-icons-round launch-icon-flash">launch</span>
                 </div>
               </div>

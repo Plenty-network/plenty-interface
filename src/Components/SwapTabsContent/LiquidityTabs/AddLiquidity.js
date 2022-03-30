@@ -508,7 +508,7 @@ const AddLiquidity = (props) => {
         open={showTransactionSubmitModal}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
-        buttonText={'View on Tezos'}
+        buttonText={'View on TzKT'}
         onBtnClick={
           transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
         }

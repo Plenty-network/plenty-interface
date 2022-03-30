@@ -115,11 +115,11 @@ const Header = (props) => {
             <span className="banner-text">
               {isMobile
                 ? 'Swap Wrapped Assets now'
-                : 'A proposal is submitted to the Tezos blockchain – time to vote.. Cast your votes now'}
+                : 'Wrap protocol is deprecated. All the wrapped assets are rebranded. Swap your wrapped assets now'}
             </span>
             <Link to="/wrappedAssets" className="text-decoration-none">
               <span className="bottom-last" style={{ cursor: 'pointer' }}>
-                Try it out
+                Swap now
               </span>
               <span className="new">New</span>
               <BannerArrow className="ml-2" />
