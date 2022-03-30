@@ -24,17 +24,24 @@
 #button-tooltip-ts {
   background: var(--theme-tooltip-bg);
   color: var(--theme-tooltip-text);
-
   border-radius: 8px;
   z-index: 99999999999999999;
-  //margin-left: 20px;
-  > .arrow {
-    //margin-left: 20px;
-    background: var(--theme-tooltip-bg);
-    opacity: 1;
-    z-index: 99999999999999999;
-    // top: 51px !important;
-    // left: -6px !important;
+  max-width: 300px !important;
+
+  // > .arrow {
+  //   background: #282828;
+  //   opacity: 1;
+  //   z-index: 99999999999999999;
+  // }
+  &::after {
+    content: '';
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent var(--theme-tooltip-bg) transparent transparent;
+    transform: rotate(-90deg);
   }
 }
 .border-swap {
@@ -1934,4 +1941,12 @@ input:checked {
 }
 .rotate {
   transform: rotate(180deg);
+}
+.centerAlign {
+  justify-content: center !important;
+}
+.removeCloseIcon {
+  .closeBtn {
+    display: none;
+  }
 }
