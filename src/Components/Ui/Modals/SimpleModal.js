@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
-import styles from './modal.module.scss';
+import styles from './customModal.module.scss';
 import clsx from 'clsx';
 
 const SimpleModal = (props) => {
