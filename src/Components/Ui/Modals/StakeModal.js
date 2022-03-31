@@ -3,7 +3,7 @@ import SimpleModal from './SimpleModal';
 import React, { useEffect, useMemo, useState } from 'react';
 import Button from '../Buttons/Button';
 
-import styles from './customModal.module.scss';
+import styles from './modal.module.scss';
 import clsx from 'clsx';
 
 const BUTTON_TEXT = {
