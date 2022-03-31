@@ -34,12 +34,12 @@ import ConfirmTransaction from '../Components/WrappedAssets/ConfirmTransaction';
 
 const Farms = (props) => {
   const [sortValue, setSortValue] = useState(FARM_SORT_OPTIONS.APR);
+  const [floaterValue, setFloaterValue] = useState({});
   const [searchValue, setSearchValue] = useState('');
   const [tabChange, setTabChange] = useState(FARM_TAB.ALL);
   const [isSelected, setIsSelected] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
-  const [confirmTransactionContent, setConfirmTransactionContent] = useState('');
 
   function toggleHidden() {
     setIsOpen(!isOpen);
@@ -258,14 +258,6 @@ const Farms = (props) => {
                     inverted={true}
                   />
                 </div>
-                {/* <div className={styles.stakedSwitch}>
-                  <Form.Switch
-                    id="switch-staked"
-                    label="Staked Only"
-                    checked={props.isStakedOnlyOpen}
-                    onChange={() => props.toggleStakedFarmsOnly(!props.isStakedOnlyOpen)}
-                  />
-                </div> */}
               </div>
             </div>
           </div>
@@ -320,7 +312,7 @@ const Farms = (props) => {
                   harvestOperation={props.harvestOperation}
                   theme={props.theme}
                   setShowConfirmTransaction={setShowConfirmTransaction}
-                  setConfirmTransactionContent={setConfirmTransactionContent}
+                  setFloaterValue={setFloaterValue}
                 />
               );
             })}
@@ -336,7 +328,7 @@ const Farms = (props) => {
         stakeOnFarm={props.stakeOnFarm}
         stakeOperation={props.stakeOperation}
         setShowConfirmTransaction={setShowConfirmTransaction}
-        setConfirmTransactionContent={setConfirmTransactionContent}
+        setFloaterValue={setFloaterValue}
       />
       <UnstakeModal
         modalData={props.unstakeModal}
@@ -350,12 +342,16 @@ const Farms = (props) => {
         unstakeOnFarm={props.unstakeOnFarm}
         unstakeOperation={props.unstakeOperation}
         setShowConfirmTransaction={setShowConfirmTransaction}
-        setConfirmTransactionContent={setConfirmTransactionContent}
+        setFloaterValue={setFloaterValue}
       />
       <ConfirmTransaction
         show={showConfirmTransaction}
         theme={props.theme}
-        content={confirmTransactionContent}
+        content={
+          floaterValue.type === 'Harvesting'
+            ? `${floaterValue.type}  ${floaterValue.pair}  `
+            : `${floaterValue.type} ${floaterValue.value} ${floaterValue.pair} LP `
+        }
         onHide={handleClose}
       />
       <FarmModals />

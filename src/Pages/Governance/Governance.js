@@ -128,7 +128,11 @@ const Governance = (props) => {
             : null
         }
       />
-      <Loader loading={props.loading} loaderMessage={loaderMessage} content={'vote submitted'} />
+      <Loader
+        loading={props.loading}
+        loaderMessage={loaderMessage}
+        content={'Voted Successfully'}
+      />
     </>
   );
 };

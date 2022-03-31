@@ -131,7 +131,11 @@ const MyRoutes = (props) => {
               path="/stake"
               element={
                 <OtherPages {...otherPageProps}>
-                  <Stake walletAddress={props.userAddress} connecthWallet={connectWallet} />
+                  <Stake
+                    walletAddress={props.userAddress}
+                    connecthWallet={connectWallet}
+                    theme={otherPageProps.theme}
+                  />
                 </OtherPages>
               }
             />

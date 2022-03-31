@@ -137,14 +137,6 @@ const StableSwap = (props) => {
     }
   };
 
-  const InfoMessage = useMemo(() => {
-    return (
-      <span>
-        Swap {firstAmount} {props.tokenIn.name} for {secondAmount} {props.tokenOut.name}
-      </span>
-    );
-  }, [firstAmount, secondAmount]);
-
   useEffect(() => {
     handleSwapTokenInput(firstTokenAmountStable, 'tokenIn');
   }, [props.tokenIn]);
@@ -214,6 +206,8 @@ const StableSwap = (props) => {
     props.setLoaderInButton(true);
     props.setShowConfirmSwap(false);
     props.setShowConfirmTransaction(true);
+    localStorage.setItem('wrapped', firstTokenAmountStable);
+    localStorage.setItem('token', props.tokenIn.name);
     const recepientAddress = props.recepient ? props.recepient : props.walletAddress;
     props.resetAllValues();
     if (props.tokenIn.name === 'CTEZ') {
@@ -531,7 +525,9 @@ const StableSwap = (props) => {
       />
       <ConfirmTransaction
         show={props.showConfirmTransaction}
-        content={InfoMessage}
+        content={`Swapping ${Number(localStorage.getItem('wrapped')).toFixed(
+          6,
+        )} ${localStorage.getItem('token')} `}
         theme={props.theme}
         confirmSwapToken={confirmSwapToken}
         onHide={handleCloseModal}
@@ -539,7 +535,9 @@ const StableSwap = (props) => {
       />
       <InfoModal
         open={showTransactionSubmitModal}
-        InfoMessage={InfoMessage}
+        InfoMessage={`Swapping ${Number(localStorage.getItem('wrapped')).toFixed(
+          6,
+        )} ${localStorage.getItem('token')} `}
         theme={props.theme}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
@@ -550,7 +548,9 @@ const StableSwap = (props) => {
       />
       <Loader
         loading={props.loading}
-        content={InfoMessage}
+        content={`${Number(localStorage.getItem('wrapped')).toFixed(6)} ${localStorage.getItem(
+          'token',
+        )} Swapped`}
         loaderMessage={props.loaderMessage}
         tokenIn={props.tokenIn.name}
         firstTokenAmount={firstAmount}

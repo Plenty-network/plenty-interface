@@ -99,6 +99,7 @@ const RemoveLiquidityNew = (props) => {
     props.setLoader(true);
     props.setShowConfirmRemoveSupply(false);
     setShowConfirmTransaction(true);
+    localStorage.setItem('liqinput', firstTokenAmount);
     if (props.tokenIn.name === 'TEZ') {
       remove_liquidity(
         props.tokenIn.name,
@@ -508,6 +509,7 @@ const RemoveLiquidityNew = (props) => {
 
       <ConfirmRemoveLiquidity
         {...props}
+        firstTokenAmount={firstTokenAmount}
         removableTokens={removableTokens}
         confirmRemoveLiquidity={confirmRemoveLiquidity}
         onHide={props.handleClose}
@@ -517,12 +519,16 @@ const RemoveLiquidityNew = (props) => {
       <ConfirmTransaction
         show={showConfirmTransaction}
         theme={props.theme}
-        content={'Removing Liquidity'}
+        content={`Burning ${Number(localStorage.getItem('liqinput')).toFixed(6)} ${
+          props.tokenIn.name
+        } / ${props.tokenOut.name} LP `}
         onHide={handleCloseModal}
       />
       <InfoModal
         open={showTransactionSubmitModal}
-        InfoMessage={'Liquidity removed succesfully'}
+        InfoMessage={`Burning ${Number(localStorage.getItem('liqinput')).toFixed(6)} ${
+          props.tokenIn.name
+        } / ${props.tokenOut.name} LP `}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
         buttonText={'View on TzKT'}
@@ -533,7 +539,9 @@ const RemoveLiquidityNew = (props) => {
       <Loader
         loading={props.loading}
         loaderMessage={props.loaderMessage}
-        content={'liquidity Removed'}
+        content={` ${Number(localStorage.getItem('liqinput')).toFixed(6)} ${props.tokenIn.name} / ${
+          props.tokenOut.name
+        } LP Burned`}
         tokenIn={props.tokenIn.name}
         tokenOut={props.tokenOut.name}
       />

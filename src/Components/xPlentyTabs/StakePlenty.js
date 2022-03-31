@@ -5,9 +5,17 @@ import plenty from '../../assets/images/logo_small.png';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Button from '../Ui/Buttons/Button';
+import Loader from '../../Components/loader';
+import ConfirmTransaction from '../WrappedAssets/ConfirmTransaction';
+import InfoModal from '../Ui/Modals/InfoModal';
+import { connect } from 'react-redux';
+import { closetransactionInjectionModalThunk } from '../../redux/slices/xPlenty/xPlenty.thunk';
 
 const StakePlenty = (props) => {
   const [plentyInput, setPlentyInput] = useState('');
+  const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
+  const [stakeInput, setStakeInput] = useState(0);
+
   const plentyInputHandler = (value) => {
     if (value === '' || isNaN(value)) {
       setPlentyInput('');
@@ -21,8 +29,10 @@ const StakePlenty = (props) => {
     );
   };
   const buyHandler = () => {
-    props.setShowConfirmTransaction(true);
+    setShowConfirmTransaction(true);
     props.setLoader(true);
+    localStorage.setItem(stakeInput, plentyInput);
+    setStakeInput(localStorage.getItem(stakeInput));
     let plentyInputWithFormat = plentyInput * Math.pow(10, 18);
     plentyInputWithFormat = Math.floor(plentyInputWithFormat);
 
@@ -30,7 +40,7 @@ const StakePlenty = (props) => {
       plentyInputWithFormat,
       props.expectedxPlenty,
       props.walletAddress,
-      props.setShowConfirmTransaction,
+      setShowConfirmTransaction,
       props.setLoader,
     );
   };
@@ -114,65 +124,91 @@ const StakePlenty = (props) => {
   }, [props.isToastOpen]);
   return (
     <>
-      <div className="swap-token-select-box bg-themed-light swap-content-box-wrapper">
-        <div className="token-selector-balance-wrapper">
-          <button className="token-selector">
-            <img src={plenty} className="button-logo" />
-            <span className="span-themed">PLENTY </span>
-          </button>
-        </div>
-
-        <div className="token-user-input-wrapper">
-          <input
-            type="text"
-            onChange={(event) => plentyInputHandler(event.target.value)}
-            value={plentyInput}
-            className="token-user-input"
-            placeholder="0.0"
-          />
-        </div>
-        {props.walletAddress ? (
-          <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
-            <p
-              className="wallet-token-balance"
-              style={{ cursor: 'pointer' }}
-              onClick={() => onMaxClick(props.plentyBalance)}
-            >
-              Balance: {props.plentyBalance ? props.plentyBalance : 0}{' '}
-              <span className="max-btn">(Max)</span>
-            </p>
+      <>
+        <div className="swap-token-select-box bg-themed-light swap-content-box-wrapper">
+          <div className="token-selector-balance-wrapper">
+            <button className="token-selector">
+              <img src={plenty} className="button-logo" />
+              <span className="span-themed">PLENTY </span>
+            </button>
           </div>
-        ) : null}
-      </div>
-      <div className="flex">
-        <p className="wallet-token-balance whitespace-prewrap ml-auto flex flex-row">
-          1 PLENTY ={' '}
-          <OverlayTrigger
-            placement="auto"
-            overlay={
-              <Tooltip id="button-tooltip" {...props}>
-                {props.xPlentyData.data.plentyPerXplenty}
-              </Tooltip>
-            }
-          >
-            <div>
-              {props.xPlentyData.data.plentyPerXplenty
-                ? props.xPlentyData.data.plentyPerXplenty.toFixed(3)
-                : 0}{' '}
-              xPLENTY
+
+          <div className="token-user-input-wrapper">
+            <input
+              type="text"
+              onChange={(event) => plentyInputHandler(event.target.value)}
+              value={plentyInput}
+              className="token-user-input"
+              placeholder="0.0"
+            />
+          </div>
+          {props.walletAddress ? (
+            <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
+              <p
+                className="wallet-token-balance"
+                style={{ cursor: 'pointer' }}
+                onClick={() => onMaxClick(props.plentyBalance)}
+              >
+                Balance: {props.plentyBalance ? props.plentyBalance : 0}{' '}
+                <span className="max-btn">(Max)</span>
+              </p>
             </div>
-          </OverlayTrigger>
-        </p>
-      </div>
-      {xplentyButton}
+          ) : null}
+        </div>
+        <div className="flex">
+          <p className="wallet-token-balance whitespace-prewrap ml-auto flex flex-row">
+            1 PLENTY ={' '}
+            <OverlayTrigger
+              placement="auto"
+              overlay={
+                <Tooltip id="button-tooltip" {...props}>
+                  {props.xPlentyData.data.plentyPerXplenty}
+                </Tooltip>
+              }
+            >
+              <div>
+                {props.xPlentyData.data.plentyPerXplenty
+                  ? props.xPlentyData.data.plentyPerXplenty.toFixed(3)
+                  : 0}{' '}
+                xPLENTY
+              </div>
+            </OverlayTrigger>
+          </p>
+        </div>
+        {xplentyButton}
+      </>
+      <Loader
+        loading={props.isProcessing}
+        loaderMessage={props.loaderMessage}
+        content={`${stakeInput} plenty Staked`}
+        tokenIn={true}
+        setLoaderMessage={props.setLoaderMessage}
+      />
+      <ConfirmTransaction
+        show={showConfirmTransaction}
+        theme={props.theme}
+        content={`Staking ${stakeInput} plenty `}
+      />
+
+      <InfoModal
+        open={props.isTransactionInjectionModalOpen}
+        onClose={props.closetransactionInjectionModal}
+        InfoMessage={`Staking ${stakeInput} plenty `}
+        message={'Transaction submitted'}
+        buttonText={'View on TzKT'}
+        onBtnClick={
+          props.currentOpHash
+            ? () => window.open(`https://tzkt.io/${props.currentOpHash}`, '_blank')
+            : null
+        }
+      />
     </>
   );
 };
 
-export default StakePlenty;
-
 StakePlenty.propTypes = {
   buyxPlenty: PropTypes.any,
+  loaderMessage: PropTypes.any,
   connectWallet: PropTypes.any,
   expectedxPlenty: PropTypes.any,
   isProcessing: PropTypes.any,
@@ -181,6 +217,24 @@ StakePlenty.propTypes = {
   setExpectedxPlenty: PropTypes.any,
   walletAddress: PropTypes.any,
   xPlentyData: PropTypes.any,
-  setShowConfirmTransaction: PropTypes.any,
   setLoader: PropTypes.any,
+  setLoaderMessage: PropTypes.any,
+  currentOpHash: PropTypes.any,
+  isTransactionInjectionModalOpen: PropTypes.any,
+  theme: PropTypes.any,
+  closetransactionInjectionModal: PropTypes.any,
 };
+const mapStateToProps = (state) => {
+  return {
+    currentOpHash: state.xPlenty.currentOpHash,
+    isTransactionInjectionModalOpen: state.xPlenty.isTransactionInjectionModalOpen,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    closetransactionInjectionModal: () => dispatch(closetransactionInjectionModalThunk()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(StakePlenty);
