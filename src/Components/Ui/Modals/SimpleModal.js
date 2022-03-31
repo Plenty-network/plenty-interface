@@ -17,7 +17,7 @@ const SimpleModal = (props) => {
         props.className,
         props.isConfirmSwap && styles.confirmSwap,
         props.title === 'Transaction Submitted' && 'centerAlign',
-        props.title === 'Confirm Transaction' && 'removeCloseIcon',
+        props.isConfirmTransaction && 'removeCloseIcon',
       )}
       centered={true}
     >
@@ -50,7 +50,7 @@ const SimpleModal = (props) => {
             </OverlayTrigger>
           )}
         </div>
-        {!props.infoModal && (
+        {!props.isConfirmTransaction && (
           <div className={styles.closeBtn} onClick={props.onClose}>
             <span className="material-icons-round">close</span>
           </div>
@@ -79,6 +79,7 @@ SimpleModal.propTypes = {
   title: PropTypes.string,
   isConfirmSwap: PropTypes.any,
   infoModal: PropTypes.any,
+  isConfirmTransaction: PropTypes.any,
 };
 
 export default SimpleModal;

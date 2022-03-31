@@ -4,14 +4,13 @@
     box-shadow: var(--theme-modal-boxshadow);
     border-radius: 12px;
     border: 0;
-    padding: 0px !important;
+    padding: 12px;
   }
   .confirmSwapHeader {
     padding: 16px 20px;
   }
   .header {
-    margin: 26px 20px 0px !important;
-    padding-bottom: 10px;
+    margin: 14px 14px 26px;
     border-bottom: 1px solid var(--theme-border);
 
     &.noTitle {
@@ -184,3 +183,10 @@
     margin: -11rem auto;
   }
 }
+// .info-modal {
+//   .simpleModal {
+//     .closeBtn {
+//       display: none !important;
+//     }
+//   }
+// }

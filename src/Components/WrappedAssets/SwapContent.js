@@ -27,11 +27,6 @@ const SwapContent = (props) => {
     setShowTransactionSubmitModal(true);
   };
 
-  // useEffect(() => {
-  //   firstTokenAmount && setFirstAmount(firstTokenAmount);
-  //   secondTokenAmount && setSecondAmount(secondTokenAmount);
-  // }, [firstTokenAmount, secondTokenAmount]);
-
   const handleSwapTokenInput = (input, tokenType) => {
     if (input === '' || isNaN(input)) {
       setFirstTokenAmount('');
@@ -56,7 +51,6 @@ const SwapContent = (props) => {
 
   const callSwapToken = () => {
     props.setShowConfirmSwap(true);
-    //props.setHideContent('content-hide');
   };
 
   const resetVal = () => {
@@ -65,20 +59,6 @@ const SwapContent = (props) => {
     props.setSecondTokenAmount('');
     setSecondTokenAmount('');
   };
-  const InfoMessage1 = useMemo(() => {
-    return (
-      <span>
-        Swapping {firstAmount} {props.tokenIn.name}
-      </span>
-    );
-  }, [firstAmount]);
-  const InfoMessage2 = useMemo(() => {
-    return (
-      <span>
-        {firstAmount} {props.tokenIn.name} Swapped
-      </span>
-    );
-  }, [firstAmount]);
 
   const getDollarValue = (amount, price) => {
     const calculatedValue = amount * price;
@@ -95,7 +75,6 @@ const SwapContent = (props) => {
       props.handleLoaderMessage('success', 'Transaction confirmed');
       props.setLoader(false);
       props.setShowConfirmSwap(false);
-      //props.setHideContent('');
       props.setSecondTokenAmount('');
       props.resetAllValues();
       props.setLoaderInButton(false);
@@ -107,7 +86,6 @@ const SwapContent = (props) => {
       props.handleLoaderMessage('error', 'Transaction failed');
       props.setLoader(false);
       props.setShowConfirmSwap(false);
-      //props.setHideContent('');
       props.resetAllValues();
       props.setSecondTokenAmount('');
       props.setLoaderInButton(false);
@@ -120,6 +98,8 @@ const SwapContent = (props) => {
     props.setShowConfirmSwap(false);
     props.setShowConfirmTransaction(true);
     props.setLoaderInButton(true);
+    localStorage.setItem('wrapped', firstTokenAmount);
+    localStorage.setItem('token', props.tokenIn.name);
     firstTokenAmount && setFirstAmount(firstTokenAmount);
     secondTokenAmount && setSecondAmount(secondTokenAmount);
     const recepientAddress = props.recepient ? props.recepient : props.walletAddress;
@@ -359,7 +339,9 @@ const SwapContent = (props) => {
       />
       <ConfirmTransaction
         show={props.showConfirmTransaction}
-        content={InfoMessage1}
+        content={`Swapping ${Number(localStorage.getItem('wrapped')).toFixed(
+          6,
+        )} ${localStorage.getItem('token')} `}
         theme={props.theme}
         onHide={props.handleClose}
       />
@@ -371,7 +353,9 @@ const SwapContent = (props) => {
         tokenIn={props.tokenIn.name}
         tokenOut={props.tokenOut.name}
         theme={props.theme}
-        InfoMessage={InfoMessage1}
+        InfoMessage={`Swapping ${Number(localStorage.getItem('wrapped')).toFixed(
+          6,
+        )} ${localStorage.getItem('token')} `}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
         buttonText={'View on TzKT'}
@@ -381,7 +365,9 @@ const SwapContent = (props) => {
       />
       <Loader
         loading={props.loading}
-        content={InfoMessage2}
+        content={`${Number(localStorage.getItem('wrapped')).toFixed(6)} ${localStorage.getItem(
+          'token',
+        )} Swapped`}
         loaderMessage={props.loaderMessage}
         tokenIn={props.tokenIn.name}
         firstTokenAmount={firstAmount}
@@ -406,19 +392,15 @@ SwapContent.propTypes = {
   connecthWallet: PropTypes.any,
   fetchUserWalletBalance: PropTypes.any,
   setLoader: PropTypes.func,
-  // firstTokenAmount: PropTypes.any,
   getTokenPrice: PropTypes.any,
   handleClose: PropTypes.any,
   handleLoaderMessage: PropTypes.any,
   handleOutTokenInput: PropTypes.any,
   handleTokenType: PropTypes.any,
   loaderInButton: PropTypes.any,
-  // midTokens: PropTypes.any,
   recepient: PropTypes.any,
   resetAllValues: PropTypes.any,
-  // secondTokenAmount: PropTypes.any,
   setFirstTokenAmount: PropTypes.any,
-  //setHideContent: PropTypes.any,
   setLoaderInButton: PropTypes.any,
   setLoaderMessage: PropTypes.any,
   loaderMessage: PropTypes.any,
@@ -430,7 +412,6 @@ SwapContent.propTypes = {
   showConfirmSwap: PropTypes.any,
   showRecepient: PropTypes.any,
   slippage: PropTypes.any,
-  // swapData: PropTypes.any,
   routeData: PropTypes.any,
   tokenContractInstances: PropTypes.any,
   tokenIn: PropTypes.any,
@@ -445,7 +426,5 @@ SwapContent.propTypes = {
   transactionId: PropTypes.any,
   showTransactionSubmitModal: PropTypes.any,
 };
-
-//export default SwapContent;
 
 export default connect(mapStateToProps, mapDispatchToProps)(SwapContent);

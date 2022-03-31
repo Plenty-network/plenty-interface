@@ -1947,6 +1947,6 @@ input:checked {
 }
 .removeCloseIcon {
   .closeBtn {
-    display: none;
+    display: none !important;
   }
 }

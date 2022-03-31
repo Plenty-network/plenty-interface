@@ -41,6 +41,7 @@ const ConfirmTransaction = (props) => {
         title="Confirm Transaction"
         backdrop={true}
         isConfirmSwap={true}
+        isConfirmTransaction={true}
       >
         <>
           <div className="swap-content-box-wrapper">
