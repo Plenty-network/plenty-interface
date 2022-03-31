@@ -16,6 +16,8 @@ const SimpleModal = (props) => {
         styles.simpleModal,
         props.className,
         props.isConfirmSwap && styles.confirmSwap,
+        props.title === 'Transaction Submitted' && 'centerAlign',
+        props.isConfirmTransaction && 'removeCloseIcon',
       )}
       centered={true}
     >
@@ -32,10 +34,10 @@ const SimpleModal = (props) => {
               placement="right"
               overlay={
                 <Tooltip id="button-tooltip-ts" {...props}>
-                  In order to be confirmed, a transaction from the mempool needs to be included in a
-                  block. Unlike the maximum size of a block which is fixed, the maximum number of
-                  transactions which can be included in a block varies, because not all transactions
-                  have the same size.
+                  Your transaction has been added to mempool now. A bunch of transactions from
+                  mempool will be added to a block, verified and then added to the blockchain. It
+                  would take 15-20 secs for this process and once it is done your transaction will
+                  be confirmed.
                 </Tooltip>
               }
             >
@@ -48,7 +50,7 @@ const SimpleModal = (props) => {
             </OverlayTrigger>
           )}
         </div>
-        {!props.infoModal && (
+        {!props.isConfirmTransaction && (
           <div className={styles.closeBtn} onClick={props.onClose}>
             <span className="material-icons-round">close</span>
           </div>
@@ -77,6 +79,7 @@ SimpleModal.propTypes = {
   title: PropTypes.string,
   isConfirmSwap: PropTypes.any,
   infoModal: PropTypes.any,
+  isConfirmTransaction: PropTypes.any,
 };
 
 export default SimpleModal;

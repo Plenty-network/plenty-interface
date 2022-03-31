@@ -118,7 +118,7 @@ export const calculateTokensOutStable = async (
         exchangeRate,
         priceImpact,
       };
-    } else if (tokenIn === 'tez') {
+    } else if (tokenIn === 'TEZ') {
       const dy =
         newton_dx_to_dy(tezSupply * 2 ** 48, target * ctezSupply, tokenIn_amount * 2 ** 48, 5) /
         target;

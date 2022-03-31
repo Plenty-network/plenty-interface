@@ -173,6 +173,8 @@ const SwapTab = (props) => {
     props.setLoaderInButton(true);
     props.setShowConfirmSwap(false);
     props.setShowConfirmTransaction(true);
+    localStorage.setItem('wrapped', firstTokenAmount);
+    localStorage.setItem('token', props.tokenIn.name);
     const recepientAddress = props.recepient ? props.recepient : props.walletAddress;
 
     if (routePath.length <= 2) {
@@ -217,13 +219,7 @@ const SwapTab = (props) => {
       });
     }
   };
-  const InfoMessage = useMemo(() => {
-    return (
-      <span>
-        Swap {firstAmount} {props.tokenIn.name} for {secondAmount} {props.tokenOut.name}
-      </span>
-    );
-  }, [firstAmount, secondAmount]);
+
   const onClickAmount = () => {
     const value =
       props.userBalances[props.tokenIn.name].toLocaleString('en-US', {
@@ -489,24 +485,30 @@ const SwapTab = (props) => {
       />
       <ConfirmTransaction
         show={props.showConfirmTransaction}
-        content={InfoMessage}
+        content={`Swapping ${Number(localStorage.getItem('wrapped')).toFixed(
+          6,
+        )} ${localStorage.getItem('token')} `}
         theme={props.theme}
         onHide={handleCloseModal}
       />
       <InfoModal
         open={showTransactionSubmitModal}
-        InfoMessage={InfoMessage}
+        InfoMessage={`Swapping ${Number(localStorage.getItem('wrapped')).toFixed(
+          6,
+        )} ${localStorage.getItem('token')} `}
         theme={props.theme}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
-        buttonText={'View on Tezos'}
+        buttonText={'View on TzKT'}
         onBtnClick={
           transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
         }
       />
       <Loader
         loading={props.loading}
-        content={InfoMessage}
+        content={`${Number(localStorage.getItem('wrapped')).toFixed(6)} ${localStorage.getItem(
+          'token',
+        )} Swapped`}
         loaderMessage={props.loaderMessage}
         tokenIn={props.tokenIn.name}
         firstTokenAmount={firstAmount}

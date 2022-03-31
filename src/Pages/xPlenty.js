@@ -5,13 +5,11 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import Loader from '../Components/loader';
 import NumericLabel from 'react-pretty-numbers';
 import { currencyOptions, currencyOptionsWithSymbol } from '../constants/global';
 import xplenty from '../assets/images/x-plenty-medium.svg';
 import StakePlenty from '../Components/xPlentyTabs/StakePlenty';
 import UnstakePlenty from '../Components/xPlentyTabs/UnstakePlenty';
-
 import { connect } from 'react-redux';
 import {
   buyXPlentyThunk,
@@ -23,19 +21,12 @@ import {
   xPlentyComputationsThunk,
 } from '../redux/slices/xPlenty/xPlenty.thunk';
 import * as userActions from '../redux/actions/user/user.action';
-
 import * as walletActions from '../redux/actions/wallet/wallet.action';
-
-import InfoModal from '../Components/Ui/Modals/InfoModal';
 import Label from '../Components/Ui/Label/Label';
 import Image from 'react-bootstrap/Image';
-import ConfirmTransaction from '../Components/WrappedAssets/ConfirmTransaction';
 import { setLoader } from '../redux/slices/settings/settings.slice';
 
 const Stake = (props) => {
-  const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
-  const [activeKey, setActiveKey] = useState('stake');
-
   useEffect(() => {
     props.getxPlentyData();
     props.fetchUserBalances(props.walletAddress);
@@ -55,14 +46,6 @@ const Stake = (props) => {
       }, 10000);
     }
   }, [props.isToastOpen]);
-
-  const handleClose = () => {
-    setShowConfirmTransaction(false);
-    props.isProcessing(false);
-  };
-  const getSelectedTab = (value) => {
-    setActiveKey(value);
-  };
 
   return (
     <>
@@ -112,11 +95,7 @@ const Stake = (props) => {
 
                 <div className="xplenty-content-container-wrapper">
                   <div className="bg-themed position-relative xplenty-content xplenty-content-container">
-                    <Tabs
-                      defaultActiveKey="stake"
-                      onSelect={(e) => getSelectedTab(e)}
-                      className="swap-container-tab"
-                    >
+                    <Tabs defaultActiveKey="stake" className="swap-container-tab">
                       <Tab eventKey="stake" title="Stake PLENTY">
                         <StakePlenty
                           xPlentyData={props.xPlentyData}
@@ -125,13 +104,13 @@ const Stake = (props) => {
                           expectedxPlenty={props.expectedxPlenty}
                           walletAddress={props.walletAddress}
                           plentyBalance={props.walletBalances.PLENTY}
+                          loaderMessage={loaderMessage}
                           setLoaderMessage={setLoaderMessage}
                           connectWallet={props.connectWallet}
                           isProcessing={props.isProcessing}
                           isToastOpen={props.isToastOpen}
-                          showConfirmTransaction={showConfirmTransaction}
-                          setShowConfirmTransaction={setShowConfirmTransaction}
                           setLoader={props.setLoader}
+                          theme={props.theme}
                         />
                       </Tab>
 
@@ -146,9 +125,10 @@ const Stake = (props) => {
                           connectWallet={props.connectWallet}
                           isProcessing={props.isProcessing}
                           isToastOpen={props.isToastOpen}
-                          showConfirmTransaction={showConfirmTransaction}
-                          setShowConfirmTransaction={setShowConfirmTransaction}
                           setLoader={props.setLoader}
+                          loaderMessage={loaderMessage}
+                          setLoaderMessage={setLoaderMessage}
+                          theme={props.theme}
                         />
                       </Tab>
                     </Tabs>
@@ -218,31 +198,6 @@ const Stake = (props) => {
           </Col>
         </Row>
       </Container>
-      <ConfirmTransaction
-        show={showConfirmTransaction}
-        theme={props.theme}
-        content={activeKey === 'stake' ? 'staking' : 'unstaking'}
-        onHide={handleClose}
-      />
-      <Loader
-        loading={props.isProcessing}
-        loaderMessage={loaderMessage}
-        content={activeKey === 'stake' ? 'staking done' : 'unstaking done'}
-        tokenIn={true}
-        setLoaderMessage={setLoaderMessage}
-      />
-      <InfoModal
-        open={props.isTransactionInjectionModalOpen}
-        onClose={props.closetransactionInjectionModal}
-        InfoMessage={activeKey === 'stake' ? 'staking done' : 'unstaking done'}
-        message={'Transaction submitted'}
-        buttonText={'View on Tezos'}
-        onBtnClick={
-          props.currentOpHash
-            ? () => window.open(`https://tzkt.io/${props.currentOpHash}`, '_blank')
-            : null
-        }
-      />
     </>
   );
 };

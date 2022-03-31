@@ -137,14 +137,6 @@ const StableSwap = (props) => {
     }
   };
 
-  const InfoMessage = useMemo(() => {
-    return (
-      <span>
-        Swap {firstAmount} {props.tokenIn.name} for {secondAmount} {props.tokenOut.name}
-      </span>
-    );
-  }, [firstAmount, secondAmount]);
-
   useEffect(() => {
     handleSwapTokenInput(firstTokenAmountStable, 'tokenIn');
   }, [props.tokenIn]);
@@ -214,6 +206,8 @@ const StableSwap = (props) => {
     props.setLoaderInButton(true);
     props.setShowConfirmSwap(false);
     props.setShowConfirmTransaction(true);
+    localStorage.setItem('wrapped', firstTokenAmountStable);
+    localStorage.setItem('token', props.tokenIn.name);
     const recepientAddress = props.recepient ? props.recepient : props.walletAddress;
     props.resetAllValues();
     if (props.tokenIn.name === 'CTEZ') {
@@ -396,7 +390,7 @@ const StableSwap = (props) => {
 
                 <p className="wallet-token-balance">
                   ~$
-                  {props.tokenIn.name === 'tez' ? (
+                  {props.tokenIn.name === 'TEZ' ? (
                     dolar * firstTokenAmountStable == null ? (
                       <span className="shimmer">99999999</span>
                     ) : firstTokenAmountStable ? (
@@ -473,7 +467,7 @@ const StableSwap = (props) => {
                 </p>
                 <p className="wallet-token-balance">
                   ~$
-                  {props.tokenOut.name === 'tez'
+                  {props.tokenOut.name === 'TEZ'
                     ? isNaN(dolar * secondTokenAmountStable)
                       ? '0.00'
                       : secondTokenAmountStable
@@ -531,7 +525,9 @@ const StableSwap = (props) => {
       />
       <ConfirmTransaction
         show={props.showConfirmTransaction}
-        content={InfoMessage}
+        content={`Swapping ${Number(localStorage.getItem('wrapped')).toFixed(
+          6,
+        )} ${localStorage.getItem('token')} `}
         theme={props.theme}
         confirmSwapToken={confirmSwapToken}
         onHide={handleCloseModal}
@@ -539,18 +535,22 @@ const StableSwap = (props) => {
       />
       <InfoModal
         open={showTransactionSubmitModal}
-        InfoMessage={InfoMessage}
+        InfoMessage={`Swapping ${Number(localStorage.getItem('wrapped')).toFixed(
+          6,
+        )} ${localStorage.getItem('token')} `}
         theme={props.theme}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
-        buttonText={'View on Tezos'}
+        buttonText={'View on TzKT'}
         onBtnClick={
           transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
         }
       />
       <Loader
         loading={props.loading}
-        content={InfoMessage}
+        content={`${Number(localStorage.getItem('wrapped')).toFixed(6)} ${localStorage.getItem(
+          'token',
+        )} Swapped`}
         loaderMessage={props.loaderMessage}
         tokenIn={props.tokenIn.name}
         firstTokenAmount={firstAmount}

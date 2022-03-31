@@ -115,11 +115,11 @@ const Header = (props) => {
             <span className="banner-text">
               {isMobile
                 ? 'Swap Wrapped Assets now'
-                : 'A proposal is submitted to the Tezos blockchain – time to vote.. Cast your votes now'}
+                : 'Wrap protocol is deprecated. All the wrapped assets are rebranded. Swap your wrapped assets now'}
             </span>
             <Link to="/wrappedAssets" className="text-decoration-none">
               <span className="bottom-last" style={{ cursor: 'pointer' }}>
-                Try it out
+                Swap now
               </span>
               <span className="new">New</span>
               <BannerArrow className="ml-2" />
@@ -245,7 +245,7 @@ const Header = (props) => {
                         {...props}
                       />
                     )}
-                    <Nav.Link
+                    {/* <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.BRIDGE ? 'menu-item-active' : 'menu-item',
                         splitLocation[1] === 'bridge' && 'selected-menu-item-active',
@@ -269,7 +269,7 @@ const Header = (props) => {
                       </span> */}
                     </Nav.Link>
 
-                    {/* {selectedHeader === HEADER_MODAL.BRIDGE && isMobile && (
+                 {selectedHeader === HEADER_MODAL.BRIDGE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
                         isExpanded={isExpanded}

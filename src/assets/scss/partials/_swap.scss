@@ -24,17 +24,24 @@
 #button-tooltip-ts {
   background: var(--theme-tooltip-bg);
   color: var(--theme-tooltip-text);
-
   border-radius: 8px;
   z-index: 99999999999999999;
-  //margin-left: 20px;
-  > .arrow {
-    //margin-left: 20px;
-    background: var(--theme-tooltip-bg);
-    opacity: 1;
-    z-index: 99999999999999999;
-    // top: 51px !important;
-    // left: -6px !important;
+  max-width: 300px !important;
+
+  // > .arrow {
+  //   background: #282828;
+  //   opacity: 1;
+  //   z-index: 99999999999999999;
+  // }
+  &::after {
+    content: '';
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent var(--theme-tooltip-bg) transparent transparent;
+    transform: rotate(-90deg);
   }
 }
 .border-swap {
@@ -57,6 +64,7 @@
   text-align: center;
   color: var(--theme-confirm-transaction);
   margin-top: 12px;
+  margin-bottom: 8px;
 }
 .swap-content-section {
   margin: 0 auto;
@@ -738,7 +746,7 @@
   padding-left: 24px;
   @media screen and (min-width: 320px) and (max-width: 900px) {
     width: 358px;
-    margin: 8px 12px 24px;
+    margin: 8px 20px 24px;
     padding-left: 16px;
     padding-right: 8px;
     padding-top: 8px;
@@ -1634,11 +1642,14 @@ input:checked {
     padding-left: 20px;
   }
 }
+.liq-margin {
+  margin-top: 80px !important;
+}
 .liquidity-content-container {
   position: relative;
   max-width: 848px;
   padding: 20px 40px;
-  background-color: transparent;
+  background-color: var(--theme-card-bg);
   border-radius: 16px;
   margin: 24px auto;
   border: 1px solid var(--theme-gradient-border);
@@ -1930,4 +1941,12 @@ input:checked {
 }
 .rotate {
   transform: rotate(180deg);
+}
+.centerAlign {
+  justify-content: center !important;
+}
+.removeCloseIcon {
+  .closeBtn {
+    display: none !important;
+  }
 }

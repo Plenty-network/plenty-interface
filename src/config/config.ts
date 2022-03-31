@@ -1242,14 +1242,14 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
-          tez: {
+          TEZ: {
             contract: 'KT1AD4khq2R9q6DDbRY5CvUk8MXoshqsatGS',
             property: 'CTEZPool',
             liquidityToken: 'CTEZ-XTZ-LP',
           },
         },
       },
-      tez: {
+      TEZ: {
         ICON: '',
         TOKEN_CONTRACT: '',
         READ_TYPE: 'XTZ',
@@ -1285,7 +1285,7 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
-          tez: {
+          TEZ: {
             contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
             property: 'CTEZPool',
             liquidityToken: 'CTEZ-XTZ-LP',
@@ -1293,7 +1293,7 @@ const Config: IConfig = {
         },
       },
 
-      tez: {
+      TEZ: {
         ICON: '',
         TOKEN_CONTRACT: '',
         READ_TYPE: 'XTZ',
@@ -1331,14 +1331,14 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
-          tez: {
+          TEZ: {
             contract: 'KT1AD4khq2R9q6DDbRY5CvUk8MXoshqsatGS',
             property: 'CTEZPool',
             liquidityToken: 'CTEZ-XTZ-LP',
           },
         },
       },
-      tez: {
+      TEZ: {
         ICON: '',
         TOKEN_CONTRACT: '',
         READ_TYPE: 'XTZ',
@@ -1955,11 +1955,6 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
-          // tez: {
-          //   contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
-          //   property: 'CTEZPool',
-          //   liquidityToken: 'CTEZ-XTZ-LP',
-          // },
           PLENTY: {
             contract: 'KT1C9gJRfkpPbNdBn3XyYbrUHT6XgfPzZqXP',
             property: 'token1_pool',
@@ -4300,8 +4295,8 @@ const Config: IConfig = {
     address: 'KT1CAeUQfyMnBVqkt4QcztmjsjAWYzK6ZPYQ',
     mapId: 55983,
   },
-  //NETWORK: 'testnet',
-  //WALLET_NETWORK: 'hangzhounet',
+  // NETWORK: 'testnet',
+  // WALLET_NETWORK: 'hangzhounet',
   NETWORK: 'mainnet',
   WALLET_NETWORK: 'mainnet',
   ADMIN_ADDRESS: 'KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW',

@@ -102,7 +102,7 @@ const ConfirmRemoveLiquidity = (props) => {
             <div className="lp-pair-remove">
               {props.tokenIn.name} / {props.tokenOut.name} Burned
             </div>
-            <div className="lp-pair-value">0.00</div>
+            <div className="lp-pair-value">{props.firstTokenAmount}</div>
           </div>
           <div className="confirm-supply-button">
             <Button
@@ -133,6 +133,7 @@ ConfirmRemoveLiquidity.propTypes = {
   isStableSwap: PropTypes.any,
   xtztoctez: PropTypes.any,
   cteztoxtz: PropTypes.any,
+  firstTokenAmount: PropTypes.any,
 };
 
 export default ConfirmRemoveLiquidity;

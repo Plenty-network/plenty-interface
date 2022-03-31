@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import plenty from '../../../assets/images/logo_small.png';
 import ctez from '../../../assets/images/ctez.png';
 import config from '../../../config/config';
-import { tokens } from '../../../constants/swapPage';
+import { liquidityTokens } from '../../../constants/liquidityTokens';
 
 export const useLocationStateInLiquidity = () => {
   const [tokenParams, setTokenParams] = useSearchParams();
@@ -16,7 +16,7 @@ export const useLocationStateInLiquidity = () => {
 
   const [tokenOut, setTokenOut] = useState({ name: 'PLENTY', image: plenty });
   useEffect(() => {
-    if (tokenIn.name === 'tez') {
+    if (tokenIn.name === 'TEZ') {
       setTokenOut({
         name: 'CTEZ',
         image: ctez,
@@ -24,7 +24,7 @@ export const useLocationStateInLiquidity = () => {
     }
   }, [tokenIn]);
   const AMMExists = useMemo(() => {
-    if (tokenIn.name === 'tez')
+    if (tokenIn.name === 'TEZ')
       return !!config.STABLESWAP[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
     else return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
   }, [tokenIn, tokenOut]);
@@ -84,7 +84,7 @@ export const useLocationStateInLiquidity = () => {
     const tokenOutFromParam = tokenParams.get(paramKey.b);
 
     if (tokenInFromParam) {
-      const tokenInDatum = tokens.find((token) => token.name === tokenInFromParam);
+      const tokenInDatum = liquidityTokens.find((token) => token.name === tokenInFromParam);
 
       if (tokenInDatum) {
         setTokenIn({
@@ -95,7 +95,7 @@ export const useLocationStateInLiquidity = () => {
     }
 
     if (tokenOutFromParam) {
-      const tokenOutDatum = tokens.find((token) => token.name === tokenOutFromParam);
+      const tokenOutDatum = liquidityTokens.find((token) => token.name === tokenOutFromParam);
 
       if (tokenOutDatum) {
         setTokenOut({

@@ -54,7 +54,7 @@ const RemoveLiquidity = (props) => {
   const removeLiquidityInput = (input) => {
     const removeAmount = parseFloat(input);
     let computedRemoveTokens;
-    if (props.tokenIn.name === 'tez') {
+    if (props.tokenIn.name === 'TEZ') {
       computedRemoveTokens = liqCalcRemove(
         removeAmount,
         props.swapData.tezPool,
@@ -89,7 +89,7 @@ const RemoveLiquidity = (props) => {
   };
   const confirmRemoveLiquidity = () => {
     props.setLoading(true);
-    if (props.tokenIn.name === 'tez') {
+    if (props.tokenIn.name === 'TEZ') {
       remove_liquidity(
         props.tokenIn.name,
         props.tokenOut.name,
@@ -360,7 +360,7 @@ const RemoveLiquidity = (props) => {
         open={showTransactionSubmitModal}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
-        buttonText={'View on Tezos'}
+        buttonText={'View on TzKT'}
         onBtnClick={
           transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
         }

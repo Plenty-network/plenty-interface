@@ -24,7 +24,14 @@ const StakeModal = (props) => {
   const onStake = () => {
     props.onClose();
     props.setShowConfirmTransaction(true);
-    props.setConfirmTransactionContent('Staking');
+    localStorage.setItem('stakeInput', inputValue);
+    localStorage.setItem('stakePair', props.modalData.identifier);
+    props.setFloaterValue({
+      value: localStorage.getItem('stakeInput'),
+      pair: localStorage.getItem('stakePair'),
+      type: 'Staking',
+    });
+
     props.stakeOnFarm(
       parseFloat(inputValue),
       props.modalData.identifier,
@@ -116,6 +123,7 @@ StakeModal.propTypes = {
   walletBalances: PropTypes.any,
   setShowConfirmTransaction: PropTypes.any,
   setConfirmTransactionContent: PropTypes.any,
+  setFloaterValue: PropTypes.any,
 };
 
 export default StakeModal;
