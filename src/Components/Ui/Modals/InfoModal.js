@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import SimpleModal from './SimpleModal';
 import PropTypes from 'prop-types';
-import styles from './modal.module.scss';
+import styles from './customModal.module.scss';
 import { ReactComponent as Link } from '../../../assets/images/linkIcon.svg';
 import clsx from 'clsx';
 import Button from '../Buttons/Button';
