@@ -11,6 +11,7 @@ import ethereum from '../../assets/images/bridge/eth.svg';
 import tezos from '../../assets/images/bridge/tezos.svg';
 //import { tokens } from '../../constants/swapPage';
 import { tokensList } from '../../constants/bridges';
+//import { getAvailableLiquidityPairs } from '../../apis/WrappedAssets/WrappedAssets';
 //import { BridgeConfiguration } from '../../apis/Config/BridgeConfig';
 // import BridgeModal from '../../Components/TransferInProgress/BridgeTransferModal';
 // import ApproveModal from '../../Components/TransferInProgress/ApproveModal';
@@ -139,7 +140,8 @@ const Bridge = (props) => {
   }, [fromBridge]);
 
   /* useEffect(() => {
-    console.log(BridgeConfiguration.getTezosWrappedTokens('AVALANCHE'));
+    //console.log(BridgeConfiguration.getTezosWrappedTokens('AVALANCHE'));
+    console.log(getAvailableLiquidityPairs('wUSDC'));
   }, []); */
 
 

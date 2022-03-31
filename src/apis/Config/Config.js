@@ -1,6 +1,5 @@
 import axios from 'axios';
 import CONFIG from '../../config/config';
-import { BRIDGES_CONFIG } from '../../constants/localStorage';
 
 export const loadConfiguration = async () => {
   try {
@@ -72,40 +71,3 @@ export const loadConfiguration = async () => {
     };
   }
 };
-
-
-/* class BridgeConfiguration {
-  constructor() {
-    const loadedConfig = JSON.parse(localStorage.getItem(BRIDGES_CONFIG));
-    this.getConfig = () => loadedConfig;
-  }
-
-  getConfigForChain = (chain) => this.getConfig()[chain];
-
-  getFeesForChain = (chain) => this.getConfig()[chain].FEES;
-
-  getWrapContract = (chain) => this.getConfig()[chain].WRAP_CONTRACT_ADDRESS;
-
-  getUnwrapSignReq = (chain) => this.getConfig()[chain].UNWRAP_SIGNATURE_REQ;
-
-  getWrapSignReq = (chain) => this.getConfig()[chain].WRAP_SIGNATURE_REQ;
-
-  getConnectedNetwork = (chain) => this.getConfig()[chain].NETWORK;
-
-  getTezosNetwork = (chain) => this.getConfig()[chain].TEZOS.NETWORK;
-
-  getTezosMinterContract = (chain) => this.getConfig()[chain].TEZOS.MINTER_CONTRACT;
-
-  getTezosQourumContract = (chain) => this.getConfig()[chain].TEZOS.QOURUM_CONTRACT;
-
-  getTokensForChain = (chain) => this.getConfig()[chain].TOKENS;
-
-  getWrappedTokens = (chain) => this.getConfig()[chain].TEZOS.WRAPPED_TOKEN;
-
-}
-
-const bridgeConfigInstance = new BridgeConfiguration();
-
-Object.freeze(bridgeConfigInstance);
-
-export default bridgeConfigInstance; */
