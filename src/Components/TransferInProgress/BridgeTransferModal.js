@@ -15,7 +15,7 @@ import { ReactComponent as FeeBigIcon } from '../../assets/images/bridge/fee_big
 import { ReactComponent as ProcessSuccess } from '../../assets/images/bridge/process_success.svg';
 
 const BridgeTransferModal = (props) => {
-  const [animationCalss,SetAnimationClass]=useState('leftToRightFadeInAnimation-4');
+  const [animationCalss,SetAnimationClass]=useState('leftToRightFadeInAnimation-4-bridge');
   //const [currentProgress,SetCurrentProgress]=useState(4);
   const [isButtonLoading,SetIsButtonLoading]=useState(false);
   const isCurrentProgressCompleted=(currentProgres)=>{
@@ -96,7 +96,7 @@ const bridgeButtonClick=()=>{
     'Done'
   ];
   const defaultTile=(buttonText)=>{
-    return (<p className={styles.progressLabel+' leftToRightFadeInAnimation-4'}>
+    return (<p className={styles.progressLabel+' leftToRightFadeInAnimation-4-bridge'}>
       <div className="flex flex-row">
         <span className={styles.defaultRadioButton}></span>
         <span>{buttonText}</span>
@@ -106,7 +106,7 @@ const bridgeButtonClick=()=>{
   };
   const completedTile=(buttonText)=>{
     return(
-    <p className={`${styles.completedLabel} ${styles.progressLabel} leftToRightFadeInAnimation-4`}>
+    <p className={`${styles.completedLabel} ${styles.progressLabel} leftToRightFadeInAnimation-4-bridge`}>
     <div className="flex flex-row">
       {/* <span className={styles.defaultRadioButton}></span> */}
       <span className={styles.greenTick}>
@@ -118,7 +118,7 @@ const bridgeButtonClick=()=>{
   </p>);
   };
   const currentTile=(buttonText)=>{
-     return(<p className={styles.progressLabel+' leftToRightFadeInAnimation-4'}>
+     return(<p className={styles.progressLabel+' leftToRightFadeInAnimation-4-bridge'}>
       <div className="flex flex-row">
         <span className={styles.radioButton}></span>
         <span className={styles.activeLabel}>{buttonText}</span>
@@ -338,7 +338,7 @@ const bridgeButtonClick=()=>{
       className={`row justify-content-center mx-auto col-24 col-md-10 col-lg-10 col-xl-10 ${styles.gov}`}
     >
       <div className={styles.border}>
-        <div className={` ${styles.bridgeModal} leftToRightFadeInAnimation-4-${isButtonLoading}`}>
+        <div className={` ${styles.bridgeModal} leftToRightFadeInAnimation-4-bridge-${isButtonLoading}`}>
           <div className="flex flex-row justify-content-between mb-3">
             <div className={`flex ${styles.headingWrapper}`}>
               {currentProgress === 0 && (

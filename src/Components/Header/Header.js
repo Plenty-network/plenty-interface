@@ -252,13 +252,13 @@ const Header = (props) => {
                         'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
                       {...(isMobile ? {} : { as: Link, to: '/bridge' })}
-                      onMouseEnter={() => setHeader(HEADER_MODAL.BRIDGE)}
-                      onClick={() => setHeaderMobile(HEADER_MODAL.BRIDGE)}
+                      /* onMouseEnter={() => setHeader(HEADER_MODAL.BRIDGE)}
+                      onClick={() => setHeaderMobile(HEADER_MODAL.BRIDGE)} */
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                         Bridge
                       </span>
-                      <span
+                      {/* <span
                         className={clsx('material-icons', 'arrow', {
                           rotate:
                             selectedHeader === HEADER_MODAL.BRIDGE &&
@@ -266,7 +266,7 @@ const Header = (props) => {
                         })}
                       >
                         expand_more
-                      </span>
+                      </span> */}
                     </Nav.Link>
 
                     {/* {selectedHeader === HEADER_MODAL.BRIDGE && isMobile && (

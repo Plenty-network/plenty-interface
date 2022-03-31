@@ -11,6 +11,7 @@ import ethereum from '../../assets/images/bridge/eth.svg';
 import tezos from '../../assets/images/bridge/tezos.svg';
 //import { tokens } from '../../constants/swapPage';
 import { tokensList } from '../../constants/bridges';
+//import { BridgeConfiguration } from '../../apis/Config/BridgeConfig';
 // import BridgeModal from '../../Components/TransferInProgress/BridgeTransferModal';
 // import ApproveModal from '../../Components/TransferInProgress/ApproveModal';
 // import MintModal from '../../Components/TransferInProgress/MintModal';
@@ -136,6 +137,10 @@ const Bridge = (props) => {
       image: tokensList[fromBridge.name][0].image
     });
   }, [fromBridge]);
+
+  /* useEffect(() => {
+    console.log(BridgeConfiguration.getTezosWrappedTokens('AVALANCHE'));
+  }, []); */
 
 
   // Function to reset all the current states to default values

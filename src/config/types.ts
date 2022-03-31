@@ -50,6 +50,10 @@ export interface IConfig {
     testnet: string;
     mainnet: string;
   };
+  BRIDGES_INDEXER_LINKS: {
+    testnet: Record<string, string>;
+    mainnet: Record<string, string>;
+  };
 }
 
 interface IApi {

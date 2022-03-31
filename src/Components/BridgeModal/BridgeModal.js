@@ -371,7 +371,7 @@ const BridgeModal = (props) => {
       className={`justify-content-center mx-auto col-20 col-md-10 col-lg-10 col-xl-10 mb-3 ${styles.gov}`}
     >
       <div className={styles.border}>
-        <div className={` ${styles.bridgeModal} leftToRightFadeInAnimation-4`}>
+        <div className={` ${styles.bridgeModal} leftToRightFadeInAnimation-4-bridge`}>
           <div className={styles.resultsHeader}>
             <p className={styles.heading}>Bridge Tokens</p>
             {walletAddress ? (

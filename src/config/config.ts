@@ -4300,10 +4300,10 @@ const Config: IConfig = {
     address: 'KT1CAeUQfyMnBVqkt4QcztmjsjAWYzK6ZPYQ',
     mapId: 55983,
   },
-  NETWORK: 'testnet',
-  WALLET_NETWORK: 'hangzhounet',
-  // NETWORK: 'mainnet',
-  // WALLET_NETWORK: 'mainnet',
+  //NETWORK: 'testnet',
+  //WALLET_NETWORK: 'hangzhounet',
+  NETWORK: 'mainnet',
+  WALLET_NETWORK: 'mainnet',
   ADMIN_ADDRESS: 'KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW',
   BURNER: 'tz1ZnK6zYJrC9PfKCPryg9tPW6LrERisTGtg',
   WRAPPED_ASSETS: {
@@ -4531,6 +4531,13 @@ const Config: IConfig = {
   WRAPPED_ASSETS_SWAP_CONTRACT: {
     testnet: 'KT1D5QJhRM7t2ibHPYYqWQs4o9nianxa9E49',
     mainnet: '',
+  },
+  BRIDGES_INDEXER_LINKS: {
+    testnet: {},
+    mainnet: {
+      ETHEREUM: 'https://indexer.app.tzwrap.com/v1/configuration',
+      AVALANCHE: 'http://18.221.32.62/v1/configuration'
+    }
   },
 };
 

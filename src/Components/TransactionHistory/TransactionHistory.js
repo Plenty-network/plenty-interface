@@ -18,7 +18,7 @@ import { SORT_OPTIONS, TransactionHistorySort } from '../Bridges/TransactionHist
 import { bridgesList, tokensList } from '../../constants/bridges';
 
 const TransactionHistory = (props) => {
-  const [animationCalss,SetAnimationClass]=useState('leftToRightFadeInAnimation-4');
+  const [animationCalss,SetAnimationClass]=useState('leftToRightFadeInAnimation-4-bridge');
   const [showFilter, setShowFilter] = useState(false);
   const [showSort, setShowSort] = useState(false);
 
