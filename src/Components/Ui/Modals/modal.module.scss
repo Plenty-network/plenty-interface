@@ -60,15 +60,11 @@
     color: var(--theme-primary-button-bg);
     cursor: pointer;
     user-select: none;
-    font-size: 14px;
 
     &:active {
       transform: scale(0.98);
       transform-origin: 50% 50%;
     }
-  }
-  .submitted-text {
-    color: var(--theme-confirm-transaction-button-text);
   }
 }
 
@@ -183,10 +179,3 @@
     margin: -11rem auto;
   }
 }
-// .info-modal {
-//   .simpleModal {
-//     .closeBtn {
-//       display: none !important;
-//     }
-//   }
-// }
