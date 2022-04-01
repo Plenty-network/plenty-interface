@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 // import axios from 'axios';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styles from './Transaction.module.scss';
 import '../../assets/scss/animation.scss';
 import actionHistory from '../../assets/images/bridge/action_history.svg';
@@ -14,52 +14,61 @@ import sortSelected from '../../assets/images/bridge/sort_selected.svg';
 import sortNotSelected from '../../assets/images/bridge/sort_deselected.svg';
 //import TransactionHistoryFilter from '../Bridges/TransactionHistoryFilter';
 import { FILTER_OPTIONS, TransactionHistoryFilter } from '../Bridges/TransactionHistoryFilter';
-import { SORT_OPTIONS, TransactionHistorySort } from '../Bridges/TransactionHistorySort';
+import { TransactionHistorySort } from '../Bridges/TransactionHistorySort';
 import { bridgesList, tokensList } from '../../constants/bridges';
 
 const TransactionHistory = (props) => {
-  const [animationCalss,SetAnimationClass]=useState('leftToRightFadeInAnimation-4-bridge');
+  const [animationCalss, SetAnimationClass] = useState('leftToRightFadeInAnimation-4-bridge');
   const [showFilter, setShowFilter] = useState(false);
   const [showSort, setShowSort] = useState(false);
 
   const [checkBoxesState, setCheckBoxesState] = useState(
-    FILTER_OPTIONS.reduce((checkBoxesState,option) => {
-      return (
-        {
-          ...checkBoxesState,
-          [option.checkboxId]: false
-        }
-      );
-    }, {})
+    FILTER_OPTIONS.reduce((checkBoxesState, option) => {
+      return {
+        ...checkBoxesState,
+        [option.checkboxId]: false,
+      };
+    }, {}),
   );
   const [checkedCount, setCheckedCount] = useState(0);
   //Currently default sort option is by most recent transaction. Need to change this if default sort option changes.
   const [radioButtonSelected, setRadioButtonSelected] = useState('MOST_RECENT');
 
   const filterData = (originalData, checkBoxesState) => {
-    const checkedCount = Object.values(checkBoxesState).filter((checkBoxState) => checkBoxState).length;
+    const checkedCount = Object.values(checkBoxesState).filter(
+      (checkBoxState) => checkBoxState,
+    ).length;
     const dataToFilter = [...originalData];
-    if(checkedCount === 0 || checkedCount === 3) {
+    if (checkedCount === 0 || checkedCount === 3) {
       return dataToFilter;
-    } else if(checkedCount === 1) {
+    } else if (checkedCount === 1) {
       // Have to add conditions if any other filters introduced in future.
       return dataToFilter.filter((transaction) => {
-        if(checkBoxesState['TO_TEZOS']) {
+        if (checkBoxesState['TO_TEZOS']) {
           return transaction.operation === 'BRIDGE' && transaction.currentProgress === 4;
-        } else if(checkBoxesState['FROM_TEZOS']) {
+        } else if (checkBoxesState['FROM_TEZOS']) {
           return transaction.operation === 'UNBRIDGE' && transaction.currentProgress === 4;
-        } else if(checkBoxesState['ACTION_REQUIRED']) {
+        } else if (checkBoxesState['ACTION_REQUIRED']) {
           return transaction.currentProgress !== 4;
         }
         return true;
       });
     } else {
-      if(checkBoxesState['TO_TEZOS'] && checkBoxesState['FROM_TEZOS']) {
-        return dataToFilter.filter((transaction) => (transaction.operation === 'BRIDGE' || transaction.operation === 'UNBRIDGE') && transaction.currentProgress === 4);
-      } else if(checkBoxesState['TO_TEZOS'] && checkBoxesState['ACTION_REQUIRED']) {
-        return dataToFilter.filter((transaction) => (transaction.operation === 'BRIDGE' || transaction.currentProgress !== 4));
-      } else if(checkBoxesState['FROM_TEZOS'] && checkBoxesState['ACTION_REQUIRED']) {
-        return dataToFilter.filter((transaction) => (transaction.operation === 'UNBRIDGE' || transaction.currentProgress !== 4));
+      if (checkBoxesState['TO_TEZOS'] && checkBoxesState['FROM_TEZOS']) {
+        return dataToFilter.filter(
+          (transaction) =>
+            (transaction.operation === 'BRIDGE' || transaction.operation === 'UNBRIDGE') &&
+            transaction.currentProgress === 4,
+        );
+      } else if (checkBoxesState['TO_TEZOS'] && checkBoxesState['ACTION_REQUIRED']) {
+        return dataToFilter.filter(
+          (transaction) => transaction.operation === 'BRIDGE' || transaction.currentProgress !== 4,
+        );
+      } else if (checkBoxesState['FROM_TEZOS'] && checkBoxesState['ACTION_REQUIRED']) {
+        return dataToFilter.filter(
+          (transaction) =>
+            transaction.operation === 'UNBRIDGE' || transaction.currentProgress !== 4,
+        );
       }
     }
   };
@@ -68,31 +77,31 @@ const TransactionHistory = (props) => {
     const dataToSort = filteredData;
     // Change the date comparison method anf format.
     return dataToSort.sort((a, b) => {
-      if(radioSelected === 'MOST_RECENT'){
-        if(`${a.date} ${a.time}` > `${b.date} ${b.time}`) {
+      if (radioSelected === 'MOST_RECENT') {
+        if (`${a.date} ${a.time}` > `${b.date} ${b.time}`) {
           return -1;
-        } else if(`${a.date} ${a.time}` < `${b.date} ${b.time}`) {
+        } else if (`${a.date} ${a.time}` < `${b.date} ${b.time}`) {
           return 1;
         }
         return 0;
-      } else if(radioSelected === 'OLDEST') {
-        if(`${a.date} ${a.time}` < `${b.date} ${b.time}`) {
+      } else if (radioSelected === 'OLDEST') {
+        if (`${a.date} ${a.time}` < `${b.date} ${b.time}`) {
           return -1;
-        } else if(`${a.date} ${a.time}` > `${b.date} ${b.time}`) {
+        } else if (`${a.date} ${a.time}` > `${b.date} ${b.time}`) {
           return 1;
         }
         return 0;
       } else if (radioSelected === 'INCREASING_VALUE') {
-        if(a.secondTokenAmount < b.secondTokenAmount) {
+        if (a.secondTokenAmount < b.secondTokenAmount) {
           return -1;
-        } else if(a.secondTokenAmount > b.secondTokenAmount) {
+        } else if (a.secondTokenAmount > b.secondTokenAmount) {
           return 1;
         }
         return 0;
       } else if (radioSelected === 'DECREASING_VALUE') {
-        if(a.secondTokenAmount > b.secondTokenAmount) {
+        if (a.secondTokenAmount > b.secondTokenAmount) {
           return -1;
-        } else if(a.secondTokenAmount < b.secondTokenAmount) {
+        } else if (a.secondTokenAmount < b.secondTokenAmount) {
           return 1;
         }
         return 0;
@@ -100,37 +109,44 @@ const TransactionHistory = (props) => {
     });
   };
 
-  const filteredData = useMemo(() => filterData(props.transactionData, checkBoxesState, checkedCount), [props.transactionData, checkBoxesState]);
+  const filteredData = useMemo(
+    () => filterData(props.transactionData, checkBoxesState, checkedCount),
+    [props.transactionData, checkBoxesState],
+  );
 
-  const sortedData = useMemo(() => sortData(filteredData, radioButtonSelected), [filteredData, radioButtonSelected]);
+  const sortedData = useMemo(
+    () => sortData(filteredData, radioButtonSelected),
+    [filteredData, radioButtonSelected],
+  );
 
   //const [filteredData, setFilteredData] = useState(props.transactionData);
 
   const setBack = (value) => {
     SetAnimationClass('rightToLeftFadeInAnimation-4');
-    setTimeout(()=>{
+    setTimeout(() => {
       if (value) {
         props.setTransaction(1);
       }
-    },200); 
+    }, 200);
   };
 
   const filterClickHandler = () => {
-    setShowSort((prevState) => prevState ? !prevState : prevState);
+    setShowSort((prevState) => (prevState ? !prevState : prevState));
     setShowFilter((prevState) => !prevState);
   };
 
   const sortClickHandler = () => {
-    setShowFilter((prevState) => prevState ? !prevState : prevState);
+    setShowFilter((prevState) => (prevState ? !prevState : prevState));
     setShowSort((prevState) => !prevState);
   };
 
   //CheckBox component related
   useEffect(() => {
-    const countOfChecked = Object.values(checkBoxesState).filter((checkBoxState) => checkBoxState).length;
+    const countOfChecked = Object.values(checkBoxesState).filter(
+      (checkBoxState) => checkBoxState,
+    ).length;
     setCheckedCount(countOfChecked);
   }, [checkBoxesState]);
-
 
   const actionClickHandler = (id) => {
     //console.log(id);
@@ -139,31 +155,42 @@ const TransactionHistory = (props) => {
     props.setFirstTokenAmount(selectedData.firstTokenAmount);
     props.setSecondTokenAmount(selectedData.secondTokenAmount);
     const currentFromBridge = bridgesList.find((bridge) => bridge.name === selectedData.fromBridge);
-    props.setFromBridge({name: currentFromBridge.name, image: currentFromBridge.bigIcon, buttonImage: currentFromBridge.buttonImage});
+    props.setFromBridge({
+      name: currentFromBridge.name,
+      image: currentFromBridge.bigIcon,
+      buttonImage: currentFromBridge.buttonImage,
+    });
     const currentToBridge = bridgesList.find((bridge) => bridge.name === selectedData.toBridge);
-    props.setToBridge({name: currentToBridge.name, image: currentToBridge.bigIcon, buttonImage: currentToBridge.buttonImage});
-    const currentTokenIn = tokensList[currentFromBridge.name].find((token) => token.name === selectedData.tokenIn);
-    const currentTokenOut = tokensList[currentToBridge.name].find((token) => token.name === selectedData.tokenOut);
+    props.setToBridge({
+      name: currentToBridge.name,
+      image: currentToBridge.bigIcon,
+      buttonImage: currentToBridge.buttonImage,
+    });
+    const currentTokenIn = tokensList[currentFromBridge.name].find(
+      (token) => token.name === selectedData.tokenIn,
+    );
+    const currentTokenOut = tokensList[currentToBridge.name].find(
+      (token) => token.name === selectedData.tokenOut,
+    );
     //console.log(currentTokenIn);
-    setTimeout(()=>{
+    setTimeout(() => {
       props.setTokenIn({
         name: currentTokenIn.name,
         image: currentTokenIn.image,
       });
       props.setTokenOut({
         name: `${currentTokenOut.name}`,
-        image: currentTokenOut.image,     //Change after creating config.
+        image: currentTokenOut.image, //Change after creating config.
       });
-    },100);
+    }, 100);
     props.setSelectedId(Number(id));
     props.setFee(selectedData.fee);
     props.SetCurrentProgress(selectedData.currentProgress);
     props.setOperation(selectedData.operation);
-    setTimeout(()=>{
+    setTimeout(() => {
       props.setTransaction(3);
-    },200);
+    }, 200);
   };
-
 
   /* api call example 
   const fetchData = async () => {
@@ -200,9 +227,11 @@ const TransactionHistory = (props) => {
                 style={{ cursor: 'pointer' }}
               ></img>
               <img
-                src={checkedCount > 0 ? filterApplied : (showFilter ? filterSelected : filterNotSelected)}
+                src={
+                  checkedCount > 0 ? filterApplied : showFilter ? filterSelected : filterNotSelected
+                }
                 onClick={filterClickHandler}
-                style={{ cursor: 'pointer'}}
+                style={{ cursor: 'pointer' }}
               ></img>
             </div>
             {showFilter ? (
@@ -219,40 +248,58 @@ const TransactionHistory = (props) => {
             ) : null}
           </div>
           <div className={`mb-3 ${styles.lineBottom} `}></div>
-          {
-            sortedData.map((data,index) => {
-              return (
-                <>
-                  <div key={index} className={styles.resultsHeader}>
-                    <div className={styles.resultsInfoWrapper}>
-                      <div className={styles.tokenbg}>
-                        <img src={data.currentProgress === 4 ? (data.operation === 'BRIDGE' ? downArrow : upArrow) : actionHistory} className={styles.tokens}></img>
-                      </div>
-                      <div>
-                        <p className={styles.value}>{data.secondTokenAmount} {data.tokenOut}</p>
-                        <p className={styles.amt}>{data.date} ; {data.time}</p>
-                      </div>
+          {sortedData.map((data, index) => {
+            return (
+              <>
+                <div key={index} className={styles.resultsHeader}>
+                  <div className={styles.resultsInfoWrapper}>
+                    <div className={styles.tokenbg}>
+                      <img
+                        src={
+                          data.currentProgress === 4
+                            ? data.operation === 'BRIDGE'
+                              ? downArrow
+                              : upArrow
+                            : actionHistory
+                        }
+                        className={styles.tokens}
+                      ></img>
                     </div>
-                    {
-                      data.currentProgress === 4 ? (
-                        <div className={styles.detailWrapper}>
-                          <p id={data.id} className={styles.details} onClick={(e) => actionClickHandler(e.target.id)}>View Details</p>
-                        </div>
-                      ) : (
-                        <div className={styles.detailWrapper}>
-                          <p id={data.id} className={styles.action} onClick={(e) => actionClickHandler(e.target.id)}>
-                            Action Required <img src={actionRequired}></img>
-                          </p>
-                        </div>
-                      )
-                    }
-                  
+                    <div>
+                      <p className={styles.value}>
+                        {data.secondTokenAmount} {data.tokenOut}
+                      </p>
+                      <p className={styles.amt}>
+                        {data.date} ; {data.time}
+                      </p>
+                    </div>
                   </div>
-                  <div className={`mt-3 mb-3 ${styles.lineBottom} `}></div>
-                </>
-              );
-            })
-          }
+                  {data.currentProgress === 4 ? (
+                    <div className={styles.detailWrapper}>
+                      <p
+                        id={data.id}
+                        className={styles.details}
+                        onClick={(e) => actionClickHandler(e.target.id)}
+                      >
+                        View Details
+                      </p>
+                    </div>
+                  ) : (
+                    <div className={styles.detailWrapper}>
+                      <p
+                        id={data.id}
+                        className={styles.action}
+                        onClick={(e) => actionClickHandler(e.target.id)}
+                      >
+                        Action Required <img src={actionRequired}></img>
+                      </p>
+                    </div>
+                  )}
+                </div>
+                <div className={`mt-3 mb-3 ${styles.lineBottom} `}></div>
+              </>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -272,7 +319,7 @@ TransactionHistory.propTypes = {
   setOperation: PropTypes.any,
   setTokenIn: PropTypes.any,
   setTokenOut: PropTypes.any,
-  setSelectedId: PropTypes.any
+  setSelectedId: PropTypes.any,
 };
 
 export default TransactionHistory;

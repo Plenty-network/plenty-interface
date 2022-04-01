@@ -201,7 +201,6 @@ const Header = (props) => {
                         expand_more
                       </span>
                     </Nav.Link>
-
                     {selectedHeader === HEADER_MODAL.TRADE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
@@ -209,7 +208,6 @@ const Header = (props) => {
                         {...props}
                       />
                     )}
-
                     <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.EARN ? 'menu-item-active' : 'menu-item',
@@ -237,7 +235,6 @@ const Header = (props) => {
                         expand_more
                       </span>
                     </Nav.Link>
-
                     {selectedHeader === HEADER_MODAL.EARN && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
@@ -252,13 +249,11 @@ const Header = (props) => {
                         'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
                       {...(isMobile ? {} : { as: Link, to: '/bridge' })}
-                      /* onMouseEnter={() => setHeader(HEADER_MODAL.BRIDGE)}
-                      onClick={() => setHeaderMobile(HEADER_MODAL.BRIDGE)} */
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                         Bridge
                       </span>
-                      {/* <span
+                      <span
                         className={clsx('material-icons', 'arrow', {
                           rotate:
                             selectedHeader === HEADER_MODAL.BRIDGE &&
@@ -266,16 +261,15 @@ const Header = (props) => {
                         })}
                       >
                         expand_more
-                      </span> */}
+                      </span>
                     </Nav.Link>
-
-                 {selectedHeader === HEADER_MODAL.BRIDGE && isMobile && (
+                    {selectedHeader === HEADER_MODAL.BRIDGE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
                         isExpanded={isExpanded}
                         {...props}
                       />
-                    )} */}
+                    )}{' '} */}
 
                     <Nav.Link
                       className={clsx(
@@ -299,7 +293,6 @@ const Header = (props) => {
                         expand_more
                       </span>
                     </Nav.Link>
-
                     {selectedHeader === HEADER_MODAL.VOTE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
@@ -307,7 +300,6 @@ const Header = (props) => {
                         {...props}
                       />
                     )}
-
                     <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.MORE ? 'menu-item-active' : 'menu-item',
@@ -329,7 +321,6 @@ const Header = (props) => {
                         expand_more
                       </span>
                     </Nav.Link>
-
                     {selectedHeader === HEADER_MODAL.MORE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}

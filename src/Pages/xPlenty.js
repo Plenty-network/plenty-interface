@@ -25,6 +25,8 @@ import * as walletActions from '../redux/actions/wallet/wallet.action';
 import Label from '../Components/Ui/Label/Label';
 import Image from 'react-bootstrap/Image';
 import { setLoader } from '../redux/slices/settings/settings.slice';
+import Loader from '../Components/loader';
+import InfoModal from '../Components/Ui/Modals/InfoModal';
 
 const Stake = (props) => {
   useEffect(() => {
@@ -198,6 +200,34 @@ const Stake = (props) => {
           </Col>
         </Row>
       </Container>
+      <Loader
+        loading={props.isProcessing}
+        loaderMessage={loaderMessage}
+        content={
+          localStorage.getItem('type') === 'stake'
+            ? `${Number(localStorage.getItem('stakeInput')).toFixed(6)} plenty Staked`
+            : `${Number(localStorage.getItem('unstakeInput')).toFixed(6)} xPlenty UnStaked`
+        }
+        tokenIn={true}
+        setLoaderMessage={setLoaderMessage}
+      />
+      <InfoModal
+        open={props.isTransactionInjectionModalOpen}
+        theme={props.theme}
+        onClose={props.closetransactionInjectionModal}
+        InfoMessage={
+          localStorage.getItem('type') === 'stake'
+            ? `Staking ${Number(localStorage.getItem('stakeInput')).toFixed(6)} plenty `
+            : `UnStaking ${Number(localStorage.getItem('unstakeInput')).toFixed(6)} xPlenty `
+        }
+        message={'Transaction submitted'}
+        buttonText={'View on TzKT'}
+        onBtnClick={
+          props.currentOpHash
+            ? () => window.open(`https://tzkt.io/${props.currentOpHash}`, '_blank')
+            : null
+        }
+      />
     </>
   );
 };
