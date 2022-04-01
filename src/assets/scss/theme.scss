@@ -118,6 +118,8 @@
   --theme-modal-text: #8a94a6;
   --theme-tooltip-bg: #0d0831;
   --theme-tooltip-text: #ffffff;
+  --theme-bridge-from-ip-bg: #fcfcfc;
+  --theme-bridge-to-ip-bg: rgba(98, 2, 239, 0.05);
   --theme-confirm-transaction-border: rgba(78, 93, 120, 0.5);
 }
 :root.dark {
@@ -247,7 +249,10 @@
   --theme-modal-text: #b0b7c3;
   --theme-tooltip-bg: #ffffff;
   --theme-tooltip-text: #0d0831;
+  --theme-bridge-from-ip-bg: rgba(138, 149, 158, 0.05);
+  --theme-bridge-to-ip-bg: rgba(206, 174, 254, 0.05);
   --theme-confirm-transaction-border: rgba(138, 149, 158, 0.4);
+
 }
 
 :root.theme-transiton {
