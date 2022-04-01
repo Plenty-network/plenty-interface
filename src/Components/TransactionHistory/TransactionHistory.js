@@ -16,6 +16,7 @@ import sortNotSelected from '../../assets/images/bridge/sort_deselected.svg';
 import { FILTER_OPTIONS, TransactionHistoryFilter } from '../Bridges/TransactionHistoryFilter';
 import { SORT_OPTIONS, TransactionHistorySort } from '../Bridges/TransactionHistorySort';
 import { bridgesList, tokensList } from '../../constants/bridges';
+import { allTokens } from '../../constants/bridges';
 
 const TransactionHistory = (props) => {
   const [animationCalss,SetAnimationClass]=useState('leftToRightFadeInAnimation-4-bridge');
@@ -142,8 +143,16 @@ const TransactionHistory = (props) => {
     props.setFromBridge({name: currentFromBridge.name, image: currentFromBridge.bigIcon, buttonImage: currentFromBridge.buttonImage});
     const currentToBridge = bridgesList.find((bridge) => bridge.name === selectedData.toBridge);
     props.setToBridge({name: currentToBridge.name, image: currentToBridge.bigIcon, buttonImage: currentToBridge.buttonImage});
-    const currentTokenIn = tokensList[currentFromBridge.name].find((token) => token.name === selectedData.tokenIn);
-    const currentTokenOut = tokensList[currentToBridge.name].find((token) => token.name === selectedData.tokenOut);
+    //const currentTokenIn = tokensList[currentFromBridge.name].find((token) => token.name === selectedData.tokenIn);
+    //const currentTokenOut = tokensList[currentToBridge.name].find((token) => token.name === selectedData.tokenOut);
+    const currentTokenIn = {
+      name: selectedData.tokenIn,
+      image: Object.prototype.hasOwnProperty.call(allTokens, selectedData.tokenIn) ? allTokens[selectedData.tokenIn] : allTokens.fallback
+    };
+    const currentTokenOut = {
+      name: selectedData.tokenOut,
+      image: Object.prototype.hasOwnProperty.call(allTokens, selectedData.tokenOut) ? allTokens[selectedData.tokenOut] : allTokens.fallback
+    };
     //console.log(currentTokenIn);
     setTimeout(()=>{
       props.setTokenIn({

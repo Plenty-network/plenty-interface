@@ -23,6 +23,7 @@ import '../../assets/scss/animation.scss';
 import switchImg from '../../assets/images/bridge/bridge-switch.svg';
 import { bridgesList } from '../../constants/bridges';
 import SelectorModal from '../Bridges/SelectorModal';
+import { BridgeConfiguration } from '../../apis/Config/BridgeConfig';
 
 
 const BridgeModal = (props) => {
@@ -51,8 +52,7 @@ const BridgeModal = (props) => {
   const [tokenType, setTokenType] = useState('tokenIn');
   const [getTokenPrice, setGetTokenPrice] = useState({});
   const [isLoading,SetisLoading]=useState(false);
-  const wrapFeePercentage = useRef(0.15); //Get from config on load
-  const unwrapFeePercentage = useRef(0.15); //Get from config on load
+  
 
 
   //const [fromBridge, setFromBridge] = useState({name: 'ETHEREUM', image: ethereum, buttonImage: ethereum});
@@ -89,7 +89,8 @@ const BridgeModal = (props) => {
     SetCurrentProgress,
     setOperation,
     tokenList,
-    setTokenList
+    setTokenList,
+    loadedTokensList
   } = props;
 
   //const [tokenList, setTokenList] = useState(tokensList[fromBridge.name]);
@@ -157,22 +158,34 @@ const BridgeModal = (props) => {
     handleFromTokenInput(value, 'tokenIn');
   };
 
-  const handleFromTokenInput = (input, tokenType) => {
+  const handleFromTokenInput = (input) => {
     if (input === '' || isNaN(input)) {
       setFirstTokenAmount('');
       setSecondTokenAmount('');
       setFee(0);
     } else {
-      if (tokenType === 'tokenIn') {
-        setFirstTokenAmount(input);
-        const toAmt = input * 0.9985;
-        setSecondTokenAmount(toAmt);
-      }
+      setFirstTokenAmount(input);
       if(operation === 'BRIDGE') {
-        setFee((input * wrapFeePercentage.current)/100);
+        setFee((input * BridgeConfiguration.getFeesForChain(fromBridge.name).WRAP_FEES)/10000);
+        const outputAmount = input - (input * BridgeConfiguration.getFeesForChain(fromBridge.name).WRAP_FEES) / 10000;
+        setSecondTokenAmount(outputAmount);
+        //setSecondTokenAmount(input - fee);
+        /* setTimeout(()=>{
+          console.log(fee);
+          setSecondTokenAmount(input - fee);
+        },500); */
+        
       } else {
-        setFee((input * unwrapFeePercentage.current)/100);
+        setFee((input * BridgeConfiguration.getFeesForChain(toBridge.name).UNWRAP_FEES)/10000);
+        const outputAmount = input - (input * BridgeConfiguration.getFeesForChain(toBridge.name).UNWRAP_FEES) / 10000;
+        setSecondTokenAmount(outputAmount);
+        /* setTimeout(()=>{
+          setSecondTokenAmount(input - fee);
+        },200); */
       }
+      //const toAmt = input - fee;
+      //setSecondTokenAmount(toAmt);
+      
     }
   };
 
@@ -320,10 +333,21 @@ const BridgeModal = (props) => {
       image: token.image,
     });
     //Change after creating config.
-    setTokenOut({
+    if (fromBridge.name === 'TEZOS') {
+      setTokenOut({
+        name: BridgeConfiguration.getOutTokenUnbridging(toBridge.name,token.name),
+        image: '', // Set image if required in design in future.
+      });
+    } else {
+      setTokenOut({
+        name: BridgeConfiguration.getOutTokenBridging(fromBridge.name,token.name),
+        image: '', // Set image if required in design in future.
+      });
+    }
+    /* setTokenOut({
       name: `${token.name}.e`,
       image: token.image,
-    });
+    }); */
     /* if (tokenType === 'tokenIn') {
       setTokenIn({
         name: token.name,
@@ -355,8 +379,8 @@ const BridgeModal = (props) => {
     setFee(0);
     const currentFrom = {name: fromBridge.name, image: fromBridge.image, buttonImage: fromBridge.buttonImage};
     const currentTo = {name: toBridge.name, image: toBridge.image, buttonImage: toBridge.buttonImage};
-    setFromBridge({name: currentTo.name, image: currentTo.image, buttonImage: currentTo.buttonImage});
     setToBridge({name: currentFrom.name, image: currentFrom.image, buttonImage: currentFrom.buttonImage});
+    setFromBridge({name: currentTo.name, image: currentTo.image, buttonImage: currentTo.buttonImage});
     if(operation === 'BRIDGE') {
       setOperation('UNBRIDGE');
       //operation.current = 'UNBRIDGE';
@@ -427,7 +451,7 @@ const BridgeModal = (props) => {
                 className={`text-right ${styles.tokenUserInput}`}
                 placeholder="0.0"
                 value={firstTokenAmount}
-                onChange={(e) => handleFromTokenInput(e.target.value, 'tokenIn')}
+                onChange={(e) => handleFromTokenInput(e.target.value)}
               />
             </div>
           </div>
@@ -570,7 +594,8 @@ BridgeModal.propTypes = {
   SetCurrentProgress: PropTypes.any,
   setOperation: PropTypes.any,
   tokenList: PropTypes.any,
-  setTokenList: PropTypes.any
+  setTokenList: PropTypes.any,
+  loadedTokensList: PropTypes.any
 };
 
 export default BridgeModal;

@@ -11,6 +11,8 @@ import ethereum from '../../assets/images/bridge/eth.svg';
 import tezos from '../../assets/images/bridge/tezos.svg';
 //import { tokens } from '../../constants/swapPage';
 import { tokensList } from '../../constants/bridges';
+import { createTokensList } from '../../apis/Config/BridgeConfig';
+import { BridgeConfiguration } from '../../apis/Config/BridgeConfig';
 //import { getAvailableLiquidityPairs } from '../../apis/WrappedAssets/WrappedAssets';
 //import { BridgeConfiguration } from '../../apis/Config/BridgeConfig';
 // import BridgeModal from '../../Components/TransferInProgress/BridgeTransferModal';
@@ -97,17 +99,26 @@ const transactions = [
 
 const Bridge = (props) => {
   //const isMobile = useMediaQuery('(max-width: 991px)');
+  const initialRender = useRef(true);
   const [transaction, setTransaction] = useState(1);
 
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
   const [secondTokenAmount, setSecondTokenAmount] = useState('');
-  const [tokenIn, setTokenIn] = useState({
+  /* const [tokenIn, setTokenIn] = useState({
     name: tokensList['ETHEREUM'][0].name,
     image: tokensList['ETHEREUM'][0].image,
   });
   const [tokenOut, setTokenOut] = useState({
     name: `${tokensList['ETHEREUM'][0].name}.e`,   //Change after creating config.
     image: tokensList['ETHEREUM'][0].image
+  }); */
+  const [tokenIn, setTokenIn] = useState({
+    name: '',
+    image: '',
+  });
+  const [tokenOut, setTokenOut] = useState({
+    name: '',   //Change after creating config.
+    image: ''
   });
   const [fromBridge, setFromBridge] = useState({name: 'ETHEREUM', image: ethereum, buttonImage: ethereum});
   const [toBridge, setToBridge] = useState({name: 'TEZOS', image: tezos, buttonImage: ''});
@@ -116,6 +127,7 @@ const Bridge = (props) => {
   const [selectedId, setSelectedId] = useState(0);
   const [transactionData, setTransactionData] = useState(transactions);
   //const [currentOperation, setCurrentOperation] = useState('BRIDGE');
+  const loadedTokensList = useRef(null);
   const operation = useRef('BRIDGE');
 
   const setOperation = (value) => {
@@ -124,25 +136,58 @@ const Bridge = (props) => {
 
   const getTransactionListLength = () => transactionData.length;
 
-  const [tokenList, setTokenList] = useState(tokensList[fromBridge.name]);
+  //const [tokenList, setTokenList] = useState(tokensList[fromBridge.name]);
+  const [tokenList, setTokenList] = useState([]);
 
   useEffect(() => {
-    setTokenList(tokensList[fromBridge.name]);
-    setTokenIn({
-      name: tokensList[fromBridge.name][0].name,
-      image: tokensList[fromBridge.name][0].image
-    });
-    //Change after creating config.
-    setTokenOut({
-      name: `${tokensList[fromBridge.name][0].name}.e`,
-      image: tokensList[fromBridge.name][0].image
-    });
+    if(!initialRender.current) {
+      if (fromBridge.name === 'TEZOS') {
+        setTokenList(loadedTokensList.current.TEZOS[toBridge.name]);
+        setTokenIn({
+          name: loadedTokensList.current.TEZOS[toBridge.name][0].name,
+          image: loadedTokensList.current.TEZOS[toBridge.name][0].image,
+        });
+        //Change after creating config.
+        setTokenOut({
+          name: BridgeConfiguration.getOutTokenUnbridging(toBridge.name,loadedTokensList.current.TEZOS[toBridge.name][0].name),
+          image: '', // Set image if required in design in future.
+        });
+      } else {
+        setTokenList(loadedTokensList.current[fromBridge.name]);
+        setTokenIn({
+          name: loadedTokensList.current[fromBridge.name][0].name,
+          image: loadedTokensList.current[fromBridge.name][0].image,
+        });
+        // Change after creating config.
+        setTokenOut({
+          name: BridgeConfiguration.getOutTokenBridging(fromBridge.name,loadedTokensList.current[fromBridge.name][0].name),
+          image: '', // Set image if required in design in future.
+        });
+      }
+    } else {
+      initialRender.current = false;
+    }
   }, [fromBridge]);
 
-  /* useEffect(() => {
+  useEffect(() => {
     //console.log(BridgeConfiguration.getTezosWrappedTokens('AVALANCHE'));
-    console.log(getAvailableLiquidityPairs('wUSDC'));
-  }, []); */
+    //console.log(getAvailableLiquidityPairs('wUSDC'));
+    console.log(createTokensList());
+    const tokensListResult = createTokensList();
+    if (tokensListResult.success) {
+      loadedTokensList.current = tokensListResult.data;
+      setTokenList(loadedTokensList.current[fromBridge.name]);
+      setTokenIn({
+        name: loadedTokensList.current[fromBridge.name][0].name,
+        image: loadedTokensList.current[fromBridge.name][0].image,
+      });
+      // Change after creating config.
+      setTokenOut({
+        name: BridgeConfiguration.getOutTokenBridging(fromBridge.name,loadedTokensList.current[fromBridge.name][0].name),
+        image: '', // Set image if required in design in future.
+      });
+    }
+  }, []);
 
 
   // Function to reset all the current states to default values
@@ -198,6 +243,7 @@ const Bridge = (props) => {
                 setOperation={setOperation}
                 tokenList={tokenList}
                 setTokenList={setTokenList}
+                loadedTokensList={loadedTokensList}
               />
             )} 
             {transaction===2 && (

@@ -152,7 +152,7 @@ const bridgeButtonClick=()=>{
       <div className='border-tile'>
             <div className='left-div'>
               <div className='containerwithicon'>
-                <img src={fromBridge.bigIcon}/>
+                <img src={fromBridge.image}/>
                 <div className='right-div'>
                   <span className='fromreceived'>From</span>
                   <span className='value-text'>{fromBridge.name}</span>
@@ -163,7 +163,7 @@ const bridgeButtonClick=()=>{
       <div className='border-tile'>
             <div className='left-div'>
               <div className='containerwithicon'>
-                <img src={toBridge.bigIcon}/>
+                <img src={toBridge.image}/>
                 <div className='right-div'>
                   <span className='fromreceived'>To</span>
                   <span className='value-text'>{toBridge.name}</span>
@@ -193,7 +193,7 @@ const bridgeButtonClick=()=>{
               <div className="border-tile success">
                 <div className="left-div">
                   <div className="containerwithicon">
-                    <img src={tokenOut.bigIcon} />
+                    <img src={tokenOut.image} />
                     <div className="right-div">                     
                       <span className='value-text'>{secondTokenAmount} {tokenOut.name}</span>
                       <span className="fromreceived success-text">Bridging Successful</span>
@@ -207,7 +207,7 @@ const bridgeButtonClick=()=>{
               <div className="border-tile">
                 <div className="left-div">
                   <div className="containerwithicon">
-                    <img src={fromBridge.bigIcon} />
+                    <img src={fromBridge.image} />
                     <div className="right-div">
                       <span className="fromreceived">From</span>
                       <span className='value-text'>{fromBridge.name}</span>
@@ -218,7 +218,7 @@ const bridgeButtonClick=()=>{
               <div className="border-tile">
                 <div className="left-div">
                   <div className="containerwithicon">
-                    <img src={toBridge.bigIcon} />
+                    <img src={toBridge.image} />
                     <div className="right-div">
                       <span className="fromreceived">To</span>
                       <span className='value-text'>{toBridge.name}</span>

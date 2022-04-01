@@ -225,4 +225,7 @@ hr {
 .switchTooltip .tooltip-inner {
   background-color: #282828;
   color: #fff;
+  position: static;
+  left:auto;
+  top: auto;
 }

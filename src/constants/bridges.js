@@ -13,6 +13,7 @@ import usdc_normal from '../assets/images/bridge/tokens/usdc_normal_icon.svg';
 import busd_normal from '../assets/images/bridge/tokens/busd_normal_icon.svg';
 import weth_normal from '../assets/images/bridge/tokens/weth_normal_icon.svg';
 import wbtc_normal from '../assets/images/bridge/tokens/wbtc_normal_icon.svg';
+import fallbackIcon from '../assets/images/bridge/tokens/fallback_icon.svg';
 
 export const bridgesList = [
     {
@@ -137,4 +138,25 @@ export const tokensList = {
             bigIcon: wbtc_normal
         }
     ]
+};
+
+
+export const allTokens = {
+    DAI: dai_normal,
+    LINK: link_normal,
+    MATIC: matic_normal,
+    USDT: usdt_normal,
+    USDC: usdc_normal,
+    BUSD: busd_normal,
+    WETH: weth_normal,
+    WBTC: wbtc_normal,
+    'DAI.e': dai_normal,
+    'LINK.e': link_normal,
+    'MATIC.e': matic_normal,
+    'USDT.e': usdt_normal,
+    'USDC.e': usdc_normal,
+    'BUSD.e': busd_normal,
+    'WETH.e': weth_normal,
+    'WBTC.e': wbtc_normal,
+    fallback: fallbackIcon
 };
