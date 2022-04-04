@@ -114,6 +114,7 @@ const SelectorModal = (props) => {
       </Modal.Header>
       <Modal.Body>
         <div className="coin-selection-table">
+          {props.tokens.length === 0 && (<h6>No Items to Show.</h6>)}
           {tokensToShow.map((token, index) => {
             return (
               <button

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import clsx from 'clsx';
 import styles from './bridge.module.scss';
 import Container from 'react-bootstrap/Container';
@@ -141,40 +141,53 @@ const Bridge = (props) => {
 
   useEffect(() => {
     if(!initialRender.current) {
-      if (fromBridge.name === 'TEZOS') {
-        setTokenList(loadedTokensList.current.TEZOS[toBridge.name]);
+      // Check if the tokens list is loaded for the loaded config and if the loaded tokens list has the items for the selected chain. Display NA if no.
+      if(loadedTokensList.current && (!Object.prototype.hasOwnProperty.call(loadedTokensList.current, fromBridge.name) || !Object.prototype.hasOwnProperty.call(loadedTokensList.current.TEZOS, toBridge.name))) {
+        setTokenList([]);
         setTokenIn({
-          name: loadedTokensList.current.TEZOS[toBridge.name][0].name,
-          image: loadedTokensList.current.TEZOS[toBridge.name][0].image,
-        });
-        //Change after creating config.
-        setTokenOut({
-          name: BridgeConfiguration.getOutTokenUnbridging(toBridge.name,loadedTokensList.current.TEZOS[toBridge.name][0].name),
-          image: '', // Set image if required in design in future.
-        });
-      } else {
-        setTokenList(loadedTokensList.current[fromBridge.name]);
-        setTokenIn({
-          name: loadedTokensList.current[fromBridge.name][0].name,
-          image: loadedTokensList.current[fromBridge.name][0].image,
+          name: 'Token NA',
+          image: '',
         });
         // Change after creating config.
         setTokenOut({
-          name: BridgeConfiguration.getOutTokenBridging(fromBridge.name,loadedTokensList.current[fromBridge.name][0].name),
+          name: 'Token NA',
           image: '', // Set image if required in design in future.
         });
+      } else {
+        if (fromBridge.name === 'TEZOS') {
+          setTokenList(loadedTokensList.current.TEZOS[toBridge.name]);
+          setTokenIn({
+            name: loadedTokensList.current.TEZOS[toBridge.name][0].name,
+            image: loadedTokensList.current.TEZOS[toBridge.name][0].image,
+          });
+          //Change after creating config.
+          setTokenOut({
+            name: BridgeConfiguration.getOutTokenUnbridging(toBridge.name,loadedTokensList.current.TEZOS[toBridge.name][0].name),
+            image: '', // Set image if required in design in future.
+          });
+        } else {
+          setTokenList(loadedTokensList.current[fromBridge.name]);
+          setTokenIn({
+            name: loadedTokensList.current[fromBridge.name][0].name,
+            image: loadedTokensList.current[fromBridge.name][0].image,
+          });
+          // Change after creating config.
+          setTokenOut({
+            name: BridgeConfiguration.getOutTokenBridging(fromBridge.name,loadedTokensList.current[fromBridge.name][0].name),
+            image: '', // Set image if required in design in future.
+          });
+        }
       }
     } else {
       initialRender.current = false;
     }
   }, [fromBridge]);
 
-  useEffect(() => {
-    //console.log(BridgeConfiguration.getTezosWrappedTokens('AVALANCHE'));
-    //console.log(getAvailableLiquidityPairs('wUSDC'));
-    console.log(createTokensList());
+
+  // Function to create tokens list from the loaded config.
+  const loadTokensList = useCallback(() => {
     const tokensListResult = createTokensList();
-    if (tokensListResult.success) {
+    if (tokensListResult.success && Object.prototype.hasOwnProperty.call(tokensListResult.data, fromBridge.name)) {
       loadedTokensList.current = tokensListResult.data;
       setTokenList(loadedTokensList.current[fromBridge.name]);
       setTokenIn({
@@ -186,7 +199,36 @@ const Bridge = (props) => {
         name: BridgeConfiguration.getOutTokenBridging(fromBridge.name,loadedTokensList.current[fromBridge.name][0].name),
         image: '', // Set image if required in design in future.
       });
+    } else {
+      loadedTokensList.current = tokensListResult.success ? tokensListResult.data : null;
+      setTokenIn({
+        name: 'Token NA',
+        image: '',
+      });
+      // Change after creating config.
+      setTokenOut({
+        name: 'Token NA',
+        image: '', // Set image if required in design in future.
+      });
     }
+    return tokensListResult.data;
+  }, []);
+
+  useEffect(() => {
+    // Create tokens data from the loaded config first time the component loads. If the config is not loaded when this module is mounted, 
+    // then it will re-attempt to create tokens data after a time gap once, as loading of config from indexer api may sometimes be delayed.
+    // This will also take care of the scenario if a user opens /bridge directly without the config loaded.
+    let loadData = loadTokensList();
+    //console.log(loadData);
+    let timer;
+    if(loadData.length === 0) {
+      console.log('Reattempting to load tokens data from config...');
+      timer = setTimeout(() => {
+        loadData = loadTokensList();
+        console.log(loadData);
+      }, 3000);
+    }
+    return () => clearTimeout(timer);
   }, []);
 
 

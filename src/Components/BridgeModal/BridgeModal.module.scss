@@ -106,7 +106,6 @@
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
-  background-color: var(--theme-input-bg);
   mix-blend-mode: normal;
   padding: 12px;
   border: 0.803667px solid rgba(0, 0, 0, 0.08);
@@ -115,6 +114,11 @@
 
   &:hover {
     border: 1px solid var(--theme-border-light);
+  }
+
+  &.selected {
+    background-color: var(--theme-input-bg);
+    border: 0.803667px solid rgba(98, 2, 239, 0.4);
   }
 }
 .inputSelectBox {
@@ -399,4 +403,47 @@
     border-style: solid;
     border-color: transparent #282828 transparent transparent;
   }
+}
+
+.toTokenSelector {
+  &:hover {
+    background: #F9FAFA;
+    border: 0.803667px solid rgba(98, 2, 239, 0.4);
+  }
+}
+
+.tokenInSelected {
+  background-color: var(--theme-input-bg);
+  border: 0.803667px solid rgba(98, 2, 239, 0.4);
+  &:hover {
+    background-color: var(--theme-input-bg);
+    border: 0.803667px solid rgba(98, 2, 239, 0.4);
+  }
+}
+
+.inputError {
+  background: rgba(255, 90, 67, 0.05);
+  border: 0.734783px solid #FF5A43;
+  &:hover {
+    background: rgba(255, 90, 67, 0.05);
+    border: 0.734783px solid #FF5A43;
+  }
+  .tokenUserInput {
+    color: rgba(255, 90, 67, 0.5);
+    &::placeholder{
+      color: rgba(255, 90, 67, 0.5);
+    }
+  }
+}
+
+.bridgeSelector{
+  &:hover {
+    background: #F9FAFA;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
+}
+
+.fromBridgeClicked {
+  background: #F9FAFA;
+  border: 0.803667px solid rgba(98, 2, 239, 0.4);
 }

@@ -52,9 +52,10 @@ const BridgeModal = (props) => {
   const [tokenType, setTokenType] = useState('tokenIn');
   const [getTokenPrice, setGetTokenPrice] = useState({});
   const [isLoading,SetisLoading]=useState(false);
-  
-
-
+  const [isTokenInSelected, setIsTokenInSelected] = useState(false);
+  const [isBridgeSelected, setIsBridgeSelected] = useState(false);
+  const [isTokenSelected, setIsTokenSelected] = useState(false);
+  const [isBridgeClicked, setIsBridgeClicked] = useState(false);
   //const [fromBridge, setFromBridge] = useState({name: 'ETHEREUM', image: ethereum, buttonImage: ethereum});
   //const [toBridge, setToBridge] = useState({name: 'TEZOS', image: tezos, buttonImage: ''});
   //const [connectBridgeWallet, setConnectBrigeWallet] = useState({name: fromBridge.name, image: fromBridge.image, buttonImage: fromBridge.buttonImage});
@@ -159,34 +160,36 @@ const BridgeModal = (props) => {
   };
 
   const handleFromTokenInput = (input) => {
-    if (input === '' || isNaN(input)) {
-      setFirstTokenAmount('');
-      setSecondTokenAmount('');
-      setFee(0);
+    setIsError(false);
+    if(!walletAddress) {
+      setErrorMessage('Please connect to tezos wallet.');
+      setIsError(true);
     } else {
-      setFirstTokenAmount(input);
-      if(operation === 'BRIDGE') {
-        setFee((input * BridgeConfiguration.getFeesForChain(fromBridge.name).WRAP_FEES)/10000);
-        const outputAmount = input - (input * BridgeConfiguration.getFeesForChain(fromBridge.name).WRAP_FEES) / 10000;
-        setSecondTokenAmount(outputAmount);
-        //setSecondTokenAmount(input - fee);
-        /* setTimeout(()=>{
-          console.log(fee);
-          setSecondTokenAmount(input - fee);
-        },500); */
-        
+      if (input === '' || isNaN(input)) {
+        setFirstTokenAmount('');
+        setSecondTokenAmount('');
+        setFee(0);
       } else {
-        setFee((input * BridgeConfiguration.getFeesForChain(toBridge.name).UNWRAP_FEES)/10000);
-        const outputAmount = input - (input * BridgeConfiguration.getFeesForChain(toBridge.name).UNWRAP_FEES) / 10000;
-        setSecondTokenAmount(outputAmount);
-        /* setTimeout(()=>{
-          setSecondTokenAmount(input - fee);
-        },200); */
+        setFirstTokenAmount(input);
+        if(input > userBalances[tokenIn.name]) {
+          setErrorMessage('Insufficient balance');
+          setIsError(true);
+        } else {
+          if(operation === 'BRIDGE') {
+            setFee((input * BridgeConfiguration.getFeesForChain(fromBridge.name).WRAP_FEES)/10000);
+            const outputAmount = input - (input * BridgeConfiguration.getFeesForChain(fromBridge.name).WRAP_FEES) / 10000;
+            setSecondTokenAmount(outputAmount);
+          } else {
+            setFee((input * BridgeConfiguration.getFeesForChain(toBridge.name).UNWRAP_FEES)/10000);
+            const outputAmount = input - (input * BridgeConfiguration.getFeesForChain(toBridge.name).UNWRAP_FEES) / 10000;
+            setSecondTokenAmount(outputAmount);
+          }
+          
+        }
+        
       }
-      //const toAmt = input - fee;
-      //setSecondTokenAmount(toAmt);
-      
     }
+    
   };
 
   const handleToTokenInput = (input, tokenType) => {
@@ -202,13 +205,23 @@ const BridgeModal = (props) => {
   };
 
  const handelClickWithMetaAddedBtn = () => {
-  SetisLoading(true);
-  dummyApiCall({isfinished:true}).then((res)=>{
-       if(res.isfinished){
-        SetisLoading(false);
-        setTransaction(3);
+   setIsError(false);
+   if(firstTokenAmount === '' || isNaN(firstTokenAmount) || firstTokenAmount === 0 ) {
+     setErrorMessage('Enter the amount and proceed');
+     setIsError(true);
+   } else if (firstTokenAmount > userBalances[tokenIn.name]) {
+    setErrorMessage('Insufficient balance');
+    setIsError(true);
+   } else {
+     SetisLoading(true);
+     dummyApiCall({ isfinished: true }).then((res) => {
+       if (res.isfinished) {
+         SetisLoading(false);
+         setTransaction(3);
        }
-  });
+     });
+   }
+  
  };
   const connectWalletHandler = () => {
     if (window.ethereum && window.ethereum.isMetaMask) {
@@ -261,7 +274,7 @@ const BridgeModal = (props) => {
 
   const handleClose = () => {
     setShow(false);
-
+    setIsBridgeClicked(false);
     setSearchQuery('');
   };
   const handleTokenType = (type) => {
@@ -299,6 +312,7 @@ const BridgeModal = (props) => {
       
     }
     setFromBridge({name: bridge.name, image: bridge.image, buttonImage: bridge.buttonImage});
+    setIsBridgeSelected(true);
     handleClose();
   };
 
@@ -318,6 +332,7 @@ const BridgeModal = (props) => {
   const handleBridgeSelect = () => {
     //setSelector('BRIDGES');
     selector.current = 'BRIDGES';
+    setIsBridgeClicked(true);
     setShow(true);
   };
 
@@ -344,6 +359,7 @@ const BridgeModal = (props) => {
         image: '', // Set image if required in design in future.
       });
     }
+    setIsTokenSelected(true);
     /* setTokenOut({
       name: `${token.name}.e`,
       image: token.image,
@@ -418,8 +434,9 @@ const BridgeModal = (props) => {
               <p className={`mb-0 ${styles.fromLabelBottom}`}>Choose your entry chain</p>
             </div>
             <div
-              className={clsx(styles.bridgeSelector, styles.selector)}
+              className={clsx(styles.bridgeSelector, styles.selector, isBridgeClicked && styles.fromBridgeClicked)}
               onClick={handleBridgeSelect}
+              style={{boxShadow: isBridgeSelected && 'none'}}
             >
               <img src={fromBridge.image} className="button-logo" />
               <span>{fromBridge.name} </span>
@@ -428,11 +445,12 @@ const BridgeModal = (props) => {
           </div>
           <div className={`my-3 ${styles.lineMid} `}></div>
           <p className={styles.midLabel}>Choose your token and enter the amount</p>
-          <div className={`mt-2 ${styles.tokenSelectBox} ${styles.inputSelectBox}`}>
+          <div className={`mt-2 ${styles.tokenSelectBox} ${isTokenInSelected && styles.tokenInSelected} ${styles.inputSelectBox} ${isError && styles.inputError}`}>
             <div className={'flex align-items-center'}>
               <div
                 className={clsx(styles.selector, styles.toTokenSelector)}
                 onClick={handleTokenSelect}
+                style={{boxShadow: isTokenSelected && 'none'}}
               >
                 <img src={tokenIn.image} className="button-logo" />
                 <span>{tokenIn.name} </span>
@@ -452,6 +470,8 @@ const BridgeModal = (props) => {
                 placeholder="0.0"
                 value={firstTokenAmount}
                 onChange={(e) => handleFromTokenInput(e.target.value)}
+                onFocus={() => setIsTokenInSelected(true)}
+                onBlur={() => setIsTokenInSelected(false)}
               />
             </div>
           </div>
