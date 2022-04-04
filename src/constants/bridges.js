@@ -22,12 +22,12 @@ export const bridgesList = [
         buttonImage: ethereum,
         bigIcon: ethereum
     },
-    /* {
+    {
         name: 'AVALANCHE',
         image: avaxRed,
         buttonImage: avax,
         bigIcon: avaxRed
-    }, */
+    },
     {
         name: 'TEZOS',
         image: tezos,

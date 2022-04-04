@@ -142,7 +142,7 @@ const Bridge = (props) => {
   useEffect(() => {
     if(!initialRender.current) {
       // Check if the tokens list is loaded for the loaded config and if the loaded tokens list has the items for the selected chain. Display NA if no.
-      if(loadedTokensList.current && (!Object.prototype.hasOwnProperty.call(loadedTokensList.current, fromBridge.name) || !Object.prototype.hasOwnProperty.call(loadedTokensList.current.TEZOS, toBridge.name))) {
+      if(!loadedTokensList.current || (!Object.prototype.hasOwnProperty.call(loadedTokensList.current, fromBridge.name))) {
         setTokenList([]);
         setTokenIn({
           name: 'Token NA',
@@ -155,16 +155,34 @@ const Bridge = (props) => {
         });
       } else {
         if (fromBridge.name === 'TEZOS') {
-          setTokenList(loadedTokensList.current.TEZOS[toBridge.name]);
-          setTokenIn({
-            name: loadedTokensList.current.TEZOS[toBridge.name][0].name,
-            image: loadedTokensList.current.TEZOS[toBridge.name][0].image,
-          });
-          //Change after creating config.
-          setTokenOut({
-            name: BridgeConfiguration.getOutTokenUnbridging(toBridge.name,loadedTokensList.current.TEZOS[toBridge.name][0].name),
-            image: '', // Set image if required in design in future.
-          });
+          // Check if the tokens list created and config has reference tokens for selected 'TO' chain when 'FROM' is tezos.
+          if (Object.prototype.hasOwnProperty.call(loadedTokensList.current.TEZOS, toBridge.name)) {
+            setTokenList(loadedTokensList.current.TEZOS[toBridge.name]);
+            setTokenIn({
+              name: loadedTokensList.current.TEZOS[toBridge.name][0].name,
+              image: loadedTokensList.current.TEZOS[toBridge.name][0].image,
+            });
+            //Change after creating config.
+            setTokenOut({
+              name: BridgeConfiguration.getOutTokenUnbridging(
+                toBridge.name,
+                loadedTokensList.current.TEZOS[toBridge.name][0].name,
+              ),
+              image: '', // Set image if required in design in future.
+            });
+          } else {
+            setTokenList([]);
+            setTokenIn({
+              name: 'Token NA',
+              image: '',
+            });
+            // Change after creating config.
+            setTokenOut({
+              name: 'Token NA',
+              image: '', // Set image if required in design in future.
+            });
+          }
+          
         } else {
           setTokenList(loadedTokensList.current[fromBridge.name]);
           setTokenIn({
