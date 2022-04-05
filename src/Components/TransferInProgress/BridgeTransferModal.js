@@ -13,13 +13,13 @@ import '../../assets/scss/animation.scss';
 import { bridgesList } from '../../constants/bridges';
 import { ReactComponent as FeeBigIcon } from '../../assets/images/bridge/fee_big_icon.svg';
 import { ReactComponent as ProcessSuccess } from '../../assets/images/bridge/process_success.svg';
-
+import { approveToken, wrap, getMintStatus, mintTokens } from '../../apis/bridge/bridgeAPI';
 const BridgeTransferModal = (props) => {
-  const [animationCalss,SetAnimationClass]=useState('leftToRightFadeInAnimation-4-bridge');
+  const [animationCalss, SetAnimationClass] = useState('leftToRightFadeInAnimation-4-bridge');
   //const [currentProgress,SetCurrentProgress]=useState(4);
-  const [isButtonLoading,SetIsButtonLoading]=useState(false);
-  const isCurrentProgressCompleted=(currentProgres)=>{
-      return currentProgres>currentProgres;
+  const [isButtonLoading, SetIsButtonLoading] = useState(false);
+  const isCurrentProgressCompleted = (currentProgres) => {
+    return currentProgres > currentProgres;
   };
 
   const {
@@ -47,22 +47,49 @@ const BridgeTransferModal = (props) => {
     setOperation,
     resetToDefaultStates,
     setTransactionData,
-    getTransactionListLength
+    getTransactionListLength,
   } = props;
 
   const setBack = (value) => {
     SetAnimationClass('rightToLeftFadeInAnimation-4');
-    setTimeout(()=>{
+    setTimeout(() => {
       if (value) {
         setTransaction(1);
       }
-    },200); 
+    }, 200);
   };
 
-const bridgeButtonClick=()=>{
-  SetIsButtonLoading(true);
-    dummyApiCall({currentProgress:currentProgress}).then((res)=>{
-      if(res.currentProgress === 0) {
+  const bridgeButtonClick = async () => {
+    SetIsButtonLoading(true);
+    //Approve call
+    /*     approveToken(tokenIn, fromBridge.name, firstTokenAmount).then((data) => {
+      console.log(data);
+      SetIsButtonLoading(false);
+    }); */
+
+    //Wrap call
+    /*     wrap(tokenIn, fromBridge.name, firstTokenAmount, walletAddress).then((data) => {
+      console.log(data);
+      SetIsButtonLoading(false);
+    }); */
+
+    //Check Mint Status
+    /*     getMintStatus(
+      '0x952fadffdfb333e14eeee98ab22a9adcbd92c456a14b13eb193f2ae81eb906e0',
+      fromBridge.name,
+    ).then((data) => {
+      console.log(data);
+      SetIsButtonLoading(false);
+    }); */
+
+    //mint call
+    /*     mintTokens(data.data, fromBridge.name).then((data) => {
+      console.log(data);
+      SetIsButtonLoading(false);
+    }); */
+
+    dummyApiCall({ currentProgress: currentProgress }).then((res) => {
+      if (res.currentProgress === 0) {
         const newIndex = getTransactionListLength();
         const newProgress = res.currentProgress + 1;
         const newDate = new Date().toLocaleDateString('en-IN');
@@ -83,253 +110,261 @@ const bridgeButtonClick=()=>{
         };
         setTransactionData((prevData) => [...prevData, newData]);
       } else {
-        setTransactionData((prevData) => prevData.map(transaction => transaction.id === selectedId ? {...transaction, currentProgress: res.currentProgress + 1} : transaction));
+        setTransactionData((prevData) =>
+          prevData.map((transaction) =>
+            transaction.id === selectedId
+              ? { ...transaction, currentProgress: res.currentProgress + 1 }
+              : transaction,
+          ),
+        );
       }
       SetIsButtonLoading(false);
-      SetCurrentProgress(res.currentProgress+1);
+      SetCurrentProgress(res.currentProgress + 1);
     });
-};
-  const numberOfSteps=[
-    'Approve',
-    'Bridge',
-    'Mint',
-    'Done'
-  ];
-  const defaultTile=(buttonText)=>{
-    return (<p className={styles.progressLabel+' leftToRightFadeInAnimation-4-bridge'}>
-      <div className="flex flex-row">
-        <span className={styles.defaultRadioButton}></span>
-        <span>{buttonText}</span>
-      </div>
-      <p className={styles.defaultProgressLine}></p>
-    </p>);
   };
-  const completedTile=(buttonText)=>{
-    return(
-    <p className={`${styles.completedLabel} ${styles.progressLabel} leftToRightFadeInAnimation-4-bridge`}>
-    <div className="flex flex-row">
-      {/* <span className={styles.defaultRadioButton}></span> */}
-      <span className={styles.greenTick}>
-        <Tick />
-      </span>
-      <span>{buttonText}</span>
-    </div>
-    <p className={styles.completedProgress}></p>
-  </p>);
+  const numberOfSteps = ['Approve', 'Bridge', 'Mint', 'Done'];
+  const defaultTile = (buttonText) => {
+    return (
+      <p className={styles.progressLabel + ' leftToRightFadeInAnimation-4-bridge'}>
+        <div className="flex flex-row">
+          <span className={styles.defaultRadioButton}></span>
+          <span>{buttonText}</span>
+        </div>
+        <p className={styles.defaultProgressLine}></p>
+      </p>
+    );
   };
-  const currentTile=(buttonText)=>{
-     return(<p className={styles.progressLabel+' leftToRightFadeInAnimation-4-bridge'}>
-      <div className="flex flex-row">
-        <span className={styles.radioButton}></span>
-        <span className={styles.activeLabel}>{buttonText}</span>
-      </div>
-      <p className={styles.progressLine}></p>
-    </p>);
+  const completedTile = (buttonText) => {
+    return (
+      <p
+        className={`${styles.completedLabel} ${styles.progressLabel} leftToRightFadeInAnimation-4-bridge`}
+      >
+        <div className="flex flex-row">
+          {/* <span className={styles.defaultRadioButton}></span> */}
+          <span className={styles.greenTick}>
+            <Tick />
+          </span>
+          <span>{buttonText}</span>
+        </div>
+        <p className={styles.completedProgress}></p>
+      </p>
+    );
   };
-  const InSideElement=(p)=>{
-    if(currentProgress===numberOfSteps.length-1){
-      dummyApiCall({isCompletedtranscation:true}).then((res)=>{
-        setTransactionData((prevData) => prevData.map(transaction => transaction.id === selectedId ? {...transaction, currentProgress: currentProgress+1} : transaction));
-        if(res.isCompletedtranscation){SetCurrentProgress(currentProgress+1);}
-         
+  const currentTile = (buttonText) => {
+    return (
+      <p className={styles.progressLabel + ' leftToRightFadeInAnimation-4-bridge'}>
+        <div className="flex flex-row">
+          <span className={styles.radioButton}></span>
+          <span className={styles.activeLabel}>{buttonText}</span>
+        </div>
+        <p className={styles.progressLine}></p>
+      </p>
+    );
+  };
+  const InSideElement = (p) => {
+    if (currentProgress === numberOfSteps.length - 1) {
+      dummyApiCall({ isCompletedtranscation: true }).then((res) => {
+        setTransactionData((prevData) =>
+          prevData.map((transaction) =>
+            transaction.id === selectedId
+              ? { ...transaction, currentProgress: currentProgress + 1 }
+              : transaction,
+          ),
+        );
+        if (res.isCompletedtranscation) {
+          SetCurrentProgress(currentProgress + 1);
+        }
       });
       return (
-      <>
-      <div className='bridge-done_screen'>
-      <div className='border-tile shaded'>
-            <div className='left-div'>
-              <p>You will receive</p>
-              <div className='containerwithicon'>
-                <img src={tokenOut.image}/>
-                <span className='value-text'>{secondTokenAmount} {tokenOut.name}</span>
-              </div>
-            </div>
-            <div className='loading-div'>
-              <LoadingRing/>
-            </div>
-            
-      </div>
-      <div className='border-tile'>
-            <div className='left-div'>
-              <div className='containerwithicon'>
-                <img src={fromBridge.image}/>
-                <div className='right-div'>
-                  <span className='fromreceived'>From</span>
-                  <span className='value-text'>{fromBridge.name}</span>
+        <>
+          <div className="bridge-done_screen">
+            <div className="border-tile shaded">
+              <div className="left-div">
+                <p>You will receive</p>
+                <div className="containerwithicon">
+                  <img src={tokenOut.image} />
+                  <span className="value-text">
+                    {secondTokenAmount} {tokenOut.name}
+                  </span>
                 </div>
               </div>
-            </div>
-      </div>
-      <div className='border-tile'>
-            <div className='left-div'>
-              <div className='containerwithicon'>
-                <img src={toBridge.image}/>
-                <div className='right-div'>
-                  <span className='fromreceived'>To</span>
-                  <span className='value-text'>{toBridge.name}</span>
-                </div>
+              <div className="loading-div">
+                <LoadingRing />
               </div>
             </div>
-      </div>
-      <div className='border-tile'>
-            <div className='left-div'>
-              <div className='containerwithicon'>
-                <FeeBigIcon />
-                <div className='right-div'>
-                  <span className='fromreceived'>Estimated transaction fee</span>
-                  <span className='value-text'>~{p.transactionFees}</span>
-                </div>
-              </div>
-            </div>
-      </div>
-      </div>
-      </>);
-    }else if(currentProgress===numberOfSteps.length){
-        
-        //resetToDefaultStates();
-        return (
-          <>
-            <div className="bridge-done_screen">
-              <div className="border-tile success">
-                <div className="left-div">
-                  <div className="containerwithicon">
-                    <img src={tokenOut.image} />
-                    <div className="right-div">                     
-                      <span className='value-text'>{secondTokenAmount} {tokenOut.name}</span>
-                      <span className="fromreceived success-text">Bridging Successful</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="loading-div">
-                  <ProcessSuccess />
-                </div>
-              </div>
-              <div className="border-tile">
-                <div className="left-div">
-                  <div className="containerwithicon">
-                    <img src={fromBridge.image} />
-                    <div className="right-div">
-                      <span className="fromreceived">From</span>
-                      <span className='value-text'>{fromBridge.name}</span>
-                    </div>
+            <div className="border-tile">
+              <div className="left-div">
+                <div className="containerwithicon">
+                  <img src={fromBridge.image} />
+                  <div className="right-div">
+                    <span className="fromreceived">From</span>
+                    <span className="value-text">{fromBridge.name}</span>
                   </div>
                 </div>
               </div>
-              <div className="border-tile">
-                <div className="left-div">
-                  <div className="containerwithicon">
-                    <img src={toBridge.image} />
-                    <div className="right-div">
-                      <span className="fromreceived">To</span>
-                      <span className='value-text'>{toBridge.name}</span>
-                    </div>
+            </div>
+            <div className="border-tile">
+              <div className="left-div">
+                <div className="containerwithicon">
+                  <img src={toBridge.image} />
+                  <div className="right-div">
+                    <span className="fromreceived">To</span>
+                    <span className="value-text">{toBridge.name}</span>
                   </div>
                 </div>
               </div>
-              <div className="border-tile">
-                <div className="left-div">
-                  <div className="containerwithicon">
-                    <FeeBigIcon />
-                    <div className="right-div">
-                      <span className="fromreceived">Estimated transaction fee</span>
-                      <span className='value-text'>~{p.transactionFees}</span>
-                    </div>
+            </div>
+            <div className="border-tile">
+              <div className="left-div">
+                <div className="containerwithicon">
+                  <FeeBigIcon />
+                  <div className="right-div">
+                    <span className="fromreceived">Estimated transaction fee</span>
+                    <span className="value-text">~{p.transactionFees}</span>
                   </div>
                 </div>
               </div>
-              <div className="borderless mt-3">
-                <p
-                  className={`mb-1 mt-1 ${styles.discriptionInfo}`}
-                  style={{ width: 'max-content' }}
+            </div>
+          </div>
+        </>
+      );
+    } else if (currentProgress === numberOfSteps.length) {
+      //resetToDefaultStates();
+      return (
+        <>
+          <div className="bridge-done_screen">
+            <div className="border-tile success">
+              <div className="left-div">
+                <div className="containerwithicon">
+                  <img src={tokenOut.image} />
+                  <div className="right-div">
+                    <span className="value-text">
+                      {secondTokenAmount} {tokenOut.name}
+                    </span>
+                    <span className="fromreceived success-text">Bridging Successful</span>
+                  </div>
+                </div>
+              </div>
+              <div className="loading-div">
+                <ProcessSuccess />
+              </div>
+            </div>
+            <div className="border-tile">
+              <div className="left-div">
+                <div className="containerwithicon">
+                  <img src={fromBridge.image} />
+                  <div className="right-div">
+                    <span className="fromreceived">From</span>
+                    <span className="value-text">{fromBridge.name}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="border-tile">
+              <div className="left-div">
+                <div className="containerwithicon">
+                  <img src={toBridge.image} />
+                  <div className="right-div">
+                    <span className="fromreceived">To</span>
+                    <span className="value-text">{toBridge.name}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="border-tile">
+              <div className="left-div">
+                <div className="containerwithicon">
+                  <FeeBigIcon />
+                  <div className="right-div">
+                    <span className="fromreceived">Estimated transaction fee</span>
+                    <span className="value-text">~{p.transactionFees}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="borderless mt-3">
+              <p className={`mb-1 mt-1 ${styles.discriptionInfo}`} style={{ width: 'max-content' }}>
+                <a
+                  href="https://forum.plentydefi.com/t/pip-001-minting-rate-reduction/51"
+                  target="_blank"
+                  rel="noreferrer"
                 >
-                  <a
-                    href="https://forum.plentydefi.com/t/pip-001-minting-rate-reduction/51"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    View detailed trasaction
-                  </a>
-                  <Link className="ml-2 mb-1" />
-                </p>
-              </div>
+                  View detailed trasaction
+                </a>
+                <Link className="ml-2 mb-1" />
+              </p>
             </div>
-          </>
-        );
+          </div>
+        </>
+      );
     }
-    return(
+    return (
       <>
-       <p className={styles.contentLabel}>{p.label}</p>
-          <p className={styles.contentDes}>
-            {p.description}
-          </p>
-          <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
-            <a
-              href="https://forum.plentydefi.com/t/pip-001-minting-rate-reduction/51"
-              target="_blank"
-              rel="noreferrer"
-            >
-              View on Block Explorer
-            </a>
-            <Link className="ml-2 mb-1" />
-          </p>
-          <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
-          {
-            ( currentProgress === 0 && 
-              <div className={`${styles.topInfo} my-2`}>
-                    Please approve in your wallet to proceed with the tranfer{' '}
-              </div>  
-            )
-          }
-          <div className={styles.resultsHeader}>
-            {
-              currentProgress === 0 ? (
-                <>
-                  <div style={{width: '50%'}}>
-                    <Button
-                      color={'default'}
-                      className={`mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
-                      onClick={() => setBack(1)}
-                    >
-                      {'Cancel'}
-                    </Button>
-                  </div>
-                  <div style={{width: '50%'}}>
-                    <Button
-                      color={'primary'}
-                      className={`xplenty-btn mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
-                      onClick={bridgeButtonClick}
-                      loading={isButtonLoading}
-                    >
-                      {numberOfSteps[currentProgress]}
-                    </Button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className={`${styles.bottomInfo} ${styles.width}`}>
-                    Please approve in your wallet to proceed with the tranfer{' '}
-                  </div>
-                  <div style={{width: '50%'}}>
-                    <Button
-                      color={'primary'}
-                      className={`xplenty-btn mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
-                      onClick={(bridgeButtonClick)}
-                      loading={isButtonLoading}
-                    >
-                      {numberOfSteps[currentProgress]}
-                    </Button>
-                  </div>
-                </>
-              )
-            }
+        <p className={styles.contentLabel}>{p.label}</p>
+        <p className={styles.contentDes}>{p.description}</p>
+        <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
+          <a
+            href="https://forum.plentydefi.com/t/pip-001-minting-rate-reduction/51"
+            target="_blank"
+            rel="noreferrer"
+          >
+            View on Block Explorer
+          </a>
+          <Link className="ml-2 mb-1" />
+        </p>
+        <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
+        {currentProgress === 0 && (
+          <div className={`${styles.topInfo} my-2`}>
+            Please approve in your wallet to proceed with the tranfer{' '}
           </div>
-          <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
-          <div className={styles.feeInfoWrapper}>
-            <FeeIcon />
-            <p className={styles.bottomInfo}>Estimated Transaction fee</p>
-            <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~{p.transactionFees}</p>
-          </div>
-         
+        )}
+        <div className={styles.resultsHeader}>
+          {currentProgress === 0 ? (
+            <>
+              <div style={{ width: '50%' }}>
+                <Button
+                  color={'default'}
+                  className={`mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
+                  onClick={() => setBack(1)}
+                >
+                  {'Cancel'}
+                </Button>
+              </div>
+              <div style={{ width: '50%' }}>
+                <Button
+                  color={'primary'}
+                  className={`xplenty-btn mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
+                  onClick={bridgeButtonClick}
+                  loading={isButtonLoading}
+                >
+                  {numberOfSteps[currentProgress]}
+                </Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className={`${styles.bottomInfo} ${styles.width}`}>
+                Please approve in your wallet to proceed with the tranfer{' '}
+              </div>
+              <div style={{ width: '50%' }}>
+                <Button
+                  color={'primary'}
+                  className={`xplenty-btn mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
+                  onClick={bridgeButtonClick}
+                  loading={isButtonLoading}
+                >
+                  {numberOfSteps[currentProgress]}
+                </Button>
+              </div>
+            </>
+          )}
+        </div>
+        <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
+        <div className={styles.feeInfoWrapper}>
+          <FeeIcon />
+          <p className={styles.bottomInfo}>Estimated Transaction fee</p>
+          <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~{p.transactionFees}</p>
+        </div>
       </>
     );
   };
@@ -338,7 +373,9 @@ const bridgeButtonClick=()=>{
       className={`row justify-content-center mx-auto col-24 col-md-10 col-lg-10 col-xl-10 ${styles.gov}`}
     >
       <div className={styles.border}>
-        <div className={` ${styles.bridgeModal} leftToRightFadeInAnimation-4-bridge-${isButtonLoading}`}>
+        <div
+          className={` ${styles.bridgeModal} leftToRightFadeInAnimation-4-bridge-${isButtonLoading}`}
+        >
           <div className="flex flex-row justify-content-between mb-3">
             <div className={`flex ${styles.headingWrapper}`}>
               {currentProgress === 0 && (
@@ -426,7 +463,7 @@ BridgeTransferModal.propTypes = {
   resetToDefaultStates: PropTypes.any,
   setTransactionData: PropTypes.any,
   getTransactionListLength: PropTypes.any,
-  selectedId: PropTypes.any
+  selectedId: PropTypes.any,
 };
 
 export default BridgeTransferModal;
