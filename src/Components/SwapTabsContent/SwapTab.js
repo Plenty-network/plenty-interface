@@ -516,6 +516,9 @@ const SwapTab = (props) => {
         tokenOut={props.tokenOut.name}
         secondTokenAmount={secondAmount}
         setLoaderMessage={props.setLoaderMessage}
+        onBtnClick={
+          transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
+        }
       />
     </>
   );

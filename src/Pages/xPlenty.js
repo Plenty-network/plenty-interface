@@ -210,6 +210,11 @@ const Stake = (props) => {
         }
         tokenIn={true}
         setLoaderMessage={setLoaderMessage}
+        onBtnClick={
+          props.currentOpHash
+            ? () => window.open(`https://tzkt.io/${props.currentOpHash}`, '_blank')
+            : null
+        }
       />
       <InfoModal
         open={props.isTransactionInjectionModalOpen}

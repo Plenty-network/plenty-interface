@@ -708,6 +708,9 @@ const AddLiquidityNew = (props) => {
         } LP Created`}
         tokenIn={props.tokenIn.name}
         tokenOut={props.tokenOut.name}
+        onBtnClick={
+          transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
+        }
       />
     </>
   );

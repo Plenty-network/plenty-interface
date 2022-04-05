@@ -354,7 +354,17 @@ const Farms = (props) => {
         }
         onHide={handleClose}
       />
-      <FarmModals />
+      <FarmModals
+        type={floaterValue.type}
+        pair={floaterValue.pair}
+        value={floaterValue.value}
+        theme={props.theme}
+        content={
+          floaterValue.type === 'Harvesting'
+            ? `${floaterValue.type}  ${floaterValue.pair}  `
+            : `${floaterValue.type} ${floaterValue.value} ${floaterValue.pair} LP `
+        }
+      />
     </>
   );
 };

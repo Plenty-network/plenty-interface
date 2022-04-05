@@ -560,6 +560,11 @@ const Frontpage = ({
           loading={harvestAllOperations.processing}
           loaderMessage={loaderMessage}
           content={'harvest all done'}
+          onBtnClick={
+            !modalData.transactionId
+              ? undefined
+              : () => window.open(`https://tzkt.io/${modalData.transactionId}`, '_blank')
+          }
         />
       )}
       <ConfirmTransaction

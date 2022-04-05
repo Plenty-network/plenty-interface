@@ -132,6 +132,11 @@ const Governance = (props) => {
         loading={props.loading}
         loaderMessage={loaderMessage}
         content={'Voted Successfully'}
+        onBtnClick={
+          props.transactionId
+            ? () => window.open(`https://tzkt.io/${props.transactionId}`, '_blank')
+            : null
+        }
       />
     </>
   );

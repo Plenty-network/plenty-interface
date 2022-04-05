@@ -382,17 +382,6 @@ const NormalSwap = (props) => {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
       />
-      {/* <InfoModal
-        open={showTransactionSubmitModal}
-        onClose={() => setShowTransactionSubmitModal(false)}
-        message={'Transaction submitted'}
-        buttonText={'View on TzKT'}
-        onBtnClick={
-          transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
-        }
-      /> */}
-
-      {/* <Loader loading={loading} loaderMessage={loaderMessage} /> */}
     </>
   );
 };
