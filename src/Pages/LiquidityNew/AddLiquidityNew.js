@@ -351,14 +351,6 @@ const AddLiquidityNew = (props) => {
         </Button>
       );
     } else {
-      // swapContentButton = props.loaderInButton ? (
-      //   <Button
-      //     onClick={() => null}
-      //     color={'primary'}
-      //     loading={true}
-      //     className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
-      //   ></Button>
-      // ) : (
       swapContentButton = (
         <Button
           onClick={() => setErrorMessageOnUI('Enter an amount to add liqiidity')}
@@ -568,14 +560,6 @@ const AddLiquidityNew = (props) => {
         theme={props.theme}
       />
 
-      {/* <div className="swap-detail-wrapper bg-themed-light"> }
-        <div className="add-liquidity-tip">
-          When you add liquidity, you will receive pool tokens representing your position. These
-          tokens automatically earn fees proportional to your share of the pool, and can be redeemed
-          at any time.
-        </div>
-      </div> */}
-
       {swapContentButton}
       <div className="add-liq-border"></div>
       {props.isPositionAvailable ? (
@@ -603,9 +587,11 @@ const AddLiquidityNew = (props) => {
                   >
                     <div className="tokenin-value">
                       <span className="value">
-                        {props.positionDetails.data
-                          ? props.positionDetails.data.tokenAPoolBalance.toFixed(4)
-                          : '0.00'}
+                        {props.positionDetails.data ? (
+                          props.positionDetails.data.tokenAPoolBalance.toFixed(4)
+                        ) : (
+                          <span className="shimmer">99999</span>
+                        )}
                       </span>{' '}
                     </div>
                   </OverlayTrigger>
@@ -624,9 +610,11 @@ const AddLiquidityNew = (props) => {
                   >
                     <div className="tokenin-value">
                       <span className="value">
-                        {props.positionDetails.data
-                          ? props.positionDetails.data.tokenBPoolBalance.toFixed(4)
-                          : '0.00'}
+                        {props.positionDetails.data ? (
+                          props.positionDetails.data.tokenBPoolBalance.toFixed(4)
+                        ) : (
+                          <span className="shimmer">99999</span>
+                        )}
                       </span>{' '}
                     </div>
                   </OverlayTrigger>
@@ -645,9 +633,11 @@ const AddLiquidityNew = (props) => {
                   }
                 >
                   <div className="pool-value">
-                    {props.positionDetails.data
-                      ? props.positionDetails.data.lpBalance.toFixed(4)
-                      : '0.00'}
+                    {props.positionDetails.data ? (
+                      props.positionDetails.data.lpBalance.toFixed(4)
+                    ) : (
+                      <span className="shimmer">99999</span>
+                    )}
                   </div>
                 </OverlayTrigger>
               </div>
@@ -664,9 +654,11 @@ const AddLiquidityNew = (props) => {
                   }
                 >
                   <div className="pool-value">
-                    {props.positionDetails.data
-                      ? props.positionDetails.data.lpTokenShare.toFixed(4)
-                      : '0.00'}{' '}
+                    {props.positionDetails.data ? (
+                      props.positionDetails.data.lpTokenShare.toFixed(4)
+                    ) : (
+                      <span className="shimmer">99999</span>
+                    )}{' '}
                     %
                   </div>
                 </OverlayTrigger>
@@ -745,7 +737,6 @@ AddLiquidityNew.propTypes = {
   loaderInButton: PropTypes.any,
   resetAllValuesLiq: PropTypes.any,
   setFirstTokenAmount: PropTypes.any,
-  //setHideContent: PropTypes.any,
   setLoaderMessage: PropTypes.any,
   setLoading: PropTypes.any,
   setShowConfirmAddSupply: PropTypes.any,

@@ -434,9 +434,11 @@ const RemoveLiquidityNew = (props) => {
                   >
                     <div className="tokenin-value">
                       <span className="value">
-                        {props.positionDetails.data
-                          ? props.positionDetails.data.tokenAPoolBalance.toFixed(4)
-                          : '0.00'}
+                        {props.positionDetails.data ? (
+                          props.positionDetails.data.tokenAPoolBalance.toFixed(4)
+                        ) : (
+                          <span className="shimmer">99999</span>
+                        )}
                       </span>{' '}
                     </div>
                   </OverlayTrigger>
@@ -455,9 +457,11 @@ const RemoveLiquidityNew = (props) => {
                   >
                     <div className="tokenin-value">
                       <span className="value">
-                        {props.positionDetails.data
-                          ? props.positionDetails.data.tokenBPoolBalance.toFixed(4)
-                          : '0.00'}
+                        {props.positionDetails.data ? (
+                          props.positionDetails.data.tokenBPoolBalance.toFixed(4)
+                        ) : (
+                          <span className="shimmer">99999</span>
+                        )}
                       </span>{' '}
                     </div>
                   </OverlayTrigger>
@@ -476,9 +480,11 @@ const RemoveLiquidityNew = (props) => {
                   }
                 >
                   <div className="pool-value">
-                    {props.positionDetails.data
-                      ? props.positionDetails.data.lpBalance.toFixed(4)
-                      : '0.00'}
+                    {props.positionDetails.data ? (
+                      props.positionDetails.data.lpBalance.toFixed(4)
+                    ) : (
+                      <span className="shimmer">99999</span>
+                    )}
                   </div>
                 </OverlayTrigger>
               </div>
@@ -495,9 +501,11 @@ const RemoveLiquidityNew = (props) => {
                   }
                 >
                   <div className="pool-value">
-                    {props.positionDetails.data
-                      ? props.positionDetails.data.lpTokenShare.toFixed(4)
-                      : '0.00'}{' '}
+                    {props.positionDetails.data ? (
+                      props.positionDetails.data.lpTokenShare.toFixed(4)
+                    ) : (
+                      <span className="shimmer">99999</span>
+                    )}{' '}
                     %
                   </div>
                 </OverlayTrigger>

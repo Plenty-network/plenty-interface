@@ -7,8 +7,12 @@ import { connect } from 'react-redux';
 import Button from '../Ui/Buttons/Button';
 import Loader from '../loader';
 import InfoModal from '../Ui/Modals/InfoModal';
-import { swapWrappedAssets } from '../../apis/WrappedAssets/WrappedAssets';
+import {
+  getAvailableLiquidityPairs,
+  swapWrappedAssets,
+} from '../../apis/WrappedAssets/WrappedAssets';
 import { setLoader } from '../../redux/slices/settings/settings.slice';
+import LpPair from '../SwapTabsContent/LpPair';
 
 const SwapContent = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -18,14 +22,23 @@ const SwapContent = (props) => {
 
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState('');
-
+  const [showLpPair, setShowLpPair] = useState(false);
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const [transactionId, setTransactionId] = useState('');
-
+  const [isLpPairAvailable, setLpPairAvailable] = useState(false);
+  const [pairs, setPairs] = useState([]);
   const transactionSubmitModal = (id) => {
     setTransactionId(id);
     setShowTransactionSubmitModal(true);
   };
+  useEffect(async () => {
+    const res = await getAvailableLiquidityPairs(props.tokenOut.name);
+    setLpPairAvailable(res.isLiquidityPairAvailable);
+
+    if (res.isLiquidityPairAvailable) {
+      setPairs(res.data);
+    }
+  }, [props.tokenOut]);
 
   const handleSwapTokenInput = (input, tokenType) => {
     if (input === '' || isNaN(input)) {
@@ -73,6 +86,7 @@ const SwapContent = (props) => {
       props.setLoading(false);
       setShowTransactionSubmitModal(false);
       props.handleLoaderMessage('success', 'Transaction confirmed');
+      setShowLpPair(true);
       props.setLoader(false);
       props.setShowConfirmSwap(false);
       props.setSecondTokenAmount('');
@@ -374,6 +388,14 @@ const SwapContent = (props) => {
         tokenOut={props.tokenOut.name}
         secondTokenAmount={secondAmount}
         setLoaderMessage={props.setLoaderMessage}
+      />
+      <LpPair
+        isLpPairAvailable={isLpPairAvailable}
+        showLpPair={showLpPair}
+        pairs={pairs}
+        tokenIn={props.tokenIn}
+        tokenOut={props.tokenOut}
+        setShowLpPair={setShowLpPair}
       />
     </>
   );

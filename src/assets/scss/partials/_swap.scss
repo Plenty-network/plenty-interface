@@ -1950,3 +1950,38 @@ input:checked {
     display: none !important;
   }
 }
+
+.lppair-wrapper {
+  width: 390px;
+  box-sizing: border-box;
+  box-shadow: 1px 10px 31px #060320;
+  border-radius: 8px;
+  background: var(--theme-flash-bg);
+  border: 0.5px solid var(--theme-flash-border);
+  top: 140px;
+  right: 40px;
+  padding: 24px;
+  position: fixed;
+  z-index: 999;
+  .lp-header {
+    border-bottom: 0.5px solid var(--theme-nav-link-border);
+    padding-bottom: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: -0.4000000059604645px;
+    margin-bottom: 19.5px;
+  }
+  .add-lp {
+    width: 34px;
+    height: 34px;
+    border-radius: 6px;
+    background: var(--theme-governance-buttonBorder);
+    .add-icon {
+      left: 5px;
+      color: var(--theme-card-bg);
+      position: relative;
+      top: 5px;
+    }
+  }
+}

@@ -22,7 +22,15 @@ const LiquidityInfo = (props) => {
           }
         >
           <div className="details">
-            {props.isStable ? props.xtztoctez : props.swapData.tokenOutPerTokenIn?.toFixed(4)}{' '}
+            {(props.isStable ? !isNaN(props.xtztoctez) : props.swapData.tokenOutPerTokenIn) ? (
+              props.isStable ? (
+                props.xtztoctez
+              ) : (
+                props.swapData.tokenOutPerTokenIn?.toFixed(4)
+              )
+            ) : (
+              <span className="shimmer">99999</span>
+            )}{' '}
             <span className="content">
               {props.tokenIn.name} per {props.tokenOut.name}
             </span>
@@ -39,7 +47,15 @@ const LiquidityInfo = (props) => {
           }
         >
           <div className="details">
-            {props.isStable ? props.cteztoxtz : (1 / props.swapData.tokenOutPerTokenIn).toFixed(4)}{' '}
+            {(props.isStable ? !isNaN(props.cteztoxtz) : 1 / props.swapData.tokenOutPerTokenIn) ? (
+              props.isStable ? (
+                props.cteztoxtz
+              ) : (
+                (1 / props.swapData.tokenOutPerTokenIn).toFixed(4)
+              )
+            ) : (
+              <span className="shimmer">99999</span>
+            )}{' '}
             <span className="content">
               {props.tokenOut.name} per {props.tokenIn.name}
             </span>

@@ -119,9 +119,11 @@ export const LiquidityPositions = (props) => {
                           }
                         >
                           <span className="value">
-                            {positionDetails
-                              ? positionDetails.tokenAPoolBalance?.toFixed(4)
-                              : '0.00'}{' '}
+                            {positionDetails.tokenAPoolBalance ? (
+                              positionDetails.tokenAPoolBalance?.toFixed(4)
+                            ) : (
+                              <span className="shimmer">99999</span>
+                            )}{' '}
                             {position.tokenA.name}
                           </span>
                         </OverlayTrigger>
@@ -137,9 +139,11 @@ export const LiquidityPositions = (props) => {
                           }
                         >
                           <span className="value">
-                            {positionDetails
-                              ? positionDetails.tokenBPoolBalance?.toFixed(4)
-                              : '0.00'}{' '}
+                            {positionDetails.tokenBPoolBalance ? (
+                              positionDetails.tokenBPoolBalance?.toFixed(4)
+                            ) : (
+                              <span className="shimmer">99999</span>
+                            )}{' '}
                             {position.tokenB.name}
                           </span>
                         </OverlayTrigger>
@@ -157,7 +161,12 @@ export const LiquidityPositions = (props) => {
                           }
                         >
                           <div className="value">
-                            {positionDetails ? positionDetails.lpTokenShare?.toFixed(4) : '0.00'} %
+                            {positionDetails.lpTokenShare ? (
+                              positionDetails.lpTokenShare?.toFixed(4)
+                            ) : (
+                              <span className="shimmer">99999</span>
+                            )}{' '}
+                            %
                           </div>
                         </OverlayTrigger>
                       </div>
@@ -172,7 +181,11 @@ export const LiquidityPositions = (props) => {
                           }
                         >
                           <div className="value">
-                            {positionDetails ? positionDetails.lpBalance?.toFixed(4) : '0.00'}
+                            {positionDetails.lpBalance ? (
+                              positionDetails.lpBalance?.toFixed(4)
+                            ) : (
+                              <span className="shimmer">99999</span>
+                            )}
                           </div>
                         </OverlayTrigger>
                       </div>

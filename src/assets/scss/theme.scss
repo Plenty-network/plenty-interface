@@ -121,6 +121,10 @@
   --theme-bridge-from-ip-bg: #fcfcfc;
   --theme-bridge-to-ip-bg: rgba(98, 2, 239, 0.05);
   --theme-confirm-transaction-border: rgba(78, 93, 120, 0.5);
+  --theme-banner-close-bg: #e6d4ff;
+  --theme-banner-close-icon: #6202ef;
+  --theme-banner-close-bg-hover: #a87bea;
+  --theme-banner-close-icon-hover: #ffffff;
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -252,7 +256,10 @@
   --theme-bridge-from-ip-bg: rgba(138, 149, 158, 0.05);
   --theme-bridge-to-ip-bg: rgba(206, 174, 254, 0.05);
   --theme-confirm-transaction-border: rgba(138, 149, 158, 0.4);
-
+  --theme-banner-close-bg: rgba(126, 134, 158, 0.1);
+  --theme-banner-close-icon: #ffffff;
+  --theme-banner-close-bg-hover: rgba(126, 134, 158, 0.1);
+  --theme-banner-close-icon-hover: #ffffff;
 }
 
 :root.theme-transiton {

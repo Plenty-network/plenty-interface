@@ -20,6 +20,7 @@ import '../../assets/scss/animation.scss';
 
 const Header = (props) => {
   const loader = useSelector((state) => state.settings.loader);
+
   // const firstTokenAmount = useSelector((state) => state.settings.firstTokenAmount);
   // const secondTokenAmount = useSelector((state) => state.settings.secondTokenAmount);
   // const tokenIn = useSelector((state) => state.settings.tokenIn);
@@ -38,6 +39,7 @@ const Header = (props) => {
   const [selectedHeader, setSelectedHeader] = useState('');
   const [isExpanded, toggleExpand] = useState(false);
   const [open, setOpen] = useState(false);
+  const [isBannerOpen, setBannerOpen] = useState(true);
 
   useEffect(() => {
     const RPCNodeInLS = localStorage.getItem(RPC_NODE);
@@ -54,6 +56,10 @@ const Header = (props) => {
     }
     setHeader('');
   }, [splitLocation[1]]);
+
+  const closeBanner = () => {
+    setBannerOpen(false);
+  };
 
   const connectWalletButton = () => {
     if (props.walletAddress) {
@@ -110,20 +116,31 @@ const Header = (props) => {
         )}
         fluid
       >
-        {splitLocation[1] !== 'wrappedAssets' && (
+        {splitLocation[1] !== 'wrappedAssets' && isBannerOpen && (
           <div className="banner" onMouseEnter={() => setHeader('')}>
-            <span className="banner-text">
-              {isMobile
-                ? 'Swap Wrapped Assets now'
-                : 'Wrap protocol is deprecated. All the wrapped assets are rebranded. Swap your wrapped assets now'}
-            </span>
-            <Link to="/wrappedAssets" className="text-decoration-none">
-              <span className="bottom-last" style={{ cursor: 'pointer' }}>
-                Swap now
+            <div className="banner-middle">
+              <span className="banner-text">
+                {isMobile
+                  ? 'Swap Wrapped Assets now'
+                  : 'Wrap protocol is deprecated. All the wrapped assets are rebranded. Swap your wrapped assets now'}
               </span>
-              <span className="new">New</span>
-              <BannerArrow className="ml-2" />
-            </Link>
+              <Link to="/wrappedAssets" className="text-decoration-none">
+                <span className="bottom-last" style={{ cursor: 'pointer' }}>
+                  Swap now
+                </span>
+                <span className="new">New</span>
+                <BannerArrow className="ml-2" />
+              </Link>
+            </div>
+            <div className="banner-right">
+              <span
+                className="closebanner"
+                onClick={() => closeBanner()}
+                style={{ cursor: 'pointer' }}
+              >
+                <span className={clsx('material-icons-round', 'banner-close')}>close</span>
+              </span>
+            </div>
           </div>
         )}
 
@@ -400,6 +417,7 @@ const Header = (props) => {
             selectedHeader={selectedHeader}
             isExpanded={isExpanded}
             page={splitLocation[1]}
+            isBannerOpen={isBannerOpen}
             {...props}
           />
         </div>

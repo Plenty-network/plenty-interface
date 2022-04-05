@@ -128,7 +128,7 @@ const HeaderBottom = (props) => {
             'pt-0': !props.selectedHeader,
             height: props.selectedHeader === HEADER_MODAL.SETTINGS && nodeSelector,
 
-            'headerBottom-banner': splitLocation[1] === 'wrappedAssets',
+            'headerBottom-banner': splitLocation[1] === 'wrappedAssets' || !props.isBannerOpen,
           })}
           onMouseLeave={() => isOpen(false)}
         >
@@ -545,5 +545,6 @@ HeaderBottom.propTypes = {
   setLoaderMessage: PropTypes.func.isRequired,
   setNode: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
+  isBannerOpen: PropTypes.any,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderBottom);

@@ -7,12 +7,26 @@
   z-index: 1111;
   top: 0px;
   position: sticky;
+  display: flex;
   @media screen and (min-width: 320px) and (max-width: 992px) {
     padding-top: 8px;
     padding-bottom: 8px;
   }
   &:hover {
     background: var(--theme-banner-bg-hover);
+    .banner-close {
+      background: var(--theme-banner-close-bg-hover);
+      color: var(--theme-banner-close-icon-hover);
+    }
+  }
+  .banner-middle {
+    width: 100%;
+    text-align: center;
+  }
+  .banner-right {
+    // width: 13.33333%;
+    text-align: right;
+    margin-right: 27.5px;
   }
 }
 .banner-text {
@@ -26,6 +40,19 @@
   margin-right: 24px;
   @media screen and (min-width: 320px) and (max-width: 992px) {
     margin-right: 12px;
+  }
+}
+.closebanner {
+  .banner-close {
+    background: var(--theme-banner-close-bg);
+    color: var(--theme-banner-close-icon);
+    padding: 3px;
+    font-size: 15px;
+    border-radius: 50%;
+    &:hover {
+      background: var(--theme-banner-close-bg-hover);
+      color: var(--theme-banner-close-icon-hover);
+    }
   }
 }
 .headerBg {
