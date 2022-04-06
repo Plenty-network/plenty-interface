@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import truncateMiddle from 'truncate-middle';
-import { Col, Container, Nav, Navbar, Row } from 'react-bootstrap';
+import { Col, Container, Nav, Navbar, Row, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import clsx from 'clsx';
 import { ReactComponent as Logo } from '../../assets/images/logo.svg';
 import { ReactComponent as BannerArrow } from '../../assets/images/banner-arrow.svg';
@@ -275,7 +275,7 @@ const Header = (props) => {
                         isExpanded={isExpanded}
                         {...props}
                       />
-                    )} 
+                    )}
 
                     <Nav.Link
                       className={clsx(
@@ -376,7 +376,19 @@ const Header = (props) => {
                   </Nav.Item>
                   <div className="col-lg-6 d-lg-flex flex-column flex-lg-row align-items-end align-items-lg-center last">
                     <Nav.Item className="ml-auto d-none d-md-block align-self-lg-end">
-                      {connectWalletButton()}
+                      {
+                        <OverlayTrigger
+                          overlay={(props) => (
+                            <Tooltip className="connect-wallet-tooltip" {...props}>
+                              Connect wallet
+                            </Tooltip>
+                          )}
+                          placement="left"
+                          show={props.connectWalletTooltip}
+                        >
+                          {connectWalletButton()}
+                        </OverlayTrigger>
+                      }
                     </Nav.Item>
                     <div className="seperator seperatorSettings"></div>
                     <Nav.Item>
@@ -432,6 +444,7 @@ const mapStateToProps = (state) => ({
   tokenIn: state.settings.tokenIn,
   tokenOut: state.settings.tokenOut,
   opertaionId: state.settings.opertaionId,
+  connectWalletTooltip: state.settings.connectWalletTooltip
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -446,6 +459,7 @@ Header.propTypes = {
   theme: PropTypes.string,
   toggleTheme: PropTypes.func,
   walletAddress: PropTypes.oneOf(),
+  connectWalletTooltip: PropTypes.bool
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

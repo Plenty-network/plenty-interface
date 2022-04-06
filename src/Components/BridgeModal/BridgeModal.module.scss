@@ -1,5 +1,5 @@
 .border {
-  background: var(--theme-governance-votingBorder);
+  //background: var(--theme-gradient-border);
   padding: 1px;
   margin-top: 60px;
   border-radius: 8px;
@@ -22,9 +22,9 @@
 }
 
 .bridgeModal {
-  box-shadow: 0px 2px 32px -5px rgba(100, 96, 105, 0.15);
-  background: linear-gradient(180deg, #ffffff 60%, rgba(98, 2, 239, 0.05) 50%);
-  border:1px solid var(--theme-bridge-votingBorder);
+  box-shadow: var(--theme-swap-boxshadow);
+  background: var(--theme-bridge-token-sel-bg);
+  border:1px solid var(--theme-bridge-history-border);
   border-radius: 8px;
   padding: 24px 24px;
   margin: auto;
@@ -49,9 +49,9 @@
 
       height: 30px;
       padding: 7.83448px 16.6483px;
-      background: rgba(98, 2, 239, 0.1);
+      background: var(--theme-bridge-history-btn-bg);
       border-radius: 3.5979px;
-      color: #6202ef;
+      color: var(--theme-bridge-history-btn-text);
     }
   }
   .heading {
@@ -60,14 +60,14 @@
     font-weight: 700;
     line-height: 17px;
     letter-spacing: 0px;
-    color: #292a2e;
+    color: var(--theme-bridge-header-text);
     margin-top: 7px;
   }
 }
 
 .from {
-  background: #F4F4F4;
-  border: 1px solid #E4E4E4;
+  background: var(--theme-bridge-from-bg);
+  border: var(--theme-bridge-from-border);
   box-sizing: border-box;
   border-radius: 4px;
   font-style: normal;
@@ -79,20 +79,20 @@
   justify-content: center;
   height: 27px;
   width: 54px;
-  color: #4E5D78;
+  color: var(--theme-bridge-from-text);
 }
 .to {
   height: 27px;
   width: 36px;
-  background: #EBDDFF;
-  border: 0.8px solid #D4B8FA;
+  background: var(--theme-bridge-to-bg);
+  border: var(--theme-bridge-from-border);
   box-sizing: border-box;
   border-radius: 4px;
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
   line-height: 17px;
-  color: #6202EF;
+  color: var(--theme-bridge-max-btn-border-text);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -108,7 +108,7 @@
   align-items: center;
   mix-blend-mode: normal;
   padding: 12px;
-  border: 0.803667px solid rgba(0, 0, 0, 0.08);
+  border: 0.803667px solid var(--theme-bridge-ip-border);
   box-sizing: border-box;
   border-radius: 16px;
 
@@ -122,17 +122,17 @@
   }
 }
 .inputSelectBox {
-  background: #ffffff;
+  background: var(--theme-bridge-input-bg);
 }
 
 .lineBottom {
-  border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 0.5px solid var(--theme-bridge-token-sel-lb);
   width: 100%;
 }
 .arrowSwap {
   width: 54px;
   height: 54px;
-  background: #6202ef;
+  background: var(--theme-bridge-max-btn-border-text);
   border-radius: 3.10345px;
   cursor: pointer;
   transition: transform 0.5s ease-in-out;
@@ -177,7 +177,7 @@
   font-weight: 700;
   font-size: 24px;
   line-height: 31px;
-  color: #201C41;
+  color: var(--theme-bridge-input-text);
   border: 0;
   background-color: transparent;
   outline: none;
@@ -195,12 +195,12 @@
   font-weight: 400;
   line-height: 13px;
   letter-spacing: 0em;
-  color: #4e5d78;
+  color: var(--theme-governance-totalVotesText);
   margin-bottom: 0px;
 }
 
 .lineMid {
-  border-bottom: 0.86px dashed #b0b7c3;
+  border-bottom: 0.86px dashed var(--theme-bridge-chain-from-lb);
   width: 100%;
 }
 
@@ -208,7 +208,7 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
-  color: #4E5D78;
+  color: var(--theme-bridge-chain-sel-text);
   margin-bottom: 8px;
 }
 
@@ -229,22 +229,22 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
-  color: #4E5D78;
+  color: var(--theme-bridge-chain-sel-text);
 }
 
 .fromLabelBottom {
   font-weight: 500;
   font-size: 12px;
   line-height: 17px;
-  color: #8792A2;
+  color: var(--theme-bridge-chain-sel-subtext);
 }
 
 .selector {
-  background: #FFFFFF;
+  background: var(--theme-bridge-selector-bg);
   mix-blend-mode: normal;
-  border: 0.803667px solid rgba(0, 0, 0, 0.08);
+  border: 0.803667px solid var(--theme-bridge-selector-border);
   box-sizing: border-box;
-  box-shadow: 0px 4px 9px rgba(39, 59, 74, 0.06);
+  box-shadow: 0px 4px 9px var(--theme-bridge-selector-box-shadow);
   border-radius: 8px;
   font-style: normal;
   font-weight: 500;
@@ -256,6 +256,7 @@
 }
 
 .bridgeSelector, .toTokenSelector {
+  
   &.not-selected {
     padding: 10px 6px;
     background-color: #ffffff;
@@ -272,9 +273,9 @@
 }
 
 .selectMaxBtn {
-  background: #F9FAFA;
+  background: var(--theme-bridge-max-btn-bg);
   mix-blend-mode: normal;
-  border: 0.863044px solid #6202EF;
+  border: 0.863044px solid var(--theme-bridge-max-btn-border-text);
   box-sizing: border-box;
   border-radius: 8px;
   width: 36px;
@@ -282,7 +283,7 @@
   font-weight: 500;
   font-size: 10px;
   line-height: 13px;
-  color: #6202EF;
+  color: var(--theme-bridge-max-btn-border-text);
   cursor: pointer;
 }
 
@@ -301,9 +302,9 @@
 }
 
 .toBridgeSelector {
-  background: #FAF7FF;
+  background: var(--theme-bridge-to-chain);
   mix-blend-mode: normal;
-  border: 0.4px solid #6202EF;
+  border: 0.4px solid var(--theme-bridge-max-btn-border-text);
   box-sizing: border-box;
   border-radius: 8px;
   font-style: normal;
@@ -319,22 +320,22 @@
   flex: 1 1 0;
 }
 
-.lineHorizontal {
-  border: 1px solid #D9CCEB;
+.lineVertical {
+  border: 1px solid var(--theme-bridge-vertical-line);
 }
 
 .toTokenLabel {
   min-width: 30px;
-  background: #FFFFFF;
+  background: var(--theme-bridge-to-token-bg);
   mix-blend-mode: normal;
-  border: 1px solid #6202EF;
+  border: 1px solid var(--theme-bridge-max-btn-border-text);
   box-sizing: border-box;
   border-radius: 19px;
   font-style: normal;
   font-weight: 700;
   font-size: 12px;
   line-height: 16px;
-  color: #6202EF;
+  color: var(--theme-bridge-max-btn-border-text);
   padding: 2px 8px;
 }
 
@@ -344,15 +345,15 @@
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
-  background-color:  rgba(98, 2, 239, 0.05);
+  background-color:  var(--theme-bridge-to-ip-bg);
   mix-blend-mode: normal;
   padding: 12px;
-  border: 1px solid rgba(98, 2, 239, 0.2);
+  border: 1px solid var(--theme-bridge-to-ip-border);
   box-sizing: border-box;
   border-radius: 16px;
 
   &:hover {
-    border: 1px solid var(--theme-border-light);
+    border: 1px solid var(--theme-bridge-to-ip-border);
   }
 }
 
@@ -363,7 +364,7 @@
   font-weight: 700;
   font-size: 24px;
   line-height: 31px;
-  color: #6202EF;;
+  color: var(--theme-bridge-max-btn-border-text);
   border: 0;
   background-color: transparent;
   outline: none;
@@ -372,7 +373,7 @@
     font-weight: 700;
     font-size: 24px;
     line-height: 31px;
-    color:#6202EF;;
+    color:var(--theme-bridge-max-btn-border-text);
   }
 }
 
@@ -381,7 +382,7 @@
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
-  color: #4E5D78;
+  color: var(--theme-bridge-fee-text);
   margin: 10px 0 0;
 }
 
@@ -407,17 +408,17 @@
 
 .toTokenSelector {
   &:hover {
-    background: #F9FAFA;
-    border: 0.803667px solid rgba(98, 2, 239, 0.4);
+    background: var(--theme-bridge-token-select-hover-bg);
+    border: 0.803667px solid var(--theme-bridge-token-select-hover-border);
   }
 }
 
 .tokenInSelected {
   background-color: var(--theme-input-bg);
-  border: 0.803667px solid rgba(98, 2, 239, 0.4);
+  border: 0.803667px solid var(--theme-bridge-token-in-selected-border);
   &:hover {
     background-color: var(--theme-input-bg);
-    border: 0.803667px solid rgba(98, 2, 239, 0.4);
+    border: 0.803667px solid var(--theme-bridge-token-in-selected-border);
   }
 }
 
@@ -438,12 +439,16 @@
 
 .bridgeSelector{
   &:hover {
-    background: #F9FAFA;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    background: var(--theme-bridge-token-select-hover-bg);
+    border: 1px solid var(--theme-bridge-chain-select-hover-border);
   }
 }
 
 .fromBridgeClicked {
-  background: #F9FAFA;
-  border: 0.803667px solid rgba(98, 2, 239, 0.4);
+  background: var(--theme-bridge-chain-select-click-bg);
+  border: 0.803667px solid var(--theme-bridge-chain-select-click-border);
+}
+
+.balanceText {
+  color: var(--theme-bridge-balance-text);
 }

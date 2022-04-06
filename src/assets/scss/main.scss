@@ -229,3 +229,37 @@ hr {
   left:auto;
   top: auto;
 }
+
+.connect-wallet-tooltip{
+  z-index: 9999 !important;
+  .tooltip-inner {
+    background-color: #282828;
+    color: #fff;
+    position: static;
+    left:auto;
+    top: auto;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 94%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent transparent #282828;
+  }
+}
+
+.metamask-wallet-tooltip {
+  &::after {
+    content: "";
+    position: absolute;
+    top: 96%;
+    left: 44%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #282828 transparent transparent transparent;
+  }
+}

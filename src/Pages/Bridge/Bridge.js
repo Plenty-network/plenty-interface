@@ -311,6 +311,7 @@ const Bridge = (props) => {
                 tokenList={tokenList}
                 setTokenList={setTokenList}
                 loadedTokensList={loadedTokensList}
+                theme={props.theme}
               />
             )}
             {transaction === 2 && (
@@ -328,6 +329,7 @@ const Bridge = (props) => {
                 SetCurrentProgress={SetCurrentProgress}
                 setOperation={setOperation}
                 setSelectedId={setSelectedId}
+                theme={props.theme}
               />
             )}
             {transaction === 3 && (
@@ -370,4 +372,5 @@ export default Bridge;
 
 Bridge.propTypes = {
   walletAddress: PropTypes.any,
+  theme: PropTypes.any
 };

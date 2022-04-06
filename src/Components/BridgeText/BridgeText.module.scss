@@ -5,7 +5,7 @@
   font-weight: 700;
   line-height: 52px;
   letter-spacing: 0px;
-  color: #292a2e;
+  color: var(--theme-bridge-header-text);
   @media screen and (min-width: 320px) and (max-width: 767px) {
     padding-top: 20px;
   }
@@ -19,7 +19,7 @@
   font-weight: 500;
   line-height: 38px;
   letter-spacing: 0px;
-  color: #4e5d78;
+  color: var(--theme-bridge-desc-text);
 }
 
 .question {
@@ -36,6 +36,7 @@
   font-weight: 400;
   line-height: 32px;
   letter-spacing: 0px;
+  color: var(--theme-bridge-desc-text);
 }
 .discriptionInfo {
   color: var(--theme-governance-buttonBorder);
@@ -47,6 +48,6 @@
 }
 
 .lineBottom {
-  border-bottom: 0.5px solid #bfb6cc;
+  border-bottom: 0.5px solid var(--theme-bridge-line-bottom);
   width: 100%;
 }

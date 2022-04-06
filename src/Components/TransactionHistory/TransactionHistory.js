@@ -6,12 +6,19 @@ import '../../assets/scss/animation.scss';
 import actionHistory from '../../assets/images/bridge/action_history.svg';
 import actionRequired from '../../assets/images/bridge/action_required_arrow.svg';
 import downArrow from '../../assets/images/bridge/down_history_arrow.svg';
+import upArrowDark from '../../assets/images/bridge/up_history_arrow_dark.svg';
+import downArrowDark from '../../assets/images/bridge/down_history_arrow_dark.svg';
 import upArrow from '../../assets/images/bridge/up_history_arrow.svg';
 import filterSelected from '../../assets/images/bridge/filter_selected.svg';
 import filterNotSelected from '../../assets/images/bridge/filter_unselected.svg';
 import filterApplied from '../../assets/images/bridge/filter_applied.svg';
 import sortSelected from '../../assets/images/bridge/sort_selected.svg';
 import sortNotSelected from '../../assets/images/bridge/sort_deselected.svg';
+import filterSelectedDark from '../../assets/images/bridge/filter_selected_dark.svg';
+import filterNotSelectedDark from '../../assets/images/bridge/filter_unselected_dark.svg';
+import filterAppliedDark from '../../assets/images/bridge/filter_applied_dark.svg';
+import sortSelectedDark from '../../assets/images/bridge/sort_selected_dark.svg';
+import sortNotSelectedDark from '../../assets/images/bridge/sort_deselected_dark.svg';
 //import TransactionHistoryFilter from '../Bridges/TransactionHistoryFilter';
 import { FILTER_OPTIONS, TransactionHistoryFilter } from '../Bridges/TransactionHistoryFilter';
 import { SORT_OPTIONS, TransactionHistorySort } from '../Bridges/TransactionHistorySort';
@@ -204,12 +211,12 @@ const TransactionHistory = (props) => {
             </div>
             <div className={styles.filterImageWrapper}>
               <img
-                src={showSort ? sortSelected : sortNotSelected}
+                src={props.theme === 'light' ? (showSort ? sortSelected : sortNotSelected) : (showSort ? sortSelectedDark : sortNotSelectedDark)}
                 onClick={sortClickHandler}
                 style={{ cursor: 'pointer' }}
               ></img>
               <img
-                src={checkedCount > 0 ? filterApplied : (showFilter ? filterSelected : filterNotSelected)}
+                src={props.theme === 'light' ? (checkedCount > 0 ? filterApplied : (showFilter ? filterSelected : filterNotSelected)) : (checkedCount > 0 ? filterAppliedDark : (showFilter ? filterSelectedDark : filterNotSelectedDark))}
                 onClick={filterClickHandler}
                 style={{ cursor: 'pointer'}}
               ></img>
@@ -235,7 +242,7 @@ const TransactionHistory = (props) => {
                   <div key={index} className={styles.resultsHeader}>
                     <div className={styles.resultsInfoWrapper}>
                       <div className={styles.tokenbg}>
-                        <img src={data.currentProgress === 4 ? (data.operation === 'BRIDGE' ? downArrow : upArrow) : actionHistory} className={styles.tokens}></img>
+                        <img src={data.currentProgress === 4 ? (data.operation === 'BRIDGE' ? (props.theme === 'light' ? downArrow : downArrowDark) : (props.theme === 'light' ? upArrow : upArrowDark)) : actionHistory} className={styles.tokens}></img>
                       </div>
                       <div>
                         <p className={styles.value}>{data.secondTokenAmount} {data.tokenOut}</p>
@@ -281,7 +288,8 @@ TransactionHistory.propTypes = {
   setOperation: PropTypes.any,
   setTokenIn: PropTypes.any,
   setTokenOut: PropTypes.any,
-  setSelectedId: PropTypes.any
+  setSelectedId: PropTypes.any,
+  theme: PropTypes.any
 };
 
 export default TransactionHistory;

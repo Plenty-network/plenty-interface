@@ -180,7 +180,10 @@ const MyRoutes = (props) => {
               path="/bridge"
               element={
                 <OtherPages {...otherPageProps}>
-                  <Bridge walletAddress={props.userAddress} />
+                  <Bridge
+                    walletAddress={props.userAddress} 
+                    theme={otherPageProps.theme}
+                  />
                 </OtherPages>
               }
             />

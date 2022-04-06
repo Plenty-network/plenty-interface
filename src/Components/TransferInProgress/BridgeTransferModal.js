@@ -194,6 +194,7 @@ const BridgeTransferModal = (props) => {
       </p>
     );
   };
+
   const InSideElement = (p) => {
     if (currentProgress === numberOfSteps.length - 1) {
       dummyApiCall({ isCompletedtranscation: true }).then((res) => {
@@ -208,12 +209,13 @@ const BridgeTransferModal = (props) => {
           SetCurrentProgress(currentProgress + 1);
         }
       });
+
       return (
         <>
           <div className="bridge-done_screen">
             <div className="border-tile shaded">
               <div className="left-div">
-                <p>You will receive</p>
+                <p className={styles.youWillReceive}>You will receive</p>
                 <div className="containerwithicon">
                   <img src={tokenOut.image} />
                   <span className="value-text">
@@ -221,39 +223,36 @@ const BridgeTransferModal = (props) => {
                   </span>
                 </div>
               </div>
-              <div className="loading-div">
-                <LoadingRing />
-              </div>
-            </div>
-            <div className="border-tile">
-              <div className="left-div">
-                <div className="containerwithicon">
-                  <img src={fromBridge.image} />
-                  <div className="right-div">
-                    <span className="fromreceived">From</span>
-                    <span className="value-text">{fromBridge.name}</span>
+              <div className="border-tile">
+                <div className="left-div">
+                  <div className="containerwithicon">
+                    <img src={fromBridge.image} />
+                    <div className="right-div">
+                      <span className="fromreceived">From</span>
+                      <span className="value-text">{fromBridge.name}</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="border-tile">
-              <div className="left-div">
-                <div className="containerwithicon">
-                  <img src={toBridge.image} />
-                  <div className="right-div">
-                    <span className="fromreceived">To</span>
-                    <span className="value-text">{toBridge.name}</span>
+              <div className="border-tile">
+                <div className="left-div">
+                  <div className="containerwithicon">
+                    <img src={toBridge.image} />
+                    <div className="right-div">
+                      <span className="fromreceived">To</span>
+                      <span className="value-text">{toBridge.name}</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="border-tile">
-              <div className="left-div">
-                <div className="containerwithicon">
-                  <FeeBigIcon />
-                  <div className="right-div">
-                    <span className="fromreceived">Estimated transaction fee</span>
-                    <span className="value-text">~{p.transactionFees}</span>
+              <div className="border-tile">
+                <div className="left-div">
+                  <div className="containerwithicon">
+                    <FeeBigIcon />
+                    <div className="right-div">
+                      <span className="fromreceived">Estimated transaction fee</span>
+                      <span className="value-text">~{p.transactionFees}</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -333,7 +332,7 @@ const BridgeTransferModal = (props) => {
     }
     return (
       <>
-        <p className={styles.contentLabel}>{p.label}</p>
+        <p className={styles.contentLabel}>{currentProgress <= 1 ? 'Approving' : 'Minting'}</p>
         <p className={styles.contentDes}>{p.description}</p>
         <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
           <a
@@ -351,6 +350,48 @@ const BridgeTransferModal = (props) => {
             Please approve in your wallet to proceed with the tranfer{' '}
           </div>
         )}
+        <div className={styles.resultsHeader}>
+          {currentProgress === 0 ? (
+            <>
+              <div style={{ width: '50%' }}>
+                <Button
+                  color={'default'}
+                  className={`mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
+                  onClick={() => setBack(1)}
+                >
+                  {'Cancel'}
+                </Button>
+              </div>
+              <div style={{ width: '50%' }}>
+                <Button
+                  color={'primary'}
+                  className={`xplenty-btn mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
+                  onClick={bridgeButtonClick}
+                  loading={isButtonLoading}
+                >
+                  {numberOfSteps[currentProgress]}
+                </Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className={`${styles.bottomInfo} ${styles.width}`}>
+                Please approve in your wallet to proceed with the tranfer{' '}
+              </div>
+              <div style={{ width: '50%' }}>
+                <Button
+                  color={'primary'}
+                  className={`xplenty-btn mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
+                  onClick={bridgeButtonClick}
+                  loading={isButtonLoading}
+                >
+                  {numberOfSteps[currentProgress]}
+                </Button>
+              </div>
+            </>
+          )}
+        </div>
+        )
         <div className={styles.resultsHeader}>
           {currentProgress === 0 ? (
             <>
@@ -427,6 +468,8 @@ const BridgeTransferModal = (props) => {
                   <p className={styles.TransferInProgress}>Transaction Details</p>
                   <p className={styles.reviewText}>Review you transaction</p>
                 </div>
+              ) : currentProgress === numberOfSteps.length - 1 ? (
+                <p className={styles.TransferInProgress}>Minting in progress</p>
               ) : (
                 <p className={styles.TransferInProgress}>Transfer in progress</p>
               )}
