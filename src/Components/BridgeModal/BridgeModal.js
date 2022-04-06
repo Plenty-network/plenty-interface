@@ -25,11 +25,15 @@ import switchImgDark from '../../assets/images/bridge/bridge-switch-dark.svg';
 import { bridgesList } from '../../constants/bridges';
 import SelectorModal from '../Bridges/SelectorModal';
 import { BridgeConfiguration } from '../../apis/Config/BridgeConfig';
+import { setConnectWalletTooltip } from '../../redux/slices/settings/settings.slice';
+import { useDispatch } from 'react-redux';
 
 
 const BridgeModal = (props) => {
   //const [firstTokenAmount, setFirstTokenAmount] = useState();
   //const [secondTokenAmount, setSecondTokenAmount] = useState();
+  const dispatch = useDispatch();
+  const [triggerTooltips, setTriggerTooltips] = useState(false);
 
   const [errorMessage, setErrorMessage] = useState(null);
   const [isError, setIsError] = useState(false);
@@ -37,7 +41,7 @@ const BridgeModal = (props) => {
   const [userBalance, setUserBalance] = useState(null);
   const [connButtonText, setConnButtonText] = useState('Connect Wallet');
   const [provider, setProvider] = useState(null);
-
+  const [showMetamaskTooltip, setShowMetamaskTooltip] = useState(false);
   /* const [tokenIn, setTokenIn] = useState({
     name: tokensList['ETHEREUM'][0].name,
     image: tokensList['ETHEREUM'][0].image,
@@ -99,6 +103,27 @@ const BridgeModal = (props) => {
   //const [tokenList, setTokenList] = useState(tokensList[fromBridge.name]);
   const [connectBridgeWallet, setConnectBrigeWallet] = useState({name: fromBridge.name, image: fromBridge.image, buttonImage: fromBridge.buttonImage});
 
+  useEffect(() => {
+    if(triggerTooltips) {
+      dispatch(setConnectWalletTooltip(true));
+    } else {
+      dispatch(setConnectWalletTooltip(false));
+    }
+  }, [triggerTooltips]);
+
+  useEffect(() => {
+    if(walletAddress){
+      dispatch(setConnectWalletTooltip(false));
+      setIsError(false);
+    }
+  }, [walletAddress]);
+
+  useEffect(() => {
+    if(defaultAccount) {
+      setShowMetamaskTooltip(false);
+      setIsError(false);
+    }
+  }, [defaultAccount]);
 
   useEffect(() => {
     const updateBalance = async () => {
@@ -163,8 +188,18 @@ const BridgeModal = (props) => {
 
   const handleFromTokenInput = (input) => {
     setIsError(false);
-    if(!walletAddress) {
+    if(!walletAddress && !defaultAccount) {
+      dispatch(setConnectWalletTooltip(true));
+      setShowMetamaskTooltip(true);
+      setErrorMessage('Please connect to both the wallets.');
+      setIsError(true);
+    } else if(!walletAddress && defaultAccount) {
+      dispatch(setConnectWalletTooltip(true));
       setErrorMessage('Please connect to tezos wallet.');
+      setIsError(true);
+    } else if(!defaultAccount && walletAddress) {
+      setShowMetamaskTooltip(true);
+      setErrorMessage(`Please connect to ${fromBridge.name === 'TEZOS' ? toBridge.name : fromBridge.name} wallet.`);
       setIsError(true);
     } else {
       if (input === '' || isNaN(input) || tokenIn.name === 'Token NA') {
@@ -378,8 +413,18 @@ const BridgeModal = (props) => {
 
   const handleTokenSelect = () => {
     setIsError(false);
-    if(!walletAddress) {
+    if(!walletAddress && !defaultAccount) {
+      dispatch(setConnectWalletTooltip(true));
+      setShowMetamaskTooltip(true);
+      setErrorMessage('Please connect to both the wallets.');
+      setIsError(true);
+    } else if(!walletAddress && defaultAccount) {
+      dispatch(setConnectWalletTooltip(true));
       setErrorMessage('Please connect to tezos wallet.');
+      setIsError(true);
+    } else if(!defaultAccount && walletAddress) {
+      setShowMetamaskTooltip(true);
+      setErrorMessage(`Please connect to ${fromBridge.name === 'TEZOS' ? toBridge.name : fromBridge.name} wallet.`);
       setIsError(true);
     } else {
       //setSelector('TOKENS');
@@ -541,7 +586,15 @@ const BridgeModal = (props) => {
           <p className={clsx('mt-2', styles.feeEstimateText)}>{`Estimated fee: ${fee}`}</p>
 
           {defaultAccount === null ? (
-            <>
+            <OverlayTrigger
+            overlay={(props) => (
+              <Tooltip className="connect-wallet-tooltip metamask-wallet-tooltip" {...props}>
+                Connect wallet
+              </Tooltip>
+            )}
+            placement="top"
+            show={showMetamaskTooltip}
+            >
               <Button
                 className={clsx('px-md-3', 'mt-3', 'w-100', 'connect-wallet-btn', 'button-bg')}
                 onClick={connectWalletHandler}
@@ -554,7 +607,7 @@ const BridgeModal = (props) => {
                   </div>
                 </div>
               </Button>
-            </>
+            </OverlayTrigger>
           ) : (
             <>
               <Button
@@ -565,7 +618,7 @@ const BridgeModal = (props) => {
                 <div className={clsx('connect-wallet-btn')}>
                   <div className="flex flex-row align-items-center">
                     {/* <Avalanche /> */}
-                    <span className="ml-2">{defaultAccount}</span>
+                    <span className="ml-2">Proceed</span>
                     {/* <span>{userBalance}</span> */}
                   </div>
                   {/* <span>{defaultAccount}</span> */}
