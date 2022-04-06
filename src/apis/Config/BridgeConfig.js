@@ -57,6 +57,12 @@ export const BridgeConfiguration = {
       ? loadedConfig[chain].TEZOS.WRAPPED_TOKENS[fromToken].UNWRAPPED_TOKEN.NAME
       : null;
   },
+  getOutTokenUnbridgingWhole: (chain, fromToken) => {
+    const loadedConfig = JSON.parse(localStorage.getItem(BRIDGES_CONFIG));
+    return loadedConfig
+      ? loadedConfig[chain].TEZOS.WRAPPED_TOKENS[fromToken].UNWRAPPED_TOKEN
+      : null;
+  },
 };
 
 /**

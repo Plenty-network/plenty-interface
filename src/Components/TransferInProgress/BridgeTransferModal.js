@@ -13,7 +13,16 @@ import '../../assets/scss/animation.scss';
 import { bridgesList } from '../../constants/bridges';
 import { ReactComponent as FeeBigIcon } from '../../assets/images/bridge/fee_big_icon.svg';
 import { ReactComponent as ProcessSuccess } from '../../assets/images/bridge/process_success.svg';
-import { approveToken, wrap, getMintStatus, mintTokens } from '../../apis/bridge/bridgeAPI';
+import {
+  approveToken,
+  wrap,
+  getMintStatus,
+  mintTokens,
+  getBalanceTez,
+  unwrap,
+  getReleaseStatus,
+  releaseTokens,
+} from '../../apis/bridge/bridgeAPI';
 const BridgeTransferModal = (props) => {
   const [animationCalss, SetAnimationClass] = useState('leftToRightFadeInAnimation-4-bridge');
   //const [currentProgress,SetCurrentProgress]=useState(4);
@@ -61,6 +70,30 @@ const BridgeTransferModal = (props) => {
 
   const bridgeButtonClick = async () => {
     SetIsButtonLoading(true);
+    //getReleaseStatus
+    /*     getReleaseStatus('ooWF1KUxzQRWn8TcnRMBpViuZkGWUvKZDK3uCiy4obnAgSYhxc9', toBridge.name).then(
+      async (data) => {
+        console.log(data);
+        //release token Call
+        const result = await releaseTokens(data.data, toBridge.name);
+        console.log(result);
+        SetIsButtonLoading(false);
+      },
+    ); */
+
+    //unwrap call
+    /*     const result = await unwrap(toBridge.name, firstTokenAmount, tokenIn);
+    console.log(result); */
+
+    //get Balance tez
+    /*    const balance = await getBalanceTez(
+      'KT1JCrNtQCS1taDngHfaLUnnMi5EJYMy4jEC',
+      0,
+      walletAddress,
+      18,
+    );
+    console.log(balance.balance); */
+
     //Approve call
     /*     approveToken(tokenIn, fromBridge.name, firstTokenAmount).then((data) => {
       console.log(data);
