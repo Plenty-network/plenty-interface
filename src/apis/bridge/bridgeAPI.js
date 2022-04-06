@@ -433,7 +433,6 @@ const buildFullSignature = (signatures) => {
 
 /* Releases the token, to be called when awaiting signatures and awaiting confirmation is false and the tokens are ready to be released.
 Call with the data received from the release status api, chain
-
   */
 export const releaseTokens = async (unwrapData, chain) => {
   try {

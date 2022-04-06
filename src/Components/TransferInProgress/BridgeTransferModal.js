@@ -391,48 +391,7 @@ const BridgeTransferModal = (props) => {
             </>
           )}
         </div>
-        )
-        <div className={styles.resultsHeader}>
-          {currentProgress === 0 ? (
-            <>
-              <div style={{ width: '50%' }}>
-                <Button
-                  color={'default'}
-                  className={`mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
-                  onClick={() => setBack(1)}
-                >
-                  {'Cancel'}
-                </Button>
-              </div>
-              <div style={{ width: '50%' }}>
-                <Button
-                  color={'primary'}
-                  className={`xplenty-btn mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
-                  onClick={bridgeButtonClick}
-                  loading={isButtonLoading}
-                >
-                  {numberOfSteps[currentProgress]}
-                </Button>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className={`${styles.bottomInfo} ${styles.width}`}>
-                Please approve in your wallet to proceed with the tranfer{' '}
-              </div>
-              <div style={{ width: '50%' }}>
-                <Button
-                  color={'primary'}
-                  className={`xplenty-btn mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
-                  onClick={bridgeButtonClick}
-                  loading={isButtonLoading}
-                >
-                  {numberOfSteps[currentProgress]}
-                </Button>
-              </div>
-            </>
-          )}
-        </div>
+
         <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
         <div className={styles.feeInfoWrapper}>
           <FeeIcon />
