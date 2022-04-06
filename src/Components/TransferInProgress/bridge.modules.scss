@@ -10,7 +10,7 @@
         margin-top: -13px;
         padding-top: 10px;
         padding-bottom: 8px;
-        background: rgba(98, 2, 239, 0.05);
+        background: var(--theme-bridge-trans-detail-btn);
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -23,10 +23,11 @@
      align-items: center;
      flex-direction: row;
      mix-blend-mode: normal;
-     border: 1px solid #F4F4F4;
+     border: 1px solid var(--theme-bridge-trans-info-border);
      border-radius: 4px;
      box-sizing: border-box;
      padding: 9px 16px;
+     height: 62px;
      .left-div{
      p{
          font-size: 10px;
@@ -37,7 +38,7 @@
         font-weight: 700;
         font-size: 16px;
         line-height: 21px;
-        color: #292A2E;
+        color: var(--theme-bridge-header-text);
      }
      .containerwithicon{
          display: flex;
@@ -55,17 +56,17 @@
                 font-weight: 500;
                 font-size: 12px;
                 line-height: 16px;
-                color: #8792A2;
+                color: var(--theme-bridge-chain-sel-subtext);
              }
              .value-text {
                 font-style: normal;
                 font-weight: 700;
                 font-size: 16px;
                 line-height: 21px;
-                color: #292A2E;
+                color: var(--theme-bridge-header-text);
              }
              .success-text {
-                color: #4E5D78;
+                color: var(--theme-bridge-filter-option-text);
              }
          }
         img{
@@ -79,17 +80,19 @@
      }
     }
     .shaded{
-        box-shadow: 0px 4px 9px 9px rgba(39, 59, 74, 0.04);
+        box-shadow: var(--theme-bridge-selector-box-shadow);
         border-radius: 8px;
-        background: #FFFFFF;
-        border: 0.803667px solid rgba(0, 0, 0, 0.08);
+        background: var(--theme-bridge-selector-bg);
+        border: 0.803667px solid var(--theme-bridge-selector-border);
         margin-bottom: 10px;
+        height: 70px;
     }
     .success{
         border-radius: 4px;
         background: rgba(22, 161, 53, 0.02);
         border: 1px solid #16A135;
         margin-bottom: 10px;
+        height: 74px;
     }
 }
 .leftToRightFadeInAnimation {
@@ -109,4 +112,8 @@
   @-moz-keyframes fadein {
     from { opacity: 0.6;transform: translateX(-10px);}
     to   { opacity: 1;transform: translateX(0px); }
+  }
+
+  .lds-ring div{
+    border-color: var(--theme-bridge-trans-load-border) var(--theme-bridge-max-btn-border-text) var(--theme-bridge-max-btn-border-text) var(--theme-bridge-max-btn-border-text);
   }

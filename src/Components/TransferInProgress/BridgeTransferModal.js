@@ -99,7 +99,7 @@ const bridgeButtonClick=()=>{
     return (<p className={styles.progressLabel+' leftToRightFadeInAnimation-4-bridge'}>
       <div className="flex flex-row">
         <span className={styles.defaultRadioButton}></span>
-        <span>{buttonText}</span>
+        <span className={styles.defaultLabel}>{buttonText}</span>
       </div>
       <p className={styles.defaultProgressLine}></p>
     </p>);
@@ -138,7 +138,7 @@ const bridgeButtonClick=()=>{
       <div className='bridge-done_screen'>
       <div className='border-tile shaded'>
             <div className='left-div'>
-              <p>You will receive</p>
+              <p className={styles.youWillReceive}>You will receive</p>
               <div className='containerwithicon'>
                 <img src={tokenOut.image}/>
                 <span className='value-text'>{secondTokenAmount} {tokenOut.name}</span>
@@ -258,7 +258,7 @@ const bridgeButtonClick=()=>{
     }
     return(
       <>
-       <p className={styles.contentLabel}>{p.label}</p>
+       <p className={styles.contentLabel}>{currentProgress <= 1 ? 'Approving' : 'Minting'}</p>
           <p className={styles.contentDes}>
             {p.description}
           </p>
@@ -358,7 +358,12 @@ const bridgeButtonClick=()=>{
                   <p className={styles.reviewText}>Review you transaction</p>
                 </div>
               ) : (
-                <p className={styles.TransferInProgress}>Transfer in progress</p>
+                currentProgress === numberOfSteps.length - 1 ? (
+                  <p className={styles.TransferInProgress}>Minting in progress</p>
+                ) : (
+                  <p className={styles.TransferInProgress}>Transfer in progress</p>
+                )
+                
               )}
             </div>
             {currentProgress === numberOfSteps.length && (

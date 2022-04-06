@@ -21,6 +21,7 @@ import { ethers } from 'ethers';
 import dummyApiCall from '../../apis/dummyApiCall';
 import '../../assets/scss/animation.scss';
 import switchImg from '../../assets/images/bridge/bridge-switch.svg';
+import switchImgDark from '../../assets/images/bridge/bridge-switch-dark.svg';
 import { bridgesList } from '../../constants/bridges';
 import SelectorModal from '../Bridges/SelectorModal';
 import { BridgeConfiguration } from '../../apis/Config/BridgeConfig';
@@ -91,7 +92,8 @@ const BridgeModal = (props) => {
     setOperation,
     tokenList,
     setTokenList,
-    loadedTokensList
+    loadedTokensList,
+    theme
   } = props;
 
   //const [tokenList, setTokenList] = useState(tokensList[fromBridge.name]);
@@ -165,7 +167,7 @@ const BridgeModal = (props) => {
       setErrorMessage('Please connect to tezos wallet.');
       setIsError(true);
     } else {
-      if (input === '' || isNaN(input)) {
+      if (input === '' || isNaN(input) || tokenIn.name === 'Token NA') {
         setFirstTokenAmount('');
         setSecondTokenAmount('');
         setFee(0);
@@ -477,7 +479,7 @@ const BridgeModal = (props) => {
           </div>
           <div className="flex justify-between" style={{ flex: '0 0 100%', marginBottom: '2vh' }}>
             <p className={clsx(styles.errorText)}>{isError ? errorMessage : ' '}</p>
-            <p className="wallet-token-balance">
+            <p className={clsx('wallet-token-balance',styles.balanceText)}>
               {walletAddress ? (
                 <>
                   Balance:{' '}
@@ -507,7 +509,7 @@ const BridgeModal = (props) => {
               className={`mx-auto flex justify-content-center align-items-center ${styles.arrowSwap}`}
               onClick={switchHandler}
             >
-              <img src={switchImg} alt={'switch-image'} />
+              <img src={theme === 'light' ? switchImg : switchImgDark} alt={'switch-image'} />
             </div>
           </OverlayTrigger>
 
@@ -518,7 +520,7 @@ const BridgeModal = (props) => {
                 <img src={toBridge.image} className="button-logo" />
                 <span>{toBridge.name} </span>
               </div>
-              <div className={clsx(styles.lineHorizontal, 'mx-2')}></div>
+              <div className={clsx(styles.lineVertical, 'mx-2')}></div>
               <div className={clsx(styles.inputWrapper)}>
                 <p className={styles.toLabel}>you will receive</p>
                 <input
@@ -615,7 +617,8 @@ BridgeModal.propTypes = {
   setOperation: PropTypes.any,
   tokenList: PropTypes.any,
   setTokenList: PropTypes.any,
-  loadedTokensList: PropTypes.any
+  loadedTokensList: PropTypes.any,
+  theme: PropTypes.any
 };
 
 export default BridgeModal;
