@@ -143,19 +143,47 @@ const BridgeTransferModal = (props) => {
         };
         setTransactionData((prevData) => [...prevData, newData]);
       } else {
-        setTransactionData((prevData) =>
-          prevData.map((transaction) =>
-            transaction.id === selectedId
-              ? { ...transaction, currentProgress: res.currentProgress + 1 }
-              : transaction,
-          ),
-        );
+        if (operation === 'UNBRIDGE' && res.currentProgress === 1) {
+          const newIndex = getTransactionListLength();
+          const newProgress = res.currentProgress + 1;
+          const newDate = new Date().toLocaleDateString('en-IN');
+          const newTime = `${new Date().getHours()}:${new Date().getMinutes()}`;
+          const newData = {
+            id: newIndex,
+            currentProgress: newProgress,
+            operation: operation,
+            fromBridge: fromBridge.name,
+            toBridge: toBridge.name,
+            tokenIn: tokenIn.name,
+            tokenOut: tokenOut.name,
+            firstTokenAmount: firstTokenAmount,
+            secondTokenAmount: secondTokenAmount,
+            fee: fee,
+            date: newDate,
+            time: newTime,
+          };
+          setTransactionData((prevData) => [...prevData, newData]);
+        } else {
+          setTransactionData((prevData) =>
+            prevData.map((transaction) =>
+              transaction.id === selectedId
+                ? { ...transaction, currentProgress: res.currentProgress + 1 }
+                : transaction,
+            ),
+          );
+        }
       }
       SetIsButtonLoading(false);
       SetCurrentProgress(res.currentProgress + 1);
     });
   };
-  const numberOfSteps = ['Approve', 'Bridge', 'Mint', 'Done'];
+  //const numberOfSteps = ['Approve', 'Bridge', 'Mint', 'Done'];
+  const numberOfSteps = [
+    {BRIDGE:'Approve', UNBRIDGE:''},
+    {BRIDGE:'Bridge', UNBRIDGE:'Unbridge'},
+    {BRIDGE:'Mint', UNBRIDGE:'Release'},
+    {BRIDGE:'Done',UNBRIDGE:'Done'}
+  ];
   const defaultTile = (buttonText) => {
     return (
       <p className={styles.progressLabel + ' leftToRightFadeInAnimation-4-bridge'}>
@@ -223,36 +251,39 @@ const BridgeTransferModal = (props) => {
                   </span>
                 </div>
               </div>
-              <div className="border-tile">
-                <div className="left-div">
-                  <div className="containerwithicon">
-                    <img src={fromBridge.image} />
-                    <div className="right-div">
-                      <span className="fromreceived">From</span>
-                      <span className="value-text">{fromBridge.name}</span>
-                    </div>
+              <div className="loading-div">
+                <LoadingRing />
+              </div>
+            </div>
+            <div className="border-tile">
+              <div className="left-div">
+                <div className="containerwithicon">
+                  <img src={fromBridge.image} />
+                  <div className="right-div">
+                    <span className="fromreceived">From</span>
+                    <span className="value-text">{fromBridge.name}</span>
                   </div>
                 </div>
               </div>
-              <div className="border-tile">
-                <div className="left-div">
-                  <div className="containerwithicon">
-                    <img src={toBridge.image} />
-                    <div className="right-div">
-                      <span className="fromreceived">To</span>
-                      <span className="value-text">{toBridge.name}</span>
-                    </div>
+            </div>
+            <div className="border-tile">
+              <div className="left-div">
+                <div className="containerwithicon">
+                  <img src={toBridge.image} />
+                  <div className="right-div">
+                    <span className="fromreceived">To</span>
+                    <span className="value-text">{toBridge.name}</span>
                   </div>
                 </div>
               </div>
-              <div className="border-tile">
-                <div className="left-div">
-                  <div className="containerwithicon">
-                    <FeeBigIcon />
-                    <div className="right-div">
-                      <span className="fromreceived">Estimated transaction fee</span>
-                      <span className="value-text">~{p.transactionFees}</span>
-                    </div>
+            </div>
+            <div className="border-tile">
+              <div className="left-div">
+                <div className="containerwithicon">
+                  <FeeBigIcon />
+                  <div className="right-div">
+                    <span className="fromreceived">Estimated transaction fee</span>
+                    <span className="value-text">~{p.transactionFees}</span>
                   </div>
                 </div>
               </div>
@@ -369,7 +400,7 @@ const BridgeTransferModal = (props) => {
                   onClick={bridgeButtonClick}
                   loading={isButtonLoading}
                 >
-                  {numberOfSteps[currentProgress]}
+                  {numberOfSteps[currentProgress][operation]}
                 </Button>
               </div>
             </>
@@ -385,7 +416,7 @@ const BridgeTransferModal = (props) => {
                   onClick={bridgeButtonClick}
                   loading={isButtonLoading}
                 >
-                  {numberOfSteps[currentProgress]}
+                  {numberOfSteps[currentProgress][operation]}
                 </Button>
               </div>
             </>
@@ -448,21 +479,33 @@ const BridgeTransferModal = (props) => {
           </div>
           <div className={`mb-3 mt-2 ${styles.lineBottom} `}></div>
           <div className={styles.resultsHeader}>
-            {numberOfSteps.map((currentStep, index) => {
-              if (currentProgress > index) {
-                return completedTile(currentStep);
-              } else if (currentProgress === index) {
-                return currentTile(currentStep);
-              } else {
-                return defaultTile(currentStep);
-              }
-            })}
+            {operation === 'BRIDGE' ? (
+              numberOfSteps.map((currentStep, index) => {
+                if (currentProgress > index) {
+                  return completedTile(currentStep[operation]);
+                } else if (currentProgress === index) {
+                  return currentTile(currentStep[operation]);
+                } else {
+                  return defaultTile(currentStep[operation]);
+                }
+              })
+            ): (
+              numberOfSteps.slice(-3).map((currentStep, index) => {
+                if (currentProgress-1 > index) {
+                  return completedTile(currentStep[operation]);
+                } else if (currentProgress-1 === index) {
+                  return currentTile(currentStep[operation]);
+                } else {
+                  return defaultTile(currentStep[operation]);
+                }
+              })
+            )}
           </div>
           <div className={`mb-4 ${styles.lineBottom} `}></div>
           {/*  */}
           {/* code will go here */}
           <InSideElement
-            label={numberOfSteps[currentProgress]}
+            label={numberOfSteps < numberOfSteps.length ? numberOfSteps[currentProgress][operation] : 'Done'}
             description={`${fromBridge.name}  transactions can take  longer time to complete based upon the network congestion.`}
             transactionFees={fee}
           />

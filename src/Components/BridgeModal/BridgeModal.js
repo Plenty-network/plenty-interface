@@ -27,6 +27,8 @@ import SelectorModal from '../Bridges/SelectorModal';
 import { BridgeConfiguration } from '../../apis/Config/BridgeConfig';
 import { setConnectWalletTooltip } from '../../redux/slices/settings/settings.slice';
 import { useDispatch } from 'react-redux';
+import { allTokens } from '../../constants/bridges';
+import { getBalance, getBalanceTez } from '../../apis/bridge/bridgeAPI';
 
 const BridgeModal = (props) => {
   //const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -51,7 +53,7 @@ const BridgeModal = (props) => {
   }); */
   const [searchQuery, setSearchQuery] = useState('');
   const [show, setShow] = useState(false);
-
+  const [userTokenBalance, setUserTokenBalance] = useState(null);
   const [userBalances, setUserBalances] = useState({});
   const [tokenType, setTokenType] = useState('tokenIn');
   const [getTokenPrice, setGetTokenPrice] = useState({});
@@ -128,41 +130,69 @@ const BridgeModal = (props) => {
     }
   }, [defaultAccount]);
 
-  useEffect(() => {
-    const updateBalance = async () => {
-      const userBalancesCopy = { ...userBalances };
-      const tzBTCName = 'tzBTC';
-      const balancePromises = [];
-      if (!userBalancesCopy[tokenIn.name]) {
-        tokenIn.name === tzBTCName
-          ? balancePromises.push(fetchtzBTCBalance(walletAddress))
-          : balancePromises.push(getUserBalanceByRpc(tokenIn.name, walletAddress));
-      }
-      if (!userBalancesCopy[tokenOut.name]) {
-        tokenOut.name === tzBTCName
-          ? balancePromises.push(fetchtzBTCBalance(walletAddress))
-          : balancePromises.push(getUserBalanceByRpc(tokenOut.name, walletAddress));
-      }
-      /* if (config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]) {
-        const lpToken =
-          config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
+  useEffect(async () => {
+    // const updateBalance = async () => {
+    //   const userBalancesCopy = { ...userBalances };
+    //   const tzBTCName = 'tzBTC';
+    //   const balancePromises = [];
+    //   if (!userBalancesCopy[tokenIn.name]) {
+    //     tokenIn.name === tzBTCName
+    //       ? balancePromises.push(fetchtzBTCBalance(walletAddress))
+    //       : balancePromises.push(getUserBalanceByRpc(tokenIn.name, walletAddress));
+    //   }
+    //   if (!userBalancesCopy[tokenOut.name]) {
+    //     tokenOut.name === tzBTCName
+    //       ? balancePromises.push(fetchtzBTCBalance(walletAddress))
+    //       : balancePromises.push(getUserBalanceByRpc(tokenOut.name, walletAddress));
+    //   }
+    //   /* if (config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]) {
+    //     const lpToken =
+    //       config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
 
-        balancePromises.push(getUserBalanceByRpc(lpToken, walletAddress));
-      } */
-      const balanceResponse = await Promise.all(balancePromises);
+    //     balancePromises.push(getUserBalanceByRpc(lpToken, walletAddress));
+    //   } */
+    //   const balanceResponse = await Promise.all(balancePromises);
 
-      setUserBalances((prev) => ({
-        ...prev,
-        ...balanceResponse.reduce(
-          (acc, cur) => ({
-            ...acc,
-            [cur.identifier]: 10, //cur.balance,
-          }),
-          {},
-        ),
-      }));
-    };
-    updateBalance();
+    //   setUserBalances((prev) => ({
+    //     ...prev,
+    //     ...balanceResponse.reduce(
+    //       (acc, cur) => ({
+    //         ...acc,
+    //         [cur.identifier]: 10, //cur.balance,
+    //       }),
+    //       {},
+    //     ),
+    //   }));
+    // };
+    // updateBalance();
+    setUserTokenBalance(null);
+    if(tokenIn.name !== 'Token NA' && walletAddress && defaultAccount) {
+      if(operation === 'BRIDGE') {
+        const balanceResult = await getBalance(tokenIn.tokenData.CONTRACT_ADDRESS,defaultAccount);
+        if(balanceResult.success) {
+          setUserTokenBalance(Number(balanceResult.balance) / (10**tokenIn.tokenData.DECIMALS));
+        } else {
+          setUserTokenBalance(null);
+        }
+        console.log(tokenIn.tokenData.DECIMALS);
+        console.log(Number(balanceResult.balance) / (10**tokenIn.tokenData.DECIMALS));
+      } else {
+        const tokenInDecimals = BridgeConfiguration.getOutTokenUnbridgingWhole(toBridge.name,tokenIn.name).DECIMALS;
+        const balanceResult = await getBalanceTez(tokenIn.tokenData.CONTRACT_ADDRESS,tokenIn.tokenData.TOKEN_ID,walletAddress,tokenInDecimals);
+        console.log(tokenIn.tokenData.CONTRACT_ADDRESS,walletAddress,tokenIn.tokenData.TOKEN_ID,tokenInDecimals);
+        console.log(balanceResult);
+        if(balanceResult.success) {
+          setUserTokenBalance(Number(balanceResult.balance));
+          //setUserTokenBalance(Number('10'));
+          console.log(Number(balanceResult.balance));
+        } else {
+          setUserTokenBalance(null);
+        }
+        console.log(BridgeConfiguration.getOutTokenUnbridgingWhole(toBridge.name,tokenIn.name));
+      }
+    } else {
+      setUserTokenBalance(null);
+    }
   }, [tokenIn]);
   useEffect(() => {
     //setLoading(true);
@@ -209,13 +239,13 @@ const BridgeModal = (props) => {
       );
       setIsError(true);
     } else {
-      if (input === '' || isNaN(input) || tokenIn.name === 'Token NA') {
+      if (input === '' || isNaN(input) || tokenIn.name === 'Token NA' || userTokenBalance === null) {
         setFirstTokenAmount('');
         setSecondTokenAmount('');
         setFee(0);
       } else {
         setFirstTokenAmount(input);
-        if (input > userBalances[tokenIn.name]) {
+        if (input > userTokenBalance) {
           setErrorMessage('Insufficient balance');
           setIsError(true);
         } else {
@@ -263,7 +293,9 @@ const BridgeModal = (props) => {
       setIsError(true);
     } else {
       SetisLoading(true);
-
+      if(operation === 'UNBRIDGE') {
+        SetCurrentProgress(1);
+      }
       dummyApiCall({ isfinished: true }).then((res) => {
         if (res.isfinished) {
           SetisLoading(false);
@@ -409,27 +441,19 @@ const BridgeModal = (props) => {
     });
     //Change after creating config.
     if (fromBridge.name === 'TEZOS') {
+      const outTokenName = BridgeConfiguration.getOutTokenUnbridging(toBridge.name, token.name);
       setTokenOut({
-        name: BridgeConfiguration.getOutTokenUnbridging(toBridge.name, token.name),
-        image: '', // Set image if required in design in future.
+        name: outTokenName,
+        image: Object.prototype.hasOwnProperty.call(allTokens, outTokenName) ? allTokens[outTokenName] : allTokens.fallback, 
       });
     } else {
+      const outTokenName = BridgeConfiguration.getOutTokenBridging(fromBridge.name, token.name);
       setTokenOut({
-        name: BridgeConfiguration.getOutTokenBridging(fromBridge.name, token.name),
-        image: '', // Set image if required in design in future.
+        name: outTokenName,
+        image: Object.prototype.hasOwnProperty.call(allTokens, outTokenName) ? allTokens[outTokenName] : allTokens.fallback,
       });
     }
     setIsTokenSelected(true);
-    /* setTokenOut({
-      name: `${token.name}.e`,
-      image: token.image,
-    }); */
-    /* if (tokenType === 'tokenIn') {
-      setTokenIn({
-        name: token.name,
-        image: token.image,
-      });
-    } */
     handleClose();
   };
 
@@ -578,8 +602,8 @@ const BridgeModal = (props) => {
               {walletAddress ? (
                 <>
                   Balance:{' '}
-                  {userBalances[tokenIn.name] >= 0 ? (
-                    userBalances[tokenIn.name]
+                  {userTokenBalance >= 0 && userTokenBalance!== null ? (
+                    userTokenBalance
                   ) : (
                     <div className="shimmer">0.0000</div>
                   )}

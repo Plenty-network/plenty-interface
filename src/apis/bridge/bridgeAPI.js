@@ -50,10 +50,22 @@ const getUserAddress = async () => {
 tokenAddress: address of the token
 userAddress: address of the user ETHEREUM */
 export const getBalance = async (tokenAddress, userAddress) => {
-  const web3 = Web3(window.ethereum);
-  const tokenContract = new web3.eth.Contract(ERC20_ABI, tokenAddress);
-  const balance = await tokenContract.methods.balanceOf(userAddress).call();
-  return balance;
+  try {
+    const web3 = new Web3(window.ethereum);
+    const tokenContract = new web3.eth.Contract(ERC20_ABI, tokenAddress);
+    const balance = await tokenContract.methods.balanceOf(userAddress).call();
+    return {
+      success: true,
+      balance: balance,
+    };
+  }
+  catch (error) {
+    return {
+      success: false,
+      balance: 0,
+      error: error.message
+    };
+  }
 };
 
 /* use to get balance of a token, returns balance without decimals

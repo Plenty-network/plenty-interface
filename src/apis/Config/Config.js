@@ -45,11 +45,13 @@ export const loadConfiguration = async () => {
             tokenName.WRAPPED_TOKEN.NAME = token.tezosSymbol;
             tokenName.WRAPPED_TOKEN.TOKEN_ID = token.tezosTokenId;
             tokenName.WRAPPED_TOKEN.THUMB_URI = token.thumbnailUri;
+            tokenName.WRAPPED_TOKEN.CONTRACT_ADDRESS = token.tezosWrappingContract;
             // Create list of tezos ref tokens and their corresponding unwrapped tokens 
             tezosTokens[token.tezosSymbol] = {};
             const tezosTokenName = tezosTokens[token.tezosSymbol];
             tezosTokenName.SYMBOL = token.tezosSymbol;
             tezosTokenName.TOKEN_ID = token.tezosTokenId;
+            tezosTokenName.CONTRACT_ADDRESS = token.tezosWrappingContract;
             tezosTokenName.UNWRAPPED_TOKEN = {};
             tezosTokenName.UNWRAPPED_TOKEN.NAME = token.ethereumSymbol;
             tezosTokenName.UNWRAPPED_TOKEN.CONTRACT = token.ethereumContractAddress;

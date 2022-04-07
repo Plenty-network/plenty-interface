@@ -16,7 +16,7 @@ import { BridgeConfiguration } from '../../apis/Config/BridgeConfig';
 // import BridgeModal from '../../Components/TransferInProgress/BridgeTransferModal';
 // import ApproveModal from '../../Components/TransferInProgress/ApproveModal';
 // import MintModal from '../../Components/TransferInProgress/MintModal';
-
+import { allTokens } from '../../constants/bridges';
 import TransactionHistory from '../../Components/TransactionHistory/TransactionHistory';
 import BridgeTransferModal from '../../Components/TransferInProgress/BridgeTransferModal';
 
@@ -160,18 +160,16 @@ const Bridge = (props) => {
         if (fromBridge.name === 'TEZOS') {
           // Check if the tokens list created and config has reference tokens for selected 'TO' chain when 'FROM' is tezos.
           if (Object.prototype.hasOwnProperty.call(loadedTokensList.current.TEZOS, toBridge.name)) {
+            console.log('token list 3', loadedTokensList.current.TEZOS[toBridge.name][0]);
             setTokenList(loadedTokensList.current.TEZOS[toBridge.name]);
-            setTokenIn({
-              name: loadedTokensList.current.TEZOS[toBridge.name][0].name,
-              image: loadedTokensList.current.TEZOS[toBridge.name][0].image,
-            });
+            setTokenIn(loadedTokensList.current.TEZOS[toBridge.name][0]);
             //Change after creating config.
+            const outTokenName = BridgeConfiguration.getOutTokenUnbridging(
+              toBridge.name,
+              loadedTokensList.current.TEZOS[toBridge.name][0].name);
             setTokenOut({
-              name: BridgeConfiguration.getOutTokenUnbridging(
-                toBridge.name,
-                loadedTokensList.current.TEZOS[toBridge.name][0].name,
-              ),
-              image: '', // Set image if required in design in future.
+              name: outTokenName,
+              image: Object.prototype.hasOwnProperty.call(allTokens, outTokenName) ? allTokens[outTokenName] : allTokens.fallback,
             });
           } else {
             setTokenList([]);
@@ -190,12 +188,13 @@ const Bridge = (props) => {
           setTokenList(loadedTokensList.current[fromBridge.name]);
           setTokenIn(loadedTokensList.current[fromBridge.name][0]);
           // Change after creating config.
+          const outTokenName = BridgeConfiguration.getOutTokenBridging(
+            fromBridge.name,
+            loadedTokensList.current[fromBridge.name][0].name,
+          );
           setTokenOut({
-            name: BridgeConfiguration.getOutTokenBridging(
-              fromBridge.name,
-              loadedTokensList.current[fromBridge.name][0].name,
-            ),
-            image: '', // Set image if required in design in future.
+            name: outTokenName,
+            image: Object.prototype.hasOwnProperty.call(allTokens, outTokenName) ? allTokens[outTokenName] : allTokens.fallback,
           });
         }
       }
@@ -216,12 +215,13 @@ const Bridge = (props) => {
       console.log('token in', loadedTokensList.current[fromBridge.name][0]);
       setTokenIn(loadedTokensList.current[fromBridge.name][0]);
       // Change after creating config.
+      const outTokenName = BridgeConfiguration.getOutTokenBridging(
+        fromBridge.name,
+        loadedTokensList.current[fromBridge.name][0].name,
+      );
       setTokenOut({
-        name: BridgeConfiguration.getOutTokenBridging(
-          fromBridge.name,
-          loadedTokensList.current[fromBridge.name][0].name,
-        ),
-        image: '', // Set image if required in design in future.
+        name: outTokenName,
+        image: Object.prototype.hasOwnProperty.call(allTokens, outTokenName) ? allTokens[outTokenName] : allTokens.fallback,
       });
     } else {
       loadedTokensList.current = tokensListResult.success ? tokensListResult.data : null;
