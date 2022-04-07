@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import clsx from 'clsx';
-import styles from './bridge.module.scss';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -10,7 +9,6 @@ import BridgeModal from '../../Components/BridgeModal/BridgeModal';
 import ethereum from '../../assets/images/bridge/eth.svg';
 import tezos from '../../assets/images/bridge/tezos.svg';
 //import { tokens } from '../../constants/swapPage';
-import { tokensList } from '../../constants/bridges';
 import { createTokensList } from '../../apis/Config/BridgeConfig';
 import { BridgeConfiguration } from '../../apis/Config/BridgeConfig';
 //import { getAvailableLiquidityPairs } from '../../apis/WrappedAssets/WrappedAssets';
@@ -18,8 +16,6 @@ import { BridgeConfiguration } from '../../apis/Config/BridgeConfig';
 // import BridgeModal from '../../Components/TransferInProgress/BridgeTransferModal';
 // import ApproveModal from '../../Components/TransferInProgress/ApproveModal';
 // import MintModal from '../../Components/TransferInProgress/MintModal';
-
-import useMediaQuery from '../../hooks/mediaQuery';
 
 import TransactionHistory from '../../Components/TransactionHistory/TransactionHistory';
 import BridgeTransferModal from '../../Components/TransferInProgress/BridgeTransferModal';
@@ -33,11 +29,11 @@ const transactions = [
     toBridge: 'TEZOS',
     tokenIn: 'DAI',
     tokenOut: 'DAI.e',
-    firstTokenAmount: 23.3930,
-    secondTokenAmount: 22.3930,
+    firstTokenAmount: 23.393,
+    secondTokenAmount: 22.393,
     fee: 1,
     date: '03/02/2022',
-    time: '15:23'
+    time: '15:23',
   },
   {
     id: 1,
@@ -47,11 +43,11 @@ const transactions = [
     toBridge: 'ETHEREUM',
     tokenIn: 'DAI.e',
     tokenOut: 'DAI',
-    firstTokenAmount: 3.3930,
-    secondTokenAmount: 2.3930,
+    firstTokenAmount: 3.393,
+    secondTokenAmount: 2.393,
     fee: 1,
     date: '03/02/2022',
-    time: '19:23'
+    time: '19:23',
   },
   {
     id: 2,
@@ -61,11 +57,11 @@ const transactions = [
     toBridge: 'TEZOS',
     tokenIn: 'DAI',
     tokenOut: 'DAI.e',
-    firstTokenAmount: 13.3930,
-    secondTokenAmount: 12.3930,
+    firstTokenAmount: 13.393,
+    secondTokenAmount: 12.393,
     fee: 1,
     date: '04/02/2022',
-    time: '15:23'
+    time: '15:23',
   },
   {
     id: 3,
@@ -75,11 +71,11 @@ const transactions = [
     toBridge: 'ETHEREUM',
     tokenIn: 'DAI.e',
     tokenOut: 'DAI',
-    firstTokenAmount: 27.3930,
-    secondTokenAmount: 26.3930,
+    firstTokenAmount: 27.393,
+    secondTokenAmount: 26.393,
     fee: 1,
     date: '03/02/2022',
-    time: '23:23'
+    time: '23:23',
   },
   {
     id: 4,
@@ -89,12 +85,12 @@ const transactions = [
     toBridge: 'TEZOS',
     tokenIn: 'WBTC',
     tokenOut: 'WBTC.e',
-    firstTokenAmount: 67.3930,
-    secondTokenAmount: 26.3930,
+    firstTokenAmount: 67.393,
+    secondTokenAmount: 26.393,
     fee: 1,
     date: '09/02/2022',
-    time: '18:23'
-  }
+    time: '18:23',
+  },
 ];
 
 const Bridge = (props) => {
@@ -117,13 +113,17 @@ const Bridge = (props) => {
     image: '',
   });
   const [tokenOut, setTokenOut] = useState({
-    name: '',   //Change after creating config.
-    image: ''
+    name: '', //Change after creating config.
+    image: '',
   });
-  const [fromBridge, setFromBridge] = useState({name: 'ETHEREUM', image: ethereum, buttonImage: ethereum});
-  const [toBridge, setToBridge] = useState({name: 'TEZOS', image: tezos, buttonImage: ''});
+  const [fromBridge, setFromBridge] = useState({
+    name: 'ETHEREUM',
+    image: ethereum,
+    buttonImage: ethereum,
+  });
+  const [toBridge, setToBridge] = useState({ name: 'TEZOS', image: tezos, buttonImage: '' });
   const [fee, setFee] = useState(0);
-  const [currentProgress,SetCurrentProgress] = useState(0);
+  const [currentProgress, SetCurrentProgress] = useState(0);
   const [selectedId, setSelectedId] = useState(0);
   const [transactionData, setTransactionData] = useState(transactions);
   //const [currentOperation, setCurrentOperation] = useState('BRIDGE');
@@ -140,9 +140,12 @@ const Bridge = (props) => {
   const [tokenList, setTokenList] = useState([]);
 
   useEffect(() => {
-    if(!initialRender.current) {
+    if (!initialRender.current) {
       // Check if the tokens list is loaded for the loaded config and if the loaded tokens list has the items for the selected chain. Display NA if no.
-      if(!loadedTokensList.current || (!Object.prototype.hasOwnProperty.call(loadedTokensList.current, fromBridge.name))) {
+      if (
+        !loadedTokensList.current ||
+        !Object.prototype.hasOwnProperty.call(loadedTokensList.current, fromBridge.name)
+      ) {
         setTokenList([]);
         setTokenIn({
           name: 'Token NA',
@@ -182,16 +185,16 @@ const Bridge = (props) => {
               image: '', // Set image if required in design in future.
             });
           }
-          
         } else {
+          console.log('token list 2', loadedTokensList.current[fromBridge.name][0]);
           setTokenList(loadedTokensList.current[fromBridge.name]);
-          setTokenIn({
-            name: loadedTokensList.current[fromBridge.name][0].name,
-            image: loadedTokensList.current[fromBridge.name][0].image,
-          });
+          setTokenIn(loadedTokensList.current[fromBridge.name][0]);
           // Change after creating config.
           setTokenOut({
-            name: BridgeConfiguration.getOutTokenBridging(fromBridge.name,loadedTokensList.current[fromBridge.name][0].name),
+            name: BridgeConfiguration.getOutTokenBridging(
+              fromBridge.name,
+              loadedTokensList.current[fromBridge.name][0].name,
+            ),
             image: '', // Set image if required in design in future.
           });
         }
@@ -201,20 +204,23 @@ const Bridge = (props) => {
     }
   }, [fromBridge]);
 
-
   // Function to create tokens list from the loaded config.
   const loadTokensList = useCallback(() => {
     const tokensListResult = createTokensList();
-    if (tokensListResult.success && Object.prototype.hasOwnProperty.call(tokensListResult.data, fromBridge.name)) {
+    if (
+      tokensListResult.success &&
+      Object.prototype.hasOwnProperty.call(tokensListResult.data, fromBridge.name)
+    ) {
       loadedTokensList.current = tokensListResult.data;
       setTokenList(loadedTokensList.current[fromBridge.name]);
-      setTokenIn({
-        name: loadedTokensList.current[fromBridge.name][0].name,
-        image: loadedTokensList.current[fromBridge.name][0].image,
-      });
+      console.log('token in', loadedTokensList.current[fromBridge.name][0]);
+      setTokenIn(loadedTokensList.current[fromBridge.name][0]);
       // Change after creating config.
       setTokenOut({
-        name: BridgeConfiguration.getOutTokenBridging(fromBridge.name,loadedTokensList.current[fromBridge.name][0].name),
+        name: BridgeConfiguration.getOutTokenBridging(
+          fromBridge.name,
+          loadedTokensList.current[fromBridge.name][0].name,
+        ),
         image: '', // Set image if required in design in future.
       });
     } else {
@@ -222,24 +228,26 @@ const Bridge = (props) => {
       setTokenIn({
         name: 'Token NA',
         image: '',
+        tokenData: null,
       });
       // Change after creating config.
       setTokenOut({
         name: 'Token NA',
         image: '', // Set image if required in design in future.
+        tokenData: null,
       });
     }
     return tokensListResult.data;
   }, []);
 
   useEffect(() => {
-    // Create tokens data from the loaded config first time the component loads. If the config is not loaded when this module is mounted, 
+    // Create tokens data from the loaded config first time the component loads. If the config is not loaded when this module is mounted,
     // then it will re-attempt to create tokens data after a time gap once, as loading of config from indexer api may sometimes be delayed.
     // This will also take care of the scenario if a user opens /bridge directly without the config loaded.
     let loadData = loadTokensList();
     //console.log(loadData);
     let timer;
-    if(loadData.length === 0) {
+    if (loadData.length === 0) {
       console.log('Reattempting to load tokens data from config...');
       timer = setTimeout(() => {
         loadData = loadTokensList();
@@ -249,13 +257,12 @@ const Bridge = (props) => {
     return () => clearTimeout(timer);
   }, []);
 
-
   // Function to reset all the current states to default values
   const resetToDefaultStates = () => {
     setFirstTokenAmount('');
     setSecondTokenAmount('');
-    setFromBridge({name: 'ETHEREUM', image: ethereum, buttonImage: ethereum});
-    setToBridge({name: 'TEZOS', image: tezos, buttonImage: ''});
+    setFromBridge({ name: 'ETHEREUM', image: ethereum, buttonImage: ethereum });
+    setToBridge({ name: 'TEZOS', image: tezos, buttonImage: '' });
     /* const [tokenIn, setTokenIn] = useState({
       name: tokensList['ETHEREUM'][0].name,
       image: tokensList['ETHEREUM'][0].image,
@@ -278,8 +285,8 @@ const Bridge = (props) => {
             <BridgeText />
           </Col>
           <Col xs={20} sm={10} md={10} lg={6} xl={6}>
-            {transaction===1 && (
-              <BridgeModal 
+            {transaction === 1 && (
+              <BridgeModal
                 walletAddress={props.walletAddress}
                 transaction={transaction}
                 setTransaction={setTransaction}
@@ -306,8 +313,8 @@ const Bridge = (props) => {
                 loadedTokensList={loadedTokensList}
                 theme={props.theme}
               />
-            )} 
-            {transaction===2 && (
+            )}
+            {transaction === 2 && (
               <TransactionHistory
                 transaction={transaction}
                 setTransaction={setTransaction}
@@ -325,10 +332,10 @@ const Bridge = (props) => {
                 theme={props.theme}
               />
             )}
-            {transaction===3 && (
+            {transaction === 3 && (
               <BridgeTransferModal
                 walletAddress={props.walletAddress}
-                transaction={transaction} 
+                transaction={transaction}
                 setTransaction={setTransaction}
                 fromBridge={fromBridge}
                 toBridge={toBridge}
@@ -351,7 +358,7 @@ const Bridge = (props) => {
                 setOperation={setOperation}
                 resetToDefaultStates={resetToDefaultStates}
                 setTransactionData={setTransactionData}
-                getTransactionListLength={getTransactionListLength} 
+                getTransactionListLength={getTransactionListLength}
               />
             )}
           </Col>

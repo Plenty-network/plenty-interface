@@ -53,10 +53,17 @@ export const BridgeConfiguration = {
   },
   getOutTokenUnbridging: (chain, fromToken) => {
     const loadedConfig = JSON.parse(localStorage.getItem(BRIDGES_CONFIG));
-    return loadedConfig ? loadedConfig[chain].TEZOS.WRAPPED_TOKENS[fromToken].UNWRAPPED_TOKEN.NAME : null;
-  }
+    return loadedConfig
+      ? loadedConfig[chain].TEZOS.WRAPPED_TOKENS[fromToken].UNWRAPPED_TOKEN.NAME
+      : null;
+  },
+  getOutTokenUnbridgingWhole: (chain, fromToken) => {
+    const loadedConfig = JSON.parse(localStorage.getItem(BRIDGES_CONFIG));
+    return loadedConfig
+      ? loadedConfig[chain].TEZOS.WRAPPED_TOKENS[fromToken].UNWRAPPED_TOKEN
+      : null;
+  },
 };
-
 
 /**
  * Creates a tokens config list with names and icons for each chain along with list of reference tokens in tezos chain for each of other chains.
@@ -65,41 +72,46 @@ export const BridgeConfiguration = {
 export const createTokensList = () => {
   try {
     const loadedConfig = JSON.parse(localStorage.getItem(BRIDGES_CONFIG));
-    if(loadedConfig) {
+    if (loadedConfig) {
       const finalTokensList = {};
       finalTokensList['TEZOS'] = {};
-      for(const [chain,chainData] of Object.entries(loadedConfig)) {
+      for (const [chain, chainData] of Object.entries(loadedConfig)) {
         finalTokensList[chain] = [];
         finalTokensList['TEZOS'][chain] = [];
-        for(const [token,tokenData] of Object.entries(chainData.TOKENS)) {
+        for (const [token, tokenData] of Object.entries(chainData.TOKENS)) {
           finalTokensList[chain].push({
             name: token,
-            image: Object.prototype.hasOwnProperty.call(allTokens, token) ? allTokens[token] : allTokens.fallback
+            image: Object.prototype.hasOwnProperty.call(allTokens, token)
+              ? allTokens[token]
+              : allTokens.fallback,
+            tokenData: tokenData,
           });
           finalTokensList['TEZOS'][chain].push({
             name: tokenData.WRAPPED_TOKEN.NAME,
-            image: Object.prototype.hasOwnProperty.call(allTokens, tokenData.WRAPPED_TOKEN.NAME) ? allTokens[tokenData.WRAPPED_TOKEN.NAME] : allTokens.fallback
+            image: Object.prototype.hasOwnProperty.call(allTokens, tokenData.WRAPPED_TOKEN.NAME)
+              ? allTokens[tokenData.WRAPPED_TOKEN.NAME]
+              : allTokens.fallback,
+            tokenData: tokenData.WRAPPED_TOKEN,
           });
         }
       }
-
+      console.log('finalTokensList', finalTokensList);
       return {
         success: true,
-        data: finalTokensList
+        data: finalTokensList,
       };
     } else {
       return {
         success: false,
         data: [],
-        error: 'Failed to load config data.'
+        error: 'Failed to load config data.',
       };
     }
-  }
-  catch (error) {
+  } catch (error) {
     return {
       success: false,
       data: [],
-      error: error.message
+      error: error.message,
     };
   }
 };
