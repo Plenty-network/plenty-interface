@@ -22,6 +22,7 @@ import {
   unwrap,
   getReleaseStatus,
   releaseTokens,
+  getHistory,
 } from '../../apis/bridge/bridgeAPI';
 const BridgeTransferModal = (props) => {
   const [animationCalss, SetAnimationClass] = useState('leftToRightFadeInAnimation-4-bridge');
@@ -70,6 +71,10 @@ const BridgeTransferModal = (props) => {
 
   const bridgeButtonClick = async () => {
     SetIsButtonLoading(true);
+    //getHistory
+    /*     const data = await getHistory({ tzAddress: walletAddress, chain: fromBridge.name });
+    console.log(data.history);
+    SetIsButtonLoading(false); */
     //getReleaseStatus
     /*     getReleaseStatus('ooWF1KUxzQRWn8TcnRMBpViuZkGWUvKZDK3uCiy4obnAgSYhxc9', toBridge.name).then(
       async (data) => {
@@ -121,7 +126,7 @@ const BridgeTransferModal = (props) => {
       SetIsButtonLoading(false);
     }); */
 
-    dummyApiCall({ currentProgress: currentProgress }).then((res) => {
+    /*   dummyApiCall({ currentProgress: currentProgress }).then((res) => {
       if (res.currentProgress === 0) {
         const newIndex = getTransactionListLength();
         const newProgress = res.currentProgress + 1;
@@ -175,14 +180,14 @@ const BridgeTransferModal = (props) => {
       }
       SetIsButtonLoading(false);
       SetCurrentProgress(res.currentProgress + 1);
-    });
+    }); */
   };
   //const numberOfSteps = ['Approve', 'Bridge', 'Mint', 'Done'];
   const numberOfSteps = [
-    {BRIDGE:'Approve', UNBRIDGE:''},
-    {BRIDGE:'Bridge', UNBRIDGE:'Unbridge'},
-    {BRIDGE:'Mint', UNBRIDGE:'Release'},
-    {BRIDGE:'Done',UNBRIDGE:'Done'}
+    { BRIDGE: 'Approve', UNBRIDGE: '' },
+    { BRIDGE: 'Bridge', UNBRIDGE: 'Unbridge' },
+    { BRIDGE: 'Mint', UNBRIDGE: 'Release' },
+    { BRIDGE: 'Done', UNBRIDGE: 'Done' },
   ];
   const defaultTile = (buttonText) => {
     return (
@@ -479,33 +484,35 @@ const BridgeTransferModal = (props) => {
           </div>
           <div className={`mb-3 mt-2 ${styles.lineBottom} `}></div>
           <div className={styles.resultsHeader}>
-            {operation === 'BRIDGE' ? (
-              numberOfSteps.map((currentStep, index) => {
-                if (currentProgress > index) {
-                  return completedTile(currentStep[operation]);
-                } else if (currentProgress === index) {
-                  return currentTile(currentStep[operation]);
-                } else {
-                  return defaultTile(currentStep[operation]);
-                }
-              })
-            ): (
-              numberOfSteps.slice(-3).map((currentStep, index) => {
-                if (currentProgress-1 > index) {
-                  return completedTile(currentStep[operation]);
-                } else if (currentProgress-1 === index) {
-                  return currentTile(currentStep[operation]);
-                } else {
-                  return defaultTile(currentStep[operation]);
-                }
-              })
-            )}
+            {operation === 'BRIDGE'
+              ? numberOfSteps.map((currentStep, index) => {
+                  if (currentProgress > index) {
+                    return completedTile(currentStep[operation]);
+                  } else if (currentProgress === index) {
+                    return currentTile(currentStep[operation]);
+                  } else {
+                    return defaultTile(currentStep[operation]);
+                  }
+                })
+              : numberOfSteps.slice(-3).map((currentStep, index) => {
+                  if (currentProgress - 1 > index) {
+                    return completedTile(currentStep[operation]);
+                  } else if (currentProgress - 1 === index) {
+                    return currentTile(currentStep[operation]);
+                  } else {
+                    return defaultTile(currentStep[operation]);
+                  }
+                })}
           </div>
           <div className={`mb-4 ${styles.lineBottom} `}></div>
           {/*  */}
           {/* code will go here */}
           <InSideElement
-            label={numberOfSteps < numberOfSteps.length ? numberOfSteps[currentProgress][operation] : 'Done'}
+            label={
+              numberOfSteps < numberOfSteps.length
+                ? numberOfSteps[currentProgress][operation]
+                : 'Done'
+            }
             description={`${fromBridge.name}  transactions can take  longer time to complete based upon the network congestion.`}
             transactionFees={fee}
           />

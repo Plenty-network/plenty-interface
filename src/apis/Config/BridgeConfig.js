@@ -63,6 +63,22 @@ export const BridgeConfiguration = {
       ? loadedConfig[chain].TEZOS.WRAPPED_TOKENS[fromToken].UNWRAPPED_TOKEN
       : null;
   },
+  getToken: (chain, address) => {
+    const loadedConfig = JSON.parse(localStorage.getItem(BRIDGES_CONFIG));
+    /* eslint-disable no-unused-vars */
+    if (loadedConfig) {
+      let result;
+      for (const [token, tokenData] of Object.entries(loadedConfig[chain].TOKENS)) {
+        if (tokenData.CONTRACT_ADDRESS === address) {
+          result = tokenData;
+          break;
+        }
+      }
+      return result;
+    } else {
+      return null;
+    }
+  },
 };
 
 /**
