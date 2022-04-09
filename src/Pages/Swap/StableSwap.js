@@ -18,13 +18,7 @@ import TransactionSettings from '../../Components/TransactionSettings/Transactio
 
 import StableSwap from '../../Components/SwapTabsContent/StableSwap';
 import { ReactComponent as StableswapGrey } from '../../assets/images/SwapModal/Stableswap-grey.svg';
-import LiquidityTab from '../../Components/SwapTabsContent/LiquidityTab';
-import Loader from '../../Components/loader';
 import { Tab, Tabs } from 'react-bootstrap';
-import InfoModal from '../../Components/Ui/Modals/InfoModal';
-
-import { liquidityTokens } from '../../constants/liquidityTokens';
-
 import { ReactComponent as StableswapImg } from '../../assets/images/SwapModal/stableswap.svg';
 import { useLocationStateStable } from './hooks';
 import '../../assets/scss/animation.scss';
@@ -37,9 +31,9 @@ const StableeSwap = (props) => {
     activeTab,
     setActiveTab,
     tokenIn,
-    setTokenIn,
+
     tokenOut,
-    setTokenOut,
+
     tokenInStable,
     setTokenInStable,
     tokenOutStable,
@@ -49,20 +43,18 @@ const StableeSwap = (props) => {
   } = useLocationStateStable();
 
   const [showConfirmSwap, setShowConfirmSwap] = useState(false);
-  const [showConfirmAddSupply, setShowConfirmAddSupply] = useState(false);
-  const [showConfirmRemoveSupply, setShowConfirmRemoveSupply] = useState(false);
+
+  const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [slippage, setSlippage] = useState(0.5);
   const [recepient, setRecepient] = useState('');
   const [show, setShow] = useState(false);
   const [tokenType, setTokenType] = useState('tokenIn');
 
-  const [firstTokenAmount, setFirstTokenAmount] = useState('');
   const [secondTokenAmount, setSecondTokenAmount] = useState('');
   const [firstTokenAmountStable, setFirstTokenAmountStable] = useState('');
   const [secondTokenAmountStable, setSecondTokenAmountStable] = useState('');
   const [swapData, setSwapData] = useState({});
-  // const [routeData, setRouteData] = useState({});
   const [computedOutDetails, setComputedOutDetails] = useState({});
   const [getTokenPrice, setGetTokenPrice] = useState({});
   const [userBalances, setUserBalances] = useState({});
@@ -82,14 +74,14 @@ const StableeSwap = (props) => {
       Object.prototype.hasOwnProperty.call(tokenOutStable, 'name')
     ) {
       if (tokenInStable.name === tokenOutStable.name) {
-        if (tokenInStable.name === 'ctez') {
+        if (tokenInStable.name === 'CTEZ') {
           setTokenOutStable({
-            name: 'tez',
+            name: 'TEZ',
             image: tez,
           });
-        } else if (tokenInStable.name === 'tez') {
+        } else if (tokenInStable.name === 'TEZ') {
           setTokenOutStable({
-            name: 'ctez',
+            name: 'CTEZ',
             image: ctez,
           });
         }
@@ -102,14 +94,14 @@ const StableeSwap = (props) => {
       Object.prototype.hasOwnProperty.call(tokenOutStable, 'name')
     ) {
       if (tokenInStable.name === tokenOutStable.name) {
-        if (tokenOutStable.name === 'tez') {
+        if (tokenOutStable.name === 'TEZ') {
           setTokenInStable({
-            name: 'ctez',
+            name: 'CTEZ',
             image: ctez,
           });
-        } else if (tokenOutStable.name === 'ctez') {
+        } else if (tokenOutStable.name === 'CTEZ') {
           setTokenInStable({
-            name: 'tez',
+            name: 'TEZ',
             image: tez,
           });
         }
@@ -233,11 +225,10 @@ const StableeSwap = (props) => {
   const handleClose = () => {
     setShow(false);
     setShowConfirmSwap(false);
-    setShowConfirmAddSupply(false);
-    setShowConfirmRemoveSupply(false);
-    //setHideContent('');
+    setShowConfirmTransaction(false);
     setSearchQuery('');
-    //setLoading(false);
+    resetAllValues();
+    setLoading(false);
   };
 
   const changeTokenLocation = () => {
@@ -258,7 +249,7 @@ const StableeSwap = (props) => {
       setComputedOutDetails({
         tokenOut_amount: '',
       });
-      isStableSwap ? setFirstTokenAmountStable('') : setFirstTokenAmount('');
+      setFirstTokenAmountStable('');
       isStableSwap ? setSecondTokenAmountStable('') : setSecondTokenAmount('');
       if (!isStableSwap) {
         loadSwapData(tempTokenOut, tempTokenIn).then((data) => {
@@ -278,11 +269,10 @@ const StableeSwap = (props) => {
 
   const handleTokenInput = (input) => {
     setFirstTokenAmountStable(input);
-    setFirstTokenAmount(input);
 
     setComputedOutDetails({});
     if (input === '' || isNaN(input)) {
-      isStableSwap ? setFirstTokenAmountStable('') : setFirstTokenAmount('');
+      setFirstTokenAmountStable('');
       isStableSwap ? setSecondTokenAmountStable('') : setSecondTokenAmount('');
       setComputedOutDetails({
         tokenOut_amount: '',
@@ -295,7 +285,7 @@ const StableeSwap = (props) => {
     isStableSwap ? setSecondTokenAmountStable(input) : setSecondTokenAmount(input);
     setComputedOutDetails({});
     if (input === '' || isNaN(input)) {
-      isStableSwap ? setFirstTokenAmountStable('') : setFirstTokenAmount('');
+      setFirstTokenAmountStable('');
       isStableSwap ? setSecondTokenAmountStable('') : setSecondTokenAmount('');
       setComputedOutDetails({
         tokenOut_amount: '',
@@ -318,7 +308,7 @@ const StableeSwap = (props) => {
           slippage,
         );
       }
-      setFirstTokenAmount(computedData.tokenIn_amount);
+      setFirstTokenAmountStable(computedData.tokenIn_amount);
       setComputedOutDetails(computedData);
     }
   };
@@ -379,9 +369,9 @@ const StableeSwap = (props) => {
   const resetAllValues = () => {
     setSlippage(0.05);
     setRecepient('');
-    //setTokenType('tokenIn');
+
     setFirstTokenAmountStable('');
-    setFirstTokenAmount('');
+
     setSecondTokenAmountStable('');
     setSecondTokenAmount('');
     setComputedOutDetails({
@@ -391,14 +381,6 @@ const StableeSwap = (props) => {
   const [showRecepient, setShowRecepient] = useState(false);
   const handleRecepient = (elem) => {
     setRecepient(elem);
-  };
-
-  const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
-  const [transactionId, setTransactionId] = useState('');
-
-  const transactionSubmitModal = (id) => {
-    setTransactionId(id);
-    setShowTransactionSubmitModal(true);
   };
 
   return (
@@ -453,51 +435,13 @@ const StableeSwap = (props) => {
               changeTokenLocation={changeTokenLocation}
               handleOutTokenInput={handleOutTokenInput}
               showRecepient={showRecepient}
-              transactionSubmitModal={transactionSubmitModal}
               setSecondTokenAmountStable={setSecondTokenAmountStable}
               fetchUserWalletBalance={fetchUserWalletBalance}
               loaderInButton={loaderInButton}
               setLoaderInButton={setLoaderInButton}
-            />
-          </Tab>
-
-          <Tab eventKey="liquidityStable" title="Liquidity">
-            <LiquidityTab
-              walletAddress={props.walletAddress}
-              setFirstTokenAmount={handleTokenInput}
-              firstTokenAmount={firstTokenAmount}
-              connecthWallet={props.connecthWallet}
-              tokenIn={tokenInLiquidity}
-              tokenOut={tokenOutLiquidity}
-              // handleTokenType={handleTokenType}
-              swapData={swapData}
-              computedOutDetails={computedOutDetails}
-              userBalances={userBalances}
-              tokenContractInstances={tokenContractInstances}
-              getTokenPrice={getTokenPrice}
-              setSlippage={setSlippage}
-              setRecepient={setRecepient}
-              recepient={recepient}
-              slippage={slippage}
-              loading={loading}
-              setLoading={setLoading}
-              handleLoaderMessage={handleLoaderMessage}
-              loaderMessage={loaderMessage}
-              handleClose={handleClose}
-              showConfirmAddSupply={showConfirmAddSupply}
-              setShowConfirmAddSupply={setShowConfirmAddSupply}
-              showConfirmRemoveSupply={showConfirmRemoveSupply}
-              setShowConfirmRemoveSupply={setShowConfirmRemoveSupply}
-              setLoaderMessage={setLoaderMessage}
-              resetAllValues={resetAllValues}
-              fetchUserWalletBalance={fetchUserWalletBalance}
-              setTokenIn={setTokenIn}
-              setTokenOut={setTokenOut}
-              tokens={liquidityTokens}
-              loaderInButton={false}
-              setLoaderInButton={setLoaderInButton}
-              isStableSwap={true}
-              getSwapData={getSwapData}
+              setShowConfirmTransaction={setShowConfirmTransaction}
+              showConfirmTransaction={showConfirmTransaction}
+              theme={props.theme}
             />
           </Tab>
         </Tabs>
@@ -526,18 +470,6 @@ const StableeSwap = (props) => {
         setSearchQuery={setSearchQuery}
         isStableSwap={true}
       />
-
-      <InfoModal
-        open={showTransactionSubmitModal}
-        onClose={() => setShowTransactionSubmitModal(false)}
-        message={'Transaction submitted'}
-        buttonText={'View on Tezos'}
-        onBtnClick={
-          transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
-        }
-      />
-
-      <Loader loading={loading} loaderMessage={loaderMessage} />
     </>
   );
 };

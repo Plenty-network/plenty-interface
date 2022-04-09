@@ -61,7 +61,7 @@ const AddLiquidity = (props) => {
       props.swapData.lpTokenSupply,
     );
     setPoolShare(values.poolPercent.toFixed(5));
-    if (props.tokenIn.name === 'tez') {
+    if (props.tokenIn.name === 'TEZ') {
       setLpTokenAmount((values.lpToken / 10 ** 6).toFixed(6));
     }
     return values.ctez / 10 ** 6;
@@ -75,7 +75,7 @@ const AddLiquidity = (props) => {
       props.swapData.lpTokenSupply,
     );
     setPoolShare(values.poolPercent.toFixed(5));
-    if (props.tokenIn.name === 'tez') {
+    if (props.tokenIn.name === 'TEZ') {
       setLpTokenAmount((values.lpToken / 10 ** 6).toFixed(6));
     }
     return values.tez / 10 ** 6;
@@ -98,7 +98,7 @@ const AddLiquidity = (props) => {
       });
       return;
     }
-    if (props.tokenIn.name === 'tez') {
+    if (props.tokenIn.name === 'TEZ') {
       const res = await getXtz(input);
 
       setEstimatedTokenAmout({
@@ -123,7 +123,7 @@ const AddLiquidity = (props) => {
         otherTokenAmount: '',
       });
     } else {
-      if (props.tokenIn.name === 'tez') {
+      if (props.tokenIn.name === 'TEZ') {
         const res = await liqCa(input);
 
         setEstimatedTokenAmout({
@@ -149,7 +149,7 @@ const AddLiquidity = (props) => {
       ? parseFloat(secondTokenAmount)
       : estimatedTokenAmout.otherTokenAmount;
 
-    if (props.tokenIn.name !== 'tez') {
+    if (props.tokenIn.name !== 'TEZ') {
       const lpTokenAmount = lpTokenOutput(
         props.firstTokenAmount,
         secondTokenAmountEntered,
@@ -170,7 +170,7 @@ const AddLiquidity = (props) => {
     const secondTokenAmountEntered = secondTokenAmount
       ? parseFloat(secondTokenAmount)
       : estimatedTokenAmout.otherTokenAmount;
-    if (props.tokenIn.name === 'tez') {
+    if (props.tokenIn.name === 'TEZ') {
       add_liquidity(
         props.tokenIn.name,
         props.tokenOut.name,
@@ -373,7 +373,7 @@ const AddLiquidity = (props) => {
               </p>
               <p className="wallet-token-balance">
                 ~$
-                {props.tokenIn.name === 'tez'
+                {props.tokenIn.name === 'TEZ'
                   ? (dolar * props.firstTokenAmount).toFixed(2)
                   : props.getTokenPrice.success && props.firstTokenAmount
                   ? (
@@ -456,7 +456,7 @@ const AddLiquidity = (props) => {
               </p>
               <p className="wallet-token-balance">
                 ~$
-                {props.tokenIn.name === 'tez'
+                {props.tokenIn.name === 'TEZ'
                   ? isNaN(
                       dolar *
                         (secondTokenAmount
@@ -508,7 +508,7 @@ const AddLiquidity = (props) => {
         open={showTransactionSubmitModal}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
-        buttonText={'View on Tezos'}
+        buttonText={'View on TzKT'}
         onBtnClick={
           transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
         }

@@ -58,6 +58,7 @@ export const swapTokens = async (
   transactionSubmitModal,
   setShowConfirmSwap,
   resetAllValues,
+  setShowConfirmTransaction,
 ) => {
   const connectedNetwork = CONFIG.NETWORK;
   const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
@@ -143,9 +144,12 @@ export const swapTokens = async (
     }
 
     const batchOperation = await batch.send();
-    resetAllValues();
+    setShowConfirmTransaction(false);
+
     setShowConfirmSwap(false);
     transactionSubmitModal(batchOperation.opHash);
+    resetAllValues();
+
     await batchOperation.confirmation().then(() => batchOperation.opHash);
     return {
       success: true,
@@ -588,6 +592,7 @@ export const addLiquidity = async (
   transactionSubmitModal,
   resetAllValues,
   setShowConfirmAddSupply,
+  setShowConfirmTransaction,
 ) => {
   try {
     const network = {
@@ -786,9 +791,11 @@ export const addLiquidity = async (
         .withContractCall(tokenSecondInstance.methods.approve(dexContractAddress, 0));
     }
     const batchOperation = await batch.send();
-    resetAllValues();
+
     setShowConfirmAddSupply(false);
+    setShowConfirmTransaction(false);
     transactionSubmitModal(batchOperation.opHash);
+    resetAllValues();
     await batchOperation.confirmation().then(() => batchOperation.opHash);
     return {
       success: true,
@@ -909,6 +916,7 @@ export const removeLiquidity = async (
   transactionSubmitModal,
   resetAllValues,
   setShowConfirmRemoveSupply,
+  setShowConfirmTransaction,
 ) => {
   try {
     let tokenFirst = null;
@@ -972,9 +980,11 @@ export const removeLiquidity = async (
         ),
       );
     const batchOperation = await batch.send();
-    resetAllValues();
+
     setShowConfirmRemoveSupply(false);
+    setShowConfirmTransaction(false);
     transactionSubmitModal(batchOperation.opHash);
+    resetAllValues();
     await batchOperation.confirmation().then(() => batchOperation.opHash);
     return {
       success: true,
@@ -1110,7 +1120,7 @@ export const fetchWalletBalance = async (
           symbol: icon,
           contractInstance: contract,
         };
-      } else if (icon === 'ctez') {
+      } else if (icon === 'CTEZ') {
         const userDetails = await storage.tokens.get(addressOfUser);
         let userBalance = userDetails;
         userBalance = userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
@@ -1471,7 +1481,7 @@ export const getTokenPrices = async () => {
         }
       }
     }
-    tokenPrice['ctez'] = promisesResponse[1].ctezPriceInUSD;
+    tokenPrice['CTEZ'] = promisesResponse[1].ctezPriceInUSD;
     tokenPrice['uDEFI'] = promisesResponse[2].uDEFIinUSD;
     return {
       success: true,

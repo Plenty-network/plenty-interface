@@ -118,16 +118,26 @@ const Governance = (props) => {
       </Container>
       <InfoModal
         open={showTransactionSubmitModal}
+        InfoMessage={'Vote submitted'}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
-        buttonText={'View on Tezos'}
+        buttonText={'View on TzKT'}
         onBtnClick={
           props.transactionId
             ? () => window.open(`https://tzkt.io/${props.transactionId}`, '_blank')
             : null
         }
       />
-      <Loader loading={props.loading} loaderMessage={loaderMessage} />
+      <Loader
+        loading={props.loading}
+        loaderMessage={loaderMessage}
+        content={'Voted Successfully'}
+        onBtnClick={
+          props.transactionId
+            ? () => window.open(`https://tzkt.io/${props.transactionId}`, '_blank')
+            : null
+        }
+      />
     </>
   );
 };

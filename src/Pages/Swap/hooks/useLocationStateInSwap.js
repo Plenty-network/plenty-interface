@@ -15,7 +15,7 @@ export const useLocationStateInSwap = () => {
     image: plenty,
   });
   const [tokenInStable, setTokenInStable] = useState({
-    name: 'ctez',
+    name: 'CTEZ',
     image: ctez,
   });
   const [tokenOut, setTokenOut] = useState({});

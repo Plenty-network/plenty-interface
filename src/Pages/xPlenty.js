@@ -5,13 +5,11 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import Loader from '../Components/loader';
 import NumericLabel from 'react-pretty-numbers';
 import { currencyOptions, currencyOptionsWithSymbol } from '../constants/global';
 import xplenty from '../assets/images/x-plenty-medium.svg';
 import StakePlenty from '../Components/xPlentyTabs/StakePlenty';
 import UnstakePlenty from '../Components/xPlentyTabs/UnstakePlenty';
-
 import { connect } from 'react-redux';
 import {
   buyXPlentyThunk,
@@ -23,12 +21,12 @@ import {
   xPlentyComputationsThunk,
 } from '../redux/slices/xPlenty/xPlenty.thunk';
 import * as userActions from '../redux/actions/user/user.action';
-
 import * as walletActions from '../redux/actions/wallet/wallet.action';
-
-import InfoModal from '../Components/Ui/Modals/InfoModal';
 import Label from '../Components/Ui/Label/Label';
 import Image from 'react-bootstrap/Image';
+import { setLoader } from '../redux/slices/settings/settings.slice';
+import Loader from '../Components/loader';
+import InfoModal from '../Components/Ui/Modals/InfoModal';
 
 const Stake = (props) => {
   useEffect(() => {
@@ -45,11 +43,12 @@ const Stake = (props) => {
         message: props.toastMessage,
       });
       setTimeout(() => {
-        props.closeToast();
         setLoaderMessage({});
-      }, 5000);
+        props.closeToast();
+      }, 10000);
     }
   }, [props.isToastOpen]);
+
   return (
     <>
       <Container fluid>
@@ -73,42 +72,6 @@ const Stake = (props) => {
                   distributed to the xPLENTY holders according to the amount of their staked tokens
                   and stake duration.
                 </p>
-
-                {/*<ul className="xplenty-number-info">*/}
-                {/*  <li>*/}
-                {/*    <p>Value Locked</p>*/}
-                {/*    <p className="xplenty-numbers">*/}
-                {/*      {props.xPlentyData.data.ValueLockedToShow*/}
-                {/*        ?*/}
-                {/*          <NumericLabel params={currencyOptionsWithSymbol}>*/}
-                {/*            {parseInt(props.xPlentyData.data.ValueLockedToShow)}*/}
-                {/*          </NumericLabel>*/}
-                {/*        : null}*/}
-                {/*    </p>*/}
-                {/*  </li>*/}
-                {/*  <li>*/}
-                {/*    <p>xPlenty Supply</p>*/}
-                {/*    <p className="xplenty-numbers">*/}
-                {/*      {props.xPlentyData.data.xPlentySupplyToShow*/}
-                {/*        ?*/}
-                {/*          <NumericLabel params={currencyOptions}>*/}
-                {/*            {parseInt(props.xPlentyData.data.xPlentySupplyToShow)}*/}
-                {/*          </NumericLabel>*/}
-                {/*        : null}*/}
-                {/*    </p>*/}
-                {/*  </li>*/}
-                {/*  <li>*/}
-                {/*    <p>Plenty Staked</p>*/}
-                {/*    <p className="xplenty-numbers">*/}
-                {/*      {props.xPlentyData.data.plentyStakedToShow*/}
-                {/*        ?*/}
-                {/*          <NumericLabel params={currencyOptions}>*/}
-                {/*            {parseInt(props.xPlentyData.data.plentyStakedToShow)}*/}
-                {/*          </NumericLabel>*/}
-                {/*        : null}*/}
-                {/*    </p>*/}
-                {/*  </li>*/}
-                {/*</ul>*/}
               </div>
               <div className="col-12 col-lg-5 col-xl-4">
                 <div className="swap-token-select-box-wrapper">
@@ -143,10 +106,13 @@ const Stake = (props) => {
                           expectedxPlenty={props.expectedxPlenty}
                           walletAddress={props.walletAddress}
                           plentyBalance={props.walletBalances.PLENTY}
+                          loaderMessage={loaderMessage}
                           setLoaderMessage={setLoaderMessage}
                           connectWallet={props.connectWallet}
                           isProcessing={props.isProcessing}
                           isToastOpen={props.isToastOpen}
+                          setLoader={props.setLoader}
+                          theme={props.theme}
                         />
                       </Tab>
 
@@ -161,6 +127,10 @@ const Stake = (props) => {
                           connectWallet={props.connectWallet}
                           isProcessing={props.isProcessing}
                           isToastOpen={props.isToastOpen}
+                          setLoader={props.setLoader}
+                          loaderMessage={loaderMessage}
+                          setLoaderMessage={setLoaderMessage}
+                          theme={props.theme}
                         />
                       </Tab>
                     </Tabs>
@@ -230,19 +200,39 @@ const Stake = (props) => {
           </Col>
         </Row>
       </Container>
-      <Loader loading={props.isProcessing} loaderMessage={loaderMessage} />
-      <InfoModal
-        open={props.isTransactionInjectionModalOpen}
-        onClose={props.closetransactionInjectionModal}
-        message={'Transaction submitted'}
-        buttonText={'View on Tezos'}
+      <Loader
+        loading={props.isProcessing}
+        loaderMessage={loaderMessage}
+        content={
+          localStorage.getItem('type') === 'stake'
+            ? `${Number(localStorage.getItem('stakeInput')).toFixed(6)} plenty Staked`
+            : `${Number(localStorage.getItem('unstakeInput')).toFixed(6)} xPlenty UnStaked`
+        }
+        tokenIn={true}
+        setLoaderMessage={setLoaderMessage}
         onBtnClick={
           props.currentOpHash
             ? () => window.open(`https://tzkt.io/${props.currentOpHash}`, '_blank')
             : null
         }
       />
-      <Loader loading={false} loaderMessage={loaderMessage} />
+      <InfoModal
+        open={props.isTransactionInjectionModalOpen}
+        theme={props.theme}
+        onClose={props.closetransactionInjectionModal}
+        InfoMessage={
+          localStorage.getItem('type') === 'stake'
+            ? `Staking ${Number(localStorage.getItem('stakeInput')).toFixed(6)} plenty `
+            : `UnStaking ${Number(localStorage.getItem('unstakeInput')).toFixed(6)} xPlenty `
+        }
+        message={'Transaction submitted'}
+        buttonText={'View on TzKT'}
+        onBtnClick={
+          props.currentOpHash
+            ? () => window.open(`https://tzkt.io/${props.currentOpHash}`, '_blank')
+            : null
+        }
+      />
     </>
   );
 };
@@ -262,8 +252,7 @@ const mapStateToProps = (state) => {
     toastMessage: state.xPlenty.toastMessage,
     isInfoType: state.xPlenty.isInfoType,
     currentOpHash: state.xPlenty.currentOpHash,
-    //toastMessage
-    //isInfoType
+    loader: state.settings.loader,
   };
 };
 
@@ -273,21 +262,45 @@ const mapDispatchToProps = (dispatch) => {
     getxPlentyData: () => dispatch(xPlentyComputationsThunk()),
     setExpectedxPlenty: (plentyBalance, totalSupply, plentyAmount) =>
       dispatch(getExpectedxPlentyThunk(plentyBalance, totalSupply, plentyAmount)),
-    buyxPlenty: (plentyBalance, totalSupply, plentyAmount) =>
-      dispatch(buyXPlentyThunk(plentyBalance, totalSupply, plentyAmount)),
+    buyxPlenty: (plentyBalance, totalSupply, plentyAmount, setShowConfirmTransaction, setLoader) =>
+      dispatch(
+        buyXPlentyThunk(
+          plentyBalance,
+          totalSupply,
+          plentyAmount,
+          setShowConfirmTransaction,
+          setLoader,
+        ),
+      ),
     setExpectedPlenty: (plentyBalance, totalSupply, xplentyAmount) =>
       dispatch(getExpectedPlentyThunk(plentyBalance, totalSupply, xplentyAmount)),
-    sellXPlenty: (xPlentyAmount, minimumExpected, recipient) =>
-      dispatch(sellXPlentyThunk(xPlentyAmount, minimumExpected, recipient)),
+    sellXPlenty: (
+      xPlentyAmount,
+      minimumExpected,
+      recipient,
+      setShowConfirmTransaction,
+      setLoader,
+    ) =>
+      dispatch(
+        sellXPlentyThunk(
+          xPlentyAmount,
+          minimumExpected,
+          recipient,
+          setShowConfirmTransaction,
+          setLoader,
+        ),
+      ),
     fetchUserBalances: (address) => dispatch(userActions.fetchUserBalances(address)),
     closetransactionInjectionModal: () => dispatch(closetransactionInjectionModalThunk()),
     closeToast: () => dispatch(closeToastThunk()),
+    setLoader: (value) => dispatch(setLoader(value)),
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stake);
 
 Stake.propTypes = {
+  theme: PropTypes.any,
   buyxPlenty: PropTypes.any,
   closeToast: PropTypes.any,
   closetransactionInjectionModal: PropTypes.any,
@@ -307,4 +320,5 @@ Stake.propTypes = {
   walletAddress: PropTypes.any,
   walletBalances: PropTypes.any,
   xPlentyData: PropTypes.any,
+  setLoader: PropTypes.any,
 };

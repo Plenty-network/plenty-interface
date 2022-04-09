@@ -27,7 +27,7 @@ const FarmCardBottom = (props) => {
   };
 
   const stakedAmount = useMemo(() => {
-    return Object.prototype.hasOwnProperty.call(props.userStakes,farmData.CONTRACT)
+    return Object.prototype.hasOwnProperty.call(props.userStakes, farmData.CONTRACT)
       ? props.userStakes[farmData.CONTRACT].stakedAmount
       : 0;
   }, [farmData.CONTRACT, props.userStakes, props.userAddress]);
@@ -64,18 +64,22 @@ const FarmCardBottom = (props) => {
                   <span style={{ fontSize: '10px', marginLeft: '6px' }}>
                     {values &&
                     props.userAddress !== null &&
-                    Object.prototype.hasOwnProperty.call(props.harvestValueOnFarms, props.isActiveOpen) &&
-                    Object.prototype.hasOwnProperty.call(props.harvestValueOnFarms[props.isActiveOpen],
+                    Object.prototype.hasOwnProperty.call(
+                      props.harvestValueOnFarms,
+                      props.isActiveOpen,
+                    ) &&
+                    Object.prototype.hasOwnProperty.call(
+                      props.harvestValueOnFarms[props.isActiveOpen],
                       farmData.CONTRACT,
                     ) &&
                     props.harvestValueOnFarms[props.isActiveOpen][farmData.CONTRACT]
                       .totalRewards[0] > 0 ? (
-                        props.harvestValueOnFarms[props.isActiveOpen][
-                          farmData.CONTRACT
-                        ].totalRewards[0].toFixed(4)
-                      ) : (
-                        <span className="shimmer">99999</span>
-                      )}
+                      props.harvestValueOnFarms[props.isActiveOpen][
+                        farmData.CONTRACT
+                      ].totalRewards[0].toFixed(4)
+                    ) : (
+                      <span className="shimmer">99999</span>
+                    )}
                   </span>
                 </div>
 
@@ -99,12 +103,12 @@ const FarmCardBottom = (props) => {
                     ) &&
                     props.harvestValueOnFarms[props.isActiveOpen][farmData.CONTRACT]
                       .totalRewards[1] > 0 ? (
-                        props.harvestValueOnFarms[props.isActiveOpen][
-                          farmData.CONTRACT
-                        ].totalRewards[1].toFixed(4)
-                      ) : (
-                        <span className="shimmer">99999</span>
-                      )}
+                      props.harvestValueOnFarms[props.isActiveOpen][
+                        farmData.CONTRACT
+                      ].totalRewards[1].toFixed(4)
+                    ) : (
+                      <span className="shimmer">99999</span>
+                    )}
                   </span>
                 </div>
               </div>
@@ -129,22 +133,31 @@ const FarmCardBottom = (props) => {
                   ) &&
                   props.harvestValueOnFarms[props.isActiveOpen][farmData.CONTRACT].totalRewards >
                     0 ? (
-                      props.harvestValueOnFarms[props.isActiveOpen][
-                        farmData.CONTRACT
-                      ].totalRewards.toFixed(6)
-                    ) : (
-                      <span className="shimmer">99999999</span>
-                    )}
+                    props.harvestValueOnFarms[props.isActiveOpen][
+                      farmData.CONTRACT
+                    ].totalRewards.toFixed(6)
+                  ) : (
+                    <span className="shimmer">99999999</span>
+                  )}
                 </span>
               </div>
             )}
 
             <Button
               onClick={() => {
+                props.setShowConfirmTransaction(true);
+
+                localStorage.setItem('stakePair', properties.source);
+                props.setFloaterValue({
+                  value: null,
+                  pair: localStorage.getItem('stakePair'),
+                  type: 'Harvesting',
+                });
                 props.harvestOnFarm(
                   props.farmCardData.identifier,
                   props.isActiveOpen,
                   props.farmCardData.position,
+                  props.setShowConfirmTransaction,
                 );
               }}
               color={stakedAmount > 0 ? 'primary' : 'default'}
@@ -299,6 +312,9 @@ FarmCardBottom.propTypes = {
   title: PropTypes.string.isRequired,
   userAddress: PropTypes.oneOf().isRequired,
   userStakes: PropTypes.string.isRequired,
+  setShowConfirmTransaction: PropTypes.any,
+  setConfirmTransactionContent: PropTypes.any,
+  setFloaterValue: PropTypes.any,
 };
 
 export default FarmCardBottom;

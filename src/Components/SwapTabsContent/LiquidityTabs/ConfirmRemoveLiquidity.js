@@ -24,18 +24,18 @@ const ConfirmRemoveLiquidity = (props) => {
       </Modal.Header>
       <Modal.Body>
         <>
-          <div className="swap-content-box-wrapper">
+          <div className="swap-content-box-wrapper pb-0">
             <div className="header-line"></div>
             <div className="swap-content-box">
-              <div className="swap-token-select-box">
-                <div className="token-selector-balance-wrapper">
-                  <button className="token-selector">
+              <div className=" removing-padding-confirm-supply">
+                <div className="confirm-supply-remove">
+                  <button className="token-left">
                     <img src={props.tokenIn.image} className="button-logo" />
                     {props.tokenIn.name}{' '}
                   </button>
                 </div>
 
-                <div className="token-user-input-wrapper">
+                <div className="token-user-input-wrapper add-padding">
                   {props.removableTokens.tokenFirst_Out
                     ? props.removableTokens.tokenFirst_Out.toFixed(6)
                     : '0.00'}
@@ -43,20 +43,20 @@ const ConfirmRemoveLiquidity = (props) => {
               </div>
             </div>
 
-            <div className="swap-arrow-center">
+            <div className="arrow-center-remove-lq">
               <span className="material-icons-round">add</span>
             </div>
 
-            <div className="swap-content-box">
-              <div className="swap-token-select-box">
-                <div className="token-selector-balance-wrapper">
-                  <button className="token-selector">
+            <div className="swap-content-box add-margin-b">
+              <div className="removing-padding-confirm-supply">
+                <div className="confirm-supply-remove">
+                  <button className="token-left">
                     <img src={props.tokenOut.image} className="button-logo" />
                     {props.tokenOut.name}{' '}
                   </button>
                 </div>
 
-                <div className="token-user-input-wrapper">
+                <div className="token-user-input-wrapper add-padding">
                   {props.removableTokens.tokenSecond_Out
                     ? props.removableTokens.tokenSecond_Out.toFixed(6)
                     : '0.00'}
@@ -68,39 +68,50 @@ const ConfirmRemoveLiquidity = (props) => {
             Output is estimated. If the price changes by more than {props.slippage}% your
             transaction will revert.
           </div>
-
-          <div className="swap-detail-wrapper">
-            <div
-              className="swap-detail-rates-wrapper flex justify-between"
-              style={{
-                border: 0,
-                margin: 0,
-                'padding-top': '14px',
-                'padding-bottom': '14px',
-              }}
-            >
-              <p className="swap-detail-amt-details">Rates</p>
-              <div className="token-user-input-wrapper">
-                <p className="swap-detail-amt-details">
+          <div className="rates-confirm-supply-remove flex justify-between ">
+            <p className="rates-label">Rates</p>
+            <div className="">
+              {props.swapData ? (
+                <p className="confirm-supply-amt-details">
                   1 {props.tokenIn.name} ={' '}
-                  {props.isStableSwap ? props.xtztoctez : props.swapData.tokenOutPerTokenIn}{' '}
-                  {props.tokenOut.name}
+                  <span className="rates-value">
+                    {props.isStableSwap
+                      ? props.xtztoctez
+                      : props.swapData.tokenOutPerTokenIn?.toFixed(10)}{' '}
+                    {props.tokenOut.name}
+                  </span>
                 </p>
-                <p className="swap-detail-amt-details">
-                  1 {props.tokenOut.name} ={' '}
-                  {props.isStableSwap ? props.cteztoxtz : 1 / props.swapData.tokenOutPerTokenIn}{' '}
-                  {props.tokenIn.name}
-                </p>
-              </div>
-            </div>
+              ) : null}
 
+              {props.swapData ? (
+                <p className="mt-1 confirm-supply-amt-details">
+                  1 {props.tokenOut.name} ={' '}
+                  <span className="rates-value">
+                    {props.isStableSwap
+                      ? props.cteztoxtz
+                      : (1 / props.swapData.tokenOutPerTokenIn).toFixed(10)}{' '}
+                    {props.tokenIn.name}
+                  </span>
+                </p>
+              ) : null}
+            </div>
+          </div>
+
+          <div className="divider-confirm-supply-remove"></div>
+          <div className="flex justify-content-between remove-footer">
+            <div className="lp-pair-remove">
+              {props.tokenIn.name} / {props.tokenOut.name} Burned
+            </div>
+            <div className="lp-pair-value">{props.firstTokenAmount}</div>
+          </div>
+          <div className="confirm-supply-button">
             <Button
               onClick={props.confirmRemoveLiquidity}
               color={'primary'}
-              className={'mt-4 w-100'}
+              className={'mt-4 w-100 '}
               loading={props.loading}
             >
-              Confirm Removal
+              Confirm
             </Button>
           </div>
         </>
@@ -122,6 +133,7 @@ ConfirmRemoveLiquidity.propTypes = {
   isStableSwap: PropTypes.any,
   xtztoctez: PropTypes.any,
   cteztoxtz: PropTypes.any,
+  firstTokenAmount: PropTypes.any,
 };
 
 export default ConfirmRemoveLiquidity;

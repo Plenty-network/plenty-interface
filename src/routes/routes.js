@@ -15,9 +15,12 @@ const Swap = React.lazy(() => import('../Pages/Swap'));
 const Farms = React.lazy(() => import('../Pages/Farms'));
 const Tokens = React.lazy(() => import('../Pages/Tokens/Tokens'));
 const Liquidity = React.lazy(() => import('../Pages/Liquidity'));
+const LiquidityNew = React.lazy(() => import('../Pages/LiquidityNew'));
 const Frontpage = React.lazy(() => import('../Pages/Frontpage/Frontpage'));
 const Stake = React.lazy(() => import('../Pages/xPlenty'));
 const Governance = React.lazy(() => import('../Pages/Governance/Governance'));
+const WrappedAssets = React.lazy(() => import('../Pages/WrappedAssets/WrappedAssets'));
+const Bridge = React.lazy(() => import('../Pages/Bridge/Bridge'));
 
 const MyRoutes = (props) => {
   const { theme, toggleTheme } = useThemes();
@@ -81,7 +84,19 @@ const MyRoutes = (props) => {
               path={'/liquidity/*'}
               element={
                 <OtherPages {...otherPageProps}>
-                  <Swap walletAddress={props.userAddress} theme={otherPageProps.theme} />
+                  <LiquidityNew
+                    walletAddress={props.userAddress}
+                    connecthWallet={connectWallet}
+                    theme={otherPageProps.theme}
+                  />
+                </OtherPages>
+              }
+            />
+            <Route
+              path={'/liquidityPositions'}
+              element={
+                <OtherPages {...otherPageProps}>
+                  <LiquidityNew walletAddress={props.userAddress} theme={otherPageProps.theme} />
                 </OtherPages>
               }
             />
@@ -117,7 +132,11 @@ const MyRoutes = (props) => {
               path="/stake"
               element={
                 <OtherPages {...otherPageProps}>
-                  <Stake walletAddress={props.userAddress} connecthWallet={connectWallet} />
+                  <Stake
+                    walletAddress={props.userAddress}
+                    connecthWallet={connectWallet}
+                    theme={otherPageProps.theme}
+                  />
                 </OtherPages>
               }
             />
@@ -142,6 +161,26 @@ const MyRoutes = (props) => {
               element={
                 <OtherPages {...otherPageProps}>
                   <Governance walletAddress={props.userAddress} />
+                </OtherPages>
+              }
+            />
+            <Route
+              path="/wrappedAssets"
+              element={
+                <OtherPages {...otherPageProps}>
+                  <WrappedAssets
+                    walletAddress={props.userAddress}
+                    theme={otherPageProps.theme}
+                    connecthWallet={connectWallet}
+                  />
+                </OtherPages>
+              }
+            />
+            <Route
+              path="/bridge"
+              element={
+                <OtherPages {...otherPageProps}>
+                  <Bridge walletAddress={props.userAddress} />
                 </OtherPages>
               }
             />

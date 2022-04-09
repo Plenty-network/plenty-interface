@@ -1,3 +1,60 @@
+.banner {
+  //height: 48px;
+  background: var(--theme-banner-bg);
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  z-index: 1111;
+  top: 0px;
+  position: sticky;
+  display: flex;
+  @media screen and (min-width: 320px) and (max-width: 992px) {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  &:hover {
+    background: var(--theme-banner-bg-hover);
+    .banner-close {
+      background: var(--theme-banner-close-bg-hover);
+      color: var(--theme-banner-close-icon-hover);
+    }
+  }
+  .banner-middle {
+    width: 100%;
+    text-align: center;
+  }
+  .banner-right {
+    // width: 13.33333%;
+    text-align: right;
+    margin-right: 27.5px;
+  }
+}
+.banner-text {
+  align-items: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0em;
+  color: var(--theme-banner-text);
+  margin-right: 24px;
+  @media screen and (min-width: 320px) and (max-width: 992px) {
+    margin-right: 12px;
+  }
+}
+.closebanner {
+  .banner-close {
+    background: var(--theme-banner-close-bg);
+    color: var(--theme-banner-close-icon);
+    padding: 3px;
+    font-size: 15px;
+    border-radius: 50%;
+    &:hover {
+      background: var(--theme-banner-close-bg-hover);
+      color: var(--theme-banner-close-icon-hover);
+    }
+  }
+}
 .headerBg {
   background: var(--theme-governance-headerBg);
   @media screen and (min-width: 320px) and (max-width: 992px) {
@@ -5,11 +62,30 @@
   }
 }
 .menu-wrapper {
+  max-width: 1230px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-top: 18px;
   padding-bottom: 18px;
+  margin-left: auto;
+  margin-right: auto;
+  @media screen and (max-width: 1230px) {
+    padding-left: 60px !important;
+    padding-right: 60px !important;
+  }
+  // @media screen and (min-width: 1111px) and (max-width: 1230px) {
+  //   padding: 0 60px;
+  // }
+  // @media screen and (min-width: 1000px) and (max-width: 1110px) {
+  //   max-width: 900px;
+  // }
+  @media screen and (min-width: 320px) and (max-width: 992px) {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
 }
 
 .dropdown-toggle:after {
@@ -361,7 +437,7 @@
   }
 }
 
-.arrow {
+.arrow-header {
   color: var(--theme-primary-1);
   position: relative;
   top: 1px;
@@ -374,18 +450,21 @@
 .rotate {
   transform: rotate(180deg);
 }
+.headerBottom-banner {
+  top: 86.5px !important;
+}
 .headerBottom {
-  padding: 20px 50px;
+  padding: 40px 0px;
   border-bottom: 0.5px solid var(--theme-header-bottom);
   background-color: var(--theme-bg-header);
   font-size: 16px;
   letter-spacing: 0px;
   font-style: normal;
-  height: 279px;
+  height: 360px;
   position: fixed;
   z-index: 1112;
   width: 100%;
-  top: 87px;
+  top: 131.5px;
   @media screen and (min-width: 320px) and (max-width: 992px) {
     padding: 10px 20px;
     background-color: var(--theme-bg-header);
@@ -394,12 +473,37 @@
     position: relative;
     top: 0px;
   }
+  .innerSubmenus {
+    //max-width: 1200px;
+    //margin: auto;
+    // padding-right: 40px;
+    // padding-left: 40px;
+
+    max-width: 1230px !important;
+    // padding-left: 40px;
+    // padding-right: 40px;
+    margin-left: auto;
+    margin-right: auto;
+
+    @media screen and (max-width: 1230px) {
+      padding-left: 60px !important;
+      padding-right: 60px !important;
+    }
+    @media screen and (min-width: 320px) and (max-width: 992px) {
+      margin-left: 10px;
+      margin-right: 10px;
+      padding-left: 0px !important;
+      padding-right: 0px !important;
+    }
+  }
   .topics {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    width: 495px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    //width: 495px;
     padding-left: 24px;
-    margin-bottom: 10px;
+    margin-bottom: 32px;
+
+    //background: var(--theme-header-selectedBg);
     &:hover {
       background: var(--theme-header-selectedBg);
       @media screen and (min-width: 320px) and (max-width: 992px) {
@@ -411,6 +515,7 @@
       padding-top: 16px;
       padding-bottom: 16px;
       padding-left: 0px;
+      margin-bottom: 10px;
     }
     .heading {
       font-weight: 500;
@@ -428,7 +533,7 @@
         width: 100%;
       }
       .parainside {
-        width: 80%;
+        width: 74%;
         color: var(--theme-header-description);
         @media screen and (min-width: 320px) and (max-width: 992px) {
           width: 100%;
@@ -437,6 +542,13 @@
     }
   }
 }
+.header-wrappedAssets {
+  top: 0px !important;
+}
+.removing-margin {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
 .header {
   border-bottom: 0.5px solid var(--theme-header-bottom);
   background-color: var(--theme-bg-header);
@@ -444,11 +556,30 @@
   z-index: 1111;
   top: 0px;
 
+  padding-left: 0px;
+  padding-right: 0px;
+  @media screen and (min-width: 1440px) {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
   @media screen and (min-width: 320px) and (max-width: 992px) {
     border-bottom: none;
   }
+  .innerHeaderWidth {
+    max-width: 1200px !important;
+    margin: auto;
+    @media screen and (min-width: 1440px) {
+      max-width: 1230px !important;
+    }
+  }
   .innerHeader {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
     @media screen and (min-width: 320px) and (max-width: 992px) {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    @media screen and (min-width: 1440px) {
       padding-left: 0px;
       padding-right: 0px;
     }
@@ -535,11 +666,10 @@ input[type='radio']:checked:after {
 .seperator {
   border-right: 1px solid var(--theme-header-seperator);
   height: 27.43px;
-  left: 25px;
   position: relative;
   opacity: 0.1;
-  margin-left: 30px;
-  margin-right: 47px;
+  margin-left: 40px;
+  margin-right: 22px;
   @media screen and (min-width: 320px) and (max-width: 992px) {
     display: none;
   }
@@ -629,7 +759,7 @@ input[type='radio']:checked:after {
   color: #8a94a6;
 }
 .height {
-  height: 520px;
+  height: 570px;
 }
 .selected-label {
   color: var(--theme-governance-buttonBorder);
@@ -659,4 +789,14 @@ input[type='radio']:checked:after {
 }
 .showw {
   display: block;
+}
+.nodeSelector-width {
+  width: 600px !important;
+}
+.toggle-header {
+  margin-right: 70px !important;
+  margin-top: 8px !important;
+}
+.vote-width {
+  width: 69% !important;
 }

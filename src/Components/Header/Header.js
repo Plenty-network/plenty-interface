@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import truncateMiddle from 'truncate-middle';
 import { Col, Container, Nav, Navbar, Row } from 'react-bootstrap';
 import clsx from 'clsx';
 import { ReactComponent as Logo } from '../../assets/images/logo.svg';
+import { ReactComponent as BannerArrow } from '../../assets/images/banner-arrow.svg';
 import { ReactComponent as LogoWhite } from '../../assets/images/logo-white.svg';
 import { Link, useLocation } from 'react-router-dom';
 import { RPC_NODE } from '../../constants/localStorage';
@@ -13,8 +15,23 @@ import Button from '../Ui/Buttons/Button';
 import HeaderBottom from './HeaderBottom';
 import useMediaQuery from '../../hooks/mediaQuery';
 import { HEADER_MODAL } from '../../constants/header';
+import '../../assets/scss/animation.scss';
+//import Loader from '../loader';
 
 const Header = (props) => {
+  const loader = useSelector((state) => state.settings.loader);
+
+  // const firstTokenAmount = useSelector((state) => state.settings.firstTokenAmount);
+  // const secondTokenAmount = useSelector((state) => state.settings.secondTokenAmount);
+  // const tokenIn = useSelector((state) => state.settings.tokenIn);
+  // const tokenOut = useSelector((state) => state.settings.tokenOut);
+  // const opertaionId = useSelector((state) => state.settings.opertaionId);
+  // const loaderMessage = useSelector((state) => state.settings.loaderMessage);
+
+  // const loaderMessage = {
+  //   type: 'success',
+  //   message: 'success',
+  // };
   const isMobile = useMediaQuery('(max-width: 991px)');
   const location = useLocation();
   const { pathname } = location;
@@ -22,6 +39,7 @@ const Header = (props) => {
   const [selectedHeader, setSelectedHeader] = useState('');
   const [isExpanded, toggleExpand] = useState(false);
   const [open, setOpen] = useState(false);
+  const [isBannerOpen, setBannerOpen] = useState(true);
 
   useEffect(() => {
     const RPCNodeInLS = localStorage.getItem(RPC_NODE);
@@ -39,11 +57,18 @@ const Header = (props) => {
     setHeader('');
   }, [splitLocation[1]]);
 
+  const closeBanner = () => {
+    setBannerOpen(false);
+  };
+
   const connectWalletButton = () => {
     if (props.walletAddress) {
       return (
         <Button onClick={props.disconnectWallet} className="button-bg w-100">
-          <span>{truncateMiddle(props.walletAddress, 4, 4, '...')}</span>
+          <div className="flex flex-row mx-2">
+            <span>{truncateMiddle(props.walletAddress, 4, 4, '...')}</span>
+            {loader && <span className="loader-button ml-2"></span>}
+          </div>
         </Button>
       );
     } else {
@@ -83,10 +108,45 @@ const Header = (props) => {
 
   return (
     <>
-      <Container className="header" fluid>
-        <Row>
+      <Container
+        className={clsx(
+          'header',
+          (splitLocation[1] === 'wrappedAssets' || splitLocation[1] === 'WrappedAssets') &&
+            'header-wrappedAssets',
+        )}
+        fluid
+      >
+        {splitLocation[1] !== 'wrappedAssets' && isBannerOpen && (
+          <div className="banner" onMouseEnter={() => setHeader('')}>
+            <div className="banner-middle">
+              <span className="banner-text">
+                {isMobile
+                  ? 'Swap Wrapped Assets now'
+                  : 'Wrap protocol is deprecated. All the wrapped assets are rebranded. Swap your wrapped assets now'}
+              </span>
+              <Link to="/wrappedAssets" className="text-decoration-none">
+                <span className="bottom-last" style={{ cursor: 'pointer' }}>
+                  Swap now
+                </span>
+                <span className="new">New</span>
+                <BannerArrow className="ml-2" />
+              </Link>
+            </div>
+            <div className="banner-right">
+              <span
+                className="closebanner"
+                onClick={() => closeBanner()}
+                style={{ cursor: 'pointer' }}
+              >
+                <span className={clsx('material-icons-round', 'banner-close')}>close</span>
+              </span>
+            </div>
+          </div>
+        )}
+
+        <Row className="removing-margin">
           <Col className={clsx('innerHeader')} sm={12} md={12}>
-            <Navbar id="nav-bar" expand="lg" className="px-0 mx-sm-4 menu-wrapper">
+            <Navbar id="nav-bar" expand="lg" className="px-0 menu-wrapper">
               <Navbar.Brand as={Link} to="/" className="mx-3 mx-sm-0">
                 {props.isGradientBgPage ? (
                   <LogoWhite />
@@ -138,9 +198,7 @@ const Header = (props) => {
                         selectedHeader === HEADER_MODAL.TRADE ? 'menu-item-active' : 'menu-item',
                         (splitLocation[1] === 'swap' ||
                           splitLocation[1] === 'Stableswap' ||
-                          splitLocation[1] === 'liquidityStable' ||
-                          splitLocation[1] === 'tokens' ||
-                          splitLocation[1] === 'liquidity') &&
+                          splitLocation[1] === 'tokens') &&
                           'selected-menu-item-active',
                         'align-self-start align-self-lg-center d-lg-flex align-items-center',
                       )}
@@ -152,7 +210,7 @@ const Header = (props) => {
                         Trade
                       </span>
                       <span
-                        className={clsx('material-icons', 'arrow', {
+                        className={clsx('material-icons', 'arrow-header', {
                           rotate:
                             selectedHeader === HEADER_MODAL.TRADE && (isMobile ? isExpanded : true),
                         })}
@@ -160,7 +218,6 @@ const Header = (props) => {
                         expand_more
                       </span>
                     </Nav.Link>
-
                     {selectedHeader === HEADER_MODAL.TRADE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
@@ -168,13 +225,14 @@ const Header = (props) => {
                         {...props}
                       />
                     )}
-
                     <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.EARN ? 'menu-item-active' : 'menu-item',
                         (splitLocation[1] === 'farms' ||
                           splitLocation[1] === 'liquidity-pools' ||
-                          splitLocation[1] === 'stake') &&
+                          splitLocation[1] === 'stake' ||
+                          splitLocation[1] === 'liquidity' ||
+                          splitLocation[1] === 'liquidityPositions') &&
                           'selected-menu-item-active',
                         'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
@@ -186,7 +244,7 @@ const Header = (props) => {
                         Earn
                       </span>
                       <span
-                        className={clsx('material-icons', 'arrow', {
+                        className={clsx('material-icons', 'arrow-header', {
                           rotate:
                             selectedHeader === HEADER_MODAL.EARN && (isMobile ? isExpanded : true),
                         })}
@@ -194,7 +252,6 @@ const Header = (props) => {
                         expand_more
                       </span>
                     </Nav.Link>
-
                     {selectedHeader === HEADER_MODAL.EARN && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
@@ -202,6 +259,34 @@ const Header = (props) => {
                         {...props}
                       />
                     )}
+                    {/* <Nav.Link
+                      className={clsx(
+                        selectedHeader === HEADER_MODAL.BRIDGE ? 'menu-item-active' : 'menu-item',
+                        splitLocation[1] === 'bridge' && 'selected-menu-item-active',
+                        'align-self-end align-self-lg-center d-lg-flex align-items-center',
+                      )}
+                      {...(isMobile ? {} : { as: Link, to: '/bridge' })}
+                    >
+                      <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
+                        Bridge
+                      </span>
+                      <span
+                        className={clsx('material-icons', 'arrow', {
+                          rotate:
+                            selectedHeader === HEADER_MODAL.BRIDGE &&
+                            (isMobile ? isExpanded : true),
+                        })}
+                      >
+                        expand_more
+                      </span>
+                    </Nav.Link>
+                    {selectedHeader === HEADER_MODAL.BRIDGE && isMobile && (
+                      <HeaderBottom
+                        selectedHeader={selectedHeader}
+                        isExpanded={isExpanded}
+                        {...props}
+                      />
+                    )}{' '} */}
 
                     <Nav.Link
                       className={clsx(
@@ -217,7 +302,7 @@ const Header = (props) => {
                         Vote
                       </span>
                       <span
-                        className={clsx('material-icons', 'arrow', {
+                        className={clsx('material-icons', 'arrow-header', {
                           rotate:
                             selectedHeader === HEADER_MODAL.VOTE && (isMobile ? isExpanded : true),
                         })}
@@ -225,7 +310,6 @@ const Header = (props) => {
                         expand_more
                       </span>
                     </Nav.Link>
-
                     {selectedHeader === HEADER_MODAL.VOTE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
@@ -233,7 +317,6 @@ const Header = (props) => {
                         {...props}
                       />
                     )}
-
                     <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.MORE ? 'menu-item-active' : 'menu-item',
@@ -247,7 +330,7 @@ const Header = (props) => {
                         More
                       </span>
                       <span
-                        className={clsx('material-icons', 'arrow', {
+                        className={clsx('material-icons', 'arrow-header', {
                           rotate:
                             selectedHeader === HEADER_MODAL.MORE && (isMobile ? isExpanded : true),
                         })}
@@ -255,7 +338,6 @@ const Header = (props) => {
                         expand_more
                       </span>
                     </Nav.Link>
-
                     {selectedHeader === HEADER_MODAL.MORE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
@@ -278,7 +360,7 @@ const Header = (props) => {
                         <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                           Settings
                         </span>
-                        <span className={clsx('material-icons', 'arrow', 'align-self-end')}>
+                        <span className={clsx('material-icons', 'arrow-header', 'align-self-end')}>
                           settings
                         </span>
                       </Nav.Link>
@@ -335,16 +417,30 @@ const Header = (props) => {
             selectedHeader={selectedHeader}
             isExpanded={isExpanded}
             page={splitLocation[1]}
+            isBannerOpen={isBannerOpen}
             {...props}
           />
         </div>
       )}
+      {/* <Loader
+        loaderMessage={loaderMessage}
+        tokenIn={tokenIn}
+        firstTokenAmount={firstTokenAmount}
+        tokenOut={tokenOut}
+        secondTokenAmount={secondTokenAmount}
+      /> */}
     </>
   );
 };
 
 const mapStateToProps = (state) => ({
   rpcNode: state.settings.rpcNode,
+  loader: state.settings.loader,
+  firstTokenAmount: state.settings.firstTokenAmount,
+  secondTokenAmount: state.settings.secondTokenAmount,
+  tokenIn: state.settings.tokenIn,
+  tokenOut: state.settings.tokenOut,
+  opertaionId: state.settings.opertaionId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -355,7 +451,6 @@ Header.propTypes = {
   connectWallet: PropTypes.func,
   disconnectWallet: PropTypes.func,
   isGradientBgPage: PropTypes.bool,
-
   setNode: PropTypes.func,
   theme: PropTypes.string,
   toggleTheme: PropTypes.func,

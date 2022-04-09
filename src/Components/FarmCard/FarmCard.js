@@ -201,7 +201,6 @@ const FarmCard = (props) => {
           <FarmCardBottom {...props} />
         </div>
       </div>
-      {/* <StakeModal open={props.isStakeModalOpen} onClose={() => props.closeFarmsStakeModal()} tokenData={{title: props.title}} /> */}
     </>
   );
 };
@@ -214,6 +213,8 @@ FarmCard.propTypes = {
   userAddress: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]).isRequired,
   userStakes: PropTypes.number.isRequired,
   theme: PropTypes.any,
+  setShowConfirmTransaction: PropTypes.any,
+  setFloaterValue: PropTypes.any,
 };
 
 export default FarmCard;

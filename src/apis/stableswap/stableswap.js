@@ -81,7 +81,7 @@ export const calculateTokensOutStable = async (
 ) => {
   tokenIn_amount = tokenIn_amount * 10 ** 6;
   try {
-    if (tokenIn === 'ctez') {
+    if (tokenIn === 'CTEZ') {
       const dy =
         newton_dx_to_dy(target * ctezSupply, tezSupply * 2 ** 48, tokenIn_amount * target, 5) /
         2 ** 48;
@@ -118,7 +118,7 @@ export const calculateTokensOutStable = async (
         exchangeRate,
         priceImpact,
       };
-    } else if (tokenIn === 'tez') {
+    } else if (tokenIn === 'TEZ') {
       const dy =
         newton_dx_to_dy(tezSupply * 2 ** 48, target * ctezSupply, tokenIn_amount * 2 ** 48, 5) /
         target;
@@ -175,6 +175,7 @@ export async function ctez_to_tez(
   transactionSubmitModal,
   setShowConfirmSwap,
   resetAllValues,
+  setShowConfirmTransaction,
 ) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
@@ -230,6 +231,7 @@ export async function ctez_to_tez(
         : console.log('operation injected');
     }
     setShowConfirmSwap(false);
+    setShowConfirmTransaction(false);
     resetAllValues();
     transactionSubmitModal(batchOp.opHash);
 
@@ -256,6 +258,7 @@ export async function tez_to_ctez(
   transactionSubmitModal,
   setShowConfirmSwap,
   resetAllValues,
+  setShowConfirmTransaction,
 ) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
@@ -291,9 +294,9 @@ export async function tez_to_ctez(
 
     const batchOp = await batch.send();
     setShowConfirmSwap(false);
+    setShowConfirmTransaction(false);
     resetAllValues();
     transactionSubmitModal(batchOp.opHash);
-
     await batchOp.confirmation();
 
     return {
@@ -416,7 +419,7 @@ export const getUserBalanceByRpcStable = async (identifier, address) => {
       const balance = (() => {
         // IIFE
         let _balance;
-        if (identifier === 'ctez') {
+        if (identifier === 'CTEZ') {
           _balance = response.data.int;
         } else {
           _balance = response.data.args[1].int;
@@ -463,6 +466,7 @@ export const loadSwapDataStable = async (tokenIn, tokenOut) => {
 
     const ctezStorageUrl = `${rpcNode}chains/main/blocks/head/context/contracts/KT1GWnsoFZVHGh7roXEER3qeCcgJgrXT3de2/storage`;
     const ctezStorage = await axios.get(ctezStorageUrl);
+
     const target = ctezStorage.data.args[2].int;
     return {
       success: true,
@@ -530,6 +534,7 @@ export async function add_liquidity(
   transactionSubmitModal,
   setShowConfirmAddSupply,
   resetAllValues,
+  setShowConfirmTransaction,
 ) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
@@ -551,7 +556,7 @@ export async function add_liquidity(
     Tezos.setWalletProvider(wallet);
     const contractAddress =
       CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
-    const CTEZ = CONFIG.AMM[connectedNetwork]['ctez'].TOKEN_CONTRACT;
+    const CTEZ = CONFIG.AMM[connectedNetwork]['CTEZ'].TOKEN_CONTRACT;
     const contract = await Tezos.wallet.at(contractAddress);
     const ctez_contract = await Tezos.wallet.at(CTEZ);
     const batch = Tezos.wallet.batch([
@@ -581,6 +586,7 @@ export async function add_liquidity(
         : console.log('operation injected');
     }
     setShowConfirmAddSupply(false);
+    setShowConfirmTransaction(false);
     resetAllValues();
     transactionSubmitModal(batchOp.opHash);
 
@@ -616,6 +622,7 @@ export async function remove_liquidity(
   transactionSubmitModal,
   setShowConfirmSwap,
   resetAllValues,
+  setShowConfirmTransaction,
 ) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
@@ -647,6 +654,7 @@ export async function remove_liquidity(
         : console.log('operation injected');
     }
     setShowConfirmSwap(false);
+    setShowConfirmTransaction(true);
     resetAllValues();
     transactionSubmitModal(op.opHash);
     await op.confirmation();

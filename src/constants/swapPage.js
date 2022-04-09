@@ -22,7 +22,6 @@ import uDEFI from '../assets/images/uDEFI.png';
 import UNO from '../assets/images/uno.png';
 import uUSD from '../assets/images/uUSD.png';
 import youGov from '../assets/images/you-gov.png';
-
 import CRUNCH from '../assets/images/CRUNCH.png';
 import crDAO from '../assets/images/crDAO.png';
 import FLAME from '../assets/images/FLAME.png';
@@ -43,12 +42,13 @@ export const tokens = [
     new: false,
   },
   {
+
     name: 'tez',
     image: tez,
     new: false,
   },
   {
-    name: 'ctez',
+    name: 'CTEZ',
     image: ctez,
     new: false,
     extra: {

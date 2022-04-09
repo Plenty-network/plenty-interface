@@ -57,7 +57,7 @@ const Swap = (props) => {
             <div>
               <img src={props.theme === 'light' ? Graph : GraphDark} alt="graph"></img>
             </div>
-            <div className="ml-3">
+            <div className="footer-stableswap-mobile ">
               <span className="bottom-label">Stableswap</span>
               <p className="bottom-desc">
                 {isStableSwap

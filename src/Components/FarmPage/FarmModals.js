@@ -2,11 +2,12 @@ import InfoTableModal from '../Modals/InfoTableModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { FARM_PAGE_MODAL } from '../../constants/farmsPage';
 import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
 import InfoModal from '../Ui/Modals/InfoModal';
 import Loader from '../loader';
 import { openCloseFarmsModal } from '../../redux/slices/farms/farms.slice';
 
-const FarmModals = () => {
+const FarmModals = (props) => {
   const modalData = useSelector((state) => state.farms.modals);
   const dispatch = useDispatch();
 
@@ -72,9 +73,11 @@ const FarmModals = () => {
       />
       <InfoModal
         open={modalData.open === FARM_PAGE_MODAL.TRANSACTION_SUCCESS}
+        InfoMessage={props.content}
         onClose={onClose}
+        theme={props.theme}
         message={'Transaction submitted'}
-        buttonText={'View on Tezos'}
+        buttonText={'View on TzKT'}
         onBtnClick={
           !modalData.transactionId
             ? undefined
@@ -83,8 +86,19 @@ const FarmModals = () => {
       />
       {showSnackbar && (
         <Loader
+          theme={props.theme}
           loading={stakeOperations.processing || unstakeOperations.processing}
           loaderMessage={loaderMessage}
+          content={
+            props.type === 'Harvesting'
+              ? `${props.pair} Harvested `
+              : `${props.value} ${props.pair} LP Staked`
+          }
+          onBtnClick={
+            !modalData.transactionId
+              ? undefined
+              : () => window.open(`https://tzkt.io/${modalData.transactionId}`, '_blank')
+          }
         />
       )}
     </>
@@ -92,3 +106,11 @@ const FarmModals = () => {
 };
 
 export default FarmModals;
+
+FarmModals.propTypes = {
+  theme: PropTypes.any,
+  type: PropTypes.any,
+  pair: PropTypes.any,
+  value: PropTypes.any,
+  content: PropTypes.any,
+};

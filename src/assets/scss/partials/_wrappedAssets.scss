@@ -1,0 +1,15 @@
+.wa-bg-img {
+  background-position: left top;
+  background-repeat: no-repeat;
+  background-size: 115% 130%;
+  /* height: 87vh; */
+}
+
+@media screen and (max-width: 768px), screen and (orientation: portrait) {
+  .wa-bg-img {
+    background-position: right top;
+    background-repeat: no-repeat;
+    background-size: 92% 30%;
+    /* height: 87vh; */
+  }
+}
