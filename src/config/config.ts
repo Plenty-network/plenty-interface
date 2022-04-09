@@ -19,6 +19,10 @@ const Config: IConfig = {
     mainnet: 'https://indexer.plentydefi.com/',
     testnet: 'https://indexer.plentydefi.com/',
   },
+  CTEZ: {
+    mainnet: 'KT1GWnsoFZVHGh7roXEER3qeCcgJgrXT3de2',
+    testnet: 'KT19xSuHb2A86eSbKVsduY8mZv4UVEBPwQ17',
+  },
   STAKING_CONTRACTS: {
     POOLS: {
       mainnet: {
@@ -772,8 +776,9 @@ const Config: IConfig = {
   TOKEN_CONTRACTS: {
     testnet: {
       PLENTY: {
-        address: 'KT1PHbg4Dqmg9zWwuWQjo4dDTsgJ5svdyXdH',
-        mapId: 22612,
+        address: 'KT1Mdk7TfHjbwb2ciTTsySj9gV9W9uc7HxCu',
+        // mapID is balances map
+        mapId: 33509,
         decimal: 18,
         type: 'FA1.2',
         tokenId: 0,
@@ -1230,6 +1235,7 @@ const Config: IConfig = {
   },
   ROUTER: {
     mainnet: 'KT1QzuJg2dJZVSoDf56BmvPGMduWzjYggkf5',
+    testnet: 'KT1FMZVMeyCrNFyGjJfiB6VSq3LX1ShSEzuw',
   },
   STABLESWAP: {
     testnet: {
@@ -1322,7 +1328,9 @@ const Config: IConfig = {
   },
   AMM: {
     testnet: {
+
       CTEZ: {
+
         ICON: '',
         TOKEN_CONTRACT: 'KT1HZW9FWJt6aU8x4nr6UiBry2eUCA7xEFb1',
         mapId: 26976,
@@ -1336,11 +1344,16 @@ const Config: IConfig = {
             property: 'CTEZPool',
             liquidityToken: 'CTEZ-XTZ-LP',
           },
+          PLENTY: {
+            contract: 'KT1DWBEpG82w6VEVTDV2Z9NEWUe5Xxu9CH1G',
+            property: 'token1_pool',
+            liquidityToken: 'ctezPlentyLP',
+          },
         },
       },
       TEZ: {
         ICON: '',
-        TOKEN_CONTRACT: '',
+        TOKEN_CONTRACT: 'KT1XL89VUosEQh5Dk9fBBwrepXBw7V4EdqL5',
         READ_TYPE: 'XTZ',
         CALL_TYPE: 'XTZ',
         TOKEN_ID: 0,
@@ -1365,21 +1378,80 @@ const Config: IConfig = {
       },
       PLENTY: {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1TbkspJ8AzLmNs3ko9xr46ZE4zLpyZu9tX',
+        TOKEN_CONTRACT: 'KT1Mdk7TfHjbwb2ciTTsySj9gV9W9uc7HxCu',
+        mapId: 33509,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 18,
         DEX_PAIRS: {
-          wDAI: {
-            contract: 'KT1Qc52zbRaKi5cwCBnx8o4FSDbdxuePLqYB',
+          // Change liquidity token
+          wWETH: {
+            contract: 'KT1RG7ouxNLs5Mtdz9xKQyWDtxcC3LPuXcZF',
             property: 'token2_pool',
-            liquidityToken: 'PltDaiLp',
+            liquidityToken: 'PlentyWETHLP',
           },
-          WRAP: {
-            contract: 'KT1HePFs4aA5u6A5BDw3ot7LuXvqa4ebqrTQ',
+          wUSDC: {
+            contract: 'KT1NBrkfVDM42B9q7hJcNwx1efcntwDF8fzf',
             property: 'token2_pool',
-            liquidityToken: 'WrapLP',
+            liquidityToken: 'PlentyUSDCLP',
+          },
+          ctez: {
+            contract: 'KT1DWBEpG82w6VEVTDV2Z9NEWUe5Xxu9CH1G',
+            property: 'token2_pool',
+            liquidityToken: 'ctezPlentyLP',
+          },
+          // wDAI: {
+          //   contract: 'KT1Qc52zbRaKi5cwCBnx8o4FSDbdxuePLqYB',
+          //   property: 'token2_pool',
+          //   liquidityToken: 'PltDaiLp',
+          // },
+          // WRAP: {
+          //   contract: 'KT1HePFs4aA5u6A5BDw3ot7LuXvqa4ebqrTQ',
+          //   property: 'token2_pool',
+          //   liquidityToken: 'WrapLP',
+          // },
+        },
+      },
+      wUSDC: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1Bjfjuwfpgm5R3iXq8PBM9zqd3jEK2jiy5',
+        mapId: 34178,
+        READ_TYPE: 'FA2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 6,
+        CALL_TYPE: 'FA2',
+        DEX_PAIRS: {
+          // wDAI: {
+          //   contract: 'KT1PnFKMA2v1ngvYUh5UKtaDuM5WxskrunFm',
+          //   property: 'token1_pool',
+          //   liquidityToken: 'WrapDaiLp',
+          // },
+          PLENTY: {
+            contract: 'KT1NBrkfVDM42B9q7hJcNwx1efcntwDF8fzf',
+            property: 'token1_pool',
+            liquidityToken: 'PlentyUSDCLP',
+          },
+        },
+      },
+      wWETH: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1Bjfjuwfpgm5R3iXq8PBM9zqd3jEK2jiy5',
+        mapId: 34178,
+        READ_TYPE: 'FA2',
+        TOKEN_ID: 1,
+        TOKEN_DECIMAL: 18,
+        CALL_TYPE: 'FA2',
+        DEX_PAIRS: {
+          // wDAI: {
+          //   contract: 'KT1PnFKMA2v1ngvYUh5UKtaDuM5WxskrunFm',
+          //   property: 'token1_pool',
+          //   liquidityToken: 'WrapDaiLp',
+          // },
+          PLENTY: {
+            contract: 'KT1RG7ouxNLs5Mtdz9xKQyWDtxcC3LPuXcZF',
+            property: 'token1_pool',
+            liquidityToken: 'PlentyWETHLP',
           },
         },
       },
@@ -1422,6 +1494,30 @@ const Config: IConfig = {
             liquidityToken: 'WrapDaiLp',
           },
         },
+      },
+      ctezPlentyLP: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1ESYSFLGWtmxZFoQG6vMkMt6Cqo73vjS57',
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 12,
+        CALL_TYPE: 'FA1.2',
+      },
+      PlentyWETHLP: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1XReQKShV1t62JKyFAKUqHcnAdLFMpnTu7',
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 18,
+        CALL_TYPE: 'FA1.2',
+      },
+      PlentyUSDCLP: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1H2w5EZKJeGSeMLrRBuASfN1YoaUmotnSB',
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 12,
+        CALL_TYPE: 'FA1.2',
       },
       WrapLP: {
         ICON: '',
@@ -4295,10 +4391,15 @@ const Config: IConfig = {
     address: 'KT1CAeUQfyMnBVqkt4QcztmjsjAWYzK6ZPYQ',
     mapId: 55983,
   },
+
+  NETWORK: 'testnet',
+  WALLET_NETWORK: 'hangzhounet',
+
   // NETWORK: 'testnet',
   // WALLET_NETWORK: 'hangzhounet',
-  NETWORK: 'mainnet',
-  WALLET_NETWORK: 'mainnet',
+  //NETWORK: 'mainnet',
+  //WALLET_NETWORK: 'mainnet',
+
   ADMIN_ADDRESS: 'KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW',
   BURNER: 'tz1ZnK6zYJrC9PfKCPryg9tPW6LrERisTGtg',
   WRAPPED_ASSETS: {

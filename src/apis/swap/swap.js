@@ -522,6 +522,7 @@ export const computeTokenOutput = (
   slippage,
 ) => {
   try {
+    console.log({ tokenIn_amount, tokenIn_supply, tokenOut_supply, exchangeFee, slippage });
     let tokenOut_amount = 0;
     tokenOut_amount = (1 - exchangeFee) * tokenOut_supply * tokenIn_amount;
     tokenOut_amount /= tokenIn_supply + (1 - exchangeFee) * tokenIn_amount;

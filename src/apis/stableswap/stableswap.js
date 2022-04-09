@@ -37,7 +37,7 @@ const newton = (x, y, dx, dy, u, n) => {
   return dy1;
 };
 
-const newton_dx_to_dy = (x, y, dx, rounds) => {
+export const newton_dx_to_dy = (x, y, dx, rounds) => {
   const utility = util(x, y);
   const u = utility.first;
   const dy = newton(x, y, dx, 0, u, rounds);
