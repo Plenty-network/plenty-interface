@@ -490,11 +490,6 @@ const AddLiquidityNew = (props) => {
           </div>
 
           <div className="d-flex  align-items-center input-lq">
-            {props.walletAddress ? (
-              <div className="max-button" style={{ cursor: 'pointer' }} onClick={onClickAmount}>
-                MAX
-              </div>
-            ) : null}
             <div className="input-width">
               {props.swapData.success && props.userBalances[props.tokenOut.name] ? (
                 <input

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
+import filter from '../../assets/images/Filter_big.svg';
 
 const TransactionSettings = (props) => {
   const CustomToggle = React.forwardRef(({ onClick }, ref) => (
@@ -13,7 +14,10 @@ const TransactionSettings = (props) => {
         onClick(e);
       }}
     >
-      <span className="span-themed material-icons-outlined">tune</span>
+      <span className="slippage-settings">
+        <img src={filter} className="settings-filter" />{' '}
+        <span className="slippage-value"> {props.slippage} %</span>
+      </span>
     </a>
   ));
   CustomToggle.displayName = 'CustomToggle';
@@ -56,7 +60,7 @@ const TransactionSettings = (props) => {
         <div className="interface-setting-wrapper">
           <p className="transaction-setting-menu-label">Interface Settings</p>
           <div className="flex align-center">
-            <p className="transaction-setting-sub-label">Add Recipient </p>
+            <p className="transaction-setting-sub-label-bottom ">Add Recipient </p>
             <div className="toggleWrapper">
               <input type="checkbox" className="dn" id="dn" onChange={handleShowRecepient} />
               <label htmlFor="dn" className="toggle">

@@ -146,7 +146,7 @@ const FarmCardBottom = (props) => {
             <Button
               onClick={() => {
                 props.setShowConfirmTransaction(true);
-
+                props.setLoader(true);
                 localStorage.setItem('stakePair', properties.source);
                 props.setFloaterValue({
                   value: null,
@@ -158,6 +158,7 @@ const FarmCardBottom = (props) => {
                   props.isActiveOpen,
                   props.farmCardData.position,
                   props.setShowConfirmTransaction,
+                  props.setLoader,
                 );
               }}
               color={stakedAmount > 0 ? 'primary' : 'default'}
@@ -315,6 +316,7 @@ FarmCardBottom.propTypes = {
   setShowConfirmTransaction: PropTypes.any,
   setConfirmTransactionContent: PropTypes.any,
   setFloaterValue: PropTypes.any,
+  setLoader: PropTypes.any,
 };
 
 export default FarmCardBottom;

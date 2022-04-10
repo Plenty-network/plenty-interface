@@ -231,7 +231,7 @@ const SwapContent = (props) => {
               </button>
             </div>
 
-            <div className="token-user-input-wrapper">
+            <div className="token-user-input-wrapper wa-token-user-input-wrapper">
               <input
                 type="text"
                 className="token-user-input"
@@ -293,7 +293,7 @@ const SwapContent = (props) => {
               </button>
             </div>
 
-            <div className="token-user-input-wrapper">
+            <div className="token-user-input-wrapper wa-token-user-input-wrapper">
               {props.tokenOut.name ? (
                 <input
                   type="text"

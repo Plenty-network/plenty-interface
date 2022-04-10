@@ -25,7 +25,7 @@ import ctez from '../../assets/images/ctez.png';
 import { getUserBalanceByRpcStable, loadSwapDataStable } from '../../apis/stableswap/stableswap';
 
 const LiquidityNew = (props) => {
-  const { tokenIn, setTokenIn, tokenOut, setTokenOut, setActiveTab } =
+  const { activeTab, tokenIn, setTokenIn, tokenOut, setTokenOut, setActiveTab } =
     useLocationStateInLiquidity();
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -43,7 +43,7 @@ const LiquidityNew = (props) => {
   const [loading, setLoading] = useState(false);
   const [getTokenPrice, setGetTokenPrice] = useState({});
   const [userBalances, setUserBalances] = useState({});
-  const activeTab = 'liquidity';
+  // const activeTab = 'liquidity';
   const location = useLocation();
   const navigate = useNavigate();
   const { pathname } = location;
@@ -102,7 +102,7 @@ const LiquidityNew = (props) => {
     return 'add';
   }, [location.pathname]);
   useEffect(() => {
-    if (location.pathname.includes('liquidity')) {
+    if (!location.pathname.includes('liquidityPositions')) {
       setLiquidityPosition(false);
     }
   }, [searchParams]);
@@ -232,7 +232,7 @@ const LiquidityNew = (props) => {
         }
       }
     }
-  }, [tokenIn, tokenOut, activeTab]);
+  }, [tokenIn, tokenOut, activeTab, splitLocation[1]]);
 
   const handleTokenType = (type) => {
     //setHideContent('content-hide');
@@ -276,12 +276,12 @@ const LiquidityNew = (props) => {
     value ? setActiveTab('liquidityPositions') : setActiveTab('liquidity');
   };
 
-  useEffect(() => {
-    splitLocation[1] === 'liquidityPositions'
-      ? setLiquidityPosition(true)
-      : setLiquidityPosition(false);
-    splitLocation[1] === 'liquidity' && setActiveTab('liquidity');
-  }, [splitLocation[1]]);
+  // useEffect(() => {
+  //   splitLocation[1] === 'liquidityPositions'
+  //     ? setLiquidityPosition(true)
+  //     : setLiquidityPosition(false);
+  //   splitLocation[1] === 'liquidity' && setActiveTab('liquidity');
+  // }, [splitLocation[1]]);
 
   useEffect(() => {
     const tokenAFromParam = searchParams.get('tokenA');

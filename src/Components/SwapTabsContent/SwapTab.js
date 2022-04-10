@@ -4,6 +4,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import SwapDetails from '../SwapDetails';
 import ConfirmSwap from './ConfirmSwap';
 import { connect } from 'react-redux';
+
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { swapTokens } from '../../apis/swap/swap';
 import Button from '../Ui/Buttons/Button';
 import {
@@ -15,6 +17,8 @@ import ConfirmTransaction from '../WrappedAssets/ConfirmTransaction';
 import InfoModal from '../Ui/Modals/InfoModal';
 import Loader from '../loader';
 import { setLoader } from '../../redux/slices/settings/settings.slice';
+import switchImg from '../../assets/images/bridge/bridge-switch.svg';
+import maxlight from '../../assets/images/max-light.svg';
 
 const SwapTab = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -63,6 +67,7 @@ const SwapTab = (props) => {
     if (input === '' || isNaN(input)) {
       setFirstTokenAmount('');
       setSecondTokenAmount('');
+      props.setComputedOutDetails({});
     } else {
       if (tokenType === 'tokenIn') {
         setFirstTokenAmount(input);
@@ -239,15 +244,29 @@ const SwapTab = (props) => {
   const swapContentButton = useMemo(() => {
     if (props.walletAddress) {
       if (props.tokenOut.name && firstTokenAmount) {
-        return (
-          <Button
-            onClick={callSwapToken}
-            color={'primary'}
-            className={'mt-4 w-100 flex align-items-center justify-content-center'}
-          >
-            Swap
-          </Button>
-        );
+        if (firstTokenAmount > props.userBalances[props.tokenIn.name]) {
+          return (
+            <Button
+              onClick={() => setErrorMessageOnUI('Insufficient balance')}
+              color={'disabled'}
+              className={
+                'mt-4 w-100 flex align-items-center justify-content-center disable-button-swap'
+              }
+            >
+              Swap
+            </Button>
+          );
+        } else {
+          return (
+            <Button
+              onClick={callSwapToken}
+              color={'primary'}
+              className={'mt-4 w-100 flex align-items-center justify-content-center'}
+            >
+              Swap
+            </Button>
+          );
+        }
       }
 
       if (!props.tokenOut.name) {
@@ -255,7 +274,9 @@ const SwapTab = (props) => {
           <Button
             onClick={() => setErrorMessageOnUI('Please select a token and then enter the amount')}
             color={'disabled'}
-            className={' mt-4 w-100 flex align-items-center justify-content-center'}
+            className={
+              ' mt-4 w-100 flex align-items-center justify-content-center disable-button-swap'
+            }
           >
             Swap
           </Button>
@@ -265,7 +286,9 @@ const SwapTab = (props) => {
         <Button
           onClick={() => setErrorMessageOnUI('Enter an amount to swap')}
           color={'disabled'}
-          className={' mt-4 w-100 flex align-items-center justify-content-center'}
+          className={
+            ' mt-4 w-100 flex align-items-center justify-content-center disable-button-swap'
+          }
         >
           Swap
         </Button>
@@ -295,15 +318,16 @@ const SwapTab = (props) => {
   return (
     <>
       <div className="swap-content-box-wrapper">
-        <div className="swap-content-box">
+        <div className="swap-content-box swap-left-right-padding">
           <div
             className={clsx(
               'swap-token-select-box',
               'bg-themed-light',
               errorMessage && 'errorBorder',
+              firstTokenAmount > 0 && (errorMessage ? 'errorBorder' : 'typing-border'),
             )}
           >
-            <div className="token-selector-balance-wrapper">
+            <div className="token-selector-balance-wrapper-swap">
               <button
                 className="token-selector dropdown-themed"
                 onClick={() => props.handleTokenType('tokenIn')}
@@ -315,10 +339,14 @@ const SwapTab = (props) => {
             </div>
 
             <div className="token-user-input-wrapper">
+              <div className="input-heading">YOU PAY</div>
               {props.routeData.success ? (
                 <input
                   type="text"
-                  className="token-user-input"
+                  className={clsx(
+                    'token-user-input',
+                    errorMessage && message === 'Insufficient balance' && 'error-text-color',
+                  )}
                   placeholder="0.0"
                   value={firstTokenAmount}
                   onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenIn')}
@@ -331,25 +359,41 @@ const SwapTab = (props) => {
               <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
                 {props.tokenOut.name ? (
                   <p
-                    className="wallet-token-balance"
+                    className="wallet-token-balance balance-revamp"
                     onClick={onClickAmount}
                     style={{ cursor: 'pointer' }}
                   >
                     Balance:{' '}
-                    {props.userBalances[props.tokenIn.name] >= 0 ? (
-                      props.userBalances[props.tokenIn.name]
-                    ) : (
-                      <div className="shimmer">0.0000</div>
-                    )}{' '}
-                    <span className="max-btn">(Max)</span>
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={
+                        <Tooltip id="button-tooltip" {...props}>
+                          {props.userBalances[props.tokenIn.name]}
+                        </Tooltip>
+                      }
+                    >
+                      <span
+                        className={clsx(
+                          'balance-tokenin',
+                          errorMessage && message === 'Insufficient balance' && 'error-text-color',
+                        )}
+                      >
+                        {props.userBalances[props.tokenIn.name] >= 0 ? (
+                          props.userBalances[props.tokenIn.name].toFixed(4)
+                        ) : (
+                          <div className="shimmer">0.0000</div>
+                        )}{' '}
+                        <img src={maxlight} className="max-swap" />
+                      </span>
+                    </OverlayTrigger>
                   </p>
                 ) : (
-                  <p className="wallet-token-balance">
-                    Balance: {props.userBalances[props.tokenIn.name]}
+                  <p className="wallet-token-balance balance-revamp">
+                    Balance: {props.userBalances[props.tokenIn.name]?.toFixed(4)}
                   </p>
                 )}
 
-                <p className="wallet-token-balance">
+                <p className="wallet-token-balance balance-revamp">
                   ~$
                   {props.getTokenPrice.success && firstTokenAmount
                     ? getDollarValue(
@@ -361,114 +405,123 @@ const SwapTab = (props) => {
               </div>
             ) : null}
           </div>
+          {errorMessage && <span className="error-message">{message}</span>}
         </div>
-        <div
-          className="swap-arrow-center bg-themed icon-animated"
-          onClick={props.changeTokenLocation}
-        >
-          <span className="span-themed material-icons-round">arrow_downward</span>
-        </div>
-        <div className="swap-content-box">
+        <div className="switch-img">
           <div
-            className={clsx(
-              'swap-token-select-box',
-              'bg-themed-light',
-              errorMessage && 'errorBorder',
-            )}
+            className="swap-arrow-center-revamp  icon-animated"
+            onClick={props.changeTokenLocation}
           >
-            <div className="token-selector-balance-wrapper">
-              {props.tokenOut.name ? (
-                <button
-                  className="token-selector dropdown-themed"
-                  onClick={() => props.handleTokenType('tokenOut')}
-                >
-                  <img src={props.tokenOut.image} className="button-logo" />
-                  <span className="span-themed">{props.tokenOut.name} </span>
-                  <span className="span-themed material-icons-round">expand_more</span>
-                </button>
-              ) : (
-                <button
-                  className="token-selector not-selected"
-                  onClick={() => props.handleTokenType('tokenOut')}
-                >
-                  Select a token <span className="material-icons-round">expand_more</span>
-                </button>
-              )}
-            </div>
-
-            <div className="token-user-input-wrapper">
-              {props.routeData.success && props.tokenOut.name ? (
-                <input
-                  type="text"
-                  className="token-user-input"
-                  value={
-                    secondTokenAmount ? secondTokenAmount : props.computedOutDetails.tokenOut_amount
-                  }
-                  placeholder="0.0"
-                  onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenOut')}
-                />
-              ) : (
-                <input
-                  type="text"
-                  className="token-user-input"
-                  disabled
-                  placeholder="0.0"
-                  value={firstTokenAmount}
-                />
-              )}
-            </div>
-            {props.walletAddress && props.tokenOut.name ? (
-              <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
-                <p className="wallet-token-balance">
-                  Balance:{' '}
-                  {props.userBalances[props.tokenOut.name] >= 0 ? (
-                    props.userBalances[props.tokenOut.name]
-                  ) : (
-                    <div className="shimmer">0.0000</div>
-                  )}
-                </p>
-                <p className="wallet-token-balance">
-                  ~$
-                  {props.getTokenPrice.success && secondTokenAmount
-                    ? getDollarValue(
-                        secondTokenAmount,
-                        props.getTokenPrice.tokenPrice[props.tokenOut.name],
-                      )
-                    : '0.00'}
-                </p>
-              </div>
-            ) : null}
+            <img src={switchImg} />
           </div>
         </div>
-        {props.showRecepient ? (
-          <input
-            type="text"
-            className="slipping-tolerance-input full-width"
-            placeholder="Send to:"
-            onChange={(e) => props.setRecepient(e.target.value)}
-            value={props.recepient}
-          />
-        ) : (
-          ''
-        )}
-        {errorMessage && <span className="error-message">{message}</span>}
+        <div className="second-token-bg">
+          <div className="swap-content-box ">
+            <div
+              className={clsx(
+                'swap-token-select-box',
+                'second-token-input-swap',
+                errorMessage && 'errorBorder',
+                secondTokenAmount && 'second-input-typing',
+              )}
+            >
+              <div className="token-selector-balance-wrapper-swap">
+                {props.tokenOut.name ? (
+                  <button
+                    className="token-selector dropdown-themed"
+                    onClick={() => props.handleTokenType('tokenOut')}
+                  >
+                    <img src={props.tokenOut.image} className="button-logo" />
+                    <span className="span-themed">{props.tokenOut.name} </span>
+                    <span className="span-themed material-icons-round">expand_more</span>
+                  </button>
+                ) : (
+                  <button
+                    className="token-selector not-selected"
+                    onClick={() => props.handleTokenType('tokenOut')}
+                  >
+                    Select a token <span className="material-icons-round">expand_more</span>
+                  </button>
+                )}
+              </div>
 
-        {swapContentButton}
-
-        {props.walletAddress &&
-          props.tokenIn.name &&
-          props.tokenOut.name &&
-          props.routeData.success && (
-            <SwapDetails
-              routePath={routePath}
-              computedOutDetails={computedData}
-              tokenIn={props.tokenIn}
-              tokenOut={props.tokenOut}
-              routeData={props.routeData}
-              firstTokenAmount={firstTokenAmount}
-              isStableSwap={false}
-            />
+              <div className="token-user-input-wrapper">
+                <div className="input-heading receive-heading">YOU RECEIVE</div>
+                {props.routeData.success && props.tokenOut.name ? (
+                  <input
+                    type="text"
+                    className={clsx('token-user-input', secondTokenAmount && 'second-input-color')}
+                    value={secondTokenAmount && secondTokenAmount}
+                    placeholder="0.0"
+                    onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenOut')}
+                  />
+                ) : (
+                  <input
+                    type="text"
+                    className="token-user-input"
+                    disabled
+                    placeholder="--"
+                    value={firstTokenAmount}
+                  />
+                )}
+              </div>
+              {props.walletAddress ? (
+                <div className="flex justify-between" style={{ flex: '0 0 100%' }}>
+                  <p className="wallet-token-balance balance-revamp">
+                    Balance:{' '}
+                    {props.tokenOut.name ? (
+                      props.userBalances[props.tokenOut.name] >= 0 ? (
+                        props.userBalances[props.tokenOut.name]
+                      ) : (
+                        <div className="shimmer">0.0000</div>
+                      )
+                    ) : (
+                      '--'
+                    )}
+                  </p>
+                  <p className="wallet-token-balance balance-revamp">
+                    ~$
+                    {props.getTokenPrice.success && secondTokenAmount
+                      ? getDollarValue(
+                          secondTokenAmount,
+                          props.getTokenPrice.tokenPrice[props.tokenOut.name],
+                        )
+                      : '0.00'}
+                  </p>
+                </div>
+              ) : null}
+            </div>
+          </div>
+          {props.showRecepient ? (
+            <>
+              <div className="send-heading">Send to</div>
+              <input
+                type="text"
+                className="receiptant"
+                placeholder="Receipient address"
+                onChange={(e) => props.setRecepient(e.target.value)}
+                value={props.recepient}
+              />
+            </>
+          ) : (
+            ''
           )}
+          {props.walletAddress &&
+            props.tokenIn.name &&
+            props.tokenOut.name &&
+            props.routeData.success && (
+              <SwapDetails
+                routePath={routePath}
+                computedOutDetails={computedData}
+                tokenIn={props.tokenIn}
+                tokenOut={props.tokenOut}
+                routeData={props.routeData}
+                firstTokenAmount={firstTokenAmount}
+                isStableSwap={false}
+              />
+            )}
+          {swapContentButton}
+        </div>
       </div>
 
       <ConfirmSwap
@@ -571,6 +624,7 @@ SwapTab.propTypes = {
   setShowConfirmTransaction: PropTypes.any,
   showConfirmTransaction: PropTypes.any,
   theme: PropTypes.any,
+  setComputedOutDetails: PropTypes.any,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SwapTab);

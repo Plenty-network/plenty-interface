@@ -51,7 +51,7 @@ const getListOfPositions = async (tokenList, isStable, walletAddress) => {
   );
 
   promiseResults.forEach((result, index) => {
-    if (result.status === 'fulfilled' && result.value.success) {
+    if (result.status === 'fulfilled' && result.value.success && result.value.balance > 0) {
       listOfAvailablePostions.push({
         tokenA: tokensPromiseList[index].tokenA,
         tokenB: tokensPromiseList[index].tokenB,

@@ -124,7 +124,11 @@ const MyRoutes = (props) => {
               path="/farms"
               element={
                 <OtherPages {...otherPageProps}>
-                  <Farms walletAddress={props.userAddress} {...otherPageProps} />
+                  <Farms
+                    walletAddress={props.userAddress}
+                    theme={otherPageProps.theme}
+                    {...otherPageProps}
+                  />
                 </OtherPages>
               }
             />

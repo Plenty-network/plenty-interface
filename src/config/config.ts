@@ -1328,9 +1328,7 @@ const Config: IConfig = {
   },
   AMM: {
     testnet: {
-
       CTEZ: {
-
         ICON: '',
         TOKEN_CONTRACT: 'KT1HZW9FWJt6aU8x4nr6UiBry2eUCA7xEFb1',
         mapId: 26976,
@@ -1545,21 +1543,6 @@ const Config: IConfig = {
       },
     },
     mainnet: {
-      // tez: {
-      //   ICON: '',
-      //   TOKEN_CONTRACT: '',
-      //   READ_TYPE: 'XTZ',
-      //   CALL_TYPE: 'XTZ',
-      //   TOKEN_ID: 0,
-      //   TOKEN_DECIMAL: 6,
-      //   DEX_PAIRS: {
-      //     CTEZ: {
-      //       contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
-      //       property: 'tezPool',
-      //       liquidityToken: 'CTEZ-XTZ-LP',
-      //     },
-      //   },
-      // },
       PLENTY: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
@@ -4392,13 +4375,11 @@ const Config: IConfig = {
     mapId: 55983,
   },
 
-  NETWORK: 'testnet',
-  WALLET_NETWORK: 'hangzhounet',
-
   // NETWORK: 'testnet',
   // WALLET_NETWORK: 'hangzhounet',
-  //NETWORK: 'mainnet',
-  //WALLET_NETWORK: 'mainnet',
+
+  NETWORK: 'mainnet',
+  WALLET_NETWORK: 'mainnet',
 
   ADMIN_ADDRESS: 'KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW',
   BURNER: 'tz1ZnK6zYJrC9PfKCPryg9tPW6LrERisTGtg',
@@ -4622,18 +4603,90 @@ const Config: IConfig = {
         REF_TOKEN: 'DAI.e',
         READ_TYPE: 'FA2',
       },
+      'WBTC.e': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT19jFpbrSADAsj1HmwiQnLdWDnS92u2uTDW',
+        mapId: 162915,
+        TOKEN_ID: 4,
+        TOKEN_DECIMAL: 8,
+        REF_TOKEN: 'wWBTC',
+        READ_TYPE: 'FA2',
+      },
+      'WETH.e': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT19jFpbrSADAsj1HmwiQnLdWDnS92u2uTDW',
+        mapId: 162915,
+        TOKEN_ID: 5,
+        TOKEN_DECIMAL: 18,
+        REF_TOKEN: 'wWETH',
+        READ_TYPE: 'FA2',
+      },
+      'BUSD.e': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT19jFpbrSADAsj1HmwiQnLdWDnS92u2uTDW',
+        mapId: 162915,
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 18,
+        REF_TOKEN: 'wBUSD',
+        READ_TYPE: 'FA2',
+      },
+      'USDC.e': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT19jFpbrSADAsj1HmwiQnLdWDnS92u2uTDW',
+        mapId: 162915,
+        TOKEN_ID: 2,
+        TOKEN_DECIMAL: 6,
+        REF_TOKEN: 'wUSDC',
+        READ_TYPE: 'FA2',
+      },
+      'USDT.e': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT19jFpbrSADAsj1HmwiQnLdWDnS92u2uTDW',
+        mapId: 162915,
+        TOKEN_ID: 3,
+        TOKEN_DECIMAL: 6,
+        REF_TOKEN: 'wUSDT',
+        READ_TYPE: 'FA2',
+      },
+      'MATIC.e': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT19jFpbrSADAsj1HmwiQnLdWDnS92u2uTDW',
+        mapId: 162915,
+        TOKEN_ID: 1,
+        TOKEN_DECIMAL: 18,
+        REF_TOKEN: 'wMATIC',
+        READ_TYPE: 'FA2',
+      },
+      'LINK.e': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT19jFpbrSADAsj1HmwiQnLdWDnS92u2uTDW',
+        mapId: 162915,
+        TOKEN_ID: 6,
+        TOKEN_DECIMAL: 18,
+        REF_TOKEN: 'wLINK',
+        READ_TYPE: 'FA2',
+      },
+      'DAI.e': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT19jFpbrSADAsj1HmwiQnLdWDnS92u2uTDW',
+        mapId: 162915,
+        TOKEN_ID: 7,
+        TOKEN_DECIMAL: 18,
+        REF_TOKEN: 'wDAI',
+        READ_TYPE: 'FA2',
+      },
     },
   },
   WRAPPED_ASSETS_SWAP_CONTRACT: {
     testnet: 'KT1D5QJhRM7t2ibHPYYqWQs4o9nianxa9E49',
-    mainnet: '',
+    mainnet: 'KT1Tf2rFp2khyF83jvtinLFxR7vEhFZ8nL2J',
   },
   BRIDGES_INDEXER_LINKS: {
     testnet: {},
     mainnet: {
       ETHEREUM: 'https://indexer.app.tzwrap.com/v1/configuration',
-      AVALANCHE: 'http://18.221.32.62/v1/configuration'
-    }
+      AVALANCHE: 'http://18.221.32.62/v1/configuration',
+    },
   },
 };
 

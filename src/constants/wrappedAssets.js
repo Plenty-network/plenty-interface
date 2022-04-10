@@ -6,7 +6,6 @@ import wWBTC from '../assets/images/wwbtc.png';
 import wWETH from '../assets/images/wweth.png';
 import wLINK from '../assets/images/wlink.png';
 import wDAI from '../assets/images/wdai.png';
-
 import BUSDe from '../assets/images/BUSD.e.png';
 import MATICe from '../assets/images/MATIC.e.png';
 import USDCe from '../assets/images/USDC.e.png';

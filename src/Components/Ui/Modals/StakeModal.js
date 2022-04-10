@@ -24,6 +24,7 @@ const StakeModal = (props) => {
   const onStake = () => {
     props.onClose();
     props.setShowConfirmTransaction(true);
+    props.setLoader(true);
     localStorage.setItem('stakeInput', inputValue);
     localStorage.setItem('stakePair', props.modalData.identifier);
     props.setFloaterValue({
@@ -38,6 +39,7 @@ const StakeModal = (props) => {
       props.isActiveOpen,
       props.modalData.position,
       props.setShowConfirmTransaction,
+      props.setLoader,
     );
   };
 
@@ -124,6 +126,7 @@ StakeModal.propTypes = {
   setShowConfirmTransaction: PropTypes.any,
   setConfirmTransactionContent: PropTypes.any,
   setFloaterValue: PropTypes.any,
+  setLoader: PropTypes.any,
 };
 
 export default StakeModal;

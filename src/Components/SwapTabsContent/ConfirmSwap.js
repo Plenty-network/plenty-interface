@@ -4,7 +4,7 @@ import React from 'react';
 import SimpleModal from '../Ui/Modals/SimpleModal';
 import Button from '../Ui/Buttons/Button';
 import { ReactComponent as Stableswap } from '../../assets/images/SwapModal/stableswap-white.svg';
-import SwapDetails from '../SwapDetails';
+import SwapDetailsConfirmSwap from './SwapDetailsConfirmSwap';
 
 const ConfirmSwap = (props) => {
   return (
@@ -52,7 +52,7 @@ const ConfirmSwap = (props) => {
               </div>
             </div>
           </div>
-          <SwapDetails
+          <SwapDetailsConfirmSwap
             computedOutDetails={props.computedData}
             tokenIn={props.tokenIn}
             tokenOut={props.tokenOut}

@@ -44,39 +44,46 @@ export const getFarmsDataThunk = (isActive) => (dispatch) => {
 };
 
 export const stakeOnFarmThunk =
-  (amount, farmIdentifier, isActive, position, setShowConfirmTransaction) => (dispatch) => {
+  (amount, farmIdentifier, isActive, position, setShowConfirmTransaction, setLoader) =>
+  (dispatch) => {
     dispatch(initiateStakingOperationOnFarm());
     stakeFarmAPI(amount, farmIdentifier, isActive, position, setShowConfirmTransaction)
       .then((response) => {
         dispatch(stakingOnFarmSuccessFull(response));
         setShowConfirmTransaction(false);
+        setLoader(false);
       })
       .catch(() => {
         dispatch(stakingOnFarmFailed());
         setShowConfirmTransaction(false);
+        setLoader(false);
       })
       .finally(() => {
         setTimeout(() => dispatch(dismissSnackbar()), 5000);
         setShowConfirmTransaction(false);
+        setLoader(false);
       });
   };
 
 export const unstakeOnFarmThunk =
-  (stakesToUnstake, farmIdentifier, isActive, position, setShowConfirmTransaction) =>
+  (stakesToUnstake, farmIdentifier, isActive, position, setShowConfirmTransaction, setLoader) =>
   (dispatch) => {
     dispatch(initiateUnstakingOperationOnFarm());
     unstakeAPI(stakesToUnstake, farmIdentifier, isActive, position, setShowConfirmTransaction)
       .then((response) => {
         dispatch(unstakingOnFarmSuccessFull(response));
         setShowConfirmTransaction(false);
+        setLoader(false);
       })
       .catch(() => {
         dispatch(unstakingOnFarmFailed());
         setShowConfirmTransaction(false);
+        setLoader(false);
       })
       .finally(() => {
         setTimeout(() => dispatch(dismissSnackbar()), 5000);
         setShowConfirmTransaction(false);
+        setLoader(false);
       });
   };
 
@@ -85,6 +92,7 @@ export const harvestOnFarmThunk = (
   isActive,
   position,
   setShowConfirmTransaction,
+  setLoader,
 ) => {
   return (dispatch) => {
     dispatch(initiateHarvestingOperationOnFarm(farmIdentifier));
@@ -92,10 +100,12 @@ export const harvestOnFarmThunk = (
       .then((response) => {
         dispatch(harvestingOnFarmSuccessFull(response));
         setShowConfirmTransaction(false);
+        setLoader(false);
       })
       .catch(() => {
         dispatch(harvestingOnFarmFailed());
         setShowConfirmTransaction(false);
+        setLoader(false);
       });
   };
 };

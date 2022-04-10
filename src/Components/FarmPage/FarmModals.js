@@ -28,6 +28,7 @@ const FarmModals = (props) => {
 
   const loaderMessage = useMemo(() => {
     if (stakeOperations.completed || stakeOperations.failed) {
+      props.setLoader(false);
       return {
         message: stakeOperations.completed ? 'Transaction confirmed' : 'Transaction failed',
         type: stakeOperations.completed ? 'success' : 'error',
@@ -35,6 +36,7 @@ const FarmModals = (props) => {
     }
 
     if (unstakeOperations.completed || unstakeOperations.failed) {
+      props.setLoader(false);
       return {
         message: unstakeOperations.completed ? 'Transaction confirmed' : 'Transaction failed',
         type: unstakeOperations.completed ? 'success' : 'error',
@@ -92,7 +94,7 @@ const FarmModals = (props) => {
           content={
             props.type === 'Harvesting'
               ? `${props.pair} Harvested `
-              : `${props.value} ${props.pair} LP Staked`
+              : `${Number(props.value).toFixed(6)} ${props.pair} LP Staked`
           }
           onBtnClick={
             !modalData.transactionId
@@ -113,4 +115,5 @@ FarmModals.propTypes = {
   pair: PropTypes.any,
   value: PropTypes.any,
   content: PropTypes.any,
+  setLoader: PropTypes.any,
 };

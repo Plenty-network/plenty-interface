@@ -54,6 +54,7 @@ import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import { HOME_PAGE_MODAL } from '../../constants/homePage';
 import NumericLabel from 'react-pretty-numbers';
 import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransaction';
+import { setLoader } from '../../redux/slices/settings/settings.slice';
 
 const Frontpage = ({
   homeStats,
@@ -74,6 +75,7 @@ const Frontpage = ({
   rpcNode,
   xplentyBalance,
   theme,
+  setLoader,
 }) => {
   const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
   useEffect(() => {
@@ -98,11 +100,13 @@ const Frontpage = ({
 
   const onHarvestAll = () => {
     setShowConfirmTransaction(true);
-    !!wallet && harvestAll(wallet, setShowConfirmTransaction);
+    setLoader(true);
+    !!wallet && harvestAll(wallet, setShowConfirmTransaction, setLoader);
   };
 
   const loaderMessage = useMemo(() => {
     if (harvestAllOperations.completed || harvestAllOperations.failed) {
+      setLoader(false);
       return {
         message: harvestAllOperations.completed ? 'Transaction confirmed' : 'Transaction failed',
         type: harvestAllOperations.completed ? 'success' : 'error',
@@ -545,6 +549,7 @@ const Frontpage = ({
       </Container>
       <InfoModal
         open={modalData.open === HOME_PAGE_MODAL.TRANSACTION_SUCCESS}
+        theme={theme}
         InfoMessage={'Harvesting All'}
         onClose={() => openCloseModal({ open: HOME_PAGE_MODAL.NULL, transactionId: '' })}
         message={'Transaction submitted'}
@@ -559,7 +564,8 @@ const Frontpage = ({
         <Loader
           loading={harvestAllOperations.processing}
           loaderMessage={loaderMessage}
-          content={'harvest all done'}
+          content={'Harvested All'}
+          theme={theme}
           onBtnClick={
             !modalData.transactionId
               ? undefined
@@ -596,9 +602,10 @@ const mapDispatchToProps = (dispatch) => ({
   getPlentyToHarvest: (wallet) => dispatch(getPlentyToHarvest(wallet)),
   getPlentyBalanceOfUser: (wallet) => dispatch(getPlentyBalanceOfUser(wallet)),
   getTVLOfUser: (wallet) => dispatch(getTVLOfUser(wallet)),
-  harvestAll: (wallet, setShowConfirmTransaction) =>
-    dispatch(harvestAll(wallet, setShowConfirmTransaction)),
+  harvestAll: (wallet, setShowConfirmTransaction, setLoader) =>
+    dispatch(harvestAll(wallet, setShowConfirmTransaction, setLoader)),
   openCloseModal: (payload) => dispatch(onModalOpenClose(payload)),
+  setLoader: (value) => dispatch(setLoader(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Frontpage);
@@ -626,4 +633,5 @@ Frontpage.propTypes = {
   wallet: PropTypes.any,
   walletAddress: PropTypes.any,
   xplentyBalance: PropTypes.any,
+  setLoader: PropTypes.any,
 };

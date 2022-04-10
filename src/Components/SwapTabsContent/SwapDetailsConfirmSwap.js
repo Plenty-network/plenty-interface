@@ -3,11 +3,11 @@ import clsx from 'clsx';
 import { MdChevronRight } from 'react-icons/all';
 import { Image, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import React, { useMemo, useState } from 'react';
-import { tokens } from '../constants/swapPage';
+import { tokens } from '../../constants/swapPage';
 
-const SwapDetails = (props) => {
+const SwapDetailsConfirmSwap = (props) => {
   const [isOpen, setOpen] = useState(false);
-  const [isConvert, setConvert] = useState(false);
+
   const swapRoute = useMemo(() => {
     if (props.routePath?.length > 2) {
       return props.routePath.map((tokenName) => tokens.find((token) => token.name === tokenName));
@@ -21,15 +21,15 @@ const SwapDetails = (props) => {
   }
 
   return (
-    <div className={clsx('swap-detail-wrapper', !isOpen && 'closedbg')}>
-      <div className="space-between">
+    <div className={clsx('swap-detail-wrapper-cs', isOpen ? 'bg-themed-light' : 'closedbg')}>
+      <div className="space-between" onClick={() => setOpen(!isOpen)} style={{ cursor: 'pointer' }}>
         <div className="flex">
-          <p className="price-formula whitespace-prewrap  flex flex-row">
-            1 {isConvert ? props.tokenOut.name : props.tokenIn.name} ={' '}
+          <p className="price-formula-cs whitespace-prewrap  flex flex-row">
+            1 {props.tokenIn.name} ={' '}
             <OverlayTrigger
-              placement="top"
+              placement="auto"
               overlay={
-                <Tooltip id="button-tooltip" {...props}>
+                <Tooltip id="swap-token-out-tooltip" {...props}>
                   {props.isStableSwap
                     ? props.computedOutDetails.data.exchangeRate.toFixed(6)
                     : props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn}
@@ -38,55 +38,35 @@ const SwapDetails = (props) => {
             >
               <div>
                 {props.isStableSwap
-                  ? isConvert
-                    ? (1 / props.computedOutDetails.data.exchangeRate).toFixed(3)
-                    : props.computedOutDetails.data.exchangeRate.toFixed(3)
+                  ? props.computedOutDetails.data.exchangeRate.toFixed(3)
                   : props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn
-                  ? isConvert
-                    ? (1 / props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn).toFixed(3)
-                    : props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn.toFixed(3)
+                  ? props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn.toFixed(3)
                   : 0}{' '}
-                {isConvert ? props.tokenIn.name : props.tokenOut.name}
+                {props.tokenOut.name}
               </div>
             </OverlayTrigger>
-            <span
-              className="material-icons-round convert"
-              onClick={() => setConvert(!isConvert)}
-              style={{ cursor: 'pointer' }}
-            >
-              cached_rounded_icon
-            </span>
           </p>
         </div>
-
         {isOpen ? (
-          <span
-            className="material-icons-round flex open"
-            onClick={() => setOpen(!isOpen)}
-            style={{ cursor: 'pointer' }}
-          >
-            keyboard_arrow_up
-          </span>
+          <span className="material-icons-round flex open">keyboard_arrow_up</span>
         ) : (
-          <span
-            className="material-icons-round flex open"
-            onClick={() => setOpen(!isOpen)}
-            style={{ cursor: 'pointer' }}
-          >
-            keyboard_arrow_down
-          </span>
+          <span className="material-icons-round flex open">keyboard_arrow_down</span>
         )}
       </div>
 
       {props.firstTokenAmount &&
         (isOpen ? (
-          <div className="open-swap-details">
-            <div className="flex flex-row  align-items-center swap-sub-details">
-              <p className="swap-detail-amt-details">Minimum received </p>
+          <>
+            <div className="flex flex-row mt-3 align-items-center">
+              <p className="swap-detail-amt-details-cs">Minimum received </p>
               <OverlayTrigger
+                key="top"
                 placement="top"
                 overlay={
-                  <Tooltip id="button-tooltip" {...props}>
+                  <Tooltip
+                    id={'minimum-received-tooltip'}
+                    arrowProps={{ styles: { display: 'none' } }}
+                  >
                     Your transaction will revert if there is a large, unfavorable price movement
                     before it is confirmed.
                   </Tooltip>
@@ -94,53 +74,50 @@ const SwapDetails = (props) => {
               >
                 <span
                   style={{ cursor: 'pointer' }}
-                  className="material-icons-round ml-1 swap-detail-amt-details"
+                  className="material-icons-round ml-1 swap-detail-amt-details-cs"
                 >
                   help_outline
                 </span>
               </OverlayTrigger>
-              <p className="swap-detail-amt-details-value ml-auto">
+              <p className="swap-detail-amt-details-cs ml-auto">
                 {props.computedOutDetails.data.finalMinimumOut
                   ? props.computedOutDetails.data.finalMinimumOut
                   : '0.00'}{' '}
                 {props.tokenOut.name}
               </p>
             </div>
-            <div className="flex flex-row align-items-center swap-sub-details">
-              <p className="swap-detail-amt-details">Price Impact </p>
+            <div className="flex flex-row align-items-center">
+              <p className="swap-detail-amt-details-cs">Price Impact </p>
               <OverlayTrigger
+                key="top"
                 placement="top"
                 overlay={
-                  <Tooltip id="button-tooltip" {...props}>
+                  <Tooltip id={'price-impact-tooltip'} arrowProps={{ styles: { display: 'none' } }}>
                     The difference between the market price and estimated price due to trade size.
                   </Tooltip>
                 }
               >
                 <span
                   style={{ cursor: 'pointer' }}
-                  className="material-icons-round ml-1 swap-detail-amt-details"
+                  className="material-icons-round ml-1 swap-detail-amt-details-cs"
                 >
                   help_outline
                 </span>
               </OverlayTrigger>
-              <p
-                className={clsx(
-                  'swap-detail-amt-details-value ml-auto',
-                  props.computedOutDetails.data?.priceImpact > 3 && 'error-text-color',
-                )}
-              >
+              <p className="swap-detail-amt-details-cs ml-auto">
                 {props.computedOutDetails.data.priceImpact
                   ? props.computedOutDetails.data.priceImpact
                   : '0.00'}{' '}
                 %
               </p>
             </div>
-            <div className="flex flex-row align-items-center  swap-sub-details-padding">
-              <p className="swap-detail-amt-details">Fee </p>
+            <div className="flex flex-row align-items-center">
+              <p className="swap-detail-amt-details-cs">Fee </p>
               <OverlayTrigger
+                key="top"
                 placement="top"
                 overlay={
-                  <Tooltip id="button-tooltip" {...props}>
+                  <Tooltip id={'fee-tooltip'} arrowProps={{ styles: { display: 'none' } }}>
                     {props.isStableSwap
                       ? 'A portion of each trade (0.10%) goes to liquidity providers as a protocol incentive.'
                       : 'A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive.'}
@@ -149,12 +126,12 @@ const SwapDetails = (props) => {
               >
                 <span
                   style={{ cursor: 'pointer' }}
-                  className="material-icons-round ml-1 swap-detail-amt-details"
+                  className="material-icons-round ml-1 swap-detail-amt-details-cs"
                 >
                   help_outline
                 </span>
               </OverlayTrigger>
-              <p className="swap-detail-amt-details-value ml-auto">
+              <p className="swap-detail-amt-details-cs ml-auto">
                 {props.isStableSwap
                   ? props.computedOutDetails.data.fees.toFixed(6)
                   : props.firstTokenAmount / 400}{' '}
@@ -163,8 +140,9 @@ const SwapDetails = (props) => {
             </div>
             {props.isConfirmSwap && !props.isStableSwap && (
               <div className="flex flex-row align-items-center">
-                <p className="swap-detail-amt-details">xPlenty Fee </p>
+                <p className="swap-detail-amt-details-cs">xPlenty Fee </p>
                 <OverlayTrigger
+                  key="top"
                   placement="top"
                   overlay={
                     <Tooltip
@@ -178,20 +156,21 @@ const SwapDetails = (props) => {
                 >
                   <span
                     style={{ cursor: 'pointer' }}
-                    className="material-icons-round ml-1 swap-detail-amt-details"
+                    className="material-icons-round ml-1 swap-detail-amt-details-cs"
                   >
                     help_outline
                   </span>
                 </OverlayTrigger>
-                <p className="swap-detail-amt-details-value ml-auto">
+                <p className="swap-detail-amt-details-cs ml-auto">
                   {props.firstTokenAmount / 1000} {props.tokenIn.name}
                 </p>
               </div>
             )}
             {props.isConfirmSwap ? (
               <div className="flex flex-row align-items-center">
-                <p className="swap-detail-amt-details">Slippage tolerance </p>
+                <p className="swap-detail-amt-details-cs">Slippage tolerance </p>
                 <OverlayTrigger
+                  key="top"
                   placement="top"
                   overlay={
                     <Tooltip
@@ -204,33 +183,34 @@ const SwapDetails = (props) => {
                 >
                   <span
                     style={{ cursor: 'pointer' }}
-                    className="material-icons-round ml-1 swap-detail-amt-details"
+                    className="material-icons-round ml-1 swap-detail-amt-details-cs"
                   >
                     help_outline
                   </span>
                 </OverlayTrigger>
-                <p className="swap-detail-amt-details ml-auto">{props.slippage} %</p>
+                <p className="swap-detail-amt-details-cs ml-auto">{props.slippage} %</p>
               </div>
             ) : null}
-          </div>
+          </>
         ) : null)}
 
       {isOpen && props.firstTokenAmount && swapRoute && <hr />}
       {isOpen && swapRoute && (
         <>
           <div className="flex flex-row">
-            <p className="swap-detail-amt-details route-heading">Route </p>
+            <p className="swap-detail-amt-details-cs">Route </p>
             <OverlayTrigger
+              key="top"
               placement="top"
               overlay={
-                <Tooltip id="button-tooltip" {...props}>
+                <Tooltip id={'route-tooltip'} arrowProps={{ styles: { display: 'none' } }}>
                   Routing through these tokens results in the best price for your trade
                 </Tooltip>
               }
             >
               <span
                 style={{ cursor: 'pointer' }}
-                className="material-icons-round ml-1 swap-detail-amt-details"
+                className="material-icons-round ml-1 swap-detail-amt-details-cs"
               >
                 help_outline
               </span>
@@ -252,7 +232,7 @@ const SwapDetails = (props) => {
   );
 };
 
-SwapDetails.propTypes = {
+SwapDetailsConfirmSwap.propTypes = {
   computedOutDetails: PropTypes.any,
   firstTokenAmount: PropTypes.any,
   routeData: PropTypes.any,
@@ -265,4 +245,4 @@ SwapDetails.propTypes = {
   isConfirmSwap: PropTypes.any,
 };
 
-export default SwapDetails;
+export default SwapDetailsConfirmSwap;

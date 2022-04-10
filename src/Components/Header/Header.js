@@ -128,7 +128,7 @@ const Header = (props) => {
                 <span className="bottom-last" style={{ cursor: 'pointer' }}>
                   Swap now
                 </span>
-                <span className="new">New</span>
+
                 <BannerArrow className="ml-2" />
               </Link>
             </div>

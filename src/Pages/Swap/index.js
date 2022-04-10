@@ -1,100 +1,365 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import clsx from 'clsx';
+import React, { useEffect, useState, useMemo } from 'react';
+
 import { Col, Container, Row } from 'react-bootstrap';
-
-import GraphDark from '../../assets/images/SwapModal/graph-dark.svg';
-import Graph from '../../assets/images/SwapModal/graph.svg';
-
-import { useLocation } from 'react-router';
-import NormalSwap from './Swap';
-import StableeSwap from './StableSwap';
+import {
+  computeOutputBasedOnTokenOutAmount,
+  computeTokenOutForRouteBase,
+  computeTokenOutForRouteBaseByOutAmount,
+  computeTokenOutput,
+  getTokenPrices,
+  getUserBalanceByRpc,
+  fetchtzBTCBalance,
+} from '../../apis/swap/swap';
+import config from '../../config/config';
 import { useLocationStateInSwap } from './hooks';
 import '../../assets/scss/animation.scss';
+import { tokens } from '../../constants/swapPage';
+import SwapTab from '../../Components/SwapTabsContent/SwapTab';
+import { getAllRoutes, getxtzBalance, loadSwapData } from '../../apis/swap/swap-v2';
+import SwapModal from '../../Components/SwapModal/SwapModal';
+import TransactionSettings from '../../Components/TransactionSettings/TransactionSettings';
 
 const Swap = (props) => {
-  const { setActiveTab } = useLocationStateInSwap();
-  const location = useLocation();
-  const { pathname } = location;
-  const splitLocation = pathname.split('/');
-  const [isStableSwap, setStableSwap] = useState(false);
+  const { activeTab, tokenIn, setTokenIn, tokenOut, setTokenOut } = useLocationStateInSwap();
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [show, setShow] = useState(false);
+  const [showConfirmSwap, setShowConfirmSwap] = useState(false);
+  const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
+  const [slippage, setSlippage] = useState(0.5);
+  const [recepient, setRecepient] = useState('');
+  const [tokenType, setTokenType] = useState('tokenIn');
+
+  const [firstTokenAmount, setFirstTokenAmount] = useState('');
+  const [secondTokenAmount, setSecondTokenAmount] = useState('');
+  const [swapData, setSwapData] = useState({});
+  const [routeData, setRouteData] = useState({});
+  const [computedOutDetails, setComputedOutDetails] = useState({});
+  const [getTokenPrice, setGetTokenPrice] = useState({});
+  const [userBalances, setUserBalances] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [loaderMessage, setLoaderMessage] = useState({});
+  const [tokenContractInstances, setTokenContractInstances] = useState({});
+  const [loaderInButton, setLoaderInButton] = useState(false);
+
+  const pairExist = useMemo(() => {
+    return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
+  }, [tokenIn, tokenOut]);
 
   useEffect(() => {
-    splitLocation[1] === 'Stableswap' || splitLocation[1] === 'liquidityStable'
-      ? setStableSwap(true)
-      : setStableSwap(false);
-  }, [splitLocation[1]]);
+    if (
+      Object.prototype.hasOwnProperty.call(tokenIn, 'name') &&
+      Object.prototype.hasOwnProperty.call(tokenOut, 'name')
+    ) {
+      if (tokenIn.name === tokenOut.name) {
+        setTokenOut({});
+      }
+    }
+  }, [tokenIn, tokenOut]);
 
-  const redirect = (value) => {
-    setTimeout(() => {
-      setStableSwap(value);
+  useEffect(() => {
+    const updateBalance = async () => {
+      setTokenContractInstances({});
+      const userBalancesCopy = { ...userBalances };
+      const tzBTCName = 'tzBTC';
+      const balancePromises = [];
+      if (!userBalancesCopy[tokenIn.name]) {
+        tokenIn.name === tzBTCName
+          ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
+          : tokenIn.name === 'TEZ'
+          ? balancePromises.push(getxtzBalance(tokenIn.name, props.walletAddress))
+          : balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
+      }
+      if (!userBalancesCopy[tokenOut.name]) {
+        tokenIn.name === tzBTCName
+          ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
+          : tokenOut.name === 'TEZ'
+          ? balancePromises.push(getxtzBalance(tokenOut.name, props.walletAddress))
+          : balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));
+      }
+      if (config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]) {
+        const lpToken =
+          config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
 
-      value ? setActiveTab('Stableswap') : setActiveTab('swap');
-    }, 400);
+        balancePromises.push(getUserBalanceByRpc(lpToken, props.walletAddress));
+      }
+      const balanceResponse = await Promise.all(balancePromises);
+
+      setUserBalances((prev) => ({
+        ...prev,
+        ...balanceResponse.reduce(
+          (acc, cur) => ({
+            ...acc,
+            [cur.identifier]: cur.balance,
+          }),
+          {},
+        ),
+      }));
+    };
+    updateBalance();
+  }, [tokenIn, tokenOut]);
+
+  useEffect(() => {
+    if (activeTab === 'swap') {
+      if (
+        Object.prototype.hasOwnProperty.call(tokenIn, 'name') &&
+        Object.prototype.hasOwnProperty.call(tokenOut, 'name')
+      ) {
+        getAllRoutes(tokenIn.name, tokenOut.name).then((response) => {
+          if (response.success) {
+            setRouteData(response);
+            setSwapData(response.bestRouteUntilNoInput.swapData);
+            setLoaderInButton(false);
+          }
+        });
+      }
+    }
+  }, [tokenIn, tokenOut, activeTab]);
+
+  const handleClose = () => {
+    setShow(false);
+    //setLoader(false);
+    resetAllValues();
+    setShowConfirmSwap(false);
+    setShowConfirmTransaction(false);
+    setSearchQuery('');
+    setLoading(false);
+  };
+
+  const changeTokenLocation = () => {
+    const tempTokenIn = tokenIn.name;
+    const tempTokenOut = tokenOut.name;
+    if (tokenOut.name) {
+      setTokenIn({
+        name: tokenOut.name,
+        image: tokenOut.image,
+      });
+
+      setTokenOut({
+        name: tokenIn.name,
+        image: tokenIn.image,
+      });
+
+      setSwapData({});
+      setComputedOutDetails({
+        tokenOut_amount: '',
+      });
+      setFirstTokenAmount('');
+      setSecondTokenAmount('');
+
+      loadSwapData(tempTokenOut, tempTokenIn).then((data) => {
+        if (data.success) {
+          setSwapData(data);
+        }
+      });
+    }
+  };
+
+  const handleTokenType = (type) => {
+    setShow(true);
+    setTokenType(type);
+    setLoading(false);
+  };
+
+  const handleTokenInput = (input) => {
+    setFirstTokenAmount(input);
+    setComputedOutDetails({});
+    if (input === '' || isNaN(input)) {
+      setFirstTokenAmount('');
+      setSecondTokenAmount('');
+      setComputedOutDetails({
+        tokenOut_amount: '',
+        fees: 0,
+      });
+    } else {
+      let computedData;
+
+      if (pairExist) {
+        computedData = computeTokenOutput(
+          parseFloat(input),
+          swapData.tokenIn_supply,
+          swapData.tokenOut_supply,
+          swapData.exchangeFee,
+          slippage,
+        );
+      } else {
+        computedData = computeTokenOutForRouteBase(parseFloat(input), swapData, slippage);
+      }
+
+      setComputedOutDetails(computedData);
+      setLoading(false);
+    }
+  };
+
+  const handleOutTokenInput = (input) => {
+    setSecondTokenAmount(input);
+    setComputedOutDetails({});
+    if (input === '' || isNaN(input)) {
+      setFirstTokenAmount('');
+      setSecondTokenAmount('');
+      setComputedOutDetails({
+        tokenOut_amount: '',
+        fees: 0,
+      });
+    } else {
+      let computedData;
+      if (pairExist) {
+        computedData = computeOutputBasedOnTokenOutAmount(
+          parseFloat(input),
+          swapData.tokenIn_supply,
+          swapData.tokenOut_supply,
+          swapData.exchangeFee,
+          slippage,
+        );
+      } else {
+        computedData = computeTokenOutForRouteBaseByOutAmount(
+          parseFloat(input),
+          swapData,
+          slippage,
+        );
+      }
+      setFirstTokenAmount(computedData.tokenIn_amount);
+      setComputedOutDetails(computedData);
+    }
+  };
+
+  const fetchUserWalletBalance = () => {
+    setLoaderInButton(true);
+  };
+
+  useEffect(() => {
+    if (!props.walletAddress) {
+      return;
+    }
+    setLoaderInButton(true);
+  }, [props.walletAddress]);
+
+  useEffect(() => {
+    setLoaderInButton(true);
+
+    getTokenPrices().then((tokenPrice) => {
+      setGetTokenPrice(tokenPrice);
+    });
+  }, []);
+
+  const handleLoaderMessage = (type, message) => {
+    setLoaderMessage({
+      type: type,
+      message: message,
+    });
+    setLoading(false);
+  };
+
+  const resetAllValues = () => {
+    setSlippage(0.05);
+    setRecepient('');
+    setTokenType('tokenIn');
+    setFirstTokenAmount('');
+    setSecondTokenAmount('');
+    setComputedOutDetails({
+      tokenOut_amount: '',
+    });
+  };
+  const [showRecepient, setShowRecepient] = useState(false);
+  const handleRecepient = (elem) => {
+    setRecepient(elem);
+  };
+
+  const selectToken = (token) => {
+    setLoaderInButton(true);
+    setFirstTokenAmount('');
+    setSecondTokenAmount('');
+    setSwapData({});
+    setComputedOutDetails({
+      tokenOut_amount: '',
+    });
+
+    if (tokenType === 'tokenIn') {
+      setTokenIn({
+        name: token.name,
+        image: token.image,
+      });
+    } else {
+      setTokenOut({
+        name: token.name,
+        image: token.image,
+      });
+    }
+    handleClose();
   };
 
   return (
     <Container fluid>
       <Row>
-        <Col sm={8} md={6} className="swap-content-section">
-          <p
-            className="redirect-label"
-            style={{ cursor: 'pointer' }}
-            onClick={() => redirect(!isStableSwap)}
-          >
-            {isStableSwap ? 'Redirect to Swap' : 'Redirect to Stableswap'}
-            <span className={clsx('material-icons', 'arrow-forward', 'mt-1')}>
-              arrow_forward_ios_icon
-            </span>
-          </p>
-
-          {isStableSwap ? (
-            <StableeSwap redirect={redirect} {...props} isStableSwap={isStableSwap} />
-          ) : (
-            <NormalSwap redirect={redirect} {...props} isStableSwap={isStableSwap} />
-          )}
-          <div className="bottom-footer mt-2 flex flex-row">
-            <div>
-              <img src={props.theme === 'light' ? Graph : GraphDark} alt="graph"></img>
-            </div>
-            <div className="footer-stableswap-mobile ">
-              <span className="bottom-label">Stableswap</span>
-              <p className="bottom-desc">
-                {isStableSwap
-                  ? 'Swap similar assets with low slippage.'
-                  : 'Introducing a new kind of AMM.'}
-              </p>
-              {isStableSwap ? (
-                <>
-                  <span className="bottom-last">
-                    <a
-                      href="https://medium.com/plenty-defi/introducing-stable-swaps-on-plenty-trade-similarly-priced-assets-with-low-slippage-518efc56ca40"
-                      className="text-decoration-none"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <span className="learn-more" style={{ cursor: 'pointer' }}>
-                        Learn More
-                      </span>
-                    </a>
-                  </span>
-                </>
-              ) : (
-                <>
-                  <span
-                    className="bottom-last"
-                    onClick={() => redirect(true)}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    Try it out
-                  </span>
-                  <span className="new">New</span>
-                </>
-              )}
-            </div>
+        <Col sm={10} md={6} className="swap-content-section">
+          <div className="bg-themed swap-content-container-revamp">
+            <div className="swap-heading swap-left-right-margin">Swap</div>
+            <SwapTab
+              walletAddress={props.walletAddress}
+              setFirstTokenAmount={handleTokenInput}
+              firstTokenAmount={firstTokenAmount}
+              secondTokenAmount={secondTokenAmount}
+              connecthWallet={props.connecthWallet}
+              tokenIn={tokenIn}
+              tokenOut={tokenOut}
+              tokens={tokens}
+              handleTokenType={handleTokenType}
+              swapData={swapData}
+              routeData={routeData}
+              computedOutDetails={computedOutDetails}
+              setComputedOutDetails={setComputedOutDetails}
+              userBalances={userBalances}
+              tokenContractInstances={tokenContractInstances}
+              getTokenPrice={getTokenPrice}
+              setSlippage={setSlippage}
+              setRecepient={setRecepient}
+              recepient={recepient}
+              slippage={slippage}
+              loading={loading}
+              setLoading={setLoading}
+              handleLoaderMessage={handleLoaderMessage}
+              loaderMessage={loaderMessage}
+              setShowConfirmSwap={setShowConfirmSwap}
+              showConfirmSwap={showConfirmSwap}
+              handleClose={handleClose}
+              setLoaderMessage={setLoaderMessage}
+              resetAllValues={resetAllValues}
+              changeTokenLocation={changeTokenLocation}
+              handleOutTokenInput={handleOutTokenInput}
+              showRecepient={showRecepient}
+              setSecondTokenAmount={setSecondTokenAmount}
+              fetchUserWalletBalance={fetchUserWalletBalance}
+              loaderInButton={loaderInButton}
+              setLoaderInButton={setLoaderInButton}
+              setShowConfirmTransaction={setShowConfirmTransaction}
+              showConfirmTransaction={showConfirmTransaction}
+              theme={props.theme}
+            />
+            <TransactionSettings
+              recepient={recepient}
+              slippage={slippage}
+              setSlippage={setSlippage}
+              setRecepient={setRecepient}
+              walletAddress={props.walletAddress}
+              handleRecepient={handleRecepient}
+              setShowRecepient={setShowRecepient}
+            />
           </div>
         </Col>
       </Row>
+      <SwapModal
+        show={show}
+        activeTab={activeTab}
+        onHide={handleClose}
+        selectToken={selectToken}
+        tokens={tokens}
+        tokenIn={tokenIn}
+        tokenOut={tokenOut}
+        tokenType={tokenType}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+      />
     </Container>
   );
 };

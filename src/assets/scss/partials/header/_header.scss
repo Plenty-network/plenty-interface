@@ -2,8 +2,8 @@
   //height: 48px;
   background: var(--theme-banner-bg);
   text-align: center;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   z-index: 1111;
   top: 0px;
   position: sticky;
@@ -24,9 +24,11 @@
     text-align: center;
   }
   .banner-right {
-    // width: 13.33333%;
     text-align: right;
     margin-right: 27.5px;
+    @media screen and (min-width: 320px) and (max-width: 992px) {
+      margin-right: 17.5px;
+    }
   }
 }
 .banner-text {
@@ -49,6 +51,13 @@
     padding: 3px;
     font-size: 15px;
     border-radius: 50%;
+    top: 1px;
+    position: relative;
+    @media screen and (min-width: 320px) and (max-width: 992px) {
+      padding: 1px;
+      top: 3px;
+      position: relative;
+    }
     &:hover {
       background: var(--theme-banner-close-bg-hover);
       color: var(--theme-banner-close-icon-hover);
@@ -464,7 +473,7 @@
   position: fixed;
   z-index: 1112;
   width: 100%;
-  top: 131.5px;
+  top: 127px;
   @media screen and (min-width: 320px) and (max-width: 992px) {
     padding: 10px 20px;
     background-color: var(--theme-bg-header);

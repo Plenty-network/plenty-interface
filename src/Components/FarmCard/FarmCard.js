@@ -215,6 +215,7 @@ FarmCard.propTypes = {
   theme: PropTypes.any,
   setShowConfirmTransaction: PropTypes.any,
   setFloaterValue: PropTypes.any,
+  setLoader: PropTypes.any,
 };
 
 export default FarmCard;
