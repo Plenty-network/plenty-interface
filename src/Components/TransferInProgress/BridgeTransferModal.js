@@ -23,6 +23,7 @@ import {
   getReleaseStatus,
   releaseTokens,
   getHistory,
+  getApproveTxCost,
 } from '../../apis/bridge/bridgeAPI';
 const BridgeTransferModal = (props) => {
   const [animationCalss, SetAnimationClass] = useState('leftToRightFadeInAnimation-4-bridge');
@@ -71,10 +72,22 @@ const BridgeTransferModal = (props) => {
 
   const bridgeButtonClick = async () => {
     SetIsButtonLoading(true);
+    //getApproveTxCost
+    /*     getApproveTxCost(tokenIn, fromBridge.name, firstTokenAmount).then((res) => {
+      console.log('fee:', res);
+      approveToken(tokenIn, fromBridge.name, firstTokenAmount).then((data) => {
+        console.log(data);
+        SetIsButtonLoading(false);
+      });
+    }); */
     //getHistory
-    /*     const data = await getHistory({ tzAddress: walletAddress, chain: fromBridge.name });
+    /*     const data = await getHistory({
+      tzAddress: 'tz1hA9rHfejN9qYup2abtPs8LPFHZEiP8TAX',
+      ethereumAddress: '0xb41f25a011B1d84d66eA1f8E803cb8d42ed3Ef26',
+    });
     console.log(data.history);
     SetIsButtonLoading(false); */
+
     //getReleaseStatus
     /*     getReleaseStatus('ooWF1KUxzQRWn8TcnRMBpViuZkGWUvKZDK3uCiy4obnAgSYhxc9', toBridge.name).then(
       async (data) => {
@@ -100,10 +113,10 @@ const BridgeTransferModal = (props) => {
     console.log(balance.balance); */
 
     //Approve call
-    /*     approveToken(tokenIn, fromBridge.name, firstTokenAmount).then((data) => {
+    /*        approveToken(tokenIn, fromBridge.name, firstTokenAmount).then((data) => {
       console.log(data);
       SetIsButtonLoading(false);
-    }); */
+    });  */
 
     //Wrap call
     /*     wrap(tokenIn, fromBridge.name, firstTokenAmount, walletAddress).then((data) => {
@@ -126,7 +139,7 @@ const BridgeTransferModal = (props) => {
       SetIsButtonLoading(false);
     }); */
 
-    dummyApiCall({ currentProgress: currentProgress }).then((res) => {
+    /*     dummyApiCall({ currentProgress: currentProgress }).then((res) => {
       if (res.currentProgress === 0) {
         const newIndex = getTransactionListLength();
         const newProgress = res.currentProgress + 1;
@@ -166,7 +179,7 @@ const BridgeTransferModal = (props) => {
             fee: fee,
             date: newDate,
             time: newTime,
-          };
+          };ß
           setTransactionData((prevData) => [...prevData, newData]);
         } else {
           setTransactionData((prevData) =>
@@ -180,7 +193,7 @@ const BridgeTransferModal = (props) => {
       }
       SetIsButtonLoading(false);
       SetCurrentProgress(res.currentProgress + 1);
-    });
+    }); */
   };
   //const numberOfSteps = ['Approve', 'Bridge', 'Mint', 'Done'];
   const numberOfSteps = [
