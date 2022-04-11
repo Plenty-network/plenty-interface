@@ -120,7 +120,7 @@ export const getLpTokenBalanceForPair = async (tokenA, tokenB, walletAddress) =>
     const result = isPairStable
       ? await getUserBalanceByRpcStable(liquidityToken, walletAddress)
       : await getUserBalanceByRpc(liquidityToken, walletAddress);
-    return result.success
+    return result.success && result.balance > 0
       ? { success: true, isLiquidityAvailable: true, lpBalance: result.balance, isPairStable }
       : { success: true, isLiquidityAvailable: false, lpBalance: 0, isPairStable };
   } catch (error) {
@@ -155,7 +155,7 @@ export const getLiquidityPositionDetails = async (tokenA, tokenB, walletAddress)
     let lpBalance = 0;
 
     const result = await getUserBalanceByRpc(liquidityToken, walletAddress);
-    if (result.success) {
+    if (result.success && result.balance > 0) {
       lpBalance = result.balance;
     } else {
       throw new Error('Liquidity not available for the selected pair.');
@@ -248,7 +248,7 @@ export const getLiquidityPositionDetailsStable = async (tokenA, tokenB, walletAd
 
     const result = await getUserBalanceByRpcStable(liquidityToken, walletAddress);
 
-    if (result.success) {
+    if (result.success && result.balance > 0) {
       lpBalance = result.balance;
     } else {
       throw new Error('Liquidity not available for the selected pair.');

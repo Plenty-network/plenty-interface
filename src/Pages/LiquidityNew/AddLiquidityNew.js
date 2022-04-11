@@ -419,6 +419,7 @@ const AddLiquidityNew = (props) => {
             {props.walletAddress && props.tokenIn.name ? (
               <OverlayTrigger
                 placement="top"
+                show={true}
                 overlay={
                   <Tooltip id="button-tooltip" {...props}>
                     {props.userBalances[props.tokenIn.name]

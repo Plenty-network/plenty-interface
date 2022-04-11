@@ -86,7 +86,7 @@ const SwapDetails = (props) => {
               <OverlayTrigger
                 placement="top"
                 overlay={
-                  <Tooltip id="button-tooltip" {...props}>
+                  <Tooltip className={'button-tooltip-details'} {...props}>
                     Your transaction will revert if there is a large, unfavorable price movement
                     before it is confirmed.
                   </Tooltip>
@@ -111,7 +111,7 @@ const SwapDetails = (props) => {
               <OverlayTrigger
                 placement="top"
                 overlay={
-                  <Tooltip id="button-tooltip" {...props}>
+                  <Tooltip id="button-tooltip-3" {...props}>
                     The difference between the market price and estimated price due to trade size.
                   </Tooltip>
                 }
@@ -140,7 +140,7 @@ const SwapDetails = (props) => {
               <OverlayTrigger
                 placement="top"
                 overlay={
-                  <Tooltip id="button-tooltip" {...props}>
+                  <Tooltip id="button-tooltip-4" {...props}>
                     {props.isStableSwap
                       ? 'A portion of each trade (0.10%) goes to liquidity providers as a protocol incentive.'
                       : 'A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive.'}
@@ -223,7 +223,7 @@ const SwapDetails = (props) => {
             <OverlayTrigger
               placement="top"
               overlay={
-                <Tooltip id="button-tooltip" {...props}>
+                <Tooltip id="button-tooltip-5" {...props}>
                   Routing through these tokens results in the best price for your trade
                 </Tooltip>
               }
@@ -239,10 +239,12 @@ const SwapDetails = (props) => {
 
           <div className="swap-detail-route-container mt-3">
             {swapRoute.map((token, idx) => (
-              <div key={token.name} className="d-flex my-2">
-                <Image src={token.image} height={20} width={20} alt={''} />
-                <span className="ml-1 my-auto">{token.name}</span>
-                {swapRoute[idx + 1] && <MdChevronRight className="" fontSize={20} />}
+              <div key={token.name} className="d-flex my-2 ">
+                <div className="route-Outline">
+                  <Image src={token.image} height={20} width={20} alt={''} />
+                  <span className="ml-1 my-auto">{token.name}</span>
+                </div>
+                {swapRoute[idx + 1] && <MdChevronRight className="route-arrow" fontSize={20} />}
               </div>
             ))}
           </div>
