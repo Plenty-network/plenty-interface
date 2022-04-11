@@ -17,7 +17,7 @@ import SwapModal from '../SwapModal/SwapModal';
 import plenty from '../../assets/images/logo_small.png';
 import { getTokenPrices, getUserBalanceByRpc, fetchtzBTCBalance } from '../../apis/swap/swap';
 import config from '../../config/config';
-import { ethers } from 'ethers';
+// import { ethers } from 'ethers';
 import dummyApiCall from '../../apis/dummyApiCall';
 import '../../assets/scss/animation.scss';
 import switchImg from '../../assets/images/bridge/bridge-switch.svg';
@@ -229,7 +229,7 @@ const BridgeModal = (props) => {
     window.ethereum
       .request({ method: 'eth_getBalance', params: [account, 'latest'] })
       .then((balance) => {
-        setUserBalance(ethers.utils.formatEther(balance));
+        // setUserBalance(ethers.utils.formatEther(balance));
       })
       .catch((error) => {
         setErrorMessage(error.message);
