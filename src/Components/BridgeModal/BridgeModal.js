@@ -24,7 +24,6 @@ import switchImg from '../../assets/images/bridge/bridge-switch.svg';
 import { bridgesList } from '../../constants/bridges';
 import SelectorModal from '../Bridges/SelectorModal';
 
-
 const BridgeModal = (props) => {
   //const [firstTokenAmount, setFirstTokenAmount] = useState();
   //const [secondTokenAmount, setSecondTokenAmount] = useState();
@@ -50,10 +49,9 @@ const BridgeModal = (props) => {
   const [userBalances, setUserBalances] = useState({});
   const [tokenType, setTokenType] = useState('tokenIn');
   const [getTokenPrice, setGetTokenPrice] = useState({});
-  const [isLoading,SetisLoading]=useState(false);
+  const [isLoading, SetisLoading] = useState(false);
   const wrapFeePercentage = useRef(0.15); //Get from config on load
   const unwrapFeePercentage = useRef(0.15); //Get from config on load
-
 
   //const [fromBridge, setFromBridge] = useState({name: 'ETHEREUM', image: ethereum, buttonImage: ethereum});
   //const [toBridge, setToBridge] = useState({name: 'TEZOS', image: tezos, buttonImage: ''});
@@ -89,12 +87,15 @@ const BridgeModal = (props) => {
     SetCurrentProgress,
     setOperation,
     tokenList,
-    setTokenList
+    setTokenList,
   } = props;
 
   //const [tokenList, setTokenList] = useState(tokensList[fromBridge.name]);
-  const [connectBridgeWallet, setConnectBrigeWallet] = useState({name: fromBridge.name, image: fromBridge.image, buttonImage: fromBridge.buttonImage});
-
+  const [connectBridgeWallet, setConnectBrigeWallet] = useState({
+    name: fromBridge.name,
+    image: fromBridge.image,
+    buttonImage: fromBridge.buttonImage,
+  });
 
   useEffect(() => {
     const updateBalance = async () => {
@@ -124,7 +125,7 @@ const BridgeModal = (props) => {
         ...balanceResponse.reduce(
           (acc, cur) => ({
             ...acc,
-            [cur.identifier]: 10,//cur.balance,
+            [cur.identifier]: 10, //cur.balance,
           }),
           {},
         ),
@@ -168,10 +169,10 @@ const BridgeModal = (props) => {
         const toAmt = input * 0.9985;
         setSecondTokenAmount(toAmt);
       }
-      if(operation === 'BRIDGE') {
-        setFee((input * wrapFeePercentage.current)/100);
+      if (operation === 'BRIDGE') {
+        setFee((input * wrapFeePercentage.current) / 100);
       } else {
-        setFee((input * unwrapFeePercentage.current)/100);
+        setFee((input * unwrapFeePercentage.current) / 100);
       }
     }
   };
@@ -188,15 +189,15 @@ const BridgeModal = (props) => {
     }
   };
 
- const handelClickWithMetaAddedBtn = () => {
-  SetisLoading(true);
-  dummyApiCall({isfinished:true}).then((res)=>{
-       if(res.isfinished){
+  const handelClickWithMetaAddedBtn = () => {
+    SetisLoading(true);
+    dummyApiCall({ isfinished: true }).then((res) => {
+      if (res.isfinished) {
         SetisLoading(false);
         setTransaction(3);
-       }
-  });
- };
+      }
+    });
+  };
   const connectWalletHandler = () => {
     if (window.ethereum && window.ethereum.isMetaMask) {
       console.log('MetaMask Here!');
@@ -260,7 +261,6 @@ const BridgeModal = (props) => {
       props.setTransaction(value);
     }
   }; */
-  
 
   //From Bridge Related
 
@@ -268,24 +268,35 @@ const BridgeModal = (props) => {
     setFirstTokenAmount('');
     setSecondTokenAmount('');
     setFee(0);
-    if(bridge.name === 'TEZOS') {
-      const currentFrom = {name: fromBridge.name, image: fromBridge.image, buttonImage: fromBridge.buttonImage};
-      setToBridge({name: currentFrom.name, image: currentFrom.image, buttonImage: currentFrom.buttonImage});
+    if (bridge.name === 'TEZOS') {
+      const currentFrom = {
+        name: fromBridge.name,
+        image: fromBridge.image,
+        buttonImage: fromBridge.buttonImage,
+      };
+      setToBridge({
+        name: currentFrom.name,
+        image: currentFrom.image,
+        buttonImage: currentFrom.buttonImage,
+      });
       //setFromBridge({name: bridge.name, image: bridge.image, buttonImage: bridge.buttonImage});
       setOperation('UNBRIDGE');
       //operation.current = 'UNBRIDGE';
       //call switch function
     } else {
       //setFromBridge({name: bridge.name, image: bridge.image, buttonImage: bridge.buttonImage});
-      setConnectBrigeWallet({name: bridge.name, image: bridge.image, buttonImage: bridge.buttonImage});
-      if(operation === 'UNBRIDGE') {
-        setToBridge({name: 'TEZOS', image: tezos, buttonImage: ''});
+      setConnectBrigeWallet({
+        name: bridge.name,
+        image: bridge.image,
+        buttonImage: bridge.buttonImage,
+      });
+      if (operation === 'UNBRIDGE') {
+        setToBridge({ name: 'TEZOS', image: tezos, buttonImage: '' });
         setOperation('BRIDGE');
         //operation.current = 'BRIDGE';
       }
-      
     }
-    setFromBridge({name: bridge.name, image: bridge.image, buttonImage: bridge.buttonImage});
+    setFromBridge({ name: bridge.name, image: bridge.image, buttonImage: bridge.buttonImage });
     handleClose();
   };
 
@@ -333,17 +344,16 @@ const BridgeModal = (props) => {
     handleClose();
   };
 
-
   const handleTokenSelect = () => {
     setIsError(false);
-    if(!walletAddress) {
+    if (!walletAddress) {
       setErrorMessage('Please connect to tezos wallet.');
       setIsError(true);
     } else {
       //setSelector('TOKENS');
       selector.current = 'TOKENS';
       setShow(true);
-    } 
+    }
   };
 
   //To Bridge/Token/Switch Related
@@ -353,11 +363,27 @@ const BridgeModal = (props) => {
     setFirstTokenAmount('');
     setSecondTokenAmount('');
     setFee(0);
-    const currentFrom = {name: fromBridge.name, image: fromBridge.image, buttonImage: fromBridge.buttonImage};
-    const currentTo = {name: toBridge.name, image: toBridge.image, buttonImage: toBridge.buttonImage};
-    setFromBridge({name: currentTo.name, image: currentTo.image, buttonImage: currentTo.buttonImage});
-    setToBridge({name: currentFrom.name, image: currentFrom.image, buttonImage: currentFrom.buttonImage});
-    if(operation === 'BRIDGE') {
+    const currentFrom = {
+      name: fromBridge.name,
+      image: fromBridge.image,
+      buttonImage: fromBridge.buttonImage,
+    };
+    const currentTo = {
+      name: toBridge.name,
+      image: toBridge.image,
+      buttonImage: toBridge.buttonImage,
+    };
+    setFromBridge({
+      name: currentTo.name,
+      image: currentTo.image,
+      buttonImage: currentTo.buttonImage,
+    });
+    setToBridge({
+      name: currentFrom.name,
+      image: currentFrom.image,
+      buttonImage: currentFrom.buttonImage,
+    });
+    if (operation === 'BRIDGE') {
       setOperation('UNBRIDGE');
       //operation.current = 'UNBRIDGE';
     } else {
@@ -365,7 +391,7 @@ const BridgeModal = (props) => {
       //operation.current = 'BRIDGE';
     }
   };
-  
+
   return (
     <div
       className={`justify-content-center mx-auto col-20 col-md-10 col-lg-10 col-xl-10 mb-3 ${styles.gov}`}
@@ -455,7 +481,9 @@ const BridgeModal = (props) => {
           </div>
           <OverlayTrigger
             overlay={(props) => (
-              <Tooltip id={styles.switchTooltip} className='switchTooltip' {...props}>Switch</Tooltip>
+              <Tooltip id={styles.switchTooltip} className="switchTooltip" {...props}>
+                Switch
+              </Tooltip>
             )}
             placement="right"
           >
@@ -533,12 +561,8 @@ const BridgeModal = (props) => {
       <SelectorModal
         show={show}
         onHide={handleClose}
-        selectToken={
-          selector.current === 'BRIDGES' ? selectBridge : selectToken
-        }
-        tokens={
-          selector.current === 'BRIDGES' ? bridgesList : tokenList
-        }
+        selectToken={selector.current === 'BRIDGES' ? selectBridge : selectToken}
+        tokens={selector.current === 'BRIDGES' ? bridgesList : tokenList}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         title={selector.current === 'BRIDGES' ? 'Select a Bridge' : 'Select a Token'}
@@ -570,7 +594,7 @@ BridgeModal.propTypes = {
   SetCurrentProgress: PropTypes.any,
   setOperation: PropTypes.any,
   tokenList: PropTypes.any,
-  setTokenList: PropTypes.any
+  setTokenList: PropTypes.any,
 };
 
 export default BridgeModal;

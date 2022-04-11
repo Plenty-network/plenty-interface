@@ -20,7 +20,7 @@ export const useLocationStateInSwap = () => {
   });
   const [tokenOut, setTokenOut] = useState({});
   const [tokenOutStable, setTokenOutStable] = useState({
-    name: 'tez',
+    name: 'TEZ',
     image: tez,
   });
 

@@ -1394,7 +1394,7 @@ const Config: IConfig = {
             property: 'token2_pool',
             liquidityToken: 'PlentyUSDCLP',
           },
-          ctez: {
+          CTEZ: {
             contract: 'KT1DWBEpG82w6VEVTDV2Z9NEWUe5Xxu9CH1G',
             property: 'token2_pool',
             liquidityToken: 'ctezPlentyLP',
@@ -4375,11 +4375,11 @@ const Config: IConfig = {
     mapId: 55983,
   },
 
-  // NETWORK: 'testnet',
-  // WALLET_NETWORK: 'hangzhounet',
+  NETWORK: 'testnet',
+  WALLET_NETWORK: 'hangzhounet',
 
-  NETWORK: 'mainnet',
-  WALLET_NETWORK: 'mainnet',
+  // NETWORK: 'mainnet',
+  // WALLET_NETWORK: 'mainnet',
 
   ADMIN_ADDRESS: 'KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW',
   BURNER: 'tz1ZnK6zYJrC9PfKCPryg9tPW6LrERisTGtg',

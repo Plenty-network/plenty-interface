@@ -11,7 +11,7 @@ import { newton_dx_to_dy } from '../stableswap/stableswap';
  */
 export const loadSwapData = async (tokenIn, tokenOut) => {
   try {
-    if ((tokenIn === 'ctez' && tokenOut === 'tez') || (tokenIn === 'tez' && tokenOut === 'ctez')) {
+    if ((tokenIn === 'ctez' && tokenOut === 'TEZ') || (tokenIn === 'TEZ' && tokenOut === 'ctez')) {
       const connectedNetwork = CONFIG.NETWORK;
       const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
       const dexContractAddress =
@@ -270,7 +270,7 @@ const calculateTokensOutStable = (
         minimum_Out: minimumOut.toFixed(6),
         priceImpact: priceImpact,
       };
-    } else if (tokenIn === 'tez') {
+    } else if (tokenIn === 'TEZ') {
       const dy =
         newton_dx_to_dy(tezSupply * 2 ** 48, target * ctezSupply, tokenIn_amount * 2 ** 48, 5) /
         target;
@@ -325,7 +325,7 @@ const computeTokenOutputV2 = (
   target,
 ) => {
   try {
-    if ((tokenIn === 'ctez' && tokenOut === 'tez') || (tokenIn === 'tez' && tokenOut === 'ctez')) {
+    if ((tokenIn === 'ctez' && tokenOut === 'TEZ') || (tokenIn === 'TEZ' && tokenOut === 'ctez')) {
       if (tokenIn === 'ctez') {
         console.log(
           calculateTokensOutStable(
@@ -437,7 +437,7 @@ const computeTokenOutForRouteBaseV2Base = (inputAmount, swapData, slippage) => {
           cur.tokenOut,
           cur.target,
         );
-
+        console.log(computed);
         return {
           tokenOutAmount: computed.tokenOut_amount,
           fees: [...acc.fees, computed.fees],

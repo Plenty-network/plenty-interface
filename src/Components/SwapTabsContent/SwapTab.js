@@ -9,6 +9,13 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { swapTokens } from '../../apis/swap/swap';
 import Button from '../Ui/Buttons/Button';
 import {
+  loadSwapDataStable,
+  calculateTokensOutStable,
+  ctez_to_tez,
+  tez_to_ctez,
+  getXtzDollarPrice,
+} from '../../apis/stableswap/stableswap';
+import {
   computeTokenOutForRouteBaseV2,
   swapTokenUsingRouteV3,
   computeTokenOutForRouteBaseByOutAmountV2,
@@ -29,6 +36,9 @@ const SwapTab = (props) => {
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState('');
 
+  const [dolar, setDolar] = useState('0.0');
+  console.log(dolar);
+
   const [computedData, setComputedData] = useState({
     success: false,
     data: {
@@ -40,6 +50,25 @@ const SwapTab = (props) => {
       priceImpact: 0,
     },
   });
+  const [swapData, setSwapData] = useState({
+    success: false,
+    tezPool: 0,
+    ctezPool: 0,
+    tokenIn: props.tokenIn.name,
+    tokenOut: props.tokenOut.name,
+    lpTokenSupply: 0,
+    target: 0,
+    lpToken: null,
+    dexContractInstance: null,
+  });
+  const getSwapData = async () => {
+    const res = await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
+    console.log(res);
+    setSwapData(res);
+  };
+  useEffect(() => {
+    getSwapData();
+  }, [props]);
 
   useEffect(() => {
     firstTokenAmount && setFirstAmount(firstTokenAmount);
@@ -63,58 +92,124 @@ const SwapTab = (props) => {
     props.setLoading(false);
   };
 
-  const handleSwapTokenInput = (input, tokenType) => {
+  const fetchSwapData = async (input) => {
+    console.log(swapData);
+    const tokenOutResponse = await calculateTokensOutStable(
+      swapData.tezPool,
+      swapData.ctezPool,
+      Number(input),
+      1000,
+      props.slippage,
+      swapData.target,
+      props.tokenIn.name,
+    );
+
+    return tokenOutResponse;
+  };
+
+  useEffect(() => {
+    getXtzDollarPrice().then((res) => {
+      setDolar(res);
+    });
+  }, []);
+
+  const handleSwapTokenInput = async (input, tokenType) => {
     if (input === '' || isNaN(input)) {
       setFirstTokenAmount('');
       setSecondTokenAmount('');
       props.setComputedOutDetails({});
     } else {
       if (tokenType === 'tokenIn') {
-        setFirstTokenAmount(input);
+        if (props.tokenIn.name === 'TEZ' && props.tokenOut.name === 'CTEZ') {
+          setFirstTokenAmount(input);
+          const res = await fetchSwapData(input);
+          console.log(res);
+          setSecondTokenAmount(res.tokenOut.toFixed(6));
+          setComputedData({
+            success: true,
+            data: {
+              tokenOutAmount: res.tokenOut.toFixed(6),
+              fees: res.fee,
+              totalFees: res.fee,
+              minimumOut: res.minimumOut.toFixed(6),
+              finalMinimumOut: res.minimumOut.toFixed(6),
+              priceImpact: res.priceImpact,
+              exchangeRate: res.exchangeRate,
+            },
+          });
+        } else {
+          setFirstTokenAmount(input);
 
-        const res = computeTokenOutForRouteBaseV2(input, props.routeData.allRoutes, props.slippage);
-
-        setComputedData(res);
-        setComputedData({
-          success: true,
-          data: {
-            tokenOutAmount: res.bestRoute.computations.tokenOutAmount,
-            fees: res.bestRoute.computations.fees,
-            totalFees: res.bestRoute.computations.fees[res.bestRoute.computations.fees.length - 1],
-            minimumOut: res.bestRoute.computations.minimumOut,
-            finalMinimumOut:
-              res.bestRoute.computations.minimumOut[
-                res.bestRoute.computations.minimumOut.length - 1
-              ],
-            priceImpact: res.bestRoute.computations.priceImpact,
-          },
-        });
-        setRoutePath(res.bestRoute.path);
-        setSecondTokenAmount(res.bestRoute.computations.tokenOutAmount);
+          const res = computeTokenOutForRouteBaseV2(
+            input,
+            props.routeData.allRoutes,
+            props.slippage,
+          );
+          console.log(res);
+          setComputedData(res);
+          setComputedData({
+            success: true,
+            data: {
+              tokenOutAmount: res.bestRoute.computations.tokenOutAmount,
+              fees: res.bestRoute.computations.fees,
+              totalFees:
+                res.bestRoute.computations.fees[res.bestRoute.computations.fees.length - 1],
+              minimumOut: res.bestRoute.computations.minimumOut,
+              finalMinimumOut:
+                res.bestRoute.computations.minimumOut[
+                  res.bestRoute.computations.minimumOut.length - 1
+                ],
+              priceImpact: res.bestRoute.computations.priceImpact,
+            },
+          });
+          setRoutePath(res.bestRoute.path);
+          setSecondTokenAmount(res.bestRoute.computations.tokenOutAmount);
+        }
       } else if (tokenType === 'tokenOut') {
-        setSecondTokenAmount(input);
+        if (props.tokenIn.name === 'TEZ' && props.tokenOut.name === 'CTEZ') {
+          setSecondTokenAmount(input);
+          const res = await fetchSwapData(input);
 
-        const res = computeTokenOutForRouteBaseByOutAmountV2(
-          input,
-          props.routeData.allRoutes,
-          props.slippage,
-        );
-        setComputedData({
-          success: true,
-          data: {
-            tokenOutAmount: res.bestRoute.computations.tokenOutAmount,
-            fees: res.bestRoute.computations.fees,
-            totalFees: res.bestRoute.computations.fees[res.bestRoute.computations.fees.length - 1],
-            minimumOut: res.bestRoute.computations.minimumOut,
-            finalMinimumOut:
-              res.bestRoute.computations.minimumOut[
-                res.bestRoute.computations.minimumOut.length - 1
-              ],
-            priceImpact: res.bestRoute.computations.priceImpact,
-          },
-        });
-        setRoutePath(res.bestRoute.path);
-        setFirstTokenAmount(res.bestRoute.computations.tokenInAmount);
+          setFirstTokenAmount(res.tokenOut.toFixed(6));
+
+          setComputedData({
+            success: true,
+            data: {
+              tokenOutAmount: res.tokenOut.toFixed(6),
+              fees: res.fee,
+              totalFees: res.fee,
+              minimumOut: res.minimumOut.toFixed(6),
+              finalMinimumOut: res.minimumOut.toFixed(6),
+              priceImpact: res.priceImpact,
+              exchangeRate: res.exchangeRate,
+            },
+          });
+        } else {
+          setSecondTokenAmount(input);
+
+          const res = computeTokenOutForRouteBaseByOutAmountV2(
+            input,
+            props.routeData.allRoutes,
+            props.slippage,
+          );
+          setComputedData({
+            success: true,
+            data: {
+              tokenOutAmount: res.bestRoute.computations.tokenOutAmount,
+              fees: res.bestRoute.computations.fees,
+              totalFees:
+                res.bestRoute.computations.fees[res.bestRoute.computations.fees.length - 1],
+              minimumOut: res.bestRoute.computations.minimumOut,
+              finalMinimumOut:
+                res.bestRoute.computations.minimumOut[
+                  res.bestRoute.computations.minimumOut.length - 1
+                ],
+              priceImpact: res.bestRoute.computations.priceImpact,
+            },
+          });
+          setRoutePath(res.bestRoute.path);
+          setFirstTokenAmount(res.bestRoute.computations.tokenInAmount);
+        }
       }
     }
   };
@@ -182,47 +277,87 @@ const SwapTab = (props) => {
     localStorage.setItem('wrapped', firstTokenAmount);
     localStorage.setItem('token', props.tokenIn.name);
     const recepientAddress = props.recepient ? props.recepient : props.walletAddress;
-
-    if (routePath.length <= 2) {
-      swapTokens(
-        routePath[0],
-        routePath[1],
-        computedData.data.finalMinimumOut,
+    if (props.tokenIn.name === 'CTEZ' && props.tokenOut.name === 'TEZ') {
+      ctez_to_tez(
+        props.tokenIn.name,
+        props.tokenOut.name,
+        computedData.data.minimumOut,
         recepientAddress,
-        firstTokenAmount,
-        props.walletAddress,
+        Number(firstTokenAmount),
         transactionSubmitModal,
         props.setShowConfirmSwap,
         resetVal,
         props.setShowConfirmTransaction,
-      ).then((swapResp) => {
-        props.setShowConfirmSwap(false);
-        props.setLoader(false);
+      ).then((response) => {
+        handleSwapResponse(response.success);
         props.setShowConfirmTransaction(false);
-        handleSwapResponse(swapResp.success);
+        props.setLoader(false);
+        setTimeout(() => {
+          props.setLoaderMessage({});
+        }, 5000);
+      });
+    } else if (props.tokenIn.name === 'TEZ' && props.tokenOut.name === 'CTEZ') {
+      tez_to_ctez(
+        props.tokenIn.name,
+        props.tokenOut.name,
+        computedData.data.minimumOut,
+        recepientAddress,
+        Number(firstTokenAmount),
+        transactionSubmitModal,
+        props.setShowConfirmSwap,
+        resetVal,
+        props.setShowConfirmTransaction,
+      ).then((response) => {
+        props.setShowConfirmSwap(false);
+        props.setShowConfirmTransaction(false);
+        props.setLoader(false);
+        handleSwapResponse(response.success);
         setTimeout(() => {
           props.setLoaderMessage({});
         }, 5000);
       });
     } else {
-      swapTokenUsingRouteV3(
-        routePath,
-        computedData.data.minimumOut,
-        props.walletAddress,
-        firstTokenAmount,
-        transactionSubmitModal,
-        props.setShowConfirmSwap,
-        resetVal,
-        props.setShowConfirmTransaction,
-      ).then((swapResp) => {
-        props.setShowConfirmSwap(false);
-        props.setLoader(false);
-        props.setShowConfirmTransaction(false);
-        handleSwapResponse(swapResp.success);
-        setTimeout(() => {
-          props.setLoaderMessage({});
-        }, 5000);
-      });
+      if (routePath.length <= 2) {
+        swapTokens(
+          routePath[0],
+          routePath[1],
+          computedData.data.finalMinimumOut,
+          recepientAddress,
+          firstTokenAmount,
+          props.walletAddress,
+          transactionSubmitModal,
+          props.setShowConfirmSwap,
+          resetVal,
+          props.setShowConfirmTransaction,
+        ).then((swapResp) => {
+          props.setShowConfirmSwap(false);
+          props.setLoader(false);
+          props.setShowConfirmTransaction(false);
+          handleSwapResponse(swapResp.success);
+          setTimeout(() => {
+            props.setLoaderMessage({});
+          }, 5000);
+        });
+      } else {
+        swapTokenUsingRouteV3(
+          routePath,
+          computedData.data.minimumOut,
+          props.walletAddress,
+          firstTokenAmount,
+          transactionSubmitModal,
+          props.setShowConfirmSwap,
+          resetVal,
+          props.setShowConfirmTransaction,
+        ).then((swapResp) => {
+          props.setShowConfirmSwap(false);
+          props.setLoader(false);
+          props.setShowConfirmTransaction(false);
+          handleSwapResponse(swapResp.success);
+          setTimeout(() => {
+            props.setLoaderMessage({});
+          }, 5000);
+        });
+      }
     }
   };
 
