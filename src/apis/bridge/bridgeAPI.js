@@ -58,12 +58,11 @@ export const getBalance = async (tokenAddress, userAddress) => {
       success: true,
       balance: balance,
     };
-  }
-  catch (error) {
+  } catch (error) {
     return {
       success: false,
       balance: 0,
-      error: error.message
+      error: error.message,
     };
   }
 };
@@ -264,6 +263,8 @@ export const getMintStatus = async (txHash, chain) => {
         !(signaturesCount < wrapSignReq),
     };
   }
+
+  //Awaiting confirtmation 3/10
 };
 
 /* mint tokens on tezos side
@@ -500,6 +501,83 @@ export const releaseTokens = async (unwrapData, chain) => {
     }
   } catch (e) {
     return {
+      success: false,
+      error: e,
+    };
+  }
+};
+
+/* this function returns tx history (array of objects). Pass the ethereum, tz address, Pass only one if one is connected and the chain*/
+export const getHistory = async ({ ethereumAddress, tzAddress, chain }) => {
+  try {
+    const web3 = new Web3(window.ethereum);
+    const networkSelected = CONFIG.NETWORK;
+    const tzkt = CONFIG.TZKT_NODES[networkSelected];
+    const availableChainsObject = CONFIG.BRIDGES_INDEXER_LINKS[networkSelected];
+    const indexerLink = availableChainsObject[chain].slice(0, -13);
+    const unwraps = await axios.get(indexerLink + 'unwraps', {
+      params: {
+        tezosAddress: tzAddress ? tzAddress : '',
+        ethereumAddress: ethereumAddress ? ethereumAddress : '',
+        type: 'ERC20',
+      },
+    });
+
+    const unwrapsArrPromise = unwraps.data.result.map(async (obj) => {
+      const data = await axios.get(tzkt + '/v1/operations/' + obj.operationHash);
+      const timeStamp = new Date(data.data[0].timestamp);
+      return {
+        ...obj,
+        isWrap: false,
+        isUnwrap: true,
+        token: BridgeConfiguration.getToken(chain, obj.token),
+        txHash: obj.operationHash,
+        timestamp: timeStamp,
+        actionRequired: obj.status === 'finalized' ? false : true,
+        currentProgress: 2,
+        fromBridge: 'TEZOS',
+        toBridge: chain,
+      };
+    });
+    const unwrapsArr = await Promise.all(unwrapsArrPromise);
+
+    const wraps = await axios.get(indexerLink + 'wraps', {
+      params: {
+        tezosAddress: tzAddress ? tzAddress : '',
+        ethereumAddress: ethereumAddress ? ethereumAddress : '',
+        type: 'ERC20',
+      },
+    });
+
+    const wrapsArrPromise = wraps.data.result.map(async (obj) => {
+      const tx = await web3.eth.getTransaction(obj.transactionHash);
+      const block = await web3.eth.getBlock(tx.blockHash);
+      const timeStamp = new Date(block.timestamp * 1000);
+      return {
+        ...obj,
+        isWrap: true,
+        isUnwrap: false,
+        token: BridgeConfiguration.getToken(chain, obj.token),
+        txHash: obj.transactionHash,
+        timestamp: timeStamp,
+        actionRequired: obj.status === 'finalized' ? false : true,
+        currentProgress: 2,
+        fromBridge: chain,
+        toBridge: 'TEZOS',
+      };
+    });
+    const wrapsArr = await Promise.all(wrapsArrPromise);
+
+    const history = wrapsArr.concat(unwrapsArr);
+    return {
+      history: history,
+
+      success: true,
+    };
+  } catch (e) {
+    console.log(e);
+    return {
+      history: [],
       success: false,
       error: e,
     };
