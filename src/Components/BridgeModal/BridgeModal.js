@@ -182,8 +182,8 @@ const BridgeModal = (props) => {
         console.log(tokenIn.tokenData.CONTRACT_ADDRESS,walletAddress,tokenIn.tokenData.TOKEN_ID,tokenInDecimals);
         console.log(balanceResult);
         if(balanceResult.success) {
-          setUserTokenBalance(Number(balanceResult.balance));
-          //setUserTokenBalance(Number('10'));
+          //setUserTokenBalance(Number(balanceResult.balance));
+          setUserTokenBalance(Number('10'));
           console.log(Number(balanceResult.balance));
         } else {
           setUserTokenBalance(null);
@@ -194,14 +194,14 @@ const BridgeModal = (props) => {
       setUserTokenBalance(null);
     }
   }, [tokenIn]);
-  useEffect(() => {
+  /* useEffect(() => {
     //setLoading(true);
     //setLoaderInButton(true);
     getTokenPrices().then((tokenPrice) => {
       setGetTokenPrice(tokenPrice);
       //setLoading(false);
     });
-  }, []);
+  }, []); */
 
   const getDollarValue = (amount, price) => {
     const calculatedValue = amount * price;

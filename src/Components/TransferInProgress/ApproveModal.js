@@ -1,96 +1,159 @@
 /* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
-import React from 'react';
 import styles from './Transfer.module.scss';
 import Button from '../Ui/Buttons/Button';
+import { ReactComponent as FeeIcon } from '../../assets/images/bridge/fee_icon.svg';
+import GasIcon from '../../assets/images/bridge/gas_fee_icon.svg';
+import GasIconDark from '../../assets/images/bridge/gas_fee_icon_dark.svg';
+import dummyApiCall from '../../apis/dummyApiCall';
+import { useState } from 'react';
+import { approveToken } from '../../apis/bridge/bridgeAPI';
 
-import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
+//import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
 
-const ApproveModal = () => {
+const ApproveModal = (props) => {
+  const [isButtonLoading, SetIsButtonLoading] = useState(false);
+
+  const {
+    description,
+    gasFees,
+    setBack,
+    currentProgress,
+    getTransactionListLength,
+    operation,
+    fromBridge,
+    toBridge,
+    tokenIn,
+    tokenOut,
+    firstTokenAmount,
+    secondTokenAmount,
+    setTransactionData,
+    SetCurrentProgress,
+    setSelectedId,
+    setApproveHash,
+    theme
+  } = props;
+
+  const approveButtonClick = async () => {
+    SetIsButtonLoading(true);
+    const approveResult = await approveToken(tokenIn,fromBridge.name,firstTokenAmount);
+    console.log('Approve Results: ');
+    console.log(approveResult);
+    if(approveResult.success) {
+      const newIndex = getTransactionListLength();
+      const newProgress = currentProgress + 1;
+      const newDate = new Date().toLocaleDateString('en-IN');
+      const newTime = `${new Date().getHours()}:${new Date().getMinutes()}`;
+      const newData = {
+        id: newIndex,
+        currentProgress: newProgress,
+        operation: operation,
+        fromBridge: fromBridge.name,
+        toBridge: toBridge.name,
+        tokenIn: tokenIn.name,
+        tokenOut: tokenOut.name,
+        firstTokenAmount: firstTokenAmount,
+        secondTokenAmount: secondTokenAmount,
+        fee: gasFees,
+        date: newDate,
+        time: newTime,
+      };
+      setSelectedId(newIndex);
+      setTransactionData((prevData) => [...prevData, newData]);
+      setApproveHash(approveResult.transactionHash);
+      SetIsButtonLoading(false);
+      SetCurrentProgress(currentProgress+1);
+    } else {
+      console.log(approveResult.error);
+      SetIsButtonLoading(false);
+    }
+    /* dummyApiCall({ currentProgress: currentProgress }).then((res) => {
+      const newIndex = getTransactionListLength();
+      const newProgress = res.currentProgress + 1;
+      const newDate = new Date().toLocaleDateString('en-IN');
+      const newTime = `${new Date().getHours()}:${new Date().getMinutes()}`;
+      const newData = {
+        id: newIndex,
+        currentProgress: newProgress,
+        operation: operation,
+        fromBridge: fromBridge.name,
+        toBridge: toBridge.name,
+        tokenIn: tokenIn.name,
+        tokenOut: tokenOut.name,
+        firstTokenAmount: firstTokenAmount,
+        secondTokenAmount: secondTokenAmount,
+        fee: gasFees,
+        date: newDate,
+        time: newTime,
+      };
+      setTransactionData((prevData) => [...prevData, newData]);
+      SetIsButtonLoading(false);
+      SetCurrentProgress(res.currentProgress + 1);
+    }); */
+  };
+
   return (
-    <div
-      className={`row justify-content-center mx-auto col-20 col-md-10 col-lg-10 col-xl-10 ${styles.gov}`}
-    >
-      <div className={styles.border}>
-        <div className={` ${styles.bridgeModal}`}>
-          <div className={styles.resultsHeader}>
-            <p className={styles.TransferInProgress}>Transfer in progress..</p>
-          </div>
-          <div className={`mb-3 ${styles.lineBottom} `}></div>
-          <div className={styles.resultsHeader}>
-            <p className={styles.progressLabel}>
-              <div className="flex flex-row">
-                <span className={styles.radioButton}></span>
-                <span className={styles.activeLabel}>Approve</span>
-              </div>
-              <p className={styles.progressLine}></p>
-            </p>
-            <p className={styles.progressLabel}>
-              <div className="flex flex-row">
-                <span className={styles.defaultRadioButton}></span>
-                <span>Bridge</span>
-              </div>
-              <p className={styles.defaultProgressLine}></p>
-            </p>
-            <p className={styles.progressLabel}>
-              <div className="flex flex-row">
-                <span className={styles.defaultRadioButton}></span>
-                <span>Mint</span>
-              </div>
-              <p className={styles.defaultProgressLine}></p>
-            </p>
-            <p className={styles.progressLabel}>
-              <div className="flex flex-row">
-                <span className={styles.defaultRadioButton}></span>
-                <span>Done</span>
-              </div>
-              <p className={styles.defaultProgressLine}></p>
-            </p>
-          </div>
-          <div className={`mb-4 ${styles.lineBottom} `}></div>
-          <p className={styles.contentLabel}>Approving</p>
-          <p className={styles.contentDes}>
-            Ethereum transactions can take longer time to complete based upon the network
-            congestion.
-          </p>
-          <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
-            <a
-              href="https://forum.plentydefi.com/t/pip-001-minting-rate-reduction/51"
-              target="_blank"
-              rel="noreferrer"
-            >
-              View on Block Explorer
-            </a>
-            <Link className="ml-2 mb-1" />
-          </p>
-          <div className={`mt-4 mb-2 ${styles.lineBottom} `}></div>
-          <p className={styles.bottomInfo}>Lorem Ipsum is simply dummy text of the printing </p>
-          <div className={styles.resultsHeader}>
-            <Button className={' mt-2 w-90 flex align-items-center justify-content-center'}>
-              Cancel
-            </Button>
-            <Button
-              color={'primary'}
-              className={'xplenty-btn mt-2 w-90 flex align-items-center justify-content-center'}
-            >
-              Approve
-            </Button>
-          </div>
-          <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
-          <div className={styles.resultsHeader}>
-            <p className={styles.bottomInfo}>Estimated Transaction fee</p>
-            <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~$3.12</p>
-          </div>
+    <>
+      <p className={styles.contentLabel}>Approving</p>
+      <p className={styles.contentDes}>{description}</p>
+      <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
+      <div className={`${styles.topInfo} my-2`}>
+        Please approve in your wallet to proceed with the tranfer{' '}
+      </div>
+      <div className={styles.resultsHeader}>
+        <div style={{ width: '50%' }}>
+          <Button
+            color={'default'}
+            className={`mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
+            onClick={() => setBack(1)}
+          >
+            Cancel
+          </Button>
+        </div>
+        <div style={{ width: '50%' }}>
+          <Button
+            color={'primary'}
+            className={`xplenty-btn mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
+            onClick={approveButtonClick}
+            loading={isButtonLoading}
+          >
+            Approve
+          </Button>
         </div>
       </div>
-    </div>
+
+      <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
+      <div className={styles.feeInfoWrapper}>
+        <img
+          src={theme === 'light' ? GasIcon : GasIconDark}
+          alt="GasIcon"
+          style={{ height: '20px' }}
+        ></img>
+        <p className={styles.bottomInfo}>Estimated Gas fee</p>
+        <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~{gasFees}</p>
+      </div>
+    </>
   );
 };
 
 ApproveModal.propTypes = {
-  transaction: PropTypes.any,
-  setTransaction: PropTypes.any,
-  walletAddress: PropTypes.any,
+  description: PropTypes.any,
+  gasFees: PropTypes.any,
+  setBack: PropTypes.any,
+  currentProgress: PropTypes.any,
+  getTransactionListLength: PropTypes.any,
+  operation: PropTypes.any,
+  fromBridge: PropTypes.any,
+  toBridge: PropTypes.any,
+  tokenIn: PropTypes.any,
+  tokenOut: PropTypes.any,
+  firstTokenAmount: PropTypes.any,
+  secondTokenAmount: PropTypes.any,
+  setTransactionData: PropTypes.any,
+  SetCurrentProgress: PropTypes.any,
+  setSelectedId: PropTypes.any,
+  setApproveHash: PropTypes.any,
+  theme: PropTypes.any
 };
 
 export default ApproveModal;

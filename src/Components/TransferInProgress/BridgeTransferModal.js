@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import PropTypes, { number } from 'prop-types';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './Transfer.module.scss';
 import Button from '../Ui/Buttons/Button';
 import { ReactComponent as Tick } from '../../assets/images/bridge/green_tick.svg';
@@ -13,6 +13,14 @@ import '../../assets/scss/animation.scss';
 import { bridgesList } from '../../constants/bridges';
 import { ReactComponent as FeeBigIcon } from '../../assets/images/bridge/fee_big_icon.svg';
 import { ReactComponent as ProcessSuccess } from '../../assets/images/bridge/process_success.svg';
+import HistoryIcon from '../../assets/images/bridge/history_icon.svg';
+import HomeIcon from '../../assets/images/bridge/home_icon.svg';
+import HistoryIconDark from '../../assets/images/bridge/history_icon_dark.svg';
+import HomeIconDark from '../../assets/images/bridge/home_icon_dark.svg';
+import ApproveModal from './ApproveModal';
+import BridgeUnbridgeModal from './BridgeUnbridgeModal';
+import MintReleaseModal from './MintReleaseModal';
+import DoneModal from './DoneModal';
 import {
   approveToken,
   wrap,
@@ -27,6 +35,29 @@ const BridgeTransferModal = (props) => {
   const [animationCalss, SetAnimationClass] = useState('leftToRightFadeInAnimation-4-bridge');
   //const [currentProgress,SetCurrentProgress]=useState(4);
   const [isButtonLoading, SetIsButtonLoading] = useState(false);
+  const approveHash = useRef(null);
+  //const [mintUnmintOpHash, setMintUnmintOpHash] = useState(null);
+  const mintUnmintOpHash = useRef(null);
+  const finalOpHash = useRef(null);
+  //const [wrappedUnwrappedData, setWrapUnwrapData] = useState(null);
+  const wrappedUnwrappedData = useRef(null);
+
+  const setWrapUnwrapData = (data) => {
+    wrappedUnwrappedData.current = data;
+  };
+
+  const setApproveHash = (hash) => {
+    approveHash.current = hash;
+  };
+
+  const setMintUnmintOpHash = (hash) => {
+    mintUnmintOpHash.current = hash;
+  };
+
+  const setFinalOpHash = (hash) => {
+    finalOpHash.current = hash;
+  };
+
   const isCurrentProgressCompleted = (currentProgres) => {
     return currentProgres > currentProgres;
   };
@@ -57,6 +88,8 @@ const BridgeTransferModal = (props) => {
     resetToDefaultStates,
     setTransactionData,
     getTransactionListLength,
+    setSelectedId,
+    theme
   } = props;
 
   const setBack = (value) => {
@@ -224,7 +257,7 @@ const BridgeTransferModal = (props) => {
   };
 
   const InSideElement = (p) => {
-    if (currentProgress === numberOfSteps.length - 1) {
+    /* if (currentProgress === numberOfSteps.length - 1) {
       dummyApiCall({ isCompletedtranscation: true }).then((res) => {
         setTransactionData((prevData) =>
           prevData.map((transaction) =>
@@ -430,7 +463,109 @@ const BridgeTransferModal = (props) => {
           <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~{p.transactionFees}</p>
         </div>
       </>
-    );
+    ); */
+
+
+    if(currentProgress === 0) {
+      return (<ApproveModal
+        description={p.description}
+        gasFees={fee}
+        setBack={setBack}
+        currentProgress={currentProgress}
+        getTransactionListLength={getTransactionListLength}
+        operation={operation}
+        fromBridge={fromBridge}
+        toBridge={toBridge}
+        tokenIn={tokenIn}
+        tokenOut={tokenOut}
+        firstTokenAmount={firstTokenAmount}
+        secondTokenAmount={secondTokenAmount}
+        setTransactionData={setTransactionData}
+        SetCurrentProgress={SetCurrentProgress}
+        setSelectedId={setSelectedId}
+        setApproveHash={setApproveHash}
+        theme={theme}
+      />);
+    } else if (currentProgress === 1) {
+      return (<BridgeUnbridgeModal
+        description={p.description}
+        gasFees={fee}
+        currentProgress={currentProgress}
+        getTransactionListLength={getTransactionListLength}
+        operation={operation}
+        fromBridge={fromBridge}
+        toBridge={toBridge}
+        tokenIn={tokenIn}
+        tokenOut={tokenOut}
+        firstTokenAmount={firstTokenAmount}
+        secondTokenAmount={secondTokenAmount}
+        setTransactionData={setTransactionData}
+        selectedId={selectedId}
+        SetCurrentProgress={SetCurrentProgress}
+        walletAddress={walletAddress}
+        setMintUnmintOpHash={setMintUnmintOpHash}
+        setSelectedId={setSelectedId}
+        approveHash={approveHash.current}
+        theme={theme}
+      />);
+    } else if (currentProgress === 2) {
+      return (<MintReleaseModal
+        description={p.description}
+        gasFees={fee}
+        currentProgress={currentProgress}
+        operation={operation}
+        setTransactionData={setTransactionData}
+        selectedId={selectedId}
+        SetCurrentProgress={SetCurrentProgress}
+        mintUnmintOpHash={mintUnmintOpHash}
+        fromBridge={fromBridge}
+        setWrapUnwrapData={setWrapUnwrapData}
+        toBridge={toBridge}
+        theme={theme}
+      />);
+    } /* else if (currentProgress === 3) {
+      dummyApiCall({ isCompletedtranscation: true }).then((res) => {
+        setTransactionData((prevData) =>
+          prevData.map((transaction) =>
+            transaction.id === selectedId
+              ? { ...transaction, currentProgress: currentProgress + 1 }
+              : transaction,
+          ),
+        );
+        if (res.isCompletedtranscation) {
+          SetCurrentProgress(currentProgress + 1);
+        }
+      });
+      return (<DoneModal
+        transactionFees={fee}
+        currentProgress={currentProgress}
+        numberOfSteps={numberOfSteps}
+        tokenOut={tokenOut}
+        secondTokenAmount={secondTokenAmount}
+        fromBridge={fromBridge}
+        toBridge={toBridge}
+        operation={operation}
+        SetCurrentProgress={SetCurrentProgress}
+        wrappedUnwrappedData={wrappedUnwrappedData.current}
+      />);
+    } */ else {
+      return (<DoneModal
+        transactionFees={fee}
+        currentProgress={currentProgress}
+        numberOfSteps={numberOfSteps}
+        tokenOut={tokenOut}
+        secondTokenAmount={secondTokenAmount}
+        fromBridge={fromBridge}
+        toBridge={toBridge}
+        operation={operation}
+        SetCurrentProgress={SetCurrentProgress}
+        wrappedUnwrappedData={wrappedUnwrappedData.current}
+        selectedId={selectedId}
+        setTransactionData={setTransactionData}
+        finalOpHash={finalOpHash.current}
+        setFinalOpHash={setFinalOpHash}
+      />);
+    }
   };
   return (
     <div
@@ -459,22 +594,32 @@ const BridgeTransferModal = (props) => {
                   <p className={styles.reviewText}>Review you transaction</p>
                 </div>
               ) : currentProgress === numberOfSteps.length - 1 ? (
-                <p className={styles.TransferInProgress}>Minting in progress</p>
+                <p className={styles.TransferInProgress}>{operation === 'BIRDGE' ? 'Minting' : 'Release'} in progress</p>
               ) : (
                 <p className={styles.TransferInProgress}>Transfer in progress</p>
               )}
             </div>
             {currentProgress === numberOfSteps.length && (
-              <p
-                className={styles.res}
-                onClick={() => {
-                  resetToDefaultStates();
-                  setTransaction(2);
-                }}
-                style={{ cursor: 'pointer' }}
-              >
-                View History
-              </p>
+              <div>
+                <img
+                  src={theme === 'light' ? HistoryIcon : HistoryIconDark}
+                  alt='History'
+                  className={`${styles.historyIcon} ${styles.transactionIcons}`}
+                  onClick={() => {
+                    resetToDefaultStates();
+                    setTransaction(2);
+                  }}
+                ></img>
+                <img
+                  src={theme === 'light' ? HomeIcon : HomeIconDark}
+                  alt='Home'
+                  className={styles.transactionIcons}
+                  onClick={() => {
+                    resetToDefaultStates();
+                    setTransaction(1);
+                  }}
+                ></img>
+              </div>
             )}
           </div>
           <div className={`mb-3 mt-2 ${styles.lineBottom} `}></div>
@@ -542,6 +687,8 @@ BridgeTransferModal.propTypes = {
   setTransactionData: PropTypes.any,
   getTransactionListLength: PropTypes.any,
   selectedId: PropTypes.any,
+  setSelectedId: PropTypes.any,
+  theme: PropTypes.any
 };
 
 export default BridgeTransferModal;

@@ -96,7 +96,7 @@ const transactions = [
 const Bridge = (props) => {
   //const isMobile = useMediaQuery('(max-width: 991px)');
   const initialRender = useRef(true);
-  const [transaction, setTransaction] = useState(1);
+  const [transaction, setTransaction] = useState(3);
 
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
   const [secondTokenAmount, setSecondTokenAmount] = useState('');
@@ -124,7 +124,7 @@ const Bridge = (props) => {
   const [toBridge, setToBridge] = useState({ name: 'TEZOS', image: tezos, buttonImage: '' });
   const [fee, setFee] = useState(0);
   const [currentProgress, SetCurrentProgress] = useState(0);
-  const [selectedId, setSelectedId] = useState(0);
+  const [selectedId, setSelectedId] = useState(null);
   const [transactionData, setTransactionData] = useState(transactions);
   //const [currentOperation, setCurrentOperation] = useState('BRIDGE');
   const loadedTokensList = useRef(null);
@@ -160,7 +160,7 @@ const Bridge = (props) => {
         if (fromBridge.name === 'TEZOS') {
           // Check if the tokens list created and config has reference tokens for selected 'TO' chain when 'FROM' is tezos.
           if (Object.prototype.hasOwnProperty.call(loadedTokensList.current.TEZOS, toBridge.name)) {
-            console.log('token list 3', loadedTokensList.current.TEZOS[toBridge.name][0]);
+            //console.log('token list 3', loadedTokensList.current.TEZOS[toBridge.name][0]);
             setTokenList(loadedTokensList.current.TEZOS[toBridge.name]);
             setTokenIn(loadedTokensList.current.TEZOS[toBridge.name][0]);
             //Change after creating config.
@@ -184,7 +184,7 @@ const Bridge = (props) => {
             });
           }
         } else {
-          console.log('token list 2', loadedTokensList.current[fromBridge.name][0]);
+          //console.log('token list 2', loadedTokensList.current[fromBridge.name][0]);
           setTokenList(loadedTokensList.current[fromBridge.name]);
           setTokenIn(loadedTokensList.current[fromBridge.name][0]);
           // Change after creating config.
@@ -359,6 +359,8 @@ const Bridge = (props) => {
                 resetToDefaultStates={resetToDefaultStates}
                 setTransactionData={setTransactionData}
                 getTransactionListLength={getTransactionListLength}
+                setSelectedId={setSelectedId}
+                theme={props.theme}
               />
             )}
           </Col>
