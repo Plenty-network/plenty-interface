@@ -126,7 +126,7 @@ const BridgeTransferModal = (props) => {
       SetIsButtonLoading(false);
     }); */
 
-    /*   dummyApiCall({ currentProgress: currentProgress }).then((res) => {
+    dummyApiCall({ currentProgress: currentProgress }).then((res) => {
       if (res.currentProgress === 0) {
         const newIndex = getTransactionListLength();
         const newProgress = res.currentProgress + 1;
@@ -180,7 +180,7 @@ const BridgeTransferModal = (props) => {
       }
       SetIsButtonLoading(false);
       SetCurrentProgress(res.currentProgress + 1);
-    }); */
+    });
   };
   //const numberOfSteps = ['Approve', 'Bridge', 'Mint', 'Done'];
   const numberOfSteps = [

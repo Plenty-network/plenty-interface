@@ -534,6 +534,9 @@ export const getHistory = async ({ ethereumAddress, tzAddress, chain }) => {
         txHash: obj.operationHash,
         timestamp: timeStamp,
         actionRequired: obj.status === 'finalized' ? false : true,
+        currentProgress: 2,
+        fromBridge: 'TEZOS',
+        toBridge: chain,
       };
     });
     const unwrapsArr = await Promise.all(unwrapsArrPromise);
@@ -558,6 +561,9 @@ export const getHistory = async ({ ethereumAddress, tzAddress, chain }) => {
         txHash: obj.transactionHash,
         timestamp: timeStamp,
         actionRequired: obj.status === 'finalized' ? false : true,
+        currentProgress: 2,
+        fromBridge: chain,
+        toBridge: 'TEZOS',
       };
     });
     const wrapsArr = await Promise.all(wrapsArrPromise);
@@ -565,6 +571,7 @@ export const getHistory = async ({ ethereumAddress, tzAddress, chain }) => {
     const history = wrapsArr.concat(unwrapsArr);
     return {
       history: history,
+
       success: true,
     };
   } catch (e) {
