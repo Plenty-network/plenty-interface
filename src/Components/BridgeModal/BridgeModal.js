@@ -29,7 +29,7 @@ import { setConnectWalletTooltip } from '../../redux/slices/settings/settings.sl
 import { useDispatch } from 'react-redux';
 import { allTokens } from '../../constants/bridges';
 import { getBalance, getBalanceTez } from '../../apis/bridge/bridgeAPI';
-
+/* import { getCurrentNetwork } from '../../apis/bridge/bridgeAPI'; */
 const BridgeModal = (props) => {
   //const [firstTokenAmount, setFirstTokenAmount] = useState();
   //const [secondTokenAmount, setSecondTokenAmount] = useState();
@@ -101,7 +101,7 @@ const BridgeModal = (props) => {
     theme,
     setOpeningFromHistory,
     metamaskAddress,
-    setMetamaskAddress
+    setMetamaskAddress,
   } = props;
 
   //const [tokenList, setTokenList] = useState(tokensList[fromBridge.name]);
@@ -110,6 +110,14 @@ const BridgeModal = (props) => {
     image: fromBridge.image,
     buttonImage: fromBridge.buttonImage,
   });
+  /*   const getChain = async () => {
+    const network = await getCurrentNetwork();
+    console.log(network);
+    return network;
+  };
+  useEffect(() => {
+    getChain();
+  }, [firstTokenAmount]); */
 
   useEffect(() => {
     if (triggerTooltips) {
@@ -173,29 +181,42 @@ const BridgeModal = (props) => {
     // };
     // updateBalance();
     setUserTokenBalance(null);
-    if(tokenIn.name !== 'Token NA' && walletAddress && metamaskAddress) {
-      if(operation === 'BRIDGE') {
-        const balanceResult = await getBalance(tokenIn.tokenData.CONTRACT_ADDRESS,metamaskAddress);
-        if(balanceResult.success) {
-          setUserTokenBalance(Number(balanceResult.balance) / (10**tokenIn.tokenData.DECIMALS));
+    if (tokenIn.name !== 'Token NA' && walletAddress && metamaskAddress) {
+      if (operation === 'BRIDGE') {
+        const balanceResult = await getBalance(tokenIn.tokenData.CONTRACT_ADDRESS, metamaskAddress);
+        if (balanceResult.success) {
+          setUserTokenBalance(Number(balanceResult.balance) / 10 ** tokenIn.tokenData.DECIMALS);
         } else {
           setUserTokenBalance(null);
         }
         console.log(tokenIn.tokenData.DECIMALS);
-        console.log(Number(balanceResult.balance) / (10**tokenIn.tokenData.DECIMALS));
+        console.log(Number(balanceResult.balance) / 10 ** tokenIn.tokenData.DECIMALS);
       } else {
-        const tokenInDecimals = BridgeConfiguration.getOutTokenUnbridgingWhole(toBridge.name,tokenIn.name).DECIMALS;
-        const balanceResult = await getBalanceTez(tokenIn.tokenData.CONTRACT_ADDRESS,tokenIn.tokenData.TOKEN_ID,walletAddress,tokenInDecimals);
-        console.log(tokenIn.tokenData.CONTRACT_ADDRESS,walletAddress,tokenIn.tokenData.TOKEN_ID,tokenInDecimals);
+        const tokenInDecimals = BridgeConfiguration.getOutTokenUnbridgingWhole(
+          toBridge.name,
+          tokenIn.name,
+        ).DECIMALS;
+        const balanceResult = await getBalanceTez(
+          tokenIn.tokenData.CONTRACT_ADDRESS,
+          tokenIn.tokenData.TOKEN_ID,
+          walletAddress,
+          tokenInDecimals,
+        );
+        console.log(
+          tokenIn.tokenData.CONTRACT_ADDRESS,
+          walletAddress,
+          tokenIn.tokenData.TOKEN_ID,
+          tokenInDecimals,
+        );
         console.log(balanceResult);
-        if(balanceResult.success) {
+        if (balanceResult.success) {
           setUserTokenBalance(Number(balanceResult.balance));
           //setUserTokenBalance(Number('10'));
           console.log(Number(balanceResult.balance));
         } else {
           setUserTokenBalance(null);
         }
-        console.log(BridgeConfiguration.getOutTokenUnbridgingWhole(toBridge.name,tokenIn.name));
+        console.log(BridgeConfiguration.getOutTokenUnbridgingWhole(toBridge.name, tokenIn.name));
       }
     } else {
       setUserTokenBalance(null);
@@ -246,7 +267,12 @@ const BridgeModal = (props) => {
       );
       setIsError(true);
     } else {
-      if (input === '' || isNaN(input) || tokenIn.name === 'Token NA' || userTokenBalance === null) {
+      if (
+        input === '' ||
+        isNaN(input) ||
+        tokenIn.name === 'Token NA' ||
+        userTokenBalance === null
+      ) {
         setFirstTokenAmount('');
         setSecondTokenAmount('');
         setFee(0);
@@ -300,7 +326,7 @@ const BridgeModal = (props) => {
       setIsError(true);
     } else {
       SetisLoading(true);
-      if(operation === 'UNBRIDGE') {
+      if (operation === 'UNBRIDGE') {
         SetCurrentProgress(1);
       }
       dummyApiCall({ isfinished: true }).then((res) => {
@@ -451,13 +477,17 @@ const BridgeModal = (props) => {
       const outTokenName = BridgeConfiguration.getOutTokenUnbridging(toBridge.name, token.name);
       setTokenOut({
         name: outTokenName,
-        image: Object.prototype.hasOwnProperty.call(allTokens, outTokenName) ? allTokens[outTokenName] : allTokens.fallback, 
+        image: Object.prototype.hasOwnProperty.call(allTokens, outTokenName)
+          ? allTokens[outTokenName]
+          : allTokens.fallback,
       });
     } else {
       const outTokenName = BridgeConfiguration.getOutTokenBridging(fromBridge.name, token.name);
       setTokenOut({
         name: outTokenName,
-        image: Object.prototype.hasOwnProperty.call(allTokens, outTokenName) ? allTokens[outTokenName] : allTokens.fallback,
+        image: Object.prototype.hasOwnProperty.call(allTokens, outTokenName)
+          ? allTokens[outTokenName]
+          : allTokens.fallback,
       });
     }
     setIsTokenSelected(true);
@@ -609,7 +639,7 @@ const BridgeModal = (props) => {
               {walletAddress ? (
                 <>
                   Balance:{' '}
-                  {userTokenBalance >= 0 && userTokenBalance!== null ? (
+                  {userTokenBalance >= 0 && userTokenBalance !== null ? (
                     userTokenBalance
                   ) : (
                     <div className="shimmer">0.0000</div>
@@ -753,7 +783,7 @@ BridgeModal.propTypes = {
   theme: PropTypes.any,
   setOpeningFromHistory: PropTypes.any,
   metamaskAddress: PropTypes.any,
-  setMetamaskAddress: PropTypes.any
+  setMetamaskAddress: PropTypes.any,
 };
 
 export default BridgeModal;

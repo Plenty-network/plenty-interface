@@ -31,18 +31,18 @@ const ApproveModal = (props) => {
     SetCurrentProgress,
     setSelectedId,
     setApproveHash,
-    theme
+    theme,
   } = props;
 
   const approveButtonClick = async () => {
     SetIsButtonLoading(true);
-    const approveResult = await approveToken(tokenIn,fromBridge.name,firstTokenAmount);
+    const approveResult = await approveToken(tokenIn, fromBridge.name, firstTokenAmount);
     console.log('Approve Results: ');
     console.log(approveResult);
-    if(approveResult.success) {
+    if (approveResult.success) {
       setApproveHash(approveResult.transactionHash);
       SetIsButtonLoading(false);
-      SetCurrentProgress(currentProgress+1);
+      SetCurrentProgress(currentProgress + 1);
     } else {
       console.log(approveResult.error);
       SetIsButtonLoading(false);
@@ -133,7 +133,7 @@ ApproveModal.propTypes = {
   SetCurrentProgress: PropTypes.any,
   setSelectedId: PropTypes.any,
   setApproveHash: PropTypes.any,
-  theme: PropTypes.any
+  theme: PropTypes.any,
 };
 
 export default ApproveModal;
