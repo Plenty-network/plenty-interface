@@ -367,17 +367,18 @@ export const unwrap = async (chain, amount, tokenIn) => {
     const amountToUnwrap = amount * 10 ** tokenOut.DECIMALS;
     const userData = await getUserAddress();
     const fees = (amountToUnwrap / 10000) * fee;
+    const amountToUnwrapMinusFees = amountToUnwrap - fees;
     console.log(
       tokenIn,
       tokenOut.CONTRACT.toLowerCase().substring(2),
-      amountToUnwrap.toString(10),
+      amountToUnwrapMinusFees.toString(10),
       fees.toString(10),
       userData.address.toLowerCase().substring(2),
     );
     const op = await contract.methods
       .unwrap_erc20(
         tokenOut.CONTRACT.toLowerCase().substring(2),
-        amountToUnwrap.toString(10),
+        amountToUnwrapMinusFees.toString(10),
         fees.toString(10),
         userData.address.toLowerCase().substring(2),
       )
@@ -528,7 +529,9 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
       const unwrapsArrPromise = unwraps.data.result.map(async (obj) => {
         const data = await axios.get(tzkt + '/v1/operations/' + obj.operationHash);
         const timeStamp = new Date(data.data[0].timestamp);
-        const transFee = (obj.amount / 10**BridgeConfiguration.getToken(chain, obj.token).DECIMALS) * ((BridgeConfiguration.getFeesForChain(chain).UNWRAP_FEES) / 10000);
+        const transFee =
+          (obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS) *
+          (BridgeConfiguration.getFeesForChain(chain).UNWRAP_FEES / 10000);
         return {
           ...obj,
           isWrap: false,
@@ -537,8 +540,10 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
           token: BridgeConfiguration.getToken(chain, obj.token),
           tokenIn: BridgeConfiguration.getToken(chain, obj.token).WRAPPED_TOKEN.NAME,
           tokenOut: BridgeConfiguration.getToken(chain, obj.token).SYMBOL,
-          firstTokenAmount: obj.amount / 10**BridgeConfiguration.getToken(chain, obj.token).DECIMALS,
-          secondTokenAmount: (obj.amount / 10**BridgeConfiguration.getToken(chain, obj.token).DECIMALS) - transFee,
+          firstTokenAmount:
+            obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS,
+          secondTokenAmount:
+            obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS - transFee,
           txHash: obj.operationHash,
           timestamp: timeStamp,
           actionRequired: obj.status === 'finalized' ? false : true,
@@ -546,7 +551,7 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
           fromBridge: 'TEZOS',
           toBridge: chain,
           fee: transFee,
-          chain
+          chain,
         };
       });
       const unwrapsArr = await Promise.all(unwrapsArrPromise);
@@ -563,7 +568,9 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
         const tx = await web3.eth.getTransaction(obj.transactionHash);
         const block = await web3.eth.getBlock(tx.blockHash);
         const timeStamp = new Date(block.timestamp * 1000);
-        const transFee = (obj.amount / 10**BridgeConfiguration.getToken(chain, obj.token).DECIMALS) * ((BridgeConfiguration.getFeesForChain(chain).WRAP_FEES) / 10000);
+        const transFee =
+          (obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS) *
+          (BridgeConfiguration.getFeesForChain(chain).WRAP_FEES / 10000);
         return {
           ...obj,
           isWrap: true,
@@ -572,8 +579,10 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
           token: BridgeConfiguration.getToken(chain, obj.token),
           tokenIn: BridgeConfiguration.getToken(chain, obj.token).SYMBOL,
           tokenOut: BridgeConfiguration.getToken(chain, obj.token).WRAPPED_TOKEN.NAME,
-          firstTokenAmount: obj.amount / 10**BridgeConfiguration.getToken(chain, obj.token).DECIMALS,
-          secondTokenAmount: (obj.amount / 10**BridgeConfiguration.getToken(chain, obj.token).DECIMALS) - transFee,
+          firstTokenAmount:
+            obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS,
+          secondTokenAmount:
+            obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS - transFee,
           txHash: obj.transactionHash,
           timestamp: timeStamp,
           actionRequired: obj.status === 'finalized' ? false : true,
@@ -581,7 +590,7 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
           fromBridge: chain,
           toBridge: 'TEZOS',
           fee: transFee,
-          chain
+          chain,
         };
       });
       const wrapsArr = await Promise.all(wrapsArrPromise);
