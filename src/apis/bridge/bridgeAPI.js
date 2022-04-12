@@ -508,69 +508,74 @@ export const releaseTokens = async (unwrapData, chain) => {
 };
 
 /* this function returns tx history (array of objects). Pass the ethereum, tz address, Pass only one if one is connected and the chain*/
-export const getHistory = async ({ ethereumAddress, tzAddress, chain }) => {
+export const getHistory = async ({ ethereumAddress, tzAddress }) => {
   try {
     const web3 = new Web3(window.ethereum);
     const networkSelected = CONFIG.NETWORK;
     const tzkt = CONFIG.TZKT_NODES[networkSelected];
     const availableChainsObject = CONFIG.BRIDGES_INDEXER_LINKS[networkSelected];
-    const indexerLink = availableChainsObject[chain].slice(0, -13);
-    const unwraps = await axios.get(indexerLink + 'unwraps', {
-      params: {
-        tezosAddress: tzAddress ? tzAddress : '',
-        ethereumAddress: ethereumAddress ? ethereumAddress : '',
-        type: 'ERC20',
-      },
-    });
+    let allHistory = [];
+    for (const chain of Object.keys(BridgeConfiguration.getConfig())) {
+      const indexerLink = availableChainsObject[chain].slice(0, -13);
+      const unwraps = await axios.get(indexerLink + 'unwraps', {
+        params: {
+          tezosAddress: tzAddress ? tzAddress : '',
+          ethereumAddress: ethereumAddress ? ethereumAddress : '',
+          type: 'ERC20',
+        },
+      });
 
-    const unwrapsArrPromise = unwraps.data.result.map(async (obj) => {
-      const data = await axios.get(tzkt + '/v1/operations/' + obj.operationHash);
-      const timeStamp = new Date(data.data[0].timestamp);
-      return {
-        ...obj,
-        isWrap: false,
-        isUnwrap: true,
-        token: BridgeConfiguration.getToken(chain, obj.token),
-        txHash: obj.operationHash,
-        timestamp: timeStamp,
-        actionRequired: obj.status === 'finalized' ? false : true,
-        currentProgress: 2,
-        fromBridge: 'TEZOS',
-        toBridge: chain,
-      };
-    });
-    const unwrapsArr = await Promise.all(unwrapsArrPromise);
+      const unwrapsArrPromise = unwraps.data.result.map(async (obj) => {
+        const data = await axios.get(tzkt + '/v1/operations/' + obj.operationHash);
+        const timeStamp = new Date(data.data[0].timestamp);
+        return {
+          ...obj,
+          isWrap: false,
+          isUnwrap: true,
+          token: BridgeConfiguration.getToken(chain, obj.token),
+          txHash: obj.operationHash,
+          timestamp: timeStamp,
+          actionRequired: obj.status === 'finalized' ? false : true,
+          currentProgress: 2,
+          fromBridge: 'TEZOS',
+          toBridge: chain,
+        };
+      });
+      const unwrapsArr = await Promise.all(unwrapsArrPromise);
 
-    const wraps = await axios.get(indexerLink + 'wraps', {
-      params: {
-        tezosAddress: tzAddress ? tzAddress : '',
-        ethereumAddress: ethereumAddress ? ethereumAddress : '',
-        type: 'ERC20',
-      },
-    });
+      const wraps = await axios.get(indexerLink + 'wraps', {
+        params: {
+          tezosAddress: tzAddress ? tzAddress : '',
+          ethereumAddress: ethereumAddress ? ethereumAddress : '',
+          type: 'ERC20',
+        },
+      });
 
-    const wrapsArrPromise = wraps.data.result.map(async (obj) => {
-      const tx = await web3.eth.getTransaction(obj.transactionHash);
-      const block = await web3.eth.getBlock(tx.blockHash);
-      const timeStamp = new Date(block.timestamp * 1000);
-      return {
-        ...obj,
-        isWrap: true,
-        isUnwrap: false,
-        token: BridgeConfiguration.getToken(chain, obj.token),
-        txHash: obj.transactionHash,
-        timestamp: timeStamp,
-        actionRequired: obj.status === 'finalized' ? false : true,
-        currentProgress: 2,
-        fromBridge: chain,
-        toBridge: 'TEZOS',
-      };
-    });
-    const wrapsArr = await Promise.all(wrapsArrPromise);
+      const wrapsArrPromise = wraps.data.result.map(async (obj) => {
+        const tx = await web3.eth.getTransaction(obj.transactionHash);
+        const block = await web3.eth.getBlock(tx.blockHash);
+        const timeStamp = new Date(block.timestamp * 1000);
+        return {
+          ...obj,
+          isWrap: true,
+          isUnwrap: false,
+          token: BridgeConfiguration.getToken(chain, obj.token),
+          txHash: obj.transactionHash,
+          timestamp: timeStamp,
+          actionRequired: obj.status === 'finalized' ? false : true,
+          currentProgress: 2,
+          fromBridge: chain,
+          toBridge: 'TEZOS',
+        };
+      });
+      const wrapsArr = await Promise.all(wrapsArrPromise);
 
-    const history = wrapsArr.concat(unwrapsArr);
+      const history = wrapsArr.concat(unwrapsArr);
+      allHistory = allHistory.concat(history);
+    }
+
     return {
-      history: history,
+      history: allHistory,
 
       success: true,
     };
@@ -580,6 +585,38 @@ export const getHistory = async ({ ethereumAddress, tzAddress, chain }) => {
       history: [],
       success: false,
       error: e,
+    };
+  }
+};
+
+export const getApproveTxCost = async (tokenIn, chain, amount) => {
+  const web3 = new Web3(window.ethereum);
+  const userData = await getUserAddress();
+  if (userData.success && userData.address) {
+    const userAddress = userData.address;
+    const wrapContractAddress = BridgeConfiguration.getWrapContract(chain);
+    const tokenContract = new web3.eth.Contract(ERC20_ABI, tokenIn.tokenData.CONTRACT_ADDRESS);
+    const amountToAprove = amount * 10 ** tokenIn.tokenData.DECIMALS;
+    const gas = BigNumber.from(
+      (
+        await tokenContract.methods
+          .approve(wrapContractAddress, amountToAprove.toString())
+          .estimateGas({ from: userAddress })
+      ).toString(),
+    );
+    const gasPrice = BigNumber.from((await web3.eth.getGasPrice()).toString());
+    console.log(gasPrice.toString());
+    console.log(gas.toString());
+    const txCost = ethers.utils.formatEther(gas.mul(gasPrice));
+    return {
+      success: true,
+      txCost: txCost,
+    };
+  } else {
+    return {
+      success: false,
+      txCost: 0,
+      error: userData.error,
     };
   }
 };

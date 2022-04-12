@@ -4,6 +4,7 @@ export interface IConfig {
   RPC_NODES: INodes;
   TZKT_NODES: INodes;
   TOKENS_PAGE: INodes;
+  EXPLORER_LINKS: IExplorerLinks;
   STAKING_CONTRACTS: {
     POOLS: any;
     FARMS: {
@@ -65,6 +66,12 @@ interface IApi {
 interface INodes {
   testnet: string;
   mainnet: string;
+}
+
+interface IExplorerLinks {
+  ETHEREUM: string;
+  TEZOS: string;
+  RINKEBY: string;
 }
 
 type TTokenType = 'FA2' | 'FA1.2' | 'XTZ';

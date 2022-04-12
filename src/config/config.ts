@@ -4529,12 +4529,16 @@ const Config: IConfig = {
   },
   BRIDGES_INDEXER_LINKS: {
     testnet: {
-      AVALANCHE: 'http://18.221.32.62/v1/configuration'
+      RINKEBY: 'http://18.221.32.62/v1/configuration',
     },
     mainnet: {
       ETHEREUM: 'https://indexer.app.tzwrap.com/v1/configuration',
-      
-    }
+    },
+  },
+  EXPLORER_LINKS: {
+    RINKEBY: 'https://rinkeby.etherscan.io/tx/',
+    ETHEREUM: 'https://etherscan.io/tx/',
+    TEZOS: 'https://tzkt.io/',
   },
 };
 
