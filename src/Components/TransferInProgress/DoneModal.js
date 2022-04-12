@@ -20,16 +20,18 @@ const DoneModal = (props) => {
     secondTokenAmount,
     SetCurrentProgress,
     wrappedUnwrappedData,
+    // eslint-disable-next-line
     selectedId,
+    // eslint-disable-next-line
     setTransactionData,
     finalOpHash,
     setFinalOpHash,
-    openingFromHistory
+    openingFromHistory,
   } = props;
 
   useEffect(async () => {
-    if(currentProgress === numberOfSteps.length - 1) {
-      if(operation === 'BRIDGE') {
+    if (currentProgress === numberOfSteps.length - 1) {
+      if (operation === 'BRIDGE') {
         const mintResult = await mintTokens(wrappedUnwrappedData, fromBridge.name);
         console.log('Mint Results: ');
         console.log(mintResult);
@@ -41,7 +43,7 @@ const DoneModal = (props) => {
           SetCurrentProgress(currentProgress - 1);
         }
       } else {
-        const releaseResult = await releaseTokens(wrappedUnwrappedData,toBridge.name);
+        const releaseResult = await releaseTokens(wrappedUnwrappedData, toBridge.name);
         console.log('Release Results: ');
         console.log(releaseResult);
         if (releaseResult.success) {
@@ -52,9 +54,8 @@ const DoneModal = (props) => {
           SetCurrentProgress(currentProgress - 1);
         }
       }
-      
     }
-  },[]);
+  }, []);
 
   return (
     <>
@@ -83,7 +84,9 @@ const DoneModal = (props) => {
                   <span className="value-text">
                     {secondTokenAmount} {tokenOut.name}
                   </span>
-                  <span className="fromreceived success-text">{operation === 'BRIDGE' ? 'Bridging' : 'Unbridging'} Successful</span>
+                  <span className="fromreceived success-text">
+                    {operation === 'BRIDGE' ? 'Bridging' : 'Unbridging'} Successful
+                  </span>
                 </div>
               </div>
             </div>
@@ -129,7 +132,15 @@ const DoneModal = (props) => {
           <div className="borderless mt-3">
             <p className={`mb-1 mt-1 ${styles.discriptionInfo}`} style={{ width: 'max-content' }}>
               <a
-                href={`${operation === 'BRIDGE' ? (openingFromHistory ? CONFIG.EXPLORER_LINKS[fromBridge.name] : CONFIG.EXPLORER_LINKS.TEZOS) : (openingFromHistory ? CONFIG.EXPLORER_LINKS.TEZOS : CONFIG.EXPLORER_LINKS[toBridge.name])}${finalOpHash}`}
+                href={`${
+                  operation === 'BRIDGE'
+                    ? openingFromHistory
+                      ? CONFIG.EXPLORER_LINKS[fromBridge.name]
+                      : CONFIG.EXPLORER_LINKS.TEZOS
+                    : openingFromHistory
+                    ? CONFIG.EXPLORER_LINKS.TEZOS
+                    : CONFIG.EXPLORER_LINKS[toBridge.name]
+                }${finalOpHash}`}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -143,7 +154,6 @@ const DoneModal = (props) => {
     </>
   );
 };
-
 
 DoneModal.propTypes = {
   transactionFees: PropTypes.any,
@@ -160,7 +170,7 @@ DoneModal.propTypes = {
   setTransactionData: PropTypes.any,
   finalOpHash: PropTypes.any,
   setFinalOpHash: PropTypes.any,
-  openingFromHistory: PropTypes.any
+  openingFromHistory: PropTypes.any,
 };
 
 export default DoneModal;

@@ -20,79 +20,6 @@ import { allTokens } from '../../constants/bridges';
 import TransactionHistory from '../../Components/TransactionHistory/TransactionHistory';
 import BridgeTransferModal from '../../Components/TransferInProgress/BridgeTransferModal';
 
-const transactions = [
-  {
-    id: 0,
-    currentProgress: 4,
-    operation: 'BRIDGE',
-    fromBridge: 'ETHEREUM',
-    toBridge: 'TEZOS',
-    tokenIn: 'DAI',
-    tokenOut: 'DAI.e',
-    firstTokenAmount: 23.393,
-    secondTokenAmount: 22.393,
-    fee: 1,
-    date: '03/02/2022',
-    time: '15:23',
-  },
-  {
-    id: 1,
-    currentProgress: 4,
-    operation: 'UNBRIDGE',
-    fromBridge: 'TEZOS',
-    toBridge: 'ETHEREUM',
-    tokenIn: 'DAI.e',
-    tokenOut: 'DAI',
-    firstTokenAmount: 3.393,
-    secondTokenAmount: 2.393,
-    fee: 1,
-    date: '03/02/2022',
-    time: '19:23',
-  },
-  {
-    id: 2,
-    currentProgress: 2,
-    operation: 'BRIDGE',
-    fromBridge: 'ETHEREUM',
-    toBridge: 'TEZOS',
-    tokenIn: 'DAI',
-    tokenOut: 'DAI.e',
-    firstTokenAmount: 13.393,
-    secondTokenAmount: 12.393,
-    fee: 1,
-    date: '04/02/2022',
-    time: '15:23',
-  },
-  {
-    id: 3,
-    currentProgress: 2,
-    operation: 'UNBRIDGE',
-    fromBridge: 'TEZOS',
-    toBridge: 'ETHEREUM',
-    tokenIn: 'DAI.e',
-    tokenOut: 'DAI',
-    firstTokenAmount: 27.393,
-    secondTokenAmount: 26.393,
-    fee: 1,
-    date: '03/02/2022',
-    time: '23:23',
-  },
-  {
-    id: 4,
-    currentProgress: 4,
-    operation: 'BRIDGE',
-    fromBridge: 'ETHEREUM',
-    toBridge: 'TEZOS',
-    tokenIn: 'WBTC',
-    tokenOut: 'WBTC.e',
-    firstTokenAmount: 67.393,
-    secondTokenAmount: 26.393,
-    fee: 1,
-    date: '09/02/2022',
-    time: '18:23',
-  },
-];
-
 const Bridge = (props) => {
   //const isMobile = useMediaQuery('(max-width: 991px)');
   const initialRender = useRef(true);
@@ -183,10 +110,13 @@ const Bridge = (props) => {
             //Change after creating config.
             const outTokenName = BridgeConfiguration.getOutTokenUnbridging(
               toBridge.name,
-              loadedTokensList.current.TEZOS[toBridge.name][0].name);
+              loadedTokensList.current.TEZOS[toBridge.name][0].name,
+            );
             setTokenOut({
               name: outTokenName,
-              image: Object.prototype.hasOwnProperty.call(allTokens, outTokenName) ? allTokens[outTokenName] : allTokens.fallback,
+              image: Object.prototype.hasOwnProperty.call(allTokens, outTokenName)
+                ? allTokens[outTokenName]
+                : allTokens.fallback,
             });
           } else {
             setTokenList([]);
@@ -211,7 +141,9 @@ const Bridge = (props) => {
           );
           setTokenOut({
             name: outTokenName,
-            image: Object.prototype.hasOwnProperty.call(allTokens, outTokenName) ? allTokens[outTokenName] : allTokens.fallback,
+            image: Object.prototype.hasOwnProperty.call(allTokens, outTokenName)
+              ? allTokens[outTokenName]
+              : allTokens.fallback,
           });
         }
       }
@@ -238,7 +170,9 @@ const Bridge = (props) => {
       );
       setTokenOut({
         name: outTokenName,
-        image: Object.prototype.hasOwnProperty.call(allTokens, outTokenName) ? allTokens[outTokenName] : allTokens.fallback,
+        image: Object.prototype.hasOwnProperty.call(allTokens, outTokenName)
+          ? allTokens[outTokenName]
+          : allTokens.fallback,
       });
     } else {
       loadedTokensList.current = tokensListResult.success ? tokensListResult.data : null;
@@ -405,5 +339,5 @@ export default Bridge;
 
 Bridge.propTypes = {
   walletAddress: PropTypes.any,
-  theme: PropTypes.any
+  theme: PropTypes.any,
 };

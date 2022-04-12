@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
 import styles from './Transfer.module.scss';
 import Button from '../Ui/Buttons/Button';
-import { ReactComponent as FeeIcon } from '../../assets/images/bridge/fee_icon.svg';
+
 import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
 import GasIcon from '../../assets/images/bridge/gas_fee_icon.svg';
 import GasIconDark from '../../assets/images/bridge/gas_fee_icon_dark.svg';
-import dummyApiCall from '../../apis/dummyApiCall';
 import { useState } from 'react';
 import { wrap, unwrap } from '../../apis/bridge/bridgeAPI';
 import CONFIG from '../../config/config';
@@ -16,28 +15,39 @@ const BridgeUnbridgeModal = (props) => {
     description,
     gasFees,
     currentProgress,
+    // eslint-disable-next-line
     getTransactionListLength,
     operation,
     fromBridge,
     toBridge,
     tokenIn,
+    // eslint-disable-next-line
     tokenOut,
     firstTokenAmount,
+    // eslint-disable-next-line
     secondTokenAmount,
+    // eslint-disable-next-line
     setTransactionData,
+    // eslint-disable-next-line
     selectedId,
     SetCurrentProgress,
     walletAddress,
     setMintUnmintOpHash,
+    // eslint-disable-next-line
     setSelectedId,
     approveHash,
-    theme
+    theme,
   } = props;
 
   const bridgeButtonClick = async () => {
     SetIsButtonLoading(true);
     if (operation === 'BRIDGE') {
-      const bridgeUnbridgeResult = await wrap(tokenIn,fromBridge.name,firstTokenAmount,walletAddress);
+      const bridgeUnbridgeResult = await wrap(
+        tokenIn,
+        fromBridge.name,
+        firstTokenAmount,
+        walletAddress,
+      );
       console.log(operation + ' Results: ');
       console.log(bridgeUnbridgeResult);
       if (bridgeUnbridgeResult.success) {
@@ -49,7 +59,7 @@ const BridgeUnbridgeModal = (props) => {
         SetIsButtonLoading(false);
       }
     } else {
-      const bridgeUnbridgeResult = await unwrap(toBridge.name,firstTokenAmount,tokenIn);
+      const bridgeUnbridgeResult = await unwrap(toBridge.name, firstTokenAmount, tokenIn);
       console.log(operation + ' Results: ');
       console.log(bridgeUnbridgeResult);
       if (bridgeUnbridgeResult.success) {
@@ -61,7 +71,7 @@ const BridgeUnbridgeModal = (props) => {
         SetIsButtonLoading(false);
       }
     }
-    
+
     /* dummyApiCall({ currentProgress: currentProgress }).then((res) => {
       if (operation === 'UNBRIDGE') {
         const newIndex = getTransactionListLength();
@@ -101,16 +111,18 @@ const BridgeUnbridgeModal = (props) => {
     <>
       <p className={styles.contentLabel}>Approving</p>
       <p className={styles.contentDes}>{description}</p>
-      {operation === 'BRIDGE' && (<p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
-        <a
-          href={`${CONFIG.BRIDGES_INDEXER_LINKS[fromBridge.name]}${approveHash}`}
-          target="_blank"
-          rel="noreferrer"
-        >
-          View on Block Explorer
-        </a>
-        <Link className="ml-2 mb-1" />
-      </p>)}
+      {operation === 'BRIDGE' && (
+        <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
+          <a
+            href={`${CONFIG.BRIDGES_INDEXER_LINKS[fromBridge.name]}${approveHash}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            View on Block Explorer
+          </a>
+          <Link className="ml-2 mb-1" />
+        </p>
+      )}
       <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
       <div className={styles.resultsHeader}>
         <div className={`${styles.bottomInfo} ${styles.width}`}>
@@ -141,7 +153,6 @@ const BridgeUnbridgeModal = (props) => {
   );
 };
 
-
 BridgeUnbridgeModal.propTypes = {
   description: PropTypes.any,
   gasFees: PropTypes.any,
@@ -161,7 +172,7 @@ BridgeUnbridgeModal.propTypes = {
   setMintUnmintOpHash: PropTypes.any,
   setSelectedId: PropTypes.any,
   approveHash: PropTypes.any,
-  theme: PropTypes.any
+  theme: PropTypes.any,
 };
 
 export default BridgeUnbridgeModal;
