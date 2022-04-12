@@ -528,17 +528,25 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
       const unwrapsArrPromise = unwraps.data.result.map(async (obj) => {
         const data = await axios.get(tzkt + '/v1/operations/' + obj.operationHash);
         const timeStamp = new Date(data.data[0].timestamp);
+        const transFee = (obj.amount / 10**BridgeConfiguration.getToken(chain, obj.token).DECIMALS) * ((BridgeConfiguration.getFeesForChain(chain).UNWRAP_FEES) / 10000);
         return {
           ...obj,
           isWrap: false,
           isUnwrap: true,
+          operation: 'UNBRIDGE',
           token: BridgeConfiguration.getToken(chain, obj.token),
+          tokenIn: BridgeConfiguration.getToken(chain, obj.token).WRAPPED_TOKEN.NAME,
+          tokenOut: BridgeConfiguration.getToken(chain, obj.token).SYMBOL,
+          firstTokenAmount: obj.amount / 10**BridgeConfiguration.getToken(chain, obj.token).DECIMALS,
+          secondTokenAmount: (obj.amount / 10**BridgeConfiguration.getToken(chain, obj.token).DECIMALS) - transFee,
           txHash: obj.operationHash,
           timestamp: timeStamp,
           actionRequired: obj.status === 'finalized' ? false : true,
-          currentProgress: 2,
+          currentProgress: obj.status === 'finalized' ? 4 : 2,
           fromBridge: 'TEZOS',
           toBridge: chain,
+          fee: transFee,
+          chain
         };
       });
       const unwrapsArr = await Promise.all(unwrapsArrPromise);
@@ -555,17 +563,25 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
         const tx = await web3.eth.getTransaction(obj.transactionHash);
         const block = await web3.eth.getBlock(tx.blockHash);
         const timeStamp = new Date(block.timestamp * 1000);
+        const transFee = (obj.amount / 10**BridgeConfiguration.getToken(chain, obj.token).DECIMALS) * ((BridgeConfiguration.getFeesForChain(chain).WRAP_FEES) / 10000);
         return {
           ...obj,
           isWrap: true,
           isUnwrap: false,
+          operation: 'BRIDGE',
           token: BridgeConfiguration.getToken(chain, obj.token),
+          tokenIn: BridgeConfiguration.getToken(chain, obj.token).SYMBOL,
+          tokenOut: BridgeConfiguration.getToken(chain, obj.token).WRAPPED_TOKEN.NAME,
+          firstTokenAmount: obj.amount / 10**BridgeConfiguration.getToken(chain, obj.token).DECIMALS,
+          secondTokenAmount: (obj.amount / 10**BridgeConfiguration.getToken(chain, obj.token).DECIMALS) - transFee,
           txHash: obj.transactionHash,
           timestamp: timeStamp,
           actionRequired: obj.status === 'finalized' ? false : true,
-          currentProgress: 2,
+          currentProgress: obj.status === 'finalized' ? 4 : 2,
           fromBridge: chain,
           toBridge: 'TEZOS',
+          fee: transFee,
+          chain
         };
       });
       const wrapsArr = await Promise.all(wrapsArrPromise);

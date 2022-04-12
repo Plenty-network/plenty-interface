@@ -40,26 +40,6 @@ const ApproveModal = (props) => {
     console.log('Approve Results: ');
     console.log(approveResult);
     if(approveResult.success) {
-      const newIndex = getTransactionListLength();
-      const newProgress = currentProgress + 1;
-      const newDate = new Date().toLocaleDateString('en-IN');
-      const newTime = `${new Date().getHours()}:${new Date().getMinutes()}`;
-      const newData = {
-        id: newIndex,
-        currentProgress: newProgress,
-        operation: operation,
-        fromBridge: fromBridge.name,
-        toBridge: toBridge.name,
-        tokenIn: tokenIn.name,
-        tokenOut: tokenOut.name,
-        firstTokenAmount: firstTokenAmount,
-        secondTokenAmount: secondTokenAmount,
-        fee: gasFees,
-        date: newDate,
-        time: newTime,
-      };
-      setSelectedId(newIndex);
-      setTransactionData((prevData) => [...prevData, newData]);
       setApproveHash(approveResult.transactionHash);
       SetIsButtonLoading(false);
       SetCurrentProgress(currentProgress+1);

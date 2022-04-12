@@ -24,11 +24,13 @@ import { FILTER_OPTIONS, TransactionHistoryFilter } from '../Bridges/Transaction
 import { SORT_OPTIONS, TransactionHistorySort } from '../Bridges/TransactionHistorySort';
 import { bridgesList, tokensList } from '../../constants/bridges';
 import { allTokens } from '../../constants/bridges';
+import { getHistory } from '../../apis/bridge/bridgeAPI';
 
 const TransactionHistory = (props) => {
   const [animationCalss,SetAnimationClass]=useState('leftToRightFadeInAnimation-4-bridge');
   const [showFilter, setShowFilter] = useState(false);
   const [showSort, setShowSort] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [checkBoxesState, setCheckBoxesState] = useState(
     FILTER_OPTIONS.reduce((checkBoxesState,option) => {
@@ -43,6 +45,31 @@ const TransactionHistory = (props) => {
   const [checkedCount, setCheckedCount] = useState(0);
   //Currently default sort option is by most recent transaction. Need to change this if default sort option changes.
   const [radioButtonSelected, setRadioButtonSelected] = useState('MOST_RECENT');
+
+  const dummyLoadingDivisions = useRef([0,0,0,0,0]);
+
+  const {
+    transaction,
+    setTransaction,
+    transactionData,
+    setFromBridge,
+    setToBridge,
+    setFirstTokenAmount,
+    setSecondTokenAmount,
+    setFee,
+    SetCurrentProgress,
+    setOperation,
+    setTokenIn,
+    setTokenOut,
+    setSelectedId,
+    theme,
+    setTransactionData,
+    setMintUnmintOpHash,
+    setFinalOpHash,
+    setOpeningFromHistory,
+    walletAddress,
+    metamaskAddress
+  } = props;
 
   const filterData = (originalData, checkBoxesState) => {
     const checkedCount = Object.values(checkBoxesState).filter((checkBoxState) => checkBoxState).length;
@@ -77,16 +104,16 @@ const TransactionHistory = (props) => {
     // Change the date comparison method anf format.
     return dataToSort.sort((a, b) => {
       if(radioSelected === 'MOST_RECENT'){
-        if(`${a.date} ${a.time}` > `${b.date} ${b.time}`) {
+        if(new Date(a.timestamp).getTime() > new Date(b.timestamp).getTime()) {
           return -1;
-        } else if(`${a.date} ${a.time}` < `${b.date} ${b.time}`) {
+        } else if(new Date(a.timestamp).getTime() < new Date(b.timestamp).getTime()) {
           return 1;
         }
         return 0;
       } else if(radioSelected === 'OLDEST') {
-        if(`${a.date} ${a.time}` < `${b.date} ${b.time}`) {
+        if(new Date(a.timestamp).getTime() < new Date(b.timestamp).getTime()) {
           return -1;
-        } else if(`${a.date} ${a.time}` > `${b.date} ${b.time}`) {
+        } else if(new Date(a.timestamp).getTime() > new Date(b.timestamp).getTime()) {
           return 1;
         }
         return 0;
@@ -108,17 +135,17 @@ const TransactionHistory = (props) => {
     });
   };
 
-  const filteredData = useMemo(() => filterData(props.transactionData, checkBoxesState, checkedCount), [props.transactionData, checkBoxesState]);
+  const filteredData = useMemo(() => filterData(transactionData, checkBoxesState, checkedCount), [transactionData, checkBoxesState]);
 
   const sortedData = useMemo(() => sortData(filteredData, radioButtonSelected), [filteredData, radioButtonSelected]);
 
-  //const [filteredData, setFilteredData] = useState(props.transactionData);
+  //const [filteredData, setFilteredData] = useState(transactionData);
 
   const setBack = (value) => {
     SetAnimationClass('rightToLeftFadeInAnimation-4');
     setTimeout(()=>{
       if (value) {
-        props.setTransaction(1);
+        setTransaction(1);
       }
     },200); 
   };
@@ -142,14 +169,14 @@ const TransactionHistory = (props) => {
 
   const actionClickHandler = (id) => {
     //console.log(id);
-    //console.log(props.transactionData.find((item) => item.id === Number(id)));
-    const selectedData = props.transactionData.find((item) => item.id === Number(id));
-    props.setFirstTokenAmount(selectedData.firstTokenAmount);
-    props.setSecondTokenAmount(selectedData.secondTokenAmount);
+    //console.log(transactionData.find((item) => item.id === Number(id)));
+    const selectedData = transactionData.find((item) => item.id === id);
+    setFirstTokenAmount(selectedData.firstTokenAmount);
+    setSecondTokenAmount(selectedData.secondTokenAmount);
     const currentFromBridge = bridgesList.find((bridge) => bridge.name === selectedData.fromBridge);
-    props.setFromBridge({name: currentFromBridge.name, image: currentFromBridge.bigIcon, buttonImage: currentFromBridge.buttonImage});
+    setFromBridge({name: currentFromBridge.name, image: currentFromBridge.bigIcon, buttonImage: currentFromBridge.buttonImage});
     const currentToBridge = bridgesList.find((bridge) => bridge.name === selectedData.toBridge);
-    props.setToBridge({name: currentToBridge.name, image: currentToBridge.bigIcon, buttonImage: currentToBridge.buttonImage});
+    setToBridge({name: currentToBridge.name, image: currentToBridge.bigIcon, buttonImage: currentToBridge.buttonImage});
     //const currentTokenIn = tokensList[currentFromBridge.name].find((token) => token.name === selectedData.tokenIn);
     //const currentTokenOut = tokensList[currentToBridge.name].find((token) => token.name === selectedData.tokenOut);
     const currentTokenIn = {
@@ -162,23 +189,37 @@ const TransactionHistory = (props) => {
     };
     //console.log(currentTokenIn);
     setTimeout(()=>{
-      props.setTokenIn({
+      setTokenIn({
         name: currentTokenIn.name,
         image: currentTokenIn.image,
       });
-      props.setTokenOut({
+      setTokenOut({
         name: `${currentTokenOut.name}`,
         image: currentTokenOut.image,     //Change after creating config.
       });
     },100);
-    props.setSelectedId(Number(id));
-    props.setFee(selectedData.fee);
-    props.SetCurrentProgress(selectedData.currentProgress);
-    props.setOperation(selectedData.operation);
+    setSelectedId(id);
+    setFee(selectedData.fee);
+    SetCurrentProgress(selectedData.currentProgress);
+    setOperation(selectedData.operation);
+    setMintUnmintOpHash(selectedData.txHash);
+    setFinalOpHash(selectedData.txHash);
+    setOpeningFromHistory(true);
     setTimeout(()=>{
-      props.setTransaction(3);
+      setTransaction(3);
     },200);
   };
+
+  useEffect(async () => {
+    setIsLoading(true);
+    // const data = await getHistory({ ethereumAddress:'0xb96E3B80D52Fed6Aa53bE5aE282a4DDA06db8122', tzAddress: 'tz1QNjbsi2TZEusWyvdH3nmsCVE3T1YqD9sv' });
+    const data = await getHistory({ ethereumAddress:metamaskAddress, tzAddress: walletAddress });
+    console.log(data);
+    if(data.success) {
+      setTransactionData(data.history);
+      setIsLoading(false);
+    }
+  }, []);
 
 
   /* api call example 
@@ -211,12 +252,12 @@ const TransactionHistory = (props) => {
             </div>
             <div className={styles.filterImageWrapper}>
               <img
-                src={props.theme === 'light' ? (showSort ? sortSelected : sortNotSelected) : (showSort ? sortSelectedDark : sortNotSelectedDark)}
+                src={theme === 'light' ? (showSort ? sortSelected : sortNotSelected) : (showSort ? sortSelectedDark : sortNotSelectedDark)}
                 onClick={sortClickHandler}
                 style={{ cursor: 'pointer' }}
               ></img>
               <img
-                src={props.theme === 'light' ? (checkedCount > 0 ? filterApplied : (showFilter ? filterSelected : filterNotSelected)) : (checkedCount > 0 ? filterAppliedDark : (showFilter ? filterSelectedDark : filterNotSelectedDark))}
+                src={theme === 'light' ? (checkedCount > 0 ? filterApplied : (showFilter ? filterSelected : filterNotSelected)) : (checkedCount > 0 ? filterAppliedDark : (showFilter ? filterSelectedDark : filterNotSelectedDark))}
                 onClick={filterClickHandler}
                 style={{ cursor: 'pointer'}}
               ></img>
@@ -236,38 +277,52 @@ const TransactionHistory = (props) => {
           </div>
           <div className={`mb-3 ${styles.lineBottom} `}></div>
           {
-            sortedData.map((data,index) => {
-              return (
-                <>
-                  <div key={index} className={styles.resultsHeader}>
-                    <div className={styles.resultsInfoWrapper}>
-                      <div className={styles.tokenbg}>
-                        <img src={data.currentProgress === 4 ? (data.operation === 'BRIDGE' ? (props.theme === 'light' ? downArrow : downArrowDark) : (props.theme === 'light' ? upArrow : upArrowDark)) : actionHistory} className={styles.tokens}></img>
-                      </div>
-                      <div>
-                        <p className={styles.value}>{data.secondTokenAmount} {data.tokenOut}</p>
-                        <p className={styles.amt}>{data.date} ; {data.time}</p>
-                      </div>
-                    </div>
-                    {
-                      data.currentProgress === 4 ? (
-                        <div className={styles.detailWrapper}>
-                          <p id={data.id} className={styles.details} onClick={(e) => actionClickHandler(e.target.id)}>View Details</p>
+            isLoading ? (
+              dummyLoadingDivisions.current.map((box,index) => {
+                return (
+                  <div key={index} className={`mb-3 ${styles.shimmerEffect}`} style={{height: '70px', width: '100%'}}></div>
+                );
+              })
+            ) : (
+              sortedData.length > 0 ? (
+                sortedData.map((data,index) => {
+                  return (
+                    <>
+                      <div key={index} className={styles.resultsHeader}>
+                        <div className={styles.resultsInfoWrapper}>
+                          <div className={styles.tokenbg}>
+                            <img src={data.currentProgress === 4 ? (data.operation === 'BRIDGE' ? (theme === 'light' ? downArrow : downArrowDark) : (theme === 'light' ? upArrow : upArrowDark)) : actionHistory} className={styles.tokens}></img>
+                          </div>
+                          <div>
+                            <p className={styles.value}>{data.secondTokenAmount} {data.tokenOut}</p>
+                            <p className={styles.amt}>{new Date(data.timestamp).toLocaleDateString('en-IN')} ; {('0' + new Date(data.timestamp).getHours()).slice(-2)}:{('0' + new Date(data.timestamp).getMinutes()).slice(-2)}</p>
+                          </div>
                         </div>
-                      ) : (
-                        <div className={styles.detailWrapper}>
-                          <p id={data.id} className={styles.action} onClick={(e) => actionClickHandler(e.target.id)}>
-                            Action Required <img src={actionRequired}></img>
-                          </p>
-                        </div>
-                      )
-                    }
-                  
-                  </div>
-                  <div className={`mt-3 mb-3 ${styles.lineBottom} `}></div>
-                </>
-              );
-            })
+                        {
+                          data.currentProgress === 4 ? (
+                            <div className={styles.detailWrapper}>
+                              <p id={data.id} className={styles.details} onClick={(e) => actionClickHandler(e.target.id)}>View Details</p>
+                            </div>
+                          ) : (
+                            <div className={styles.detailWrapper}>
+                              <p id={data.id} className={styles.action} onClick={(e) => actionClickHandler(e.target.id)}>
+                                Action Required <img src={actionRequired}></img>
+                              </p>
+                            </div>
+                          )
+                        }
+                      
+                      </div>
+                      <div className={`mt-3 mb-3 ${styles.lineBottom} `}></div>
+                    </>
+                  );
+                })
+              ) : (
+                <div className={styles.noDataDiv}>
+                  <p className={styles.value}>No trasaction history data.</p>
+                </div>
+              )
+            )
           }
         </div>
       </div>
@@ -289,7 +344,13 @@ TransactionHistory.propTypes = {
   setTokenIn: PropTypes.any,
   setTokenOut: PropTypes.any,
   setSelectedId: PropTypes.any,
-  theme: PropTypes.any
+  theme: PropTypes.any,
+  setTransactionData: PropTypes.any,
+  setMintUnmintOpHash: PropTypes.any,
+  setFinalOpHash: PropTypes.any,
+  setOpeningFromHistory: PropTypes.any,
+  walletAddress: PropTypes.any,
+  metamaskAddress: PropTypes.any
 };
 
 export default TransactionHistory;

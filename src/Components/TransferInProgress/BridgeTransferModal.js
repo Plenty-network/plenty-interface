@@ -39,8 +39,8 @@ const BridgeTransferModal = (props) => {
   const [isButtonLoading, SetIsButtonLoading] = useState(false);
   const approveHash = useRef(null);
   //const [mintUnmintOpHash, setMintUnmintOpHash] = useState(null);
-  const mintUnmintOpHash = useRef(null);
-  const finalOpHash = useRef(null);
+  //const mintUnmintOpHash = useRef(null);
+  //const finalOpHash = useRef(null);
   //const [wrappedUnwrappedData, setWrapUnwrapData] = useState(null);
   const wrappedUnwrappedData = useRef(null);
 
@@ -52,13 +52,13 @@ const BridgeTransferModal = (props) => {
     approveHash.current = hash;
   };
 
-  const setMintUnmintOpHash = (hash) => {
-    mintUnmintOpHash.current = hash;
-  };
+  // const setMintUnmintOpHash = (hash) => {
+  //   mintUnmintOpHash.current = hash;
+  // };
 
-  const setFinalOpHash = (hash) => {
-    finalOpHash.current = hash;
-  };
+  // const setFinalOpHash = (hash) => {
+  //   finalOpHash.current = hash;
+  // };
 
   const isCurrentProgressCompleted = (currentProgres) => {
     return currentProgres > currentProgres;
@@ -91,7 +91,12 @@ const BridgeTransferModal = (props) => {
     setTransactionData,
     getTransactionListLength,
     setSelectedId,
-    theme
+    theme,
+    mintUnmintOpHash,
+    setMintUnmintOpHash,
+    finalOpHash,
+    setFinalOpHash,
+    openingFromHistory
   } = props;
 
   const setBack = (value) => {
@@ -580,8 +585,9 @@ const BridgeTransferModal = (props) => {
         wrappedUnwrappedData={wrappedUnwrappedData.current}
         selectedId={selectedId}
         setTransactionData={setTransactionData}
-        finalOpHash={finalOpHash.current}
+        finalOpHash={finalOpHash}
         setFinalOpHash={setFinalOpHash}
+        openingFromHistory={openingFromHistory}
       />);
     }
   };
@@ -708,7 +714,12 @@ BridgeTransferModal.propTypes = {
   getTransactionListLength: PropTypes.any,
   selectedId: PropTypes.any,
   setSelectedId: PropTypes.any,
-  theme: PropTypes.any
+  theme: PropTypes.any,
+  mintUnmintOpHash: PropTypes.any,
+  setMintUnmintOpHash: PropTypes.any,
+  finalOpHash: PropTypes.any,
+  setFinalOpHash: PropTypes.any,
+  openingFromHistory: PropTypes.any
 };
 
 export default BridgeTransferModal;

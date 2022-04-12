@@ -6,6 +6,7 @@ import { ReactComponent as ProcessSuccess } from '../../assets/images/bridge/pro
 import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
 import { useEffect } from 'react';
 import { mintTokens, releaseTokens } from '../../apis/bridge/bridgeAPI';
+import CONFIG from '../../config/config';
 
 const DoneModal = (props) => {
   const {
@@ -22,7 +23,8 @@ const DoneModal = (props) => {
     selectedId,
     setTransactionData,
     finalOpHash,
-    setFinalOpHash
+    setFinalOpHash,
+    openingFromHistory
   } = props;
 
   useEffect(async () => {
@@ -33,13 +35,6 @@ const DoneModal = (props) => {
         console.log(mintResult);
         if (mintResult.success) {
           setFinalOpHash(mintResult.transactionHash);
-          setTransactionData((prevData) =>
-            prevData.map((transaction) =>
-              transaction.id === selectedId
-                ? { ...transaction, currentProgress: currentProgress + 2 }
-                : transaction,
-            ),
-          );
           SetCurrentProgress(currentProgress + 1);
         } else {
           console.log(mintResult.error);
@@ -51,13 +46,6 @@ const DoneModal = (props) => {
         console.log(releaseResult);
         if (releaseResult.success) {
           setFinalOpHash(releaseResult.transactionHash);
-          setTransactionData((prevData) =>
-            prevData.map((transaction) =>
-              transaction.id === selectedId
-                ? { ...transaction, currentProgress: currentProgress + 2 }
-                : transaction,
-            ),
-          );
           SetCurrentProgress(currentProgress + 1);
         } else {
           console.log(releaseResult.error);
@@ -141,7 +129,7 @@ const DoneModal = (props) => {
           <div className="borderless mt-3">
             <p className={`mb-1 mt-1 ${styles.discriptionInfo}`} style={{ width: 'max-content' }}>
               <a
-                href="https://forum.plentydefi.com/t/pip-001-minting-rate-reduction/51"
+                href={`${operation === 'BRIDGE' ? (openingFromHistory ? CONFIG.EXPLORER_LINKS[fromBridge.name] : CONFIG.EXPLORER_LINKS.TEZOS) : (openingFromHistory ? CONFIG.EXPLORER_LINKS.TEZOS : CONFIG.EXPLORER_LINKS[toBridge.name])}${finalOpHash}`}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -171,7 +159,8 @@ DoneModal.propTypes = {
   selectedId: PropTypes.any,
   setTransactionData: PropTypes.any,
   finalOpHash: PropTypes.any,
-  setFinalOpHash: PropTypes.any
+  setFinalOpHash: PropTypes.any,
+  openingFromHistory: PropTypes.any
 };
 
 export default DoneModal;

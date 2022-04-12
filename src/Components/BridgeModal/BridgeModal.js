@@ -38,7 +38,7 @@ const BridgeModal = (props) => {
 
   const [errorMessage, setErrorMessage] = useState(null);
   const [isError, setIsError] = useState(false);
-  const [defaultAccount, setDefaultAccount] = useState(null);
+  //const [metamaskAddress, setMetamaskAddress] = useState(null);
   const [userBalance, setUserBalance] = useState(null);
   const [connButtonText, setConnButtonText] = useState('Connect Wallet');
   const [provider, setProvider] = useState(null);
@@ -99,6 +99,9 @@ const BridgeModal = (props) => {
     setTokenList,
     loadedTokensList,
     theme,
+    setOpeningFromHistory,
+    metamaskAddress,
+    setMetamaskAddress
   } = props;
 
   //const [tokenList, setTokenList] = useState(tokensList[fromBridge.name]);
@@ -117,6 +120,10 @@ const BridgeModal = (props) => {
   }, [triggerTooltips]);
 
   useEffect(() => {
+    setOpeningFromHistory(false);
+  }, []);
+
+  useEffect(() => {
     if (walletAddress) {
       dispatch(setConnectWalletTooltip(false));
       setIsError(false);
@@ -124,11 +131,11 @@ const BridgeModal = (props) => {
   }, [walletAddress]);
 
   useEffect(() => {
-    if (defaultAccount) {
+    if (metamaskAddress) {
       setShowMetamaskTooltip(false);
       setIsError(false);
     }
-  }, [defaultAccount]);
+  }, [metamaskAddress]);
 
   useEffect(async () => {
     // const updateBalance = async () => {
@@ -166,9 +173,9 @@ const BridgeModal = (props) => {
     // };
     // updateBalance();
     setUserTokenBalance(null);
-    if(tokenIn.name !== 'Token NA' && walletAddress && defaultAccount) {
+    if(tokenIn.name !== 'Token NA' && walletAddress && metamaskAddress) {
       if(operation === 'BRIDGE') {
-        const balanceResult = await getBalance(tokenIn.tokenData.CONTRACT_ADDRESS,defaultAccount);
+        const balanceResult = await getBalance(tokenIn.tokenData.CONTRACT_ADDRESS,metamaskAddress);
         if(balanceResult.success) {
           setUserTokenBalance(Number(balanceResult.balance) / (10**tokenIn.tokenData.DECIMALS));
         } else {
@@ -182,8 +189,8 @@ const BridgeModal = (props) => {
         console.log(tokenIn.tokenData.CONTRACT_ADDRESS,walletAddress,tokenIn.tokenData.TOKEN_ID,tokenInDecimals);
         console.log(balanceResult);
         if(balanceResult.success) {
-          //setUserTokenBalance(Number(balanceResult.balance));
-          setUserTokenBalance(Number('10'));
+          setUserTokenBalance(Number(balanceResult.balance));
+          //setUserTokenBalance(Number('10'));
           console.log(Number(balanceResult.balance));
         } else {
           setUserTokenBalance(null);
@@ -193,7 +200,7 @@ const BridgeModal = (props) => {
     } else {
       setUserTokenBalance(null);
     }
-  }, [tokenIn]);
+  }, [tokenIn, walletAddress, metamaskAddress]);
   /* useEffect(() => {
     //setLoading(true);
     //setLoaderInButton(true);
@@ -221,16 +228,16 @@ const BridgeModal = (props) => {
 
   const handleFromTokenInput = (input) => {
     setIsError(false);
-    if (!walletAddress && !defaultAccount) {
+    if (!walletAddress && !metamaskAddress) {
       dispatch(setConnectWalletTooltip(true));
       setShowMetamaskTooltip(true);
       setErrorMessage('Please connect to both the wallets.');
       setIsError(true);
-    } else if (!walletAddress && defaultAccount) {
+    } else if (!walletAddress && metamaskAddress) {
       dispatch(setConnectWalletTooltip(true));
       setErrorMessage('Please connect to tezos wallet.');
       setIsError(true);
-    } else if (!defaultAccount && walletAddress) {
+    } else if (!metamaskAddress && walletAddress) {
       setShowMetamaskTooltip(true);
       setErrorMessage(
         `Please connect to ${
@@ -327,7 +334,7 @@ const BridgeModal = (props) => {
 
   // update account, will cause component re-render
   const accountChangedHandler = (newAccount) => {
-    setDefaultAccount(newAccount);
+    setMetamaskAddress(newAccount);
     getAccountBalance(newAccount.toString());
   };
 
@@ -459,16 +466,16 @@ const BridgeModal = (props) => {
 
   const handleTokenSelect = () => {
     setIsError(false);
-    if (!walletAddress && !defaultAccount) {
+    if (!walletAddress && !metamaskAddress) {
       dispatch(setConnectWalletTooltip(true));
       setShowMetamaskTooltip(true);
       setErrorMessage('Please connect to both the wallets.');
       setIsError(true);
-    } else if (!walletAddress && defaultAccount) {
+    } else if (!walletAddress && metamaskAddress) {
       dispatch(setConnectWalletTooltip(true));
       setErrorMessage('Please connect to tezos wallet.');
       setIsError(true);
-    } else if (!defaultAccount && walletAddress) {
+    } else if (!metamaskAddress && walletAddress) {
       setShowMetamaskTooltip(true);
       setErrorMessage(
         `Please connect to ${
@@ -527,7 +534,7 @@ const BridgeModal = (props) => {
         <div className={` ${styles.bridgeModal} leftToRightFadeInAnimation-4-bridge`}>
           <div className={styles.resultsHeader}>
             <p className={styles.heading}>Bridge Tokens</p>
-            {walletAddress ? (
+            {walletAddress && metamaskAddress ? (
               <p
                 className={styles.res}
                 onClick={() => {
@@ -661,7 +668,7 @@ const BridgeModal = (props) => {
           </div>
           <p className={clsx('mt-2', styles.feeEstimateText)}>{`Estimated fee: ${fee}`}</p>
 
-          {defaultAccount === null ? (
+          {metamaskAddress === null ? (
             <OverlayTrigger
               overlay={(props) => (
                 <Tooltip className="connect-wallet-tooltip metamask-wallet-tooltip" {...props}>
@@ -697,7 +704,7 @@ const BridgeModal = (props) => {
                     <span className="ml-2">Proceed</span>
                     {/* <span>{userBalance}</span> */}
                   </div>
-                  {/* <span>{defaultAccount}</span> */}
+                  {/* <span>{metamaskAddress}</span> */}
                 </div>
               </Button>
             </>
@@ -744,6 +751,9 @@ BridgeModal.propTypes = {
   setTokenList: PropTypes.any,
   loadedTokensList: PropTypes.any,
   theme: PropTypes.any,
+  setOpeningFromHistory: PropTypes.any,
+  metamaskAddress: PropTypes.any,
+  setMetamaskAddress: PropTypes.any
 };
 
 export default BridgeModal;

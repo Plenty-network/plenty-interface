@@ -10,6 +10,7 @@ import dummyApiCall from '../../apis/dummyApiCall';
 import { useEffect, useRef, useState } from 'react';
 import { useInterval } from '../../hooks/useInterval';
 import { getMintStatus, getReleaseStatus } from '../../apis/bridge/bridgeAPI';
+import CONFIG from '../../config/config';
 
 const MintReleaseModal = (props) => {
   const [isButtonLoading, SetIsButtonLoading] = useState(false);
@@ -74,13 +75,6 @@ const MintReleaseModal = (props) => {
 
   const mintButtonClick = () => {
     //SetIsButtonLoading(true);
-    setTransactionData((prevData) =>
-      prevData.map((transaction) =>
-        transaction.id === selectedId
-          ? { ...transaction, currentProgress: currentProgress + 1 }
-          : transaction,
-      ),
-    );
     SetCurrentProgress(currentProgress + 1);
     /* dummyApiCall({ currentProgress: currentProgress }).then((res) => {
       setTransactionData((prevData) =>
@@ -100,7 +94,7 @@ const MintReleaseModal = (props) => {
       <p className={styles.contentDes}>{description}</p>
       <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
         <a
-          href="https://forum.plentydefi.com/t/pip-001-minting-rate-reduction/51"
+          href={`${operation === 'BRIDGE' ? CONFIG.EXPLORER_LINKS[fromBridge.name] : CONFIG.EXPLORER_LINKS.TEZOS}${mintUnmintOpHash}`}
           target="_blank"
           rel="noreferrer"
         >
@@ -114,14 +108,15 @@ const MintReleaseModal = (props) => {
           {awaitingConfirmation ? (
             <p>Awating confirmation..</p>
           ) : (
-            <>
+            confirmationsCount !== 0 && confirmationsRequired !== 0 && confirmationsCount >= confirmationsRequired ? (
               <p>
                 Waiting for signatures {signaturesCount}/{signaturesRequired}
               </p>
+            ) : (
               <p>
                 Waiting for confirmations {confirmationsCount}/{confirmationsRequired}
               </p>
-            </>
+            )
           )}
         </div>
         <div style={{ width: '50%' }}>

@@ -8,6 +8,7 @@ import GasIconDark from '../../assets/images/bridge/gas_fee_icon_dark.svg';
 import dummyApiCall from '../../apis/dummyApiCall';
 import { useState } from 'react';
 import { wrap, unwrap } from '../../apis/bridge/bridgeAPI';
+import CONFIG from '../../config/config';
 
 const BridgeUnbridgeModal = (props) => {
   const [isButtonLoading, SetIsButtonLoading] = useState(false);
@@ -41,13 +42,6 @@ const BridgeUnbridgeModal = (props) => {
       console.log(bridgeUnbridgeResult);
       if (bridgeUnbridgeResult.success) {
         setMintUnmintOpHash(bridgeUnbridgeResult.transactionHash);
-        setTransactionData((prevData) =>
-          prevData.map((transaction) =>
-            transaction.id === selectedId
-              ? { ...transaction, currentProgress: currentProgress + 1 }
-              : transaction,
-          ),
-        );
         SetIsButtonLoading(false);
         SetCurrentProgress(currentProgress + 1);
       } else {
@@ -60,26 +54,6 @@ const BridgeUnbridgeModal = (props) => {
       console.log(bridgeUnbridgeResult);
       if (bridgeUnbridgeResult.success) {
         setMintUnmintOpHash(bridgeUnbridgeResult.txHash);
-        const newIndex = getTransactionListLength();
-          const newProgress = currentProgress + 1;
-          const newDate = new Date().toLocaleDateString('en-IN');
-          const newTime = `${new Date().getHours()}:${new Date().getMinutes()}`;
-          const newData = {
-            id: newIndex,
-            currentProgress: newProgress,
-            operation: operation,
-            fromBridge: fromBridge.name,
-            toBridge: toBridge.name,
-            tokenIn: tokenIn.name,
-            tokenOut: tokenOut.name,
-            firstTokenAmount: firstTokenAmount,
-            secondTokenAmount: secondTokenAmount,
-            fee: gasFees,
-            date: newDate,
-            time: newTime,
-          };
-          setSelectedId(newIndex);
-          setTransactionData((prevData) => [...prevData, newData]);
         SetIsButtonLoading(false);
         SetCurrentProgress(currentProgress + 1);
       } else {
@@ -127,16 +101,16 @@ const BridgeUnbridgeModal = (props) => {
     <>
       <p className={styles.contentLabel}>Approving</p>
       <p className={styles.contentDes}>{description}</p>
-      <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
+      {operation === 'BRIDGE' && (<p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
         <a
-          href="https://forum.plentydefi.com/t/pip-001-minting-rate-reduction/51"
+          href={`${CONFIG.BRIDGES_INDEXER_LINKS[fromBridge.name]}${approveHash}`}
           target="_blank"
           rel="noreferrer"
         >
           View on Block Explorer
         </a>
         <Link className="ml-2 mb-1" />
-      </p>
+      </p>)}
       <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
       <div className={styles.resultsHeader}>
         <div className={`${styles.bottomInfo} ${styles.width}`}>

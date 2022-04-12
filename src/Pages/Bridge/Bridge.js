@@ -96,7 +96,7 @@ const transactions = [
 const Bridge = (props) => {
   //const isMobile = useMediaQuery('(max-width: 991px)');
   const initialRender = useRef(true);
-  const [transaction, setTransaction] = useState(3);
+  const [transaction, setTransaction] = useState(1);
 
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
   const [secondTokenAmount, setSecondTokenAmount] = useState('');
@@ -125,8 +125,9 @@ const Bridge = (props) => {
   const [fee, setFee] = useState(0);
   const [currentProgress, SetCurrentProgress] = useState(0);
   const [selectedId, setSelectedId] = useState(null);
-  const [transactionData, setTransactionData] = useState(transactions);
+  const [transactionData, setTransactionData] = useState([]);
   //const [currentOperation, setCurrentOperation] = useState('BRIDGE');
+  const [metamaskAddress, setMetamaskAddress] = useState(null);
   const loadedTokensList = useRef(null);
   const operation = useRef('BRIDGE');
 
@@ -138,6 +139,22 @@ const Bridge = (props) => {
 
   //const [tokenList, setTokenList] = useState(tokensList[fromBridge.name]);
   const [tokenList, setTokenList] = useState([]);
+
+  const mintUnmintOpHash = useRef(null);
+  const finalOpHash = useRef(null);
+  const openingFromHistory = useRef(false);
+
+  const setMintUnmintOpHash = (hash) => {
+    mintUnmintOpHash.current = hash;
+  };
+
+  const setFinalOpHash = (hash) => {
+    finalOpHash.current = hash;
+  };
+
+  const setOpeningFromHistory = (value) => {
+    openingFromHistory.current = value;
+  };
 
   useEffect(() => {
     if (!initialRender.current) {
@@ -312,6 +329,9 @@ const Bridge = (props) => {
                 setTokenList={setTokenList}
                 loadedTokensList={loadedTokensList}
                 theme={props.theme}
+                setOpeningFromHistory={setOpeningFromHistory}
+                metamaskAddress={metamaskAddress}
+                setMetamaskAddress={setMetamaskAddress}
               />
             )}
             {transaction === 2 && (
@@ -330,6 +350,12 @@ const Bridge = (props) => {
                 setOperation={setOperation}
                 setSelectedId={setSelectedId}
                 theme={props.theme}
+                setTransactionData={setTransactionData}
+                setMintUnmintOpHash={setMintUnmintOpHash}
+                setFinalOpHash={setFinalOpHash}
+                setOpeningFromHistory={setOpeningFromHistory}
+                walletAddress={props.walletAddress}
+                metamaskAddress={metamaskAddress}
               />
             )}
             {transaction === 3 && (
@@ -361,6 +387,11 @@ const Bridge = (props) => {
                 getTransactionListLength={getTransactionListLength}
                 setSelectedId={setSelectedId}
                 theme={props.theme}
+                mintUnmintOpHash={mintUnmintOpHash.current}
+                setMintUnmintOpHash={setMintUnmintOpHash}
+                finalOpHash={finalOpHash.current}
+                setFinalOpHash={setFinalOpHash}
+                openingFromHistory={openingFromHistory.current}
               />
             )}
           </Col>
