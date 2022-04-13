@@ -23,7 +23,7 @@ const SwapContent = (props) => {
 
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState('');
-  const [showLpPair, setShowLpPair] = useState(true);
+  const [showLpPair, setShowLpPair] = useState(false);
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const [transactionId, setTransactionId] = useState('');
   const [isLpPairAvailable, setLpPairAvailable] = useState(false);
@@ -32,7 +32,7 @@ const SwapContent = (props) => {
     setTransactionId(id);
     setShowTransactionSubmitModal(true);
   };
-  const c = { type: 'success', message: 'success' };
+  //const c = { type: 'success', message: 'success' };
   useEffect(async () => {
     const res = await getAvailableLiquidityPairs(props.tokenOut.name);
     setLpPairAvailable(res.isLiquidityPairAvailable);
@@ -91,8 +91,10 @@ const SwapContent = (props) => {
       props.setBalanceUpdate(true);
       setShowTransactionSubmitModal(false);
       props.handleLoaderMessage('success', 'Transaction confirmed');
+      setTimeout(() => {
+        setShowLpPair(true);
+      }, 2000);
 
-      setShowLpPair(true);
       props.setLoader(false);
       props.setShowConfirmSwap(false);
       props.setSecondTokenAmount('');
@@ -135,13 +137,14 @@ const SwapContent = (props) => {
     ).then((response) => {
       props.setShowConfirmSwap(false);
       props.setShowConfirmTransaction(false);
-      // setTimeout(() => {
-      //   props.setShowTransactionSubmitModal(false);
-      // }, 5000);
+
       handleSwapResponse(response.success);
       setTimeout(() => {
         props.setLoaderMessage({});
       }, 6000);
+      setTimeout(() => {
+        setShowLpPair(false);
+      }, 8000);
     });
   };
 
@@ -389,7 +392,7 @@ const SwapContent = (props) => {
         content={`${Number(localStorage.getItem('wrapped')).toFixed(6)} ${localStorage.getItem(
           'token',
         )} Swapped`}
-        loaderMessage={c}
+        loaderMessage={props.loaderMessage}
         tokenIn={props.tokenIn.name}
         firstTokenAmount={firstAmount}
         tokenOut={props.tokenOut.name}

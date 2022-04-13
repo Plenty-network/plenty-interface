@@ -878,7 +878,7 @@ export const getUserBalanceByRpc = async (identifier, address) => {
       } else if (type5MapIds.includes(mapId)) {
         _balance = response.data.args[0][0].args[1].int;
       } else {
-        _balance = response.data.int;
+        _balance = response.args[1].data.int;
       }
 
       _balance = parseInt(_balance);

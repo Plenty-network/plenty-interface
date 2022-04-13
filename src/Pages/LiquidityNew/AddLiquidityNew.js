@@ -20,6 +20,8 @@ import { isTokenPairStable } from '../../apis/Liquidity/Liquidity';
 import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransaction';
 import Loader from '../../Components/loader';
 
+import maxlight from '../../assets/images/max-light.svg';
+
 const AddLiquidityNew = (props) => {
   const [estimatedTokenAmout, setEstimatedTokenAmout] = useState('');
   console.log(props);
@@ -389,12 +391,6 @@ const AddLiquidityNew = (props) => {
             </button>
           </div>
           <div className="d-flex  align-items-center input-lq">
-            {props.walletAddress ? (
-              <div className="max-button" style={{ cursor: 'pointer' }} onClick={onClickAmount}>
-                MAX
-              </div>
-            ) : null}
-
             <div className="input-width">
               {props.swapData.success && props.userBalances[props.tokenIn.name] ? (
                 <input
@@ -432,11 +428,19 @@ const AddLiquidityNew = (props) => {
                 <div className="balance-lq ml-auto">
                   <p className="bal">
                     Balance:{' '}
-                    {props.userBalances[props.tokenIn.name] >= 0 ? (
-                      props.userBalances[props.tokenIn.name].toFixed(4)
-                    ) : (
-                      <div className="shimmer">0.00</div>
-                    )}{' '}
+                    <span className="balance-value-liq">
+                      {props.userBalances[props.tokenIn.name] >= 0 ? (
+                        props.userBalances[props.tokenIn.name].toFixed(4)
+                      ) : (
+                        <div className="shimmer">0.00</div>
+                      )}{' '}
+                      <img
+                        src={maxlight}
+                        style={{ cursor: 'pointer' }}
+                        onClick={onClickAmount}
+                        className="max-swap"
+                      />
+                    </span>
                   </p>
                 </div>
               </OverlayTrigger>
