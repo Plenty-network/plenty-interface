@@ -465,10 +465,10 @@ const SwapTab = (props) => {
           >
             <div className="token-selector-balance-wrapper-swap">
               <button
-                className="token-selector dropdown-themed"
+                className="token-selector dropdown-themed token-selector-height"
                 onClick={() => props.handleTokenType('tokenIn')}
               >
-                <img src={props.tokenIn.image} className="button-logo" />
+                <img src={props.tokenIn.image} className="button-logo logo-size" />
                 <span className="span-themed">{props.tokenIn.name} </span>
                 <span className="span-themed material-icons-round">expand_more</span>
               </button>
@@ -574,16 +574,16 @@ const SwapTab = (props) => {
               <div className="token-selector-balance-wrapper-swap">
                 {props.tokenOut.name ? (
                   <button
-                    className="token-selector"
+                    className="token-selector token-selector-height"
                     onClick={() => props.handleTokenType('tokenOut')}
                   >
-                    <img src={props.tokenOut.image} className="button-logo" />
+                    <img src={props.tokenOut.image} className="button-logo logo-size" />
                     <span className="span-themed">{props.tokenOut.name} </span>
                     <span className="span-themed material-icons-round">expand_more</span>
                   </button>
                 ) : (
                   <button
-                    className="token-selector not-selected"
+                    className="token-selector token-selector-height not-selected"
                     onClick={() => props.handleTokenType('tokenOut')}
                   >
                     Select a token <span className="material-icons-round">expand_more</span>

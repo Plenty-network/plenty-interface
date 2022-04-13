@@ -103,7 +103,7 @@
   --theme-input-bg-global: #f9fafa;
   --theme-balance-border: #a4aebf;
   --theme-balance-bg: #f9fafa;
-  --theme-balance-text-color: #a4aebf;
+  --theme-balance-text-color: rgb(138, 148, 166);
   --theme-lq-details-bg: #ffffff;
   --theme-lq-details-individual-bg: #f9fafa;
   --theme-lq-details-content: rgba(51, 51, 51, 0.6);
@@ -147,6 +147,7 @@
   --theme-typing-first-swap-bg: #ffffff;
   --theme-route-bg: #fdfcff;
   --theme-route-border: rgba(176, 183, 195, 0.4);
+  --theme-stableswap-route-border: rgba(98, 2, 239, 0.4);
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -206,7 +207,7 @@
     #ee1ec0 67.02%,
     #a02cfc 103.97%
   );
-  --theme-governance-buttonBorder: #c8a4fe;
+  --theme-governance-buttonBorder: #ceaefe;
   --theme-governance-infoIcon: rgba(237, 236, 239, 0.1);
   --theme-governance-totalVotesText: #8a94a6;
   --theme-governance-infoIconColor: #ffffff;
@@ -304,6 +305,7 @@
   --theme-typing-first-swap-bg: rgba(138, 149, 158, 0.05);
   --theme-route-bg: #28234d;
   --theme-route-border: rgba(98, 104, 143, 0.5);
+  --theme-stableswap-route-border: rgba(98, 104, 143, 0.5);
 }
 
 :root.theme-transiton {

@@ -81,7 +81,7 @@ const Tokens = () => {
         Cell: (row) => (
           <div className="d-flex pl-2 align-items-center">
             <Image src={imgPaths[row.value]?.url} height={32} width={32} alt={''} />
-            <span className="ml-2 mr-4">{row.value}</span>
+            <span className="ml-2 mr-4">{row.values}</span>
           </div>
         ),
         width: 120,

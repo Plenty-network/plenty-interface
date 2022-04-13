@@ -464,6 +464,9 @@
 .remove-lq-input-height {
   min-height: 120px !important;
 }
+.token-selector-height {
+  height: 50px;
+}
 .token-selector {
   background-color: var(--theme-bg-4);
   box-shadow: 0px 10px 30px rgba(138, 149, 158, 0.09);
@@ -551,6 +554,9 @@
 .button-logo {
   width: 22px;
   margin-right: 10px;
+}
+.logo-size {
+  width: 32px !important;
 }
 .transaction-setting {
   position: absolute;
@@ -1226,7 +1232,8 @@
   font-weight: 500;
   font-size: 12px;
   line-height: 14px;
-  color: var(--theme-text-4);
+  color: var(--theme-balance-text-color);
+
   margin: 10px 0 0;
 }
 .lq-details {
@@ -1593,6 +1600,7 @@
   line-height: 18px;
   letter-spacing: 0em;
   color: var(--theme-governance-buttonBorder);
+  opacity: 100%;
 }
 .open {
   margin-top: -2px;
@@ -2384,9 +2392,9 @@ input:checked {
   margin-right: 4px;
 }
 .outer-border-stableswap {
-  background: rgba(98, 2, 239, 0.03);
+  background: var(--theme-lp-pair-bg);
   mix-blend-mode: normal;
-  border: 1px solid rgba(98, 2, 239, 0.2);
+  border: 1px solid var(--theme-hover-token-selector-border);
   box-sizing: border-box;
   border-radius: 200px;
   padding: 6px;
@@ -2399,9 +2407,9 @@ input:checked {
   color: var(--theme-banner-text);
 }
 .stablepair-outline {
-  background: #ffffff;
+  background: var(--theme-swap-revamp-token-selector);
   mix-blend-mode: normal;
-  border: 0.6px solid rgba(98, 2, 239, 0.4);
+  border: 0.6px solid var(--theme-stableswap-route-border);
   box-sizing: border-box;
   border-radius: 200px;
   padding: 6px;

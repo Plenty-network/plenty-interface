@@ -13,6 +13,7 @@ import { setLoader } from '../../redux/slices/settings/settings.slice';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransaction';
 import Loader from '../../Components/loader';
+import maxlight from '../../assets/images/max-light.svg';
 
 const RemoveLiquidityNew = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
@@ -264,9 +265,6 @@ const RemoveLiquidityNew = (props) => {
           <div className="token-selector-lq-remove align-items-center flex ">Amount to Remove</div>
           <div className="input-lq-remove  ">
             <div className="d-flex  align-items-center ">
-              <div className="max-button" style={{ cursor: 'pointer' }} onClick={onClickAmount}>
-                MAX
-              </div>
               <div className="input-width">
                 {props.userBalances[props.tokenIn.name] ? (
                   <input
@@ -350,6 +348,12 @@ const RemoveLiquidityNew = (props) => {
                       ) : (
                         <div className="shimmer">0.0000</div>
                       )}{' '}
+                      <img
+                        src={maxlight}
+                        style={{ cursor: 'pointer' }}
+                        onClick={onClickAmount}
+                        className="max-swap"
+                      />
                     </p>
                   </div>
                 </OverlayTrigger>

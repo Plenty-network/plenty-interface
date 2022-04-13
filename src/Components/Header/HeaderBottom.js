@@ -135,8 +135,8 @@ const HeaderBottom = (props) => {
           <div className=" innerSubmenus">
             {props.selectedHeader === HEADER_MODAL.TRADE && (
               <Row>
-                <Col xl={5} lg={6} xs={12}>
-                  <div className=" topics">
+                <Col lg={12} xs={12}>
+                  <div className=" topics gov">
                     <Link to="/swap" className="text-decoration-none">
                       <p className="heading">SWAP</p>
                       <div className="flex   para">
@@ -150,7 +150,7 @@ const HeaderBottom = (props) => {
                     </Link>
                   </div>
                 </Col>
-                <Col xl={5} lg={6} xs={12}>
+                {/* <Col xl={5} lg={6} xs={12}>
                   <div className="topics">
                     <Link to="/Stableswap" className="text-decoration-none">
                       <p className="heading">STABLESWAP</p>
@@ -165,9 +165,9 @@ const HeaderBottom = (props) => {
                       </div>
                     </Link>
                   </div>
-                </Col>
-                <Col xl={5} lg={6} xs={12}>
-                  <div className="topics">
+                </Col> */}
+                <Col lg={12} xs={12}>
+                  <div className="topics gov">
                     <Link to="/tokens" className="text-decoration-none">
                       <p className="heading">TOKENS</p>
                       <div className="flex   para">
