@@ -11,6 +11,7 @@ import CUSTODIAN_ABI from '../../abi/custodianContract.ts';
 import { BeaconWallet } from '@taquito/beacon-wallet';
 import { CheckIfWalletConnected } from '../wallet/wallet';
 import { BigNumber, ethers } from 'ethers';
+import { networks } from '../Config/networks';
 /* eslint-enable no-unused-vars */
 
 const fakeSigner = (account, publicKey) => ({
@@ -117,6 +118,218 @@ export const getBalanceTez = async (tokenContract, tokenId, userAddress, tokenDe
   }
 };
 
+export const getApproveTxCost = async (tokenIn, chain, amount) => {
+  const web3 = new Web3(window.ethereum);
+  const userData = await getUserAddress();
+  if (userData.success && userData.address) {
+    const userAddress = userData.address;
+    const wrapContractAddress = BridgeConfiguration.getWrapContract(chain);
+    const tokenContract = new web3.eth.Contract(ERC20_ABI, tokenIn.tokenData.CONTRACT_ADDRESS);
+    const amountToAprove = amount * 10 ** tokenIn.tokenData.DECIMALS;
+    const gas = BigNumber.from(
+      (
+        await tokenContract.methods
+          .approve(wrapContractAddress, amountToAprove.toString())
+          .estimateGas({ from: userAddress })
+      ).toString(),
+    );
+    const gasPrice = BigNumber.from((await web3.eth.getGasPrice()).toString());
+    console.log(gasPrice.toString());
+    console.log(gas.toString());
+    const txCost = ethers.utils.formatEther(gas.mul(gasPrice));
+    return {
+      success: true,
+      txCost: txCost,
+    };
+  } else {
+    return {
+      success: false,
+      txCost: 0,
+      error: userData.error,
+    };
+  }
+};
+export const getWrapTxCost = async (tokenIn, chain, amount, tzAddress) => {
+  const userData = await getUserAddress();
+  if (userData.success && userData.address) {
+    const web3 = new Web3(window.ethereum);
+    const tokenContractAddress = tokenIn.tokenData.CONTRACT_ADDRESS;
+    const wrapContractAddress = BridgeConfiguration.getWrapContract(chain);
+    const wrapContract = new web3.eth.Contract(CUSTODIAN_ABI, wrapContractAddress);
+    const amountToAprove = amount * 10 ** tokenIn.tokenData.DECIMALS;
+    const gas = BigNumber.from(
+      (
+        await wrapContract.methods
+          .wrapERC20(tokenContractAddress, amountToAprove.toString(), tzAddress)
+          .estimateGas({ from: userData.address })
+      ).toString(),
+    );
+    const gasPrice = BigNumber.from((await web3.eth.getGasPrice()).toString());
+    console.log(gasPrice.toString());
+    console.log(gas.toString());
+    const txCost = ethers.utils.formatEther(gas.mul(gasPrice));
+    return {
+      success: true,
+      txCost: txCost,
+      unit: 'ETH',
+    };
+  } else {
+    return {
+      success: false,
+      txCost: 0,
+      error: userData.error,
+    };
+  }
+};
+
+export const getReleaseTxCost = async (unwrapData, chain) => {
+  const web3 = new Web3(window.ethereum);
+  const userData = await getUserAddress();
+  if (userData.success && userData.address) {
+    const wrapContractAddress = BridgeConfiguration.getWrapContract(chain);
+    const wrapContract = new web3.eth.Contract(CUSTODIAN_ABI, wrapContractAddress);
+    const erc20Interface = new ethers.utils.Interface(ERC20_ABI);
+    const data = erc20Interface.encodeFunctionData('transfer', [
+      unwrapData.destination,
+      unwrapData.amount,
+    ]);
+
+    const gas = BigNumber.from(
+      (
+        await wrapContract.methods
+          .execTransaction(
+            unwrapData.token,
+            0,
+            data,
+            unwrapData.id,
+            buildFullSignature(unwrapData.signatures),
+          )
+          .estimateGas({ from: userData.address })
+      ).toString(),
+    );
+    const gasPrice = BigNumber.from((await web3.eth.getGasPrice()).toString());
+    console.log(gasPrice.toString());
+    console.log(gas.toString());
+    const txCost = ethers.utils.formatEther(gas.mul(gasPrice));
+    return {
+      success: true,
+      txCost: txCost,
+      unit: 'ETH',
+    };
+  } else {
+    return {
+      success: false,
+      txCost: 0,
+      error: userData.error,
+    };
+  }
+};
+
+export const getMintTxCost = async (wrapData, chain) => {
+  try {
+    const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+
+    const network = {
+      type: CONFIG.WALLET_NETWORK,
+    };
+    const options = {
+      name: CONFIG.NAME,
+    };
+    const wallet = new BeaconWallet(options);
+    const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
+    if (!WALLET_RESP.success) {
+      throw new Error('Wallet connection failed');
+    }
+    const minterContractAddress = BridgeConfiguration.getTezosMinterContract(chain);
+    const quorumContractAddress = BridgeConfiguration.getTezosQourumContract(chain);
+    const Tezos = new TezosToolkit(rpcNode);
+    Tezos.setRpcProvider(rpcNode);
+    Tezos.setWalletProvider(wallet);
+    const contract = await Tezos.wallet.at(quorumContractAddress);
+    const [blockHash, logIndex] = wrapData.id.split(':');
+
+    const op = contract.methods
+      .minter(
+        'mint_erc20',
+        wrapData.token.toLowerCase().substring(2),
+        blockHash.substring(2),
+        logIndex,
+        wrapData.destination,
+        wrapData.amount,
+        minterContractAddress,
+        Object.entries(wrapData.signatures),
+      )
+      .toTransferParams({});
+    const estimate = await Tezos.estimate.transfer(op);
+    const txCost = estimate.totalCost / 10 ** 6;
+    return {
+      txCost: txCost,
+      success: true,
+      unit: 'Tez',
+    };
+  } catch (e) {
+    return {
+      success: false,
+      txCost: 0,
+      error: e,
+    };
+  }
+};
+
+export const getUnwrapTxCost = async (chain, amount, tokenIn) => {
+  try {
+    const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+
+    const network = {
+      type: CONFIG.WALLET_NETWORK,
+    };
+    const options = {
+      name: CONFIG.NAME,
+    };
+    const wallet = new BeaconWallet(options);
+    const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
+    if (!WALLET_RESP.success) {
+      throw new Error('Wallet connection failed');
+    }
+    const minterContractAddress = BridgeConfiguration.getTezosMinterContract(chain);
+    const fee = BridgeConfiguration.getFeesForChain(chain).UNWRAP_FEES;
+    const tokenOut = BridgeConfiguration.getOutTokenUnbridgingWhole(chain, tokenIn.name);
+    const Tezos = new TezosToolkit(rpcNode);
+    Tezos.setRpcProvider(rpcNode);
+    Tezos.setWalletProvider(wallet);
+    const contract = await Tezos.wallet.at(minterContractAddress);
+    const amountToUnwrap = amount * 10 ** tokenOut.DECIMALS;
+    const userData = await getUserAddress();
+    const fees = (amountToUnwrap / 10000) * fee;
+    const amountToUnwrapMinusFees = amountToUnwrap - fees;
+
+    const op = contract.methods
+      .unwrap_erc20(
+        tokenOut.CONTRACT.toLowerCase().substring(2),
+        amountToUnwrapMinusFees.toString(10),
+        fees.toString(10),
+        userData.address.toLowerCase().substring(2),
+      )
+      .toTransferParams({});
+
+    const estimate = await Tezos.estimate.transfer(op);
+    const txCost = estimate.totalCost / 10 ** 6;
+    return {
+      txCost: txCost,
+      success: true,
+      unit: 'Tez',
+    };
+  } catch (e) {
+    return {
+      success: false,
+      txCost: 0,
+      error: e,
+    };
+  }
+};
+
 /* Approve a token for wrapping, first step of wrapping
 tokenIn: tokenIn Object
 {
@@ -159,6 +372,7 @@ export const approveToken = async (tokenIn, chain, amount) => {
           error: error,
         };
       });
+
     return result;
   } else {
     return {
@@ -367,17 +581,18 @@ export const unwrap = async (chain, amount, tokenIn) => {
     const amountToUnwrap = amount * 10 ** tokenOut.DECIMALS;
     const userData = await getUserAddress();
     const fees = (amountToUnwrap / 10000) * fee;
+    const amountToUnwrapMinusFees = amountToUnwrap - fees;
     console.log(
       tokenIn,
       tokenOut.CONTRACT.toLowerCase().substring(2),
-      amountToUnwrap.toString(10),
+      amountToUnwrapMinusFees.toString(10),
       fees.toString(10),
       userData.address.toLowerCase().substring(2),
     );
     const op = await contract.methods
       .unwrap_erc20(
         tokenOut.CONTRACT.toLowerCase().substring(2),
-        amountToUnwrap.toString(10),
+        amountToUnwrapMinusFees.toString(10),
         fees.toString(10),
         userData.address.toLowerCase().substring(2),
       )
@@ -528,7 +743,9 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
       const unwrapsArrPromise = unwraps.data.result.map(async (obj) => {
         const data = await axios.get(tzkt + '/v1/operations/' + obj.operationHash);
         const timeStamp = new Date(data.data[0].timestamp);
-        const transFee = (obj.amount / 10**BridgeConfiguration.getToken(chain, obj.token).DECIMALS) * ((BridgeConfiguration.getFeesForChain(chain).UNWRAP_FEES) / 10000);
+        const transFee =
+          (obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS) *
+          (BridgeConfiguration.getFeesForChain(chain).UNWRAP_FEES / 10000);
         return {
           ...obj,
           isWrap: false,
@@ -537,8 +754,10 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
           token: BridgeConfiguration.getToken(chain, obj.token),
           tokenIn: BridgeConfiguration.getToken(chain, obj.token).WRAPPED_TOKEN.NAME,
           tokenOut: BridgeConfiguration.getToken(chain, obj.token).SYMBOL,
-          firstTokenAmount: obj.amount / 10**BridgeConfiguration.getToken(chain, obj.token).DECIMALS,
-          secondTokenAmount: (obj.amount / 10**BridgeConfiguration.getToken(chain, obj.token).DECIMALS) - transFee,
+          firstTokenAmount:
+            obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS,
+          secondTokenAmount:
+            obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS - transFee,
           txHash: obj.operationHash,
           timestamp: timeStamp,
           actionRequired: obj.status === 'finalized' ? false : true,
@@ -546,7 +765,7 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
           fromBridge: 'TEZOS',
           toBridge: chain,
           fee: transFee,
-          chain
+          chain,
         };
       });
       const unwrapsArr = await Promise.all(unwrapsArrPromise);
@@ -563,7 +782,9 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
         const tx = await web3.eth.getTransaction(obj.transactionHash);
         const block = await web3.eth.getBlock(tx.blockHash);
         const timeStamp = new Date(block.timestamp * 1000);
-        const transFee = (obj.amount / 10**BridgeConfiguration.getToken(chain, obj.token).DECIMALS) * ((BridgeConfiguration.getFeesForChain(chain).WRAP_FEES) / 10000);
+        const transFee =
+          (obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS) *
+          (BridgeConfiguration.getFeesForChain(chain).WRAP_FEES / 10000);
         return {
           ...obj,
           isWrap: true,
@@ -572,8 +793,10 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
           token: BridgeConfiguration.getToken(chain, obj.token),
           tokenIn: BridgeConfiguration.getToken(chain, obj.token).SYMBOL,
           tokenOut: BridgeConfiguration.getToken(chain, obj.token).WRAPPED_TOKEN.NAME,
-          firstTokenAmount: obj.amount / 10**BridgeConfiguration.getToken(chain, obj.token).DECIMALS,
-          secondTokenAmount: (obj.amount / 10**BridgeConfiguration.getToken(chain, obj.token).DECIMALS) - transFee,
+          firstTokenAmount:
+            obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS,
+          secondTokenAmount:
+            obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS - transFee,
           txHash: obj.transactionHash,
           timestamp: timeStamp,
           actionRequired: obj.status === 'finalized' ? false : true,
@@ -581,7 +804,7 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
           fromBridge: chain,
           toBridge: 'TEZOS',
           fee: transFee,
-          chain
+          chain,
         };
       });
       const wrapsArr = await Promise.all(wrapsArrPromise);
@@ -605,34 +828,33 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
   }
 };
 
-export const getApproveTxCost = async (tokenIn, chain, amount) => {
-  const web3 = new Web3(window.ethereum);
-  const userData = await getUserAddress();
-  if (userData.success && userData.address) {
-    const userAddress = userData.address;
-    const wrapContractAddress = BridgeConfiguration.getWrapContract(chain);
-    const tokenContract = new web3.eth.Contract(ERC20_ABI, tokenIn.tokenData.CONTRACT_ADDRESS);
-    const amountToAprove = amount * 10 ** tokenIn.tokenData.DECIMALS;
-    const gas = BigNumber.from(
-      (
-        await tokenContract.methods
-          .approve(wrapContractAddress, amountToAprove.toString())
-          .estimateGas({ from: userAddress })
-      ).toString(),
-    );
-    const gasPrice = BigNumber.from((await web3.eth.getGasPrice()).toString());
-    console.log(gasPrice.toString());
-    console.log(gas.toString());
-    const txCost = ethers.utils.formatEther(gas.mul(gasPrice));
-    return {
-      success: true,
-      txCost: txCost,
-    };
-  } else {
-    return {
-      success: false,
-      txCost: 0,
-      error: userData.error,
-    };
+export const changeNetwork = async ({ networkName }) => {
+  try {
+    if (!window.ethereum) throw new Error('No crypto wallet found');
+    await window.ethereum.request({
+      method: 'wallet_addEthereumChain',
+      params: [
+        {
+          ...networks[networkName],
+        },
+      ],
+    });
+  } catch (err) {
+    console.log(err);
+    throw new Error(err.message);
+  }
+};
+
+export const getCurrentNetwork = async () => {
+  try {
+    if (!window.ethereum) throw new Error('No crypto wallet found');
+    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+    const networkName = Object.keys(networks).find((key) => networks[key].chainId === chainId);
+    console.log(chainId);
+    console.log(networkName);
+    return networkName;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err.message);
   }
 };

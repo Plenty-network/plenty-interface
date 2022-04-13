@@ -21,34 +21,33 @@ import sortSelectedDark from '../../assets/images/bridge/sort_selected_dark.svg'
 import sortNotSelectedDark from '../../assets/images/bridge/sort_deselected_dark.svg';
 //import TransactionHistoryFilter from '../Bridges/TransactionHistoryFilter';
 import { FILTER_OPTIONS, TransactionHistoryFilter } from '../Bridges/TransactionHistoryFilter';
-import { SORT_OPTIONS, TransactionHistorySort } from '../Bridges/TransactionHistorySort';
-import { bridgesList, tokensList } from '../../constants/bridges';
+import { TransactionHistorySort } from '../Bridges/TransactionHistorySort';
+import { bridgesList } from '../../constants/bridges';
 import { allTokens } from '../../constants/bridges';
 import { getHistory } from '../../apis/bridge/bridgeAPI';
 
 const TransactionHistory = (props) => {
-  const [animationCalss,SetAnimationClass]=useState('leftToRightFadeInAnimation-4-bridge');
+  const [animationCalss, SetAnimationClass] = useState('leftToRightFadeInAnimation-4-bridge');
   const [showFilter, setShowFilter] = useState(false);
   const [showSort, setShowSort] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const [checkBoxesState, setCheckBoxesState] = useState(
-    FILTER_OPTIONS.reduce((checkBoxesState,option) => {
-      return (
-        {
-          ...checkBoxesState,
-          [option.checkboxId]: false
-        }
-      );
-    }, {})
+    FILTER_OPTIONS.reduce((checkBoxesState, option) => {
+      return {
+        ...checkBoxesState,
+        [option.checkboxId]: false,
+      };
+    }, {}),
   );
   const [checkedCount, setCheckedCount] = useState(0);
   //Currently default sort option is by most recent transaction. Need to change this if default sort option changes.
   const [radioButtonSelected, setRadioButtonSelected] = useState('MOST_RECENT');
 
-  const dummyLoadingDivisions = useRef([0,0,0,0,0]);
+  const dummyLoadingDivisions = useRef([0, 0, 0, 0, 0]);
 
   const {
+    // eslint-disable-next-line
     transaction,
     setTransaction,
     transactionData,
@@ -68,33 +67,44 @@ const TransactionHistory = (props) => {
     setFinalOpHash,
     setOpeningFromHistory,
     walletAddress,
-    metamaskAddress
+    metamaskAddress,
   } = props;
 
   const filterData = (originalData, checkBoxesState) => {
-    const checkedCount = Object.values(checkBoxesState).filter((checkBoxState) => checkBoxState).length;
+    const checkedCount = Object.values(checkBoxesState).filter(
+      (checkBoxState) => checkBoxState,
+    ).length;
     const dataToFilter = [...originalData];
-    if(checkedCount === 0 || checkedCount === 3) {
+    if (checkedCount === 0 || checkedCount === 3) {
       return dataToFilter;
-    } else if(checkedCount === 1) {
+    } else if (checkedCount === 1) {
       // Have to add conditions if any other filters introduced in future.
       return dataToFilter.filter((transaction) => {
-        if(checkBoxesState['TO_TEZOS']) {
+        if (checkBoxesState['TO_TEZOS']) {
           return transaction.operation === 'BRIDGE' && transaction.currentProgress === 4;
-        } else if(checkBoxesState['FROM_TEZOS']) {
+        } else if (checkBoxesState['FROM_TEZOS']) {
           return transaction.operation === 'UNBRIDGE' && transaction.currentProgress === 4;
-        } else if(checkBoxesState['ACTION_REQUIRED']) {
+        } else if (checkBoxesState['ACTION_REQUIRED']) {
           return transaction.currentProgress !== 4;
         }
         return true;
       });
     } else {
-      if(checkBoxesState['TO_TEZOS'] && checkBoxesState['FROM_TEZOS']) {
-        return dataToFilter.filter((transaction) => (transaction.operation === 'BRIDGE' || transaction.operation === 'UNBRIDGE') && transaction.currentProgress === 4);
-      } else if(checkBoxesState['TO_TEZOS'] && checkBoxesState['ACTION_REQUIRED']) {
-        return dataToFilter.filter((transaction) => (transaction.operation === 'BRIDGE' || transaction.currentProgress !== 4));
-      } else if(checkBoxesState['FROM_TEZOS'] && checkBoxesState['ACTION_REQUIRED']) {
-        return dataToFilter.filter((transaction) => (transaction.operation === 'UNBRIDGE' || transaction.currentProgress !== 4));
+      if (checkBoxesState['TO_TEZOS'] && checkBoxesState['FROM_TEZOS']) {
+        return dataToFilter.filter(
+          (transaction) =>
+            (transaction.operation === 'BRIDGE' || transaction.operation === 'UNBRIDGE') &&
+            transaction.currentProgress === 4,
+        );
+      } else if (checkBoxesState['TO_TEZOS'] && checkBoxesState['ACTION_REQUIRED']) {
+        return dataToFilter.filter(
+          (transaction) => transaction.operation === 'BRIDGE' || transaction.currentProgress !== 4,
+        );
+      } else if (checkBoxesState['FROM_TEZOS'] && checkBoxesState['ACTION_REQUIRED']) {
+        return dataToFilter.filter(
+          (transaction) =>
+            transaction.operation === 'UNBRIDGE' || transaction.currentProgress !== 4,
+        );
       }
     }
   };
@@ -103,31 +113,31 @@ const TransactionHistory = (props) => {
     const dataToSort = filteredData;
     // Change the date comparison method anf format.
     return dataToSort.sort((a, b) => {
-      if(radioSelected === 'MOST_RECENT'){
-        if(new Date(a.timestamp).getTime() > new Date(b.timestamp).getTime()) {
+      if (radioSelected === 'MOST_RECENT') {
+        if (new Date(a.timestamp).getTime() > new Date(b.timestamp).getTime()) {
           return -1;
-        } else if(new Date(a.timestamp).getTime() < new Date(b.timestamp).getTime()) {
+        } else if (new Date(a.timestamp).getTime() < new Date(b.timestamp).getTime()) {
           return 1;
         }
         return 0;
-      } else if(radioSelected === 'OLDEST') {
-        if(new Date(a.timestamp).getTime() < new Date(b.timestamp).getTime()) {
+      } else if (radioSelected === 'OLDEST') {
+        if (new Date(a.timestamp).getTime() < new Date(b.timestamp).getTime()) {
           return -1;
-        } else if(new Date(a.timestamp).getTime() > new Date(b.timestamp).getTime()) {
+        } else if (new Date(a.timestamp).getTime() > new Date(b.timestamp).getTime()) {
           return 1;
         }
         return 0;
       } else if (radioSelected === 'INCREASING_VALUE') {
-        if(a.secondTokenAmount < b.secondTokenAmount) {
+        if (a.secondTokenAmount < b.secondTokenAmount) {
           return -1;
-        } else if(a.secondTokenAmount > b.secondTokenAmount) {
+        } else if (a.secondTokenAmount > b.secondTokenAmount) {
           return 1;
         }
         return 0;
       } else if (radioSelected === 'DECREASING_VALUE') {
-        if(a.secondTokenAmount > b.secondTokenAmount) {
+        if (a.secondTokenAmount > b.secondTokenAmount) {
           return -1;
-        } else if(a.secondTokenAmount < b.secondTokenAmount) {
+        } else if (a.secondTokenAmount < b.secondTokenAmount) {
           return 1;
         }
         return 0;
@@ -135,37 +145,44 @@ const TransactionHistory = (props) => {
     });
   };
 
-  const filteredData = useMemo(() => filterData(transactionData, checkBoxesState, checkedCount), [transactionData, checkBoxesState]);
+  const filteredData = useMemo(
+    () => filterData(transactionData, checkBoxesState, checkedCount),
+    [transactionData, checkBoxesState],
+  );
 
-  const sortedData = useMemo(() => sortData(filteredData, radioButtonSelected), [filteredData, radioButtonSelected]);
+  const sortedData = useMemo(
+    () => sortData(filteredData, radioButtonSelected),
+    [filteredData, radioButtonSelected],
+  );
 
   //const [filteredData, setFilteredData] = useState(transactionData);
 
   const setBack = (value) => {
     SetAnimationClass('rightToLeftFadeInAnimation-4');
-    setTimeout(()=>{
+    setTimeout(() => {
       if (value) {
         setTransaction(1);
       }
-    },200); 
+    }, 200);
   };
 
   const filterClickHandler = () => {
-    setShowSort((prevState) => prevState ? !prevState : prevState);
+    setShowSort((prevState) => (prevState ? !prevState : prevState));
     setShowFilter((prevState) => !prevState);
   };
 
   const sortClickHandler = () => {
-    setShowFilter((prevState) => prevState ? !prevState : prevState);
+    setShowFilter((prevState) => (prevState ? !prevState : prevState));
     setShowSort((prevState) => !prevState);
   };
 
   //CheckBox component related
   useEffect(() => {
-    const countOfChecked = Object.values(checkBoxesState).filter((checkBoxState) => checkBoxState).length;
+    const countOfChecked = Object.values(checkBoxesState).filter(
+      (checkBoxState) => checkBoxState,
+    ).length;
     setCheckedCount(countOfChecked);
   }, [checkBoxesState]);
-
 
   const actionClickHandler = (id) => {
     //console.log(id);
@@ -174,30 +191,42 @@ const TransactionHistory = (props) => {
     setFirstTokenAmount(selectedData.firstTokenAmount);
     setSecondTokenAmount(selectedData.secondTokenAmount);
     const currentFromBridge = bridgesList.find((bridge) => bridge.name === selectedData.fromBridge);
-    setFromBridge({name: currentFromBridge.name, image: currentFromBridge.bigIcon, buttonImage: currentFromBridge.buttonImage});
+    setFromBridge({
+      name: currentFromBridge.name,
+      image: currentFromBridge.bigIcon,
+      buttonImage: currentFromBridge.buttonImage,
+    });
     const currentToBridge = bridgesList.find((bridge) => bridge.name === selectedData.toBridge);
-    setToBridge({name: currentToBridge.name, image: currentToBridge.bigIcon, buttonImage: currentToBridge.buttonImage});
+    setToBridge({
+      name: currentToBridge.name,
+      image: currentToBridge.bigIcon,
+      buttonImage: currentToBridge.buttonImage,
+    });
     //const currentTokenIn = tokensList[currentFromBridge.name].find((token) => token.name === selectedData.tokenIn);
     //const currentTokenOut = tokensList[currentToBridge.name].find((token) => token.name === selectedData.tokenOut);
     const currentTokenIn = {
       name: selectedData.tokenIn,
-      image: Object.prototype.hasOwnProperty.call(allTokens, selectedData.tokenIn) ? allTokens[selectedData.tokenIn] : allTokens.fallback
+      image: Object.prototype.hasOwnProperty.call(allTokens, selectedData.tokenIn)
+        ? allTokens[selectedData.tokenIn]
+        : allTokens.fallback,
     };
     const currentTokenOut = {
       name: selectedData.tokenOut,
-      image: Object.prototype.hasOwnProperty.call(allTokens, selectedData.tokenOut) ? allTokens[selectedData.tokenOut] : allTokens.fallback
+      image: Object.prototype.hasOwnProperty.call(allTokens, selectedData.tokenOut)
+        ? allTokens[selectedData.tokenOut]
+        : allTokens.fallback,
     };
     //console.log(currentTokenIn);
-    setTimeout(()=>{
+    setTimeout(() => {
       setTokenIn({
         name: currentTokenIn.name,
         image: currentTokenIn.image,
       });
       setTokenOut({
         name: `${currentTokenOut.name}`,
-        image: currentTokenOut.image,     //Change after creating config.
+        image: currentTokenOut.image, //Change after creating config.
       });
-    },100);
+    }, 100);
     setSelectedId(id);
     setFee(selectedData.fee);
     SetCurrentProgress(selectedData.currentProgress);
@@ -205,22 +234,21 @@ const TransactionHistory = (props) => {
     setMintUnmintOpHash(selectedData.txHash);
     setFinalOpHash(selectedData.txHash);
     setOpeningFromHistory(true);
-    setTimeout(()=>{
+    setTimeout(() => {
       setTransaction(3);
-    },200);
+    }, 200);
   };
 
   useEffect(async () => {
     setIsLoading(true);
     // const data = await getHistory({ ethereumAddress:'0xb96E3B80D52Fed6Aa53bE5aE282a4DDA06db8122', tzAddress: 'tz1QNjbsi2TZEusWyvdH3nmsCVE3T1YqD9sv' });
-    const data = await getHistory({ ethereumAddress:metamaskAddress, tzAddress: walletAddress });
+    const data = await getHistory({ ethereumAddress: metamaskAddress, tzAddress: walletAddress });
     console.log(data);
-    if(data.success) {
+    if (data.success) {
       setTransactionData(data.history);
       setIsLoading(false);
     }
   }, []);
-
 
   /* api call example 
   const fetchData = async () => {
@@ -252,14 +280,34 @@ const TransactionHistory = (props) => {
             </div>
             <div className={styles.filterImageWrapper}>
               <img
-                src={theme === 'light' ? (showSort ? sortSelected : sortNotSelected) : (showSort ? sortSelectedDark : sortNotSelectedDark)}
+                src={
+                  theme === 'light'
+                    ? showSort
+                      ? sortSelected
+                      : sortNotSelected
+                    : showSort
+                    ? sortSelectedDark
+                    : sortNotSelectedDark
+                }
                 onClick={sortClickHandler}
                 style={{ cursor: 'pointer' }}
               ></img>
               <img
-                src={theme === 'light' ? (checkedCount > 0 ? filterApplied : (showFilter ? filterSelected : filterNotSelected)) : (checkedCount > 0 ? filterAppliedDark : (showFilter ? filterSelectedDark : filterNotSelectedDark))}
+                src={
+                  theme === 'light'
+                    ? checkedCount > 0
+                      ? filterApplied
+                      : showFilter
+                      ? filterSelected
+                      : filterNotSelected
+                    : checkedCount > 0
+                    ? filterAppliedDark
+                    : showFilter
+                    ? filterSelectedDark
+                    : filterNotSelectedDark
+                }
                 onClick={filterClickHandler}
-                style={{ cursor: 'pointer'}}
+                style={{ cursor: 'pointer' }}
               ></img>
             </div>
             {showFilter ? (
@@ -276,54 +324,80 @@ const TransactionHistory = (props) => {
             ) : null}
           </div>
           <div className={`mb-3 ${styles.lineBottom} `}></div>
-          {
-            isLoading ? (
-              dummyLoadingDivisions.current.map((box,index) => {
-                return (
-                  <div key={index} className={`mb-3 ${styles.shimmerEffect}`} style={{height: '70px', width: '100%'}}></div>
-                );
-              })
-            ) : (
-              sortedData.length > 0 ? (
-                sortedData.map((data,index) => {
-                  return (
-                    <>
-                      <div key={index} className={styles.resultsHeader}>
-                        <div className={styles.resultsInfoWrapper}>
-                          <div className={styles.tokenbg}>
-                            <img src={data.currentProgress === 4 ? (data.operation === 'BRIDGE' ? (theme === 'light' ? downArrow : downArrowDark) : (theme === 'light' ? upArrow : upArrowDark)) : actionHistory} className={styles.tokens}></img>
-                          </div>
-                          <div>
-                            <p className={styles.value}>{data.secondTokenAmount} {data.tokenOut}</p>
-                            <p className={styles.amt}>{new Date(data.timestamp).toLocaleDateString('en-IN')} ; {('0' + new Date(data.timestamp).getHours()).slice(-2)}:{('0' + new Date(data.timestamp).getMinutes()).slice(-2)}</p>
-                          </div>
-                        </div>
-                        {
-                          data.currentProgress === 4 ? (
-                            <div className={styles.detailWrapper}>
-                              <p id={data.id} className={styles.details} onClick={(e) => actionClickHandler(e.target.id)}>View Details</p>
-                            </div>
-                          ) : (
-                            <div className={styles.detailWrapper}>
-                              <p id={data.id} className={styles.action} onClick={(e) => actionClickHandler(e.target.id)}>
-                                Action Required <img src={actionRequired}></img>
-                              </p>
-                            </div>
-                          )
-                        }
-                      
+          {isLoading ? (
+            dummyLoadingDivisions.current.map((box, index) => {
+              return (
+                <div
+                  key={index}
+                  className={`mb-3 ${styles.shimmerEffect}`}
+                  style={{ height: '70px', width: '100%' }}
+                ></div>
+              );
+            })
+          ) : sortedData.length > 0 ? (
+            sortedData.map((data, index) => {
+              return (
+                <>
+                  <div key={index} className={styles.resultsHeader}>
+                    <div className={styles.resultsInfoWrapper}>
+                      <div className={styles.tokenbg}>
+                        <img
+                          src={
+                            data.currentProgress === 4
+                              ? data.operation === 'BRIDGE'
+                                ? theme === 'light'
+                                  ? downArrow
+                                  : downArrowDark
+                                : theme === 'light'
+                                ? upArrow
+                                : upArrowDark
+                              : actionHistory
+                          }
+                          className={styles.tokens}
+                        ></img>
                       </div>
-                      <div className={`mt-3 mb-3 ${styles.lineBottom} `}></div>
-                    </>
-                  );
-                })
-              ) : (
-                <div className={styles.noDataDiv}>
-                  <p className={styles.value}>No trasaction history data.</p>
-                </div>
-              )
-            )
-          }
+                      <div>
+                        <p className={styles.value}>
+                          {data.secondTokenAmount} {data.tokenOut}
+                        </p>
+                        <p className={styles.amt}>
+                          {new Date(data.timestamp).toLocaleDateString('en-IN')} ;{' '}
+                          {('0' + new Date(data.timestamp).getHours()).slice(-2)}:
+                          {('0' + new Date(data.timestamp).getMinutes()).slice(-2)}
+                        </p>
+                      </div>
+                    </div>
+                    {data.currentProgress === 4 ? (
+                      <div className={styles.detailWrapper}>
+                        <p
+                          id={data.id}
+                          className={styles.details}
+                          onClick={(e) => actionClickHandler(e.target.id)}
+                        >
+                          View Details
+                        </p>
+                      </div>
+                    ) : (
+                      <div className={styles.detailWrapper}>
+                        <p
+                          id={data.id}
+                          className={styles.action}
+                          onClick={(e) => actionClickHandler(e.target.id)}
+                        >
+                          Action Required <img src={actionRequired}></img>
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                  <div className={`mt-3 mb-3 ${styles.lineBottom} `}></div>
+                </>
+              );
+            })
+          ) : (
+            <div className={styles.noDataDiv}>
+              <p className={styles.value}>No trasaction history data.</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -350,7 +424,7 @@ TransactionHistory.propTypes = {
   setFinalOpHash: PropTypes.any,
   setOpeningFromHistory: PropTypes.any,
   walletAddress: PropTypes.any,
-  metamaskAddress: PropTypes.any
+  metamaskAddress: PropTypes.any,
 };
 
 export default TransactionHistory;

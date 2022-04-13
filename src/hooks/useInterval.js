@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 /**
  * Custom hook to manage intervals in react function components. @Credits - Dan Abramov
