@@ -102,6 +102,8 @@ const BridgeModal = (props) => {
     setOpeningFromHistory,
     metamaskAddress,
     setMetamaskAddress,
+    currentChain,
+    metamaskChain,
   } = props;
 
   //const [tokenList, setTokenList] = useState(tokensList[fromBridge.name]);
@@ -146,44 +148,11 @@ const BridgeModal = (props) => {
   }, [metamaskAddress]);
 
   useEffect(async () => {
-    // const updateBalance = async () => {
-    //   const userBalancesCopy = { ...userBalances };
-    //   const tzBTCName = 'tzBTC';
-    //   const balancePromises = [];
-    //   if (!userBalancesCopy[tokenIn.name]) {
-    //     tokenIn.name === tzBTCName
-    //       ? balancePromises.push(fetchtzBTCBalance(walletAddress))
-    //       : balancePromises.push(getUserBalanceByRpc(tokenIn.name, walletAddress));
-    //   }
-    //   if (!userBalancesCopy[tokenOut.name]) {
-    //     tokenOut.name === tzBTCName
-    //       ? balancePromises.push(fetchtzBTCBalance(walletAddress))
-    //       : balancePromises.push(getUserBalanceByRpc(tokenOut.name, walletAddress));
-    //   }
-    //   /* if (config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]) {
-    //     const lpToken =
-    //       config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
-
-    //     balancePromises.push(getUserBalanceByRpc(lpToken, walletAddress));
-    //   } */
-    //   const balanceResponse = await Promise.all(balancePromises);
-
-    //   setUserBalances((prev) => ({
-    //     ...prev,
-    //     ...balanceResponse.reduce(
-    //       (acc, cur) => ({
-    //         ...acc,
-    //         [cur.identifier]: 10, //cur.balance,
-    //       }),
-    //       {},
-    //     ),
-    //   }));
-    // };
-    // updateBalance();
     setUserTokenBalance(null);
-    if (tokenIn.name !== 'Token NA' && walletAddress && metamaskAddress) {
+    if (tokenIn.name !== 'Token NA' && walletAddress && metamaskAddress && metamaskChain === currentChain) {
       if (operation === 'BRIDGE') {
         const balanceResult = await getBalance(tokenIn.tokenData.CONTRACT_ADDRESS, metamaskAddress);
+        console.log(balanceResult);
         if (balanceResult.success) {
           setUserTokenBalance(Number(balanceResult.balance) / 10 ** tokenIn.tokenData.DECIMALS);
         } else {
@@ -221,7 +190,7 @@ const BridgeModal = (props) => {
     } else {
       setUserTokenBalance(null);
     }
-  }, [tokenIn, walletAddress, metamaskAddress]);
+  }, [tokenIn, walletAddress, metamaskAddress, metamaskChain]);
   /* useEffect(() => {
     //setLoading(true);
     //setLoaderInButton(true);
@@ -238,13 +207,10 @@ const BridgeModal = (props) => {
     }
     return Math.floor(calculatedValue);
   };
+
   const onClickAmount = () => {
-    const value =
-      userBalances[tokenIn.name].toLocaleString('en-US', {
-        maximumFractionDigits: 20,
-        useGrouping: false,
-      }) ?? 0;
-    handleFromTokenInput(value, 'tokenIn');
+    const value = userTokenBalance ?? 0;
+    handleFromTokenInput(value);
   };
 
   const handleFromTokenInput = (input) => {
@@ -325,27 +291,32 @@ const BridgeModal = (props) => {
       setErrorMessage('Insufficient balance');
       setIsError(true);
     } else {
-      SetisLoading(true);
-      if (operation === 'UNBRIDGE') {
-        SetCurrentProgress(1);
-      }
-      dummyApiCall({ isfinished: true }).then((res) => {
-        if (res.isfinished) {
+      if(currentChain !== metamaskChain) {
+        alert('Chain selected on app does not match with the one selected in metamask wallet. Please change metamask wallet chain to ' + currentChain + '.');
+      } else {
+        SetisLoading(true);
+        if (operation === 'UNBRIDGE') {
+          SetCurrentProgress(1);
+        }
+        setTimeout(() => {
           SetisLoading(false);
           setTransaction(3);
-        }
-      });
+        }, 1000);
+      }
+      
     }
   };
+
   const connectWalletHandler = () => {
     if (window.ethereum && window.ethereum.isMetaMask) {
       console.log('MetaMask Here!');
       window.ethereum
         .request({ method: 'eth_requestAccounts' })
         .then((result) => {
-          accountChangedHandler(result[0]);
-          setConnButtonText('Wallet Connected');
-          getAccountBalance(result[0]);
+          //accountChangedHandler(result[0]);
+          setMetamaskAddress(result[0]);
+          //setConnButtonText('Wallet Connected');
+          //getAccountBalance(result[0]);
         })
         .catch((error) => {
           setErrorMessage(error.message);
@@ -359,22 +330,22 @@ const BridgeModal = (props) => {
   };
 
   // update account, will cause component re-render
-  const accountChangedHandler = (newAccount) => {
-    setMetamaskAddress(newAccount);
-    getAccountBalance(newAccount.toString());
-  };
+  // const accountChangedHandler = (newAccount) => {
+  //   setMetamaskAddress(newAccount);
+  //   getAccountBalance(newAccount.toString());
+  // };
 
-  const getAccountBalance = (account) => {
-    window.ethereum
-      .request({ method: 'eth_getBalance', params: [account, 'latest'] })
-      .then((balance) => {
-        setUserBalance(ethers.utils.formatEther(balance));
-      })
-      .catch((error) => {
-        setErrorMessage(error.message);
-        setIsError(true);
-      });
-  };
+  // const getAccountBalance = (account) => {
+  //   window.ethereum
+  //     .request({ method: 'eth_getBalance', params: [account, 'latest'] })
+  //     .then((balance) => {
+  //       setUserBalance(ethers.utils.formatEther(balance));
+  //     })
+  //     .catch((error) => {
+  //       setErrorMessage(error.message);
+  //       setIsError(true);
+  //     });
+  // };
 
   const chainChangedHandler = () => {
     // reload the page to avoid any errors with chain change mid use of application
@@ -382,9 +353,9 @@ const BridgeModal = (props) => {
   };
 
   // listen for account changes
-  window.ethereum.on('accountsChanged', accountChangedHandler);
+  //window.ethereum.on('accountsChanged', accountChangedHandler);
 
-  window.ethereum.on('chainChanged', chainChangedHandler);
+  //window.ethereum.on('chainChanged', chainChangedHandler);
 
   const handleClose = () => {
     setShow(false);
@@ -784,6 +755,8 @@ BridgeModal.propTypes = {
   setOpeningFromHistory: PropTypes.any,
   metamaskAddress: PropTypes.any,
   setMetamaskAddress: PropTypes.any,
+  currentChain: PropTypes.any,
+  metamaskChain: PropTypes.any,
 };
 
 export default BridgeModal;

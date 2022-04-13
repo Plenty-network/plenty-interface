@@ -743,9 +743,13 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
       const unwrapsArrPromise = unwraps.data.result.map(async (obj) => {
         const data = await axios.get(tzkt + '/v1/operations/' + obj.operationHash);
         const timeStamp = new Date(data.data[0].timestamp);
-        const transFee =
-          (obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS) *
-          (BridgeConfiguration.getFeesForChain(chain).UNWRAP_FEES / 10000);
+        const feePercentage = BridgeConfiguration.getFeesForChain(chain).UNWRAP_FEES / 10000;
+        const outputAmount = obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS;
+        const inputTokenAmount = outputAmount  / (1 - (feePercentage));
+        const transFee = inputTokenAmount * feePercentage;
+        // const transFee =
+        //   (obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS) *
+        //   (BridgeConfiguration.getFeesForChain(chain).UNWRAP_FEES / 10000);
         return {
           ...obj,
           isWrap: false,
@@ -754,10 +758,12 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
           token: BridgeConfiguration.getToken(chain, obj.token),
           tokenIn: BridgeConfiguration.getToken(chain, obj.token).WRAPPED_TOKEN.NAME,
           tokenOut: BridgeConfiguration.getToken(chain, obj.token).SYMBOL,
-          firstTokenAmount:
-            obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS,
-          secondTokenAmount:
-            obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS - transFee,
+          firstTokenAmount: inputTokenAmount,
+          // firstTokenAmount:
+          //   obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS,
+          secondTokenAmount : outputAmount,
+          // secondTokenAmount:
+          //   obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS - transFee,
           txHash: obj.operationHash,
           timestamp: timeStamp,
           actionRequired: obj.status === 'finalized' ? false : true,

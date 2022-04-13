@@ -68,6 +68,8 @@ const TransactionHistory = (props) => {
     setOpeningFromHistory,
     walletAddress,
     metamaskAddress,
+    currentChain,
+    metamaskChain,
   } = props;
 
   const filterData = (originalData, checkBoxesState) => {
@@ -233,15 +235,21 @@ const TransactionHistory = (props) => {
     setOperation(selectedData.operation);
     setMintUnmintOpHash(selectedData.txHash);
     setFinalOpHash(selectedData.txHash);
-    setOpeningFromHistory(true);
-    setTimeout(() => {
-      setTransaction(3);
-    }, 200);
+    selectedData.currentProgress !== 4 && setOpeningFromHistory(true);
+    if(selectedData.currentProgress !== 4 && selectedData.chain !== metamaskChain) {
+      alert(`Chain for this operation is ${selectedData.chain} and the chain selected in metamask wallet is ${metamaskChain}. Please change the chain to ${selectedData.chain} in metamask wallet to proceed.`);
+    } else {
+      setTimeout(() => {
+        setTransaction(3);
+      }, 200);
+    }
+    
   };
 
   useEffect(async () => {
     setIsLoading(true);
     // const data = await getHistory({ ethereumAddress:'0xb96E3B80D52Fed6Aa53bE5aE282a4DDA06db8122', tzAddress: 'tz1QNjbsi2TZEusWyvdH3nmsCVE3T1YqD9sv' });
+    console.log(metamaskAddress,walletAddress);
     const data = await getHistory({ ethereumAddress: metamaskAddress, tzAddress: walletAddress });
     console.log(data);
     if (data.success) {
@@ -425,6 +433,8 @@ TransactionHistory.propTypes = {
   setOpeningFromHistory: PropTypes.any,
   walletAddress: PropTypes.any,
   metamaskAddress: PropTypes.any,
+  currentChain: PropTypes.any,
+  metamaskChain: PropTypes.any,
 };
 
 export default TransactionHistory;

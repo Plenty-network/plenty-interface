@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import clsx from 'clsx';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -19,6 +19,7 @@ import { BridgeConfiguration } from '../../apis/Config/BridgeConfig';
 import { allTokens } from '../../constants/bridges';
 import TransactionHistory from '../../Components/TransactionHistory/TransactionHistory';
 import BridgeTransferModal from '../../Components/TransferInProgress/BridgeTransferModal';
+import { getCurrentNetwork } from '../../apis/bridge/bridgeAPI';
 
 const Bridge = (props) => {
   //const isMobile = useMediaQuery('(max-width: 991px)');
@@ -55,6 +56,8 @@ const Bridge = (props) => {
   const [transactionData, setTransactionData] = useState([]);
   //const [currentOperation, setCurrentOperation] = useState('BRIDGE');
   const [metamaskAddress, setMetamaskAddress] = useState(null);
+  const [currentChain, setCurrentChain] = useState(fromBridge.name);
+  const [metamaskChain, setMetamaskChain] = useState(null);
   const loadedTokensList = useRef(null);
   const operation = useRef('BRIDGE');
 
@@ -62,7 +65,7 @@ const Bridge = (props) => {
     operation.current = value;
   };
 
-  const getTransactionListLength = () => transactionData.length;
+  const getTransactionListLength = useMemo(() => transactionData.length, [transactionData]);
 
   //const [tokenList, setTokenList] = useState(tokensList[fromBridge.name]);
   const [tokenList, setTokenList] = useState([]);
@@ -82,6 +85,48 @@ const Bridge = (props) => {
   const setOpeningFromHistory = (value) => {
     openingFromHistory.current = value;
   };
+
+  const metamaskChainChangeHandler = useCallback(async () => {
+    try {
+      console.log('change handler triggered');
+      const chainResult = await getCurrentNetwork();
+      console.log(chainResult);
+      if(chainResult !== undefined) {
+        setMetamaskChain(chainResult);
+      } else {
+        throw new Error('Undefined Chain');
+      }
+    } catch(error) {
+      console.log(error.message);
+      // Add flash message to show error or chain which doesn't exist on PLENTY DeFi.
+    }
+  }, [metamaskChain]);
+
+  const metamaskAccountChangeHandler = useCallback((newAccount) => {
+    console.log(newAccount[0]);
+    if(newAccount.length > 0) {
+      setMetamaskAddress(newAccount[0]);
+    } else {
+      setMetamaskAddress(null);
+    }
+    //setMetamaskAddress(newAccount);
+  }, [metamaskAddress]);
+
+  //Add all metamask event listeners and remove them on unmount.
+  useEffect(() => {
+    // Call chain change handler first time app loads to set the metamask chain state.
+    metamaskChainChangeHandler();
+    // Listen to chain change on metamask.
+    window.ethereum.on('chainChanged', metamaskChainChangeHandler);
+    // listen for account changes
+    window.ethereum.on('accountsChanged', metamaskAccountChangeHandler);
+    return () => {
+      window.ethereum.removeListener('chainChanged', metamaskChainChangeHandler);
+      window.ethereum.removeListener('accountsChanged', metamaskAccountChangeHandler);
+    };
+  }, []);
+
+  
 
   useEffect(() => {
     if (!initialRender.current) {
@@ -147,6 +192,7 @@ const Bridge = (props) => {
           });
         }
       }
+      setCurrentChain(fromBridge.name === 'TEZOS' ? toBridge.name : fromBridge.name);
     } else {
       initialRender.current = false;
     }
@@ -266,6 +312,8 @@ const Bridge = (props) => {
                 setOpeningFromHistory={setOpeningFromHistory}
                 metamaskAddress={metamaskAddress}
                 setMetamaskAddress={setMetamaskAddress}
+                currentChain={currentChain}
+                metamaskChain={metamaskChain}
               />
             )}
             {transaction === 2 && (
@@ -290,6 +338,8 @@ const Bridge = (props) => {
                 setOpeningFromHistory={setOpeningFromHistory}
                 walletAddress={props.walletAddress}
                 metamaskAddress={metamaskAddress}
+                currentChain={currentChain}
+                metamaskChain={metamaskChain}
               />
             )}
             {transaction === 3 && (
