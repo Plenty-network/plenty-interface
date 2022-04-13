@@ -3,12 +3,12 @@ import xtz from '../assets/images/tez.png';
 
 export const stableSwapTokens = [
   {
-    name: 'TEZ',
+    name: 'tez',
     image: xtz,
     new: true,
   },
   {
-    name: 'CTEZ',
+    name: 'ctez',
     image: ctez,
     new: false,
     extra: {

@@ -54,9 +54,9 @@ const LiquidityNew = (props) => {
   const [isPositionAvailable, setPositionAvailable] = useState(false);
 
   useEffect(() => {
-    if (tokenIn.name === 'TEZ') {
+    if (tokenIn.name === 'tez') {
       setTokenOut({
-        name: 'CTEZ',
+        name: 'ctez',
         image: ctez,
       });
     }
@@ -188,9 +188,9 @@ const LiquidityNew = (props) => {
         name: token.name,
         image: token.image,
       });
-      if (token.name === 'TEZ') {
+      if (token.name === 'tez') {
         setTokenOut({
-          name: 'CTEZ',
+          name: 'ctez',
           image: ctez,
         });
       }

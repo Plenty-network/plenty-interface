@@ -16,9 +16,14 @@ import { useLocationStateInSwap } from './hooks';
 import '../../assets/scss/animation.scss';
 import { tokens } from '../../constants/swapPage';
 import SwapTab from '../../Components/SwapTabsContent/SwapTab';
-import { getAllRoutes, getxtzBalance, loadSwapData } from '../../apis/swap/swap-v2';
+import { getAllRoutes, loadSwapData } from '../../apis/swap/swap-v2';
 import SwapModal from '../../Components/SwapModal/SwapModal';
 import TransactionSettings from '../../Components/TransactionSettings/TransactionSettings';
+import {
+  getUserBalanceByRpcStable,
+  getxtzBalance,
+  loadSwapDataStable,
+} from '../../apis/stableswap/stableswap';
 
 const Swap = (props) => {
   const { activeTab, tokenIn, setTokenIn, tokenOut, setTokenOut } = useLocationStateInSwap();
@@ -42,6 +47,8 @@ const Swap = (props) => {
   const [loaderMessage, setLoaderMessage] = useState({});
   const [tokenContractInstances, setTokenContractInstances] = useState({});
   const [loaderInButton, setLoaderInButton] = useState(false);
+  const [isStablePair, setStablePair] = useState(false);
+  const [balanceUpdate, setBalanceUpdate] = useState(false);
 
   const pairExist = useMemo(() => {
     return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
@@ -56,34 +63,51 @@ const Swap = (props) => {
         setTokenOut({});
       }
     }
+    if (
+      (tokenIn.name === 'tez' && tokenOut.name === 'ctez') ||
+      (tokenOut.name === 'tez' && tokenIn.name === 'ctez')
+    ) {
+      setStablePair(true);
+    } else {
+      setStablePair(false);
+    }
   }, [tokenIn, tokenOut]);
-
   useEffect(() => {
     const updateBalance = async () => {
       setTokenContractInstances({});
-      const userBalancesCopy = { ...userBalances };
+      //const userBalancesCopy = { ...userBalances };
       const tzBTCName = 'tzBTC';
       const balancePromises = [];
-      if (!userBalancesCopy[tokenIn.name]) {
-        tokenIn.name === tzBTCName
-          ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
-          : tokenIn.name === 'TEZ'
-          ? balancePromises.push(getxtzBalance(tokenIn.name, props.walletAddress))
-          : balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
-      }
-      if (!userBalancesCopy[tokenOut.name]) {
-        tokenIn.name === tzBTCName
-          ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
-          : tokenOut.name === 'TEZ'
-          ? balancePromises.push(getxtzBalance(tokenOut.name, props.walletAddress))
-          : balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));
-      }
-      if (config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]) {
-        const lpToken =
-          config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
+      // if (!userBalancesCopy[tokenIn.name]) {
+      tokenIn.name === tzBTCName
+        ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
+        : isStablePair
+        ? balancePromises.push(getUserBalanceByRpcStable(tokenIn.name, props.walletAddress))
+        : tokenIn.name === 'tez'
+        ? balancePromises.push(getxtzBalance(tokenIn.name, props.walletAddress))
+        : balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
+      //}
+      // if (!userBalancesCopy[tokenOut.name]) {
+      tokenIn.name === tzBTCName
+        ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
+        : isStablePair
+        ? balancePromises.push(getUserBalanceByRpcStable(tokenOut.name, props.walletAddress))
+        : tokenOut.name === 'tez'
+        ? balancePromises.push(getxtzBalance(tokenOut.name, props.walletAddress))
+        : balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));
+      // }
+      if (
+        isStablePair
+          ? config.STABLESWAP[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]
+          : config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]
+      ) {
+        const lpToken = isStablePair
+          ? config.STABLESWAP[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken
+          : config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
 
         balancePromises.push(getUserBalanceByRpc(lpToken, props.walletAddress));
       }
+
       const balanceResponse = await Promise.all(balancePromises);
 
       setUserBalances((prev) => ({
@@ -98,7 +122,7 @@ const Swap = (props) => {
       }));
     };
     updateBalance();
-  }, [tokenIn, tokenOut]);
+  }, [tokenIn, tokenOut, props, activeTab, balanceUpdate]);
 
   useEffect(() => {
     if (activeTab === 'swap') {
@@ -106,13 +130,26 @@ const Swap = (props) => {
         Object.prototype.hasOwnProperty.call(tokenIn, 'name') &&
         Object.prototype.hasOwnProperty.call(tokenOut, 'name')
       ) {
-        getAllRoutes(tokenIn.name, tokenOut.name).then((response) => {
-          if (response.success) {
-            setRouteData(response);
-            setSwapData(response.bestRouteUntilNoInput.swapData);
-            setLoaderInButton(false);
-          }
-        });
+        if (
+          (tokenIn.name === 'tez' && tokenOut.name === 'ctez') ||
+          (tokenOut.name === 'tez' && tokenIn.name === 'ctez')
+        ) {
+          loadSwapDataStable(tokenIn.name, tokenOut.name).then((response) => {
+            if (response.success) {
+              setRouteData({ success: true });
+              setSwapData(response);
+              setLoaderInButton(false);
+            }
+          });
+        } else {
+          getAllRoutes(tokenIn.name, tokenOut.name).then((response) => {
+            if (response.success) {
+              setRouteData(response);
+              setSwapData(response.bestRouteUntilNoInput.swapData);
+              setLoaderInButton(false);
+            }
+          });
+        }
       }
     }
   }, [tokenIn, tokenOut, activeTab]);
@@ -147,16 +184,27 @@ const Swap = (props) => {
       });
       setFirstTokenAmount('');
       setSecondTokenAmount('');
-
-      loadSwapData(tempTokenOut, tempTokenIn).then((data) => {
-        if (data.success) {
-          setSwapData(data);
-        }
-      });
+      if (
+        (tokenIn.name === 'tez' && tokenOut.name === 'ctez') ||
+        (tokenOut.name === 'tez' && tokenIn.name === 'ctez')
+      ) {
+        loadSwapDataStable(tempTokenOut, tempTokenIn).then((data) => {
+          if (data.success) {
+            setSwapData(data);
+          }
+        });
+      } else {
+        loadSwapData(tempTokenOut, tempTokenIn).then((data) => {
+          if (data.success) {
+            setSwapData(data);
+          }
+        });
+      }
     }
   };
 
   const handleTokenType = (type) => {
+    setBalanceUpdate(false);
     setShow(true);
     setTokenType(type);
     setLoading(false);
@@ -335,6 +383,8 @@ const Swap = (props) => {
               setShowConfirmTransaction={setShowConfirmTransaction}
               showConfirmTransaction={showConfirmTransaction}
               theme={props.theme}
+              isStablePair={isStablePair}
+              setBalanceUpdate={setBalanceUpdate}
             />
             <TransactionSettings
               recepient={recepient}
@@ -344,6 +394,7 @@ const Swap = (props) => {
               walletAddress={props.walletAddress}
               handleRecepient={handleRecepient}
               setShowRecepient={setShowRecepient}
+              theme={props.theme}
             />
           </div>
         </Col>
@@ -370,4 +421,6 @@ Swap.propTypes = {
   connecthWallet: PropTypes.any,
   walletAddress: PropTypes.any,
   theme: PropTypes.any,
+  tokenIn: PropTypes.any,
+  tokenOut: PropTypes.any,
 };

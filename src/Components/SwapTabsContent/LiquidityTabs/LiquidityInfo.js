@@ -63,13 +63,13 @@ const LiquidityInfo = (props) => {
         </OverlayTrigger>
       </div>
       <div className={clsx(isMobile && 'order-2', 'ml-2')}>
-        {(props.tokenIn.name === 'TEZ' ? props.poolShare : props.lpTokenAmount.estimatedLpOutput) >
+        {(props.tokenIn.name === 'tez' ? props.poolShare : props.lpTokenAmount.estimatedLpOutput) >
         0 ? (
           <OverlayTrigger
             placement="top"
             overlay={
               <Tooltip id="button-tooltip" {...props}>
-                {props.tokenIn.name === 'TEZ'
+                {props.tokenIn.name === 'tez'
                   ? props.poolShare
                   : props.lpTokenAmount.estimatedLpOutput
                   ? (props.lpTokenAmount.estimatedLpOutput /
@@ -81,7 +81,7 @@ const LiquidityInfo = (props) => {
           >
             <div className="details">
               <span className="content">Share of pool:</span>{' '}
-              {props.tokenIn.name === 'TEZ'
+              {props.tokenIn.name === 'tez'
                 ? Number(props.poolShare) > 0
                   ? Number(props.poolShare).toFixed(4)
                   : '0'
@@ -98,7 +98,7 @@ const LiquidityInfo = (props) => {
         ) : (
           <div className="details">
             <span className="content">Share of pool:</span>{' '}
-            {props.tokenIn.name === 'TEZ'
+            {props.tokenIn.name === 'tez'
               ? Number(props.poolShare) > 0
                 ? Number(props.poolShare).toFixed(4)
                 : '0'

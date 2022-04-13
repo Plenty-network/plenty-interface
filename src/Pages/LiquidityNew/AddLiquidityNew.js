@@ -22,6 +22,7 @@ import Loader from '../../Components/loader';
 
 const AddLiquidityNew = (props) => {
   const [estimatedTokenAmout, setEstimatedTokenAmout] = useState('');
+  console.log(props);
   const [secondTokenAmount, setSecondTokenAmount] = useState('');
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
   const [lpTokenAmount, setLpTokenAmount] = useState({});
@@ -88,12 +89,12 @@ const AddLiquidityNew = (props) => {
       props.swapData.lpTokenSupply,
     );
     setPoolShare(values.poolPercent.toFixed(5));
-    if (props.tokenIn.name === 'TEZ') {
+    if (props.tokenIn.name === 'tez') {
       setLpTokenAmount((values.lpToken / 10 ** 6).toFixed(6));
     }
     return values.ctez / 10 ** 6;
   };
-
+  console.log(secondTokenAmount);
   const liqCa = async (input) => {
     const values = await liqCalcRev(
       input,
@@ -102,7 +103,7 @@ const AddLiquidityNew = (props) => {
       props.swapData.lpTokenSupply,
     );
     setPoolShare(values.poolPercent.toFixed(5));
-    if (props.tokenIn.name === 'TEZ') {
+    if (props.tokenIn.name === 'tez') {
       setLpTokenAmount((values.lpToken / 10 ** 6).toFixed(6));
     }
     return values.tez / 10 ** 6;
@@ -119,7 +120,7 @@ const AddLiquidityNew = (props) => {
       });
       return;
     }
-    if (props.tokenIn.name === 'TEZ') {
+    if (props.tokenIn.name === 'tez') {
       const res = await getXtz(input);
 
       setEstimatedTokenAmout({
@@ -144,7 +145,7 @@ const AddLiquidityNew = (props) => {
         otherTokenAmount: '',
       });
     } else {
-      if (props.tokenIn.name === 'TEZ') {
+      if (props.tokenIn.name === 'tez') {
         const res = await liqCa(input);
 
         setEstimatedTokenAmout({
@@ -170,7 +171,7 @@ const AddLiquidityNew = (props) => {
       ? parseFloat(secondTokenAmount)
       : estimatedTokenAmout.otherTokenAmount;
 
-    if (props.tokenIn.name !== 'TEZ') {
+    if (props.tokenIn.name !== 'tez') {
       const lpTokenAmount = lpTokenOutput(
         firstTokenAmount,
         secondTokenAmountEntered,
@@ -186,7 +187,7 @@ const AddLiquidityNew = (props) => {
     const secondTokenAmountEntered = secondTokenAmount
       ? parseFloat(secondTokenAmount)
       : estimatedTokenAmout.otherTokenAmount;
-    if (props.tokenIn.name !== 'TEZ') {
+    if (props.tokenIn.name !== 'tez') {
       const lpTokenAmount = lpTokenOutput(
         firstTokenAmount,
         secondTokenAmountEntered,
@@ -217,14 +218,14 @@ const AddLiquidityNew = (props) => {
     props.setShowConfirmAddSupply(false);
     localStorage.setItem(
       'liqinput',
-      props.tokenIn.name === 'TEZ' ? lpTokenAmount : lpTokenAmount.estimatedLpOutput,
+      props.tokenIn.name === 'tez' ? lpTokenAmount : lpTokenAmount.estimatedLpOutput,
     );
 
     setShowConfirmTransaction(true);
     const secondTokenAmountEntered = secondTokenAmount
       ? parseFloat(secondTokenAmount)
       : estimatedTokenAmout.otherTokenAmount;
-    if (props.tokenIn.name === 'TEZ') {
+    if (props.tokenIn.name === 'tez') {
       add_liquidity(
         props.tokenIn.name,
         props.tokenOut.name,
@@ -315,7 +316,7 @@ const AddLiquidityNew = (props) => {
       });
     }
   }, [firstTokenAmount]);
-
+  console.log(estimatedTokenAmout);
   let swapContentButton = (
     <Button
       onClick={props.connecthWallet}
@@ -419,7 +420,6 @@ const AddLiquidityNew = (props) => {
             {props.walletAddress && props.tokenIn.name ? (
               <OverlayTrigger
                 placement="top"
-                show={true}
                 overlay={
                   <Tooltip id="button-tooltip" {...props}>
                     {props.userBalances[props.tokenIn.name]

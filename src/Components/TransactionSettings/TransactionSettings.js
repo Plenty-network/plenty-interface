@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import filter from '../../assets/images/Filter_big.svg';
+import filterDark from '../../assets/images/Filter_big_dark.svg';
 
 const TransactionSettings = (props) => {
   const CustomToggle = React.forwardRef(({ onClick }, ref) => (
@@ -15,7 +16,7 @@ const TransactionSettings = (props) => {
       }}
     >
       <span className="slippage-settings">
-        <img src={filter} className="settings-filter" />{' '}
+        <img src={props.theme === 'light' ? filter : filterDark} className="settings-filter" />{' '}
         <span className="slippage-value"> {props.slippage} %</span>
       </span>
     </a>
@@ -78,6 +79,7 @@ TransactionSettings.propTypes = {
   setShowRecepient: PropTypes.any,
   setSlippage: PropTypes.any,
   slippage: PropTypes.any,
+  theme: PropTypes.any,
 };
 
 export default TransactionSettings;

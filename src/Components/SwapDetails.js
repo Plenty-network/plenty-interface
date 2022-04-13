@@ -4,6 +4,8 @@ import { MdChevronRight } from 'react-icons/all';
 import { Image, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import React, { useMemo, useState } from 'react';
 import { tokens } from '../constants/swapPage';
+import { ReactComponent as Stableswap } from '../assets/images/SwapModal/stableswap-light.svg';
+import { ReactComponent as StableswapDark } from '../assets/images/SwapModal/stableswap-dark.svg';
 
 const SwapDetails = (props) => {
   const [isOpen, setOpen] = useState(false);
@@ -31,7 +33,7 @@ const SwapDetails = (props) => {
               overlay={
                 <Tooltip id="button-tooltip" {...props}>
                   {props.isStableSwap
-                    ? props.computedOutDetails.data.exchangeRate.toFixed(6)
+                    ? Number(props.computedOutDetails.data.exchangeRate).toFixed(6)
                     : props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn}
                 </Tooltip>
               }
@@ -39,12 +41,14 @@ const SwapDetails = (props) => {
               <div>
                 {props.isStableSwap
                   ? isConvert
-                    ? (1 / props.computedOutDetails.data.exchangeRate).toFixed(3)
-                    : props.computedOutDetails.data.exchangeRate.toFixed(3)
+                    ? Number(1 / props.computedOutDetails.data.exchangeRate).toFixed(3)
+                    : Number(props.computedOutDetails.data.exchangeRate).toFixed(3)
                   : props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn
                   ? isConvert
-                    ? (1 / props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn).toFixed(3)
-                    : props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn.toFixed(3)
+                    ? Number(1 / props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn).toFixed(
+                        3,
+                      )
+                    : Number(props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn).toFixed(3)
                   : 0}{' '}
                 {isConvert ? props.tokenIn.name : props.tokenOut.name}
               </div>
@@ -239,12 +243,41 @@ const SwapDetails = (props) => {
 
           <div className="swap-detail-route-container mt-3">
             {swapRoute.map((token, idx) => (
-              <div key={token.name} className="d-flex my-2 ">
-                <div className="route-Outline">
-                  <Image src={token.image} height={20} width={20} alt={''} />
-                  <span className="ml-1 my-auto">{token.name}</span>
+              <div key={token.name} className="d-flex my-2 align-self-center">
+                <div
+                  className={clsx(
+                    (token.name === 'tez' || token.name === 'ctez') &&
+                      'outer-border-stableswap d-flex',
+                  )}
+                >
+                  {(token.name === 'tez' || token.name === 'ctez') && (
+                    <div>
+                      <span className="stableswap-img">
+                        {props.theme === 'light' ? <Stableswap /> : <StableswapDark />}
+                      </span>
+                    </div>
+                  )}
+                  <div
+                    className={clsx(
+                      token.name === 'tez' || token.name === 'ctez'
+                        ? 'stablepair-outline'
+                        : 'route-Outline',
+                    )}
+                  >
+                    <Image src={token.image} height={18} width={18} alt={''} />
+                    <span className="ml-1 my-auto token-name-route">{token.name}</span>
+                  </div>
                 </div>
-                {swapRoute[idx + 1] && <MdChevronRight className="route-arrow" fontSize={20} />}
+                {swapRoute[idx + 1] && (
+                  <MdChevronRight
+                    className={clsx(
+                      token.name === 'tez' || token.name === 'ctez'
+                        ? 'route-arrow-stable'
+                        : 'route-arrow',
+                    )}
+                    fontSize={20}
+                  />
+                )}
               </div>
             ))}
           </div>
@@ -265,6 +298,7 @@ SwapDetails.propTypes = {
   isStableSwap: PropTypes.any,
   slippage: PropTypes.any,
   isConfirmSwap: PropTypes.any,
+  theme: PropTypes.any,
 };
 
 export default SwapDetails;

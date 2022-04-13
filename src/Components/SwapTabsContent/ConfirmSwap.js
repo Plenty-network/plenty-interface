@@ -57,10 +57,13 @@ const ConfirmSwap = (props) => {
             tokenIn={props.tokenIn}
             tokenOut={props.tokenOut}
             routeData={props.routeData}
-            isStableSwap={props.isStableSwap}
             firstTokenAmount={props.firstTokenAmount}
             slippage={props.slippage}
             isConfirmSwap={true}
+            isStableSwap={
+              (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
+              (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez')
+            }
           />
 
           <Button

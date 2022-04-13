@@ -15,6 +15,7 @@ import { setLoader } from '../../redux/slices/settings/settings.slice';
 import LpPair from '../SwapTabsContent/LpPair';
 
 const SwapContent = (props) => {
+  console.log(props.userBalances);
   const [firstTokenAmount, setFirstTokenAmount] = useState();
   const [secondTokenAmount, setSecondTokenAmount] = useState();
   const [firstAmount, setFirstAmount] = useState(0);
@@ -22,7 +23,7 @@ const SwapContent = (props) => {
 
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState('');
-  const [showLpPair, setShowLpPair] = useState(false);
+  const [showLpPair, setShowLpPair] = useState(true);
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const [transactionId, setTransactionId] = useState('');
   const [isLpPairAvailable, setLpPairAvailable] = useState(false);
@@ -31,13 +32,16 @@ const SwapContent = (props) => {
     setTransactionId(id);
     setShowTransactionSubmitModal(true);
   };
+  const c = { type: 'success', message: 'success' };
   useEffect(async () => {
     const res = await getAvailableLiquidityPairs(props.tokenOut.name);
     setLpPairAvailable(res.isLiquidityPairAvailable);
 
+    console.log(res);
     if (res.isLiquidityPairAvailable) {
       setPairs(res.data);
     }
+    console.log(pairs);
   }, [props.tokenOut]);
 
   const handleSwapTokenInput = (input, tokenType) => {
@@ -84,8 +88,10 @@ const SwapContent = (props) => {
   const handleSwapResponse = (status) => {
     if (status) {
       props.setLoading(false);
+      props.setBalanceUpdate(true);
       setShowTransactionSubmitModal(false);
       props.handleLoaderMessage('success', 'Transaction confirmed');
+
       setShowLpPair(true);
       props.setLoader(false);
       props.setShowConfirmSwap(false);
@@ -96,6 +102,7 @@ const SwapContent = (props) => {
       setSecondTokenAmount('');
     } else {
       props.setLoading(false);
+      props.setBalanceUpdate(true);
       setShowTransactionSubmitModal(false);
       props.handleLoaderMessage('error', 'Transaction failed');
       props.setLoader(false);
@@ -382,7 +389,7 @@ const SwapContent = (props) => {
         content={`${Number(localStorage.getItem('wrapped')).toFixed(6)} ${localStorage.getItem(
           'token',
         )} Swapped`}
-        loaderMessage={props.loaderMessage}
+        loaderMessage={c}
         tokenIn={props.tokenIn.name}
         firstTokenAmount={firstAmount}
         tokenOut={props.tokenOut.name}
@@ -450,6 +457,7 @@ SwapContent.propTypes = {
   setShowTransactionSubmitModal: PropTypes.any,
   transactionId: PropTypes.any,
   showTransactionSubmitModal: PropTypes.any,
+  setBalanceUpdate: PropTypes.any,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SwapContent);

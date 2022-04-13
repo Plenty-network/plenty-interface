@@ -107,7 +107,7 @@ const Farms = (props) => {
   const filterByTab = useCallback(
     (farm) => {
       if (tabChange === FARM_TAB.CTEZ) {
-        return farm.farmData.CARD_TYPE.toLowerCase().includes('CTEZ');
+        return farm.farmData.CARD_TYPE.toLowerCase().includes('ctez');
       }
 
       if (tabChange === FARM_TAB.YOU) {

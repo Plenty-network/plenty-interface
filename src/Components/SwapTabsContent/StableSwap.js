@@ -210,7 +210,7 @@ const StableSwap = (props) => {
     localStorage.setItem('token', props.tokenIn.name);
     const recepientAddress = props.recepient ? props.recepient : props.walletAddress;
     props.resetAllValues();
-    if (props.tokenIn.name === 'CTEZ') {
+    if (props.tokenIn.name === 'ctez') {
       ctez_to_tez(
         props.tokenIn.name,
         props.tokenOut.name,
@@ -390,7 +390,7 @@ const StableSwap = (props) => {
 
                 <p className="wallet-token-balance">
                   ~$
-                  {props.tokenIn.name === 'TEZ' ? (
+                  {props.tokenIn.name === 'tez' ? (
                     dolar * firstTokenAmountStable == null ? (
                       <span className="shimmer">99999999</span>
                     ) : firstTokenAmountStable ? (
@@ -467,7 +467,7 @@ const StableSwap = (props) => {
                 </p>
                 <p className="wallet-token-balance">
                   ~$
-                  {props.tokenOut.name === 'TEZ'
+                  {props.tokenOut.name === 'tez'
                     ? isNaN(dolar * secondTokenAmountStable)
                       ? '0.00'
                       : secondTokenAmountStable

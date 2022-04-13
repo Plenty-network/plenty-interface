@@ -6,6 +6,7 @@ import React, { useMemo, useState } from 'react';
 import { tokens } from '../../constants/swapPage';
 
 const SwapDetailsConfirmSwap = (props) => {
+  console.log(props);
   const [isOpen, setOpen] = useState(false);
 
   const swapRoute = useMemo(() => {
@@ -31,14 +32,14 @@ const SwapDetailsConfirmSwap = (props) => {
               overlay={
                 <Tooltip id="swap-token-out-tooltip" {...props}>
                   {props.isStableSwap
-                    ? props.computedOutDetails.data.exchangeRate.toFixed(6)
+                    ? Number(props.computedOutDetails.data.exchangeRate).toFixed(6)
                     : props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn}
                 </Tooltip>
               }
             >
               <div>
                 {props.isStableSwap
-                  ? props.computedOutDetails.data.exchangeRate.toFixed(3)
+                  ? Number(props.computedOutDetails.data.exchangeRate).toFixed(3)
                   : props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn
                   ? props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn.toFixed(3)
                   : 0}{' '}

@@ -143,7 +143,7 @@ export const swapTokens = async (
           ]),
         );
     }
-
+    console.log(batch);
     const batchOperation = await batch.send();
     setShowConfirmTransaction(false);
 
@@ -180,7 +180,7 @@ export const swapTokenUsingRoute = async (
 ) => {
   const connectedNetwork = CONFIG.NETWORK;
   const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
-      
+
   // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
   try {
     const network = {
@@ -863,6 +863,7 @@ export const getUserBalanceByRpc = async (identifier, address) => {
     const packedKey = getPackedKey(tokenId, address, type);
     const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
     const response = await axios.get(url);
+
     const balance = (() => {
       // IIFE
       let _balance;
@@ -877,7 +878,7 @@ export const getUserBalanceByRpc = async (identifier, address) => {
       } else if (type5MapIds.includes(mapId)) {
         _balance = response.data.args[0][0].args[1].int;
       } else {
-        _balance = response.data.args[1].int;
+        _balance = response.data.int;
       }
 
       _balance = parseInt(_balance);
@@ -1128,7 +1129,7 @@ export const fetchWalletBalance = async (
           symbol: icon,
           contractInstance: contract,
         };
-      } else if (icon === 'CTEZ') {
+      } else if (icon === 'ctez') {
         const userDetails = await storage.tokens.get(addressOfUser);
         let userBalance = userDetails;
         userBalance = userBalance.toNumber() / Math.pow(10, token_decimal).toFixed(3);
@@ -1493,7 +1494,8 @@ export const getTokenPrices = async () => {
         }
       }
     }
-    tokenPrice['CTEZ'] = promisesResponse[1].ctezPriceInUSD;
+
+    tokenPrice['ctez'] = promisesResponse[1].ctezPriceInUSD;
     tokenPrice['uDEFI'] = promisesResponse[2].uDEFIinUSD;
     return {
       success: true,

@@ -58,7 +58,7 @@ const RemoveLiquidityNew = (props) => {
   const removeLiquidityInput = (input) => {
     const removeAmount = parseFloat(input);
     let computedRemoveTokens;
-    if (props.tokenIn.name === 'TEZ') {
+    if (props.tokenIn.name === 'tez') {
       computedRemoveTokens = liqCalcRemove(
         removeAmount,
         props.swapData.tezPool,
@@ -100,7 +100,7 @@ const RemoveLiquidityNew = (props) => {
     props.setShowConfirmRemoveSupply(false);
     setShowConfirmTransaction(true);
     localStorage.setItem('liqinput', firstTokenAmount);
-    if (props.tokenIn.name === 'TEZ') {
+    if (props.tokenIn.name === 'tez') {
       remove_liquidity(
         props.tokenIn.name,
         props.tokenOut.name,

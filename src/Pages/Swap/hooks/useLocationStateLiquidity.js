@@ -10,13 +10,13 @@ export const useLocationStateInLiquidity = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [tokenIn, setTokenIn] = useState({
-    name: 'CTEZ',
+    name: 'ctez',
     image: ctez,
   });
   useEffect(() => {
-    if (tokenIn.name === 'TEZ') {
+    if (tokenIn.name === 'tez') {
       setTokenOut({
-        name: 'CTEZ',
+        name: 'ctez',
         image: ctez,
       });
     }
@@ -24,7 +24,7 @@ export const useLocationStateInLiquidity = () => {
   const [tokenOut, setTokenOut] = useState({ name: 'PLENTY', image: plenty });
 
   const AMMExists = useMemo(() => {
-    if (tokenIn.name === 'TEZ')
+    if (tokenIn.name === 'tez')
       return !!config.STABLESWAP[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
     else return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
   }, [tokenIn, tokenOut]);

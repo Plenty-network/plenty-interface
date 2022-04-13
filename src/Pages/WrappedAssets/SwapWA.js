@@ -45,6 +45,7 @@ const SwapWA = (props) => {
   const [loaderMessage, setLoaderMessage] = useState({});
   const [tokenContractInstances, setTokenContractInstances] = useState({});
   const [loaderInButton, setLoaderInButton] = useState(false);
+  const [balanceUpdate, setBalanceUpdate] = useState(false);
 
   const pairExist = useMemo(() => {
     return !!config.WRAPPED_ASSETS[config.NETWORK][tokenIn.name].REF_TOKEN[tokenOut.name];
@@ -65,21 +66,22 @@ const SwapWA = (props) => {
 
   useEffect(() => {
     if (props.walletAddress) {
+      console.log(balanceUpdate);
       const updateBalance = async () => {
         setTokenContractInstances({});
-        const userBalancesCopy = { ...userBalances };
+        //const userBalancesCopy = { ...userBalances };
         const tzBTCName = 'tzBTC';
         const balancePromises = [];
-        if (!userBalancesCopy[tokenIn.name]) {
-          tokenIn.name === tzBTCName
-            ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
-            : balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
-        }
-        if (!userBalancesCopy[tokenOut.name]) {
-          tokenIn.name === tzBTCName
-            ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
-            : balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));
-        }
+        // if (!userBalancesCopy[tokenIn.name]) {
+        tokenIn.name === tzBTCName
+          ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
+          : balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
+        // }
+        // if (!userBalancesCopy[tokenOut.name]) {
+        tokenIn.name === tzBTCName
+          ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
+          : balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));
+        //}
 
         const balanceResponse = await Promise.all(balancePromises);
 
@@ -96,7 +98,7 @@ const SwapWA = (props) => {
       };
       updateBalance();
     }
-  }, [tokenIn, tokenOut, props]);
+  }, [tokenIn, tokenOut, props, balanceUpdate]);
 
   useEffect(() => {
     if (activeTab === 'wrappedswap') {
@@ -124,6 +126,7 @@ const SwapWA = (props) => {
   };
 
   const handleTokenType = (type) => {
+    setBalanceUpdate(false);
     setShow(true);
     setTokenType(type);
     setLoading(false);
@@ -313,6 +316,7 @@ const SwapWA = (props) => {
               setShowConfirmTransaction={setShowConfirmTransaction}
               showConfirmTransaction={showConfirmTransaction}
               theme={props.theme}
+              setBalanceUpdate={setBalanceUpdate}
             />
           </Tab>
         </Tabs>

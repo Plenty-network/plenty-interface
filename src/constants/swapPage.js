@@ -42,12 +42,12 @@ export const tokens = [
     new: false,
   },
   {
-    name: 'TEZ',
+    name: 'tez',
     image: tez,
     new: false,
   },
   {
-    name: 'CTEZ',
+    name: 'ctez',
     image: ctez,
     new: false,
     extra: {
