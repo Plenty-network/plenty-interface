@@ -20,6 +20,7 @@ import { allTokens } from '../../constants/bridges';
 import TransactionHistory from '../../Components/TransactionHistory/TransactionHistory';
 import BridgeTransferModal from '../../Components/TransferInProgress/BridgeTransferModal';
 import { getCurrentNetwork } from '../../apis/bridge/bridgeAPI';
+import FlashMessage from '../../Components/FlashMessage/FlashMessage';
 
 const Bridge = (props) => {
   //const isMobile = useMediaQuery('(max-width: 991px)');
@@ -58,6 +59,7 @@ const Bridge = (props) => {
   const [metamaskAddress, setMetamaskAddress] = useState(null);
   const [currentChain, setCurrentChain] = useState(fromBridge.name);
   const [metamaskChain, setMetamaskChain] = useState(null);
+  const [showFlashMessage, setShowFlashMessage] = useState(false);
   const loadedTokensList = useRef(null);
   const operation = useRef('BRIDGE');
 
@@ -70,6 +72,9 @@ const Bridge = (props) => {
   //const [tokenList, setTokenList] = useState(tokensList[fromBridge.name]);
   const [tokenList, setTokenList] = useState([]);
 
+  const savedFromBridge = useRef(fromBridge);
+  const savedToBridge = useRef(toBridge);
+  const savedOperation = useRef(operation.current);
   const mintUnmintOpHash = useRef(null);
   const finalOpHash = useRef(null);
   const openingFromHistory = useRef(false);
@@ -85,6 +90,22 @@ const Bridge = (props) => {
   const setOpeningFromHistory = (value) => {
     openingFromHistory.current = value;
   };
+
+  const setSavedFromBridge = (data) => {
+    savedFromBridge.current = data;
+  };
+
+  const setSavedToBridge = (data) => {
+    savedToBridge.current = data;
+  };
+
+  const setSavedOperation = (data) => {
+    savedOperation.current = data;
+  };
+
+  const handleFlashMessageClose = useCallback(() => {
+    setShowFlashMessage(false);
+  }, []);
 
   const metamaskChainChangeHandler = useCallback(async () => {
     try {
@@ -130,6 +151,7 @@ const Bridge = (props) => {
 
   useEffect(() => {
     if (!initialRender.current) {
+      console.log('FromBridge useEffect called..!!');
       // Check if the tokens list is loaded for the loaded config and if the loaded tokens list has the items for the selected chain. Display NA if no.
       if (
         !loadedTokensList.current ||
@@ -193,6 +215,9 @@ const Bridge = (props) => {
         }
       }
       setCurrentChain(fromBridge.name === 'TEZOS' ? toBridge.name : fromBridge.name);
+      savedFromBridge.current = fromBridge;
+      savedToBridge.current = toBridge;
+      savedOperation.current = operation.current;
     } else {
       initialRender.current = false;
     }
@@ -255,11 +280,18 @@ const Bridge = (props) => {
   }, []);
 
   // Function to reset all the current states to default values
-  const resetToDefaultStates = () => {
+  const resetToDefaultStates = useCallback(() => {
+    console.log('reset called');
+    console.log(savedFromBridge.current, savedToBridge.current, savedOperation.current);
+    setOperation(savedOperation.current);
     setFirstTokenAmount('');
     setSecondTokenAmount('');
-    setFromBridge({ name: 'ETHEREUM', image: ethereum, buttonImage: ethereum });
-    setToBridge({ name: 'TEZOS', image: tezos, buttonImage: '' });
+    setFromBridge(savedFromBridge.current);
+    setToBridge(savedToBridge.current);
+    setTimeout(() => {
+      console.log(savedToBridge.current);
+      //setToBridge(savedToBridge.current);
+    }, 500);
     /* const [tokenIn, setTokenIn] = useState({
       name: tokensList['ETHEREUM'][0].name,
       image: tokensList['ETHEREUM'][0].image,
@@ -271,8 +303,8 @@ const Bridge = (props) => {
     setFee(0);
     SetCurrentProgress(0);
     //setSelectedId(0);
-    setOperation('BRIDGE');
-  };
+    
+  }, []);
 
   return (
     <>
@@ -340,6 +372,14 @@ const Bridge = (props) => {
                 metamaskAddress={metamaskAddress}
                 currentChain={currentChain}
                 metamaskChain={metamaskChain}
+                loadedTokensList={loadedTokensList.current}
+                setSavedFromBridge={setSavedFromBridge}
+                setSavedToBridge={setSavedToBridge}
+                setSavedOperation={setSavedOperation}
+                fromBridge={fromBridge}
+                toBridge={toBridge}
+                operation={operation.current}
+                resetToDefaultStates={resetToDefaultStates}
               />
             )}
             {transaction === 3 && (
@@ -381,6 +421,19 @@ const Bridge = (props) => {
           </Col>
         </Row>
       </Container>
+      <FlashMessage
+        loading={false}
+        show={showFlashMessage}
+        type={'success'}
+        title={'CTEZ / TEZ LP Created'}
+        //content={`View on TzKT${' '}<span className=" material-icons-round launch-icon-flash">launch</span>`}
+        onClose={handleFlashMessageClose}
+        duration={5000}
+      >
+        <p style={{cursor: 'pointer'}}>
+        View on TzKT{' '}<span className=" material-icons-round launch-icon-flash">launch</span>
+        </p>
+      </FlashMessage>
     </>
   );
 };

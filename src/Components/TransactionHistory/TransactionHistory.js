@@ -68,8 +68,16 @@ const TransactionHistory = (props) => {
     setOpeningFromHistory,
     walletAddress,
     metamaskAddress,
-    currentChain,
+    // currentChain,
     metamaskChain,
+    loadedTokensList,
+    setSavedFromBridge,
+    setSavedToBridge,
+    setSavedOperation,
+    fromBridge,
+    toBridge,
+    operation,
+    resetToDefaultStates,
   } = props;
 
   const filterData = (originalData, checkBoxesState) => {
@@ -190,6 +198,9 @@ const TransactionHistory = (props) => {
     //console.log(id);
     //console.log(transactionData.find((item) => item.id === Number(id)));
     const selectedData = transactionData.find((item) => item.id === id);
+    const prevFromBridge = fromBridge;
+    const prevToBridge = toBridge;
+    const prevOperation = operation;
     setFirstTokenAmount(selectedData.firstTokenAmount);
     setSecondTokenAmount(selectedData.secondTokenAmount);
     const currentFromBridge = bridgesList.find((bridge) => bridge.name === selectedData.fromBridge);
@@ -218,16 +229,30 @@ const TransactionHistory = (props) => {
         ? allTokens[selectedData.tokenOut]
         : allTokens.fallback,
     };
+    const tokenOneData =
+      selectedData.operation === 'BRIDGE'
+        ? loadedTokensList[selectedData.chain].find((token) => token.name === selectedData.tokenIn)
+            .tokenData
+        : loadedTokensList.TEZOS[selectedData.chain].find(
+            (token) => token.name === selectedData.tokenIn,
+          ).tokenData;
     //console.log(currentTokenIn);
     setTimeout(() => {
       setTokenIn({
         name: currentTokenIn.name,
         image: currentTokenIn.image,
+        tokenData: tokenOneData,
       });
       setTokenOut({
         name: `${currentTokenOut.name}`,
         image: currentTokenOut.image, //Change after creating config.
       });
+      if(selectedData.currentProgress === 4) {
+        console.log(prevFromBridge, prevToBridge, prevOperation);
+        setSavedFromBridge(prevFromBridge);
+        setSavedToBridge(prevToBridge);
+        setSavedOperation(prevOperation);
+      }
     }, 100);
     setSelectedId(id);
     setFee(selectedData.fee);
@@ -236,8 +261,13 @@ const TransactionHistory = (props) => {
     setMintUnmintOpHash(selectedData.txHash);
     setFinalOpHash(selectedData.txHash);
     selectedData.currentProgress !== 4 && setOpeningFromHistory(true);
+    // console.log(prevFromBridge, prevToBridge, prevOperation);
+    // setSavedFromBridge(prevFromBridge);
+    // setSavedToBridge(prevToBridge);
+    // setSavedOperation(prevOperation);
     if(selectedData.currentProgress !== 4 && selectedData.chain !== metamaskChain) {
       alert(`Chain for this operation is ${selectedData.chain} and the chain selected in metamask wallet is ${metamaskChain}. Please change the chain to ${selectedData.chain} in metamask wallet to proceed.`);
+      resetToDefaultStates();
     } else {
       setTimeout(() => {
         setTransaction(3);
@@ -435,6 +465,14 @@ TransactionHistory.propTypes = {
   metamaskAddress: PropTypes.any,
   currentChain: PropTypes.any,
   metamaskChain: PropTypes.any,
+  loadedTokensList: PropTypes.any,
+  setSavedFromBridge: PropTypes.any,
+  setSavedToBridge: PropTypes.any,
+  setSavedOperation: PropTypes.any,
+  fromBridge: PropTypes.any,
+  toBridge: PropTypes.any,
+  operation: PropTypes.any,
+  resetToDefaultStates: PropTypes.any
 };
 
 export default TransactionHistory;

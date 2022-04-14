@@ -120,6 +120,12 @@ const BridgeModal = (props) => {
   useEffect(() => {
     getChain();
   }, [firstTokenAmount]); */
+  useEffect(() => {
+    console.log(currentChain, metamaskChain);
+    if(currentChain !== metamaskChain && transaction === 1) {
+      metamaskChain !== null && alert(`Please select ${currentChain} as chain in metmask wallet to proceed.`);
+    }
+  }, [currentChain]);
 
   useEffect(() => {
     if (triggerTooltips) {
@@ -149,6 +155,7 @@ const BridgeModal = (props) => {
 
   useEffect(async () => {
     setUserTokenBalance(null);
+    console.log(tokenIn);
     if (tokenIn.name !== 'Token NA' && walletAddress && metamaskAddress && metamaskChain === currentChain) {
       if (operation === 'BRIDGE') {
         const balanceResult = await getBalance(tokenIn.tokenData.CONTRACT_ADDRESS, metamaskAddress);
