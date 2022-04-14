@@ -269,6 +269,7 @@ const calculateTokensOutStable = (
         fees: fee,
         minimum_Out: minimumOut.toFixed(6),
         priceImpact: priceImpact,
+        stable : true,
       };
     } else if (tokenIn === 'tez') {
       const dy =
@@ -302,6 +303,7 @@ const calculateTokensOutStable = (
         fees: fee,
         minimum_Out: minimumOut.toFixed(6),
         priceImpact: priceImpact,
+        stable : true,
       };
     }
   } catch (error) {
@@ -310,6 +312,7 @@ const calculateTokensOutStable = (
       fees: 0,
       minimum_Out: 0,
       priceImpact: 0,
+      stable : true,
     };
   }
 };
@@ -401,6 +404,7 @@ const computeTokenOutputV2 = (
         fees,
         minimum_Out,
         priceImpact,
+        stable : false,
       };
     }
   } catch (error) {
@@ -409,6 +413,7 @@ const computeTokenOutputV2 = (
       fees: 0,
       minimum_Out: 0,
       priceImpact: 0,
+      stable :false,
     };
   }
 };
@@ -479,6 +484,7 @@ export const computeTokenOutForRouteBaseV2 = (input, allRoutes, slippage) => {
   try {
     const computeResponses = [];
     const bestRoute = {};
+    const isStable = {};
     allRoutes.forEach((route) => {
       const computedData = computeTokenOutForRouteBaseV2Base(
         input,
@@ -500,10 +506,12 @@ export const computeTokenOutForRouteBaseV2 = (input, allRoutes, slippage) => {
         bestRoute.path = route.path;
       }
     });
+    console.log(bestRoute);
     return {
       success: true,
       bestRoute,
       computeResponses,
+      isStable,
     };
   } catch (err) {
     console.error(err);
@@ -511,6 +519,7 @@ export const computeTokenOutForRouteBaseV2 = (input, allRoutes, slippage) => {
       success: false,
       bestRoute: {},
       computeResponses: [],
+      isStable: {},
     };
   }
 };
@@ -615,6 +624,7 @@ const computeTokenOutForRouteBaseByOutAmountV2Base = (outputAmount, swapData, sl
 export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, allRoutes, slippage) => {
   try {
     const bestRoute = {};
+    const isStable = {};
     const computeResponses = allRoutes.map((route) => {
       const computedData = computeTokenOutForRouteBaseByOutAmountV2Base(
         outputAmount,
@@ -640,6 +650,7 @@ export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, allRoutes
       success: true,
       bestRoute,
       computeResponses,
+      isStable,
     };
   } catch (err) {
     console.error(err);
@@ -647,6 +658,7 @@ export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, allRoutes
       success: false,
       bestRoute: {},
       computeResponses: [],
+      isStable: {},
     };
   }
 };
@@ -818,3 +830,4 @@ export const getxtzBalance = async (identifier, address) => {
     };
   }
 };
+      
