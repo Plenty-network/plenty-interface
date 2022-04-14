@@ -1,0 +1,63 @@
+.flash-message-loading-wrapper {
+  position: fixed;
+  bottom: 60px;
+  right: 72px;
+}
+
+.flash-message-wrapper {
+  position: fixed;
+  bottom: 60px;
+  right: 40px;
+  padding: 20px 21px;
+  background: var(--theme-flash-bg);
+  border: 0.5px solid var(--theme-flash-border);
+  box-sizing: border-box;
+  box-shadow: 0px 11px 44px rgba(16, 3, 34, 0.18);
+  width: 406px;
+  height: 93px;
+  border-radius: 8px;
+  z-index: 1000;
+
+  @media screen and (max-width: 991px) {
+    left: 10px;
+    right: 40px;
+    top: 736px;
+  }
+
+  // &.success {
+  //   background-color: rgba(35, 193, 89, 0.14);
+  //   color: #23c159;
+  // }
+
+  // &.error {
+  //   background-color: rgba(193, 35, 35, 0.14);
+  //   color: #c12323;
+  // }
+
+  >span {
+    vertical-align: middle;
+  }
+}
+
+.status-text {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: 0px;
+  color: var(--theme-floater-text);
+}
+
+.content {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: 0px;
+  color: #8A94A6;
+  margin-top: 2px;
+}
+
+.floater-text {
+  margin-left: 12px;
+}

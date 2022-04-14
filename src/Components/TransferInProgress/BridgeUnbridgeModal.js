@@ -114,7 +114,7 @@ const BridgeUnbridgeModal = (props) => {
       {operation === 'BRIDGE' && (
         <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
           <a
-            href={`${CONFIG.BRIDGES_INDEXER_LINKS[fromBridge.name]}${approveHash}`}
+            href={`${CONFIG.EXPLORER_LINKS[fromBridge.name]}${approveHash}`}
             target="_blank"
             rel="noreferrer"
           >
