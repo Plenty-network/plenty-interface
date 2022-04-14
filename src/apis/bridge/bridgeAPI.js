@@ -725,7 +725,6 @@ export const releaseTokens = async (unwrapData, chain) => {
 /* this function returns tx history (array of objects). Pass the ethereum, tz address, Pass only one if one is connected and the chain*/
 export const getHistory = async ({ ethereumAddress, tzAddress }) => {
   try {
-    const web3 = new Web3(window.ethereum);
     const networkSelected = CONFIG.NETWORK;
     const tzkt = CONFIG.TZKT_NODES[networkSelected];
     const availableChainsObject = CONFIG.BRIDGES_INDEXER_LINKS[networkSelected];
@@ -744,8 +743,9 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
         const data = await axios.get(tzkt + '/v1/operations/' + obj.operationHash);
         const timeStamp = new Date(data.data[0].timestamp);
         const feePercentage = BridgeConfiguration.getFeesForChain(chain).UNWRAP_FEES / 10000;
-        const outputAmount = obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS;
-        const inputTokenAmount = outputAmount  / (1 - (feePercentage));
+        const outputAmount =
+          obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS;
+        const inputTokenAmount = outputAmount / (1 - feePercentage);
         const transFee = inputTokenAmount * feePercentage;
         // const transFee =
         //   (obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS) *
@@ -761,7 +761,7 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
           firstTokenAmount: inputTokenAmount,
           // firstTokenAmount:
           //   obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS,
-          secondTokenAmount : outputAmount,
+          secondTokenAmount: outputAmount,
           // secondTokenAmount:
           //   obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS - transFee,
           txHash: obj.operationHash,
@@ -785,8 +785,11 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
       });
 
       const wrapsArrPromise = wraps.data.result.map(async (obj) => {
-        const tx = await web3.eth.getTransaction(obj.transactionHash);
-        const block = await web3.eth.getBlock(tx.blockHash);
+        const customHttpProvider = new ethers.providers.JsonRpcProvider(networks[chain].rpcUrls[0]);
+        const tx = await customHttpProvider.getTransaction(obj.transactionHash);
+
+        const block = await customHttpProvider.getBlock(tx.blockNumber);
+
         const timeStamp = new Date(block.timestamp * 1000);
         const transFee =
           (obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS) *
