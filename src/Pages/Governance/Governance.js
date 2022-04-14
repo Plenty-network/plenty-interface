@@ -34,7 +34,7 @@ const Governance = (props) => {
     // ? voting results modal will be displayed, until next proposal comes up,
     if (date.getDate()) {
       props.getResults();
-      //setVoteEnded(true);
+      setVoteEnded(false);
     }
   }, []);
   useEffect(() => {
@@ -130,23 +130,19 @@ const Governance = (props) => {
         }
       />
       <Loader loading={props.loading} loaderMessage={loaderMessage} />
-    
-    {/* static Governance */}
-    <Container className={` ${styles.govContainer}`} fluid>
+
+      {/* static Governance */}
+      <Container className={` ${styles.govContainer}`} fluid>
         <Row className={clsx('row justify-content-center', !isMobile && styles.govContainerInner)}>
           <Col xs={20} sm={8} md={10} lg={6} xl={6}>
-            <VoteText10/>
+            <VoteText10 />
           </Col>
           <Col xs={20} sm={5} md={10} lg={6} xl={5}>
-            {!isMobile &&
-              
-                <VoteModalResults10/>
-              }
+            {!isMobile && <VoteModalResults10 />}
           </Col>
         </Row>
       </Container>
-    {/* end of static governance */}
-    
+      {/* end of static governance */}
     </>
   );
 };
