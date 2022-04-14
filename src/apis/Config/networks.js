@@ -18,7 +18,7 @@ export const networks = {
       symbol: 'ETH',
       decimals: 18,
     },
-    rpcUrls: ['https://rinkeby.infura.io/v3/'],
+    rpcUrls: ['https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'],
     blockExplorerUrls: ['https://rinkeby.etherscan.io'],
   },
 };
