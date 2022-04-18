@@ -8,6 +8,7 @@ import GasIconDark from '../../assets/images/bridge/gas_fee_icon_dark.svg';
 import dummyApiCall from '../../apis/dummyApiCall';
 import { useState } from 'react';
 import { approveToken } from '../../apis/bridge/bridgeAPI';
+import { FLASH_MESSAGE_DURATION } from '../../constants/global';
 
 //import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
 
@@ -32,6 +33,7 @@ const ApproveModal = (props) => {
     setSelectedId,
     setApproveHash,
     theme,
+    displayMessage,
   } = props;
 
   const approveButtonClick = async () => {
@@ -41,10 +43,26 @@ const ApproveModal = (props) => {
     console.log(approveResult);
     if (approveResult.success) {
       setApproveHash(approveResult.transactionHash);
+      displayMessage({
+        type: 'success',
+        duration: FLASH_MESSAGE_DURATION,
+        title: 'Transaction Approved',
+        content: `Bridging of ${firstTokenAmount.toFixed(3)} ${tokenIn.name} approved.`,
+        isFlashMessageALink: false,
+        flashMessageLink: '#',
+      });
       SetIsButtonLoading(false);
       SetCurrentProgress(currentProgress + 1);
     } else {
       console.log(approveResult.error);
+      displayMessage({
+        type: 'error',
+        duration: FLASH_MESSAGE_DURATION,
+        title: 'Approval Failed',
+        content: 'Failed to approve transaction. Please try again.',
+        isFlashMessageALink: false,
+        flashMessageLink: '#',
+      });
       SetIsButtonLoading(false);
     }
     /* dummyApiCall({ currentProgress: currentProgress }).then((res) => {
@@ -134,6 +152,7 @@ ApproveModal.propTypes = {
   setSelectedId: PropTypes.any,
   setApproveHash: PropTypes.any,
   theme: PropTypes.any,
+  displayMessage: PropTypes.any,
 };
 
 export default ApproveModal;

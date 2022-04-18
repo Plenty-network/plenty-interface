@@ -8,6 +8,7 @@ import GasIconDark from '../../assets/images/bridge/gas_fee_icon_dark.svg';
 import { useState } from 'react';
 import { wrap, unwrap } from '../../apis/bridge/bridgeAPI';
 import CONFIG from '../../config/config';
+import { FLASH_MESSAGE_DURATION } from '../../constants/global';
 
 const BridgeUnbridgeModal = (props) => {
   const [isButtonLoading, SetIsButtonLoading] = useState(false);
@@ -37,6 +38,7 @@ const BridgeUnbridgeModal = (props) => {
     setSelectedId,
     approveHash,
     theme,
+    displayMessage,
   } = props;
 
   const bridgeButtonClick = async () => {
@@ -52,10 +54,26 @@ const BridgeUnbridgeModal = (props) => {
       console.log(bridgeUnbridgeResult);
       if (bridgeUnbridgeResult.success) {
         setMintUnmintOpHash(bridgeUnbridgeResult.transactionHash);
+        displayMessage({
+          type: 'success',
+          duration: FLASH_MESSAGE_DURATION,
+          title: 'Wrap Successful',
+          content: `${firstTokenAmount.toFixed(3)} ${tokenIn.name} wrapped successfully.`,
+          isFlashMessageALink: false,
+          flashMessageLink: '#',
+        });
         SetIsButtonLoading(false);
         SetCurrentProgress(currentProgress + 1);
       } else {
         console.log(bridgeUnbridgeResult.error);
+        displayMessage({
+          type: 'error',
+          duration: FLASH_MESSAGE_DURATION,
+          title: 'Wrap Failed',
+          content: 'Failed to wrap tokens. Please try again.',
+          isFlashMessageALink: false,
+          flashMessageLink: '#',
+        });
         SetIsButtonLoading(false);
       }
     } else {
@@ -64,10 +82,26 @@ const BridgeUnbridgeModal = (props) => {
       console.log(bridgeUnbridgeResult);
       if (bridgeUnbridgeResult.success) {
         setMintUnmintOpHash(bridgeUnbridgeResult.txHash);
+        displayMessage({
+          type: 'success',
+          duration: FLASH_MESSAGE_DURATION,
+          title: 'Unwrap Successful',
+          content: `${firstTokenAmount.toFixed(3)} ${tokenIn.name} unwrapped successfully.`,
+          isFlashMessageALink: false,
+          flashMessageLink: '#',
+        });
         SetIsButtonLoading(false);
         SetCurrentProgress(currentProgress + 1);
       } else {
         console.log(bridgeUnbridgeResult.error);
+        displayMessage({
+          type: 'error',
+          duration: FLASH_MESSAGE_DURATION,
+          title: 'Wrap Failed',
+          content: 'Failed to wrap tokens. Please try again.',
+          isFlashMessageALink: false,
+          flashMessageLink: '#',
+        });
         SetIsButtonLoading(false);
       }
     }
@@ -173,6 +207,7 @@ BridgeUnbridgeModal.propTypes = {
   setSelectedId: PropTypes.any,
   approveHash: PropTypes.any,
   theme: PropTypes.any,
+  displayMessage: PropTypes.any,
 };
 
 export default BridgeUnbridgeModal;

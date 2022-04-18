@@ -839,6 +839,7 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
 
 export const changeNetwork = async ({ networkName }) => {
   try {
+    console.log(networkName);
     if (!window.ethereum) throw new Error('No crypto wallet found');
     await window.ethereum.request({
       method: 'wallet_addEthereumChain',

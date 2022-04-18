@@ -7,6 +7,7 @@ import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
 import { useEffect } from 'react';
 import { mintTokens, releaseTokens } from '../../apis/bridge/bridgeAPI';
 import CONFIG from '../../config/config';
+import { FLASH_MESSAGE_DURATION } from '../../constants/global';
 
 const DoneModal = (props) => {
   const {
@@ -27,6 +28,7 @@ const DoneModal = (props) => {
     finalOpHash,
     setFinalOpHash,
     openingFromHistory,
+    displayMessage
   } = props;
 
   useEffect(async () => {
@@ -37,9 +39,25 @@ const DoneModal = (props) => {
         console.log(mintResult);
         if (mintResult.success) {
           setFinalOpHash(mintResult.transactionHash);
+          displayMessage({
+            type: 'success',
+            duration: FLASH_MESSAGE_DURATION,
+            title: `${secondTokenAmount.toFixed(3)} ${tokenOut.name} minted successfully`,
+            content: 'View on explorer.',
+            isFlashMessageALink: true,
+            flashMessageLink: `${CONFIG.EXPLORER_LINKS.TEZOS}${mintResult.transactionHash}`,
+          });
           SetCurrentProgress(currentProgress + 1);
         } else {
           console.log(mintResult.error);
+          displayMessage({
+            type: 'error',
+            duration: FLASH_MESSAGE_DURATION,
+            title: 'Minting Failed',
+            content: 'Failed to mint tokens. Please try again.',
+            isFlashMessageALink: false,
+            flashMessageLink: '#',
+          });
           SetCurrentProgress(currentProgress - 1);
         }
       } else {
@@ -48,9 +66,25 @@ const DoneModal = (props) => {
         console.log(releaseResult);
         if (releaseResult.success) {
           setFinalOpHash(releaseResult.transactionHash);
+          displayMessage({
+            type: 'success',
+            duration: FLASH_MESSAGE_DURATION,
+            title: `${secondTokenAmount.toFixed(3)} ${tokenOut.name} released successfully`,
+            content: 'View on explorer.',
+            isFlashMessageALink: true,
+            flashMessageLink: `${CONFIG.EXPLORER_LINKS[toBridge.name]}${releaseResult.transactionHash}`,
+          });
           SetCurrentProgress(currentProgress + 1);
         } else {
           console.log(releaseResult.error);
+          displayMessage({
+            type: 'error',
+            duration: FLASH_MESSAGE_DURATION,
+            title: 'Release Failed',
+            content: 'Failed to release tokens. Please try again.',
+            isFlashMessageALink: false,
+            flashMessageLink: '#',
+          });
           SetCurrentProgress(currentProgress - 1);
         }
       }
@@ -171,6 +205,7 @@ DoneModal.propTypes = {
   finalOpHash: PropTypes.any,
   setFinalOpHash: PropTypes.any,
   openingFromHistory: PropTypes.any,
+  displayMessage: PropTypes.any,
 };
 
 export default DoneModal;

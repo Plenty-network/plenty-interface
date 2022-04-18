@@ -25,6 +25,8 @@ import { TransactionHistorySort } from '../Bridges/TransactionHistorySort';
 import { bridgesList } from '../../constants/bridges';
 import { allTokens } from '../../constants/bridges';
 import { getHistory } from '../../apis/bridge/bridgeAPI';
+import { FLASH_MESSAGE_DURATION } from '../../constants/global';
+import { changeNetwork } from '../../apis/bridge/bridgeAPI';
 
 const TransactionHistory = (props) => {
   const [animationCalss, SetAnimationClass] = useState('leftToRightFadeInAnimation-4-bridge');
@@ -78,6 +80,7 @@ const TransactionHistory = (props) => {
     toBridge,
     operation,
     resetToDefaultStates,
+    displayMessage,
   } = props;
 
   const filterData = (originalData, checkBoxesState) => {
@@ -194,7 +197,7 @@ const TransactionHistory = (props) => {
     setCheckedCount(countOfChecked);
   }, [checkBoxesState]);
 
-  const actionClickHandler = (id) => {
+  const actionClickHandler = async (id) => {
     //console.log(id);
     //console.log(transactionData.find((item) => item.id === Number(id)));
     const selectedData = transactionData.find((item) => item.id === id);
@@ -260,13 +263,29 @@ const TransactionHistory = (props) => {
     setOperation(selectedData.operation);
     setMintUnmintOpHash(selectedData.txHash);
     setFinalOpHash(selectedData.txHash);
-    selectedData.currentProgress !== 4 && setOpeningFromHistory(true);
+    if (selectedData.currentProgress === 4) {
+      setOpeningFromHistory(true);
+    }
     // console.log(prevFromBridge, prevToBridge, prevOperation);
     // setSavedFromBridge(prevFromBridge);
     // setSavedToBridge(prevToBridge);
     // setSavedOperation(prevOperation);
     if(selectedData.currentProgress !== 4 && selectedData.chain !== metamaskChain) {
-      alert(`Chain for this operation is ${selectedData.chain} and the chain selected in metamask wallet is ${metamaskChain}. Please change the chain to ${selectedData.chain} in metamask wallet to proceed.`);
+      //alert(`Chain for this operation is ${selectedData.chain} and the chain selected in metamask wallet is ${metamaskChain}. Please change the chain to ${selectedData.chain} in metamask wallet to proceed.`);
+      console.log(`Please change metamask wallet chain to ${selectedData.chain}.`);
+      displayMessage({
+        type: 'warning',
+        duration: FLASH_MESSAGE_DURATION,
+        title: 'Chain Mismatch',
+        content: `Please change metamask wallet chain to ${selectedData.chain}.`,
+        isFlashMessageALink: false,
+        flashMessageLink: '#',
+      });
+      try {
+        await changeNetwork({networkName: selectedData.chain});
+      } catch(error) {
+        console.log(error.message);
+      }
       resetToDefaultStates();
     } else {
       setTimeout(() => {
@@ -472,7 +491,8 @@ TransactionHistory.propTypes = {
   fromBridge: PropTypes.any,
   toBridge: PropTypes.any,
   operation: PropTypes.any,
-  resetToDefaultStates: PropTypes.any
+  resetToDefaultStates: PropTypes.any,
+  displayMessage: PropTypes.any,
 };
 
 export default TransactionHistory;

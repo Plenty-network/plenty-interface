@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 //import { PuffLoader } from 'react-spinners';
 import { ReactComponent as SuccessImg } from '../../assets/images/StatusIcons/success_large.svg';
@@ -14,22 +14,35 @@ import '../FlashMessage/FlashMessage.scss';
 
 const LoaderFlashMessage = (props) => {
   const isMobile = useMediaQuery('(max-width: 991px)');
-  
+  const [render, setRender] = useState(props.show);
+
   const statusImages = useRef({
-     success: <SuccessImg />,
-     error: <ErrorImg />,
-     info: <InfoImg />,
-     question: <QuestionImg />,
-     warning: <WarnImg /> 
+    success: <SuccessImg />,
+    error: <ErrorImg />,
+    info: <InfoImg />,
+    question: <QuestionImg />,
+    warning: <WarnImg />,
   });
 
   useEffect(() => {
-    if(props.duration && typeof props.duration === 'number' && props.show) {
+    if (props.duration && typeof props.duration === 'number' && props.show) {
       setTimeout(() => {
         props.onClose();
-      },props.duration);
+      }, props.duration);
     }
   }, [props.show, props.duration]);
+
+  useEffect(() => {
+    if (props.show) {
+      setRender(true);
+    }
+  }, [props.show]);
+
+  const animationEndHandler = () => {
+    if (!props.show) {
+      setRender(false);
+    }
+  };
 
   if (props.loading) {
     return (
@@ -39,26 +52,27 @@ const LoaderFlashMessage = (props) => {
     );
   }
 
-  if (props.show) {
-    return (
+  return (
+    render && (
       <div
         className={clsx(
           'flash-message-wrapper',
           props.type,
           isMobile
-            ? 'bottomToTopFadeInAnimation-4-floater'
-            : 'rightToLeftFadeInAnimation-4-floater',
+            ? props.show
+              ? 'bottomToTopFadeInAnimation'
+              : 'topToBottomFadeOutAnimation'
+            : props.show
+            ? 'rightToLeftFadeInAnimation'
+            : 'leftToRightFadeOutAnimation',
         )}
+        onAnimationEnd={animationEndHandler}
       >
-        <div className="d-flex ">
-          <div>
-            {statusImages.current[props.type]}
-          </div>
+        <div className="flex" style={{height: '100%'}}>
+          <div>{statusImages.current[props.type]}</div>
           <div className="floater-text">
             <span className="status-text">{props.title}</span>
-            <div className="content">
-              {props.children}
-            </div>
+            <div className="content">{props.children}</div>
           </div>
           <div className="ml-auto">
             <span
@@ -71,20 +85,19 @@ const LoaderFlashMessage = (props) => {
           </div>
         </div>
       </div>
-    );
-  } else {
-    return null;
-  }
+    )
+  );
 };
 
 export default LoaderFlashMessage;
 
 LoaderFlashMessage.propTypes = {
-    loading: PropTypes.bool,
-    show: PropTypes.bool,
-    type: PropTypes.string,
-    title: PropTypes.any,
-    onClose: PropTypes.func,
-    duration: PropTypes.number,
-    children: PropTypes.any
+  loading: PropTypes.bool,
+  show: PropTypes.bool,
+  type: PropTypes.string,
+  title: PropTypes.any,
+  //content: PropTypes.any,
+  onClose: PropTypes.func,
+  duration: PropTypes.number,
+  children: PropTypes.any,
 };

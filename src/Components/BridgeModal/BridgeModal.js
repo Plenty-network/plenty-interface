@@ -29,6 +29,8 @@ import { setConnectWalletTooltip } from '../../redux/slices/settings/settings.sl
 import { useDispatch } from 'react-redux';
 import { allTokens } from '../../constants/bridges';
 import { getBalance, getBalanceTez } from '../../apis/bridge/bridgeAPI';
+import { FLASH_MESSAGE_DURATION } from '../../constants/global';
+import { changeNetwork } from '../../apis/bridge/bridgeAPI';
 /* import { getCurrentNetwork } from '../../apis/bridge/bridgeAPI'; */
 const BridgeModal = (props) => {
   //const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -104,6 +106,7 @@ const BridgeModal = (props) => {
     setMetamaskAddress,
     currentChain,
     metamaskChain,
+    displayMessage,
   } = props;
 
   //const [tokenList, setTokenList] = useState(tokensList[fromBridge.name]);
@@ -120,12 +123,28 @@ const BridgeModal = (props) => {
   useEffect(() => {
     getChain();
   }, [firstTokenAmount]); */
-  useEffect(() => {
+  useEffect(async () => {
     console.log(currentChain, metamaskChain);
     if(currentChain !== metamaskChain && transaction === 1) {
-      metamaskChain !== null && alert(`Please select ${currentChain} as chain in metmask wallet to proceed.`);
+      if (metamaskChain !== null) {
+        //alert(`Please select ${currentChain} as chain in metmask wallet to proceed.`);
+        console.log(`Please select ${currentChain} as chain in metmask wallet to proceed.`);
+        displayMessage({
+          type: 'warning',
+          duration: FLASH_MESSAGE_DURATION,
+          title: 'Chain Mismatch',
+          content: `Change metamask wallet chain to ${currentChain}.`,
+          isFlashMessageALink: false,
+          flashMessageLink: '#',
+        });
+        try {
+          await changeNetwork({networkName: currentChain});
+        } catch(error) {
+          console.log(error.message);
+        }
+      }
     }
-  }, [currentChain]);
+  }, [currentChain, metamaskChain]);
 
   useEffect(() => {
     if (triggerTooltips) {
@@ -225,6 +244,14 @@ const BridgeModal = (props) => {
     if (!walletAddress && !metamaskAddress) {
       dispatch(setConnectWalletTooltip(true));
       setShowMetamaskTooltip(true);
+      displayMessage({
+        type: 'info',
+        duration: FLASH_MESSAGE_DURATION,
+        title: 'Connect wallet',
+        content: 'Connect both the wallets and proceed.',
+        isFlashMessageALink: false,
+        flashMessageLink: '#',
+      });
       setErrorMessage('Please connect to both the wallets.');
       setIsError(true);
     } else if (!walletAddress && metamaskAddress) {
@@ -289,7 +316,7 @@ const BridgeModal = (props) => {
     }
   };
 
-  const handelClickWithMetaAddedBtn = () => {
+  const handelClickWithMetaAddedBtn = async () => {
     setIsError(false);
     if (firstTokenAmount === '' || isNaN(firstTokenAmount) || firstTokenAmount === 0) {
       setErrorMessage('Enter the amount and proceed');
@@ -299,7 +326,21 @@ const BridgeModal = (props) => {
       setIsError(true);
     } else {
       if(currentChain !== metamaskChain) {
-        alert('Chain selected on app does not match with the one selected in metamask wallet. Please change metamask wallet chain to ' + currentChain + '.');
+        //alert('Chain selected on app does not match with the one selected in metamask wallet. Please change metamask wallet chain to ' + currentChain + '.');
+        console.log('Chain selected on app does not match with the one selected in metamask wallet. Please change metamask wallet chain to ' + currentChain + '.');
+        displayMessage({
+          type: 'warning',
+          duration: FLASH_MESSAGE_DURATION,
+          title: 'Chain Mismatch',
+          content: `Change metamask wallet chain to ${currentChain}.`,
+          isFlashMessageALink: false,
+          flashMessageLink: '#',
+        });
+        try {
+          await changeNetwork({networkName: currentChain});
+        } catch(error) {
+          console.log(error.message);
+        }
       } else {
         SetisLoading(true);
         if (operation === 'UNBRIDGE') {
@@ -308,7 +349,7 @@ const BridgeModal = (props) => {
         setTimeout(() => {
           SetisLoading(false);
           setTransaction(3);
-        }, 1000);
+        }, 500);
       }
       
     }
@@ -477,6 +518,14 @@ const BridgeModal = (props) => {
     if (!walletAddress && !metamaskAddress) {
       dispatch(setConnectWalletTooltip(true));
       setShowMetamaskTooltip(true);
+      displayMessage({
+        type: 'info',
+        duration: FLASH_MESSAGE_DURATION,
+        title: 'Connect wallet',
+        content: 'Connect both the wallets and proceed.',
+        isFlashMessageALink: false,
+        flashMessageLink: '#',
+      });
       setErrorMessage('Please connect to both the wallets.');
       setIsError(true);
     } else if (!walletAddress && metamaskAddress) {
@@ -764,6 +813,7 @@ BridgeModal.propTypes = {
   setMetamaskAddress: PropTypes.any,
   currentChain: PropTypes.any,
   metamaskChain: PropTypes.any,
+  displayMessage: PropTypes.any,
 };
 
 export default BridgeModal;

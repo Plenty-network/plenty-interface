@@ -34,7 +34,8 @@ const MintReleaseModal = (props) => {
     fromBridge,
     setWrapUnwrapData,
     toBridge,
-    theme
+    theme,
+    displayMessage,
   } = props;
 
   useInterval(async ()=>{
@@ -156,7 +157,8 @@ MintReleaseModal.propTypes = {
   fromBridge: PropTypes.any,
   setWrapUnwrapData: PropTypes.any,
   toBridge: PropTypes.any,
-  theme: PropTypes.any
+  theme: PropTypes.any,
+  displayMessage: PropTypes.any,
 };
 
 export default MintReleaseModal;

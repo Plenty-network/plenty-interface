@@ -98,6 +98,7 @@ const BridgeTransferModal = (props) => {
     finalOpHash,
     setFinalOpHash,
     openingFromHistory,
+    displayMessage,
   } = props;
 
   const setBack = (value) => {
@@ -509,6 +510,7 @@ const BridgeTransferModal = (props) => {
           setSelectedId={setSelectedId}
           setApproveHash={setApproveHash}
           theme={theme}
+          displayMessage={displayMessage}
         />
       );
     } else if (currentProgress === 1) {
@@ -533,6 +535,7 @@ const BridgeTransferModal = (props) => {
           setSelectedId={setSelectedId}
           approveHash={approveHash.current}
           theme={theme}
+          displayMessage={displayMessage}
         />
       );
     } else if (currentProgress === 2) {
@@ -550,6 +553,7 @@ const BridgeTransferModal = (props) => {
           setWrapUnwrapData={setWrapUnwrapData}
           toBridge={toBridge}
           theme={theme}
+          displayMessage={displayMessage}
         />
       );
     } /* else if (currentProgress === 3) {
@@ -595,6 +599,7 @@ const BridgeTransferModal = (props) => {
           finalOpHash={finalOpHash}
           setFinalOpHash={setFinalOpHash}
           openingFromHistory={openingFromHistory}
+          displayMessage={displayMessage}
         />
       );
     }
@@ -730,6 +735,7 @@ BridgeTransferModal.propTypes = {
   finalOpHash: PropTypes.any,
   setFinalOpHash: PropTypes.any,
   openingFromHistory: PropTypes.any,
+  displayMessage: PropTypes.any,
 };
 
 export default BridgeTransferModal;

@@ -21,6 +21,7 @@ import TransactionHistory from '../../Components/TransactionHistory/TransactionH
 import BridgeTransferModal from '../../Components/TransferInProgress/BridgeTransferModal';
 import { getCurrentNetwork } from '../../apis/bridge/bridgeAPI';
 import FlashMessage from '../../Components/FlashMessage/FlashMessage';
+import { FLASH_MESSAGE_DURATION } from '../../constants/global';
 
 const Bridge = (props) => {
   //const isMobile = useMediaQuery('(max-width: 991px)');
@@ -59,7 +60,7 @@ const Bridge = (props) => {
   const [metamaskAddress, setMetamaskAddress] = useState(null);
   const [currentChain, setCurrentChain] = useState(fromBridge.name);
   const [metamaskChain, setMetamaskChain] = useState(null);
-  const [showFlashMessage, setShowFlashMessage] = useState(false);
+  
   const loadedTokensList = useRef(null);
   const operation = useRef('BRIDGE');
 
@@ -78,6 +79,14 @@ const Bridge = (props) => {
   const mintUnmintOpHash = useRef(null);
   const finalOpHash = useRef(null);
   const openingFromHistory = useRef(false);
+
+  const [showFlashMessage, setShowFlashMessage] = useState(false);
+  const [flashMessageType, setFlashMessageType] = useState('success');
+  const flashMessageDuration = useRef(null);
+  const [flashMessageTitle, setFlashMessageTitle] = useState('Title');
+  const [flashMessageContent, setFlashMessageContent] = useState('Message');
+  const [isFlashMessageALink, setIsFlashMessageALink] = useState(true);
+  const flashMessageLink = useRef('#');
 
   const setMintUnmintOpHash = (hash) => {
     mintUnmintOpHash.current = hash;
@@ -103,9 +112,21 @@ const Bridge = (props) => {
     savedOperation.current = data;
   };
 
-  const handleFlashMessageClose = useCallback(() => {
+  const displayMessage = useCallback((messageObj) => {
     setShowFlashMessage(false);
+    setFlashMessageType(messageObj.type);
+    messageObj.duration ? flashMessageDuration.current = messageObj.duration : flashMessageDuration.current = null;
+    setFlashMessageTitle(messageObj.title);
+    setFlashMessageContent(messageObj.content);
+    setIsFlashMessageALink(messageObj.isFlashMessageALink);
+    messageObj.flashMessageLink ? flashMessageLink.current = messageObj.flashMessageLink : '#';
+    setShowFlashMessage(true);
   }, []);
+
+  const handleFlashMessageClose = useCallback(() => {
+    console.log('close');
+    setShowFlashMessage(false);
+  }, [showFlashMessage]);
 
   const metamaskChainChangeHandler = useCallback(async () => {
     try {
@@ -120,6 +141,7 @@ const Bridge = (props) => {
     } catch(error) {
       console.log(error.message);
       // Add flash message to show error or chain which doesn't exist on PLENTY DeFi.
+      displayMessage({type: 'error',duration: FLASH_MESSAGE_DURATION, title: 'Chain Change Error', content: error.message, isFlashMessageALink: false, flashMessageLink: '#'});
     }
   }, [metamaskChain]);
 
@@ -346,6 +368,7 @@ const Bridge = (props) => {
                 setMetamaskAddress={setMetamaskAddress}
                 currentChain={currentChain}
                 metamaskChain={metamaskChain}
+                displayMessage={displayMessage}
               />
             )}
             {transaction === 2 && (
@@ -380,6 +403,7 @@ const Bridge = (props) => {
                 toBridge={toBridge}
                 operation={operation.current}
                 resetToDefaultStates={resetToDefaultStates}
+                displayMessage={displayMessage}
               />
             )}
             {transaction === 3 && (
@@ -416,22 +440,39 @@ const Bridge = (props) => {
                 finalOpHash={finalOpHash.current}
                 setFinalOpHash={setFinalOpHash}
                 openingFromHistory={openingFromHistory.current}
+                displayMessage={displayMessage}
               />
             )}
           </Col>
         </Row>
       </Container>
-      <FlashMessage
+      {/* <FlashMessage
         loading={false}
         show={showFlashMessage}
         type={'success'}
         title={'CTEZ / TEZ LP Created'}
         //content={`View on TzKT${' '}<span className=" material-icons-round launch-icon-flash">launch</span>`}
         onClose={handleFlashMessageClose}
-        duration={5000}
+        duration={null}
       >
         <p style={{cursor: 'pointer'}}>
         View on TzKT{' '}<span className=" material-icons-round launch-icon-flash">launch</span>
+        </p>
+      </FlashMessage> */}
+      <FlashMessage
+        show={showFlashMessage}
+        type={flashMessageType}
+        title={flashMessageTitle}
+        onClose={handleFlashMessageClose}
+        duration={flashMessageDuration.current}
+      >
+        <p
+          className={isFlashMessageALink ? 'linkText' : 'normalText'}
+          style={{ cursor: isFlashMessageALink ? 'pointer' : 'auto' }}
+          onClick={isFlashMessageALink ? () => window.open(flashMessageLink.current, '_blank') : null}
+        >
+          {flashMessageContent}
+          {isFlashMessageALink && <span className=" material-icons-round launch-icon-flash">launch</span>}
         </p>
       </FlashMessage>
     </>
