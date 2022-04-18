@@ -172,7 +172,7 @@ const VoteText = (props) => {
 
           <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
             <a
-              href="https://forum.plentydefi.com/t/proposal-reallocating-rewards-from-wasset-farms/130"
+              href="https://forum.plentydefi.com/t/pip-002-reallocating-rewards-from-wasset-farms/136"
               target="_blank"
               rel="noreferrer"
             >
