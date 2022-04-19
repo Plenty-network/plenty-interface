@@ -77,7 +77,7 @@
         left: 0;
         height: 12px;
         width: 12px;
-      margin-left: 22px;
+      margin-left: 14px;
       background-image: url('../../../assets/images/bridge/filter_down.svg');
       background-size: contain;
     }
@@ -87,7 +87,7 @@
         left: 0;
         height: 12px;
         width: 12px;
-      margin-left: 22px;
+      margin-left: 14px;
       background-image: url('../../../assets/images/bridge/filter_up.svg');
       background-size: contain;
     }
@@ -97,13 +97,13 @@
         left: 0;
         height: 12px;
         width: 12px;
-      margin-left: 22px;
+      margin-left: 14px;
       background-image: url('../../../assets/images/bridge/filter_action.svg');
       background-size: contain;
     }
   
     .filterLabelText{
-      margin-left: 38px;
+      margin-left: 32px;
     }
       /* .checkmark {
           &:after {
@@ -124,7 +124,7 @@
       right: 0;
       height: 15px;
       width: 15px;
-    margin-right: 22px;
+    margin-right: 14px;
     background-image: url('../../../assets/images/bridge/check-grey.svg');
     background-size: contain;
       //background-color: #eee;
@@ -137,7 +137,7 @@
   
   .clearButtonWrapper {
     display: flex;
-    padding: 9px 22px 16px;
+    padding: 9px 14px 16px;
     justify-content: right;
   }
   
@@ -154,7 +154,8 @@
 
   .lineBottom {
     border-bottom: 0.5px solid var(--theme-bridge-filter-lb);
-    width: 90%;
+    width: 88%;
+    margin: 0 14px;
   }
   
   

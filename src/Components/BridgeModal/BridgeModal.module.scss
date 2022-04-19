@@ -25,7 +25,7 @@
   box-shadow: var(--theme-swap-boxshadow);
   background: var(--theme-bridge-token-sel-bg);
   border:1px solid var(--theme-bridge-history-border);
-  border-radius: 8px;
+  border-radius: 16px;
   padding: 24px 24px;
   margin: auto;
   overflow-y: auto;
@@ -44,11 +44,10 @@
     .res {
       font-style: normal;
       font-weight: 500;
-      font-size: 10px;
+      font-size: 12px;
       line-height: 13px;
-
-      height: 30px;
-      padding: 7.83448px 16.6483px;
+      height: 32px;
+      padding: 9px 24px;
       background: var(--theme-bridge-history-btn-bg);
       border-radius: 3.5979px;
       color: var(--theme-bridge-history-btn-text);
@@ -107,7 +106,7 @@
   flex-wrap: wrap;
   align-items: center;
   mix-blend-mode: normal;
-  padding: 12px;
+  padding: 10px;
   border: 0.803667px solid var(--theme-bridge-ip-border);
   box-sizing: border-box;
   border-radius: 16px;
@@ -133,7 +132,8 @@
   width: 54px;
   height: 54px;
   background: var(--theme-bridge-max-btn-border-text);
-  border-radius: 3.10345px;
+  border-radius: 8px;
+  filter: drop-shadow(0px 4.69565px 42px var(--theme-bridge-switch-drop-shadow));
   cursor: pointer;
   transition: transform 0.5s ease-in-out;
   .arrow {
@@ -195,7 +195,7 @@
   font-weight: 400;
   line-height: 13px;
   letter-spacing: 0em;
-  color: var(--theme-governance-totalVotesText);
+  color: var(--theme-bridge-to-sub-label);
   margin-bottom: 0px;
 }
 
@@ -220,7 +220,7 @@
   align-items: center;
   background-color: var(--theme-bridge-from-ip-bg);
   mix-blend-mode: normal;
-  padding: 12px;
+  padding: 8px 12px 8px 20px;
   box-sizing: border-box;
   border-radius: 8px;
 }
@@ -291,7 +291,7 @@
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
-  line-height: 14px;
+  line-height: 16px;
   color: #FF5A43;
   margin: 10px 0 0;
 }
@@ -312,16 +312,27 @@
   font-size: 12px;
   line-height: 16px;
   color: var(--theme-text-1);
-  padding: 11px 7px;
+  padding: 11px 12px;
+
+  >img {
+    margin-right: 4px;
+    height: 18px;
+    width: 18px;
+  }
 }
 
 .toBridgeWrapper {
   display: flex;
   flex: 1 1 0;
+  height: 42px;
+  align-items: center;
 }
 
 .lineVertical {
   border: 1px solid var(--theme-bridge-vertical-line);
+  height: 32px;
+  margin-left: 12px;
+  margin-right: 12px;
 }
 
 .toTokenLabel {
@@ -336,7 +347,7 @@
   font-size: 12px;
   line-height: 16px;
   color: var(--theme-bridge-max-btn-border-text);
-  padding: 2px 8px;
+  padding: 4px 12px;
 }
 
 .toBridgeSelectBox {
@@ -347,7 +358,7 @@
   align-items: center;
   background-color:  var(--theme-bridge-to-ip-bg);
   mix-blend-mode: normal;
-  padding: 12px;
+  padding: 15px;
   border: 1px solid var(--theme-bridge-to-ip-border);
   box-sizing: border-box;
   border-radius: 16px;
@@ -407,6 +418,13 @@
 }
 
 .toTokenSelector {
+  height: 40px;
+  padding: 8px 14px;
+  >img {
+    margin-right: 4px;
+    height: 18px;
+    width: 18px;
+  }
   &:hover {
     background: var(--theme-bridge-token-select-hover-bg);
     border: 0.803667px solid var(--theme-bridge-token-select-hover-border);
@@ -438,6 +456,18 @@
 }
 
 .bridgeSelector{
+  height: 60px;
+  font-size: 16px;
+  line-height: 21px;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  >img {
+    margin-right: 4px;
+    height: 24px;
+    width: 24px;
+  }
   &:hover {
     background: var(--theme-bridge-token-select-hover-bg);
     border: 1px solid var(--theme-bridge-chain-select-hover-border);
@@ -451,4 +481,21 @@
 
 .balanceText {
   color: var(--theme-bridge-balance-text);
+  line-height: 16px;
+}
+
+.balanceValue {
+  color:var(--theme-bridge-max-btn-border-text);
+  font-weight: 700;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.maxButton {
+  margin-left: 5px;
+  margin-bottom: 2px;
+}
+
+.toBridgeSelected { 
+  box-shadow: 0px 2px 11px rgba(22, 3, 50, 0.2);
 }

@@ -16,12 +16,12 @@ import wbtc_normal from '../assets/images/bridge/tokens/wbtc_normal_icon.svg';
 import fallbackIcon from '../assets/images/bridge/tokens/fallback_icon.svg';
 
 export const bridgesList = [
-  {
+  /* {
     name: 'ETHEREUM',
     image: ethereum,
     buttonImage: ethereum,
     bigIcon: ethereum,
-  },
+  }, */
   {
     name: 'RINKEBY',
     image: ethereum,

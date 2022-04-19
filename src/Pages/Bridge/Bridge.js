@@ -22,6 +22,7 @@ import BridgeTransferModal from '../../Components/TransferInProgress/BridgeTrans
 import { getCurrentNetwork } from '../../apis/bridge/bridgeAPI';
 import FlashMessage from '../../Components/FlashMessage/FlashMessage';
 import { FLASH_MESSAGE_DURATION } from '../../constants/global';
+import '../Bridge/bridge.scss';
 
 const Bridge = (props) => {
   //const isMobile = useMediaQuery('(max-width: 991px)');
@@ -47,7 +48,7 @@ const Bridge = (props) => {
     image: '',
   });
   const [fromBridge, setFromBridge] = useState({
-    name: 'ETHEREUM',
+    name: 'RINKEBY',
     image: ethereum,
     buttonImage: ethereum,
   });
@@ -330,7 +331,7 @@ const Bridge = (props) => {
 
   return (
     <>
-      <Container fluid>
+      <Container fluid className='bridge-main-component'>
         <Row className={clsx('row justify-content-center')}>
           <Col xs={10} sm={8} md={10} lg={5} xl={5}>
             <BridgeText />

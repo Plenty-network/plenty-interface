@@ -66,7 +66,7 @@
   }
 
   .sortLabelText {
-    margin-left: 22px;
+    margin-left: 14px;
   }
   /* .radioOption {
           &:after {
@@ -87,7 +87,7 @@
   right: 0;
   height: 15px;
   width: 15px;
-  margin-right: 22px;
+  margin-right: 14px;
   background-image: url('../../../assets/images/bridge/check-grey.svg');
   background-size: contain;
   //background-color: #eee;
@@ -99,6 +99,6 @@
 }
 
 .lineBottom {
-    border-bottom: 0.5px var(--theme-bridge-filter-lb);
-    width: 90%;
+    border-bottom: 0.5px solid var(--theme-bridge-filter-lb);
+    width: 88%;
 }

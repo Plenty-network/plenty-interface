@@ -1,4 +1,4 @@
-.govContainer {
+/* .govContainer {
   color: var(--theme-governance-text);
   background: var(--theme-governance-bg);
   @media screen and (min-width: 320px) and (max-width: 992px) {
@@ -20,4 +20,7 @@
     max-width: 1400px;
     margin: 0 auto;
   }
+} */
+.bridge-main-component button  {
+  height: 54px !important;
 }

@@ -31,6 +31,8 @@ import { allTokens } from '../../constants/bridges';
 import { getBalance, getBalanceTez } from '../../apis/bridge/bridgeAPI';
 import { FLASH_MESSAGE_DURATION } from '../../constants/global';
 import { changeNetwork } from '../../apis/bridge/bridgeAPI';
+import {ReactComponent as MaxBtnIcon} from '../../assets/images/bridge/max_btn.svg';
+import {ReactComponent as MaxBtnIconDark} from '../../assets/images/bridge/max_btn_dark.svg';
 /* import { getCurrentNetwork } from '../../apis/bridge/bridgeAPI'; */
 const BridgeModal = (props) => {
   //const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -621,7 +623,9 @@ const BridgeModal = (props) => {
             >
               <img src={fromBridge.image} className="button-logo" />
               <span>{fromBridge.name} </span>
-              <span className="span-themed material-icons-round">expand_more</span>
+              <span className="span-themed material-icons-round" style={{ fontSize: '20px' }}>
+                expand_more
+              </span>
             </div>
           </div>
           <div className={`my-3 ${styles.lineMid} `}></div>
@@ -631,7 +635,7 @@ const BridgeModal = (props) => {
               isTokenInSelected && styles.tokenInSelected
             } ${styles.inputSelectBox} ${isError && styles.inputError}`}
           >
-            <div className={'flex align-items-center'}>
+            {/* <div className={'flex align-items-center'}> */}
               <div
                 className={clsx(styles.selector, styles.toTokenSelector)}
                 onClick={handleTokenSelect}
@@ -639,15 +643,17 @@ const BridgeModal = (props) => {
               >
                 <img src={tokenIn.image} className="button-logo" />
                 <span>{tokenIn.name} </span>
-                <span className="span-themed material-icons-round">expand_more</span>
+                <span className="span-themed material-icons-round" style={{ fontSize: '18px' }}>
+                  expand_more
+                </span>
               </div>
-              <span
+              {/* <span
                 onClick={onClickAmount}
                 className={`flex justify-content-center align-items-center ml-2 ${styles.selectMaxBtn}`}
               >
                 MAX
-              </span>
-            </div>
+              </span> */}
+            {/* </div> */}
             <div className={clsx(styles.inputWrapper)}>
               <input
                 type="text"
@@ -660,10 +666,26 @@ const BridgeModal = (props) => {
               />
             </div>
           </div>
-          <div className="flex justify-between" style={{ flex: '0 0 100%', marginBottom: '2vh' }}>
+          <div
+            className="flex justify-between"
+            style={{ flex: '0 0 100%', marginBottom: '2vh', height: '24px' }}
+          >
             <p className={clsx(styles.errorText)}>{isError ? errorMessage : ' '}</p>
             <p className={clsx('wallet-token-balance', styles.balanceText)}>
-              {walletAddress ? (
+              {userTokenBalance >= 0 && userTokenBalance !== null && (
+                <>
+                  Balance:{' '}
+                  <span className={styles.balanceValue} onClick={onClickAmount}>
+                    {userTokenBalance}
+                    {theme === 'light' ? (
+                      <MaxBtnIcon className={styles.maxButton} />
+                    ) : (
+                      <MaxBtnIconDark className={styles.maxButton} />
+                    )}
+                  </span>
+                </>
+              )}
+              {/* {walletAddress ? (
                 <>
                   Balance:{' '}
                   {userTokenBalance >= 0 && userTokenBalance !== null ? (
@@ -674,7 +696,7 @@ const BridgeModal = (props) => {
                 </>
               ) : (
                 ' '
-              )}
+              )} */}
 
               {/* ~$
                 {getTokenPrice.success && firstTokenAmount
@@ -699,7 +721,7 @@ const BridgeModal = (props) => {
           </OverlayTrigger>
 
           <div className={`mt-2 ${styles.to}`}>To</div>
-          <div className={`mt-3 ${styles.toBridgeSelectBox} ${styles.inputSelectBox}`}>
+          <div className={`mt-2 ${styles.toBridgeSelectBox} ${styles.inputSelectBox} ${isTokenInSelected ? styles.toBridgeSelected : null}`}>
             <div className={clsx(styles.toBridgeWrapper)}>
               <div className={styles.toBridgeSelector}>
                 <img src={toBridge.image} className="button-logo" />
@@ -707,7 +729,7 @@ const BridgeModal = (props) => {
               </div>
               <div className={clsx(styles.lineVertical, 'mx-2')}></div>
               <div className={clsx(styles.inputWrapper)}>
-                <p className={styles.toLabel}>you will receive</p>
+                <p className={styles.toLabel}>You will receive</p>
                 <input
                   type="text"
                   className={`text-left ${styles.toTokenOutput}`}
@@ -723,7 +745,7 @@ const BridgeModal = (props) => {
               {tokenOut.name}
             </span>
           </div>
-          <p className={clsx('mt-2', styles.feeEstimateText)}>{`Estimated fee: ${fee}`}</p>
+          <p className={clsx('mt-2', styles.feeEstimateText)}>Estimated fee: <span style={{fontWeight: '700'}}>{fee}</span></p>
 
           {metamaskAddress === null ? (
             <OverlayTrigger
