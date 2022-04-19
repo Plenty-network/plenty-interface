@@ -15,6 +15,8 @@ import weth_normal from '../assets/images/bridge/tokens/weth_normal_icon.svg';
 import wbtc_normal from '../assets/images/bridge/tokens/wbtc_normal_icon.svg';
 import fallbackIcon from '../assets/images/bridge/tokens/fallback_icon.svg';
 
+export const CHANGE_NETWORK_PROMPT_DELAY = 3000;
+
 export const bridgesList = [
   /* {
     name: 'ETHEREUM',

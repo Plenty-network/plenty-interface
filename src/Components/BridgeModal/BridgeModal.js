@@ -33,6 +33,7 @@ import { FLASH_MESSAGE_DURATION } from '../../constants/global';
 import { changeNetwork } from '../../apis/bridge/bridgeAPI';
 import { ReactComponent as MaxBtnIcon } from '../../assets/images/bridge/max_btn.svg';
 import { ReactComponent as MaxBtnIconDark } from '../../assets/images/bridge/max_btn_dark.svg';
+import { CHANGE_NETWORK_PROMPT_DELAY } from '../../constants/bridges';
 /* import { getCurrentNetwork } from '../../apis/bridge/bridgeAPI'; */
 const BridgeModal = (props) => {
   //const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -125,7 +126,7 @@ const BridgeModal = (props) => {
   useEffect(() => {
     getChain();
   }, [firstTokenAmount]); */
-  useEffect(async () => {
+  useEffect(() => {
     console.log(currentChain, metamaskChain);
     if (currentChain !== metamaskChain && transaction === 1) {
       if (metamaskChain !== null) {
@@ -139,12 +140,16 @@ const BridgeModal = (props) => {
           isFlashMessageALink: false,
           flashMessageLink: '#',
         });
-        try {
-          console.log('Changing metamask chain to ', currentChain);
-          await changeNetwork({ networkName: currentChain });
-        } catch (error) {
-          console.log(error.message);
-        }
+        
+          setTimeout(async () => {
+            try {
+              console.log('Changing metamask chain to ', currentChain);
+              await changeNetwork({ networkName: currentChain });
+            } catch (error) {
+              console.log(error.message);
+            }
+          }, CHANGE_NETWORK_PROMPT_DELAY);
+        
       }
     }
   }, [currentChain, metamaskChain]);
@@ -324,7 +329,7 @@ const BridgeModal = (props) => {
     }
   };
 
-  const handelClickWithMetaAddedBtn = async () => {
+  const handelClickWithMetaAddedBtn = () => {
     setIsError(false);
     if (firstTokenAmount === '' || isNaN(firstTokenAmount) || firstTokenAmount === 0) {
       setErrorMessage('Enter the amount and proceed');
@@ -348,12 +353,16 @@ const BridgeModal = (props) => {
           isFlashMessageALink: false,
           flashMessageLink: '#',
         });
-        try {
-          console.log('Changing metamask chain to ', currentChain);
-          await changeNetwork({ networkName: currentChain });
-        } catch (error) {
-          console.log(error.message);
-        }
+        
+          setTimeout(async () => {
+            try {
+              console.log('Changing metamask chain to ', currentChain);
+              await changeNetwork({ networkName: currentChain });
+            } catch (error) {
+              console.log(error.message);
+            }
+          }, CHANGE_NETWORK_PROMPT_DELAY);
+        
       } else {
         SetisLoading(true);
         if (operation === 'UNBRIDGE') {

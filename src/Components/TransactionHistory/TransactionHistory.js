@@ -27,6 +27,7 @@ import { allTokens } from '../../constants/bridges';
 import { getHistory } from '../../apis/bridge/bridgeAPI';
 import { FLASH_MESSAGE_DURATION } from '../../constants/global';
 import { changeNetwork } from '../../apis/bridge/bridgeAPI';
+import { CHANGE_NETWORK_PROMPT_DELAY } from '../../constants/bridges';
 
 const TransactionHistory = (props) => {
   const [animationCalss, SetAnimationClass] = useState('leftToRightFadeInAnimation-4-bridge');
@@ -197,7 +198,7 @@ const TransactionHistory = (props) => {
     setCheckedCount(countOfChecked);
   }, [checkBoxesState]);
 
-  const actionClickHandler = async (id) => {
+  const actionClickHandler = (id) => {
     //console.log(id);
     //console.log(transactionData.find((item) => item.id === Number(id)));
     const selectedData = transactionData.find((item) => item.id === id);
@@ -281,11 +282,15 @@ const TransactionHistory = (props) => {
         isFlashMessageALink: false,
         flashMessageLink: '#',
       });
-      try {
-        await changeNetwork({networkName: selectedData.chain});
-      } catch(error) {
-        console.log(error.message);
-      }
+      
+        setTimeout(async () => {
+          try {
+            await changeNetwork({ networkName: selectedData.chain });
+          } catch (error) {
+            console.log(error.message);
+          }
+        }, CHANGE_NETWORK_PROMPT_DELAY);
+      
       resetToDefaultStates();
     } else {
       setTimeout(() => {

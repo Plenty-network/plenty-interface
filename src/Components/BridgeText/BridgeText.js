@@ -6,7 +6,7 @@ import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
 const BridgeText = () => {
   return (
     <div className=" row justify-content-center">
-      <div className=" col-24 col-sm-20 col-md-10 col-lg-10 col-xl-10">
+      <div className=" col-24 col-sm-20 col-md-10 col-lg-11 col-xl-11">
         <Row>
           <h2 className={styles.heading}>Plenty Bridges</h2>
           <h6 className={`mt-3 ${styles.description}`}>
