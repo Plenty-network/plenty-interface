@@ -57,7 +57,7 @@ const BridgeUnbridgeModal = (props) => {
         displayMessage({
           type: 'success',
           duration: FLASH_MESSAGE_DURATION,
-          title: 'Wrap Successful',
+          title: 'Wrap call Successful',
           content: `${Number(firstTokenAmount).toFixed(3)} ${tokenIn.name} wrapped successfully.`,
           isFlashMessageALink: false,
           flashMessageLink: '#',
