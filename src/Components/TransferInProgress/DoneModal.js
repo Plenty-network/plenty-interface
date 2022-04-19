@@ -159,7 +159,7 @@ const DoneModal = (props) => {
               <FeeBigIcon />
               <div className="right-div">
                 <span className="fromreceived">Estimated transaction fee</span>
-                <span className="value-text">~{transactionFees}</span>
+                <span className="value-text">~{Number(transactionFees).toFixed(6)}</span>
               </div>
             </div>
           </div>
