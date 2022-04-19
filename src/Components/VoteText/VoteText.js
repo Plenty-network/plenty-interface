@@ -144,11 +144,8 @@ const VoteText = (props) => {
                 <strong>And increase the reward rate for:</strong>
               </p>
               <ul>
-                <li>tzBTC - PLENTY LP</li>
-                <li>USDtz - PLENTY LP</li>
-                <li>kUSD - PLENTY LP</li>
-                <li>uUSD - PLENTY LP</li>
-                <li>hDAO - PLENTY LP</li>
+                <li>PLENTY - CTEZ LP</li>
+                <li>xPLENTY</li>
               </ul>
             </div>
           </div>
