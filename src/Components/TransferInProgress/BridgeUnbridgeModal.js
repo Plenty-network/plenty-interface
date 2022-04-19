@@ -58,7 +58,7 @@ const BridgeUnbridgeModal = (props) => {
           type: 'success',
           duration: FLASH_MESSAGE_DURATION,
           title: 'Wrap Successful',
-          content: `${firstTokenAmount.toFixed(3)} ${tokenIn.name} wrapped successfully.`,
+          content: `${Number(firstTokenAmount).toFixed(3)} ${tokenIn.name} wrapped successfully.`,
           isFlashMessageALink: false,
           flashMessageLink: '#',
         });
@@ -86,7 +86,7 @@ const BridgeUnbridgeModal = (props) => {
           type: 'success',
           duration: FLASH_MESSAGE_DURATION,
           title: 'Unwrap Successful',
-          content: `${firstTokenAmount.toFixed(3)} ${tokenIn.name} unwrapped successfully.`,
+          content: `${Number(firstTokenAmount).toFixed(3)} ${tokenIn.name} unwrapped successfully.`,
           isFlashMessageALink: false,
           flashMessageLink: '#',
         });

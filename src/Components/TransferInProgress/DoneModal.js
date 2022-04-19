@@ -42,7 +42,7 @@ const DoneModal = (props) => {
           displayMessage({
             type: 'success',
             duration: FLASH_MESSAGE_DURATION,
-            title: `${secondTokenAmount.toFixed(3)} ${tokenOut.name} minted successfully`,
+            title: `${Number(secondTokenAmount).toFixed(3)} ${tokenOut.name} minted successfully`,
             content: 'View on explorer.',
             isFlashMessageALink: true,
             flashMessageLink: `${CONFIG.EXPLORER_LINKS.TEZOS}${mintResult.transactionHash}`,
@@ -69,7 +69,7 @@ const DoneModal = (props) => {
           displayMessage({
             type: 'success',
             duration: FLASH_MESSAGE_DURATION,
-            title: `${secondTokenAmount.toFixed(3)} ${tokenOut.name} released successfully`,
+            title: `${Number(secondTokenAmount).toFixed(3)} ${tokenOut.name} released successfully`,
             content: 'View on explorer.',
             isFlashMessageALink: true,
             flashMessageLink: `${CONFIG.EXPLORER_LINKS[toBridge.name]}${releaseResult.transactionHash}`,
