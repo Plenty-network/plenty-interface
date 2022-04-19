@@ -4,6 +4,7 @@ import { MichelsonMap, TezosToolkit, OpKind } from '@taquito/taquito';
 import { BeaconWallet } from '@taquito/beacon-wallet';
 import { CheckIfWalletConnected } from '../wallet/wallet';
 import { newton_dx_to_dy } from '../stableswap/stableswap';
+import { isTokenPairStable } from '../Liquidity/Liquidity';
 /**
  * Loads swap related data to perform calculation using RPC
  * @param tokenIn - token which user wants to sell, case-sensitive to CONFIG
@@ -184,6 +185,7 @@ export const getAllRoutes = async (tokenIn, tokenOut) => {
       path: [],
       swapData: [],
       tokenOutPerTokenIn: 0,
+      isStableList : [],
     };
 
     allPathsUtil(tokenIn, tokenOut, paths, vis, path);
@@ -499,7 +501,17 @@ export const computeTokenOutForRouteBaseV2 = (input, allRoutes, slippage) => {
         bestRoute.computations = route.computations;
         bestRoute.path = route.path;
       }
-    });
+    }
+    );
+
+    
+    const isStable = [];
+    for(let i =0 ; i< bestRoute.path.length-1; i++){
+      isStable[i] = isTokenPairStable(bestRoute.path[i],bestRoute.path[i+1]);
+    }
+    bestRoute.isStableList = isStable;
+    console.log(bestRoute);
+
     return {
       success: true,
       bestRoute,
@@ -636,6 +648,13 @@ export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, allRoutes
         bestRoute.path = route.path;
       }
     });
+
+    const isStable = [];
+    for(let i =0 ; i< bestRoute.path.length-1; i++){
+      isStable[i] = isTokenPairStable(bestRoute.path[i],bestRoute.path[i+1]);
+    }
+    bestRoute.isStableList = isStable;
+    console.log(bestRoute);
     return {
       success: true,
       bestRoute,
