@@ -769,7 +769,7 @@ const BridgeModal = (props) => {
             </span>
           </div>
           <p className={clsx('mt-2', styles.feeEstimateText)}>
-            Estimated fee: <span style={{ fontWeight: '700' }}>{fee}</span>
+            Estimated fee: <span style={{ fontWeight: '700' }}>{Number(fee).toFixed(6)}</span>
           </p>
 
           {metamaskAddress === null ? (

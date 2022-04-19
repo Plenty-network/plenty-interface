@@ -181,7 +181,7 @@ const BridgeUnbridgeModal = (props) => {
           style={{ height: '20px' }}
         ></img>
         <p className={styles.bottomInfo}>Estimated Gas fee</p>
-        <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~{gasFees}</p>
+        <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~{Number(gasFees).toFixed(6)}</p>
       </div>
     </>
   );

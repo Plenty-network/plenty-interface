@@ -420,7 +420,7 @@ const TransactionHistory = (props) => {
                       </div>
                       <div>
                         <p className={styles.value}>
-                          {data.secondTokenAmount} {data.tokenOut}
+                          {Number(data.secondTokenAmount).toFixed(4)} {data.tokenOut}
                         </p>
                         <p className={styles.amt}>
                           {new Date(data.timestamp).toLocaleDateString('en-IN')} ;{' '}
