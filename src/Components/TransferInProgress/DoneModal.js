@@ -4,7 +4,7 @@ import LoadingRing from '../Ui/LoadingRing/loadingRing';
 import { ReactComponent as FeeBigIcon } from '../../assets/images/bridge/new_trans_fee_icon.svg';
 import { ReactComponent as ProcessSuccess } from '../../assets/images/bridge/process_success.svg';
 import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { mintTokens, releaseTokens } from '../../apis/bridge/bridgeAPI';
 import CONFIG from '../../config/config';
 import { FLASH_MESSAGE_DURATION } from '../../constants/global';
@@ -32,7 +32,9 @@ const DoneModal = (props) => {
   } = props;
 
   useEffect(async () => {
+    console.log('rendering done modal use effect.');
     if (currentProgress === numberOfSteps.length - 1) {
+      console.log(`Current progress: ${currentProgress}`);
       if (operation === 'BRIDGE') {
         const mintResult = await mintTokens(wrappedUnwrappedData, fromBridge.name);
         console.log('Mint Results: ');

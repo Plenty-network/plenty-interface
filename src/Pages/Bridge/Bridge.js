@@ -86,7 +86,7 @@ const Bridge = (props) => {
   const flashMessageDuration = useRef(null);
   const [flashMessageTitle, setFlashMessageTitle] = useState('Title');
   const [flashMessageContent, setFlashMessageContent] = useState('Message');
-  const [isFlashMessageALink, setIsFlashMessageALink] = useState(true);
+  const [isFlashMessageALink, setIsFlashMessageALink] = useState(false);
   const flashMessageLink = useRef('#');
 
   const setMintUnmintOpHash = (hash) => {
@@ -114,6 +114,7 @@ const Bridge = (props) => {
   };
 
   const displayMessage = useCallback((messageObj) => {
+    console.log('display message called');
     setShowFlashMessage(false);
     setFlashMessageType(messageObj.type);
     messageObj.duration ? flashMessageDuration.current = messageObj.duration : flashMessageDuration.current = null;
@@ -221,7 +222,7 @@ const Bridge = (props) => {
             });
           }
         } else {
-          //console.log('token list 2', loadedTokensList.current[fromBridge.name][0]);
+          console.log('token list 2', loadedTokensList.current[fromBridge.name][0]);
           setTokenList(loadedTokensList.current[fromBridge.name]);
           setTokenIn(loadedTokensList.current[fromBridge.name][0]);
           // Change after creating config.
@@ -333,7 +334,7 @@ const Bridge = (props) => {
     <>
       <Container fluid className='bridge-main-component'>
         <Row className={clsx('row justify-content-center')}>
-          <Col xs={10} sm={8} md={10} lg={5} xl={5}>
+          <Col xs={11} sm={11} md={10} lg={6} xl={6}>
             <BridgeText />
           </Col>
           <Col xs={20} sm={10} md={10} lg={6} xl={6}>

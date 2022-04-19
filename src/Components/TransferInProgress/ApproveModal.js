@@ -6,7 +6,7 @@ import { ReactComponent as FeeIcon } from '../../assets/images/bridge/fee_icon.s
 import GasIcon from '../../assets/images/bridge/gas_fee_icon.svg';
 import GasIconDark from '../../assets/images/bridge/gas_fee_icon_dark.svg';
 import dummyApiCall from '../../apis/dummyApiCall';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { approveToken } from '../../apis/bridge/bridgeAPI';
 import { FLASH_MESSAGE_DURATION } from '../../constants/global';
 
@@ -35,6 +35,10 @@ const ApproveModal = (props) => {
     theme,
     displayMessage,
   } = props;
+
+  useEffect(() => {
+    console.log('Approve use effect');
+  }, []);
 
   const approveButtonClick = async () => {
     SetIsButtonLoading(true);

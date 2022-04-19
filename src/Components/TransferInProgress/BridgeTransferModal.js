@@ -53,6 +53,10 @@ const BridgeTransferModal = (props) => {
     approveHash.current = hash;
   };
 
+  useEffect(() => {
+    console.log('Bridge transfer component rendered');
+  }, []);
+
   // const setMintUnmintOpHash = (hash) => {
   //   mintUnmintOpHash.current = hash;
   // };
@@ -489,7 +493,7 @@ const BridgeTransferModal = (props) => {
         </div>
       </>
     ); */
-
+    console.log('rendering insideElement.');
     if (currentProgress === 0) {
       return (
         <ApproveModal
@@ -684,9 +688,91 @@ const BridgeTransferModal = (props) => {
                 })}
           </div>
           <div className={`mb-4 ${styles.lineBottom} `}></div>
-          {/*  */}
+          {currentProgress === 0 && (
+            <ApproveModal
+              description={`${fromBridge.name} transactions can take  longer time to complete based upon the network congestion.`}
+              gasFees={fee}
+              setBack={setBack}
+              currentProgress={currentProgress}
+              getTransactionListLength={getTransactionListLength}
+              operation={operation}
+              fromBridge={fromBridge}
+              toBridge={toBridge}
+              tokenIn={tokenIn}
+              tokenOut={tokenOut}
+              firstTokenAmount={firstTokenAmount}
+              secondTokenAmount={secondTokenAmount}
+              setTransactionData={setTransactionData}
+              SetCurrentProgress={SetCurrentProgress}
+              setSelectedId={setSelectedId}
+              setApproveHash={setApproveHash}
+              theme={theme}
+              displayMessage={displayMessage}
+            />
+          )}
+          {currentProgress === 1 && (
+            <BridgeUnbridgeModal
+              description={`${fromBridge.name} transactions can take  longer time to complete based upon the network congestion.`}
+              gasFees={fee}
+              currentProgress={currentProgress}
+              getTransactionListLength={getTransactionListLength}
+              operation={operation}
+              fromBridge={fromBridge}
+              toBridge={toBridge}
+              tokenIn={tokenIn}
+              tokenOut={tokenOut}
+              firstTokenAmount={firstTokenAmount}
+              secondTokenAmount={secondTokenAmount}
+              setTransactionData={setTransactionData}
+              selectedId={selectedId}
+              SetCurrentProgress={SetCurrentProgress}
+              walletAddress={walletAddress}
+              setMintUnmintOpHash={setMintUnmintOpHash}
+              setSelectedId={setSelectedId}
+              approveHash={approveHash.current}
+              theme={theme}
+              displayMessage={displayMessage}
+            />
+          )}
+          {currentProgress === 2 && (
+            <MintReleaseModal
+              description={`${fromBridge.name} transactions can take  longer time to complete based upon the network congestion.`}
+              gasFees={fee}
+              currentProgress={currentProgress}
+              operation={operation}
+              setTransactionData={setTransactionData}
+              selectedId={selectedId}
+              SetCurrentProgress={SetCurrentProgress}
+              mintUnmintOpHash={mintUnmintOpHash}
+              fromBridge={fromBridge}
+              setWrapUnwrapData={setWrapUnwrapData}
+              toBridge={toBridge}
+              theme={theme}
+              displayMessage={displayMessage}
+            />
+          )}
+          {currentProgress > 2 && (
+            <DoneModal
+              transactionFees={fee}
+              currentProgress={currentProgress}
+              numberOfSteps={numberOfSteps}
+              tokenOut={tokenOut}
+              secondTokenAmount={secondTokenAmount}
+              fromBridge={fromBridge}
+              toBridge={toBridge}
+              operation={operation}
+              SetCurrentProgress={SetCurrentProgress}
+              wrappedUnwrappedData={wrappedUnwrappedData.current}
+              selectedId={selectedId}
+              setTransactionData={setTransactionData}
+              finalOpHash={finalOpHash}
+              setFinalOpHash={setFinalOpHash}
+              openingFromHistory={openingFromHistory}
+              displayMessage={displayMessage}
+            />
+          )}
           {/* code will go here */}
-          <InSideElement
+          {/* <InSideElement
             label={
               numberOfSteps < numberOfSteps.length
                 ? numberOfSteps[currentProgress][operation]
@@ -694,7 +780,7 @@ const BridgeTransferModal = (props) => {
             }
             description={`${fromBridge.name}  transactions can take  longer time to complete based upon the network congestion.`}
             transactionFees={fee}
-          />
+          /> */}
           {/*  */}
         </div>
       </div>

@@ -4529,7 +4529,7 @@ const Config: IConfig = {
   },
   BRIDGES_INDEXER_LINKS: {
     testnet: {
-      RINKEBY: 'http://18.221.32.62/v1/configuration',
+      RINKEBY: 'https://bridgeindexer.plentydefi.com/v1/configuration',
     },
     mainnet: {
       ETHEREUM: 'https://indexer.app.tzwrap.com/v1/configuration',

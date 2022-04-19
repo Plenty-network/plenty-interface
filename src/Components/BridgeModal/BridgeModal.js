@@ -587,7 +587,7 @@ const BridgeModal = (props) => {
 
   return (
     <div
-      className={`justify-content-center mx-auto col-20 col-md-10 col-lg-10 col-xl-10 mb-3 ${styles.gov}`}
+      className={`justify-content-center mx-auto col-20 col-md-10 col-lg-12 col-xl-12 mb-3 ${styles.gov}`}
     >
       <div className={styles.border}>
         <div className={` ${styles.bridgeModal} leftToRightFadeInAnimation-4-bridge`}>
