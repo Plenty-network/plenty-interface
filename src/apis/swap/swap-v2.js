@@ -712,7 +712,9 @@ export const swapTokenUsingRouteV3 = async (
         requiredTokenId: tokenId,
       };
     }
+    console.log(DataLiteral);
     const DataMap = MichelsonMap.fromLiteral(DataLiteral);
+    console.log(DataMap);
     const swapAmount = Math.floor(
       amount * Math.pow(10, CONFIG.AMM[connectedNetwork][path[0]].TOKEN_DECIMAL),
     );

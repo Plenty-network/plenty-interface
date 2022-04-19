@@ -1408,7 +1408,7 @@ const Config: IConfig = {
       },
       PLENTY: {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1TbkspJ8AzLmNs3ko9xr46ZE4zLpyZu9tX',
+        TOKEN_CONTRACT: 'KT1Mdk7TfHjbwb2ciTTsySj9gV9W9uc7HxCu',
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA1.2',
         TOKEN_ID: 0,
@@ -4426,11 +4426,11 @@ const Config: IConfig = {
     mapId: 55983,
   },
 
-  // NETWORK: 'testnet',
-  // WALLET_NETWORK: 'hangzhounet',
+  NETWORK: 'testnet',
+  WALLET_NETWORK: 'hangzhounet',
 
-  NETWORK: 'mainnet',
-  WALLET_NETWORK: 'mainnet',
+  // NETWORK: 'mainnet',
+  // WALLET_NETWORK: 'mainnet',
 
   ADMIN_ADDRESS: 'KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW',
   BURNER: 'tz1ZnK6zYJrC9PfKCPryg9tPW6LrERisTGtg',
