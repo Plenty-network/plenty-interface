@@ -51,7 +51,9 @@ const ApproveModal = (props) => {
         type: 'success',
         duration: FLASH_MESSAGE_DURATION,
         title: 'Transaction Approved',
-        content: `Bridging of ${Number(firstTokenAmount).toFixed(3)} ${tokenIn.name} approved.`,
+        content: `${Number(firstTokenAmount).toFixed(3)} ${
+          tokenIn.name
+        } are approved to the bridge.`,
         isFlashMessageALink: false,
         flashMessageLink: '#',
       });
