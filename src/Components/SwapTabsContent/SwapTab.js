@@ -25,6 +25,8 @@ import InfoModal from '../Ui/Modals/InfoModal';
 import Loader from '../loader';
 import { setLoader } from '../../redux/slices/settings/settings.slice';
 import switchImg from '../../assets/images/bridge/bridge-switch.svg';
+
+import switchImgDark from '../../assets/images/bridge/bridge-switch-dark.svg';
 import maxlight from '../../assets/images/max-light.svg';
 
 const SwapTab = (props) => {
@@ -66,7 +68,9 @@ const SwapTab = (props) => {
     setSwapData(res);
   };
   useEffect(() => {
-    getSwapData();
+    if (props.isStablePair) {
+      getSwapData();
+    }
   }, [props]);
 
   useEffect(() => {
@@ -558,7 +562,7 @@ const SwapTab = (props) => {
             className="swap-arrow-center-revamp  icon-animated"
             onClick={props.changeTokenLocation}
           >
-            <img src={switchImg} />
+            <img src={props.theme === 'light' ? switchImg : switchImgDark} />
           </div>
         </div>
         <div className="second-token-bg">
@@ -665,6 +669,7 @@ const SwapTab = (props) => {
           {props.walletAddress &&
             props.tokenIn.name &&
             props.tokenOut.name &&
+            firstTokenAmount &&
             props.routeData.success && (
               <SwapDetails
                 routePath={routePath}

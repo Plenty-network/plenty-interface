@@ -37,11 +37,9 @@ const SwapContent = (props) => {
     const res = await getAvailableLiquidityPairs(props.tokenOut.name);
     setLpPairAvailable(res.isLiquidityPairAvailable);
 
-    console.log(res);
     if (res.isLiquidityPairAvailable) {
       setPairs(res.data);
     }
-    console.log(pairs);
   }, [props.tokenOut]);
 
   const handleSwapTokenInput = (input, tokenType) => {

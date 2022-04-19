@@ -66,7 +66,6 @@ const SwapWA = (props) => {
 
   useEffect(() => {
     if (props.walletAddress) {
-      console.log(balanceUpdate);
       const updateBalance = async () => {
         setTokenContractInstances({});
         //const userBalancesCopy = { ...userBalances };
@@ -78,7 +77,7 @@ const SwapWA = (props) => {
           : balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
         // }
         // if (!userBalancesCopy[tokenOut.name]) {
-        tokenIn.name === tzBTCName
+        tokenOut.name === tzBTCName
           ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
           : balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));
         //}
@@ -100,22 +99,22 @@ const SwapWA = (props) => {
     }
   }, [tokenIn, tokenOut, props, balanceUpdate]);
 
-  useEffect(() => {
-    if (activeTab === 'wrappedswap') {
-      if (
-        Object.prototype.hasOwnProperty.call(tokenIn, 'name') &&
-        Object.prototype.hasOwnProperty.call(tokenOut, 'name')
-      ) {
-        // getAllRoutes(tokenIn.name, tokenOut.name).then((response) => {
-        //   if (response.success) {
-        //     setRouteData(response);
-        //     setSwapData(response.bestRouteUntilNoInput.swapData);
-        //     setLoaderInButton(false);
-        //   }
-        // });
-      }
-    }
-  }, [tokenIn, tokenOut, activeTab]);
+  // useEffect(() => {
+  //   if (activeTab === 'wrappedswap') {
+  //     if (
+  //       Object.prototype.hasOwnProperty.call(tokenIn, 'name') &&
+  //       Object.prototype.hasOwnProperty.call(tokenOut, 'name')
+  //     ) {
+  //       // getAllRoutes(tokenIn.name, tokenOut.name).then((response) => {
+  //       //   if (response.success) {
+  //       //     setRouteData(response);
+  //       //     setSwapData(response.bestRouteUntilNoInput.swapData);
+  //       //     setLoaderInButton(false);
+  //       //   }
+  //       // });
+  //     }
+  //   }
+  // }, [tokenIn, tokenOut, activeTab]);
 
   const handleClose = () => {
     setShow(false);

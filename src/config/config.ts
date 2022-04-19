@@ -4684,7 +4684,7 @@ const Config: IConfig = {
       'USDC.e': {
         ICON: '',
         TOKEN_CONTRACT: 'KT19jFpbrSADAsj1HmwiQnLdWDnS92u2uTDW',
-        mapId: 162915,
+        mapId: 144214,
         TOKEN_ID: 2,
         TOKEN_DECIMAL: 6,
         REF_TOKEN: 'wUSDC',
