@@ -844,7 +844,7 @@ export const changeNetwork = async ({ networkName }) => {
     try {
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ ...networks[networkName] }],
+        params: [{ chainId: networks[networkName].chainId }],
       });
     } catch (switchError) {
       try {
