@@ -31,8 +31,8 @@ import { allTokens } from '../../constants/bridges';
 import { getBalance, getBalanceTez } from '../../apis/bridge/bridgeAPI';
 import { FLASH_MESSAGE_DURATION } from '../../constants/global';
 import { changeNetwork } from '../../apis/bridge/bridgeAPI';
-import {ReactComponent as MaxBtnIcon} from '../../assets/images/bridge/max_btn.svg';
-import {ReactComponent as MaxBtnIconDark} from '../../assets/images/bridge/max_btn_dark.svg';
+import { ReactComponent as MaxBtnIcon } from '../../assets/images/bridge/max_btn.svg';
+import { ReactComponent as MaxBtnIconDark } from '../../assets/images/bridge/max_btn_dark.svg';
 /* import { getCurrentNetwork } from '../../apis/bridge/bridgeAPI'; */
 const BridgeModal = (props) => {
   //const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -127,7 +127,7 @@ const BridgeModal = (props) => {
   }, [firstTokenAmount]); */
   useEffect(async () => {
     console.log(currentChain, metamaskChain);
-    if(currentChain !== metamaskChain && transaction === 1) {
+    if (currentChain !== metamaskChain && transaction === 1) {
       if (metamaskChain !== null) {
         //alert(`Please select ${currentChain} as chain in metmask wallet to proceed.`);
         console.log(`Please select ${currentChain} as chain in metmask wallet to proceed.`);
@@ -140,8 +140,9 @@ const BridgeModal = (props) => {
           flashMessageLink: '#',
         });
         try {
-          await changeNetwork({networkName: currentChain});
-        } catch(error) {
+          console.log('Changing metamask chain to ', currentChain);
+          await changeNetwork({ networkName: currentChain });
+        } catch (error) {
           console.log(error.message);
         }
       }
@@ -177,7 +178,12 @@ const BridgeModal = (props) => {
   useEffect(async () => {
     setUserTokenBalance(null);
     console.log(tokenIn);
-    if (tokenIn.name !== 'Token NA' && walletAddress && metamaskAddress && metamaskChain === currentChain) {
+    if (
+      tokenIn.name !== 'Token NA' &&
+      walletAddress &&
+      metamaskAddress &&
+      metamaskChain === currentChain
+    ) {
       if (operation === 'BRIDGE') {
         const balanceResult = await getBalance(tokenIn.tokenData.CONTRACT_ADDRESS, metamaskAddress);
         console.log(balanceResult);
@@ -327,9 +333,13 @@ const BridgeModal = (props) => {
       setErrorMessage('Insufficient balance');
       setIsError(true);
     } else {
-      if(currentChain !== metamaskChain) {
+      if (currentChain !== metamaskChain) {
         //alert('Chain selected on app does not match with the one selected in metamask wallet. Please change metamask wallet chain to ' + currentChain + '.');
-        console.log('Chain selected on app does not match with the one selected in metamask wallet. Please change metamask wallet chain to ' + currentChain + '.');
+        console.log(
+          'Chain selected on app does not match with the one selected in metamask wallet. Please change metamask wallet chain to ' +
+            currentChain +
+            '.',
+        );
         displayMessage({
           type: 'warning',
           duration: FLASH_MESSAGE_DURATION,
@@ -339,8 +349,9 @@ const BridgeModal = (props) => {
           flashMessageLink: '#',
         });
         try {
-          await changeNetwork({networkName: currentChain});
-        } catch(error) {
+          console.log('Changing metamask chain to ', currentChain);
+          await changeNetwork({ networkName: currentChain });
+        } catch (error) {
           console.log(error.message);
         }
       } else {
@@ -353,7 +364,6 @@ const BridgeModal = (props) => {
           setTransaction(3);
         }, 500);
       }
-      
     }
   };
 
@@ -636,18 +646,18 @@ const BridgeModal = (props) => {
             } ${styles.inputSelectBox} ${isError && styles.inputError}`}
           >
             {/* <div className={'flex align-items-center'}> */}
-              <div
-                className={clsx(styles.selector, styles.toTokenSelector)}
-                onClick={handleTokenSelect}
-                style={{ boxShadow: isTokenSelected && 'none' }}
-              >
-                <img src={tokenIn.image} className="button-logo" />
-                <span>{tokenIn.name} </span>
-                <span className="span-themed material-icons-round" style={{ fontSize: '18px' }}>
-                  expand_more
-                </span>
-              </div>
-              {/* <span
+            <div
+              className={clsx(styles.selector, styles.toTokenSelector)}
+              onClick={handleTokenSelect}
+              style={{ boxShadow: isTokenSelected && 'none' }}
+            >
+              <img src={tokenIn.image} className="button-logo" />
+              <span>{tokenIn.name} </span>
+              <span className="span-themed material-icons-round" style={{ fontSize: '18px' }}>
+                expand_more
+              </span>
+            </div>
+            {/* <span
                 onClick={onClickAmount}
                 className={`flex justify-content-center align-items-center ml-2 ${styles.selectMaxBtn}`}
               >
@@ -721,7 +731,11 @@ const BridgeModal = (props) => {
           </OverlayTrigger>
 
           <div className={`mt-2 ${styles.to}`}>To</div>
-          <div className={`mt-2 ${styles.toBridgeSelectBox} ${styles.inputSelectBox} ${isTokenInSelected ? styles.toBridgeSelected : null}`}>
+          <div
+            className={`mt-2 ${styles.toBridgeSelectBox} ${styles.inputSelectBox} ${
+              isTokenInSelected ? styles.toBridgeSelected : null
+            }`}
+          >
             <div className={clsx(styles.toBridgeWrapper)}>
               <div className={styles.toBridgeSelector}>
                 <img src={toBridge.image} className="button-logo" />
@@ -745,7 +759,9 @@ const BridgeModal = (props) => {
               {tokenOut.name}
             </span>
           </div>
-          <p className={clsx('mt-2', styles.feeEstimateText)}>Estimated fee: <span style={{fontWeight: '700'}}>{fee}</span></p>
+          <p className={clsx('mt-2', styles.feeEstimateText)}>
+            Estimated fee: <span style={{ fontWeight: '700' }}>{fee}</span>
+          </p>
 
           {metamaskAddress === null ? (
             <OverlayTrigger
