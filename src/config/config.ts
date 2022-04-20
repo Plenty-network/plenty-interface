@@ -1594,6 +1594,21 @@ const Config: IConfig = {
       },
     },
     mainnet: {
+      tez: {
+        ICON: '',
+        TOKEN_CONTRACT: '',
+        READ_TYPE: 'XTZ',
+        CALL_TYPE: 'XTZ',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 6,
+        DEX_PAIRS: {
+          ctez: {
+            contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
+            property: 'tezPool',
+            liquidityToken: 'ctez-XTZ-LP',
+          },
+        },
+      },
       PLENTY: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
@@ -2085,6 +2100,11 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
+          tez: {
+            contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
+            property: 'ctezPool',
+            liquidityToken: 'ctez-XTZ-LP',
+          },
           PLENTY: {
             contract: 'KT1C9gJRfkpPbNdBn3XyYbrUHT6XgfPzZqXP',
             property: 'token1_pool',
@@ -2572,6 +2592,16 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 18,
         CALL_TYPE: 'FA1.2',
+      },
+      'ctez-XTZ-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1AhTJqRFY3ABSV4kfR3RUS4B66jp1H6A1F',
+        mapId: 108017,
+        READ_TYPE: 'FA1.2',
+        CALL_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 6,
+        DEX_PAIRS: {},
       },
       'Plenty-QUIPU-LP': {
         ICON: '',

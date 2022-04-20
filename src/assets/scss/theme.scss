@@ -149,6 +149,10 @@
   --theme-route-border: rgba(176, 183, 195, 0.4);
   --theme-stableswap-route-border: rgba(98, 2, 239, 0.4);
   --theme-arrow-boxshadow: rgba(32, 28, 65, 0.32);
+  --theme-liq-divider: #b0b7c3;
+  --theme-balance-border-second: #a4aebf;
+  --theme-balance-onhover-second: #4e5d78;
+  --theme-hover-liq-input: rgba(0, 0, 0, 0.2);
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -308,6 +312,10 @@
   --theme-route-border: rgba(98, 104, 143, 0.5);
   --theme-stableswap-route-border: rgba(98, 104, 143, 0.5);
   --theme-arrow-boxshadow: rgba(32, 28, 65, 0.32);
+  --theme-liq-divider: rgba(176, 183, 195, 0.3);
+  --theme-balance-border-second: rgba(176, 183, 195, 0.5);
+  --theme-balance-onhover-second: #b0b7c3;
+  --theme-hover-liq-input: rgba(206, 174, 254, 0.8);
 }
 
 :root.theme-transiton {

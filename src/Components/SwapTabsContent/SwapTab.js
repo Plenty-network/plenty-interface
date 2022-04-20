@@ -562,16 +562,25 @@ const SwapTab = (props) => {
           </div>
           {errorMessage && <span className="error-message">{message}</span>}
         </div>
-        <div className="switch-img-background">
-          <div className="switch-img">
-            <div
-              className="swap-arrow-center-revamp  icon-animated"
-              onClick={props.changeTokenLocation}
-            >
-              <img src={props.theme === 'light' ? switchImg : switchImgDark} />
+        <OverlayTrigger
+          overlay={(props) => (
+            <Tooltip id="button-tooltip" className="switchTooltip" {...props}>
+              Switch
+            </Tooltip>
+          )}
+          placement="top"
+        >
+          <div className={clsx('switch-img-background', errorMessage && 'alignment-switch')}>
+            <div className="switch-img">
+              <div
+                className="swap-arrow-center-revamp  icon-animated"
+                onClick={props.changeTokenLocation}
+              >
+                <img src={props.theme === 'light' ? switchImg : switchImgDark} />
+              </div>
             </div>
           </div>
-        </div>
+        </OverlayTrigger>
         <div className="second-token-bg">
           <div className="swap-content-box ">
             <div

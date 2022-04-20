@@ -97,6 +97,7 @@ const SwapDetails = (props) => {
             'swap-detail-wrapper-open',
 
             isOpen && 'topToBottomFadeInAnimation-4-floater',
+            !isOpen && 'bottomToTopFadeInAnimation-4-floater',
           )}
         >
           {isOpen ? (
@@ -277,7 +278,7 @@ const SwapDetails = (props) => {
                       )}
                       <div
                         className={clsx(
-                          token.name === 'tez' || token.name === 'ctez'
+                          idx !== 0 && props.stableList[idx - 1] === true
                             ? 'stablepair-outline'
                             : 'route-Outline',
                         )}

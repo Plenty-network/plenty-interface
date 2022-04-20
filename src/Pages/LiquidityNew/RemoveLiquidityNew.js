@@ -322,33 +322,35 @@ const RemoveLiquidityNew = (props) => {
                   <div className="balance-lq ml-auto">
                     <p className="bal">
                       Balance:{' '}
-                      {props.isStableSwap ? (
-                        props.userBalances[
-                          CONFIG.STABLESWAP[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
-                            props.tokenOut.name
-                          ].liquidityToken
-                        ] >= 0 ? (
+                      <span className="balance-value-liq">
+                        {props.isStableSwap ? (
                           props.userBalances[
                             CONFIG.STABLESWAP[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
+                              props.tokenOut.name
+                            ].liquidityToken
+                          ] >= 0 ? (
+                            props.userBalances[
+                              CONFIG.STABLESWAP[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
+                                props.tokenOut.name
+                              ].liquidityToken
+                            ].toFixed(4)
+                          ) : (
+                            <div className="shimmer">0.0000</div>
+                          )
+                        ) : props.userBalances[
+                            CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
+                              props.tokenOut.name
+                            ].liquidityToken
+                          ] >= 0 ? (
+                          props.userBalances[
+                            CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
                               props.tokenOut.name
                             ].liquidityToken
                           ].toFixed(4)
                         ) : (
                           <div className="shimmer">0.0000</div>
-                        )
-                      ) : props.userBalances[
-                          CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
-                            props.tokenOut.name
-                          ].liquidityToken
-                        ] >= 0 ? (
-                        props.userBalances[
-                          CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
-                            props.tokenOut.name
-                          ].liquidityToken
-                        ].toFixed(4)
-                      ) : (
-                        <div className="shimmer">0.0000</div>
-                      )}{' '}
+                        )}{' '}
+                      </span>
                       <img
                         src={props.theme === 'light' ? maxlight : maxDark}
                         style={{ cursor: 'pointer' }}

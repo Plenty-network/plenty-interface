@@ -476,8 +476,11 @@
   border-radius: 16px;
 
   &:hover {
-    border: 1px solid var(--theme-border-light);
+    border: 1px solid var(--theme-hover-liq-input);
   }
+}
+.alignment-switch {
+  top: 123px !important;
 }
 .remove-lq-input-height {
   min-height: 120px !important;
@@ -505,7 +508,7 @@
     background: #f9fafa;
   }
   &.not-selected {
-    padding: 10px 6px;
+    padding: 8px 12px;
     background-color: var(--theme-not-selected-token);
     color: var(--theme-governance-buttonBorder);
   }
@@ -746,7 +749,7 @@
   position: absolute;
   left: 72%;
   right: 0;
-  top: 101px;
+  top: 103px;
 }
 
 .token-selector-balance-wrapper-swap {
@@ -1240,7 +1243,7 @@
   mix-blend-mode: normal;
   border: 0.863044px solid var(--theme-balance-border);
   box-sizing: border-box;
-  border-radius: 16px;
+  border-radius: 8px;
   &:hover {
     border: 0.863044px solid var(--theme-governance-buttonBorder);
     color: var(--theme-governance-buttonBorder);
@@ -1258,6 +1261,33 @@
     line-height: 16px;
     letter-spacing: 0em;
     color: var(--theme-balance-text-color);
+  }
+}
+.balance-lq-second {
+  padding: 15px 15px 15px 10px;
+  height: 46.5px;
+  background: var(--theme-balance-bg);
+  mix-blend-mode: normal;
+  border: 0.863044px solid var(--theme-balance-border);
+  box-sizing: border-box;
+  border-radius: 8px;
+  &:hover {
+    border: 0.863044px solid var(--theme-balance-onhover-second);
+    color: var(--theme-balance-onhover-second);
+    .bal {
+      color: var(--theme-balance-onhover-second);
+    }
+  }
+  @media screen and (min-width: 320px) and (max-width: 900px) {
+    padding: 14px 8px;
+  }
+  .bal {
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0em;
+    color: var(--theme-balance-border-second);
   }
 }
 .wallet-token-balance {
@@ -2192,8 +2222,8 @@ input:checked {
   color: var(--theme-header-text);
 }
 .divider-lq {
-  border-right: 2px solid #c0c0c0;
-  height: 14px;
+  border-right: 2px solid var(--theme-liq-divider);
+  height: 12px;
 }
 .position-details {
   background: var(--theme-card-bg);

@@ -533,10 +533,10 @@ const AddLiquidityNew = (props) => {
                   </Tooltip>
                 }
               >
-                <div className="balance-lq ml-auto">
+                <div className="balance-lq-second ml-auto">
                   <p className="bal">
                     Balance:{' '}
-                    <span className="balance-value-liq">
+                    <span>
                       {props.userBalances[props.tokenOut.name] >= 0 ? (
                         props.userBalances[props.tokenOut.name].toFixed(4)
                       ) : (
