@@ -5,7 +5,7 @@ import truncateMiddle from 'truncate-middle';
 import { Col, Container, Nav, Navbar, Row } from 'react-bootstrap';
 import clsx from 'clsx';
 import { ReactComponent as Logo } from '../../assets/images/logo.svg';
-import { ReactComponent as BannerArrow } from '../../assets/images/banner-arrow.svg';
+// import { ReactComponent as BannerArrow } from '../../assets/images/banner-arrow.svg';
 import { ReactComponent as LogoWhite } from '../../assets/images/logo-white.svg';
 import { Link, useLocation } from 'react-router-dom';
 import { RPC_NODE } from '../../constants/localStorage';
@@ -39,7 +39,7 @@ const Header = (props) => {
   const [selectedHeader, setSelectedHeader] = useState('');
   const [isExpanded, toggleExpand] = useState(false);
   const [open, setOpen] = useState(false);
-  const [isBannerOpen, setBannerOpen] = useState(false);
+  //const [isBannerOpen, setBannerOpen] = useState(false);
 
   useEffect(() => {
     const RPCNodeInLS = localStorage.getItem(RPC_NODE);
@@ -57,9 +57,9 @@ const Header = (props) => {
     setHeader('');
   }, [splitLocation[1]]);
 
-  const closeBanner = () => {
-    setBannerOpen(false);
-  };
+  // const closeBanner = () => {
+  //   setBannerOpen(false);
+  // };
 
   const connectWalletButton = () => {
     if (props.walletAddress) {
@@ -417,7 +417,6 @@ const Header = (props) => {
             selectedHeader={selectedHeader}
             isExpanded={isExpanded}
             page={splitLocation[1]}
-            isBannerOpen={isBannerOpen}
             {...props}
           />
         </div>
