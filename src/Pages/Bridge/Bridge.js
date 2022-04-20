@@ -63,11 +63,8 @@ const Bridge = (props) => {
   const [metamaskChain, setMetamaskChain] = useState(null);
   
   const loadedTokensList = useRef(null);
+  const switchButtonPressed = useRef(false);
   const operation = useRef('BRIDGE');
-
-  const setOperation = (value) => {
-    operation.current = value;
-  };
 
   const getTransactionListLength = useMemo(() => transactionData.length, [transactionData]);
 
@@ -88,6 +85,10 @@ const Bridge = (props) => {
   const [flashMessageContent, setFlashMessageContent] = useState('Message');
   const [isFlashMessageALink, setIsFlashMessageALink] = useState(false);
   const flashMessageLink = useRef('#');
+
+  const setOperation = (value) => {
+    operation.current = value;
+  };
 
   const setMintUnmintOpHash = (hash) => {
     mintUnmintOpHash.current = hash;
@@ -111,6 +112,10 @@ const Bridge = (props) => {
 
   const setSavedOperation = (data) => {
     savedOperation.current = data;
+  };
+
+  const setSwitchButtonPressed = (value) => {
+    switchButtonPressed.current = value;
   };
 
   const displayMessage = useCallback((messageObj) => {
@@ -197,18 +202,20 @@ const Bridge = (props) => {
           if (Object.prototype.hasOwnProperty.call(loadedTokensList.current.TEZOS, toBridge.name)) {
             //console.log('token list 3', loadedTokensList.current.TEZOS[toBridge.name][0]);
             setTokenList(loadedTokensList.current.TEZOS[toBridge.name]);
-            setTokenIn(loadedTokensList.current.TEZOS[toBridge.name][0]);
-            //Change after creating config.
-            const outTokenName = BridgeConfiguration.getOutTokenUnbridging(
-              toBridge.name,
-              loadedTokensList.current.TEZOS[toBridge.name][0].name,
-            );
-            setTokenOut({
-              name: outTokenName,
-              image: Object.prototype.hasOwnProperty.call(allTokens, outTokenName)
-                ? allTokens[outTokenName]
-                : allTokens.fallback,
-            });
+            if (!switchButtonPressed.current) {
+              setTokenIn(loadedTokensList.current.TEZOS[toBridge.name][0]);
+              //Change after creating config.
+              const outTokenName = BridgeConfiguration.getOutTokenUnbridging(
+                toBridge.name,
+                loadedTokensList.current.TEZOS[toBridge.name][0].name,
+              );
+              setTokenOut({
+                name: outTokenName,
+                image: Object.prototype.hasOwnProperty.call(allTokens, outTokenName)
+                  ? allTokens[outTokenName]
+                  : allTokens.fallback,
+              });
+            }
           } else {
             setTokenList([]);
             setTokenIn({
@@ -224,24 +231,27 @@ const Bridge = (props) => {
         } else {
           console.log('token list 2', loadedTokensList.current[fromBridge.name][0]);
           setTokenList(loadedTokensList.current[fromBridge.name]);
-          setTokenIn(loadedTokensList.current[fromBridge.name][0]);
-          // Change after creating config.
-          const outTokenName = BridgeConfiguration.getOutTokenBridging(
-            fromBridge.name,
-            loadedTokensList.current[fromBridge.name][0].name,
-          );
-          setTokenOut({
-            name: outTokenName,
-            image: Object.prototype.hasOwnProperty.call(allTokens, outTokenName)
-              ? allTokens[outTokenName]
-              : allTokens.fallback,
-          });
+          if (!switchButtonPressed.current) {
+            setTokenIn(loadedTokensList.current[fromBridge.name][0]);
+            // Change after creating config.
+            const outTokenName = BridgeConfiguration.getOutTokenBridging(
+              fromBridge.name,
+              loadedTokensList.current[fromBridge.name][0].name,
+            );
+            setTokenOut({
+              name: outTokenName,
+              image: Object.prototype.hasOwnProperty.call(allTokens, outTokenName)
+                ? allTokens[outTokenName]
+                : allTokens.fallback,
+            });
+          }
         }
       }
       setCurrentChain(fromBridge.name === 'TEZOS' ? toBridge.name : fromBridge.name);
       savedFromBridge.current = fromBridge;
       savedToBridge.current = toBridge;
       savedOperation.current = operation.current;
+      setSwitchButtonPressed(false);
     } else {
       initialRender.current = false;
     }
@@ -363,7 +373,7 @@ const Bridge = (props) => {
                 setOperation={setOperation}
                 tokenList={tokenList}
                 setTokenList={setTokenList}
-                loadedTokensList={loadedTokensList}
+                loadedTokensList={loadedTokensList.current}
                 theme={props.theme}
                 setOpeningFromHistory={setOpeningFromHistory}
                 metamaskAddress={metamaskAddress}
@@ -371,6 +381,7 @@ const Bridge = (props) => {
                 currentChain={currentChain}
                 metamaskChain={metamaskChain}
                 displayMessage={displayMessage}
+                setSwitchButtonPressed={setSwitchButtonPressed}
               />
             )}
             {transaction === 2 && (

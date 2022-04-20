@@ -79,7 +79,7 @@
 .bridgeModal {
   box-shadow: var(--theme-swap-boxshadow);
   border:1px solid var(--theme-bridge-history-border);
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 22px 32px;
   margin: auto;
   overflow-y: auto;
@@ -187,8 +187,8 @@
 }
 
 .shimmerEffect {
-  background: #f6f7f8;
-  background-image: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+  background: var(--theme-bridge-shimmer-bg);
+  background-image: linear-gradient(to right, var(--theme-bridge-shimmer-bg) 0%, var(--theme-bridge-shimmer-shine) 20%, var(--theme-bridge-shimmer-bg) 40%, var(--theme-bridge-shimmer-bg) 100%);
   background-repeat: no-repeat;
   background-size: 800px 104px; 
   display: inline-block;

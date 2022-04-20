@@ -143,7 +143,7 @@ const BridgeUnbridgeModal = (props) => {
 
   return (
     <>
-      <p className={styles.contentLabel}>Approving</p>
+      <p className={styles.contentLabel}>{operation === 'BRIDGE' ? 'Bridging' : 'Unbridging'}</p>
       <p className={styles.contentDes}>{description}</p>
       {operation === 'BRIDGE' && (
         <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>

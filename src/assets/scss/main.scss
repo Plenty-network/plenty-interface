@@ -223,8 +223,8 @@ hr {
 }
 
 .switchTooltip .tooltip-inner {
-  background-color: #282828;
-  color: #fff;
+  background-color: var(--theme-tooltip-bg);
+  color: var(--theme-tooltip-text);
   position: static;
   left:auto;
   top: auto;
@@ -233,8 +233,8 @@ hr {
 .connect-wallet-tooltip{
   z-index: 9999 !important;
   .tooltip-inner {
-    background-color: #282828;
-    color: #fff;
+    background-color: var(--theme-tooltip-bg);
+    color: var(--theme-tooltip-text);
     position: static;
     left:auto;
     top: auto;
@@ -247,7 +247,7 @@ hr {
     margin-top: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: transparent transparent transparent #282828;
+    border-color: transparent transparent transparent var(--theme-tooltip-bg);
   }
 }
 
@@ -260,6 +260,6 @@ hr {
     margin-top: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: #282828 transparent transparent transparent;
+    border-color: var(--theme-tooltip-bg) transparent transparent transparent;
   }
 }

@@ -110,6 +110,7 @@ const BridgeModal = (props) => {
     currentChain,
     metamaskChain,
     displayMessage,
+    setSwitchButtonPressed,
   } = props;
 
   //const [tokenList, setTokenList] = useState(tokensList[fromBridge.name]);
@@ -195,7 +196,7 @@ const BridgeModal = (props) => {
         if (balanceResult.success) {
           setUserTokenBalance(Number(balanceResult.balance) / 10 ** tokenIn.tokenData.DECIMALS);
         } else {
-          setUserTokenBalance(null);
+          setUserTokenBalance(-1);
         }
         console.log(tokenIn.tokenData.DECIMALS);
         console.log(Number(balanceResult.balance) / 10 ** tokenIn.tokenData.DECIMALS);
@@ -222,12 +223,12 @@ const BridgeModal = (props) => {
           //setUserTokenBalance(Number('10'));
           console.log(Number(balanceResult.balance));
         } else {
-          setUserTokenBalance(null);
+          setUserTokenBalance(-1);
         }
         console.log(BridgeConfiguration.getOutTokenUnbridgingWhole(toBridge.name, tokenIn.name));
       }
     } else {
-      setUserTokenBalance(null);
+      setUserTokenBalance(-1);
     }
   }, [tokenIn, walletAddress, metamaskAddress, metamaskChain]);
   /* useEffect(() => {
@@ -284,7 +285,8 @@ const BridgeModal = (props) => {
         input === '' ||
         isNaN(input) ||
         tokenIn.name === 'Token NA' ||
-        userTokenBalance === null
+        userTokenBalance === null ||
+        userTokenBalance < 0
       ) {
         setFirstTokenAmount('');
         setSecondTokenAmount('');
@@ -334,7 +336,7 @@ const BridgeModal = (props) => {
     if (firstTokenAmount === '' || isNaN(firstTokenAmount) || firstTokenAmount === 0) {
       setErrorMessage('Enter the amount and proceed');
       setIsError(true);
-    } else if (firstTokenAmount > userBalances[tokenIn.name]) {
+    } else if (firstTokenAmount > userTokenBalance) {
       setErrorMessage('Insufficient balance');
       setIsError(true);
     } else {
@@ -572,6 +574,7 @@ const BridgeModal = (props) => {
 
   const switchHandler = () => {
     //setOperation((prevOperation) => prevOperation === 'BRIDGE' ? 'UNBRIDGE' : 'BRIDGE');
+    setSwitchButtonPressed(true);
     setFirstTokenAmount('');
     setSecondTokenAmount('');
     setFee(0);
@@ -585,6 +588,16 @@ const BridgeModal = (props) => {
       image: toBridge.image,
       buttonImage: toBridge.buttonImage,
     };
+    const currentTokenIn = tokenIn.name;
+    const currentTokenOut = tokenOut.name;
+    //console.log(loadedTokensList);
+    const tokenData =
+      operation === 'BRIDGE'
+        ? loadedTokensList.TEZOS[currentFrom.name].find((token) => token.name === currentTokenOut)
+            .tokenData
+        : loadedTokensList[currentTo.name].find((token) => token.name === currentTokenOut)
+            .tokenData;
+    
     setToBridge({
       name: currentFrom.name,
       image: currentFrom.image,
@@ -595,6 +608,21 @@ const BridgeModal = (props) => {
       image: currentTo.image,
       buttonImage: currentTo.buttonImage,
     });
+    //setTimeout(() => {
+      setTokenIn({
+        name: currentTokenOut,
+        image: Object.prototype.hasOwnProperty.call(allTokens, currentTokenOut)
+        ? allTokens[currentTokenOut]
+        : allTokens.fallback,
+        tokenData
+      });
+      setTokenOut({
+        name: currentTokenIn,
+        image: Object.prototype.hasOwnProperty.call(allTokens, currentTokenIn)
+        ? allTokens[currentTokenIn]
+        : allTokens.fallback,
+      });
+    //}, 10);
     if (operation === 'BRIDGE') {
       setOperation('UNBRIDGE');
       //operation.current = 'UNBRIDGE';
@@ -704,6 +732,14 @@ const BridgeModal = (props) => {
                   </span>
                 </>
               )}
+              {
+                userTokenBalance === null && (
+                  <>
+                    Balance:{' '}
+                    <span className="shimmer">0.0000</span>
+                  </>
+                )
+              }
               {/* {walletAddress ? (
                 <>
                   Balance:{' '}
@@ -769,7 +805,7 @@ const BridgeModal = (props) => {
             </span>
           </div>
           <p className={clsx('mt-2', styles.feeEstimateText)}>
-            Estimated fee: <span style={{ fontWeight: '700' }}>{Number(fee).toFixed(6)}</span>
+            Estimated fee: <span style={{ fontWeight: '700' }}>{Number(fee) > 0 ?Number(fee).toFixed(6) : 0}</span>
           </p>
 
           {metamaskAddress === null ? (
@@ -861,6 +897,7 @@ BridgeModal.propTypes = {
   currentChain: PropTypes.any,
   metamaskChain: PropTypes.any,
   displayMessage: PropTypes.any,
+  setSwitchButtonPressed: PropTypes.any,
 };
 
 export default BridgeModal;

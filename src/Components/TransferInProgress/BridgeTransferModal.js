@@ -38,6 +38,7 @@ const BridgeTransferModal = (props) => {
   const [animationCalss, SetAnimationClass] = useState('leftToRightFadeInAnimation-4-bridge');
   //const [currentProgress,SetCurrentProgress]=useState(4);
   const [isButtonLoading, SetIsButtonLoading] = useState(false);
+  const [isApproveLoading, setIsApproveLoading] = useState(false);
   const approveHash = useRef(null);
   //const [mintUnmintOpHash, setMintUnmintOpHash] = useState(null);
   //const mintUnmintOpHash = useRef(null);
@@ -621,7 +622,7 @@ const BridgeTransferModal = (props) => {
               {currentProgress === 0 && (
                 <p
                   className={styles.arrowback}
-                  onClick={() => {
+                  onClick={isApproveLoading ? null :() => {
                     setBack(1);
                   }}
                   style={{ cursor: 'pointer' }}
@@ -642,9 +643,9 @@ const BridgeTransferModal = (props) => {
                 <p className={styles.TransferInProgress}>Transfer in progress</p>
               )}
             </div>
-            {currentProgress === numberOfSteps.length && (
+            {(currentProgress === numberOfSteps.length || currentProgress === 2) && (
               <div>
-                <img
+                {currentProgress === numberOfSteps.length && (<img
                   src={theme === 'light' ? HistoryIcon : HistoryIconDark}
                   alt="History"
                   className={`${styles.historyIcon} ${styles.transactionIcons}`}
@@ -652,7 +653,7 @@ const BridgeTransferModal = (props) => {
                     resetToDefaultStates();
                     setTransaction(2);
                   }}
-                ></img>
+                ></img>)}
                 <img
                   src={theme === 'light' ? HomeIcon : HomeIconDark}
                   alt="Home"
@@ -665,7 +666,7 @@ const BridgeTransferModal = (props) => {
               </div>
             )}
           </div>
-          <div className={`mb-3 mt-2 ${styles.lineBottom} `}></div>
+          <div className={`mb-4 mt-2 ${styles.lineBottom} `}></div>
           <div className={styles.resultsHeader}>
             {operation === 'BRIDGE'
               ? numberOfSteps.map((currentStep, index) => {
@@ -708,6 +709,9 @@ const BridgeTransferModal = (props) => {
               setApproveHash={setApproveHash}
               theme={theme}
               displayMessage={displayMessage}
+              resetToDefaultStates={resetToDefaultStates}
+              isApproveLoading={isApproveLoading}
+              setIsApproveLoading={setIsApproveLoading}
             />
           )}
           {currentProgress === 1 && (

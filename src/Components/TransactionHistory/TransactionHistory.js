@@ -309,6 +309,17 @@ const TransactionHistory = (props) => {
     if (data.success) {
       setTransactionData(data.history);
       setIsLoading(false);
+    } else {
+      setTransactionData([]);
+      displayMessage({
+        type: 'error',
+        duration: FLASH_MESSAGE_DURATION,
+        title: 'Fetch Error',
+        content: 'Failed to fetch transaction history. Please retry after some time.',
+        isFlashMessageALink: false,
+        flashMessageLink: '#',
+      });
+      setIsLoading(false);
     }
   }, []);
 

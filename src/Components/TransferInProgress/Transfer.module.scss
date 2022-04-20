@@ -24,8 +24,8 @@
   box-shadow: var(--theme-swap-boxshadow);
   background: var(--theme-card-bg);
   border:1px solid var(--theme-bridge-history-border);
-  border-radius: 12px;
-  padding: 22px 32px;
+  border-radius: 16px;
+  padding: 32px 32px 22px 32px;
   margin: auto;
   overflow-y: auto;
   width: 520px;
@@ -104,6 +104,7 @@
   line-height: 18px;
   letter-spacing: 0em;
   color: #b0b7c3;
+  margin-bottom: 0px;
 }
 .width {
   width: 50%;
@@ -222,4 +223,9 @@
 
 .historyIcon {
   margin-right: 20px;
+}
+
+.confirmTextWrapper {
+  align-items: center;
+  display: flex;
 }

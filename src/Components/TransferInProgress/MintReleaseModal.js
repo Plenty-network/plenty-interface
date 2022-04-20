@@ -105,17 +105,17 @@ const MintReleaseModal = (props) => {
       </p>
       <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
       <div className={styles.resultsHeader}>
-        <div className={`${styles.bottomInfo} ${styles.width}`}>
+        <div className={`${styles.bottomInfo} ${styles.width} ${styles.confirmTextWrapper}`}>
           {awaitingConfirmation ? (
             <p>Awating confirmation..</p>
           ) : (
             confirmationsCount !== 0 && confirmationsRequired !== 0 && confirmationsCount >= confirmationsRequired ? (
               <p>
-                Waiting for signatures {signaturesCount}/{signaturesRequired}
+                Waiting for signatures <span className={styles.feeValue}>{signaturesCount}/{signaturesRequired}</span>
               </p>
             ) : (
               <p>
-                Waiting for confirmations {confirmationsCount}/{confirmationsRequired}
+                Waiting for confirmations <span className={styles.feeValue}>{confirmationsCount}/{confirmationsRequired}</span>
               </p>
             )
           )}

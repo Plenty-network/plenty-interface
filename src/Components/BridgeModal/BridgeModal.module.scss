@@ -398,12 +398,12 @@
 }
 
 #switchTooltip {
-  background-color: #282828;
-  color: white;
+  background-color: var(--theme-tooltip-bg);
+  color: var(--theme-tooltip-text);
   border-radius: 8px;
   margin-left: 1rem;
   .tooltip-inner {
-    background-color: #282828 !important;
+    background-color: var(--theme-tooltip-bg) !important;
   }
   &::after {
     content: "";
@@ -413,7 +413,7 @@
     margin-top: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: transparent #282828 transparent transparent;
+    border-color: transparent var(--theme-tooltip-bg) transparent transparent;
   }
 }
 
@@ -497,5 +497,5 @@
 }
 
 .toBridgeSelected { 
-  box-shadow: 0px 2px 11px rgba(22, 3, 50, 0.2);
+  box-shadow: var(--theme-bridge-main-to-box-shadow);
 }

@@ -13,7 +13,7 @@ import { FLASH_MESSAGE_DURATION } from '../../constants/global';
 //import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
 
 const ApproveModal = (props) => {
-  const [isButtonLoading, SetIsButtonLoading] = useState(false);
+  //const [isButtonLoading, SetIsButtonLoading] = useState(false);
 
   const {
     description,
@@ -34,6 +34,9 @@ const ApproveModal = (props) => {
     setApproveHash,
     theme,
     displayMessage,
+    resetToDefaultStates,
+    isApproveLoading,
+    setIsApproveLoading,
   } = props;
 
   useEffect(() => {
@@ -41,7 +44,7 @@ const ApproveModal = (props) => {
   }, []);
 
   const approveButtonClick = async () => {
-    SetIsButtonLoading(true);
+    setIsApproveLoading(true);
     const approveResult = await approveToken(tokenIn, fromBridge.name, firstTokenAmount);
     console.log('Approve Results: ');
     console.log(approveResult);
@@ -57,7 +60,7 @@ const ApproveModal = (props) => {
         isFlashMessageALink: false,
         flashMessageLink: '#',
       });
-      SetIsButtonLoading(false);
+      setIsApproveLoading(false);
       SetCurrentProgress(currentProgress + 1);
     } else {
       console.log(approveResult.error);
@@ -69,7 +72,7 @@ const ApproveModal = (props) => {
         isFlashMessageALink: false,
         flashMessageLink: '#',
       });
-      SetIsButtonLoading(false);
+      setIsApproveLoading(false);
     }
     /* dummyApiCall({ currentProgress: currentProgress }).then((res) => {
       const newIndex = getTransactionListLength();
@@ -109,7 +112,10 @@ const ApproveModal = (props) => {
           <Button
             color={'default'}
             className={`mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
-            onClick={() => setBack(1)}
+            onClick={isApproveLoading ? null : () => {
+              resetToDefaultStates();
+              setBack(1);
+            }}
           >
             Cancel
           </Button>
@@ -119,7 +125,7 @@ const ApproveModal = (props) => {
             color={'primary'}
             className={`xplenty-btn mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
             onClick={approveButtonClick}
-            loading={isButtonLoading}
+            loading={isApproveLoading}
           >
             Approve
           </Button>
@@ -159,6 +165,9 @@ ApproveModal.propTypes = {
   setApproveHash: PropTypes.any,
   theme: PropTypes.any,
   displayMessage: PropTypes.any,
+  resetToDefaultStates: PropTypes.any,
+  isApproveLoading: PropTypes.any,
+  setIsApproveLoading: PropTypes.any,
 };
 
 export default ApproveModal;

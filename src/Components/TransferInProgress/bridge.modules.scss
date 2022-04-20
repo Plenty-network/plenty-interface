@@ -80,7 +80,7 @@
      }
     }
     .shaded{
-        box-shadow: var(--theme-bridge-selector-box-shadow);
+        box-shadow: 0px 4px 9px 9px var(--theme-bridge-trans-shaded-shadow);
         border-radius: 8px;
         background: var(--theme-bridge-selector-bg);
         border: 0.803667px solid var(--theme-bridge-selector-border);
@@ -88,11 +88,12 @@
         height: 70px;
     }
     .success{
-        border-radius: 4px;
+        border-radius: 8px;
         background: rgba(22, 161, 53, 0.02);
         border: 1px solid #16A135;
         margin-bottom: 10px;
         height: 74px;
+        box-shadow: 0px 8px 14px var(--theme-bridge-trans-success-shadow);
     }
 }
 .leftToRightFadeInAnimation {
