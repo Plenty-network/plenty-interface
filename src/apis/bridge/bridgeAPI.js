@@ -345,39 +345,46 @@ chain:chain selected
 amount: Amount to wrap
   */
 export const approveToken = async (tokenIn, chain, amount) => {
-  const web3 = new Web3(window.ethereum);
-  const userData = await getUserAddress();
-  if (userData.success && userData.address) {
-    const userAddress = userData.address;
-    const wrapContractAddress = BridgeConfiguration.getWrapContract(chain);
-    const tokenContract = new web3.eth.Contract(ERC20_ABI, tokenIn.tokenData.CONTRACT_ADDRESS);
-    const amountToAprove = amount * 10 ** tokenIn.tokenData.DECIMALS;
-    let result;
-    await tokenContract.methods
-      .approve(wrapContractAddress, amountToAprove.toString())
-      .send({
-        from: userAddress,
-      })
-      .on('receipt', function (receipt) {
-        console.log('receipt', receipt);
-        result = {
-          success: true,
-          transactionHash: receipt.transactionHash,
-          amount: amount,
-        };
-      })
-      .on('error', function (error) {
-        result = {
-          success: false,
-          error: error,
-        };
-      });
+  try {
+    const web3 = new Web3(window.ethereum);
+    const userData = await getUserAddress();
+    if (userData.success && userData.address) {
+      const userAddress = userData.address;
+      const wrapContractAddress = BridgeConfiguration.getWrapContract(chain);
+      const tokenContract = new web3.eth.Contract(ERC20_ABI, tokenIn.tokenData.CONTRACT_ADDRESS);
+      const amountToAprove = amount * 10 ** tokenIn.tokenData.DECIMALS;
+      let result;
+      await tokenContract.methods
+        .approve(wrapContractAddress, amountToAprove.toString())
+        .send({
+          from: userAddress,
+        })
+        .on('receipt', function (receipt) {
+          console.log('receipt', receipt);
+          result = {
+            success: true,
+            transactionHash: receipt.transactionHash,
+            amount: amount,
+          };
+        })
+        .on('error', function (error) {
+          result = {
+            success: false,
+            error: error,
+          };
+        });
 
-    return result;
-  } else {
+      return result;
+    } else {
+      return {
+        success: false,
+        error: userData.error,
+      };
+    }
+  } catch (e) {
     return {
       success: false,
-      error: userData.error,
+      error: e,
     };
   }
 };
@@ -400,41 +407,48 @@ tzAddress: users's tezos address
 returns a transaction hash which will be used to call getMintStatus
   */
 export const wrap = async (tokenIn, chain, amount, tzAddress) => {
-  console.log(tzAddress);
-  const web3 = new Web3(window.ethereum);
-  const userData = await getUserAddress();
-  if (userData.success && userData.address) {
-    const userAddress = userData.address;
-    const wrapContractAddress = BridgeConfiguration.getWrapContract(chain);
-    console.log(wrapContractAddress);
-    const tokenContractAddress = tokenIn.tokenData.CONTRACT_ADDRESS;
-    console.log(tokenContractAddress);
-    const amountToWrap = amount * 10 ** tokenIn.tokenData.DECIMALS;
-    const wrapContract = new web3.eth.Contract(CUSTODIAN_ABI, wrapContractAddress);
-    let result;
-    await wrapContract.methods
-      .wrapERC20(tokenContractAddress, amountToWrap.toString(), tzAddress)
-      .send({
-        from: userAddress,
-      })
-      .on('receipt', function (receipt) {
-        console.log('receipt', receipt);
-        result = {
-          success: true,
-          transactionHash: receipt.transactionHash,
-        };
-      })
-      .on('error', function (error) {
-        result = {
-          success: false,
-          error: error,
-        };
-      });
-    return result;
-  } else {
+  try {
+    console.log(tzAddress);
+    const web3 = new Web3(window.ethereum);
+    const userData = await getUserAddress();
+    if (userData.success && userData.address) {
+      const userAddress = userData.address;
+      const wrapContractAddress = BridgeConfiguration.getWrapContract(chain);
+      console.log(wrapContractAddress);
+      const tokenContractAddress = tokenIn.tokenData.CONTRACT_ADDRESS;
+      console.log(tokenContractAddress);
+      const amountToWrap = amount * 10 ** tokenIn.tokenData.DECIMALS;
+      const wrapContract = new web3.eth.Contract(CUSTODIAN_ABI, wrapContractAddress);
+      let result;
+      await wrapContract.methods
+        .wrapERC20(tokenContractAddress, amountToWrap.toString(), tzAddress)
+        .send({
+          from: userAddress,
+        })
+        .on('receipt', function (receipt) {
+          console.log('receipt', receipt);
+          result = {
+            success: true,
+            transactionHash: receipt.transactionHash,
+          };
+        })
+        .on('error', function (error) {
+          result = {
+            success: false,
+            error: error,
+          };
+        });
+      return result;
+    } else {
+      return {
+        success: false,
+        error: userData.error,
+      };
+    }
+  } catch (e) {
     return {
       success: false,
-      error: userData.error,
+      error: e,
     };
   }
 };
@@ -878,5 +892,75 @@ export const getCurrentNetwork = async () => {
   } catch (err) {
     console.log(err);
     throw new Error(err.message);
+  }
+};
+
+/* use to get allowance, returns amount without decimals
+tokenAddress: address of the token
+userAddress: address of the user ETHEREUM
+chain */
+export const getAllowance = async (tokenIn, userAddress, chain) => {
+  try {
+    const web3 = new Web3(window.ethereum);
+
+    const tokenContract = new web3.eth.Contract(ERC20_ABI, tokenIn.tokenData.CONTRACT_ADDRESS);
+    const wrapContractAddress = BridgeConfiguration.getWrapContract(chain);
+    const allowance = await tokenContract.methods
+      .allowance(userAddress, wrapContractAddress)
+      .call();
+    return {
+      success: true,
+      allowance: allowance / 10 ** tokenIn.tokenData.DECIMALS,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      allowance: 0,
+      error: error.message,
+    };
+  }
+};
+
+/* this function returns action required tx count */
+export const getActionRequiredCount = async ({ ethereumAddress, tzAddress }) => {
+  console.log(tzAddress, ethereumAddress);
+  try {
+    const networkSelected = CONFIG.NETWORK;
+    const availableChainsObject = CONFIG.BRIDGES_INDEXER_LINKS[networkSelected];
+    let count = 0;
+    for (const chain of Object.keys(BridgeConfiguration.getConfig())) {
+      const indexerLink = availableChainsObject[chain].slice(0, -13);
+      const unwraps = await axios.get(indexerLink + 'unwraps', {
+        params: {
+          tezosAddress: tzAddress ? tzAddress : '',
+          ethereumAddress: ethereumAddress ? ethereumAddress : '',
+          type: 'ERC20',
+          status: 'asked',
+        },
+      });
+
+      const unwrapsCount = unwraps.data.result.length;
+
+      const wraps = await axios.get(indexerLink + 'wraps', {
+        params: {
+          tezosAddress: tzAddress ? tzAddress : '',
+          ethereumAddress: ethereumAddress ? ethereumAddress : '',
+          type: 'ERC20',
+          status: 'asked',
+        },
+      });
+
+      const wrapsCount = wraps.data.result.length;
+      count = count + unwrapsCount + wrapsCount;
+    }
+
+    return {
+      count: count,
+    };
+  } catch (e) {
+    console.log(e);
+    return {
+      count: 0,
+    };
   }
 };
