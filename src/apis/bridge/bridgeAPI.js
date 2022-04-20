@@ -899,24 +899,68 @@ export const getCurrentNetwork = async () => {
 tokenAddress: address of the token
 userAddress: address of the user ETHEREUM
 chain */
-export const getAllowance = async (tokenAddress, userAddress, chain) => {
+export const getAllowance = async (tokenIn, userAddress, chain) => {
   try {
     const web3 = new Web3(window.ethereum);
 
-    const tokenContract = new web3.eth.Contract(ERC20_ABI, tokenAddress);
+    const tokenContract = new web3.eth.Contract(ERC20_ABI, tokenIn.tokenData.CONTRACT_ADDRESS);
     const wrapContractAddress = BridgeConfiguration.getWrapContract(chain);
     const allowance = await tokenContract.methods
       .allowance(userAddress, wrapContractAddress)
       .call();
     return {
       success: true,
-      allowance: allowance,
+      allowance: allowance / 10 ** tokenIn.tokenData.DECIMALS,
     };
   } catch (error) {
     return {
       success: false,
       allowance: 0,
       error: error.message,
+    };
+  }
+};
+
+/* this function returns action required tx count */
+export const getActionRequiredCount = async ({ ethereumAddress, tzAddress }) => {
+  console.log(tzAddress, ethereumAddress);
+  try {
+    const networkSelected = CONFIG.NETWORK;
+    const availableChainsObject = CONFIG.BRIDGES_INDEXER_LINKS[networkSelected];
+    let count = 0;
+    for (const chain of Object.keys(BridgeConfiguration.getConfig())) {
+      const indexerLink = availableChainsObject[chain].slice(0, -13);
+      const unwraps = await axios.get(indexerLink + 'unwraps', {
+        params: {
+          tezosAddress: tzAddress ? tzAddress : '',
+          ethereumAddress: ethereumAddress ? ethereumAddress : '',
+          type: 'ERC20',
+          status: 'asked',
+        },
+      });
+
+      const unwrapsCount = unwraps.data.result.length;
+
+      const wraps = await axios.get(indexerLink + 'wraps', {
+        params: {
+          tezosAddress: tzAddress ? tzAddress : '',
+          ethereumAddress: ethereumAddress ? ethereumAddress : '',
+          type: 'ERC20',
+          status: 'asked',
+        },
+      });
+
+      const wrapsCount = wraps.data.result.length;
+      count = count + unwrapsCount + wrapsCount;
+    }
+
+    return {
+      count: count,
+    };
+  } catch (e) {
+    console.log(e);
+    return {
+      count: 0,
     };
   }
 };
