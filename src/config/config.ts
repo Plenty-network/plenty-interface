@@ -4426,11 +4426,11 @@ const Config: IConfig = {
     mapId: 55983,
   },
 
-  NETWORK: 'testnet',
-  WALLET_NETWORK: 'hangzhounet',
+  // NETWORK: 'testnet',
+  // WALLET_NETWORK: 'hangzhounet',
 
-  // NETWORK: 'mainnet',
-  // WALLET_NETWORK: 'mainnet',
+  NETWORK: 'mainnet',
+  WALLET_NETWORK: 'mainnet',
 
   ADMIN_ADDRESS: 'KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW',
   BURNER: 'tz1ZnK6zYJrC9PfKCPryg9tPW6LrERisTGtg',

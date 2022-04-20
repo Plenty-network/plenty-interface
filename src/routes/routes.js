@@ -168,7 +168,7 @@ const MyRoutes = (props) => {
                 </OtherPages>
               }
             />
-            <Route
+            {/* <Route
               path="/wrappedAssets"
               element={
                 <OtherPages {...otherPageProps}>
@@ -179,7 +179,7 @@ const MyRoutes = (props) => {
                   />
                 </OtherPages>
               }
-            />
+            /> */}
             <Route
               path="/bridge"
               element={

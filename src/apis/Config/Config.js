@@ -5,13 +5,17 @@ export const loadConfiguration = async () => {
   try {
     const networkSelected = CONFIG.NETWORK;
     const availableChainsObject = CONFIG.BRIDGES_INDEXER_LINKS[networkSelected];
-    const availableChainsArray = Object.keys(availableChainsObject).map((chain) => ({name: chain, url: availableChainsObject[chain]}));
+    const availableChainsArray = Object.keys(availableChainsObject).map((chain) => ({
+      name: chain,
+      url: availableChainsObject[chain],
+    }));
     const finalConfig = {};
-    //console.log(availableChainsArray);
-    const results = await Promise.allSettled(availableChainsArray.map((chain) => axios.get(chain.url)));
-    //console.log(results);
+    const results = await Promise.allSettled(
+      availableChainsArray.map((chain) => axios.get(chain.url)),
+    );
+
     results.forEach((result, index) => {
-      if(result.status === 'fulfilled') {
+      if (result.status === 'fulfilled') {
         const data = result.value.data;
         finalConfig[availableChainsArray[index].name] = {};
         const chainObject = finalConfig[availableChainsArray[index].name];
@@ -33,7 +37,7 @@ export const loadConfiguration = async () => {
         const tezosTokens = chainObject.TEZOS.WRAPPED_TOKENS;
 
         data.tokens.forEach((token) => {
-          if(token.type === 'ERC20') {
+          if (token.type === 'ERC20') {
             tokens[token.ethereumSymbol] = {};
             const tokenName = tokens[token.ethereumSymbol];
             tokenName.TYPE = token.type;
@@ -45,7 +49,7 @@ export const loadConfiguration = async () => {
             tokenName.WRAPPED_TOKEN.NAME = token.tezosSymbol;
             tokenName.WRAPPED_TOKEN.TOKEN_ID = token.tezosTokenId;
             tokenName.WRAPPED_TOKEN.THUMB_URI = token.thumbnailUri;
-            // Create list of tezos ref tokens and their corresponding unwrapped tokens 
+            // Create list of tezos ref tokens and their corresponding unwrapped tokens
             tezosTokens[token.tezosSymbol] = {};
             const tezosTokenName = tezosTokens[token.tezosSymbol];
             tezosTokenName.SYMBOL = token.tezosSymbol;
@@ -56,13 +60,12 @@ export const loadConfiguration = async () => {
             tezosTokenName.UNWRAPPED_TOKEN.DECIMALS = token.decimals;
           }
         });
-        //console.log(data);
       }
     });
-    //console.log(finalConfig);
+
     return {
       success: true,
-      data: finalConfig
+      data: finalConfig,
     };
   } catch (error) {
     return {

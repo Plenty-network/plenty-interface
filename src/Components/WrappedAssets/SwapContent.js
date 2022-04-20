@@ -15,7 +15,6 @@ import { setLoader } from '../../redux/slices/settings/settings.slice';
 import LpPair from '../SwapTabsContent/LpPair';
 
 const SwapContent = (props) => {
-  console.log(props.userBalances);
   const [firstTokenAmount, setFirstTokenAmount] = useState();
   const [secondTokenAmount, setSecondTokenAmount] = useState();
   const [firstAmount, setFirstAmount] = useState(0);

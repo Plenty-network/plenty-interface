@@ -143,7 +143,7 @@ export const swapTokens = async (
           ]),
         );
     }
-    console.log(batch);
+
     const batchOperation = await batch.send();
     setShowConfirmTransaction(false);
 
@@ -256,7 +256,6 @@ export const swapTokenUsingRoute = async (
         .withContractCall(tokenInInstance.methods.transfer(caller, routerAddress, swapAmount))
         .withContractCall(routerInstance.methods.routerSwap(DataMap, swapAmount, caller));
     } else {
-      //console.log({ caller, routerAddress, tokenInId, swapAmount });
       batch = Tezos.wallet
         .batch()
         .withContractCall(
@@ -452,7 +451,6 @@ export const computeTokenOutForRouteBaseByOutAmount = (outputAmount, swapData, s
     // minimum_Out_Plenty =
     //   inToMidOutput.tokenOut_amount - (slippage * inToMidOutput.tokenOut_amount) / 100;
 
-    // console.log({ minimum_Out_Plenty, actual: inToMidOutput.minimum_Out });
     return {
       tokenIn_amount: midToOutOutput.tokenOut_amount,
       tokenOut_amount: outputAmount,
@@ -526,7 +524,6 @@ export const computeTokenOutput = (
   slippage,
 ) => {
   try {
-    console.log({ tokenIn_amount, tokenIn_supply, tokenOut_supply, exchangeFee, slippage });
     let tokenOut_amount = 0;
     tokenOut_amount = (1 - exchangeFee) * tokenOut_supply * tokenIn_amount;
     tokenOut_amount /= tokenIn_supply + (1 - exchangeFee) * tokenIn_amount;

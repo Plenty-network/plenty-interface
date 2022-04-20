@@ -185,7 +185,7 @@ export const getAllRoutes = async (tokenIn, tokenOut) => {
       path: [],
       swapData: [],
       tokenOutPerTokenIn: 0,
-      isStableList : [],
+      isStableList: [],
     };
 
     allPathsUtil(tokenIn, tokenOut, paths, vis, path);
@@ -329,17 +329,6 @@ const computeTokenOutputV2 = (
   try {
     if ((tokenIn === 'ctez' && tokenOut === 'tez') || (tokenIn === 'tez' && tokenOut === 'ctez')) {
       if (tokenIn === 'ctez') {
-        console.log(
-          calculateTokensOutStable(
-            tokenIn_supply * 10 ** 6,
-            tokenOut_supply * 10 ** 6,
-            tokenIn_amount,
-            1 / exchangeFee,
-            slippage,
-            parseInt(target),
-            tokenIn,
-          ),
-        );
         return calculateTokensOutStable(
           tokenOut_supply * 10 ** 6,
           tokenIn_supply * 10 ** 6,
@@ -350,17 +339,6 @@ const computeTokenOutputV2 = (
           tokenIn,
         );
       } else {
-        console.log(
-          calculateTokensOutStable(
-            tokenIn_supply * 10 ** 6,
-            tokenOut_supply * 10 ** 6,
-            tokenIn_amount,
-            1 / exchangeFee,
-            slippage,
-            parseInt(target),
-            tokenIn,
-          ),
-        );
         return calculateTokensOutStable(
           tokenIn_supply * 10 ** 6,
           tokenOut_supply * 10 ** 6,
@@ -372,16 +350,6 @@ const computeTokenOutputV2 = (
         );
       }
     } else {
-      console.log({
-        tokenIn_amount,
-        tokenIn_supply,
-        tokenOut_supply,
-        exchangeFee,
-        slippage,
-        tokenIn,
-        tokenOut,
-        target,
-      });
       let tokenOut_amount = 0;
       tokenOut_amount = (1 - exchangeFee) * tokenOut_supply * tokenIn_amount;
       tokenOut_amount /= tokenIn_supply + (1 - exchangeFee) * tokenIn_amount;
@@ -397,7 +365,7 @@ const computeTokenOutputV2 = (
       priceImpact = priceImpact.toFixed(5);
       priceImpact = Math.abs(priceImpact);
       priceImpact = priceImpact * 100;
-      console.log({ tokenOut_amount, fees, minimum_Out, priceImpact });
+
       return {
         tokenOut_amount,
         fees,
@@ -439,7 +407,7 @@ const computeTokenOutForRouteBaseV2Base = (inputAmount, swapData, slippage) => {
           cur.tokenOut,
           cur.target,
         );
-        console.log(computed);
+
         return {
           tokenOutAmount: computed.tokenOut_amount,
           fees: [...acc.fees, computed.fees],
@@ -501,16 +469,13 @@ export const computeTokenOutForRouteBaseV2 = (input, allRoutes, slippage) => {
         bestRoute.computations = route.computations;
         bestRoute.path = route.path;
       }
-    }
-    );
+    });
 
-    
     const isStable = [];
-    for(let i =0 ; i< bestRoute.path.length-1; i++){
-      isStable[i] = isTokenPairStable(bestRoute.path[i],bestRoute.path[i+1]);
+    for (let i = 0; i < bestRoute.path.length - 1; i++) {
+      isStable[i] = isTokenPairStable(bestRoute.path[i], bestRoute.path[i + 1]);
     }
     bestRoute.isStableList = isStable;
-    console.log(bestRoute);
 
     return {
       success: true,
@@ -650,11 +615,11 @@ export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, allRoutes
     });
 
     const isStable = [];
-    for(let i =0 ; i< bestRoute.path.length-1; i++){
-      isStable[i] = isTokenPairStable(bestRoute.path[i],bestRoute.path[i+1]);
+    for (let i = 0; i < bestRoute.path.length - 1; i++) {
+      isStable[i] = isTokenPairStable(bestRoute.path[i], bestRoute.path[i + 1]);
     }
     bestRoute.isStableList = isStable;
-    console.log(bestRoute);
+
     return {
       success: true,
       bestRoute,
@@ -731,9 +696,9 @@ export const swapTokenUsingRouteV3 = async (
         requiredTokenId: tokenId,
       };
     }
-    console.log(DataLiteral);
+
     const DataMap = MichelsonMap.fromLiteral(DataLiteral);
-    console.log(DataMap);
+
     const swapAmount = Math.floor(
       amount * Math.pow(10, CONFIG.AMM[connectedNetwork][path[0]].TOKEN_DECIMAL),
     );
@@ -750,8 +715,10 @@ export const swapTokenUsingRouteV3 = async (
       ]);
 
       const batchOp = await batch.send();
+
       resetAllValues();
       setShowConfirmSwap(false);
+      setShowConfirmTransaction(false);
       transactionSubmitModal(batchOp.opHash);
       await batchOp.confirmation();
       return {

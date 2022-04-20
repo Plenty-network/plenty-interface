@@ -39,7 +39,7 @@ const Header = (props) => {
   const [selectedHeader, setSelectedHeader] = useState('');
   const [isExpanded, toggleExpand] = useState(false);
   const [open, setOpen] = useState(false);
-  const [isBannerOpen, setBannerOpen] = useState(true);
+  const [isBannerOpen, setBannerOpen] = useState(false);
 
   useEffect(() => {
     const RPCNodeInLS = localStorage.getItem(RPC_NODE);
@@ -116,7 +116,7 @@ const Header = (props) => {
         )}
         fluid
       >
-        {splitLocation[1] !== 'wrappedAssets' && isBannerOpen && (
+        {/* {splitLocation[1] !== 'wrappedAssets' && isBannerOpen && (
           <div className="banner" onMouseEnter={() => setHeader('')}>
             <div className="banner-middle">
               <span className="banner-text">
@@ -142,7 +142,7 @@ const Header = (props) => {
               </span>
             </div>
           </div>
-        )}
+        )} */}
 
         <Row className="removing-margin">
           <Col className={clsx('innerHeader')} sm={12} md={12}>

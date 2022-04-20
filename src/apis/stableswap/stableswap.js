@@ -144,7 +144,7 @@ export const calculateTokensOutStable = async (
       priceImpact = priceImpact * 100;
 
       priceImpact = priceImpact.toFixed(5);
-      console.log(priceImpact);
+
       priceImpact = Math.abs(priceImpact);
       tokenOut = tokenOut / 10 ** 6;
       fee = fee / 10 ** 6;
@@ -402,7 +402,7 @@ export const getUserBalanceByRpcStable = async (identifier, address) => {
     const Tezos = new TezosToolkit(rpcNode);
     Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
-    console.log(type);
+
     if (type === 'XTZ') {
       return getxtzBalance(identifier, address);
       // const _balance = await Tezos.tz.getBalance(address);
@@ -433,7 +433,7 @@ export const getUserBalanceByRpcStable = async (identifier, address) => {
 
         return _balance;
       })();
-      console.log(balance);
+
       return {
         success: true,
         balance,
@@ -468,7 +468,6 @@ export const loadSwapDataStable = async (tokenIn, tokenOut) => {
     const lpToken = CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
 
     const ctezAddress = CONFIG.CTEZ[connectedNetwork];
-    // console.log(ctezAddress);
 
     const ctezStorageUrl = `${rpcNode}chains/main/blocks/head/context/contracts/${ctezAddress}/storage`;
     const ctezStorage = await axios.get(ctezStorageUrl);

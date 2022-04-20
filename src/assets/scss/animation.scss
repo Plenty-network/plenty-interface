@@ -6,31 +6,43 @@
     -o-animation: fadein 1s; /* Opera < 12.1 */
     animation: fadein 1s;
   }
-  &-4-bridge{
+  &-4-bridge {
     -webkit-animation: fadeinBridge 0.4s; /* Safari, Chrome and Opera > 12.1 */
-   -moz-animation: fadeinBridge 0.4s; /* Firefox < 16 */
+    -moz-animation: fadeinBridge 0.4s; /* Firefox < 16 */
     -ms-animation: fadeinBridge 0.4s; /* Internet Explorer */
-     -o-animation: fadeinBridge 0.4s; /* Opera < 12.1 */
-        animation: fadeinBridge 0.4s;
+    -o-animation: fadeinBridge 0.4s; /* Opera < 12.1 */
+    animation: fadeinBridge 0.4s;
   }
-  &-4-bridge-false{
+  &-4-bridge-false {
     -webkit-animation: fadeinBridge 0.4s; /* Safari, Chrome and Opera > 12.1 */
-   -moz-animation: fadeinBridge 0.4s; /* Firefox < 16 */
+    -moz-animation: fadeinBridge 0.4s; /* Firefox < 16 */
     -ms-animation: fadeinBridge 0.4s; /* Internet Explorer */
-     -o-animation: fadeinBridge 0.4s; /* Opera < 12.1 */
-        animation: fadeinBridge 0.4s;
+    -o-animation: fadeinBridge 0.4s; /* Opera < 12.1 */
+    animation: fadeinBridge 0.4s;
   }
 }
 
 @keyframes fadeinBridge {
-  from { opacity: 0.6;transform: translateX(-10px);}
-  to   { opacity: 1;transform: translateX(0px); }
+  from {
+    opacity: 0.6;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
 }
 
 /* Firefox < 16 */
 @-moz-keyframes fadeinBridge {
-  from { opacity: 0.6;transform: translateX(-10px);}
-  to   { opacity: 1;transform: translateX(0px); }
+  from {
+    opacity: 0.6;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
 }
 
 @keyframes fadein {
@@ -70,7 +82,7 @@
     -o-animation: rightToleftFloater 2s; /* Opera < 12.1 */
     animation: rightToleftFloater 2s;
   }
-  &-4{
+  &-4 {
     -webkit-animation: rightToleftFBridge 0.1s; /* Safari, Chrome and Opera > 12.1 */
     -moz-animation: rightToleftFBridge 0.1s; /* Firefox < 16 */
     -ms-animation: rightToleftFBridge 0.1s; /* Internet Explorer */
@@ -80,14 +92,25 @@
 }
 
 @keyframes rightToleftFBridge {
-  from { opacity: 1;}
-  to   { opacity: 0.6;transform: translateX(-10px); }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.6;
+    transform: translateX(-10px);
+  }
 }
 
 /* Firefox < 16 */
 @-moz-keyframes rightToleftFBridge {
-  from { opacity: 1;transform: translateX(0px);}
-  to   { opacity: 0.6;transform: translateX(-100px); }
+  from {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  to {
+    opacity: 0.6;
+    transform: translateX(-100px);
+  }
 }
 
 .bottomToTopFadeInAnimation {
@@ -97,6 +120,15 @@
     -ms-animation: bottomToTopFloater 1s; /* Internet Explorer */
     -o-animation: bottomToTopFloater 1s; /* Opera < 12.1 */
     animation: bottomToTopFloater 1s;
+  }
+}
+.topToBottomFadeInAnimation {
+  &-4-floater {
+    -webkit-animation: topToBottomFloater 1s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: topToBottomFloater 1s; /* Firefox < 16 */
+    -ms-animation: topToBottomFloater 1s; /* Internet Explorer */
+    -o-animation: topToBottomFloater 1s; /* Opera < 12.1 */
+    animation: topToBottomFloater 1s;
   }
 }
 
@@ -125,6 +157,16 @@
   from {
     opacity: 0.4;
     transform: translateY(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+@keyframes topToBottomFloater {
+  from {
+    opacity: 0.2;
+    transform: translateY(-20px);
   }
   to {
     opacity: 1;

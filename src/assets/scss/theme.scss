@@ -148,6 +148,7 @@
   --theme-route-bg: #fdfcff;
   --theme-route-border: rgba(176, 183, 195, 0.4);
   --theme-stableswap-route-border: rgba(98, 2, 239, 0.4);
+  --theme-arrow-boxshadow: rgba(32, 28, 65, 0.32);
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -306,6 +307,7 @@
   --theme-route-bg: #28234d;
   --theme-route-border: rgba(98, 104, 143, 0.5);
   --theme-stableswap-route-border: rgba(98, 104, 143, 0.5);
+  --theme-arrow-boxshadow: rgba(32, 28, 65, 0.32);
 }
 
 :root.theme-transiton {

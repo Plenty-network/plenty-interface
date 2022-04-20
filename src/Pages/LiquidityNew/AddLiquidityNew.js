@@ -21,10 +21,11 @@ import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransactio
 import Loader from '../../Components/loader';
 
 import maxlight from '../../assets/images/max-light.svg';
+import maxDark from '../../assets/images/max-dark.svg';
 
 const AddLiquidityNew = (props) => {
   const [estimatedTokenAmout, setEstimatedTokenAmout] = useState('');
-  console.log(props);
+
   const [secondTokenAmount, setSecondTokenAmount] = useState('');
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
   const [lpTokenAmount, setLpTokenAmount] = useState({});
@@ -96,7 +97,7 @@ const AddLiquidityNew = (props) => {
     }
     return values.ctez / 10 ** 6;
   };
-  console.log(secondTokenAmount);
+
   const liqCa = async (input) => {
     const values = await liqCalcRev(
       input,
@@ -318,7 +319,7 @@ const AddLiquidityNew = (props) => {
       });
     }
   }, [firstTokenAmount]);
-  console.log(estimatedTokenAmout);
+
   let swapContentButton = (
     <Button
       onClick={props.connecthWallet}
@@ -435,7 +436,7 @@ const AddLiquidityNew = (props) => {
                         <div className="shimmer">0.00</div>
                       )}{' '}
                       <img
-                        src={maxlight}
+                        src={props.theme === 'light' ? maxlight : maxDark}
                         style={{ cursor: 'pointer' }}
                         onClick={onClickAmount}
                         className="max-swap"
@@ -535,11 +536,13 @@ const AddLiquidityNew = (props) => {
                 <div className="balance-lq ml-auto">
                   <p className="bal">
                     Balance:{' '}
-                    {props.userBalances[props.tokenOut.name] >= 0 ? (
-                      props.userBalances[props.tokenOut.name].toFixed(4)
-                    ) : (
-                      <div className="shimmer">0.00</div>
-                    )}{' '}
+                    <span className="balance-value-liq">
+                      {props.userBalances[props.tokenOut.name] >= 0 ? (
+                        props.userBalances[props.tokenOut.name].toFixed(4)
+                      ) : (
+                        <div className="shimmer">0.00</div>
+                      )}{' '}
+                    </span>
                   </p>
                 </div>
               </OverlayTrigger>

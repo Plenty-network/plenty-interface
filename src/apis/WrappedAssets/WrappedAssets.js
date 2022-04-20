@@ -232,7 +232,7 @@ export const getAvailableLiquidityPairs = (referenceToken) => {
     } else {
       Object.keys(tokenList[referenceToken].DEX_PAIRS).forEach((token) => {
         let finalTokenA, finalTokenB, finalTokenAImage, finalTokenBImage;
-        console.log(referenceToken);
+
         const tokenAImage =
           tokens.filter((tokenInfo) => tokenInfo.name === referenceToken).length > 0
             ? tokens.find((tokenInfo) => tokenInfo.name === referenceToken).image

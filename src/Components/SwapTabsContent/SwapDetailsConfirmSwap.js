@@ -6,7 +6,6 @@ import React, { useMemo, useState } from 'react';
 import { tokens } from '../../constants/swapPage';
 
 const SwapDetailsConfirmSwap = (props) => {
-  console.log(props);
   const [isOpen, setOpen] = useState(false);
 
   const swapRoute = useMemo(() => {

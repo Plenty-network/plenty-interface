@@ -28,6 +28,7 @@ import switchImg from '../../assets/images/bridge/bridge-switch.svg';
 
 import switchImgDark from '../../assets/images/bridge/bridge-switch-dark.svg';
 import maxlight from '../../assets/images/max-light.svg';
+import maxDark from '../../assets/images/max-dark.svg';
 
 const SwapTab = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -37,7 +38,7 @@ const SwapTab = (props) => {
   const [routePath, setRoutePath] = useState([]);
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState('');
-
+  const [stableList, setStableList] = useState([]);
   const [dolar, setDolar] = useState('0.0');
 
   const [computedData, setComputedData] = useState({
@@ -165,6 +166,7 @@ const SwapTab = (props) => {
             },
           });
           setRoutePath(res.bestRoute.path);
+          setStableList(res.bestRoute.isStableList);
           setSecondTokenAmount(res.bestRoute.computations.tokenOutAmount);
         }
       } else if (tokenType === 'tokenOut') {
@@ -210,6 +212,7 @@ const SwapTab = (props) => {
             },
           });
           setRoutePath(res.bestRoute.path);
+          setStableList(res.bestRoute.isStableList);
           setFirstTokenAmount(res.bestRoute.computations.tokenInAmount);
         }
       }
@@ -322,7 +325,6 @@ const SwapTab = (props) => {
       });
     } else {
       if (routePath.length <= 2) {
-        console.log(computedData.data.finalMinimumOut);
         swapTokens(
           routePath[0],
           routePath[1],
@@ -523,7 +525,10 @@ const SwapTab = (props) => {
                         ) : (
                           <div className="shimmer">0.0000</div>
                         )}{' '}
-                        <img src={maxlight} className="max-swap" />
+                        <img
+                          src={props.theme === 'light' ? maxlight : maxDark}
+                          className="max-swap"
+                        />
                       </span>
                     </OverlayTrigger>
                   </p>
@@ -557,12 +562,14 @@ const SwapTab = (props) => {
           </div>
           {errorMessage && <span className="error-message">{message}</span>}
         </div>
-        <div className="switch-img">
-          <div
-            className="swap-arrow-center-revamp  icon-animated"
-            onClick={props.changeTokenLocation}
-          >
-            <img src={props.theme === 'light' ? switchImg : switchImgDark} />
+        <div className="switch-img-background">
+          <div className="switch-img">
+            <div
+              className="swap-arrow-center-revamp  icon-animated"
+              onClick={props.changeTokenLocation}
+            >
+              <img src={props.theme === 'light' ? switchImg : switchImgDark} />
+            </div>
           </div>
         </div>
         <div className="second-token-bg">
@@ -679,6 +686,7 @@ const SwapTab = (props) => {
                 tokenOut={props.tokenOut}
                 routeData={props.routeData}
                 firstTokenAmount={firstTokenAmount}
+                stableList={stableList}
                 isStableSwap={
                   (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
                   (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez')

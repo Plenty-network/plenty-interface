@@ -14,6 +14,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransaction';
 import Loader from '../../Components/loader';
 import maxlight from '../../assets/images/max-light.svg';
+import maxDark from '../../assets/images/max-dark.svg';
 
 const RemoveLiquidityNew = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
@@ -349,7 +350,7 @@ const RemoveLiquidityNew = (props) => {
                         <div className="shimmer">0.0000</div>
                       )}{' '}
                       <img
-                        src={maxlight}
+                        src={props.theme === 'light' ? maxlight : maxDark}
                         style={{ cursor: 'pointer' }}
                         onClick={onClickAmount}
                         className="max-swap"
