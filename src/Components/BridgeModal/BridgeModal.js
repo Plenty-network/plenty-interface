@@ -34,6 +34,9 @@ import { changeNetwork } from '../../apis/bridge/bridgeAPI';
 import { ReactComponent as MaxBtnIcon } from '../../assets/images/bridge/max_btn.svg';
 import { ReactComponent as MaxBtnIconDark } from '../../assets/images/bridge/max_btn_dark.svg';
 import { CHANGE_NETWORK_PROMPT_DELAY } from '../../constants/bridges';
+import { getAllowance } from '../../apis/bridge/bridgeAPI';
+import { useInterval } from '../../hooks/useInterval';
+import { getActionRequiredCount } from '../../apis/bridge/bridgeAPI';
 /* import { getCurrentNetwork } from '../../apis/bridge/bridgeAPI'; */
 const BridgeModal = (props) => {
   //const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -67,12 +70,14 @@ const BridgeModal = (props) => {
   const [isBridgeSelected, setIsBridgeSelected] = useState(false);
   const [isTokenSelected, setIsTokenSelected] = useState(false);
   const [isBridgeClicked, setIsBridgeClicked] = useState(false);
+  const [pendingTransCount, setPendingTransCount] = useState(0);
   //const [fromBridge, setFromBridge] = useState({name: 'ETHEREUM', image: ethereum, buttonImage: ethereum});
   //const [toBridge, setToBridge] = useState({name: 'TEZOS', image: tezos, buttonImage: ''});
   //const [connectBridgeWallet, setConnectBrigeWallet] = useState({name: fromBridge.name, image: fromBridge.image, buttonImage: fromBridge.buttonImage});
   //const [fee, setFee] = useState(0);
   //const [selector, setSelector] = useState('BRIDGES');
   const selector = useRef('BRIDGES');
+  const delay = useRef(5000);
   //const [operation, setOperation] = useState('BRIDGE');
   //const operation = useRef('BRIDGE');
   //const [tokenList, setTokenList] = useState(tokensList[fromBridge.name]);
@@ -240,6 +245,14 @@ const BridgeModal = (props) => {
     });
   }, []); */
 
+  useInterval(async () => {
+    if(metamaskAddress && walletAddress) {
+      const pendingHistoryCount = await getActionRequiredCount({ethereumAddress: metamaskAddress, tzAddress: walletAddress});
+      //console.log(pendingHistoryCount);
+      setPendingTransCount(pendingHistoryCount.count);
+    }
+  }, delay.current);
+
   const getDollarValue = (amount, price) => {
     const calculatedValue = amount * price;
     if (calculatedValue < 100) {
@@ -331,7 +344,7 @@ const BridgeModal = (props) => {
     }
   };
 
-  const handelClickWithMetaAddedBtn = () => {
+  const handelClickWithMetaAddedBtn = async () => {
     setIsError(false);
     if (firstTokenAmount === '' || isNaN(firstTokenAmount) || firstTokenAmount === 0) {
       setErrorMessage('Enter the amount and proceed');
@@ -369,11 +382,30 @@ const BridgeModal = (props) => {
         SetisLoading(true);
         if (operation === 'UNBRIDGE') {
           SetCurrentProgress(1);
+        } else {
+          const allowanceResult = await getAllowance(tokenIn,metamaskAddress,fromBridge.name);
+          if(allowanceResult.success) {
+            console.log(allowanceResult.allowance);
+            if(allowanceResult.allowance >= Number(firstTokenAmount)) {
+              SetCurrentProgress(1);
+            }
+          } else {
+            console.log(allowanceResult.error);
+            displayMessage({
+              type: 'error',
+              duration: FLASH_MESSAGE_DURATION,
+              title: 'Allowance Error',
+              content: 'Failed to fetch allowance for user. Please try again.',
+              isFlashMessageALink: false,
+              flashMessageLink: '#',
+            });
+          }
+          
         }
         setTimeout(() => {
           SetisLoading(false);
           setTransaction(3);
-        }, 500);
+        }, 100);
       }
     }
   };
@@ -640,17 +672,20 @@ const BridgeModal = (props) => {
         <div className={` ${styles.bridgeModal} leftToRightFadeInAnimation-4-bridge`}>
           <div className={styles.resultsHeader}>
             <p className={styles.heading}>Bridge Tokens</p>
-            {walletAddress && metamaskAddress ? (
+            {walletAddress && metamaskAddress && (
               <p
-                className={styles.res}
+                className={`${styles.res} ${pendingTransCount > 0 && styles.pendingHistory}`}
                 onClick={() => {
                   setTransaction(2);
                 }}
                 style={{ cursor: 'pointer' }}
               >
-                View History
+                View History{' '}
+                {pendingTransCount > 0 && (
+                  <span className={styles.actionRequiredCount}>{pendingTransCount}</span>
+                )}
               </p>
-            ) : null}
+            )}
           </div>
           <div className={`mb-2 ${styles.lineBottom} `}></div>
           <div className={`mt-4 ${styles.from}`}>From</div>
@@ -732,14 +767,11 @@ const BridgeModal = (props) => {
                   </span>
                 </>
               )}
-              {
-                userTokenBalance === null && (
-                  <>
-                    Balance:{' '}
-                    <span className="shimmer">0.0000</span>
-                  </>
-                )
-              }
+              {userTokenBalance === null && (
+                <>
+                  Balance: <span className="shimmer">0.0000</span>
+                </>
+              )}
               {/* {walletAddress ? (
                 <>
                   Balance:{' '}
@@ -805,7 +837,11 @@ const BridgeModal = (props) => {
             </span>
           </div>
           <p className={clsx('mt-2', styles.feeEstimateText)}>
-            Estimated fee: <span style={{ fontWeight: '700' }}>{Number(fee) > 0 ?Number(fee).toFixed(6) : 0}</span>
+            Estimated fee:{' '}
+            <span style={{ fontWeight: '700' }}>
+              {Number(fee) > 0 ? Number(fee).toFixed(6) : 0}
+              {` ${operation === 'BRIDGE' ? tokenOut.name : tokenIn.name}`}
+            </span>
           </p>
 
           {metamaskAddress === null ? (

@@ -773,6 +773,7 @@ const BridgeTransferModal = (props) => {
               setFinalOpHash={setFinalOpHash}
               openingFromHistory={openingFromHistory}
               displayMessage={displayMessage}
+              tokenIn={tokenIn}
             />
           )}
           {/* code will go here */}

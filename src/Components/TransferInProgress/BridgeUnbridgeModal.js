@@ -145,7 +145,7 @@ const BridgeUnbridgeModal = (props) => {
     <>
       <p className={styles.contentLabel}>{operation === 'BRIDGE' ? 'Bridging' : 'Unbridging'}</p>
       <p className={styles.contentDes}>{description}</p>
-      {operation === 'BRIDGE' && (
+      {operation === 'BRIDGE' && approveHash && (
         <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
           <a
             href={`${CONFIG.EXPLORER_LINKS[fromBridge.name]}${approveHash}`}

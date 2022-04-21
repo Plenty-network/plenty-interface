@@ -28,7 +28,8 @@ const DoneModal = (props) => {
     finalOpHash,
     setFinalOpHash,
     openingFromHistory,
-    displayMessage
+    displayMessage,
+    tokenIn,
   } = props;
 
   useEffect(async () => {
@@ -159,7 +160,7 @@ const DoneModal = (props) => {
               <FeeBigIcon />
               <div className="right-div">
                 <span className="fromreceived">Estimated transaction fee</span>
-                <span className="value-text">~{Number(transactionFees).toFixed(6)}</span>
+                <span className="value-text">~{Number(transactionFees).toFixed(6)}{` ${operation === 'BRIDGE' ? tokenOut.name : tokenIn.name}`}</span>
               </div>
             </div>
           </div>
@@ -208,6 +209,7 @@ DoneModal.propTypes = {
   setFinalOpHash: PropTypes.any,
   openingFromHistory: PropTypes.any,
   displayMessage: PropTypes.any,
+  tokenIn: PropTypes.any,
 };
 
 export default DoneModal;

@@ -47,7 +47,7 @@ const TransactionHistory = (props) => {
   //Currently default sort option is by most recent transaction. Need to change this if default sort option changes.
   const [radioButtonSelected, setRadioButtonSelected] = useState('MOST_RECENT');
 
-  const dummyLoadingDivisions = useRef([0, 0, 0, 0, 0]);
+  const dummyLoadingDivisions = useRef([0, 0, 0, 0, 0, 0, 0]);
 
   const {
     // eslint-disable-next-line
@@ -402,8 +402,8 @@ const TransactionHistory = (props) => {
               return (
                 <div
                   key={index}
-                  className={`mb-3 ${styles.shimmerEffect}`}
-                  style={{ height: '70px', width: '100%' }}
+                  className={`mb-2 ${styles.shimmerEffect}`}
+                  style={{ height: '50px', width: '100%' }}
                 ></div>
               );
             })
