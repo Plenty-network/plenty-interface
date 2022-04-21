@@ -31,7 +31,7 @@ const SwapContent = (props) => {
     setTransactionId(id);
     setShowTransactionSubmitModal(true);
   };
-  //const c = { type: 'success', message: 'success' };
+
   useEffect(async () => {
     const res = await getAvailableLiquidityPairs(props.tokenOut.name);
     setLpPairAvailable(res.isLiquidityPairAvailable);

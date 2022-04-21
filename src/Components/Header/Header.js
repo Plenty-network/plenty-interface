@@ -146,7 +146,14 @@ const Header = (props) => {
 
         <Row className="removing-margin">
           <Col className={clsx('innerHeader')} sm={12} md={12}>
-            <Navbar id="nav-bar" expand="lg" className="px-0 menu-wrapper">
+            <Navbar
+              id="nav-bar"
+              expand="lg"
+              className="px-0 menu-wrapper"
+              {...(selectedHeader === HEADER_MODAL.SETTINGS
+                ? {}
+                : { onMouseEnter: () => setHeader('') })}
+            >
               <Navbar.Brand as={Link} to="/" className="mx-3 mx-sm-0">
                 {props.isGradientBgPage ? (
                   <LogoWhite />
@@ -185,14 +192,23 @@ const Header = (props) => {
                 )}
               </Navbar.Toggle>
 
-              <Navbar.Collapse id="responsive-navbar-nav">
+              <Navbar.Collapse
+                id="responsive-navbar-nav"
+                {...(selectedHeader === HEADER_MODAL.SETTINGS
+                  ? {}
+                  : { onMouseEnter: () => setHeader('') })}
+              >
                 <Nav
                   className={clsx('align-items-lg-center w-100 mobileview ')}
                   {...(selectedHeader === HEADER_MODAL.SETTINGS
                     ? {}
                     : { onMouseEnter: () => setHeader('') })}
                 >
-                  <div className="col-lg-6 d-lg-flex flex-lg-row flex-column align-items-center links">
+                  <div
+                    className={clsx(
+                      'col-lg-6 d-lg-flex flex-lg-row flex-column align-items-center links ',
+                    )}
+                  >
                     <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.TRADE ? 'menu-item-active' : 'menu-item',

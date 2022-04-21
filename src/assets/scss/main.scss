@@ -199,7 +199,7 @@ body {
   color: var(--theme-text-1);
   background-color: var(--theme-bg-1);
   .modal {
-    z-index: 1000000000 !important;
+    z-index: 10000 !important;
   }
 }
 

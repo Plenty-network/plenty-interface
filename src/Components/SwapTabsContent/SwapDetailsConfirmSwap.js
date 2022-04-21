@@ -64,7 +64,7 @@ const SwapDetailsConfirmSwap = (props) => {
                 placement="top"
                 overlay={
                   <Tooltip
-                    id={'minimum-received-tooltip'}
+                    id="button-tooltip-swap-details-minimum-received"
                     arrowProps={{ styles: { display: 'none' } }}
                   >
                     Your transaction will revert if there is a large, unfavorable price movement
@@ -92,7 +92,10 @@ const SwapDetailsConfirmSwap = (props) => {
                 key="top"
                 placement="top"
                 overlay={
-                  <Tooltip id={'price-impact-tooltip'} arrowProps={{ styles: { display: 'none' } }}>
+                  <Tooltip
+                    id="button-tooltip-swap-details"
+                    arrowProps={{ styles: { display: 'none' } }}
+                  >
                     The difference between the market price and estimated price due to trade size.
                   </Tooltip>
                 }
@@ -117,7 +120,10 @@ const SwapDetailsConfirmSwap = (props) => {
                 key="top"
                 placement="top"
                 overlay={
-                  <Tooltip id={'fee-tooltip'} arrowProps={{ styles: { display: 'none' } }}>
+                  <Tooltip
+                    id="button-tooltip-swap-details"
+                    arrowProps={{ styles: { display: 'none' } }}
+                  >
                     {props.isStableSwap
                       ? 'A portion of each trade (0.10%) goes to liquidity providers as a protocol incentive.'
                       : 'A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive.'}
@@ -146,7 +152,7 @@ const SwapDetailsConfirmSwap = (props) => {
                   placement="top"
                   overlay={
                     <Tooltip
-                      id={'xplenty-fee-tooltip'}
+                      id="button-tooltip-swap-details"
                       arrowProps={{ styles: { display: 'none' } }}
                     >
                       A portion of each trade (0.09%) goes to xPLENTY holders as a protocol
@@ -174,7 +180,7 @@ const SwapDetailsConfirmSwap = (props) => {
                   placement="top"
                   overlay={
                     <Tooltip
-                      id={'slippage-tolerance-tooltip'}
+                      id="button-tooltip-swap-details"
                       arrowProps={{ styles: { display: 'none' } }}
                     >
                       Change the slippage tolerance in the transaction settings.
@@ -203,7 +209,10 @@ const SwapDetailsConfirmSwap = (props) => {
               key="top"
               placement="top"
               overlay={
-                <Tooltip id={'route-tooltip'} arrowProps={{ styles: { display: 'none' } }}>
+                <Tooltip
+                  id="button-tooltip-swap-details"
+                  arrowProps={{ styles: { display: 'none' } }}
+                >
                   Routing through these tokens results in the best price for your trade
                 </Tooltip>
               }

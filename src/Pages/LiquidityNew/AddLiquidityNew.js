@@ -34,10 +34,6 @@ const AddLiquidityNew = (props) => {
   const [message, setMessage] = useState('');
   const [transactionId, setTransactionId] = useState('');
 
-  // const c = {
-  //   type: 'success',
-  //   message: 'success',
-  // };
   const [poolShare, setPoolShare] = useState('0.0');
   const [xtztoctez, setxtztoctez] = useState('0.00');
   const [cteztoxtz, setcteztoxtz] = useState('0.00');

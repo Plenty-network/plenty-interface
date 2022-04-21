@@ -40,7 +40,6 @@ const SwapTab = (props) => {
   const [message, setMessage] = useState('');
   const [stableList, setStableList] = useState([]);
   const [dolar, setDolar] = useState('0.0');
-
   const [computedData, setComputedData] = useState({
     success: false,
     data: {
@@ -192,7 +191,7 @@ const SwapTab = (props) => {
           setSecondTokenAmount(input);
 
           const res = computeTokenOutForRouteBaseByOutAmountV2(
-            input,
+            Number(input),
             props.routeData.allRoutes,
             props.slippage,
           );
@@ -702,25 +701,25 @@ const SwapTab = (props) => {
             ''
           )}
           {props.walletAddress &&
-            props.tokenIn.name &&
-            props.tokenOut.name &&
-            firstTokenAmount &&
-            props.routeData.success && (
-              <SwapDetails
-                routePath={routePath}
-                theme={props.theme}
-                computedOutDetails={computedData}
-                tokenIn={props.tokenIn}
-                tokenOut={props.tokenOut}
-                routeData={props.routeData}
-                firstTokenAmount={firstTokenAmount}
-                stableList={stableList}
-                isStableSwap={
-                  (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
-                  (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez')
-                }
-              />
-            )}
+          props.tokenIn.name &&
+          props.tokenOut.name &&
+          firstTokenAmount &&
+          props.routeData.success ? (
+            <SwapDetails
+              routePath={routePath}
+              theme={props.theme}
+              computedOutDetails={computedData}
+              tokenIn={props.tokenIn}
+              tokenOut={props.tokenOut}
+              routeData={props.routeData}
+              firstTokenAmount={firstTokenAmount}
+              stableList={stableList}
+              isStableSwap={
+                (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
+                (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez')
+              }
+            />
+          ) : null}
           {swapContentButton}
         </div>
       </div>

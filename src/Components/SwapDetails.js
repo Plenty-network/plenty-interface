@@ -96,7 +96,6 @@ const SwapDetails = (props) => {
           className={clsx(
             'swap-detail-wrapper-open',
             isOpen && 'topToBottomFadeInAnimation-4-floater',
-            !isOpen && 'bottomToTopFadeInAnimation-4-floater',
           )}
         >
           {isOpen ? (
@@ -106,8 +105,9 @@ const SwapDetails = (props) => {
                 <p className="swap-detail-amt-details">Minimum received </p>
                 <OverlayTrigger
                   placement="top"
+                  key="top"
                   overlay={
-                    <Tooltip id="button-tooltip" {...props}>
+                    <Tooltip id="button-tooltip-swap-details-minimum-received" {...props}>
                       Your transaction will revert if there is a large, unfavorable price movement
                       before it is confirmed.
                     </Tooltip>
@@ -161,8 +161,9 @@ const SwapDetails = (props) => {
                 <p className="swap-detail-amt-details">Fee </p>
                 <OverlayTrigger
                   placement="top"
+                  key="top"
                   overlay={
-                    <Tooltip id="button-tooltip-4" {...props}>
+                    <Tooltip id="button-tooltip-swap-details" {...props}>
                       {props.isStableSwap
                         ? 'A portion of each trade (0.10%) goes to liquidity providers as a protocol incentive.'
                         : 'A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive.'}
@@ -188,9 +189,10 @@ const SwapDetails = (props) => {
                   <p className="swap-detail-amt-details">xPlenty Fee </p>
                   <OverlayTrigger
                     placement="top"
+                    key="top"
                     overlay={
                       <Tooltip
-                        id={'xplenty-fee-tooltip'}
+                        id="button-tooltip-swap-details"
                         arrowProps={{ styles: { display: 'none' } }}
                       >
                         A portion of each trade (0.09%) goes to xPLENTY holders as a protocol
@@ -215,9 +217,10 @@ const SwapDetails = (props) => {
                   <p className="swap-detail-amt-details">Slippage tolerance </p>
                   <OverlayTrigger
                     placement="top"
+                    key="top"
                     overlay={
                       <Tooltip
-                        id={'slippage-tolerance-tooltip'}
+                        id="button-tooltip-swap-details"
                         arrowProps={{ styles: { display: 'none' } }}
                       >
                         Change the slippage tolerance in the transaction settings.
@@ -244,8 +247,9 @@ const SwapDetails = (props) => {
                 <p className="swap-detail-amt-details route-heading">Route </p>
                 <OverlayTrigger
                   placement="top"
+                  key="top"
                   overlay={
-                    <Tooltip id="button-tooltip-5" {...props}>
+                    <Tooltip id="button-tooltip-swap-details" {...props}>
                       Routing through these tokens results in the best price for your trade
                     </Tooltip>
                   }
