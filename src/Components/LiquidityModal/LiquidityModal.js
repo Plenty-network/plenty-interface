@@ -142,7 +142,9 @@ const LiquidityModal = (props) => {
                 onClick={() => props.selectToken(token)}
               >
                 <img src={token.image} className="select-token-img" alt={token.name} />
-                <span className="span-themed">{token.name}</span>
+                <span className="span-themed">
+                  {token.name === 'tez' ? 'TEZ' : token.name === 'ctez' ? 'CTEZ' : token.name}
+                </span>
                 {token.new ? <span className="new-badge-icon">New!</span> : null}
                 {token.extra && (
                   <a

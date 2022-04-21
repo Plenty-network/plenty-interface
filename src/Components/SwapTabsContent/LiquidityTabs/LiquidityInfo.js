@@ -32,7 +32,17 @@ const LiquidityInfo = (props) => {
               <span className="shimmer">99999</span>
             )}{' '}
             <span className="content">
-              {props.tokenIn.name} per {props.tokenOut.name}
+              {props.tokenIn.name === 'tez'
+                ? 'TEZ'
+                : props.tokenIn.name === 'ctez'
+                ? 'CTEZ'
+                : props.tokenIn.name}{' '}
+              per{' '}
+              {props.tokenOut.name === 'tez'
+                ? 'TEZ'
+                : props.tokenOut.name === 'ctez'
+                ? 'CTEZ'
+                : props.tokenOut.name}
             </span>
           </div>
         </OverlayTrigger>
@@ -57,7 +67,17 @@ const LiquidityInfo = (props) => {
               <span className="shimmer">99999</span>
             )}{' '}
             <span className="content">
-              {props.tokenOut.name} per {props.tokenIn.name}
+              {props.tokenOut.name === 'tez'
+                ? 'TEZ'
+                : props.tokenOut.name === 'ctez'
+                ? 'CTEZ'
+                : props.tokenOut.name}{' '}
+              per{' '}
+              {props.tokenIn.name === 'tez'
+                ? 'TEZ'
+                : props.tokenIn.name === 'ctez'
+                ? 'CTEZ'
+                : props.tokenIn.name}
             </span>
           </div>
         </OverlayTrigger>

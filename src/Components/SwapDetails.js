@@ -95,7 +95,6 @@ const SwapDetails = (props) => {
         <div
           className={clsx(
             'swap-detail-wrapper-open',
-
             isOpen && 'topToBottomFadeInAnimation-4-floater',
             !isOpen && 'bottomToTopFadeInAnimation-4-floater',
           )}
@@ -104,23 +103,23 @@ const SwapDetails = (props) => {
             <div className="open-swap-details ">
               <div className="flex flex-row  align-items-center swap-sub-details">
                 {' '}
+                <p className="swap-detail-amt-details">Minimum received </p>
                 <OverlayTrigger
                   placement="top"
                   overlay={
-                    <Tooltip id="button-tooltip-swap-details" {...props}>
+                    <Tooltip id="button-tooltip" {...props}>
                       Your transaction will revert if there is a large, unfavorable price movement
                       before it is confirmed.
                     </Tooltip>
                   }
                 >
-                  <p className="swap-detail-amt-details">Minimum received </p>
+                  <span
+                    style={{ cursor: 'pointer' }}
+                    className="material-icons-round ml-1 swap-detail-amt-details"
+                  >
+                    help_outline
+                  </span>
                 </OverlayTrigger>
-                <span
-                  style={{ cursor: 'pointer' }}
-                  className="material-icons-round ml-1 swap-detail-amt-details"
-                >
-                  help_outline
-                </span>
                 <p className="swap-detail-amt-details-value ml-auto">
                   {props.computedOutDetails.data.finalMinimumOut
                     ? props.computedOutDetails.data.finalMinimumOut
@@ -131,9 +130,10 @@ const SwapDetails = (props) => {
               <div className="flex flex-row align-items-center swap-sub-details">
                 <p className="swap-detail-amt-details">Price Impact </p>
                 <OverlayTrigger
+                  key="top"
                   placement="top"
                   overlay={
-                    <Tooltip id="button-tooltip-3" {...props}>
+                    <Tooltip id="button-tooltip-swap-details" {...props}>
                       The difference between the market price and estimated price due to trade size.
                     </Tooltip>
                   }

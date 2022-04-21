@@ -124,7 +124,7 @@ const HeaderBottom = (props) => {
     open && (
       <>
         <div
-          className={clsx('headerBottom', {
+          className={clsx('headerBottom', 'topToBottomFadeInAnimation-4-floater', {
             'pt-0': !props.selectedHeader,
             height: props.selectedHeader === HEADER_MODAL.SETTINGS && nodeSelector,
 

@@ -80,7 +80,8 @@ const LiquidityPage = () => {
             <div className="d-flex pl-2 align-items-center">
               <TokenAvatar imgPath1={imgPaths[token1]} imgPath2={imgPaths[token2]} />
               <span className="ml-2 mr-4">
-                {token1} / {token2}
+                {token1 === 'tez' ? 'TEZ' : token1 === 'ctez' ? 'CTEZ' : token1} /{' '}
+                {token2 === 'tez' ? 'TEZ' : token2 === 'ctez' ? 'CTEZ' : token2}
               </span>
             </div>
           );

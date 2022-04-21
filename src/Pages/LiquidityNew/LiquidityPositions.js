@@ -24,6 +24,7 @@ export const LiquidityPositions = (props) => {
   useEffect(async () => {
     const res = await getLiquidityPositionsForUser(props.walletAddress);
     if (res.success) {
+      console.log(res);
       setEmpty(false);
       setPositions(res.data);
     } else {
@@ -74,7 +75,17 @@ export const LiquidityPositions = (props) => {
                 <div className="token-label">
                   <img className="token-img" src={position.tokenA.image} />
                   <img className="ml-1 mr-sm-3 mr-2 token-img" src={position.tokenB.image} />
-                  {position.tokenA.name} / {position.tokenB.name}
+                  {position.tokenA.name === 'tez'
+                    ? 'TEZ'
+                    : position.tokenA.name === 'ctez'
+                    ? 'CTEZ'
+                    : position.tokenA.name}{' '}
+                  /{' '}
+                  {position.tokenB.name === 'tez'
+                    ? 'TEZ'
+                    : position.tokenB.name === 'ctez'
+                    ? 'CTEZ'
+                    : position.tokenB.name}
                 </div>
                 <div className="d-flex">
                   <div className="lp-fee">
@@ -108,7 +119,13 @@ export const LiquidityPositions = (props) => {
                   <div className=" d-sm-flex justify-content-between">
                     <div>
                       <div className="pooled">
-                        POOLED {position.tokenA.name}:{' '}
+                        POOLED{' '}
+                        {position.tokenA.name === 'tez'
+                          ? 'TEZ'
+                          : position.tokenA.name === 'ctez'
+                          ? 'CTEZ'
+                          : position.tokenA.name}
+                        :{' '}
                         <OverlayTrigger
                           placement="top"
                           overlay={
@@ -123,12 +140,22 @@ export const LiquidityPositions = (props) => {
                             ) : (
                               <span className="shimmer">99999</span>
                             )}{' '}
-                            {position.tokenA.name}
+                            {position.tokenA.name === 'tez'
+                              ? 'TEZ'
+                              : position.tokenA.name === 'ctez'
+                              ? 'CTEZ'
+                              : position.tokenA.name}
                           </span>
                         </OverlayTrigger>
                       </div>
                       <div className="pooled mt-1">
-                        POOLED {position.tokenB.name}:{' '}
+                        POOLED{' '}
+                        {position.tokenB.name === 'tez'
+                          ? 'TEZ'
+                          : position.tokenB.name === 'ctez'
+                          ? 'CTEZ'
+                          : position.tokenB.name}
+                        :{' '}
                         <OverlayTrigger
                           placement="top"
                           overlay={
@@ -143,7 +170,11 @@ export const LiquidityPositions = (props) => {
                             ) : (
                               <span className="shimmer">99999</span>
                             )}{' '}
-                            {position.tokenB.name}
+                            {position.tokenB.name === 'tez'
+                              ? 'TEZ'
+                              : position.tokenB.name === 'ctez'
+                              ? 'CTEZ'
+                              : position.tokenB.name}
                           </span>
                         </OverlayTrigger>
                       </div>

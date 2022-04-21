@@ -475,7 +475,13 @@ const SwapTab = (props) => {
                 onClick={() => props.handleTokenType('tokenIn')}
               >
                 <img src={props.tokenIn.image} className="button-logo logo-size" />
-                <span className="span-themed">{props.tokenIn.name} </span>
+                <span className="span-themed">
+                  {props.tokenIn.name === 'tez'
+                    ? 'TEZ'
+                    : props.tokenIn.name === 'ctez'
+                    ? 'CTEZ'
+                    : props.tokenIn.name}{' '}
+                </span>
                 <span className="span-themed material-icons-round">expand_more</span>
               </button>
             </div>
@@ -564,7 +570,7 @@ const SwapTab = (props) => {
         </div>
         <OverlayTrigger
           overlay={(props) => (
-            <Tooltip id="button-tooltip" className="switchTooltip" {...props}>
+            <Tooltip id="button-tooltip" {...props}>
               Switch
             </Tooltip>
           )}
@@ -598,7 +604,13 @@ const SwapTab = (props) => {
                     onClick={() => props.handleTokenType('tokenOut')}
                   >
                     <img src={props.tokenOut.image} className="button-logo logo-size" />
-                    <span className="span-themed">{props.tokenOut.name} </span>
+                    <span className="span-themed">
+                      {props.tokenOut.name === 'tez'
+                        ? 'TEZ'
+                        : props.tokenOut.name === 'ctez'
+                        ? 'CTEZ'
+                        : props.tokenOut.name}{' '}
+                    </span>
                     <span className="span-themed material-icons-round">expand_more</span>
                   </button>
                 ) : (

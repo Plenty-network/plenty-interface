@@ -383,7 +383,13 @@ const AddLiquidityNew = (props) => {
                 </div>
                 <div className="ml-2">
                   <span className="input-label">Input</span>
-                  <div className="token-name">{props.tokenIn.name}</div>
+                  <div className="token-name">
+                    {props.tokenIn.name === 'tez'
+                      ? 'TEZ'
+                      : props.tokenIn.name === 'ctez'
+                      ? 'CTEZ'
+                      : props.tokenIn.name}
+                  </div>
                 </div>{' '}
                 <div className="expand-more-div">
                   <span className="material-icons-round expand-more-icon">expand_more</span>
@@ -422,7 +428,11 @@ const AddLiquidityNew = (props) => {
                     {props.userBalances[props.tokenIn.name]
                       ? props.userBalances[props.tokenIn.name]
                       : 0.0}
-                    {props.tokenIn.name}
+                    {props.tokenIn.name === 'tez'
+                      ? 'TEZ'
+                      : props.tokenIn.name === 'ctez'
+                      ? 'CTEZ'
+                      : props.tokenIn.name}
                   </Tooltip>
                 }
               >
@@ -476,7 +486,13 @@ const AddLiquidityNew = (props) => {
                   </div>
                   <div className="ml-2">
                     <span className="input-label">Input</span>
-                    <div className="token-name">{props.tokenOut.name}</div>
+                    <div className="token-name">
+                      {props.tokenOut.name === 'tez'
+                        ? 'TEZ'
+                        : props.tokenOut.name === 'ctez'
+                        ? 'CTEZ'
+                        : props.tokenOut.name}
+                    </div>
                   </div>{' '}
                   <div className="expand-more-div">
                     <span className="material-icons-round expand-more-icon">expand_more</span>
@@ -529,7 +545,11 @@ const AddLiquidityNew = (props) => {
                     {props.userBalances[props.tokenOut.name]
                       ? props.userBalances[props.tokenOut.name]
                       : 0.0}
-                    {props.tokenOut.name}
+                    {props.tokenOut.name === 'tez'
+                      ? 'TEZ'
+                      : props.tokenOut.name === 'ctez'
+                      ? 'CTEZ'
+                      : props.tokenOut.name}
                   </Tooltip>
                 }
               >
@@ -573,11 +593,27 @@ const AddLiquidityNew = (props) => {
               <img width="50" height="50" src={props.tokenIn.image} />
               <img width="50" height="50" src={props.tokenOut.image} className="ml-2" />
               <span className="lp-pair">
-                {props.tokenIn.name} / {props.tokenOut.name}
+                {props.tokenIn.name === 'tez'
+                  ? 'TEZ'
+                  : props.tokenIn.name === 'ctez'
+                  ? 'CTEZ'
+                  : props.tokenIn.name}{' '}
+                /{' '}
+                {props.tokenOut.name === 'tez'
+                  ? 'TEZ'
+                  : props.tokenOut.name === 'ctez'
+                  ? 'CTEZ'
+                  : props.tokenOut.name}
               </span>
               <div className="d-flex mt-2">
                 <div>
-                  <div className="token-name-lp">{props.tokenIn.name}</div>
+                  <div className="token-name-lp">
+                    {props.tokenIn.name === 'tez'
+                      ? 'TEZ'
+                      : props.tokenIn.name === 'ctez'
+                      ? 'CTEZ'
+                      : props.tokenIn.name}
+                  </div>
                   <OverlayTrigger
                     placement="top"
                     overlay={
@@ -600,7 +636,13 @@ const AddLiquidityNew = (props) => {
                   </OverlayTrigger>
                 </div>
                 <div className="ml-2">
-                  <div className="token-name-lp">{props.tokenOut.name}</div>
+                  <div className="token-name-lp">
+                    {props.tokenOut.name === 'tez'
+                      ? 'TEZ'
+                      : props.tokenOut.name === 'ctez'
+                      ? 'CTEZ'
+                      : props.tokenOut.name}
+                  </div>
                   <OverlayTrigger
                     placement="top"
                     overlay={
