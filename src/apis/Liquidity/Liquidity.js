@@ -27,6 +27,14 @@ const getListOfPositions = async (tokenList, isStable, walletAddress) => {
         const liquidityToken = pairedtTokenValue.liquidityToken;
         // Check if the lp token is not already parsed and proceed only if not.
         if (!tempLPTokenObj[liquidityToken]) {
+          /* The below if condition is to avoid the stable pairs that are present in non-stable(AMM) config list 
+          to eliminate duplicates. Any stable pair present in non-stable config(AMM) for routing purpose should 
+          be added to stable swap config list as well for this whole function to work properly. This is a 
+          workaround till a common config with appropriate identifier is created. */
+          if(!isStable && isTokenPairStable(token,pairedtToken)) {
+            continue;
+          }
+          /* Special workaround if ends */
           const tokenA = isStable
             ? stableSwapTokens.find((stableToken) => stableToken.name === token)
             : tokens.find((normalToken) => normalToken.name === token);
