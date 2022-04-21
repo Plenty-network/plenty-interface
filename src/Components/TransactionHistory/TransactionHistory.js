@@ -397,80 +397,82 @@ const TransactionHistory = (props) => {
             ) : null}
           </div>
           <div className={`mb-3 ${styles.lineBottom} `}></div>
-          {isLoading ? (
-            dummyLoadingDivisions.current.map((box, index) => {
-              return (
-                <div
-                  key={index}
-                  className={`mb-2 ${styles.shimmerEffect}`}
-                  style={{ height: '50px', width: '100%' }}
-                ></div>
-              );
-            })
-          ) : sortedData.length > 0 ? (
-            sortedData.map((data, index) => {
-              return (
-                <>
-                  <div key={index} className={styles.resultsHeader}>
-                    <div className={styles.resultsInfoWrapper}>
-                      <div className={styles.tokenbg}>
-                        <img
-                          src={
-                            data.currentProgress === 4
-                              ? data.operation === 'BRIDGE'
-                                ? theme === 'light'
-                                  ? downArrow
-                                  : downArrowDark
-                                : theme === 'light'
-                                ? upArrow
-                                : upArrowDark
-                              : actionHistory
-                          }
-                          className={styles.tokens}
-                        ></img>
+          <div className={styles.transactionDataWrapper}>
+            {isLoading ? (
+              dummyLoadingDivisions.current.map((box, index) => {
+                return (
+                  <div
+                    key={index}
+                    className={`mb-2 ${styles.shimmerEffect}`}
+                    style={{ height: '50px', width: '100%' }}
+                  ></div>
+                );
+              })
+            ) : sortedData.length > 0 ? (
+              sortedData.map((data, index) => {
+                return (
+                  <>
+                    <div key={index} className={styles.resultsHeader}>
+                      <div className={styles.resultsInfoWrapper}>
+                        <div className={styles.tokenbg}>
+                          <img
+                            src={
+                              data.currentProgress === 4
+                                ? data.operation === 'BRIDGE'
+                                  ? theme === 'light'
+                                    ? downArrow
+                                    : downArrowDark
+                                  : theme === 'light'
+                                  ? upArrow
+                                  : upArrowDark
+                                : actionHistory
+                            }
+                            className={styles.tokens}
+                          ></img>
+                        </div>
+                        <div>
+                          <p className={styles.value}>
+                            {Number(data.secondTokenAmount).toFixed(4)} {data.tokenOut}
+                          </p>
+                          <p className={styles.amt}>
+                            {new Date(data.timestamp).toLocaleDateString('en-IN')} ;{' '}
+                            {('0' + new Date(data.timestamp).getHours()).slice(-2)}:
+                            {('0' + new Date(data.timestamp).getMinutes()).slice(-2)}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p className={styles.value}>
-                          {Number(data.secondTokenAmount).toFixed(4)} {data.tokenOut}
-                        </p>
-                        <p className={styles.amt}>
-                          {new Date(data.timestamp).toLocaleDateString('en-IN')} ;{' '}
-                          {('0' + new Date(data.timestamp).getHours()).slice(-2)}:
-                          {('0' + new Date(data.timestamp).getMinutes()).slice(-2)}
-                        </p>
-                      </div>
+                      {data.currentProgress === 4 ? (
+                        <div className={styles.detailWrapper}>
+                          <p
+                            id={data.id}
+                            className={styles.details}
+                            onClick={(e) => actionClickHandler(e.target.id)}
+                          >
+                            View Details
+                          </p>
+                        </div>
+                      ) : (
+                        <div className={styles.detailWrapper}>
+                          <p
+                            id={data.id}
+                            className={styles.action}
+                            onClick={(e) => actionClickHandler(e.target.id)}
+                          >
+                            Action Required <img src={actionRequired}></img>
+                          </p>
+                        </div>
+                      )}
                     </div>
-                    {data.currentProgress === 4 ? (
-                      <div className={styles.detailWrapper}>
-                        <p
-                          id={data.id}
-                          className={styles.details}
-                          onClick={(e) => actionClickHandler(e.target.id)}
-                        >
-                          View Details
-                        </p>
-                      </div>
-                    ) : (
-                      <div className={styles.detailWrapper}>
-                        <p
-                          id={data.id}
-                          className={styles.action}
-                          onClick={(e) => actionClickHandler(e.target.id)}
-                        >
-                          Action Required <img src={actionRequired}></img>
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                  <div className={`mt-3 mb-3 ${styles.lineBottom} `}></div>
-                </>
-              );
-            })
-          ) : (
-            <div className={styles.noDataDiv}>
-              <p className={styles.value}>No trasaction history data.</p>
-            </div>
-          )}
+                    <div className={`mt-3 mb-3 ${styles.lineBottom} `}></div>
+                  </>
+                );
+              })
+            ) : (
+              <div className={styles.noDataDiv}>
+                <p className={styles.value}>No trasaction history data.</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
