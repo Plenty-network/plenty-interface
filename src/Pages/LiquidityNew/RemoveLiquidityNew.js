@@ -102,6 +102,22 @@ const RemoveLiquidityNew = (props) => {
     props.setShowConfirmRemoveSupply(false);
     setShowConfirmTransaction(true);
     localStorage.setItem('liqinput', firstTokenAmount);
+    localStorage.setItem(
+      'tokeninliq',
+      props.tokenIn.name === 'tez'
+        ? 'TEZ'
+        : props.tokenIn.name === 'ctez'
+        ? 'CTEZ'
+        : props.tokenIn.name,
+    );
+    localStorage.setItem(
+      'tokenoutliq',
+      props.tokenOut.name === 'tez'
+        ? 'TEZ'
+        : props.tokenOut.name === 'ctez'
+        ? 'CTEZ'
+        : props.tokenOut.name,
+    );
     if (props.tokenIn.name === 'tez') {
       remove_liquidity(
         props.tokenIn.name,
@@ -569,16 +585,16 @@ const RemoveLiquidityNew = (props) => {
       <ConfirmTransaction
         show={showConfirmTransaction}
         theme={props.theme}
-        content={`Burning ${Number(localStorage.getItem('liqinput')).toFixed(6)} ${
-          props.tokenIn.name
-        } / ${props.tokenOut.name} LP `}
+        content={`Burning ${Number(localStorage.getItem('liqinput')).toFixed(
+          6,
+        )} ${localStorage.getItem('tokeninliq')} / ${localStorage.getItem('tokenoutliq')} LP `}
         onHide={handleCloseModal}
       />
       <InfoModal
         open={showTransactionSubmitModal}
-        InfoMessage={`Burning ${Number(localStorage.getItem('liqinput')).toFixed(6)} ${
-          props.tokenIn.name
-        } / ${props.tokenOut.name} LP `}
+        InfoMessage={`Burning ${Number(localStorage.getItem('liqinput')).toFixed(
+          6,
+        )} ${localStorage.getItem('tokeninliq')} / ${localStorage.getItem('tokenoutliq')} LP `}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
         buttonText={'View on TzKT'}
@@ -589,9 +605,9 @@ const RemoveLiquidityNew = (props) => {
       <Loader
         loading={props.loading}
         loaderMessage={props.loaderMessage}
-        content={` ${Number(localStorage.getItem('liqinput')).toFixed(6)} ${props.tokenIn.name} / ${
-          props.tokenOut.name
-        } LP Burned`}
+        content={` ${Number(localStorage.getItem('liqinput')).toFixed(6)} ${localStorage.getItem(
+          'tokeninliq',
+        )} / ${localStorage.getItem('tokenoutliq')} LP Burned`}
         tokenIn={props.tokenIn.name}
         tokenOut={props.tokenOut.name}
         onBtnClick={

@@ -223,6 +223,22 @@ const AddLiquidityNew = (props) => {
       'liqinput',
       props.tokenIn.name === 'tez' ? lpTokenAmount : lpTokenAmount.estimatedLpOutput,
     );
+    localStorage.setItem(
+      'tokeninliq',
+      props.tokenIn.name === 'tez'
+        ? 'TEZ'
+        : props.tokenIn.name === 'ctez'
+        ? 'CTEZ'
+        : props.tokenIn.name,
+    );
+    localStorage.setItem(
+      'tokenoutliq',
+      props.tokenOut.name === 'tez'
+        ? 'TEZ'
+        : props.tokenOut.name === 'ctez'
+        ? 'CTEZ'
+        : props.tokenOut.name,
+    );
 
     setShowConfirmTransaction(true);
     const secondTokenAmountEntered = secondTokenAmount
@@ -727,16 +743,16 @@ const AddLiquidityNew = (props) => {
       <ConfirmTransaction
         show={showConfirmTransaction}
         theme={props.theme}
-        content={`Creating ${Number(localStorage.getItem('liqinput')).toFixed(6)} ${
-          props.tokenIn.name
-        } / ${props.tokenOut.name} LP `}
+        content={`Creating ${Number(localStorage.getItem('liqinput')).toFixed(
+          6,
+        )} ${localStorage.getItem('tokeninliq')} / ${localStorage.getItem('tokenoutliq')} LP `}
         onHide={handleCloseModal}
       />
       <InfoModal
         open={showTransactionSubmitModal}
-        InfoMessage={`Creating ${Number(localStorage.getItem('liqinput')).toFixed(6)} ${
-          props.tokenIn.name
-        } / ${props.tokenOut.name} LP `}
+        InfoMessage={`Creating ${Number(localStorage.getItem('liqinput')).toFixed(
+          6,
+        )} ${localStorage.getItem('tokeninliq')} / ${localStorage.getItem('tokenoutliq')} LP `}
         theme={props.theme}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
@@ -748,9 +764,9 @@ const AddLiquidityNew = (props) => {
       <Loader
         loading={props.loading}
         loaderMessage={props.loaderMessage}
-        content={`${Number(localStorage.getItem('liqinput')).toFixed(6)} ${props.tokenIn.name} / ${
-          props.tokenOut.name
-        } LP Created`}
+        content={`${Number(localStorage.getItem('liqinput')).toFixed(6)} ${localStorage.getItem(
+          'tokeninliq',
+        )} / ${localStorage.getItem('tokenoutliq')} LP Created`}
         tokenIn={props.tokenIn.name}
         tokenOut={props.tokenOut.name}
         onBtnClick={

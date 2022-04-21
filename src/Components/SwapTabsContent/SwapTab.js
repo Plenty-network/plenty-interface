@@ -282,7 +282,14 @@ const SwapTab = (props) => {
     props.setShowConfirmSwap(false);
     props.setShowConfirmTransaction(true);
     localStorage.setItem('wrapped', firstTokenAmount);
-    localStorage.setItem('token', props.tokenIn.name);
+    localStorage.setItem(
+      'token',
+      props.tokenIn.name === 'tez'
+        ? 'TEZ'
+        : props.tokenIn.name === 'ctez'
+        ? 'CTEZ'
+        : props.tokenIn.name,
+    );
     const recepientAddress = props.recepient ? props.recepient : props.walletAddress;
     if (props.tokenIn.name === 'ctez' && props.tokenOut.name === 'tez') {
       ctez_to_tez(

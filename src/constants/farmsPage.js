@@ -659,7 +659,7 @@ export const FARMS_CARD_TYPE_LIST = {
     image: ctezFarmLpIcon,
     harvestImg: plentyToken,
     multi: '100',
-    title: 'PLENTY / ctez LP',
+    title: 'PLENTY / CTEZ LP',
     apr: 0,
     apy: '2621',
     earn: 'PLENTY',
