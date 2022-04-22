@@ -936,6 +936,7 @@ export const getActionRequiredCount = async ({ ethereumAddress, tzAddress }) => 
           ethereumAddress: ethereumAddress ? ethereumAddress : '',
           type: 'ERC20',
           status: 'asked',
+          
         },
       });
 
