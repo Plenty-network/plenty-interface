@@ -347,7 +347,7 @@ const Bridge = (props) => {
           <Col xs={11} sm={11} md={10} lg={6} xl={6}>
             <BridgeText />
           </Col>
-          <Col xs={20} sm={10} md={10} lg={6} xl={6}>
+          <Col xs={20} sm={10} md={10} lg={6} xl={6} className='bridge-modal-main-div'>
             {transaction === 1 && (
               <BridgeModal
                 walletAddress={props.walletAddress}

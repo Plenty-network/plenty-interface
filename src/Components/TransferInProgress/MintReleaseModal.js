@@ -107,7 +107,7 @@ const MintReleaseModal = (props) => {
       <div className={styles.resultsHeader}>
         <div className={`${styles.bottomInfo} ${styles.width} ${styles.confirmTextWrapper}`}>
           {awaitingConfirmation ? (
-            <p>Awating confirmation..</p>
+            <p>Awaiting confirmation..</p>
           ) : (
             confirmationsCount !== 0 && confirmationsRequired !== 0 && confirmationsCount >= confirmationsRequired ? (
               <p>
