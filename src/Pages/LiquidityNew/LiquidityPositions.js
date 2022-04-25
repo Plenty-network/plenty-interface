@@ -23,8 +23,8 @@ export const LiquidityPositions = (props) => {
 
   useEffect(async () => {
     const res = await getLiquidityPositionsForUser(props.walletAddress);
-    if (res.success) {
-      console.log(res);
+
+    if (res.success && res.data.length > 0) {
       setEmpty(false);
       setPositions(res.data);
     } else {
