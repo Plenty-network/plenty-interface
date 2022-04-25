@@ -470,14 +470,14 @@ const SwapTab = (props) => {
           <div
             className={clsx(
               'swap-token-select-box',
-              'bg-themed-light',
+
               errorMessage && 'errorBorder',
               firstTokenAmount > 0 && (errorMessage ? 'errorBorder' : 'typing-border'),
             )}
           >
             <div className="token-selector-balance-wrapper-swap">
               <button
-                className="token-selector dropdown-themed token-selector-height"
+                className="token-selector  token-selector-height"
                 onClick={() => props.handleTokenType('tokenIn')}
               >
                 <img src={props.tokenIn.image} className="button-logo logo-size" />

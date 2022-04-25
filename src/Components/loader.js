@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import clsx from 'clsx';
-//import { PuffLoader } from 'react-spinners';
 import { ReactComponent as SuccessImg } from '../assets/images/status.svg';
 import { ReactComponent as ErrorImg } from '../assets/images/errorImg.svg';
 import '../assets/scss/animation.scss';

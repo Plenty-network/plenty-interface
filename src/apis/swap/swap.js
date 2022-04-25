@@ -3,7 +3,6 @@ import { BeaconWallet } from '@taquito/beacon-wallet';
 import { CheckIfWalletConnected } from '../wallet/wallet';
 import CONFIG from '../../config/config';
 import axios from 'axios';
-// import { RPC_NODE } from '../../constants/localStorage';
 import { packDataBytes, unpackDataBytes } from '@taquito/michel-codec';
 import { TezosMessageUtils, TezosParameterFormat } from 'conseiljs';
 import {

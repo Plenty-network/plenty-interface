@@ -494,7 +494,7 @@
   height: 50px;
 }
 .token-selector {
-  background-color: var(--theme-bg-4);
+  background-color: var(--theme-swap-revamp-token-selector);
   box-shadow: 0px 10px 30px rgba(138, 149, 158, 0.09);
   font-style: normal;
   font-weight: 500;
@@ -504,12 +504,12 @@
   border-radius: 8px;
   padding: 8px 12px;
   cursor: pointer;
-  border: 1px solid rgba(176, 183, 195, 0.5);
+  border: 1px solid var(--theme-swap-revamp-token-selector-border);
   @media screen and (min-width: 320px) and (max-width: 900px) {
     padding: 8px;
   }
   &:hover {
-    border: 0.803667px solid rgba(98, 2, 239, 0.4);
+    border: 1px solid rgba(98, 2, 239, 0.4);
     background: #f9fafa;
   }
   &.not-selected {
@@ -915,13 +915,13 @@
 .second-input-typing {
   background: var(--theme-swap-second-input-bg);
   mix-blend-mode: normal;
-  border: 1.2px solid var(--theme-share-pool-bg);
+  border: 0.803667px solid var(--theme-second-swap-input) !important;
   box-shadow: 0px 2px 23px rgba(22, 3, 50, 0.11);
 }
 .second-token-input-swap {
   background: var(--theme-swap-second-input-bg);
 
-  border: 0.803667px solid var(--theme-share-pool-bg);
+  border: 0.803667px solid var(--theme-second-swap-input);
   .token-selector {
     background: var(--theme-swap-revamp-token-selector);
     border: 1px solid var(--theme-swap-revamp-token-selector-border);
@@ -1158,7 +1158,7 @@
   margin: 0 18px;
 }
 .share-pool {
-  background: var(--theme-share-pool-bg);
+  background: var(--theme-second-swap-input);
   margin: 0 18px;
   padding-top: 8px;
   padding-bottom: 8px;
@@ -1518,7 +1518,7 @@
 .swap-detail-wrapper {
   background: var(--theme-swap-details-bg);
   mix-blend-mode: normal;
-  border: 0.863044px solid var(--theme-share-pool-bg);
+  border: 0.863044px solid var(--theme-second-swap-input);
   box-sizing: border-box;
   border-radius: 12px;
 
@@ -1538,7 +1538,7 @@
   background: var(--theme-swap-details-bg);
   mix-blend-mode: normal;
   border-top: 0px !important;
-  border: 0.863044px solid var(--theme-share-pool-bg);
+  border: 0.863044px solid var(--theme-second-swap-input);
   box-sizing: border-box;
   border-radius: 0px 0px 12px 12px;
   padding: 0px 20px 24px;
@@ -1685,7 +1685,7 @@
   font-weight: 500;
   line-height: 18px;
   letter-spacing: 0em;
-  color: var(--theme-governance-buttonBorder);
+  color: var(--theme-governance-buttonBorder) !important;
   opacity: 100%;
 }
 .open {
@@ -1809,7 +1809,7 @@
 
   background: var(--theme-swap-details-bg);
   mix-blend-mode: normal;
-  border: 0.803667px solid var(--theme-share-pool-bg);
+  border: 0.803667px solid var(--theme-second-swap-input);
   box-sizing: border-box;
   border-radius: 16px;
   padding: 18px 20px;

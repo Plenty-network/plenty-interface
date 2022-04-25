@@ -153,6 +153,8 @@
   --theme-balance-border-second: #a4aebf;
   --theme-balance-onhover-second: #4e5d78;
   --theme-hover-liq-input: rgba(0, 0, 0, 0.2);
+  --theme-second-swap-input-typing: rgba(98, 2, 239, 0.3);
+  --theme-second-swap-input: rgba(98, 2, 239, 0.2);
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -316,6 +318,8 @@
   --theme-balance-border-second: rgba(176, 183, 195, 0.5);
   --theme-balance-onhover-second: #b0b7c3;
   --theme-hover-liq-input: #62688f;
+  --theme-second-swap-input-typing: rgba(206, 174, 254, 0.2);
+  --theme-second-swap-input: rgba(206, 174, 254, 0.2);
 }
 
 :root.theme-transiton {
