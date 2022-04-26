@@ -11,7 +11,7 @@ const ConfirmTransaction = (props) => {
     props.show && props.theme === 'light'
       ? lottieWeb.loadAnimation({
           container: container.current,
-          path: './loader.json',
+          path: '/loader.json',
           renderer: 'svg',
           loop: true,
           autoplay: true,
@@ -19,7 +19,7 @@ const ConfirmTransaction = (props) => {
         })
       : lottieWeb.loadAnimation({
           container: container.current,
-          path: './loader-dark.json',
+          path: '/loader-dark.json',
           renderer: 'svg',
           loop: true,
           autoplay: true,
@@ -28,12 +28,6 @@ const ConfirmTransaction = (props) => {
   }, [props.show]);
   return (
     <>
-      <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.7/lottie.min.js"
-        integrity="sha512-HDCfX3BneBQMfloBfluMQe6yio+OfXnbKAbI0SnfcZ4YfZL670nc52Aue1bBhgXa+QdWsBdhMVR2hYROljf+Fg=="
-        crossOrigin="anonymous"
-      ></script>
-
       <SimpleModal
         className="confirm-swap-modal"
         open={props.show}
@@ -55,8 +49,6 @@ const ConfirmTransaction = (props) => {
               style={{ cursor: 'default' }}
             >
               {props.content}
-              {/* Swap {props.firstTokenAmount} {props.tokenIn.name} for{' '}
-              {Number(props.secondTokenAmount).toFixed(6)} {props.tokenOut.name} */}
             </Button>
             <div className="footer-confirm-transaction">
               Confirm this transaction on your wallet
