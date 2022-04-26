@@ -14,7 +14,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Loader from '../../Components/loader';
 import maxlight from '../../assets/images/max-light.svg';
 import maxDark from '../../assets/images/max-dark.svg';
-import ConfirmTransactionLiq from '../../Components/ConfirmTransactionLiq/ConfirmTransactionLiq';
+import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransaction';
 
 const RemoveLiquidityNew = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
@@ -582,7 +582,7 @@ const RemoveLiquidityNew = (props) => {
         xtztoctez={xtztoctez}
         cteztoxtz={cteztoxtz}
       />
-      <ConfirmTransactionLiq
+      <ConfirmTransaction
         show={showConfirmTransaction}
         theme={props.theme}
         content={`Burning ${Number(localStorage.getItem('liqinput')).toFixed(
