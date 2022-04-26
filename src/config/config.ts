@@ -1234,7 +1234,8 @@ const Config: IConfig = {
     testnet: {},
   },
   ROUTER: {
-    mainnet: 'KT1QzuJg2dJZVSoDf56BmvPGMduWzjYggkf5',
+    // KT1QzuJg2dJZVSoDf56BmvPGMduWzjYggkf5
+    mainnet: 'KT1VDJiD3JRUsTjcpPhHmTioBB7iMhVpoi7b',
     testnet: 'KT1FMZVMeyCrNFyGjJfiB6VSq3LX1ShSEzuw',
   },
   STABLESWAP: {
@@ -1739,16 +1740,18 @@ const Config: IConfig = {
         TOKEN_ID: 17,
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
-          PLENTY: {
-            contract: 'KT1PuPNtDFLR6U7e7vDuxunDoKasVT6kMSkz',
-            property: 'token1_pool',
-            liquidityToken: 'PlentywUSDClp',
-          },
-          ctez: {
-            contract: 'KT1PZpbmKtGE6ZyYeF8entfjuGGT7CRUCF5g',
-            property: 'token1_pool',
-            liquidityToken: 'ctez-wusdc-lp',
-          },
+          // TODO : remove comment from Plenty
+          // PLENTY: {
+          //   contract: 'KT1PuPNtDFLR6U7e7vDuxunDoKasVT6kMSkz',
+          //   property: 'token1_pool',
+          //   liquidityToken: 'PlentywUSDClp',
+          // },
+          // TODO : remove comment from ctez
+          // ctez: {
+          //   contract: 'KT1PZpbmKtGE6ZyYeF8entfjuGGT7CRUCF5g',
+          //   property: 'token1_pool',
+          //   liquidityToken: 'ctez-wusdc-lp',
+          // },
           // USDtz: {
           //   contract: 'KT1EJMMismkf6TQdMzgx8hb1HpiiRVV8ZSm4',
           //   property: 'token2_pool',
@@ -2105,11 +2108,12 @@ const Config: IConfig = {
             property: 'ctezPool',
             liquidityToken: 'ctez-XTZ-LP',
           },
-          PLENTY: {
-            contract: 'KT1C9gJRfkpPbNdBn3XyYbrUHT6XgfPzZqXP',
-            property: 'token1_pool',
-            liquidityToken: 'PlentyCtezlp',
-          },
+          // TODO : remove Plenty comment
+          // PLENTY: {
+          //   contract: 'KT1C9gJRfkpPbNdBn3XyYbrUHT6XgfPzZqXP',
+          //   property: 'token1_pool',
+          //   liquidityToken: 'PlentyCtezlp',
+          // },
           kUSD: {
             contract: 'KT1X1nkqJDR1UHwbfpcnME5Z7agJLjUQNguB',
             property: 'token2_pool',
@@ -2130,11 +2134,12 @@ const Config: IConfig = {
             property: 'token2_pool',
             liquidityToken: 'ctez-wwbtc-lp',
           },
-          wUSDC: {
-            contract: 'KT1PZpbmKtGE6ZyYeF8entfjuGGT7CRUCF5g',
-            property: 'token2_pool',
-            liquidityToken: 'ctez-wusdc-lp',
-          },
+          // TODO : remove comment from wUSDC
+          // wUSDC: {
+          //   contract: 'KT1PZpbmKtGE6ZyYeF8entfjuGGT7CRUCF5g',
+          //   property: 'token2_pool',
+          //   liquidityToken: 'ctez-wusdc-lp',
+          // },
           wUSDT: {
             contract: 'KT1AfTwam4bNPawLv4bWqSj9GsVDPsf5F5bQ',
             property: 'token2_pool',
