@@ -81,6 +81,7 @@ const BridgeModal = (props) => {
   //const [operation, setOperation] = useState('BRIDGE');
   //const operation = useRef('BRIDGE');
   //const [tokenList, setTokenList] = useState(tokensList[fromBridge.name]);
+  //userBalances[tokenIn.name]
 
   // Destructuring all props to respective variable names.
   const {
@@ -188,6 +189,7 @@ const BridgeModal = (props) => {
 
   useEffect(async () => {
     setUserTokenBalance(null);
+    setUserBalances((prevState) => ({...prevState,[tokenIn.name]: null}));
     console.log(tokenIn);
     if (
       tokenIn.name !== 'Token NA' &&
@@ -200,8 +202,10 @@ const BridgeModal = (props) => {
         console.log(balanceResult);
         if (balanceResult.success) {
           setUserTokenBalance(Number(balanceResult.balance) / 10 ** tokenIn.tokenData.DECIMALS);
+          setUserBalances((prevState) => ({...prevState,[tokenIn.name]: Number(balanceResult.balance) / 10 ** tokenIn.tokenData.DECIMALS}));
         } else {
           setUserTokenBalance(-1);
+          setUserBalances((prevState) => ({...prevState,[tokenIn.name]: -1}));
         }
         console.log(tokenIn.tokenData.DECIMALS);
         console.log(Number(balanceResult.balance) / 10 ** tokenIn.tokenData.DECIMALS);
@@ -225,15 +229,18 @@ const BridgeModal = (props) => {
         console.log(balanceResult);
         if (balanceResult.success) {
           setUserTokenBalance(Number(balanceResult.balance));
+          setUserBalances((prevState) => ({...prevState,[tokenIn.name]: Number(balanceResult.balance)}));
           //setUserTokenBalance(Number('10'));
           console.log(Number(balanceResult.balance));
         } else {
           setUserTokenBalance(-1);
+          setUserBalances((prevState) => ({...prevState,[tokenIn.name]: -1}));
         }
         console.log(BridgeConfiguration.getOutTokenUnbridgingWhole(toBridge.name, tokenIn.name));
       }
     } else {
       setUserTokenBalance(-1);
+      setUserBalances((prevState) => ({...prevState,[tokenIn.name]: -1}));
     }
   }, [tokenIn, walletAddress, metamaskAddress, metamaskChain]);
   /* useEffect(() => {
@@ -262,7 +269,8 @@ const BridgeModal = (props) => {
   };
 
   const onClickAmount = () => {
-    const value = userTokenBalance ?? 0;
+    // const value = userTokenBalance ?? 0;
+    const value = userBalances[tokenIn.name] ?? 0;
     handleFromTokenInput(value);
   };
 
@@ -298,15 +306,18 @@ const BridgeModal = (props) => {
         input === '' ||
         isNaN(input) ||
         tokenIn.name === 'Token NA' ||
-        userTokenBalance === null ||
-        userTokenBalance < 0
+        // userTokenBalance === null ||
+        // userTokenBalance < 0
+        userBalances[tokenIn.name] === null ||
+        userBalances[tokenIn.name] < 0
       ) {
         setFirstTokenAmount('');
         setSecondTokenAmount('');
         setFee(0);
       } else {
         setFirstTokenAmount(input);
-        if (input > userTokenBalance) {
+        // if (input > userTokenBalance) {
+          if (input > userBalances[tokenIn.name]) {
           setErrorMessage('Insufficient balance');
           setIsError(true);
         } else {
@@ -349,7 +360,8 @@ const BridgeModal = (props) => {
     if (firstTokenAmount === '' || isNaN(firstTokenAmount) || firstTokenAmount === 0) {
       setErrorMessage('Enter the amount and proceed');
       setIsError(true);
-    } else if (firstTokenAmount > userTokenBalance) {
+    // } else if (firstTokenAmount > userTokenBalance) {
+    } else if (firstTokenAmount > userBalances[tokenIn.name]) {
       setErrorMessage('Insufficient balance');
       setIsError(true);
     } else {
@@ -754,11 +766,13 @@ const BridgeModal = (props) => {
           >
             <p className={clsx(styles.errorText)}>{isError ? errorMessage : ' '}</p>
             <p className={clsx('wallet-token-balance', styles.balanceText)}>
-              {userTokenBalance >= 0 && userTokenBalance !== null && (
+              {/* {userTokenBalance >= 0 && userTokenBalance !== null && ( */}
+              {userBalances[tokenIn.name] >= 0 && userBalances[tokenIn.name] !== null && (
                 <>
                   Balance:{' '}
                   <span className={styles.balanceValue} onClick={onClickAmount}>
-                    {userTokenBalance}
+                    {/* {userTokenBalance} */}
+                    {userBalances[tokenIn.name]}
                     {theme === 'light' ? (
                       <MaxBtnIcon className={styles.maxButton} />
                     ) : (
@@ -767,7 +781,8 @@ const BridgeModal = (props) => {
                   </span>
                 </>
               )}
-              {userTokenBalance === null && (
+              {/* {userTokenBalance === null && ( */}
+              {userBalances[tokenIn.name] === null && (
                 <>
                   Balance: <span className="shimmer">0.0000</span>
                 </>

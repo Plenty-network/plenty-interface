@@ -104,7 +104,7 @@ const DoneModal = (props) => {
               <div className="containerwithicon">
                 <img src={tokenOut.image} />
                 <span className="value-text">
-                  {secondTokenAmount} {tokenOut.name}
+                  {Number(secondTokenAmount).toFixed(8)} {tokenOut.name}
                 </span>
               </div>
             </div>
@@ -119,7 +119,7 @@ const DoneModal = (props) => {
                 <img src={tokenOut.image} />
                 <div className="right-div">
                   <span className="value-text">
-                    {secondTokenAmount} {tokenOut.name}
+                    {Number(secondTokenAmount).toFixed(8)} {tokenOut.name}
                   </span>
                   <span className="fromreceived success-text">
                     {operation === 'BRIDGE' ? 'Bridging' : 'Unbridging'} Successful

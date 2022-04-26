@@ -18,6 +18,10 @@
   margin-right: 0px;
   top: 100px;
   position: sticky;
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    top: auto;
+    margin-top: -10px;
+  }
 }
 .tokenbg {
   width: 44px;
@@ -104,6 +108,11 @@
     box-shadow: none;
     padding: 20px 20px;
     margin: 0 auto;
+    width: auto;
+    border: none;
+  }
+  @media screen and (min-width: 992px) and (max-width: 1230px) {
+    max-width: 520px;
     width: auto;
   }
   .arrowback {
