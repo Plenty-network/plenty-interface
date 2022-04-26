@@ -34,7 +34,7 @@ const Governance = (props) => {
     // ? voting results modal will be displayed, until next proposal comes up,
     if (date.getDate()) {
       props.getResults();
-      setVoteEnded(false);
+      setVoteEnded(true);
     }
   }, []);
   useEffect(() => {
