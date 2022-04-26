@@ -500,11 +500,13 @@ const BridgeModal = (props) => {
         image: fromBridge.image,
         buttonImage: fromBridge.buttonImage,
       };
-      setToBridge({
-        name: currentFrom.name,
-        image: currentFrom.image,
-        buttonImage: currentFrom.buttonImage,
-      });
+      if(currentFrom.name !== 'TEZOS') {
+        setToBridge({
+          name: currentFrom.name,
+          image: currentFrom.image,
+          buttonImage: currentFrom.buttonImage,
+        });
+      }
       //setFromBridge({name: bridge.name, image: bridge.image, buttonImage: bridge.buttonImage});
       setOperation('UNBRIDGE');
       //operation.current = 'UNBRIDGE';

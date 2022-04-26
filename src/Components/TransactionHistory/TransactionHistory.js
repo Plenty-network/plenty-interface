@@ -435,8 +435,12 @@ const TransactionHistory = (props) => {
                             {Number(data.secondTokenAmount).toFixed(4)} {data.tokenOut}
                           </p>
                           <p className={styles.amt}>
-                            {new Date(data.timestamp).toLocaleDateString('en-IN')} ;{' '}
-                            {('0' + new Date(data.timestamp).getHours()).slice(-2)}:
+                            {new Date(data.timestamp).toLocaleDateString('en-GB', {
+                              day: 'numeric',
+                              month: 'short',
+                              year: 'numeric',
+                            })}{' '}
+                            ; {('0' + new Date(data.timestamp).getHours()).slice(-2)}:
                             {('0' + new Date(data.timestamp).getMinutes()).slice(-2)}
                           </p>
                         </div>
