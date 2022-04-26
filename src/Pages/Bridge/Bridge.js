@@ -61,7 +61,7 @@ const Bridge = (props) => {
   const [metamaskAddress, setMetamaskAddress] = useState(null);
   const [currentChain, setCurrentChain] = useState(fromBridge.name);
   const [metamaskChain, setMetamaskChain] = useState(null);
-  
+
   const loadedTokensList = useRef(null);
   const switchButtonPressed = useRef(false);
   const operation = useRef('BRIDGE');
@@ -122,13 +122,46 @@ const Bridge = (props) => {
     console.log('display message called');
     setShowFlashMessage(false);
     setFlashMessageType(messageObj.type);
-    messageObj.duration ? flashMessageDuration.current = messageObj.duration : flashMessageDuration.current = null;
+    messageObj.duration
+      ? (flashMessageDuration.current = messageObj.duration)
+      : (flashMessageDuration.current = null);
     setFlashMessageTitle(messageObj.title);
     setFlashMessageContent(messageObj.content);
     setIsFlashMessageALink(messageObj.isFlashMessageALink);
-    messageObj.flashMessageLink ? flashMessageLink.current = messageObj.flashMessageLink : '#';
+    messageObj.flashMessageLink ? (flashMessageLink.current = messageObj.flashMessageLink) : '#';
     setShowFlashMessage(true);
   }, []);
+
+  useEffect(() => {
+    console.log(localStorage?.getItem('isWalletConnected'));
+    if (localStorage?.getItem('isWalletConnected') === 'true') {
+      try {
+        console.log('HERE');
+        connectWalletHandler();
+      } catch (ex) {
+        localStorage.setItem('isWalletConnected', false);
+      }
+    }
+  }, []);
+
+  const connectWalletHandler = () => {
+    console.log('Connecting');
+    if (window.ethereum && window.ethereum.isMetaMask) {
+      console.log('MetaMask Here!');
+      window.ethereum
+        .request({ method: 'eth_requestAccounts' })
+        .then((result) => {
+          setMetamaskAddress(result[0]);
+        })
+        .catch((error) => {
+          console.log(error);
+          localStorage.setItem('isWalletConnected', false);
+        });
+    } else {
+      console.log('Need to install MetaMask');
+      localStorage.setItem('isWalletConnected', false);
+    }
+  };
 
   const handleFlashMessageClose = useCallback(() => {
     console.log('close');
@@ -140,27 +173,49 @@ const Bridge = (props) => {
       console.log('change handler triggered');
       const chainResult = await getCurrentNetwork();
       console.log(chainResult);
-      if(chainResult !== undefined) {
+      if (chainResult !== undefined) {
         setMetamaskChain(chainResult);
       } else {
         throw new Error('Undefined Chain');
       }
-    } catch(error) {
+    } catch (error) {
       console.log(error.message);
       // Add flash message to show error or chain which doesn't exist on PLENTY DeFi.
-      displayMessage({type: 'error',duration: FLASH_MESSAGE_DURATION, title: 'Chain Change Error', content: error.message, isFlashMessageALink: false, flashMessageLink: '#'});
+      displayMessage({
+        type: 'error',
+        duration: FLASH_MESSAGE_DURATION,
+        title: 'Chain Change Error',
+        content: error.message,
+        isFlashMessageALink: false,
+        flashMessageLink: '#',
+      });
     }
   }, [metamaskChain]);
 
-  const metamaskAccountChangeHandler = useCallback((newAccount) => {
-    console.log(newAccount[0]);
-    if(newAccount.length > 0) {
-      setMetamaskAddress(newAccount[0]);
-    } else {
-      setMetamaskAddress(null);
-    }
-    //setMetamaskAddress(newAccount);
-  }, [metamaskAddress]);
+  const metamaskAccountChangeHandler = useCallback(
+    (newAccount) => {
+      console.log(newAccount[0]);
+      if (newAccount.length > 0) {
+        setMetamaskAddress(newAccount[0]);
+        localStorage.setItem('isWalletConnected', true);
+      } else {
+        setMetamaskAddress(null);
+        localStorage.setItem('isWalletConnected', false);
+      }
+      //setMetamaskAddress(newAccount);
+    },
+    [metamaskAddress],
+  );
+
+  /*   const onConnect = useCallback((connectInfo) => {
+    console.log('connected', connectInfo);
+    localStorage.setItem('isWalletConnected', true);
+  }, []);
+
+  const onDisconnect = useCallback((connectInfo) => {
+    console.log('disconnected', connectInfo);
+    localStorage.setItem('isWalletConnected', false);
+  }, []); */
 
   //Add all metamask event listeners and remove them on unmount.
   useEffect(() => {
@@ -175,8 +230,6 @@ const Bridge = (props) => {
       window.ethereum.removeListener('accountsChanged', metamaskAccountChangeHandler);
     };
   }, []);
-
-  
 
   useEffect(() => {
     if (!initialRender.current) {
@@ -337,17 +390,16 @@ const Bridge = (props) => {
     setFee(0);
     SetCurrentProgress(0);
     //setSelectedId(0);
-    
   }, []);
 
   return (
     <>
-      <Container fluid className='bridge-main-component'>
+      <Container fluid className="bridge-main-component">
         <Row className={clsx('row justify-content-center')}>
           <Col xs={11} sm={11} md={10} lg={6} xl={6}>
             <BridgeText />
           </Col>
-          <Col xs={20} sm={10} md={10} lg={6} xl={6} className='bridge-modal-main-div'>
+          <Col xs={20} sm={10} md={10} lg={6} xl={6} className="bridge-modal-main-div">
             {transaction === 1 && (
               <BridgeModal
                 walletAddress={props.walletAddress}
@@ -482,10 +534,14 @@ const Bridge = (props) => {
         <p
           className={isFlashMessageALink ? 'linkText' : 'normalText'}
           style={{ cursor: isFlashMessageALink ? 'pointer' : 'auto' }}
-          onClick={isFlashMessageALink ? () => window.open(flashMessageLink.current, '_blank') : null}
+          onClick={
+            isFlashMessageALink ? () => window.open(flashMessageLink.current, '_blank') : null
+          }
         >
           {flashMessageContent}
-          {isFlashMessageALink && <span className=" material-icons-round launch-icon-flash">launch</span>}
+          {isFlashMessageALink && (
+            <span className=" material-icons-round launch-icon-flash">launch</span>
+          )}
         </p>
       </FlashMessage>
     </>
