@@ -518,14 +518,35 @@ const SwapTab = (props) => {
                     style={{ cursor: 'pointer' }}
                   >
                     Balance:{' '}
-                    <OverlayTrigger
-                      placement="top"
-                      overlay={
-                        <Tooltip id="button-tooltip" {...props}>
-                          {props.userBalances[props.tokenIn.name]}
-                        </Tooltip>
-                      }
-                    >
+                    {props.userBalances[props.tokenIn.name] > 0 ? (
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={
+                          <Tooltip id="button-tooltip" {...props}>
+                            {props.userBalances[props.tokenIn.name]}
+                          </Tooltip>
+                        }
+                      >
+                        <span
+                          className={clsx(
+                            'balance-tokenin',
+                            errorMessage &&
+                              message === 'Insufficient balance' &&
+                              'error-text-color',
+                          )}
+                        >
+                          {props.userBalances[props.tokenIn.name] >= 0 ? (
+                            props.userBalances[props.tokenIn.name].toFixed(4)
+                          ) : (
+                            <div className="shimmer">0.0000</div>
+                          )}{' '}
+                          <img
+                            src={props.theme === 'light' ? maxlight : maxDark}
+                            className="max-swap"
+                          />
+                        </span>
+                      </OverlayTrigger>
+                    ) : (
                       <span
                         className={clsx(
                           'balance-tokenin',
@@ -542,7 +563,7 @@ const SwapTab = (props) => {
                           className="max-swap"
                         />
                       </span>
-                    </OverlayTrigger>
+                    )}
                   </p>
                 ) : (
                   <p className="wallet-token-balance balance-revamp">
