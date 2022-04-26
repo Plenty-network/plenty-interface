@@ -236,7 +236,7 @@ const HeaderBottom = (props) => {
                 <Col xl={5} lg={6} xs={12}>
                   <div className="topics">
                     <Link to="/liquidity" className="text-decoration-none">
-                      <p className="heading">LIQUIDTY</p>
+                      <p className="heading">LIQUIDITY</p>
                       <div className="flex para ">
                         <div className="parainside">
                           Add liquidity to receive LP tokens and trading fees

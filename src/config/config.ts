@@ -2109,11 +2109,11 @@ const Config: IConfig = {
             liquidityToken: 'ctez-XTZ-LP',
           },
           // TODO : remove Plenty comment
-          // PLENTY: {
-          //   contract: 'KT1C9gJRfkpPbNdBn3XyYbrUHT6XgfPzZqXP',
-          //   property: 'token1_pool',
-          //   liquidityToken: 'PlentyCtezlp',
-          // },
+          PLENTY: {
+            contract: 'KT1C9gJRfkpPbNdBn3XyYbrUHT6XgfPzZqXP',
+            property: 'token1_pool',
+            liquidityToken: 'PlentyCtezlp',
+          },
           kUSD: {
             contract: 'KT1X1nkqJDR1UHwbfpcnME5Z7agJLjUQNguB',
             property: 'token2_pool',

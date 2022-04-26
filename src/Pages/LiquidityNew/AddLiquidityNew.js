@@ -426,7 +426,7 @@ const AddLiquidityNew = (props) => {
                 <input
                   type="text"
                   className="token-user-input-lq"
-                  placeholder="0.0"
+                  placeholder="--"
                   disabled
                   value={firstTokenAmount}
                 />
@@ -540,7 +540,7 @@ const AddLiquidityNew = (props) => {
                   type="text"
                   disabled
                   className="token-user-input-lq"
-                  placeholder="0.0"
+                  placeholder="--"
                   value={firstTokenAmount}
                 />
               )}
@@ -736,12 +736,13 @@ const AddLiquidityNew = (props) => {
         xtztoctez={xtztoctez}
         cteztoxtz={cteztoxtz}
       />
+
       <ConfirmTransaction
         show={showConfirmTransaction}
-        theme={props.theme}
         content={`Creating ${Number(localStorage.getItem('liqinput')).toFixed(
           6,
         )} ${localStorage.getItem('tokeninliq')} / ${localStorage.getItem('tokenoutliq')} LP `}
+        theme={props.theme}
         onHide={handleCloseModal}
       />
       <InfoModal

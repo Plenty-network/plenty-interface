@@ -592,6 +592,7 @@ const RemoveLiquidityNew = (props) => {
       />
       <InfoModal
         open={showTransactionSubmitModal}
+        theme={props.theme}
         InfoMessage={`Burning ${Number(localStorage.getItem('liqinput')).toFixed(
           6,
         )} ${localStorage.getItem('tokeninliq')} / ${localStorage.getItem('tokenoutliq')} LP `}

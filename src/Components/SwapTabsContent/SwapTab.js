@@ -506,7 +506,7 @@ const SwapTab = (props) => {
                   onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenIn')}
                 />
               ) : (
-                <input type="text" className="token-user-input" placeholder="0.0" disabled />
+                <input type="text" className="token-user-input" placeholder="--" disabled />
               )}
             </div>
             {props.walletAddress ? (
