@@ -152,6 +152,7 @@ const Bridge = (props) => {
         .request({ method: 'eth_requestAccounts' })
         .then((result) => {
           setMetamaskAddress(result[0]);
+          localStorage.setItem('isWalletConnected', true);
         })
         .catch((error) => {
           console.log(error);
@@ -434,6 +435,7 @@ const Bridge = (props) => {
                 metamaskChain={metamaskChain}
                 displayMessage={displayMessage}
                 setSwitchButtonPressed={setSwitchButtonPressed}
+                connectWalletHandler={connectWalletHandler}
               />
             )}
             {transaction === 2 && (

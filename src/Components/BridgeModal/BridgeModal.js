@@ -117,6 +117,7 @@ const BridgeModal = (props) => {
     metamaskChain,
     displayMessage,
     setSwitchButtonPressed,
+    connectWalletHandler,
   } = props;
 
   //const [tokenList, setTokenList] = useState(tokensList[fromBridge.name]);
@@ -422,7 +423,7 @@ const BridgeModal = (props) => {
     }
   };
 
-  const connectWalletHandler = () => {
+  /* const connectWalletHandler = () => {
     if (window.ethereum && window.ethereum.isMetaMask) {
       console.log('MetaMask Here!');
       window.ethereum
@@ -442,7 +443,7 @@ const BridgeModal = (props) => {
       setErrorMessage('Please install MetaMask browser extension to interact');
       setIsError(true);
     }
-  };
+  }; */
 
   // update account, will cause component re-render
   // const accountChangedHandler = (newAccount) => {
@@ -836,13 +837,22 @@ const BridgeModal = (props) => {
               <div className={clsx(styles.lineVertical, 'mx-2')}></div>
               <div className={clsx(styles.inputWrapper)}>
                 <p className={styles.toLabel}>You will receive</p>
-                <input
-                  type="text"
-                  className={`text-left ${styles.toTokenOutput}`}
-                  placeholder="0.0"
-                  value={secondTokenAmount}
-                  disabled
-                />
+                <OverlayTrigger
+                  overlay={(props) => (
+                    <Tooltip className="switchTooltip token-output-tooltip" {...props}>
+                      {secondTokenAmount}
+                    </Tooltip>
+                  )}
+                  placement="top"
+                >
+                  <input
+                    type="text"
+                    className={`text-left ${styles.toTokenOutput}`}
+                    placeholder="0.0"
+                    value={secondTokenAmount}
+                    disabled
+                  />
+                </OverlayTrigger>
               </div>
             </div>
             <span
@@ -949,6 +959,7 @@ BridgeModal.propTypes = {
   metamaskChain: PropTypes.any,
   displayMessage: PropTypes.any,
   setSwitchButtonPressed: PropTypes.any,
+  connectWalletHandler: PropTypes.any,
 };
 
 export default BridgeModal;

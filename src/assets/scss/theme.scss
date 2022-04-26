@@ -183,7 +183,9 @@
   --theme-bridge-trans-success-shadow: rgba(138, 146, 178, 0.4);
   --theme-bridge-main-to-box-shadow: 0px 2px 26px rgba(20, 9, 32, 0.12);
   --theme-bridge-shimmer-bg: #f6f7f8;
-  --theme-bridge-shimmer-shine: #edeef1; 
+  --theme-bridge-shimmer-shine: #edeef1;
+  --theme-bridge-scrollbar: #F1F1F1;
+  --theme-bridge-scrollbar-bg: #f6f8fc;
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -377,6 +379,8 @@
   --theme-bridge-main-to-box-shadow: 0px 4px 18px rgba(3, 18, 30, 0.3);
   --theme-bridge-shimmer-bg: #3E3968;
   --theme-bridge-shimmer-shine: #2C3546;
+  --theme-bridge-scrollbar: #393456;
+  --theme-bridge-scrollbar-bg: #342F56;
 }
 
 :root.theme-transiton {

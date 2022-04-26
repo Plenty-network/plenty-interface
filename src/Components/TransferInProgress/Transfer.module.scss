@@ -104,6 +104,9 @@
   line-height: 26px;
   letter-spacing: 0px;
   color: var(--theme-bridge-trans-content-desc);
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    font-size: 14px;
+  }
 }
 .bottomInfo {
   font-size: 14px;
@@ -129,6 +132,9 @@
   line-height: 17px;
   color: var(--theme-bridge-header-text);
   margin-bottom: 0px;
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    font-size: 18px;
+  }
 }
 .radioButton {
   width: 11.63px;
@@ -201,6 +207,9 @@
   font-size: 16px;
   line-height: 21px;
   color: var(--theme-bridge-chain-sel-subtext);  
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    font-size: 14px;
+  }
 }
 
 .res {
@@ -236,4 +245,11 @@
 .confirmTextWrapper {
   align-items: center;
   display: flex;
+}
+
+.mainButtonWrapper {
+  width: 50%;
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    width: 45%;
+  }
 }

@@ -120,7 +120,7 @@ const MintReleaseModal = (props) => {
             )
           )}
         </div>
-        <div style={{ width: '50%' }}>
+        <div className={styles.mainButtonWrapper}>
           <Button
             color={'primary'}
             className={`xplenty-btn mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
