@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import truncateMiddle from 'truncate-middle';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './BridgeModal.module.scss';
 import Button from '../Ui/Buttons/Button';
@@ -163,12 +164,10 @@ const BridgeModal = (props) => {
   }, [currentChain, metamaskChain]);
 
   useEffect(() => {
-    if (triggerTooltips) {
-      dispatch(setConnectWalletTooltip(true));
-    } else {
-      dispatch(setConnectWalletTooltip(false));
+    if (currentChain === metamaskChain && isError) {
+      setIsError(false);
     }
-  }, [triggerTooltips]);
+  }, [metamaskChain]);
 
   useEffect(() => {
     setOpeningFromHistory(false);
@@ -487,6 +486,15 @@ const BridgeModal = (props) => {
       props.setTransaction(value);
     }
   }; */
+  const handleInputFocus = () => {
+    setIsError(false);
+    setIsTokenInSelected(true);
+    if(currentChain !== metamaskChain) {
+      setErrorMessage(`Please select ${currentChain} chain in metamask.`);
+      setIsError(true);
+    }
+  };
+
 
   //From Bridge Related
 
@@ -686,7 +694,17 @@ const BridgeModal = (props) => {
       <div className={styles.border}>
         <div className={` ${styles.bridgeModal} leftToRightFadeInAnimation-4-bridge`}>
           <div className={styles.resultsHeader}>
-            <p className={styles.heading}>Bridge Tokens</p>
+            <p className={styles.heading}>
+              Bridge{' '}
+              {metamaskAddress && (
+                <span className={styles.metamaskAddressText}>{`(${truncateMiddle(
+                  metamaskAddress,
+                  5,
+                  4,
+                  '...',
+                )})`}</span>
+              )}
+            </p>
             {walletAddress && metamaskAddress && (
               <p
                 className={`${styles.res} ${pendingTransCount > 0 && styles.pendingHistory}`}
@@ -758,7 +776,7 @@ const BridgeModal = (props) => {
                 placeholder="0.0"
                 value={firstTokenAmount}
                 onChange={(e) => handleFromTokenInput(e.target.value)}
-                onFocus={() => setIsTokenInSelected(true)}
+                onFocus={handleInputFocus}
                 onBlur={() => setIsTokenInSelected(false)}
               />
             </div>

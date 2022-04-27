@@ -134,13 +134,13 @@ const ApproveModal = (props) => {
 
       <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
       <div className={styles.feeInfoWrapper}>
-        <img
+        {/* <img
           src={theme === 'light' ? GasIcon : GasIconDark}
           alt="GasIcon"
           style={{ height: '20px' }}
-        ></img>
-        <p className={styles.bottomInfo}>Estimated Gas fee</p>
-        <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~{Number(gasFees).toFixed(6)}</p>
+        ></img> */}
+        <p className={styles.bottomInfo}>Review your gas fee in your wallet</p>
+        {/* <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~{Number(gasFees).toFixed(6)}</p> */}
       </div>
     </>
   );

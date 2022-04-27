@@ -104,6 +104,7 @@ const BridgeTransferModal = (props) => {
     setFinalOpHash,
     openingFromHistory,
     displayMessage,
+    setOpeningFromHistory,
   } = props;
 
   const setBack = (value) => {
@@ -243,7 +244,7 @@ const BridgeTransferModal = (props) => {
   //const numberOfSteps = ['Approve', 'Bridge', 'Mint', 'Done'];
   const numberOfSteps = [
     { BRIDGE: 'Approve', UNBRIDGE: '' },
-    { BRIDGE: 'Bridge', UNBRIDGE: 'Unbridge' },
+    { BRIDGE: 'Lock', UNBRIDGE: 'Unbridge' },
     { BRIDGE: 'Mint', UNBRIDGE: 'Release' },
     { BRIDGE: 'Done', UNBRIDGE: 'Done' },
   ];
@@ -619,12 +620,23 @@ const BridgeTransferModal = (props) => {
         >
           <div className="flex flex-row justify-content-between mb-3">
             <div className={`flex ${styles.headingWrapper}`}>
-              {currentProgress === 0 && (
+              {(currentProgress === 0 ||
+                (currentProgress === 2 && openingFromHistory) ||
+                (currentProgress === 1 && operation === 'UNBRIDGE')) && (
                 <p
                   className={styles.arrowback}
-                  onClick={isApproveLoading ? null :() => {
-                    setBack(1);
-                  }}
+                  onClick={
+                    currentProgress === 2 && openingFromHistory
+                      ? () => {
+                          resetToDefaultStates();
+                          setTransaction(2);
+                        }
+                      : isApproveLoading
+                      ? null
+                      : () => {
+                          setBack(1);
+                        }
+                  }
                   style={{ cursor: 'pointer' }}
                 >
                   <span className="mr-3 material-icons-round ">arrow_back</span>
@@ -645,15 +657,17 @@ const BridgeTransferModal = (props) => {
             </div>
             {(currentProgress === numberOfSteps.length || currentProgress === 2) && (
               <div>
-                {currentProgress === numberOfSteps.length && (<img
-                  src={theme === 'light' ? HistoryIcon : HistoryIconDark}
-                  alt="History"
-                  className={`${styles.historyIcon} ${styles.transactionIcons}`}
-                  onClick={() => {
-                    resetToDefaultStates();
-                    setTransaction(2);
-                  }}
-                ></img>)}
+                {currentProgress === numberOfSteps.length && (
+                  <img
+                    src={theme === 'light' ? HistoryIcon : HistoryIconDark}
+                    alt="History"
+                    className={`${styles.historyIcon} ${styles.transactionIcons}`}
+                    onClick={() => {
+                      resetToDefaultStates();
+                      setTransaction(2);
+                    }}
+                  ></img>
+                )}
                 <img
                   src={theme === 'light' ? HomeIcon : HomeIconDark}
                   alt="Home"
@@ -774,6 +788,7 @@ const BridgeTransferModal = (props) => {
               openingFromHistory={openingFromHistory}
               displayMessage={displayMessage}
               tokenIn={tokenIn}
+              setOpeningFromHistory={setOpeningFromHistory}
             />
           )}
           {/* code will go here */}
@@ -827,6 +842,7 @@ BridgeTransferModal.propTypes = {
   setFinalOpHash: PropTypes.any,
   openingFromHistory: PropTypes.any,
   displayMessage: PropTypes.any,
+  setOpeningFromHistory: PropTypes.any,
 };
 
 export default BridgeTransferModal;

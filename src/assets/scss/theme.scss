@@ -185,7 +185,8 @@
   --theme-bridge-shimmer-bg: #f6f7f8;
   --theme-bridge-shimmer-shine: #edeef1;
   --theme-bridge-scrollbar: #F1F1F1;
-  --theme-bridge-scrollbar-bg: #f6f8fc;
+  --theme-bridge-scrollbar-bg: #ffffff;
+  --theme-bridge-trans-bottom-info: #B0B7C3;
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -380,7 +381,8 @@
   --theme-bridge-shimmer-bg: #3E3968;
   --theme-bridge-shimmer-shine: #2C3546;
   --theme-bridge-scrollbar: #393456;
-  --theme-bridge-scrollbar-bg: #342F56;
+  --theme-bridge-scrollbar-bg: #201c41;
+  --theme-bridge-trans-bottom-info: #8A94A6;
 }
 
 :root.theme-transiton {

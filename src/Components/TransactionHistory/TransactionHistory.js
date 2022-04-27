@@ -264,9 +264,9 @@ const TransactionHistory = (props) => {
     setOperation(selectedData.operation);
     setMintUnmintOpHash(selectedData.txHash);
     setFinalOpHash(selectedData.txHash);
-    if (selectedData.currentProgress === 4) {
+    //if (selectedData.currentProgress === 4) {
       setOpeningFromHistory(true);
-    }
+    //}
     // console.log(prevFromBridge, prevToBridge, prevOperation);
     // setSavedFromBridge(prevFromBridge);
     // setSavedToBridge(prevToBridge);
@@ -338,7 +338,7 @@ const TransactionHistory = (props) => {
     >
       <div className={styles.border}>
         <div className={` ${styles.bridgeModal} ${animationCalss}`}>
-          <div className="flex flex-row justify-content-between mb-3">
+          <div className={`flex flex-row justify-content-between mb-3 ${styles.topWrapper}`}>
             <div className={`flex ${styles.headingWrapper}`}>
               <p
                 className={styles.arrowback}
@@ -396,7 +396,7 @@ const TransactionHistory = (props) => {
               />
             ) : null}
           </div>
-          <div className={`mb-3 ${styles.lineBottom} `}></div>
+          <div className={`mb-3 ${styles.lineBottom} ${styles.width}`}></div>
           <div className={styles.transactionDataWrapper}>
             {isLoading ? (
               dummyLoadingDivisions.current.map((box, index) => {

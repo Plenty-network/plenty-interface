@@ -84,7 +84,8 @@
   box-shadow: var(--theme-swap-boxshadow);
   border:1px solid var(--theme-bridge-history-border);
   border-radius: 16px;
-  padding: 22px 32px;
+  //padding: 22px 32px;
+  padding: 22px 0px 22px 32px;
   margin: auto;
   //overflow-y: auto;
   width: 520px;
@@ -106,7 +107,8 @@
     //max-width: 440px;
     border-radius: 0px;
     box-shadow: none;
-    padding: 20px 20px;
+    //padding: 20px 20px;
+    padding: 20px 0px 20px 20px;
     margin: 0 auto;
     width: auto;
     border: none;
@@ -165,6 +167,12 @@
 .lineBottom {
   border-bottom: 0.5px solid var(--theme-bridge-history-lb);
   width: 100%;
+  &.width {
+    width: 92%;
+    @media screen and (min-width: 320px) and (max-width: 767px) {
+      width: 93%;
+    }
+  }
 }
 
 .detailWrapper {
@@ -249,7 +257,10 @@
   overflow-y: auto;
   height: 87%;
   width: 100%;
-  padding-right: 12px;
+  padding-right: 32px;
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    padding-right: 20px;
+  }
   &::-webkit-scrollbar {
     //background-color: #7a8699;
     width: 6px;
@@ -261,5 +272,12 @@
     //background-color: #babac0;
     border-radius: 8px;
     border: 3px solid var(--theme-bridge-scrollbar);
+  }
+}
+
+.topWrapper {
+  padding-right: 32px;
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    padding-right: 20px;
   }
 }

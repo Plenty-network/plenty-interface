@@ -114,7 +114,7 @@
   font-weight: 500;
   line-height: 18px;
   letter-spacing: 0em;
-  color: #b0b7c3;
+  color: var(--theme-bridge-trans-bottom-info);
   margin-bottom: 0px;
 }
 .width {
@@ -243,8 +243,17 @@
 }
 
 .confirmTextWrapper {
-  align-items: center;
+  //align-items: center;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 10px;
+  > p {
+    margin-bottom: 0.25rem;
+    @media screen and (min-width: 320px) and (max-width: 767px) {
+      font-size: 12px;
+    }
+  }
 }
 
 .mainButtonWrapper {

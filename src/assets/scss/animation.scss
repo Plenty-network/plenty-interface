@@ -7,11 +7,11 @@
     animation: fadein 1s;
   }
   &-4-bridge{
-    -webkit-animation: fadeinBridge 0.4s; /* Safari, Chrome and Opera > 12.1 */
-   -moz-animation: fadeinBridge 0.4s; /* Firefox < 16 */
-    -ms-animation: fadeinBridge 0.4s; /* Internet Explorer */
-     -o-animation: fadeinBridge 0.4s; /* Opera < 12.1 */
-        animation: fadeinBridge 0.4s;
+    -webkit-animation: fadeinBridge 1.5s; /* Safari, Chrome and Opera > 12.1 */
+   -moz-animation: fadeinBridge 1.5s; /* Firefox < 16 */
+    -ms-animation: fadeinBridge 1.5s; /* Internet Explorer */
+     -o-animation: fadeinBridge 1.5s; /* Opera < 12.1 */
+        animation: fadeinBridge 1.5s;
   }
   &-4-bridge-false{
     -webkit-animation: fadeinBridge 0.4s; /* Safari, Chrome and Opera > 12.1 */
@@ -23,13 +23,13 @@
 }
 
 @keyframes fadeinBridge {
-  from { opacity: 0.6;transform: translateX(-10px);}
+  from { opacity: 0.6;transform: translateX(-20px);}
   to   { opacity: 1;transform: translateX(0px); }
 }
 
 /* Firefox < 16 */
 @-moz-keyframes fadeinBridge {
-  from { opacity: 0.6;transform: translateX(-10px);}
+  from { opacity: 0.6;transform: translateX(-20px);}
   to   { opacity: 1;transform: translateX(0px); }
 }
 

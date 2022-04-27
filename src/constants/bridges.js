@@ -5,14 +5,14 @@ import ethereum from '../assets/images/bridge/eth.svg';
 import tezos from '../assets/images/bridge/tezos.svg';
 
 // Tokens
-import dai_normal from '../assets/images/bridge/tokens/dai_normal_icon.svg';
-import link_normal from '../assets/images/bridge/tokens/link_normal_icon.svg';
-import matic_normal from '../assets/images/bridge/tokens/matic_normal_icon.svg';
-import usdt_normal from '../assets/images/bridge/tokens/usdt_normal_icon.svg';
-import usdc_normal from '../assets/images/bridge/tokens/usdc_normal_icon.svg';
-import busd_normal from '../assets/images/bridge/tokens/busd_normal_icon.svg';
-import weth_normal from '../assets/images/bridge/tokens/weth_normal_icon.svg';
-import wbtc_normal from '../assets/images/bridge/tokens/wbtc_normal_icon.svg';
+import dai_normal from '../assets/images/bridge/tokens/dai_icon.svg';
+import link_normal from '../assets/images/bridge/tokens/link_icon.svg';
+import matic_normal from '../assets/images/bridge/tokens/matic_icon.svg';
+import usdt_normal from '../assets/images/bridge/tokens/usdt_icon.svg';
+import usdc_normal from '../assets/images/bridge/tokens/usdc_icon.svg';
+import busd_normal from '../assets/images/bridge/tokens/busd_icon.svg';
+import weth_normal from '../assets/images/bridge/tokens/weth_icon.svg';
+import wbtc_normal from '../assets/images/bridge/tokens/wbtc_icon.svg';
 import fallbackIcon from '../assets/images/bridge/tokens/fallback_icon.svg';
 
 export const CHANGE_NETWORK_PROMPT_DELAY = 3000;

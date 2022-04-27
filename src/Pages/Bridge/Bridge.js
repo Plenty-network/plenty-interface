@@ -508,6 +508,7 @@ const Bridge = (props) => {
                 setFinalOpHash={setFinalOpHash}
                 openingFromHistory={openingFromHistory.current}
                 displayMessage={displayMessage}
+                setOpeningFromHistory={setOpeningFromHistory}
               />
             )}
           </Col>
