@@ -6,6 +6,8 @@ import React, { useMemo, useState } from 'react';
 import { tokens } from '../constants/swapPage';
 import { ReactComponent as Stableswap } from '../assets/images/SwapModal/stableswap-light.svg';
 import { ReactComponent as StableswapDark } from '../assets/images/SwapModal/stableswap-dark.svg';
+import { ReactComponent as Router } from '../assets/images/router-tooltip.svg';
+import { ReactComponent as Bracket } from '../assets/images/bracket.svg';
 import '../assets/scss/animation.scss';
 
 const SwapDetails = (props) => {
@@ -240,7 +242,7 @@ const SwapDetails = (props) => {
             </div>
           ) : null}
 
-          {isOpen && props.firstTokenAmount && swapRoute && <hr />}
+          {isOpen && props.firstTokenAmount && swapRoute && <hr className="swap-details-divider" />}
           {isOpen && props.firstTokenAmount && swapRoute && (
             <>
               <div className="flex flex-row">
@@ -249,8 +251,14 @@ const SwapDetails = (props) => {
                   placement="top"
                   key="top"
                   overlay={
-                    <Tooltip id="button-tooltip-swap-details" {...props}>
+                    <Tooltip id="button-tooltip-swap-details-router" {...props}>
                       Routing through these tokens results in the best price for your trade
+                      <div className="flex flex-row">
+                        <Router />
+                        <Bracket className="router-bracket" />
+                        <MdChevronRight className={clsx('router-arrow', 'ml-1')} fontSize={20} />
+                        <span className="router-text">Stable pair</span>
+                      </div>
                     </Tooltip>
                   }
                 >

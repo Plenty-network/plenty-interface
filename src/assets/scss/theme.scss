@@ -155,6 +155,7 @@
   --theme-hover-liq-input: rgba(0, 0, 0, 0.2);
   --theme-second-swap-input-typing: rgba(98, 2, 239, 0.3);
   --theme-second-swap-input: rgba(98, 2, 239, 0.2);
+  --theme-swap-hr: #b39dd3;
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -320,6 +321,7 @@
   --theme-hover-liq-input: #62688f;
   --theme-second-swap-input-typing: rgba(206, 174, 254, 0.2);
   --theme-second-swap-input: rgba(206, 174, 254, 0.2);
+  --theme-swap-hr: rgba(255, 255, 255, 0.15);
 }
 
 :root.theme-transiton {
