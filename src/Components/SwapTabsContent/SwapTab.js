@@ -388,7 +388,6 @@ const SwapTab = (props) => {
     setErrorMessage(true);
   };
 
-  // TODO Refactor once again
   const swapContentButton = useMemo(() => {
     if (props.walletAddress) {
       if (props.tokenOut.name && firstTokenAmount) {
