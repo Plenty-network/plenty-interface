@@ -268,8 +268,12 @@
   margin: 100px auto;
   border: 1px solid var(--theme-gradient-border);
   box-shadow: var(--theme-swap-boxshadow);
-  @media screen and (min-width: 320px) and (max-width: 900px) {
+  @media screen and (min-width: 320px) and (max-width: 766px) {
     border-radius: 0px;
+    margin: 60px auto;
+  }
+  @media screen and (min-width: 767px) and (max-width: 900px) {
+    border-radius: 16px;
     margin: 60px auto;
   }
   .swap-heading {
@@ -516,6 +520,9 @@
     padding: 8px 12px;
     background-color: var(--theme-not-selected-token);
     color: var(--theme-governance-buttonBorder);
+    @media screen and (min-width: 320px) and (max-width: 900px) {
+      padding: 8px 10px;
+    }
   }
   > span {
     font-size: 16px;
@@ -2097,12 +2104,19 @@ input:checked {
   margin: 24px auto;
   border: 1px solid var(--theme-gradient-border);
   box-shadow: var(--theme-swap-boxshadow);
-  @media screen and (min-width: 320px) and (max-width: 900px) {
+  @media screen and (min-width: 320px) and (max-width: 766px) {
     max-width: 414px;
     padding: 24px 16px;
     border: 0px;
     border-top: 1px solid var(--theme-gradient-border);
     border-radius: 0px;
+  }
+  @media screen and (min-width: 767px) and (max-width: 900px) {
+    max-width: 414px;
+    padding: 24px 16px;
+    border: 0px;
+    border-top: 1px solid var(--theme-gradient-border);
+    border-radius: 16px;
   }
 }
 .add-liq-border {
