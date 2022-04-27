@@ -117,6 +117,95 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
     };
   }
 };
+const calculateTokensOutStable = (
+  tezSupply,
+  ctezSupply,
+  tokenIn_amount,
+  pair_fee_denom,
+  slippage,
+  target,
+  tokenIn,
+) => {
+  tokenIn_amount = tokenIn_amount * 10 ** 6;
+  try {
+    if (tokenIn === 'ctez') {
+      const dy =
+        newton_dx_to_dy(target * ctezSupply, tezSupply * 2 ** 48, tokenIn_amount * target, 5) /
+        2 ** 48;
+      let fee = dy / pair_fee_denom;
+      let tokenOut = dy - fee;
+      let minimumOut = tokenOut - (slippage * tokenOut) / 100;
+      minimumOut = minimumOut / 10 ** 6;
+
+      const updated_Ctez_Supply = ctezSupply + tokenIn_amount;
+      const updated_Tez_Supply = tezSupply - tokenOut;
+
+      const next_dy =
+        newton_dx_to_dy(
+          target * updated_Ctez_Supply,
+          updated_Tez_Supply * 2 ** 48,
+          tokenIn_amount * target,
+          5,
+        ) /
+        2 ** 48;
+      const next_fee = next_dy / pair_fee_denom;
+      const next_tokenOut = next_dy - next_fee;
+      let priceImpact = (tokenOut - next_tokenOut) / tokenOut;
+      priceImpact = priceImpact * 100;
+      priceImpact = priceImpact.toFixed(5);
+      priceImpact = Math.abs(priceImpact);
+      tokenOut = tokenOut / 10 ** 6;
+      fee = fee / 10 ** 6;
+
+      return {
+        tokenOut_amount: tokenOut.toFixed(6),
+        fees: fee,
+        minimum_Out: minimumOut.toFixed(6),
+        priceImpact: priceImpact,
+      };
+    } else if (tokenIn === 'tez') {
+      const dy =
+        newton_dx_to_dy(tezSupply * 2 ** 48, target * ctezSupply, tokenIn_amount * 2 ** 48, 5) /
+        target;
+      let fee = dy / pair_fee_denom;
+      let tokenOut = dy - fee;
+      let minimumOut = tokenOut - (slippage * tokenOut) / 100;
+      minimumOut = minimumOut / 10 ** 6;
+
+      const updated_Ctez_Supply = ctezSupply - tokenOut;
+      const updated_Tez_Supply = tezSupply + tokenIn_amount;
+
+      const next_dy =
+        newton_dx_to_dy(
+          updated_Tez_Supply * 2 ** 48,
+          target * updated_Ctez_Supply,
+          tokenIn_amount * 2 ** 48,
+          5,
+        ) / target;
+      const next_fee = next_dy / pair_fee_denom;
+      const next_tokenOut = next_dy - next_fee;
+      let priceImpact = (tokenOut - next_tokenOut) / tokenOut;
+      priceImpact = priceImpact * 100;
+      priceImpact = priceImpact.toFixed(5);
+      priceImpact = Math.abs(priceImpact);
+      tokenOut = tokenOut / 10 ** 6;
+      fee = fee / 10 ** 6;
+      return {
+        tokenOut_amount: tokenOut.toFixed(6),
+        fees: fee,
+        minimum_Out: minimumOut.toFixed(6),
+        priceImpact: priceImpact,
+      };
+    }
+  } catch (error) {
+    return {
+      tokenOut_amount: 0,
+      fees: 0,
+      minimum_Out: 0,
+      priceImpact: 0,
+    };
+  }
+};
 /**
  * Utility function to get swap data for the complete route to get calculations
  * @param path - An array from tokenIn to tokenOut
@@ -131,8 +220,30 @@ const getRouteSwapData = async (path) => {
 
     const responses = await Promise.all(swapDataPromises);
     for (const i in responses) {
-      tokenOutPerTokenIn =
-        tokenOutPerTokenIn * (responses[i].tokenOut_supply / responses[i].tokenIn_supply);
+      if (responses[i].tokenIn === 'ctez' && responses[i].tokenOut === 'tez') {
+        tokenOutPerTokenIn = calculateTokensOutStable(
+          responses[i].tokenOut_supply * 10 ** 6,
+          responses[i].tokenIn_supply * 10 ** 6,
+          tokenOutPerTokenIn,
+          1 / responses[i].exchangeFee,
+          0,
+          responses[i].target,
+          responses[i].tokenIn,
+        ).tokenOut_amount;
+      } else if (responses[i].tokenIn === 'tez' && responses[i].tokenOut === 'ctez') {
+        tokenOutPerTokenIn = calculateTokensOutStable(
+          responses[i].tokenIn_supply * 10 ** 6,
+          responses[i].tokenOut_supply * 10 ** 6,
+          tokenOutPerTokenIn,
+          1 / responses[i].exchangeFee,
+          0,
+          responses[i].target,
+          responses[i].tokenIn,
+        ).tokenOut_amount;
+      } else {
+        tokenOutPerTokenIn =
+          tokenOutPerTokenIn * (responses[i].tokenOut_supply / responses[i].tokenIn_supply);
+      }
     }
     return {
       success: true,
@@ -222,96 +333,6 @@ export const getAllRoutes = async (tokenIn, tokenOut) => {
         swapData: [],
         tokenOutPerTokenIn: 0,
       },
-    };
-  }
-};
-
-const calculateTokensOutStable = (
-  tezSupply,
-  ctezSupply,
-  tokenIn_amount,
-  pair_fee_denom,
-  slippage,
-  target,
-  tokenIn,
-) => {
-  tokenIn_amount = tokenIn_amount * 10 ** 6;
-  try {
-    if (tokenIn === 'ctez') {
-      const dy =
-        newton_dx_to_dy(target * ctezSupply, tezSupply * 2 ** 48, tokenIn_amount * target, 5) /
-        2 ** 48;
-      let fee = dy / pair_fee_denom;
-      let tokenOut = dy - fee;
-      let minimumOut = tokenOut - (slippage * tokenOut) / 100;
-      minimumOut = minimumOut / 10 ** 6;
-
-      const updated_Ctez_Supply = ctezSupply + tokenIn_amount;
-      const updated_Tez_Supply = tezSupply - tokenOut;
-
-      const next_dy =
-        newton_dx_to_dy(
-          target * updated_Ctez_Supply,
-          updated_Tez_Supply * 2 ** 48,
-          tokenIn_amount * target,
-          5,
-        ) /
-        2 ** 48;
-      const next_fee = next_dy / pair_fee_denom;
-      const next_tokenOut = next_dy - next_fee;
-      let priceImpact = (tokenOut - next_tokenOut) / tokenOut;
-      priceImpact = priceImpact * 100;
-      priceImpact = priceImpact.toFixed(5);
-      priceImpact = Math.abs(priceImpact);
-      tokenOut = tokenOut / 10 ** 6;
-      fee = fee / 10 ** 6;
-
-      return {
-        tokenOut_amount: tokenOut.toFixed(6),
-        fees: fee,
-        minimum_Out: minimumOut.toFixed(6),
-        priceImpact: priceImpact,
-      };
-    } else if (tokenIn === 'tez') {
-      const dy =
-        newton_dx_to_dy(tezSupply * 2 ** 48, target * ctezSupply, tokenIn_amount * 2 ** 48, 5) /
-        target;
-      let fee = dy / pair_fee_denom;
-      let tokenOut = dy - fee;
-      let minimumOut = tokenOut - (slippage * tokenOut) / 100;
-      minimumOut = minimumOut / 10 ** 6;
-
-      const updated_Ctez_Supply = ctezSupply - tokenOut;
-      const updated_Tez_Supply = tezSupply + tokenIn_amount;
-
-      const next_dy =
-        newton_dx_to_dy(
-          updated_Tez_Supply * 2 ** 48,
-          target * updated_Ctez_Supply,
-          tokenIn_amount * 2 ** 48,
-          5,
-        ) / target;
-      const next_fee = next_dy / pair_fee_denom;
-      const next_tokenOut = next_dy - next_fee;
-      let priceImpact = (tokenOut - next_tokenOut) / tokenOut;
-      priceImpact = priceImpact * 100;
-      priceImpact = priceImpact.toFixed(5);
-      priceImpact = Math.abs(priceImpact);
-      tokenOut = tokenOut / 10 ** 6;
-      fee = fee / 10 ** 6;
-      return {
-        tokenOut_amount: tokenOut.toFixed(6),
-        fees: fee,
-        minimum_Out: minimumOut.toFixed(6),
-        priceImpact: priceImpact,
-      };
-    }
-  } catch (error) {
-    return {
-      tokenOut_amount: 0,
-      fees: 0,
-      minimum_Out: 0,
-      priceImpact: 0,
     };
   }
 };
