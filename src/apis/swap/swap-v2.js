@@ -697,9 +697,7 @@ export const swapTokenUsingRouteV3 = async (
     const tokenInAddress = CONFIG.AMM[connectedNetwork][path[0]].TOKEN_CONTRACT;
     const tokenInId = CONFIG.AMM[connectedNetwork][path[0]].TOKEN_ID;
 
-    // Manually updating router addy
     const routerAddress = CONFIG.ROUTER[CONFIG.NETWORK];
-    // const routerAddress = 'KT1FMZVMeyCrNFyGjJfiB6VSq3LX1ShSEzuw';
     const routerInstance = await Tezos.contract.at(routerAddress);
 
     const DataLiteral = {};
@@ -723,7 +721,7 @@ export const swapTokenUsingRouteV3 = async (
     const swapAmount = Math.floor(
       amount * Math.pow(10, CONFIG.AMM[connectedNetwork][path[0]].TOKEN_DECIMAL),
     );
-    // TODO : else if call type == xtz then direct send no approve
+    //  else if call type == xtz then direct send no approve
     let batch;
     if (tokenInCallType === 'XTZ') {
       batch = Tezos.wallet.batch([

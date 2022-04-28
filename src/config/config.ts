@@ -1595,7 +1595,7 @@ const Config: IConfig = {
     mainnet: {
       tez: {
         ICON: '',
-        TOKEN_CONTRACT: '',
+        TOKEN_CONTRACT: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
         READ_TYPE: 'XTZ',
         CALL_TYPE: 'XTZ',
         TOKEN_ID: 0,
