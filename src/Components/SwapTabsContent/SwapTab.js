@@ -24,9 +24,9 @@ import ConfirmTransaction from '../WrappedAssets/ConfirmTransaction';
 import InfoModal from '../Ui/Modals/InfoModal';
 import Loader from '../loader';
 import { setLoader } from '../../redux/slices/settings/settings.slice';
-import switchImg from '../../assets/images/bridge/bridge-switch.svg';
+import switchImg from '../../assets/images/SwapModal/swap-switch.svg';
 
-import switchImgDark from '../../assets/images/bridge/bridge-switch-dark.svg';
+import switchImgDark from '../../assets/images/SwapModal/swap-switch-dark.svg';
 import maxlight from '../../assets/images/max-light.svg';
 import maxDark from '../../assets/images/max-dark.svg';
 

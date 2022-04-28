@@ -16,22 +16,10 @@ import HeaderBottom from './HeaderBottom';
 import useMediaQuery from '../../hooks/mediaQuery';
 import { HEADER_MODAL } from '../../constants/header';
 import '../../assets/scss/animation.scss';
-//import Loader from '../loader';
 
 const Header = (props) => {
   const loader = useSelector((state) => state.settings.loader);
 
-  // const firstTokenAmount = useSelector((state) => state.settings.firstTokenAmount);
-  // const secondTokenAmount = useSelector((state) => state.settings.secondTokenAmount);
-  // const tokenIn = useSelector((state) => state.settings.tokenIn);
-  // const tokenOut = useSelector((state) => state.settings.tokenOut);
-  // const opertaionId = useSelector((state) => state.settings.opertaionId);
-  // const loaderMessage = useSelector((state) => state.settings.loaderMessage);
-
-  // const loaderMessage = {
-  //   type: 'success',
-  //   message: 'success',
-  // };
   const isMobile = useMediaQuery('(max-width: 991px)');
   const location = useLocation();
   const { pathname } = location;
@@ -275,34 +263,6 @@ const Header = (props) => {
                         {...props}
                       />
                     )}
-                    {/* <Nav.Link
-                      className={clsx(
-                        selectedHeader === HEADER_MODAL.BRIDGE ? 'menu-item-active' : 'menu-item',
-                        splitLocation[1] === 'bridge' && 'selected-menu-item-active',
-                        'align-self-end align-self-lg-center d-lg-flex align-items-center',
-                      )}
-                      {...(isMobile ? {} : { as: Link, to: '/bridge' })}
-                    >
-                      <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
-                        Bridge
-                      </span>
-                      <span
-                        className={clsx('material-icons', 'arrow', {
-                          rotate:
-                            selectedHeader === HEADER_MODAL.BRIDGE &&
-                            (isMobile ? isExpanded : true),
-                        })}
-                      >
-                        expand_more
-                      </span>
-                    </Nav.Link>
-                    {selectedHeader === HEADER_MODAL.BRIDGE && isMobile && (
-                      <HeaderBottom
-                        selectedHeader={selectedHeader}
-                        isExpanded={isExpanded}
-                        {...props}
-                      />
-                    )}{' '} */}
 
                     <Nav.Link
                       className={clsx(
@@ -437,13 +397,6 @@ const Header = (props) => {
           />
         </div>
       )}
-      {/* <Loader
-        loaderMessage={loaderMessage}
-        tokenIn={tokenIn}
-        firstTokenAmount={firstTokenAmount}
-        tokenOut={tokenOut}
-        secondTokenAmount={secondTokenAmount}
-      /> */}
     </>
   );
 };

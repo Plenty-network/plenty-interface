@@ -4767,13 +4767,6 @@ const Config: IConfig = {
     testnet: 'KT1D5QJhRM7t2ibHPYYqWQs4o9nianxa9E49',
     mainnet: 'KT1Tf2rFp2khyF83jvtinLFxR7vEhFZ8nL2J',
   },
-  BRIDGES_INDEXER_LINKS: {
-    testnet: {},
-    mainnet: {
-      ETHEREUM: 'https://indexer.app.tzwrap.com/v1/configuration',
-      AVALANCHE: 'http://18.221.32.62/v1/configuration',
-    },
-  },
 };
 
 export default Config;
