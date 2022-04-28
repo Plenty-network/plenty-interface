@@ -23,6 +23,10 @@ import { getCurrentNetwork } from '../../apis/bridge/bridgeAPI';
 import FlashMessage from '../../Components/FlashMessage/FlashMessage';
 import { FLASH_MESSAGE_DURATION } from '../../constants/global';
 import '../Bridge/bridge.scss';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en.json';
+
+TimeAgo.addDefaultLocale(en);
 
 const Bridge = (props) => {
   //const isMobile = useMediaQuery('(max-width: 991px)');

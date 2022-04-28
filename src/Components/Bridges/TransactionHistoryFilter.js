@@ -38,7 +38,7 @@ export const TransactionHistoryFilter = (props) => {
   };
 
   return (
-    <div className={styles.filterBox}>
+    <div className={styles.filterBox} ref={props.filterDivisionRef}>
       <div className="flex flex-row" style={{ padding: '20px 14px 0px' }}>
         <p className={styles.filterHeading}>FILTER</p>
       </div>
@@ -71,6 +71,7 @@ export const TransactionHistoryFilter = (props) => {
 TransactionHistoryFilter.propTypes = {
   checkBoxesState: PropTypes.any,
   setCheckBoxesState: PropTypes.any,
+  filterDivisionRef: PropTypes.any,
 };
 
 //export default TransactionHistoryFilter;

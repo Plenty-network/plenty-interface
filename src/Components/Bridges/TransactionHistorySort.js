@@ -26,7 +26,7 @@ export const TransactionHistorySort = (props) => {
   };
 
   return (
-    <div className={styles.sortBox}>
+    <div className={styles.sortBox} ref={props.sortDivisionRef}>
       <div className="flex flex-row" style={{ padding: '20px 14px 0px' }}>
         <p className={styles.sortHeading}>SORT</p>
       </div>
@@ -53,6 +53,7 @@ export const TransactionHistorySort = (props) => {
 TransactionHistorySort.propTypes = {
   radioButtonSelected: PropTypes.any,
   setRadioButtonSelected: PropTypes.any,
+  sortDivisionRef: PropTypes.any,
 };
 
 //export default TransactionHistoryFilter;
