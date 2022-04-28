@@ -41,14 +41,26 @@ const SwapDetails = (props) => {
         <div className="space-between">
           <div className="flex">
             <p className="price-formula whitespace-prewrap  flex flex-row">
-              1 {isConvert ? props.tokenOut.name : props.tokenIn.name} ={' '}
+              1{' '}
+              {isConvert
+                ? props.tokenOut.name === 'tez'
+                  ? 'TEZ'
+                  : props.tokenOut.name === 'ctez'
+                  ? 'CTEZ'
+                  : props.tokenOut.name
+                : props.tokenIn.name === 'tez'
+                ? 'TEZ'
+                : props.tokenIn.name === 'ctez'
+                ? 'CTEZ'
+                : props.tokenIn.name}{' '}
+              ={' '}
               <OverlayTrigger
                 placement="top"
                 overlay={
                   <Tooltip id="button-tooltip" {...props}>
                     {props.isStableSwap
                       ? Number(props.computedOutDetails.data.exchangeRate).toFixed(6)
-                      : props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn}
+                      : Number(props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn)}
                   </Tooltip>
                 }
               >
@@ -64,7 +76,17 @@ const SwapDetails = (props) => {
                         ).toFixed(3)
                       : Number(props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn).toFixed(3)
                     : 0}{' '}
-                  {isConvert ? props.tokenIn.name : props.tokenOut.name}
+                  {isConvert
+                    ? props.tokenIn.name === 'tez'
+                      ? 'TEZ'
+                      : props.tokenIn.name === 'ctez'
+                      ? 'CTEZ'
+                      : props.tokenIn.name
+                    : props.tokenOut.name === 'tez'
+                    ? 'TEZ'
+                    : props.tokenOut.name === 'ctez'
+                    ? 'CTEZ'
+                    : props.tokenOut.name}
                 </div>
               </OverlayTrigger>
               <span
@@ -129,7 +151,11 @@ const SwapDetails = (props) => {
                   {props.computedOutDetails.data.finalMinimumOut
                     ? props.computedOutDetails.data.finalMinimumOut
                     : '0.00'}{' '}
-                  {props.tokenOut.name}
+                  {props.tokenOut.name === 'tez'
+                    ? 'TEZ'
+                    : props.tokenOut.name === 'ctez'
+                    ? 'CTEZ'
+                    : props.tokenOut.name}
                 </p>
               </div>
               <div className="flex flex-row align-items-center swap-sub-details">
@@ -186,7 +212,17 @@ const SwapDetails = (props) => {
                   {props.isStableSwap
                     ? props.computedOutDetails.data.fees.toFixed(6)
                     : props.firstTokenAmount / 400}{' '}
-                  {props.isStableSwap ? props.tokenOut.name : props.tokenIn.name}
+                  {props.isStableSwap
+                    ? props.tokenOut.name === 'tez'
+                      ? 'TEZ'
+                      : props.tokenOut.name === 'ctez'
+                      ? 'CTEZ'
+                      : props.tokenOut.name
+                    : props.tokenIn.name === 'tez'
+                    ? 'TEZ'
+                    : props.tokenIn.name === 'ctez'
+                    ? 'CTEZ'
+                    : props.tokenIn.name}
                 </p>
               </div>
               {props.isConfirmSwap && !props.isStableSwap && (
@@ -213,7 +249,12 @@ const SwapDetails = (props) => {
                     </span>
                   </OverlayTrigger>
                   <p className="swap-detail-amt-details-value ml-auto">
-                    {props.firstTokenAmount / 1000} {props.tokenIn.name}
+                    {props.firstTokenAmount / 1000}{' '}
+                    {props.tokenIn.name === 'tez'
+                      ? 'TEZ'
+                      : props.tokenIn.name === 'ctez'
+                      ? 'CTEZ'
+                      : props.tokenIn.name}
                   </p>
                 </div>
               )}
@@ -303,7 +344,13 @@ const SwapDetails = (props) => {
                         )}
                       >
                         <Image src={token.image} height={18} width={18} alt={''} />
-                        <span className="ml-1 my-auto token-name-route">{token.name}</span>
+                        <span className="ml-1 my-auto token-name-route">
+                          {token.name === 'tez'
+                            ? 'TEZ'
+                            : token.name === 'ctez'
+                            ? 'CTEZ'
+                            : token.name}
+                        </span>
                       </div>
                     </div>
                     {swapRoute[idx + 1] && (

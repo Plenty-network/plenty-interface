@@ -23,7 +23,11 @@ const ConfirmSwap = (props) => {
               <div className="token-selector-balance-wrapper">
                 <div className="token-selector stable-swap-token-selector">
                   <img src={props.tokenIn.image} className="button-logo" />
-                  {props.tokenIn.name}{' '}
+                  {props.tokenIn.name === 'tez'
+                    ? 'TEZ'
+                    : props.tokenIn.name === 'ctez'
+                    ? 'CTEZ'
+                    : props.tokenIn.name}{' '}
                 </div>
               </div>
 
@@ -42,7 +46,11 @@ const ConfirmSwap = (props) => {
               <div className="token-selector-balance-wrapper">
                 <button className="token-selector stable-swap-token-selector">
                   <img src={props.tokenOut.image} className="button-logo" />
-                  {props.tokenOut.name}{' '}
+                  {props.tokenOut.name === 'tez'
+                    ? 'TEZ'
+                    : props.tokenOut.name === 'ctez'
+                    ? 'CTEZ'
+                    : props.tokenOut.name}{' '}
                 </button>
               </div>
 

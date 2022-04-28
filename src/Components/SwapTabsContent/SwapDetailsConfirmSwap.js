@@ -40,9 +40,13 @@ const SwapDetailsConfirmSwap = (props) => {
                 {props.isStableSwap
                   ? Number(props.computedOutDetails.data.exchangeRate).toFixed(3)
                   : props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn
-                  ? props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn.toFixed(3)
+                  ? Number(props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn).toFixed(3)
                   : 0}{' '}
-                {props.tokenOut.name}
+                {props.tokenOut.name === 'tez'
+                  ? 'TEZ'
+                  : props.tokenOut.name === 'ctez'
+                  ? 'CTEZ'
+                  : props.tokenOut.name}
               </div>
             </OverlayTrigger>
           </p>
@@ -83,7 +87,11 @@ const SwapDetailsConfirmSwap = (props) => {
                 {props.computedOutDetails.data.finalMinimumOut
                   ? props.computedOutDetails.data.finalMinimumOut
                   : '0.00'}{' '}
-                {props.tokenOut.name}
+                {props.tokenOut.name === 'tez'
+                  ? 'TEZ'
+                  : props.tokenOut.name === 'ctez'
+                  ? 'CTEZ'
+                  : props.tokenOut.name}
               </p>
             </div>
             <div className="flex flex-row align-items-center">
