@@ -46,10 +46,6 @@ export const getTVLHelper = async () => {
       data: 0,
     };
   }
-  // const res = await axios.get(
-  //   SERVERLESS_BASE_URL[CONFIG.NETWORK] +
-  //     SERVERLESS_REQUEST[CONFIG.NETWORK]['HOME-PAGE-TVL']
-  // );
 };
 
 export const calculateHarvestValue = async (

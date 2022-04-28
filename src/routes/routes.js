@@ -19,7 +19,6 @@ const LiquidityNew = React.lazy(() => import('../Pages/LiquidityNew'));
 const Frontpage = React.lazy(() => import('../Pages/Frontpage/Frontpage'));
 const Stake = React.lazy(() => import('../Pages/xPlenty'));
 const Governance = React.lazy(() => import('../Pages/Governance/Governance'));
-// const WrappedAssets = React.lazy(() => import('../Pages/WrappedAssets/WrappedAssets'));
 
 const MyRoutes = (props) => {
   const { theme, toggleTheme } = useThemes();
@@ -167,18 +166,6 @@ const MyRoutes = (props) => {
                 </OtherPages>
               }
             />
-            {/* <Route
-              path="/wrappedAssets"
-              element={
-                <OtherPages {...otherPageProps}>
-                  <WrappedAssets
-                    walletAddress={props.userAddress}
-                    theme={otherPageProps.theme}
-                    connecthWallet={connectWallet}
-                  />
-                </OtherPages>
-              }
-            /> */}
           </Routes>
         </React.Suspense>
       </BrowserRouter>

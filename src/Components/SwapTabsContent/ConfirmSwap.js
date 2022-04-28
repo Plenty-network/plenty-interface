@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-// import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import React from 'react';
 import SimpleModal from '../Ui/Modals/SimpleModal';
 import Button from '../Ui/Buttons/Button';
@@ -83,8 +82,6 @@ const ConfirmSwap = (props) => {
           </Button>
         </div>
       </>
-      {/* </Modal.Body>
-      </Modal> */}
     </SimpleModal>
   );
 };
@@ -92,12 +89,10 @@ const ConfirmSwap = (props) => {
 export default ConfirmSwap;
 
 ConfirmSwap.propTypes = {
-  // computedOutDetails: PropTypes.any,
   computedData: PropTypes.any,
   confirmSwapToken: PropTypes.any,
   firstTokenAmount: PropTypes.any,
   loading: PropTypes.any,
-  // midTokens: PropTypes.any,
   routeData: PropTypes.any,
   onHide: PropTypes.any,
   show: PropTypes.any,

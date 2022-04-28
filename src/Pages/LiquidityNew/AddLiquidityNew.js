@@ -544,10 +544,6 @@ const AddLiquidityNew = (props) => {
                   value={firstTokenAmount}
                 />
               )}
-              {/* <p className="wallet-token-balance-lq">
-                $0.00
-                
-              </p> */}
             </div>
             {props.walletAddress && props.tokenOut.name ? (
               <OverlayTrigger

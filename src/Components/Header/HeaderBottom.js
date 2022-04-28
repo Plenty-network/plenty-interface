@@ -127,8 +127,6 @@ const HeaderBottom = (props) => {
           className={clsx('headerBottom', 'topToBottomFadeInAnimation-4-floater', {
             'pt-0': !props.selectedHeader,
             height: props.selectedHeader === HEADER_MODAL.SETTINGS && nodeSelector,
-
-            // 'headerBottom-banner': splitLocation[1] === 'wrappedAssets' || !props.isBannerOpen,
           })}
           onMouseLeave={() => isOpen(false)}
         >
@@ -150,22 +148,7 @@ const HeaderBottom = (props) => {
                     </Link>
                   </div>
                 </Col>
-                {/* <Col xl={5} lg={6} xs={12}>
-                  <div className="topics">
-                    <Link to="/Stableswap" className="text-decoration-none">
-                      <p className="heading">STABLESWAP</p>
-                      <div className="flex   para">
-                        <div className="parainside">
-                          Swap similar Tezos tokens instantly with low slippage and audited smart
-                          contracts.
-                        </div>
-                        <div>
-                          <span className=" material-icons-round arrowforward">arrow_forward</span>
-                        </div>
-                      </div>
-                    </Link>
-                  </div>
-                </Col> */}
+
                 <Col lg={12} xs={12}>
                   <div className="topics gov">
                     <Link to="/tokens" className="text-decoration-none">
@@ -443,7 +426,6 @@ const HeaderBottom = (props) => {
                     </div>
                     <div className="horizontal-line"></div>
                     <div className="node">
-                      {/* <NodeSelectorModal title={'Node Selector'} open={open} isOpen={isOpen} /> */}
                       <>
                         <div className="node-selector-modal">
                           <div className="node-selector-radio-container node-selector-list">

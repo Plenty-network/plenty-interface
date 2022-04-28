@@ -331,7 +331,6 @@ SwapDetails.propTypes = {
   computedOutDetails: PropTypes.any,
   firstTokenAmount: PropTypes.any,
   routeData: PropTypes.any,
-  // midTokens: PropTypes.any,
   tokenIn: PropTypes.any,
   tokenOut: PropTypes.any,
   routePath: PropTypes.any,

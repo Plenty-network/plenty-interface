@@ -83,12 +83,7 @@
     padding-left: 60px !important;
     padding-right: 60px !important;
   }
-  // @media screen and (min-width: 1111px) and (max-width: 1230px) {
-  //   padding: 0 60px;
-  // }
-  // @media screen and (min-width: 1000px) and (max-width: 1110px) {
-  //   max-width: 900px;
-  // }
+
   @media screen and (min-width: 320px) and (max-width: 992px) {
     margin-left: 10px;
     margin-right: 10px;
@@ -454,8 +449,6 @@
   color: var(--theme-primary-1);
   position: relative;
   top: 1px;
-  // margin-left: 8px;
-  // padding-right: 8px;
   @media screen and (min-width: 320px) and (max-width: 992px) {
     float: right;
   }
@@ -487,14 +480,7 @@
     top: 0px;
   }
   .innerSubmenus {
-    //max-width: 1200px;
-    //margin: auto;
-    // padding-right: 40px;
-    // padding-left: 40px;
-
     max-width: 1230px !important;
-    // padding-left: 40px;
-    // padding-right: 40px;
     margin-left: auto;
     margin-right: auto;
 
@@ -541,7 +527,6 @@
       line-height: 25px;
       color: var(--theme-header-description);
 
-      // width: 50%;
       @media screen and (min-width: 320px) and (max-width: 992px) {
         width: 100%;
       }

@@ -43,7 +43,7 @@ const LiquidityNew = (props) => {
   const [loading, setLoading] = useState(false);
   const [getTokenPrice, setGetTokenPrice] = useState({});
   const [userBalances, setUserBalances] = useState({});
-  // const activeTab = 'liquidity';
+
   const location = useLocation();
   const navigate = useNavigate();
   const { pathname } = location;

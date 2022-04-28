@@ -122,7 +122,6 @@ const VoteText = (props) => {
             NFT voters.
           </p>
 
-          {/*  */}
           <div>
             <div>
               <p className={styles.discription}>

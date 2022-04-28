@@ -359,9 +359,7 @@ const Frontpage = ({
               <a href={'https://discord.gg/9wZ4CuvkuJ'} target="_blank" rel="noreferrer">
                 <Discord className="mr-2 icon-themed" />
               </a>
-              {/* <a href={'https://t.me/PlentyDeFi'} target="_blank" rel="noreferrer">
-                <Telegram className="mr-2 icon-themed" />
-              </a> */}
+
               <a href={'https://twitter.com/PlentyDeFi'} target="_blank" rel="noreferrer">
                 <Twitter className="mr-2 icon-themed" />
               </a>

@@ -75,10 +75,10 @@ const Swap = (props) => {
   useEffect(() => {
     const updateBalance = async () => {
       setTokenContractInstances({});
-      //const userBalancesCopy = { ...userBalances };
+
       const tzBTCName = 'tzBTC';
       const balancePromises = [];
-      // if (!userBalancesCopy[tokenIn.name]) {
+
       tokenIn.name === tzBTCName
         ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
         : isStablePair
@@ -86,8 +86,7 @@ const Swap = (props) => {
         : tokenIn.name === 'tez'
         ? balancePromises.push(getxtzBalance(tokenIn.name, props.walletAddress))
         : balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
-      //}
-      // if (!userBalancesCopy[tokenOut.name]) {
+
       tokenIn.name === tzBTCName
         ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
         : isStablePair
@@ -95,7 +94,7 @@ const Swap = (props) => {
         : tokenOut.name === 'tez'
         ? balancePromises.push(getxtzBalance(tokenOut.name, props.walletAddress))
         : balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));
-      // }
+
       if (
         isStablePair
           ? config.STABLESWAP[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]

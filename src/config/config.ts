@@ -742,8 +742,6 @@ const Config: IConfig = {
             },
           ],
         },
-
-        // KT1DfYVe4CaE9S6Sm3SEfhFYVZ9XzJbkQDqs
       },
     },
     PONDS: {
@@ -777,7 +775,7 @@ const Config: IConfig = {
     testnet: {
       PLENTY: {
         address: 'KT1Mdk7TfHjbwb2ciTTsySj9gV9W9uc7HxCu',
-        // mapID is balances map
+
         mapId: 33509,
         decimal: 18,
         type: 'FA1.2',
