@@ -55,16 +55,10 @@
   bottom: 60px;
   right: 72px;
 }
-// .mobile-loader-data-wrapper {
-//   position: fixed;
-//   bottom: 65px;
-//   left: 10px;
-//   right: 40px;
-// }
 
 .loader-message-wrapper {
   position: fixed;
-  top: 135px;
+  bottom: 60px;
   right: 40px;
   padding: 20px;
   background: var(--theme-flash-bg);
@@ -74,7 +68,7 @@
   width: 390px;
   height: 93px;
   border-radius: 8px;
-  z-index: 1;
+  z-index: 1000;
   @media screen and (max-width: 991px) {
     left: 10px;
     right: 40px;
@@ -161,20 +155,15 @@ h1 {
 .tooltip-inner {
   background: var(--theme-tooltip-bg);
   color: var(--theme-tooltip-text);
-  opacity: 1;
-  max-width: 300px !important;
-  z-index: 99999999999999999;
+  opacity: 1 !important;
+  max-width: 324px !important;
   position: absolute;
   top: -20px;
-  left: -50px;
+  left: -20px;
 }
 
 .tooltip > .arrow {
   opacity: 0;
-  // background: #282828 !important;
-  // top: 41px;
-  // // left: 20px;
-  // z-index: 99999999999999999;
 }
 
 .shimmer {
@@ -209,7 +198,7 @@ body {
   color: var(--theme-text-1);
   background-color: var(--theme-bg-1);
   .modal {
-    z-index: 1000000000 !important;
+    z-index: 10000 !important;
   }
 }
 

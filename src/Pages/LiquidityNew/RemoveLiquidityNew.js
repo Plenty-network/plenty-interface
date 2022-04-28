@@ -11,8 +11,10 @@ import CONFIG from '../../config/config';
 import ConfirmRemoveLiquidity from '../../Components/SwapTabsContent/LiquidityTabs/ConfirmRemoveLiquidity';
 import { setLoader } from '../../redux/slices/settings/settings.slice';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransaction';
 import Loader from '../../Components/loader';
+import maxlight from '../../assets/images/max-light.svg';
+import maxDark from '../../assets/images/max-dark.svg';
+import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransaction';
 
 const RemoveLiquidityNew = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
@@ -58,7 +60,7 @@ const RemoveLiquidityNew = (props) => {
   const removeLiquidityInput = (input) => {
     const removeAmount = parseFloat(input);
     let computedRemoveTokens;
-    if (props.tokenIn.name === 'TEZ') {
+    if (props.tokenIn.name === 'tez') {
       computedRemoveTokens = liqCalcRemove(
         removeAmount,
         props.swapData.tezPool,
@@ -100,7 +102,23 @@ const RemoveLiquidityNew = (props) => {
     props.setShowConfirmRemoveSupply(false);
     setShowConfirmTransaction(true);
     localStorage.setItem('liqinput', firstTokenAmount);
-    if (props.tokenIn.name === 'TEZ') {
+    localStorage.setItem(
+      'tokeninliq',
+      props.tokenIn.name === 'tez'
+        ? 'TEZ'
+        : props.tokenIn.name === 'ctez'
+        ? 'CTEZ'
+        : props.tokenIn.name,
+    );
+    localStorage.setItem(
+      'tokenoutliq',
+      props.tokenOut.name === 'tez'
+        ? 'TEZ'
+        : props.tokenOut.name === 'ctez'
+        ? 'CTEZ'
+        : props.tokenOut.name,
+    );
+    if (props.tokenIn.name === 'tez') {
       remove_liquidity(
         props.tokenIn.name,
         props.tokenOut.name,
@@ -264,9 +282,6 @@ const RemoveLiquidityNew = (props) => {
           <div className="token-selector-lq-remove align-items-center flex ">Amount to Remove</div>
           <div className="input-lq-remove  ">
             <div className="d-flex  align-items-center ">
-              <div className="max-button" style={{ cursor: 'pointer' }} onClick={onClickAmount}>
-                MAX
-              </div>
               <div className="input-width">
                 {props.userBalances[props.tokenIn.name] ? (
                   <input
@@ -323,33 +338,41 @@ const RemoveLiquidityNew = (props) => {
                   <div className="balance-lq ml-auto">
                     <p className="bal">
                       Balance:{' '}
-                      {props.isStableSwap ? (
-                        props.userBalances[
-                          CONFIG.STABLESWAP[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
-                            props.tokenOut.name
-                          ].liquidityToken
-                        ] >= 0 ? (
+                      <span className="balance-value-liq">
+                        {props.isStableSwap ? (
                           props.userBalances[
                             CONFIG.STABLESWAP[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
+                              props.tokenOut.name
+                            ].liquidityToken
+                          ] >= 0 ? (
+                            props.userBalances[
+                              CONFIG.STABLESWAP[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
+                                props.tokenOut.name
+                              ].liquidityToken
+                            ].toFixed(4)
+                          ) : (
+                            <div className="shimmer">0.0000</div>
+                          )
+                        ) : props.userBalances[
+                            CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
+                              props.tokenOut.name
+                            ].liquidityToken
+                          ] >= 0 ? (
+                          props.userBalances[
+                            CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
                               props.tokenOut.name
                             ].liquidityToken
                           ].toFixed(4)
                         ) : (
                           <div className="shimmer">0.0000</div>
-                        )
-                      ) : props.userBalances[
-                          CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
-                            props.tokenOut.name
-                          ].liquidityToken
-                        ] >= 0 ? (
-                        props.userBalances[
-                          CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
-                            props.tokenOut.name
-                          ].liquidityToken
-                        ].toFixed(4)
-                      ) : (
-                        <div className="shimmer">0.0000</div>
-                      )}{' '}
+                        )}{' '}
+                      </span>
+                      <img
+                        src={props.theme === 'light' ? maxlight : maxDark}
+                        style={{ cursor: 'pointer' }}
+                        onClick={onClickAmount}
+                        className="max-swap"
+                      />
                     </p>
                   </div>
                 </OverlayTrigger>
@@ -387,7 +410,13 @@ const RemoveLiquidityNew = (props) => {
                     ? removableTokens.tokenFirst_Out.toFixed(4)
                     : '0.00'}
                 </span>
-                <div className="remove-token-lq">{props.tokenIn.name}</div>
+                <div className="remove-token-lq">
+                  {props.tokenIn.name === 'tez'
+                    ? 'TEZ'
+                    : props.tokenIn.name === 'ctez'
+                    ? 'CTEZ'
+                    : props.tokenIn.name}
+                </div>
               </div>
             </div>
             <div className="ml-3 d-flex remove-tokens">
@@ -400,7 +429,14 @@ const RemoveLiquidityNew = (props) => {
                     ? removableTokens.tokenSecond_Out.toFixed(4)
                     : '0.00'}
                 </span>
-                <div className="remove-token-lq">{props.tokenOut.name}</div>
+                <div className="remove-token-lq">
+                  {' '}
+                  {props.tokenOut.name === 'tez'
+                    ? 'TEZ'
+                    : props.tokenOut.name === 'ctez'
+                    ? 'CTEZ'
+                    : props.tokenOut.name}
+                </div>
               </div>
             </div>
           </div>
@@ -417,11 +453,27 @@ const RemoveLiquidityNew = (props) => {
               <img width="50" height="50" src={props.tokenIn.image} />
               <img width="50" height="50" src={props.tokenOut.image} className="ml-2" />
               <span className="lp-pair">
-                {props.tokenIn.name} / {props.tokenOut.name}
+                {props.tokenIn.name === 'tez'
+                  ? 'TEZ'
+                  : props.tokenIn.name === 'ctez'
+                  ? 'CTEZ'
+                  : props.tokenIn.name}{' '}
+                /{' '}
+                {props.tokenOut.name === 'tez'
+                  ? 'TEZ'
+                  : props.tokenOut.name === 'ctez'
+                  ? 'CTEZ'
+                  : props.tokenOut.name}
               </span>
               <div className="d-flex mt-2">
                 <div>
-                  <div className="token-name-lp">{props.tokenIn.name}</div>
+                  <div className="token-name-lp">
+                    {props.tokenIn.name === 'tez'
+                      ? 'TEZ'
+                      : props.tokenIn.name === 'ctez'
+                      ? 'CTEZ'
+                      : props.tokenIn.name}
+                  </div>
                   <OverlayTrigger
                     placement="top"
                     overlay={
@@ -434,15 +486,23 @@ const RemoveLiquidityNew = (props) => {
                   >
                     <div className="tokenin-value">
                       <span className="value">
-                        {props.positionDetails.data
-                          ? props.positionDetails.data.tokenAPoolBalance.toFixed(4)
-                          : '0.00'}
+                        {props.positionDetails.data ? (
+                          props.positionDetails.data.tokenAPoolBalance.toFixed(4)
+                        ) : (
+                          <span className="shimmer">99999</span>
+                        )}
                       </span>{' '}
                     </div>
                   </OverlayTrigger>
                 </div>
                 <div className="ml-2">
-                  <div className="token-name-lp">{props.tokenOut.name}</div>
+                  <div className="token-name-lp">
+                    {props.tokenOut.name === 'tez'
+                      ? 'TEZ'
+                      : props.tokenOut.name === 'ctez'
+                      ? 'CTEZ'
+                      : props.tokenOut.name}
+                  </div>
                   <OverlayTrigger
                     placement="top"
                     overlay={
@@ -455,9 +515,11 @@ const RemoveLiquidityNew = (props) => {
                   >
                     <div className="tokenin-value">
                       <span className="value">
-                        {props.positionDetails.data
-                          ? props.positionDetails.data.tokenBPoolBalance.toFixed(4)
-                          : '0.00'}
+                        {props.positionDetails.data ? (
+                          props.positionDetails.data.tokenBPoolBalance.toFixed(4)
+                        ) : (
+                          <span className="shimmer">99999</span>
+                        )}
                       </span>{' '}
                     </div>
                   </OverlayTrigger>
@@ -476,9 +538,11 @@ const RemoveLiquidityNew = (props) => {
                   }
                 >
                   <div className="pool-value">
-                    {props.positionDetails.data
-                      ? props.positionDetails.data.lpBalance.toFixed(4)
-                      : '0.00'}
+                    {props.positionDetails.data ? (
+                      props.positionDetails.data.lpBalance.toFixed(4)
+                    ) : (
+                      <span className="shimmer">99999</span>
+                    )}
                   </div>
                 </OverlayTrigger>
               </div>
@@ -495,9 +559,11 @@ const RemoveLiquidityNew = (props) => {
                   }
                 >
                   <div className="pool-value">
-                    {props.positionDetails.data
-                      ? props.positionDetails.data.lpTokenShare.toFixed(4)
-                      : '0.00'}{' '}
+                    {props.positionDetails.data ? (
+                      props.positionDetails.data.lpTokenShare.toFixed(4)
+                    ) : (
+                      <span className="shimmer">99999</span>
+                    )}{' '}
                     %
                   </div>
                 </OverlayTrigger>
@@ -519,16 +585,17 @@ const RemoveLiquidityNew = (props) => {
       <ConfirmTransaction
         show={showConfirmTransaction}
         theme={props.theme}
-        content={`Burning ${Number(localStorage.getItem('liqinput')).toFixed(6)} ${
-          props.tokenIn.name
-        } / ${props.tokenOut.name} LP `}
+        content={`Burning ${Number(localStorage.getItem('liqinput')).toFixed(
+          6,
+        )} ${localStorage.getItem('tokeninliq')} / ${localStorage.getItem('tokenoutliq')} LP `}
         onHide={handleCloseModal}
       />
       <InfoModal
         open={showTransactionSubmitModal}
-        InfoMessage={`Burning ${Number(localStorage.getItem('liqinput')).toFixed(6)} ${
-          props.tokenIn.name
-        } / ${props.tokenOut.name} LP `}
+        theme={props.theme}
+        InfoMessage={`Burning ${Number(localStorage.getItem('liqinput')).toFixed(
+          6,
+        )} ${localStorage.getItem('tokeninliq')} / ${localStorage.getItem('tokenoutliq')} LP `}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
         buttonText={'View on TzKT'}
@@ -539,11 +606,14 @@ const RemoveLiquidityNew = (props) => {
       <Loader
         loading={props.loading}
         loaderMessage={props.loaderMessage}
-        content={` ${Number(localStorage.getItem('liqinput')).toFixed(6)} ${props.tokenIn.name} / ${
-          props.tokenOut.name
-        } LP Burned`}
+        content={` ${Number(localStorage.getItem('liqinput')).toFixed(6)} ${localStorage.getItem(
+          'tokeninliq',
+        )} / ${localStorage.getItem('tokenoutliq')} LP Burned`}
         tokenIn={props.tokenIn.name}
         tokenOut={props.tokenOut.name}
+        onBtnClick={
+          transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
+        }
       />
     </>
   );

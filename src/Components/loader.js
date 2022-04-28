@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import clsx from 'clsx';
-//import { PuffLoader } from 'react-spinners';
 import { ReactComponent as SuccessImg } from '../assets/images/status.svg';
 import { ReactComponent as ErrorImg } from '../assets/images/errorImg.svg';
 import '../assets/scss/animation.scss';
@@ -42,7 +41,11 @@ const Loader = (props) => {
               </div>
               <div className="floater-text">
                 <span className="status-text">{props.content}</span>
-                <div className="view-tezos">
+                <div
+                  className="view-tezos"
+                  onClick={props.onBtnClick}
+                  style={{ cursor: 'pointer' }}
+                >
                   View on TzKT{' '}
                   <span className=" material-icons-round launch-icon-flash">launch</span>
                 </div>
@@ -88,7 +91,11 @@ const Loader = (props) => {
               </div>
               <div className="floater-text">
                 <span className="status-text">Tranaction Failed</span>
-                <div className="view-tezos">
+                <div
+                  className="view-tezos"
+                  onClick={props.onBtnClick}
+                  style={{ cursor: 'pointer' }}
+                >
                   View on TzKT{' '}
                   <span className="material-icons-round launch-icon-flash">launch</span>
                 </div>
@@ -123,4 +130,5 @@ Loader.propTypes = {
   secondTokenAmount: PropTypes.any,
   setLoaderMessage: PropTypes.func,
   content: PropTypes.any,
+  onBtnClick: PropTypes.any,
 };

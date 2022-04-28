@@ -35,7 +35,7 @@ const ConfirmAddLiquidity = (props) => {
 
                 <div className="lp-token-details">
                   <p className="lp-token-info-desc">
-                    {props.tokenIn.name === 'TEZ'
+                    {props.tokenIn.name === 'tez'
                       ? props.lpTokenAmount
                       : props.lpTokenAmount.estimatedLpOutput}
                   </p>
@@ -92,7 +92,7 @@ const ConfirmAddLiquidity = (props) => {
           <div className="share-pool flex justify-between">
             <div className="share-pool-label">Your pool share</div>
             <div className="confirm-supply-details-sharevalue">
-              {props.tokenIn.name === 'TEZ'
+              {props.tokenIn.name === 'tez'
                 ? props.poolShare
                 : (
                     (props.lpTokenAmount.estimatedLpOutput /

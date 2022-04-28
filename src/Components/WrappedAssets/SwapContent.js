@@ -7,8 +7,12 @@ import { connect } from 'react-redux';
 import Button from '../Ui/Buttons/Button';
 import Loader from '../loader';
 import InfoModal from '../Ui/Modals/InfoModal';
-import { swapWrappedAssets } from '../../apis/WrappedAssets/WrappedAssets';
+import {
+  getAvailableLiquidityPairs,
+  swapWrappedAssets,
+} from '../../apis/WrappedAssets/WrappedAssets';
 import { setLoader } from '../../redux/slices/settings/settings.slice';
+import LpPair from '../SwapTabsContent/LpPair';
 
 const SwapContent = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -18,14 +22,24 @@ const SwapContent = (props) => {
 
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState('');
-
+  const [showLpPair, setShowLpPair] = useState(false);
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const [transactionId, setTransactionId] = useState('');
-
+  const [isLpPairAvailable, setLpPairAvailable] = useState(false);
+  const [pairs, setPairs] = useState([]);
   const transactionSubmitModal = (id) => {
     setTransactionId(id);
     setShowTransactionSubmitModal(true);
   };
+
+  useEffect(async () => {
+    const res = await getAvailableLiquidityPairs(props.tokenOut.name);
+    setLpPairAvailable(res.isLiquidityPairAvailable);
+
+    if (res.isLiquidityPairAvailable) {
+      setPairs(res.data);
+    }
+  }, [props.tokenOut]);
 
   const handleSwapTokenInput = (input, tokenType) => {
     if (input === '' || isNaN(input)) {
@@ -71,8 +85,13 @@ const SwapContent = (props) => {
   const handleSwapResponse = (status) => {
     if (status) {
       props.setLoading(false);
+      props.setBalanceUpdate(true);
       setShowTransactionSubmitModal(false);
       props.handleLoaderMessage('success', 'Transaction confirmed');
+      setTimeout(() => {
+        setShowLpPair(true);
+      }, 2000);
+
       props.setLoader(false);
       props.setShowConfirmSwap(false);
       props.setSecondTokenAmount('');
@@ -82,6 +101,7 @@ const SwapContent = (props) => {
       setSecondTokenAmount('');
     } else {
       props.setLoading(false);
+      props.setBalanceUpdate(true);
       setShowTransactionSubmitModal(false);
       props.handleLoaderMessage('error', 'Transaction failed');
       props.setLoader(false);
@@ -114,13 +134,14 @@ const SwapContent = (props) => {
     ).then((response) => {
       props.setShowConfirmSwap(false);
       props.setShowConfirmTransaction(false);
-      // setTimeout(() => {
-      //   props.setShowTransactionSubmitModal(false);
-      // }, 5000);
+
       handleSwapResponse(response.success);
       setTimeout(() => {
         props.setLoaderMessage({});
       }, 6000);
+      setTimeout(() => {
+        setShowLpPair(false);
+      }, 8000);
     });
   };
 
@@ -217,7 +238,7 @@ const SwapContent = (props) => {
               </button>
             </div>
 
-            <div className="token-user-input-wrapper">
+            <div className="token-user-input-wrapper wa-token-user-input-wrapper">
               <input
                 type="text"
                 className="token-user-input"
@@ -279,7 +300,7 @@ const SwapContent = (props) => {
               </button>
             </div>
 
-            <div className="token-user-input-wrapper">
+            <div className="token-user-input-wrapper wa-token-user-input-wrapper">
               {props.tokenOut.name ? (
                 <input
                   type="text"
@@ -374,6 +395,17 @@ const SwapContent = (props) => {
         tokenOut={props.tokenOut.name}
         secondTokenAmount={secondAmount}
         setLoaderMessage={props.setLoaderMessage}
+        onBtnClick={
+          transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
+        }
+      />
+      <LpPair
+        isLpPairAvailable={isLpPairAvailable}
+        showLpPair={showLpPair}
+        pairs={pairs}
+        tokenIn={props.tokenIn}
+        tokenOut={props.tokenOut}
+        setShowLpPair={setShowLpPair}
       />
     </>
   );
@@ -425,6 +457,7 @@ SwapContent.propTypes = {
   setShowTransactionSubmitModal: PropTypes.any,
   transactionId: PropTypes.any,
   showTransactionSubmitModal: PropTypes.any,
+  setBalanceUpdate: PropTypes.any,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SwapContent);

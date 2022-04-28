@@ -37,7 +37,7 @@ const newton = (x, y, dx, dy, u, n) => {
   return dy1;
 };
 
-const newton_dx_to_dy = (x, y, dx, rounds) => {
+export const newton_dx_to_dy = (x, y, dx, rounds) => {
   const utility = util(x, y);
   const u = utility.first;
   const dy = newton(x, y, dx, 0, u, rounds);
@@ -81,7 +81,7 @@ export const calculateTokensOutStable = async (
 ) => {
   tokenIn_amount = tokenIn_amount * 10 ** 6;
   try {
-    if (tokenIn === 'CTEZ') {
+    if (tokenIn === 'ctez') {
       const dy =
         newton_dx_to_dy(target * ctezSupply, tezSupply * 2 ** 48, tokenIn_amount * target, 5) /
         2 ** 48;
@@ -118,7 +118,7 @@ export const calculateTokensOutStable = async (
         exchangeRate,
         priceImpact,
       };
-    } else if (tokenIn === 'TEZ') {
+    } else if (tokenIn === 'tez') {
       const dy =
         newton_dx_to_dy(tezSupply * 2 ** 48, target * ctezSupply, tokenIn_amount * 2 ** 48, 5) /
         target;
@@ -142,7 +142,9 @@ export const calculateTokensOutStable = async (
       const next_tokenOut = next_dy - next_fee;
       let priceImpact = (tokenOut - next_tokenOut) / tokenOut;
       priceImpact = priceImpact * 100;
+
       priceImpact = priceImpact.toFixed(5);
+
       priceImpact = Math.abs(priceImpact);
       tokenOut = tokenOut / 10 ** 6;
       fee = fee / 10 ** 6;
@@ -400,6 +402,7 @@ export const getUserBalanceByRpcStable = async (identifier, address) => {
     const Tezos = new TezosToolkit(rpcNode);
     Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
+
     if (type === 'XTZ') {
       return getxtzBalance(identifier, address);
       // const _balance = await Tezos.tz.getBalance(address);
@@ -419,7 +422,7 @@ export const getUserBalanceByRpcStable = async (identifier, address) => {
       const balance = (() => {
         // IIFE
         let _balance;
-        if (identifier === 'CTEZ') {
+        if (identifier === 'ctez') {
           _balance = response.data.int;
         } else {
           _balance = response.data.args[1].int;
@@ -464,7 +467,9 @@ export const loadSwapDataStable = async (tokenIn, tokenOut) => {
     lpTokenSupply = lpTokenSupply.toNumber();
     const lpToken = CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
 
-    const ctezStorageUrl = `${rpcNode}chains/main/blocks/head/context/contracts/KT1GWnsoFZVHGh7roXEER3qeCcgJgrXT3de2/storage`;
+    const ctezAddress = CONFIG.CTEZ[connectedNetwork];
+
+    const ctezStorageUrl = `${rpcNode}chains/main/blocks/head/context/contracts/${ctezAddress}/storage`;
     const ctezStorage = await axios.get(ctezStorageUrl);
 
     const target = ctezStorage.data.args[2].int;
@@ -556,7 +561,7 @@ export async function add_liquidity(
     Tezos.setWalletProvider(wallet);
     const contractAddress =
       CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
-    const CTEZ = CONFIG.AMM[connectedNetwork]['CTEZ'].TOKEN_CONTRACT;
+    const CTEZ = CONFIG.AMM[connectedNetwork]['ctez'].TOKEN_CONTRACT;
     const contract = await Tezos.wallet.at(contractAddress);
     const ctez_contract = await Tezos.wallet.at(CTEZ);
     const batch = Tezos.wallet.batch([

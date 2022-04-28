@@ -1,0 +1,181 @@
+.simpleModal {
+  & > :global(.modal-content) {
+    background: var(--theme-card-bg);
+    box-shadow: var(--theme-modal-boxshadow);
+    border-radius: 12px;
+    border: 0;
+    padding: 12px;
+  }
+  .confirmSwapHeader {
+    padding: 16px 20px;
+  }
+  .header {
+    padding: 14px 14px 26px;
+    border-bottom: 1px solid var(--theme-border);
+
+    &.noTitle {
+      padding: 14px 14px 0;
+      border-bottom: 0;
+    }
+  }
+
+  .title {
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  .closeBtn {
+    cursor: pointer;
+    color: var(--theme-text-4);
+  }
+  .confirmSwapContent {
+    padding: 0px;
+  }
+  .content {
+    padding: 26px 14px 14px;
+
+    &.noTopPadding {
+      padding: 0 14px 14px;
+    }
+  }
+}
+
+.infoModal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .image {
+    width: 76px;
+    height: 76px;
+  }
+
+  .message {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 20px;
+  }
+
+  .button {
+    color: var(--theme-primary-button-bg);
+    cursor: pointer;
+    user-select: none;
+
+    &:active {
+      transform: scale(0.98);
+      transform-origin: 50% 50%;
+    }
+  }
+}
+
+.stakeModal {
+  .inputWrapper {
+    background: var(--theme-input-bg);
+    border-radius: 6px;
+    padding: 16px;
+
+    & input {
+      background: transparent;
+      border: 0;
+      outline: none;
+      width: 50px;
+      flex-grow: 1;
+      color: var(--theme-text-1);
+    }
+
+    & input[type='number']::-webkit-outer-spin-button,
+    & input[type='number']::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    & input[type='number'] {
+      -moz-appearance: textfield;
+    }
+
+    & span {
+      font-size: 14px;
+    }
+  }
+}
+
+.unStakeModal {
+  .unstakeSelectWrapper {
+    background: var(--theme-input-bg);
+    border-radius: 6px;
+  }
+
+  .unstakeSelect {
+    padding: 16px 14px;
+
+    &.active {
+      border-bottom: 1px solid var(--theme-border);
+    }
+  }
+
+  .collapseBtn {
+    transition: 300ms ease-in;
+
+    &.active {
+      transform: rotate(180deg);
+    }
+  }
+
+  .selectedStakes {
+    background: var(--theme-secondary-gradient);
+    border-radius: 6px;
+  }
+
+  .collapsedContent {
+    max-height: 165px;
+    overflow: auto;
+    margin: 16px;
+    padding-right: 16px;
+  }
+
+  .stakedItem {
+    display: flex;
+    align-items: center;
+    height: 36px;
+    cursor: pointer;
+  }
+
+  .feeBreakdownWrapper {
+    background: var(--theme-input-bg);
+    border-radius: 15px;
+    padding: 12px 16px;
+  }
+
+  .feeBreakdownTable {
+    display: table;
+    width: 100%;
+    border-bottom: 1px solid var(--theme-border);
+
+    & > div {
+      display: table-row;
+
+      & > div {
+        display: table-cell;
+
+        &:last-child {
+          text-align: right;
+        }
+      }
+    }
+  }
+
+  .totalRow {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+.confirmSwap {
+  max-width: 400px !important;
+  margin: auto;
+  // min-height: calc(100% + 3.5rem) !important;
+
+  @media screen and (min-height: 1400px) and (min-width: 2500px) {
+    //min-height: calc(100% - 29.5rem) !important;
+    margin: -11rem auto;
+  }
+}

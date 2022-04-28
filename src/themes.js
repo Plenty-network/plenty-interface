@@ -12,8 +12,6 @@ export const lightTheme = {
   hr: '#d2d2d2',
   logo: '#5603AD',
   logoFrontPage: '#FFFFFF',
-  // frontPageGradient: `linear-gradient(178.62deg, #7028E4 16.71%, #E5B2CA 217.99%)`,
-  // frontPageBottomGradient: `linear-gradient(94.97deg, #7028E4 4%, #E5B2CA 142.86%)`,
   frontPageGradient: `url(${lineBg}), linear-gradient(180.62deg,#7028E4 100.71%,#E5B2CA 0%)`,
   frontPageBottomGradient: `url(${lineBg}), linear-gradient(180.62deg,#7028E4 100.71%,#E5B2CA 0%)`,
   WrappedAssetsGradient: `url(${waBglight})`,
@@ -35,8 +33,6 @@ export const lightTheme = {
   iconHoverBgEndColor: '#E5B2CA',
 };
 
-// body: 'linear-gradient(108.61deg, #A060D9 -24.15%, #7028E4 99.76%)',
-
 export const darkTheme = {
   name: 'dark',
   body: 'linear-gradient(108.61deg, #04152E -24.15%, #343C49 99.76%)',
@@ -49,8 +45,6 @@ export const darkTheme = {
   frontPageBottomGradient: `url(${lineBg})`,
   WrappedAssetsGradient: `url(${waBg})`,
   topGradient: 'transparent',
-  // frontPageGradient: ``,
-  // frontPageBottomGradient: ``,
   bg: '#201c41',
   bgAlt: '#252146',
   backgroundLight: '#343052',
@@ -139,22 +133,6 @@ export const GlobalStyles = createGlobalStyle`
       
     }
   }
-  
-  // #medium-icon-bg {
-  //   fill: url(#medium-icon-bg-gradient);
-  // }
- 
-  // #twitter-icon-bg {
-  //   fill: url(#twitter-icon-bg-gradient);
-  // }
-  
-  // #discord-icon-bg {
-  //   fill: url(#discord-icon-bg-gradient);
-  // }
-  
-  // #telegram-icon-bg {
-  //   fill: url(#telegram-icon-bg-gradient);
-  // }
   
   .span-themed {
     color: ${(props) => props.theme.span} !important;

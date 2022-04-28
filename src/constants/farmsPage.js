@@ -665,7 +665,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'PLENTY / CTEZ LP',
+    deposit: 'PLENTY / ctez LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -735,7 +735,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / kUSD LP': {
+  'ctez / kUSD LP': {
     image: ctezkUSD,
     harvestImg: plentyToken,
     multi: '100',
@@ -745,7 +745,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / kUSD LP',
+    deposit: 'ctez / kUSD LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -755,7 +755,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / USDtz LP': {
+  'ctez / USDtz LP': {
     image: ctezUSDtz,
     harvestImg: plentyToken,
     multi: '100',
@@ -765,7 +765,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / USDtz LP',
+    deposit: 'ctez / USDtz LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -775,7 +775,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / wUSDC LP': {
+  'ctez / wUSDC LP': {
     image: ctezwUSDC,
     harvestImg: plentyToken,
     multi: '100',
@@ -785,7 +785,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / wUSDC LP',
+    deposit: 'ctez / wUSDC LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -795,7 +795,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / wUSDT LP': {
+  'ctez / wUSDT LP': {
     image: ctezwUSDT,
     harvestImg: plentyToken,
     multi: '100',
@@ -805,7 +805,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / wUSDT LP',
+    deposit: 'ctez / wUSDT LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -815,7 +815,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / wBUSD LP': {
+  'ctez / wBUSD LP': {
     image: ctezwBUSD,
     harvestImg: plentyToken,
     multi: '100',
@@ -825,7 +825,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / wBUSD LP',
+    deposit: 'ctez / wBUSD LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -835,7 +835,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / wDAI LP': {
+  'ctez / wDAI LP': {
     image: ctezwDAI,
     harvestImg: plentyToken,
     multi: '100',
@@ -845,7 +845,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / wDAI LP',
+    deposit: 'ctez / wDAI LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -855,7 +855,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / KALAM LP': {
+  'ctez / KALAM LP': {
     image: ctezKALAM,
     harvestImg: plentyToken,
     multi: '100',
@@ -865,7 +865,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / KALAM LP',
+    deposit: 'ctez / KALAM LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -875,7 +875,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / GIF LP': {
+  'ctez / GIF LP': {
     image: ctezGIF,
     harvestImg: plentyToken,
     multi: '100',
@@ -885,7 +885,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / GIF LP',
+    deposit: 'ctez / GIF LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -895,7 +895,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / ETHtz LP': {
+  'ctez / ETHtz LP': {
     image: ctezETHtz,
     harvestImg: plentyToken,
     multi: '100',
@@ -905,7 +905,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / ETHtz LP',
+    deposit: 'ctez / ETHtz LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -915,7 +915,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / QUIPU LP': {
+  'ctez / QUIPU LP': {
     image: ctezQUIPU,
     harvestImg: plentyToken,
     multi: '100',
@@ -925,7 +925,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / QUIPU LP',
+    deposit: 'ctez / QUIPU LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -935,7 +935,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / hDAO LP': {
+  'ctez / hDAO LP': {
     image: ctezhDAO,
     harvestImg: plentyToken,
     multi: '100',
@@ -945,7 +945,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / hDAO LP',
+    deposit: 'ctez / hDAO LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -955,7 +955,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / kDAO LP': {
+  'ctez / kDAO LP': {
     image: ctezkDAO,
     harvestImg: plentyToken,
     multi: '100',
@@ -965,7 +965,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / kDAO LP',
+    deposit: 'ctez / kDAO LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -975,7 +975,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / wWETH LP': {
+  'ctez / wWETH LP': {
     image: ctezwWETH,
     harvestImg: plentyToken,
     multi: '100',
@@ -985,7 +985,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / wWETH LP',
+    deposit: 'ctez / wWETH LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -995,7 +995,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / uUSD LP': {
+  'ctez / uUSD LP': {
     image: ctezuUSD,
     harvestImg: plentyToken,
     multi: '100',
@@ -1005,7 +1005,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / uUSD LP',
+    deposit: 'ctez / uUSD LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -1015,7 +1015,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / FLAME LP': {
+  'ctez / FLAME LP': {
     image: ctezFLAME,
     harvestImg: plentyToken,
     multi: '100',
@@ -1025,7 +1025,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / FLAME LP',
+    deposit: 'ctez / FLAME LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -1035,7 +1035,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / SMAK LP': {
+  'ctez / SMAK LP': {
     image: ctezSMAK,
     harvestImg: plentyToken,
     multi: '100',
@@ -1045,7 +1045,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / SMAK LP',
+    deposit: 'ctez / SMAK LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -1055,7 +1055,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / crDAO LP': {
+  'ctez / crDAO LP': {
     image: ctezcrDAO,
     harvestImg: plentyToken,
     multi: '100',
@@ -1065,7 +1065,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / crDAO LP',
+    deposit: 'ctez / crDAO LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -1075,7 +1075,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / PXL LP': {
+  'ctez / PXL LP': {
     image: ctezPXL,
     harvestImg: plentyToken,
     multi: '100',
@@ -1085,7 +1085,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / PXL LP',
+    deposit: 'ctez / PXL LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -1095,7 +1095,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / UNO LP': {
+  'ctez / UNO LP': {
     image: ctezUNO,
     harvestImg: plentyToken,
     multi: '100',
@@ -1105,7 +1105,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / UNO LP',
+    deposit: 'ctez / UNO LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -1115,7 +1115,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / WRAP LP': {
+  'ctez / WRAP LP': {
     image: ctezWRAP,
     harvestImg: plentyToken,
     multi: '100',
@@ -1125,7 +1125,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / WRAP LP',
+    deposit: 'ctez / WRAP LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -1135,7 +1135,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / wWBTC LP': {
+  'ctez / wWBTC LP': {
     image: ctezwWBTC,
     harvestImg: plentyToken,
     multi: '100',
@@ -1145,7 +1145,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / wWBTC LP',
+    deposit: 'ctez / wWBTC LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -1155,7 +1155,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / tzBTC LP': {
+  'ctez / tzBTC LP': {
     image: cteztzBTC,
     harvestImg: plentyToken,
     multi: '100',
@@ -1165,7 +1165,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / tzBTC LP',
+    deposit: 'ctez / tzBTC LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -1175,7 +1175,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / PAUL LP': {
+  'ctez / PAUL LP': {
     image: ctezPAUL,
     harvestImg: plentyToken,
     multi: '100',
@@ -1185,7 +1185,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / PAUL LP',
+    deposit: 'ctez / PAUL LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -1195,7 +1195,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / CRUNCH LP': {
+  'ctez / CRUNCH LP': {
     image: ctezCRUNCH,
     harvestImg: plentyToken,
     multi: '100',
@@ -1205,7 +1205,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / CRUNCH LP',
+    deposit: 'ctez / CRUNCH LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,
@@ -1215,7 +1215,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
   },
-  'CTEZ / INSTA LP': {
+  'ctez / INSTA LP': {
     image: ctezINSTA,
     harvestImg: plentyToken,
     multi: '100',
@@ -1225,7 +1225,7 @@ export const FARMS_CARD_TYPE_LIST = {
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / INSTA LP',
+    deposit: 'ctez / INSTA LP',
     liquidity: '5000',
     withdrawalFee: '0%',
     balance: 0,

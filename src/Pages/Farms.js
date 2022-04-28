@@ -31,6 +31,7 @@ import {
 import { populateFarmsWithoutData } from '../utils/farmsPageUtils';
 import { FARM_SORT_OPTIONS, FARM_TAB } from '../constants/farmsPage';
 import ConfirmTransaction from '../Components/WrappedAssets/ConfirmTransaction';
+import { setLoader } from '../redux/slices/settings/settings.slice';
 
 const Farms = (props) => {
   const [sortValue, setSortValue] = useState(FARM_SORT_OPTIONS.APR);
@@ -106,7 +107,7 @@ const Farms = (props) => {
   const filterByTab = useCallback(
     (farm) => {
       if (tabChange === FARM_TAB.CTEZ) {
-        return farm.farmData.CARD_TYPE.toLowerCase().includes('CTEZ');
+        return farm.farmData.CARD_TYPE.toLowerCase().includes('ctez');
       }
 
       if (tabChange === FARM_TAB.YOU) {
@@ -313,6 +314,7 @@ const Farms = (props) => {
                   theme={props.theme}
                   setShowConfirmTransaction={setShowConfirmTransaction}
                   setFloaterValue={setFloaterValue}
+                  setLoader={props.setLoader}
                 />
               );
             })}
@@ -329,6 +331,7 @@ const Farms = (props) => {
         stakeOperation={props.stakeOperation}
         setShowConfirmTransaction={setShowConfirmTransaction}
         setFloaterValue={setFloaterValue}
+        setLoader={props.setLoader}
       />
       <UnstakeModal
         modalData={props.unstakeModal}
@@ -343,6 +346,7 @@ const Farms = (props) => {
         unstakeOperation={props.unstakeOperation}
         setShowConfirmTransaction={setShowConfirmTransaction}
         setFloaterValue={setFloaterValue}
+        setLoader={props.setLoader}
       />
       <ConfirmTransaction
         show={showConfirmTransaction}
@@ -350,11 +354,26 @@ const Farms = (props) => {
         content={
           floaterValue.type === 'Harvesting'
             ? `${floaterValue.type}  ${floaterValue.pair}  `
-            : `${floaterValue.type} ${floaterValue.value} ${floaterValue.pair} LP `
+            : `${floaterValue.type} ${Number(floaterValue.value).toFixed(6)} ${
+                floaterValue.pair
+              } LP `
         }
         onHide={handleClose}
       />
-      <FarmModals />
+      <FarmModals
+        setLoader={props.setLoader}
+        type={floaterValue.type}
+        pair={floaterValue.pair}
+        value={floaterValue.value}
+        theme={props.theme}
+        content={
+          floaterValue.type === 'Harvesting'
+            ? `${floaterValue.type}  ${floaterValue.pair}  `
+            : `${floaterValue.type} ${Number(floaterValue.value).toFixed(6)} ${
+                floaterValue.pair
+              } LP `
+        }
+      />
     </>
   );
 };
@@ -392,6 +411,7 @@ Farms.propTypes = {
   walletAddress: PropTypes.string.isRequired,
   walletBalances: PropTypes.any,
   theme: PropTypes.any,
+  setLoader: PropTypes.any,
 };
 
 const mapStateToProps = (state) => {
@@ -422,12 +442,34 @@ const mapDispatchToProps = (dispatch) => {
     populateEmptyFarmsData: (farms) => dispatch(populateEmptyFarmsData(farms)),
     toggleFarmsType: (isActive) => dispatch(toggleFarmsType(isActive)),
     toggleStakedFarmsOnly: (isActive) => dispatch(toggleStakedFarmsOnly(isActive)),
-    stakeOnFarm: (amount, farmIdentifier, isActive, position, setShowConfirmTransaction) =>
+    stakeOnFarm: (
+      amount,
+      farmIdentifier,
+      isActive,
+      position,
+      setShowConfirmTransaction,
+      setLoader,
+    ) =>
       dispatch(
-        stakeOnFarmThunk(amount, farmIdentifier, isActive, position, setShowConfirmTransaction),
+        stakeOnFarmThunk(
+          amount,
+          farmIdentifier,
+          isActive,
+          position,
+          setShowConfirmTransaction,
+          setLoader,
+        ),
       ),
-    harvestOnFarm: (farmIdentifier, isActive, position, setShowConfirmTransaction) =>
-      dispatch(harvestOnFarmThunk(farmIdentifier, isActive, position, setShowConfirmTransaction)),
+    harvestOnFarm: (farmIdentifier, isActive, position, setShowConfirmTransaction, setLoader) =>
+      dispatch(
+        harvestOnFarmThunk(
+          farmIdentifier,
+          isActive,
+          position,
+          setShowConfirmTransaction,
+          setLoader,
+        ),
+      ),
     getFarmsData: (isActive) => dispatch(getFarmsDataThunk(isActive)),
     getUserStakes: (address, type, isActive) =>
       dispatch(userActions.getUserStakes(address, type, isActive)),
@@ -460,6 +502,7 @@ const mapDispatchToProps = (dispatch) => {
       isActive,
       position,
       setShowConfirmTransaction,
+      setLoader,
     ) =>
       dispatch(
         unstakeOnFarmThunk(
@@ -468,9 +511,11 @@ const mapDispatchToProps = (dispatch) => {
           isActive,
           position,
           setShowConfirmTransaction,
+          setLoader,
         ),
       ),
     fetchUserBalances: (address) => dispatch(userActions.fetchUserBalances(address)),
+    setLoader: (value) => dispatch(setLoader(value)),
   };
 };
 

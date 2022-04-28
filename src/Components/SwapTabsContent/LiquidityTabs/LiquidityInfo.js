@@ -22,9 +22,27 @@ const LiquidityInfo = (props) => {
           }
         >
           <div className="details">
-            {props.isStable ? props.xtztoctez : props.swapData.tokenOutPerTokenIn?.toFixed(4)}{' '}
+            {(props.isStable ? !isNaN(props.xtztoctez) : props.swapData.tokenOutPerTokenIn) ? (
+              props.isStable ? (
+                props.xtztoctez
+              ) : (
+                props.swapData.tokenOutPerTokenIn?.toFixed(4)
+              )
+            ) : (
+              <span className="shimmer">99999</span>
+            )}{' '}
             <span className="content">
-              {props.tokenIn.name} per {props.tokenOut.name}
+              {props.tokenIn.name === 'tez'
+                ? 'TEZ'
+                : props.tokenIn.name === 'ctez'
+                ? 'CTEZ'
+                : props.tokenIn.name}{' '}
+              per{' '}
+              {props.tokenOut.name === 'tez'
+                ? 'TEZ'
+                : props.tokenOut.name === 'ctez'
+                ? 'CTEZ'
+                : props.tokenOut.name}
             </span>
           </div>
         </OverlayTrigger>
@@ -39,21 +57,39 @@ const LiquidityInfo = (props) => {
           }
         >
           <div className="details">
-            {props.isStable ? props.cteztoxtz : (1 / props.swapData.tokenOutPerTokenIn).toFixed(4)}{' '}
+            {(props.isStable ? !isNaN(props.cteztoxtz) : 1 / props.swapData.tokenOutPerTokenIn) ? (
+              props.isStable ? (
+                props.cteztoxtz
+              ) : (
+                (1 / props.swapData.tokenOutPerTokenIn).toFixed(4)
+              )
+            ) : (
+              <span className="shimmer">99999</span>
+            )}{' '}
             <span className="content">
-              {props.tokenOut.name} per {props.tokenIn.name}
+              {props.tokenOut.name === 'tez'
+                ? 'TEZ'
+                : props.tokenOut.name === 'ctez'
+                ? 'CTEZ'
+                : props.tokenOut.name}{' '}
+              per{' '}
+              {props.tokenIn.name === 'tez'
+                ? 'TEZ'
+                : props.tokenIn.name === 'ctez'
+                ? 'CTEZ'
+                : props.tokenIn.name}
             </span>
           </div>
         </OverlayTrigger>
       </div>
       <div className={clsx(isMobile && 'order-2', 'ml-2')}>
-        {(props.tokenIn.name === 'TEZ' ? props.poolShare : props.lpTokenAmount.estimatedLpOutput) >
+        {(props.tokenIn.name === 'tez' ? props.poolShare : props.lpTokenAmount.estimatedLpOutput) >
         0 ? (
           <OverlayTrigger
             placement="top"
             overlay={
               <Tooltip id="button-tooltip" {...props}>
-                {props.tokenIn.name === 'TEZ'
+                {props.tokenIn.name === 'tez'
                   ? props.poolShare
                   : props.lpTokenAmount.estimatedLpOutput
                   ? (props.lpTokenAmount.estimatedLpOutput /
@@ -65,7 +101,7 @@ const LiquidityInfo = (props) => {
           >
             <div className="details">
               <span className="content">Share of pool:</span>{' '}
-              {props.tokenIn.name === 'TEZ'
+              {props.tokenIn.name === 'tez'
                 ? Number(props.poolShare) > 0
                   ? Number(props.poolShare).toFixed(4)
                   : '0'
@@ -82,7 +118,7 @@ const LiquidityInfo = (props) => {
         ) : (
           <div className="details">
             <span className="content">Share of pool:</span>{' '}
-            {props.tokenIn.name === 'TEZ'
+            {props.tokenIn.name === 'tez'
               ? Number(props.poolShare) > 0
                 ? Number(props.poolShare).toFixed(4)
                 : '0'

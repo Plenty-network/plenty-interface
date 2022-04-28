@@ -4,7 +4,7 @@ import React from 'react';
 import SimpleModal from '../Ui/Modals/SimpleModal';
 import Button from '../Ui/Buttons/Button';
 import { ReactComponent as Stableswap } from '../../assets/images/SwapModal/stableswap-white.svg';
-import SwapDetails from '../SwapDetails';
+import SwapDetailsConfirmSwap from './SwapDetailsConfirmSwap';
 
 const ConfirmSwap = (props) => {
   return (
@@ -52,15 +52,18 @@ const ConfirmSwap = (props) => {
               </div>
             </div>
           </div>
-          <SwapDetails
+          <SwapDetailsConfirmSwap
             computedOutDetails={props.computedData}
             tokenIn={props.tokenIn}
             tokenOut={props.tokenOut}
             routeData={props.routeData}
-            isStableSwap={props.isStableSwap}
             firstTokenAmount={props.firstTokenAmount}
             slippage={props.slippage}
             isConfirmSwap={true}
+            isStableSwap={
+              (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
+              (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez')
+            }
           />
 
           <Button

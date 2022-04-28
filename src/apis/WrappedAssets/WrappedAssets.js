@@ -12,6 +12,8 @@ import {
   type4MapIds,
   type5MapIds,
 } from '../../constants/global';
+import { tokens } from '../../constants/swapPage';
+
 /**
  * Returns packed key (expr...) which will help to fetch user specific data from bigmap directly using rpc.
  * @param tokenId - Id of map from where you want to fetch data
@@ -204,3 +206,72 @@ export const getReferenceToken = (tokenIn) =>
   referenceTokens.find(
     (token) => token.name === CONFIG.WRAPPED_ASSETS[CONFIG.NETWORK][tokenIn].REF_TOKEN,
   );
+
+/**
+ * Get the list of available liquidity pairs for a selected reference token.
+ * @param {string} referenceToken - The reference token to be checked for available pairs on plenty.
+ * @returns List of liquidity pairs for the reference token if available else a false status.
+ */
+export const getAvailableLiquidityPairs = (referenceToken) => {
+  try {
+    const connectedNetwork = CONFIG.NETWORK;
+    const tokenList = CONFIG.AMM[connectedNetwork];
+    const availablePairs = [];
+    if (!Object.prototype.hasOwnProperty.call(tokenList, referenceToken)) {
+      return {
+        success: true,
+        isLiquidityPairAvailable: false,
+        data: [],
+      };
+    } else if (Object.keys(tokenList[referenceToken].DEX_PAIRS).length === 0) {
+      return {
+        success: true,
+        isLiquidityPairAvailable: false,
+        data: [],
+      };
+    } else {
+      Object.keys(tokenList[referenceToken].DEX_PAIRS).forEach((token) => {
+        let finalTokenA, finalTokenB, finalTokenAImage, finalTokenBImage;
+
+        const tokenAImage =
+          tokens.filter((tokenInfo) => tokenInfo.name === referenceToken).length > 0
+            ? tokens.find((tokenInfo) => tokenInfo.name === referenceToken).image
+            : referenceTokens.find((tokenInfo) => tokenInfo.name === referenceToken).image;
+
+        const tokenBImage =
+          tokens.filter((tokenInfo) => tokenInfo.name === token).length > 0
+            ? tokens.find((tokenInfo) => tokenInfo.name === token).image
+            : referenceTokens.find((tokenInfo) => tokenInfo.name === token).image;
+        // Order the pairs according to the contract storage order.
+        if (tokenList[referenceToken].DEX_PAIRS[token].property === 'token2_pool') {
+          finalTokenA = referenceToken;
+          finalTokenB = token;
+          finalTokenAImage = tokenAImage;
+          finalTokenBImage = tokenBImage;
+        } else {
+          finalTokenA = token;
+          finalTokenB = referenceToken;
+          finalTokenAImage = tokenBImage;
+          finalTokenBImage = tokenAImage;
+        }
+        availablePairs.push({
+          tokenA: { name: finalTokenA, image: finalTokenAImage },
+          tokenB: { name: finalTokenB, image: finalTokenBImage },
+          lpToken: tokenList[referenceToken].DEX_PAIRS[token].liquidityToken,
+        });
+      });
+      return {
+        success: true,
+        isLiquidityPairAvailable: true,
+        data: availablePairs,
+      };
+    }
+  } catch (error) {
+    return {
+      success: false,
+      isLiquidityPairAvailable: false,
+      data: [],
+      error: error.message,
+    };
+  }
+};

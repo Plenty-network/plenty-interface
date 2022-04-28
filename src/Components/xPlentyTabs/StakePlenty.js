@@ -5,16 +5,13 @@ import plenty from '../../assets/images/logo_small.png';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Button from '../Ui/Buttons/Button';
-import Loader from '../../Components/loader';
 import ConfirmTransaction from '../WrappedAssets/ConfirmTransaction';
-import InfoModal from '../Ui/Modals/InfoModal';
 import { connect } from 'react-redux';
 import { closetransactionInjectionModalThunk } from '../../redux/slices/xPlenty/xPlenty.thunk';
 
 const StakePlenty = (props) => {
   const [plentyInput, setPlentyInput] = useState('');
   const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
-  const [stakeInput, setStakeInput] = useState(0);
 
   const plentyInputHandler = (value) => {
     if (value === '' || isNaN(value)) {
@@ -31,8 +28,8 @@ const StakePlenty = (props) => {
   const buyHandler = () => {
     setShowConfirmTransaction(true);
     props.setLoader(true);
-    localStorage.setItem(stakeInput, plentyInput);
-    setStakeInput(localStorage.getItem(stakeInput));
+    localStorage.setItem('stakeInput', plentyInput);
+    localStorage.setItem('type', 'stake');
     let plentyInputWithFormat = plentyInput * Math.pow(10, 18);
     plentyInputWithFormat = Math.floor(plentyInputWithFormat);
 
@@ -133,7 +130,7 @@ const StakePlenty = (props) => {
             </button>
           </div>
 
-          <div className="token-user-input-wrapper">
+          <div className="token-user-input-wrapper wa-token-user-input-wrapper">
             <input
               type="text"
               onChange={(event) => plentyInputHandler(event.target.value)}
@@ -177,30 +174,11 @@ const StakePlenty = (props) => {
         </div>
         {xplentyButton}
       </>
-      <Loader
-        loading={props.isProcessing}
-        loaderMessage={props.loaderMessage}
-        content={`${stakeInput} plenty Staked`}
-        tokenIn={true}
-        setLoaderMessage={props.setLoaderMessage}
-      />
+
       <ConfirmTransaction
         show={showConfirmTransaction}
         theme={props.theme}
-        content={`Staking ${stakeInput} plenty `}
-      />
-
-      <InfoModal
-        open={props.isTransactionInjectionModalOpen}
-        onClose={props.closetransactionInjectionModal}
-        InfoMessage={`Staking ${stakeInput} plenty `}
-        message={'Transaction submitted'}
-        buttonText={'View on TzKT'}
-        onBtnClick={
-          props.currentOpHash
-            ? () => window.open(`https://tzkt.io/${props.currentOpHash}`, '_blank')
-            : null
-        }
+        content={`Staking ${Number(localStorage.getItem('stakeInput')).toFixed(6)} plenty `}
       />
     </>
   );
