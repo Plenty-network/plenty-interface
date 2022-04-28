@@ -861,7 +861,7 @@ const BridgeModal = (props) => {
                   <OverlayTrigger
                     overlay={(props) => (
                       <Tooltip className="switchTooltip token-output-tooltip" {...props}>
-                        {secondTokenAmount}
+                        {secondTokenAmount === '' ? '0.0' : secondTokenAmount}
                       </Tooltip>
                     )}
                     placement="top"
