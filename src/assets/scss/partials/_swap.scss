@@ -3,12 +3,14 @@
   color: var(--theme-tooltip-text);
   border-radius: 8px;
   z-index: 10001;
+  opacity: 1 !important;
   max-width: 300px !important;
   &::after {
     content: '';
     position: absolute;
     top: 70%;
     left: 50%;
+    opacity: 1 !important;
     border-width: 5px;
     border-style: solid;
     border-color: transparent var(--theme-tooltip-bg) transparent transparent;
@@ -19,6 +21,7 @@
   background: var(--theme-tooltip-bg);
   color: var(--theme-tooltip-text);
   border-radius: 8px;
+  opacity: 1 !important;
   z-index: 10001;
   max-width: 300px !important;
 
@@ -29,6 +32,7 @@
     content: '';
     position: absolute;
     top: 229%;
+    opacity: 1 !important;
     left: 48%;
     border-width: 5px;
     border-style: solid;
@@ -40,6 +44,7 @@
   background: var(--theme-tooltip-bg);
   color: var(--theme-tooltip-text);
   border-radius: 8px;
+  opacity: 1 !important;
   z-index: 10001;
   max-width: 324px !important;
   width: 301px !important;
@@ -48,6 +53,7 @@
     content: '';
     position: absolute;
     top: 709%;
+    opacity: 1 !important;
     left: 48%;
     border-width: 5px;
     border-style: solid;
@@ -59,6 +65,7 @@
   background: var(--theme-tooltip-bg);
   color: var(--theme-tooltip-text);
   border-radius: 8px;
+  opacity: 1 !important;
   z-index: 10001;
   max-width: 300px !important;
 
@@ -70,6 +77,7 @@
     position: absolute;
     top: 398%;
     left: 48%;
+    opacity: 1 !important;
     border-width: 5px;
     border-style: solid;
     border-color: transparent var(--theme-tooltip-bg) transparent transparent;
@@ -84,12 +92,13 @@
   z-index: 99999999999999999;
   max-width: 300px !important;
   margin-left: 33px;
+  opacity: 1 !important;
   width: 280px !important;
 
   &::after {
     content: '';
     position: absolute;
-
+    opacity: 1 !important;
     left: -10.5%;
     border-width: 5px;
     border-style: solid;

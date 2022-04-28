@@ -155,7 +155,7 @@ h1 {
 .tooltip-inner {
   background: var(--theme-tooltip-bg);
   color: var(--theme-tooltip-text);
-  opacity: 1;
+  opacity: 1 !important;
   max-width: 324px !important;
   position: absolute;
   top: -20px;

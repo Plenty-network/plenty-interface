@@ -9,6 +9,9 @@ import { ReactComponent as StableswapDark } from '../assets/images/SwapModal/sta
 import { ReactComponent as Router } from '../assets/images/router-tooltip.svg';
 import { ReactComponent as Bracket } from '../assets/images/bracket.svg';
 import '../assets/scss/animation.scss';
+import { ReactComponent as RouterDark } from '../assets/images/router-tooltip-dark.svg';
+import { ReactComponent as BracketDark } from '../assets/images/bracket-dark.svg';
+import '../assets/scss/animation.scss';
 
 const SwapDetails = (props) => {
   const [isOpen, setOpen] = useState(false);
@@ -254,8 +257,12 @@ const SwapDetails = (props) => {
                     <Tooltip id="button-tooltip-swap-details-router" {...props}>
                       Routing through these tokens results in the best price for your trade
                       <div className="flex flex-row">
-                        <Router />
-                        <Bracket className="router-bracket" />
+                        {props.theme === 'light' ? <Router /> : <RouterDark />}
+                        {props.theme === 'light' ? (
+                          <Bracket className="router-bracket" />
+                        ) : (
+                          <BracketDark className="router-bracket" />
+                        )}
                         <MdChevronRight className={clsx('router-arrow', 'ml-1')} fontSize={20} />
                         <span className="router-text">Stable pair</span>
                       </div>
