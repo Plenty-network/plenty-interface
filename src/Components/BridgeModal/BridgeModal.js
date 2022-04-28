@@ -692,123 +692,124 @@ const BridgeModal = (props) => {
       className={`justify-content-center mx-auto col-20 col-md-10 col-lg-12 col-xl-12 mb-3 ${styles.gov}`}
     >
       <div className={styles.border}>
-        <div className={` ${styles.bridgeModal} leftToRightFadeInAnimation-4-bridge`}>
-          <div className={styles.resultsHeader}>
-            <p className={styles.heading}>
-              Bridge{' '}
-              {metamaskAddress && (
-                <span className={styles.metamaskAddressText}>{`(${truncateMiddle(
-                  metamaskAddress,
-                  5,
-                  4,
-                  '...',
-                )})`}</span>
-              )}
-            </p>
-            {walletAddress && metamaskAddress && (
-              <p
-                className={`${styles.res} ${pendingTransCount > 0 && styles.pendingHistory}`}
-                onClick={() => {
-                  setTransaction(2);
-                }}
-                style={{ cursor: 'pointer' }}
-              >
-                View History{' '}
-                {pendingTransCount > 0 && (
-                  <span className={styles.actionRequiredCount}>{pendingTransCount}</span>
+        <div className={` ${styles.bridgeModal}`}>
+          <div className="leftToRightFadeInAnimation-4-bridge">
+            <div className={styles.resultsHeader}>
+              <p className={styles.heading}>
+                Bridge{' '}
+                {metamaskAddress && (
+                  <span className={styles.metamaskAddressText}>{`(${truncateMiddle(
+                    metamaskAddress,
+                    5,
+                    4,
+                    '...',
+                  )})`}</span>
                 )}
               </p>
-            )}
-          </div>
-          <div className={`mb-2 ${styles.lineBottom} `}></div>
-          <div className={`mt-4 ${styles.from}`}>From</div>
-          <div className={`mt-2 ${styles.fromBridgeSelectBox}`}>
-            <div>
-              <p className={`mb-1 ${styles.fromLabelTop}`}>Select chain: </p>
-              <p className={`mb-0 ${styles.fromLabelBottom}`}>Choose your entry chain</p>
-            </div>
-            <div
-              className={clsx(
-                styles.bridgeSelector,
-                styles.selector,
-                isBridgeClicked && styles.fromBridgeClicked,
+              {walletAddress && metamaskAddress && (
+                <p
+                  className={`${styles.res} ${pendingTransCount > 0 && styles.pendingHistory}`}
+                  onClick={() => {
+                    setTransaction(2);
+                  }}
+                  style={{ cursor: 'pointer' }}
+                >
+                  View History{' '}
+                  {pendingTransCount > 0 && (
+                    <span className={styles.actionRequiredCount}>{pendingTransCount}</span>
+                  )}
+                </p>
               )}
-              onClick={handleBridgeSelect}
-              style={{ boxShadow: isBridgeSelected && 'none' }}
-            >
-              <img src={fromBridge.image} className="button-logo" />
-              <span>{fromBridge.name} </span>
-              <span className="span-themed material-icons-round" style={{ fontSize: '20px' }}>
-                expand_more
-              </span>
             </div>
-          </div>
-          <div className={`my-3 ${styles.lineMid} `}></div>
-          <p className={styles.midLabel}>Choose your token and enter the amount</p>
-          <div
-            className={`mt-2 ${styles.tokenSelectBox} ${
-              isTokenInSelected && styles.tokenInSelected
-            } ${styles.inputSelectBox} ${isError && styles.inputError}`}
-          >
-            {/* <div className={'flex align-items-center'}> */}
+            <div className={`mb-2 ${styles.lineBottom} `}></div>
+            <div className={`mt-4 ${styles.from}`}>From</div>
+            <div className={`mt-2 ${styles.fromBridgeSelectBox}`}>
+              <div>
+                <p className={`mb-1 ${styles.fromLabelTop}`}>Select chain: </p>
+                <p className={`mb-0 ${styles.fromLabelBottom}`}>Choose your entry chain</p>
+              </div>
+              <div
+                className={clsx(
+                  styles.bridgeSelector,
+                  styles.selector,
+                  isBridgeClicked && styles.fromBridgeClicked,
+                )}
+                onClick={handleBridgeSelect}
+                style={{ boxShadow: isBridgeSelected && 'none' }}
+              >
+                <img src={fromBridge.image} className="button-logo" />
+                <span>{fromBridge.name} </span>
+                <span className="span-themed material-icons-round" style={{ fontSize: '20px' }}>
+                  expand_more
+                </span>
+              </div>
+            </div>
+            <div className={`my-3 ${styles.lineMid} `}></div>
+            <p className={styles.midLabel}>Choose your token and enter the amount</p>
             <div
-              className={clsx(styles.selector, styles.toTokenSelector)}
-              onClick={handleTokenSelect}
-              style={{ boxShadow: isTokenSelected && 'none' }}
+              className={`mt-2 ${styles.tokenSelectBox} ${
+                isTokenInSelected && styles.tokenInSelected
+              } ${styles.inputSelectBox} ${isError && styles.inputError}`}
             >
-              <img src={tokenIn.image} className="button-logo" />
-              <span>{tokenIn.name} </span>
-              <span className="span-themed material-icons-round" style={{ fontSize: '18px' }}>
-                expand_more
-              </span>
-            </div>
-            {/* <span
+              {/* <div className={'flex align-items-center'}> */}
+              <div
+                className={clsx(styles.selector, styles.toTokenSelector)}
+                onClick={handleTokenSelect}
+                style={{ boxShadow: isTokenSelected && 'none' }}
+              >
+                <img src={tokenIn.image} className="button-logo" />
+                <span>{tokenIn.name} </span>
+                <span className="span-themed material-icons-round" style={{ fontSize: '18px' }}>
+                  expand_more
+                </span>
+              </div>
+              {/* <span
                 onClick={onClickAmount}
                 className={`flex justify-content-center align-items-center ml-2 ${styles.selectMaxBtn}`}
               >
                 MAX
               </span> */}
-            {/* </div> */}
-            <div className={clsx(styles.inputWrapper)}>
-              <input
-                type="text"
-                className={`text-right ${styles.tokenUserInput}`}
-                placeholder="0.0"
-                value={firstTokenAmount}
-                onChange={(e) => handleFromTokenInput(e.target.value)}
-                onFocus={handleInputFocus}
-                onBlur={() => setIsTokenInSelected(false)}
-              />
+              {/* </div> */}
+              <div className={clsx(styles.inputWrapper)}>
+                <input
+                  type="text"
+                  className={`text-right ${styles.tokenUserInput}`}
+                  placeholder="0.0"
+                  value={firstTokenAmount}
+                  onChange={(e) => handleFromTokenInput(e.target.value)}
+                  onFocus={handleInputFocus}
+                  onBlur={() => setIsTokenInSelected(false)}
+                />
+              </div>
             </div>
-          </div>
-          <div
-            className="flex justify-between"
-            style={{ flex: '0 0 100%', marginBottom: '2vh', height: '24px' }}
-          >
-            <p className={clsx(styles.errorText)}>{isError ? errorMessage : ' '}</p>
-            <p className={clsx('wallet-token-balance', styles.balanceText)}>
-              {/* {userTokenBalance >= 0 && userTokenBalance !== null && ( */}
-              {userBalances[tokenIn.name] >= 0 && userBalances[tokenIn.name] !== null && (
-                <>
-                  Balance:{' '}
-                  <span className={styles.balanceValue} onClick={onClickAmount}>
-                    {/* {userTokenBalance} */}
-                    {userBalances[tokenIn.name]}
-                    {theme === 'light' ? (
-                      <MaxBtnIcon className={styles.maxButton} />
-                    ) : (
-                      <MaxBtnIconDark className={styles.maxButton} />
-                    )}
-                  </span>
-                </>
-              )}
-              {/* {userTokenBalance === null && ( */}
-              {userBalances[tokenIn.name] === null && (
-                <>
-                  Balance: <span className="shimmer">0.0000</span>
-                </>
-              )}
-              {/* {walletAddress ? (
+            <div
+              className="flex justify-between"
+              style={{ flex: '0 0 100%', marginBottom: '2vh', height: '24px' }}
+            >
+              <p className={clsx(styles.errorText)}>{isError ? errorMessage : ' '}</p>
+              <p className={clsx('wallet-token-balance', styles.balanceText)}>
+                {/* {userTokenBalance >= 0 && userTokenBalance !== null && ( */}
+                {userBalances[tokenIn.name] >= 0 && userBalances[tokenIn.name] !== null && (
+                  <>
+                    Balance:{' '}
+                    <span className={styles.balanceValue} onClick={onClickAmount}>
+                      {/* {userTokenBalance} */}
+                      {userBalances[tokenIn.name]}
+                      {theme === 'light' ? (
+                        <MaxBtnIcon className={styles.maxButton} />
+                      ) : (
+                        <MaxBtnIconDark className={styles.maxButton} />
+                      )}
+                    </span>
+                  </>
+                )}
+                {/* {userTokenBalance === null && ( */}
+                {userBalances[tokenIn.name] === null && (
+                  <>
+                    Balance: <span className="shimmer">0.0000</span>
+                  </>
+                )}
+                {/* {walletAddress ? (
                 <>
                   Balance:{' '}
                   {userTokenBalance >= 0 && userTokenBalance !== null ? (
@@ -821,115 +822,116 @@ const BridgeModal = (props) => {
                 ' '
               )} */}
 
-              {/* ~$
+                {/* ~$
                 {getTokenPrice.success && firstTokenAmount
                   ? getDollarValue(firstTokenAmount, getTokenPrice.tokenPrice[tokenIn.name])
                   : '0.00'} */}
-            </p>
-          </div>
-          <OverlayTrigger
-            overlay={(props) => (
-              <Tooltip id={styles.switchTooltip} className="switchTooltip" {...props}>
-                Switch
-              </Tooltip>
-            )}
-            placement="right"
-          >
-            <div
-              className={`mx-auto flex justify-content-center align-items-center ${styles.arrowSwap}`}
-              onClick={switchHandler}
-            >
-              <img src={theme === 'light' ? switchImg : switchImgDark} alt={'switch-image'} />
+              </p>
             </div>
-          </OverlayTrigger>
-
-          <div className={`mt-2 ${styles.to}`}>To</div>
-          <div
-            className={`mt-2 ${styles.toBridgeSelectBox} ${styles.inputSelectBox} ${
-              isTokenInSelected ? styles.toBridgeSelected : null
-            }`}
-          >
-            <div className={clsx(styles.toBridgeWrapper)}>
-              <div className={styles.toBridgeSelector}>
-                <img src={toBridge.image} className="button-logo" />
-                <span>{toBridge.name} </span>
-              </div>
-              <div className={clsx(styles.lineVertical, 'mx-2')}></div>
-              <div className={clsx(styles.inputWrapper)}>
-                <p className={styles.toLabel}>You will receive</p>
-                <OverlayTrigger
-                  overlay={(props) => (
-                    <Tooltip className="switchTooltip token-output-tooltip" {...props}>
-                      {secondTokenAmount}
-                    </Tooltip>
-                  )}
-                  placement="top"
-                >
-                  <input
-                    type="text"
-                    className={`text-left ${styles.toTokenOutput}`}
-                    placeholder="0.0"
-                    value={secondTokenAmount}
-                    disabled
-                  />
-                </OverlayTrigger>
-              </div>
-            </div>
-            <span
-              className={`flex justify-content-center align-items-center ml-2 ${styles.toTokenLabel}`}
-            >
-              {tokenOut.name}
-            </span>
-          </div>
-          <p className={clsx('mt-2', styles.feeEstimateText)}>
-            Estimated fee:{' '}
-            <span style={{ fontWeight: '700' }}>
-              {Number(fee) > 0 ? Number(fee).toFixed(6) : 0}
-              {` ${operation === 'BRIDGE' ? tokenOut.name : tokenIn.name}`}
-            </span>
-          </p>
-
-          {metamaskAddress === null ? (
             <OverlayTrigger
               overlay={(props) => (
-                <Tooltip className="connect-wallet-tooltip metamask-wallet-tooltip" {...props}>
-                  Connect wallet
+                <Tooltip id={styles.switchTooltip} className="switchTooltip" {...props}>
+                  Switch
                 </Tooltip>
               )}
-              placement="top"
-              show={showMetamaskTooltip}
+              placement="right"
             >
-              <Button
-                className={clsx('px-md-3', 'mt-3', 'w-100', 'connect-wallet-btn', 'button-bg')}
-                onClick={connectWalletHandler}
+              <div
+                className={`mx-auto flex justify-content-center align-items-center ${styles.arrowSwap}`}
+                onClick={switchHandler}
               >
-                <div className={clsx('connect-wallet-btn')}>
-                  <div className="flex flex-row align-items-center">
-                    {/* <Avalanche /> */}
-                    <img src={connectBridgeWallet.buttonImage} />
-                    <span className="ml-2">Connect to {connectBridgeWallet.name} wallet</span>
-                  </div>
-                </div>
-              </Button>
+                <img src={theme === 'light' ? switchImg : switchImgDark} alt={'switch-image'} />
+              </div>
             </OverlayTrigger>
-          ) : (
-            <>
-              <Button
-                className={clsx('px-md-3', 'mt-3', 'w-100', 'connect-wallet-btn', 'button-bg')}
-                onClick={handelClickWithMetaAddedBtn}
-                loading={isLoading}
-              >
-                <div className={clsx('connect-wallet-btn')}>
-                  <div className="flex flex-row align-items-center">
-                    {/* <Avalanche /> */}
-                    <span className="ml-2">Proceed</span>
-                    {/* <span>{userBalance}</span> */}
-                  </div>
-                  {/* <span>{metamaskAddress}</span> */}
+
+            <div className={`mt-2 ${styles.to}`}>To</div>
+            <div
+              className={`mt-2 ${styles.toBridgeSelectBox} ${styles.inputSelectBox} ${
+                isTokenInSelected ? styles.toBridgeSelected : null
+              }`}
+            >
+              <div className={clsx(styles.toBridgeWrapper)}>
+                <div className={styles.toBridgeSelector}>
+                  <img src={toBridge.image} className="button-logo" />
+                  <span>{toBridge.name} </span>
                 </div>
-              </Button>
-            </>
-          )}
+                <div className={clsx(styles.lineVertical, 'mx-2')}></div>
+                <div className={clsx(styles.inputWrapper)}>
+                  <p className={styles.toLabel}>You will receive</p>
+                  <OverlayTrigger
+                    overlay={(props) => (
+                      <Tooltip className="switchTooltip token-output-tooltip" {...props}>
+                        {secondTokenAmount}
+                      </Tooltip>
+                    )}
+                    placement="top"
+                  >
+                    <input
+                      type="text"
+                      className={`text-left ${styles.toTokenOutput}`}
+                      placeholder="0.0"
+                      value={secondTokenAmount}
+                      disabled
+                    />
+                  </OverlayTrigger>
+                </div>
+              </div>
+              <span
+                className={`flex justify-content-center align-items-center ml-2 ${styles.toTokenLabel}`}
+              >
+                {tokenOut.name}
+              </span>
+            </div>
+            <p className={clsx('mt-2', styles.feeEstimateText)}>
+              Estimated fee:{' '}
+              <span style={{ fontWeight: '700' }}>
+                {Number(fee) > 0 ? Number(fee).toFixed(6) : 0}
+                {` ${operation === 'BRIDGE' ? tokenOut.name : tokenIn.name}`}
+              </span>
+            </p>
+
+            {metamaskAddress === null ? (
+              <OverlayTrigger
+                overlay={(props) => (
+                  <Tooltip className="connect-wallet-tooltip metamask-wallet-tooltip" {...props}>
+                    Connect wallet
+                  </Tooltip>
+                )}
+                placement="top"
+                show={showMetamaskTooltip}
+              >
+                <Button
+                  className={clsx('px-md-3', 'mt-3', 'w-100', 'connect-wallet-btn', 'button-bg')}
+                  onClick={connectWalletHandler}
+                >
+                  <div className={clsx('connect-wallet-btn')}>
+                    <div className="flex flex-row align-items-center">
+                      {/* <Avalanche /> */}
+                      <img src={connectBridgeWallet.buttonImage} />
+                      <span className="ml-2">Connect to {connectBridgeWallet.name} wallet</span>
+                    </div>
+                  </div>
+                </Button>
+              </OverlayTrigger>
+            ) : (
+              <>
+                <Button
+                  className={clsx('px-md-3', 'mt-3', 'w-100', 'connect-wallet-btn', 'button-bg')}
+                  onClick={handelClickWithMetaAddedBtn}
+                  loading={isLoading}
+                >
+                  <div className={clsx('connect-wallet-btn')}>
+                    <div className="flex flex-row align-items-center">
+                      {/* <Avalanche /> */}
+                      <span className="ml-2">Proceed</span>
+                      {/* <span>{userBalance}</span> */}
+                    </div>
+                    {/* <span>{metamaskAddress}</span> */}
+                  </div>
+                </Button>
+              </>
+            )}
+          </div>
         </div>
       </div>
       {/* Change selectToken and tokens prop for wrapped tokens after adding them. */}

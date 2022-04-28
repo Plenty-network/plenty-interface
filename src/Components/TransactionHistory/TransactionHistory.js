@@ -30,6 +30,7 @@ import { changeNetwork } from '../../apis/bridge/bridgeAPI';
 import { CHANGE_NETWORK_PROMPT_DELAY } from '../../constants/bridges';
 
 const TransactionHistory = (props) => {
+  // eslint-disable-next-line
   const [animationCalss, SetAnimationClass] = useState('leftToRightFadeInAnimation-4-bridge');
   const [showFilter, setShowFilter] = useState(false);
   const [showSort, setShowSort] = useState(false);
@@ -337,8 +338,8 @@ const TransactionHistory = (props) => {
       className={`justify-content-center mx-auto col-20 col-md-10 col-lg-10 col-xl-10 ${styles.gov}`}
     >
       <div className={styles.border}>
-        <div className={` ${styles.bridgeModal} ${animationCalss}`}>
-          <div className={`flex flex-row justify-content-between mb-3 ${styles.topWrapper}`}>
+        <div className={` ${styles.bridgeModal}`}>
+          <div className={`flex flex-row justify-content-between mb-3 ${styles.topWrapper} rightToLeftFadeInAnimation-4`}>
             <div className={`flex ${styles.headingWrapper}`}>
               <p
                 className={styles.arrowback}
@@ -396,8 +397,8 @@ const TransactionHistory = (props) => {
               />
             ) : null}
           </div>
-          <div className={`mb-3 ${styles.lineBottom} ${styles.width}`}></div>
-          <div className={styles.transactionDataWrapper}>
+          <div className={`mb-3 ${styles.lineBottom} ${styles.width} rightToLeftFadeInAnimation-4`}></div>
+          <div className={`${styles.transactionDataWrapper} rightToLeftFadeInAnimation-4`}>
             {isLoading ? (
               dummyLoadingDivisions.current.map((box, index) => {
                 return (

@@ -616,8 +616,9 @@ const BridgeTransferModal = (props) => {
     >
       <div className={styles.border}>
         <div
-          className={` ${styles.bridgeModal} leftToRightFadeInAnimation-4-bridge-${isButtonLoading}`}
+          className={` ${styles.bridgeModal}`}
         >
+          <div className='rightToLeftFadeInAnimation-4'>
           <div className="flex flex-row justify-content-between mb-3">
             <div className={`flex ${styles.headingWrapper}`}>
               {(currentProgress === 0 ||
@@ -681,7 +682,7 @@ const BridgeTransferModal = (props) => {
             )}
           </div>
           <div className={`mb-4 mt-2 ${styles.lineBottom} `}></div>
-          <div className={styles.resultsHeader}>
+          <div className={`${styles.resultsHeader} rightToLeftFadeInAnimation-4`}>
             {operation === 'BRIDGE'
               ? numberOfSteps.map((currentStep, index) => {
                   if (currentProgress > index) {
@@ -802,6 +803,7 @@ const BridgeTransferModal = (props) => {
             transactionFees={fee}
           /> */}
           {/*  */}
+          </div>
         </div>
       </div>
     </div>

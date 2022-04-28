@@ -8,6 +8,7 @@ import React, { useEffect } from 'react';
 import { mintTokens, releaseTokens } from '../../apis/bridge/bridgeAPI';
 import CONFIG from '../../config/config';
 import { FLASH_MESSAGE_DURATION } from '../../constants/global';
+import '../../assets/scss/animation.scss';
 
 const DoneModal = (props) => {
   const {
@@ -116,7 +117,7 @@ const DoneModal = (props) => {
             </div>
           </div>
         ) : (
-          <div className="border-tile success">
+          <div className="border-tile success bottomToTopFadeInAnimation-4">
             <div className="left-div">
               <div className="containerwithicon">
                 <img src={tokenOut.image} />
