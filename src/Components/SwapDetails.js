@@ -90,11 +90,11 @@ const SwapDetails = (props) => {
                 </div>
               </OverlayTrigger>
               <span
-                className="material-icons-round convert"
+                className="material-icons-round convert ml-1"
                 onClick={() => setConvert(!isConvert)}
                 style={{ cursor: 'pointer' }}
               >
-                cached_rounded_icon
+                cached
               </span>
             </p>
           </div>
