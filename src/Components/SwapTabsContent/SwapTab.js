@@ -84,18 +84,8 @@ const SwapTab = (props) => {
     firstTokenAmount && setFirstAmount(firstTokenAmount);
     secondTokenAmount && setSecondAmount(secondTokenAmount);
 
-    if (
-      firstTokenAmount > props.userBalances[props.tokenIn.name] &&
-      secondTokenAmount > props.userBalances[props.tokenOut.name]
-    ) {
-      setErrorMessageOnUI('Insufficient balance');
-    } else if (
-      firstTokenAmount > props.userBalances[props.tokenIn.name] ||
-      secondTokenAmount > props.userBalances[props.tokenOut.name]
-    ) {
-      firstTokenAmount > props.userBalances[props.tokenIn.name]
-        ? setErrorMessageOnUI(`Insufficient ${props.tokenIn.name} balance`)
-        : setErrorMessageOnUI(`Insufficient ${props.tokenOut.name} balance`);
+    if (firstTokenAmount > props.userBalances[props.tokenIn.name]) {
+      setErrorMessageOnUI(`Insufficient ${props.tokenIn.name} balance`);
     } else {
       setErrorMessage(false);
     }
