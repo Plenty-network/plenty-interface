@@ -650,7 +650,7 @@ const BridgeTransferModal = (props) => {
                 </div>
               ) : currentProgress === numberOfSteps.length - 1 ? (
                 <p className={styles.TransferInProgress}>
-                  {operation === 'BIRDGE' ? 'Minting' : 'Release'} in progress
+                  {operation === 'BRIDGE' ? 'Minting' : 'Release'} in progress
                 </p>
               ) : (
                 <p className={styles.TransferInProgress}>Transfer in progress</p>

@@ -696,7 +696,7 @@ const BridgeModal = (props) => {
           <div className="leftToRightFadeInAnimation-4-bridge">
             <div className={styles.resultsHeader}>
               <p className={styles.heading}>
-                Bridge{' '}
+                Bridges{' '}
                 {metamaskAddress && (
                   <span className={styles.metamaskAddressText}>{`(${truncateMiddle(
                     metamaskAddress,
@@ -859,11 +859,17 @@ const BridgeModal = (props) => {
                 <div className={clsx(styles.inputWrapper)}>
                   <p className={styles.toLabel}>You will receive</p>
                   <OverlayTrigger
-                    overlay={(props) => (
-                      <Tooltip className="switchTooltip token-output-tooltip" {...props}>
-                        {secondTokenAmount === '' ? '0.0' : secondTokenAmount}
-                      </Tooltip>
-                    )}
+                    overlay={
+                      secondTokenAmount === '' || secondTokenAmount <= 0 ? (
+                        <span></span>
+                      ) : (
+                        (props) => (
+                          <Tooltip className="switchTooltip token-output-tooltip" {...props}>
+                            {secondTokenAmount}
+                          </Tooltip>
+                        )
+                      )
+                    }
                     placement="top"
                   >
                     <input

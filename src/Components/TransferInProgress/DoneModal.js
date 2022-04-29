@@ -117,7 +117,7 @@ const DoneModal = (props) => {
             </div>
           </div>
         ) : (
-          <div className="border-tile success bottomToTopFadeInAnimation-4">
+          <div className={`border-tile success ${!openingFromHistory ? 'topToBottomFadeInAnimation-4' : ''}`}>
             <div className="left-div">
               <div className="containerwithicon">
                 <img src={tokenOut.image} />
