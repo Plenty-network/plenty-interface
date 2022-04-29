@@ -548,7 +548,7 @@ const Frontpage = ({
       <InfoModal
         open={modalData.open === HOME_PAGE_MODAL.TRANSACTION_SUCCESS}
         theme={theme}
-        InfoMessage={'Harvesting All'}
+        InfoMessage={'Harvest'}
         onClose={() => openCloseModal({ open: HOME_PAGE_MODAL.NULL, transactionId: '' })}
         message={'Transaction submitted'}
         buttonText={'View on TzKT'}
@@ -574,7 +574,7 @@ const Frontpage = ({
       <ConfirmTransaction
         show={showConfirmTransaction}
         theme={theme}
-        content={'Harvesting all'}
+        content={'Harvest'}
         onHide={handleClose}
       />
     </>

@@ -38,7 +38,7 @@ const SwapDetails = (props) => {
           isOpen && 'open-swap-detail-wrapper-first',
         )}
       >
-        <div className="space-between">
+        <div className="space-between" style={{ cursor: 'pointer' }}>
           <div className="flex">
             <p className="price-formula whitespace-prewrap  flex flex-row">
               1{' '}

@@ -83,11 +83,12 @@ const SwapTab = (props) => {
   useEffect(() => {
     firstTokenAmount && setFirstAmount(firstTokenAmount);
     secondTokenAmount && setSecondAmount(secondTokenAmount);
-
-    if (firstTokenAmount > props.userBalances[props.tokenIn.name]) {
-      setErrorMessageOnUI(`Insufficient ${props.tokenIn.name} balance`);
-    } else {
-      setErrorMessage(false);
+    if (props.walletAddress) {
+      if (firstTokenAmount > props.userBalances[props.tokenIn.name]) {
+        setErrorMessageOnUI(`Insufficient ${props.tokenIn.name} balance`);
+      } else {
+        setErrorMessage(false);
+      }
     }
   }, [
     firstTokenAmount,
@@ -540,8 +541,8 @@ const SwapTab = (props) => {
                       <OverlayTrigger
                         placement="top"
                         overlay={
-                          <Tooltip id="button-tooltip" {...props}>
-                            {props.userBalances[props.tokenIn.name]}
+                          <Tooltip id="tooltip-e" {...props}>
+                            {Number(props.userBalances[props.tokenIn.name])}
                           </Tooltip>
                         }
                       >
@@ -778,15 +779,15 @@ const SwapTab = (props) => {
       />
       <ConfirmTransaction
         show={props.showConfirmTransaction}
-        content={`Swapping ${Number(localStorage.getItem('wrapped')).toFixed(
-          6,
-        )} ${localStorage.getItem('token')} `}
+        content={`Swap ${Number(localStorage.getItem('wrapped')).toFixed(6)} ${localStorage.getItem(
+          'token',
+        )} `}
         theme={props.theme}
         onHide={handleCloseModal}
       />
       <InfoModal
         open={showTransactionSubmitModal}
-        InfoMessage={`Swapping ${Number(localStorage.getItem('wrapped')).toFixed(
+        InfoMessage={`Swap ${Number(localStorage.getItem('wrapped')).toFixed(
           6,
         )} ${localStorage.getItem('token')} `}
         theme={props.theme}

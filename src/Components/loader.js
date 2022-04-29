@@ -46,7 +46,7 @@ const Loader = (props) => {
                   onClick={props.onBtnClick}
                   style={{ cursor: 'pointer' }}
                 >
-                  View on TzKT{' '}
+                  View on Block Explorer{' '}
                   <span className=" material-icons-round launch-icon-flash">launch</span>
                 </div>
               </div>
@@ -68,7 +68,7 @@ const Loader = (props) => {
               <div className="ml-3">
                 <span className="status-text">Swap of 2 wUSDC for 2.293 USDC.e </span>
                 <div className="view-tezos">
-                  View on TzKT{' '}
+                  View on Block Explorer{' '}
                   <span className="ml-3 material-icons-round launch-icon-flash">launch</span>
                 </div>
               </div>
@@ -90,15 +90,17 @@ const Loader = (props) => {
                 <ErrorImg />
               </div>
               <div className="floater-text">
-                <span className="status-text">Tranaction Failed</span>
-                <div
-                  className="view-tezos"
-                  onClick={props.onBtnClick}
-                  style={{ cursor: 'pointer' }}
-                >
-                  View on TzKT{' '}
-                  <span className="material-icons-round launch-icon-flash">launch</span>
-                </div>
+                <span className="status-text">Transaction Failed</span>
+                {props.onBtnClick && (
+                  <div
+                    className="view-tezos"
+                    onClick={props.onBtnClick}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    View on Block Explorer{' '}
+                    <span className="material-icons-round launch-icon-flash">launch</span>
+                  </div>
+                )}
               </div>
               <div className="ml-auto">
                 <span
