@@ -76,7 +76,29 @@ const SwapTab = (props) => {
   useEffect(() => {
     firstTokenAmount && setFirstAmount(firstTokenAmount);
     secondTokenAmount && setSecondAmount(secondTokenAmount);
-  }, [firstTokenAmount, secondTokenAmount]);
+
+    if (
+      firstTokenAmount > props.userBalances[props.tokenIn.name] &&
+      secondTokenAmount > props.userBalances[props.tokenOut.name]
+    ) {
+      setErrorMessageOnUI('Insufficient balance');
+    } else if (
+      firstTokenAmount > props.userBalances[props.tokenIn.name] ||
+      secondTokenAmount > props.userBalances[props.tokenOut.name]
+    ) {
+      firstTokenAmount > props.userBalances[props.tokenIn.name]
+        ? setErrorMessageOnUI(`Insufficient ${props.tokenIn.name} balance`)
+        : setErrorMessageOnUI(`Insufficient ${props.tokenOut.name} balance`);
+    } else {
+      setErrorMessage(false);
+    }
+  }, [
+    firstTokenAmount,
+    secondTokenAmount,
+    props.changeTokenLocation,
+    props.tokenIn,
+    props.tokenOut,
+  ]);
 
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const [transactionId, setTransactionId] = useState('');
@@ -468,7 +490,7 @@ const SwapTab = (props) => {
         <div className="swap-content-box swap-left-right-padding">
           <div
             className={clsx(
-              'swap-token-select-box',
+              !errorMessage && 'swap-token-select-box',
 
               errorMessage && 'errorBorder',
               firstTokenAmount > 0 && (errorMessage ? 'errorBorder' : 'typing-border'),
@@ -617,7 +639,7 @@ const SwapTab = (props) => {
           <div className="swap-content-box ">
             <div
               className={clsx(
-                'swap-token-select-box',
+                !errorMessage && 'swap-token-select-box',
                 'second-token-input-swap',
                 errorMessage && 'errorBorder',
                 secondTokenAmount > 0 && (errorMessage ? 'errorBorder' : 'second-input-typing'),
