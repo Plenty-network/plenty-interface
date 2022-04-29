@@ -33,6 +33,7 @@ import maxDark from '../../assets/images/max-dark.svg';
 const SwapTab = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
   const [secondTokenAmount, setSecondTokenAmount] = useState();
+  const [routeDataCopy, setRouteDataCopy] = useState({});
   const [firstAmount, setFirstAmount] = useState(0);
   const [secondAmount, setSecondAmount] = useState(0);
   const [routePath, setRoutePath] = useState([]);
@@ -72,6 +73,12 @@ const SwapTab = (props) => {
       getSwapData();
     }
   }, [props]);
+  useEffect(() => {
+    setRouteDataCopy(props.routeData);
+  }, [props.routeData]);
+  useEffect(() => {
+    setRouteDataCopy(false);
+  }, [props.tokenIn, props.tokenOut]);
 
   useEffect(() => {
     firstTokenAmount && setFirstAmount(firstTokenAmount);
@@ -746,14 +753,14 @@ const SwapTab = (props) => {
           props.tokenIn.name &&
           props.tokenOut.name &&
           firstTokenAmount &&
-          props.routeData.success ? (
+          routeDataCopy ? (
             <SwapDetails
               routePath={routePath}
               theme={props.theme}
               computedOutDetails={computedData}
               tokenIn={props.tokenIn}
               tokenOut={props.tokenOut}
-              routeData={props.routeData}
+              routeData={routeDataCopy}
               firstTokenAmount={firstTokenAmount}
               stableList={stableList}
               isStableSwap={
