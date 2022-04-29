@@ -165,6 +165,14 @@ const Bridge = (props) => {
     } else {
       console.log('Need to install MetaMask');
       localStorage.setItem('isWalletConnected', false);
+      displayMessage({
+        type: 'warning',
+        duration: null,
+        title: 'Metamask Not Found',
+        content: 'Please install Metamask wallet and reload.',
+        isFlashMessageALink: false,
+        flashMessageLink: '#',
+      });
     }
   };
 
@@ -224,15 +232,29 @@ const Bridge = (props) => {
 
   //Add all metamask event listeners and remove them on unmount.
   useEffect(() => {
-    // Call chain change handler first time app loads to set the metamask chain state.
-    metamaskChainChangeHandler();
-    // Listen to chain change on metamask.
-    window.ethereum.on('chainChanged', metamaskChainChangeHandler);
-    // listen for account changes
-    window.ethereum.on('accountsChanged', metamaskAccountChangeHandler);
+    if (window.ethereum && window.ethereum.isMetaMask) { 
+      // Call chain change handler first time app loads to set the metamask chain state.
+      metamaskChainChangeHandler();
+      // Listen to chain change on metamask.
+      window.ethereum.on('chainChanged', metamaskChainChangeHandler);
+      // listen for account changes
+      window.ethereum.on('accountsChanged', metamaskAccountChangeHandler);
+    } else {
+      console.log('Need to install Metamask wallet.');
+      displayMessage({
+        type: 'warning',
+        duration: null,
+        title: 'Metamask Not Found',
+        content: 'Please install Metamask wallet and reload.',
+        isFlashMessageALink: false,
+        flashMessageLink: '#',
+      });
+    }
     return () => {
-      window.ethereum.removeListener('chainChanged', metamaskChainChangeHandler);
-      window.ethereum.removeListener('accountsChanged', metamaskAccountChangeHandler);
+      if (window.ethereum && window.ethereum.isMetaMask) {
+        window.ethereum.removeListener('chainChanged', metamaskChainChangeHandler);
+        window.ethereum.removeListener('accountsChanged', metamaskAccountChangeHandler);
+      }
     };
   }, []);
 
