@@ -356,7 +356,7 @@ const SwapDetails = (props) => {
                     {swapRoute[idx + 1] && (
                       <MdChevronRight
                         className={clsx(
-                          token.name === 'tez' || token.name === 'ctez'
+                          idx !== 0 && props.stableList[idx - 1] === true
                             ? 'route-arrow-stable'
                             : 'route-arrow',
                         )}

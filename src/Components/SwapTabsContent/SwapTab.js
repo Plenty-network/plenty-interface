@@ -223,7 +223,7 @@ const SwapTab = (props) => {
   }, [props.routeData]);
   useEffect(() => {
     setErrorMessage(false);
-  }, [props.tokenOut.name, firstTokenAmount]);
+  }, [props.tokenOut.name]);
 
   const callSwapToken = () => {
     props.setShowConfirmSwap(true);
@@ -620,7 +620,7 @@ const SwapTab = (props) => {
                 'swap-token-select-box',
                 'second-token-input-swap',
                 errorMessage && 'errorBorder',
-                secondTokenAmount && 'second-input-typing',
+                secondTokenAmount > 0 && (errorMessage ? 'errorBorder' : 'second-input-typing'),
               )}
             >
               <div className="token-selector-balance-wrapper-swap">
