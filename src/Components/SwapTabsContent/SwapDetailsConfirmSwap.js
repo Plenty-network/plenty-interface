@@ -1,13 +1,27 @@
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import $ from 'jquery';
 import { MdChevronRight } from 'react-icons/all';
 import { Image, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { tokens } from '../../constants/swapPage';
 
 const SwapDetailsConfirmSwap = (props) => {
   const [isOpen, setOpen] = useState(false);
-
+  useEffect(() => {
+    !isOpen
+      ? $('.button--trigger').on('click', function () {
+          $('.button--disapear-cs').show();
+          $('.button--disapear-cs').removeClass('out').addClass('active');
+          $('.button--disapear-cs').show();
+        })
+      : $('.button--trigger-todisappear').on('click', function () {
+          $('.button--disapear-cs').removeClass('active').addClass('out');
+          setTimeout(function () {
+            $('.button--disapear-cs').hide();
+          }, 300);
+        });
+  }, [isOpen]);
   const swapRoute = useMemo(() => {
     if (props.routePath?.length > 2) {
       return props.routePath.map((tokenName) => tokens.find((token) => token.name === tokenName));
@@ -22,7 +36,11 @@ const SwapDetailsConfirmSwap = (props) => {
 
   return (
     <div className={clsx('swap-detail-wrapper-cs', isOpen ? 'bg-themed-light' : 'closedbg')}>
-      <div className="space-between" onClick={() => setOpen(!isOpen)} style={{ cursor: 'pointer' }}>
+      <div
+        className="space-between-confirmswap"
+        onClick={() => setOpen(!isOpen)}
+        style={{ cursor: 'pointer' }}
+      >
         <div className="flex">
           <p className="price-formula-cs whitespace-prewrap  flex flex-row">
             1 {props.tokenIn.name} ={' '}
@@ -52,14 +70,18 @@ const SwapDetailsConfirmSwap = (props) => {
           </p>
         </div>
         {isOpen ? (
-          <span className="material-icons-round flex open">keyboard_arrow_up</span>
+          <span className="material-icons-round flex buttonanim button--trigger-todisappear  open-confirmswap-details">
+            keyboard_arrow_up
+          </span>
         ) : (
-          <span className="material-icons-round flex open">keyboard_arrow_down</span>
+          <span className="material-icons-round buttonanim button--trigger flex open-confirmswap-details">
+            keyboard_arrow_down
+          </span>
         )}
       </div>
-
-      {props.firstTokenAmount &&
-        (isOpen ? (
+      <div className="buttonanim button--disapear-cs">
+        {props.firstTokenAmount && (
+          // (isOpen ? (
           <>
             <div className="flex flex-row mt-3 align-items-center">
               <p className="swap-detail-amt-details-cs">Minimum received </p>
@@ -206,45 +228,46 @@ const SwapDetailsConfirmSwap = (props) => {
               </div>
             ) : null}
           </>
-        ) : null)}
-
-      {isOpen && props.firstTokenAmount && swapRoute && <hr />}
-      {isOpen && swapRoute && (
-        <>
-          <div className="flex flex-row">
-            <p className="swap-detail-amt-details-cs">Route </p>
-            <OverlayTrigger
-              key="top"
-              placement="top"
-              overlay={
-                <Tooltip
-                  id="button-tooltip-swap-details"
-                  arrowProps={{ styles: { display: 'none' } }}
-                >
-                  Routing through these tokens results in the best price for your trade
-                </Tooltip>
-              }
-            >
-              <span
-                style={{ cursor: 'pointer' }}
-                className="material-icons-round ml-1 swap-detail-amt-details-cs"
+        )}
+        {/* ) : null)} */}
+        {props.firstTokenAmount && swapRoute && <hr />}
+        {swapRoute && (
+          <>
+            <div className="flex flex-row">
+              <p className="swap-detail-amt-details-cs">Route </p>
+              <OverlayTrigger
+                key="top"
+                placement="top"
+                overlay={
+                  <Tooltip
+                    id="button-tooltip-swap-details"
+                    arrowProps={{ styles: { display: 'none' } }}
+                  >
+                    Routing through these tokens results in the best price for your trade
+                  </Tooltip>
+                }
               >
-                help_outline
-              </span>
-            </OverlayTrigger>
-          </div>
+                <span
+                  style={{ cursor: 'pointer' }}
+                  className="material-icons-round ml-1 swap-detail-amt-details-cs"
+                >
+                  help_outline
+                </span>
+              </OverlayTrigger>
+            </div>
 
-          <div className="swap-detail-route-container mt-3">
-            {swapRoute.map((token, idx) => (
-              <div key={token.name} className="d-flex my-2">
-                <Image src={token.image} height={20} width={20} alt={''} />
-                <span className="ml-1 my-auto">{token.name}</span>
-                {swapRoute[idx + 1] && <MdChevronRight className="" fontSize={20} />}
-              </div>
-            ))}
-          </div>
-        </>
-      )}
+            <div className="swap-detail-route-container mt-3">
+              {swapRoute.map((token, idx) => (
+                <div key={token.name} className="d-flex my-2">
+                  <Image src={token.image} height={20} width={20} alt={''} />
+                  <span className="ml-1 my-auto">{token.name}</span>
+                  {swapRoute[idx + 1] && <MdChevronRight className="" fontSize={20} />}
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };
