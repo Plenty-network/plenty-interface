@@ -602,7 +602,7 @@ const RemoveLiquidityNew = (props) => {
       <ConfirmTransaction
         show={showConfirmTransaction}
         theme={props.theme}
-        content={`Burning ${Number(localStorage.getItem('liqinput')).toFixed(
+        content={`Burn ${Number(localStorage.getItem('liqinput')).toFixed(
           6,
         )} ${localStorage.getItem('tokeninliq')} / ${localStorage.getItem('tokenoutliq')} LP `}
         onHide={handleCloseModal}
@@ -610,7 +610,7 @@ const RemoveLiquidityNew = (props) => {
       <InfoModal
         open={showTransactionSubmitModal}
         theme={props.theme}
-        InfoMessage={`Burning ${Number(localStorage.getItem('liqinput')).toFixed(
+        InfoMessage={`Burn ${Number(localStorage.getItem('liqinput')).toFixed(
           6,
         )} ${localStorage.getItem('tokeninliq')} / ${localStorage.getItem('tokenoutliq')} LP `}
         onClose={() => setShowTransactionSubmitModal(false)}

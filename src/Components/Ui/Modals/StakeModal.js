@@ -30,7 +30,7 @@ const StakeModal = (props) => {
     props.setFloaterValue({
       value: localStorage.getItem('stakeInput'),
       pair: localStorage.getItem('stakePair'),
-      type: 'Staking',
+      type: 'Stake',
     });
 
     props.stakeOnFarm(

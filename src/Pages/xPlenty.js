@@ -206,7 +206,7 @@ const Stake = (props) => {
         content={
           localStorage.getItem('type') === 'stake'
             ? `${Number(localStorage.getItem('stakeInput')).toFixed(6)} PLENTY Staked`
-            : `${Number(localStorage.getItem('unstakeInput')).toFixed(6)} xPlenty UnStaked`
+            : `${Number(localStorage.getItem('unstakeInput')).toFixed(6)} xPlenty Burned`
         }
         tokenIn={true}
         setLoaderMessage={setLoaderMessage}
@@ -222,8 +222,8 @@ const Stake = (props) => {
         onClose={props.closetransactionInjectionModal}
         InfoMessage={
           localStorage.getItem('type') === 'stake'
-            ? `Staking ${Number(localStorage.getItem('stakeInput')).toFixed(6)} PLENTY `
-            : `UnStaking ${Number(localStorage.getItem('unstakeInput')).toFixed(6)} xPlenty `
+            ? `Stake ${Number(localStorage.getItem('stakeInput')).toFixed(6)} PLENTY `
+            : `Burn ${Number(localStorage.getItem('unstakeInput')).toFixed(6)} xPlenty `
         }
         message={'Transaction submitted'}
         buttonText={'View on Block Explorer'}

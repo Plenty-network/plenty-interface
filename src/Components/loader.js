@@ -90,7 +90,7 @@ const Loader = (props) => {
                 <ErrorImg />
               </div>
               <div className="floater-text">
-                <span className="status-text">Transaction Failed</span>
+                <span className="status-text">Transaction Rejected</span>
                 {props.onBtnClick && (
                   <div
                     className="view-tezos"

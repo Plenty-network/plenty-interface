@@ -219,8 +219,8 @@
   border-top: 2.40218px solid var(--theme-loader-border-top);
   width: 21.99px;
   height: 21.99px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
-  animation: spin 2s linear infinite;
+  -webkit-animation: spin 0.7s linear infinite; /* Safari */
+  animation: spin 0.7s linear infinite;
 }
 
 /* Safari */
@@ -242,13 +242,12 @@
   }
 }
 
-
 .scale-in-animation {
   animation: scale-in 0.2s;
   -webkit-animation: scale-in 0.2s;
   &-confirm-swap {
     animation: scale-in 0.3s;
-  -webkit-animation: scale-in 0.3s;
+    -webkit-animation: scale-in 0.3s;
   }
 }
 

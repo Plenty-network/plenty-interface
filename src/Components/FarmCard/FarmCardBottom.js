@@ -149,9 +149,15 @@ const FarmCardBottom = (props) => {
                 props.setLoader(true);
                 localStorage.setItem('stakePair', properties.source);
                 props.setFloaterValue({
-                  value: null,
+                  value:
+                    props.harvestValueOnFarms[props.isActiveOpen][farmData.CONTRACT].totalRewards >
+                    0
+                      ? props.harvestValueOnFarms[props.isActiveOpen][
+                          farmData.CONTRACT
+                        ].totalRewards.toFixed(6)
+                      : null,
                   pair: localStorage.getItem('stakePair'),
-                  type: 'Harvesting',
+                  type: 'Harvest',
                 });
                 props.harvestOnFarm(
                   props.farmCardData.identifier,

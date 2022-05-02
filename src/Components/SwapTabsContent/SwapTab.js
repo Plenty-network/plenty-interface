@@ -78,15 +78,16 @@ const SwapTab = (props) => {
 
   useEffect(() => {
     setRouteDataCopy(false);
-    isStableSwap.current = (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
-    (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez');
+    isStableSwap.current =
+      (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
+      (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez');
     setRoutePath([]);
     setFirstTokenAmount('');
     setSecondTokenAmount('');
   }, [props.tokenIn, props.tokenOut]);
 
   useEffect(() => {
-    if(props.routeData.success) {
+    if (props.routeData.success) {
       setRouteDataCopy(true);
     }
     //setRouteDataCopy(props.routeData);
@@ -534,7 +535,7 @@ const SwapTab = (props) => {
                   type="text"
                   className={clsx(
                     'token-user-input',
-                    errorMessage && message === 'Insufficient balance' && 'error-text-color',
+                    errorMessage ? 'error-text-color' : 'typing-input-color',
                   )}
                   placeholder="0.0"
                   value={fromExponential(firstTokenAmount)}
@@ -757,10 +758,6 @@ const SwapTab = (props) => {
               firstTokenAmount={firstTokenAmount}
               stableList={stableList}
               isStableSwap={isStableSwap.current}
-              // isStableSwap={
-              //   (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
-              //   (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez')
-              // }
             />
           ) : null}
           {swapContentButton}

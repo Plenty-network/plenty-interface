@@ -729,7 +729,7 @@ const AddLiquidityNew = (props) => {
 
       <ConfirmTransaction
         show={showConfirmTransaction}
-        content={`Minting ${Number(localStorage.getItem('liqinput')).toFixed(
+        content={`Mint ${Number(localStorage.getItem('liqinput')).toFixed(
           6,
         )} ${localStorage.getItem('tokeninliq')} / ${localStorage.getItem('tokenoutliq')} LP `}
         theme={props.theme}
@@ -737,7 +737,7 @@ const AddLiquidityNew = (props) => {
       />
       <InfoModal
         open={showTransactionSubmitModal}
-        InfoMessage={`Minting ${Number(localStorage.getItem('liqinput')).toFixed(
+        InfoMessage={`Mint ${Number(localStorage.getItem('liqinput')).toFixed(
           6,
         )} ${localStorage.getItem('tokeninliq')} / ${localStorage.getItem('tokenoutliq')} LP `}
         theme={props.theme}
@@ -753,7 +753,7 @@ const AddLiquidityNew = (props) => {
         loaderMessage={props.loaderMessage}
         content={`${Number(localStorage.getItem('liqinput')).toFixed(6)} ${localStorage.getItem(
           'tokeninliq',
-        )} / ${localStorage.getItem('tokenoutliq')} LP Created`}
+        )} / ${localStorage.getItem('tokenoutliq')} LP Minted`}
         tokenIn={props.tokenIn.name}
         tokenOut={props.tokenOut.name}
         onBtnClick={

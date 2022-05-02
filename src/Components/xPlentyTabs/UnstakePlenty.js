@@ -186,7 +186,7 @@ const UnstakePlenty = (props) => {
       <ConfirmTransaction
         show={showConfirmTransaction}
         theme={props.theme}
-        content={`Unstaking ${Number(localStorage.getItem('unstakeInput')).toFixed(6)} xPlenty `}
+        content={`Burn ${Number(localStorage.getItem('unstakeInput')).toFixed(6)} xPlenty `}
       />
     </>
   );
