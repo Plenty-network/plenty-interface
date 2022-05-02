@@ -7,6 +7,7 @@ import {
   getExchangeRate,
   loadSwapDataStable,
 } from '../../apis/stableswap/stableswap';
+import fromExponential from 'from-exponential';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import React, { useEffect, useState } from 'react';
@@ -19,9 +20,6 @@ import LiquidityInfo from '../../Components/SwapTabsContent/LiquidityTabs/Liquid
 import { isTokenPairStable } from '../../apis/Liquidity/Liquidity';
 import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransaction';
 import Loader from '../../Components/loader';
-
-import maxlight from '../../assets/images/max-light.svg';
-import maxDark from '../../assets/images/max-dark.svg';
 
 const AddLiquidityNew = (props) => {
   const [estimatedTokenAmout, setEstimatedTokenAmout] = useState('');
@@ -416,7 +414,7 @@ const AddLiquidityNew = (props) => {
                   type="text"
                   className="token-user-input-lq"
                   placeholder="0.0"
-                  value={firstTokenAmount}
+                  value={fromExponential(firstTokenAmount)}
                   onChange={(e) => {
                     setFirstTokenAmount(e.target.value);
                     handleLiquidityInput(e.target.value);
@@ -438,7 +436,7 @@ const AddLiquidityNew = (props) => {
                 overlay={
                   <Tooltip id="button-tooltip" {...props}>
                     {props.userBalances[props.tokenIn.name]
-                      ? props.userBalances[props.tokenIn.name]
+                      ? fromExponential(props.userBalances[props.tokenIn.name])
                       : 0.0}
                     {props.tokenIn.name === 'tez'
                       ? 'TEZ'
@@ -449,7 +447,7 @@ const AddLiquidityNew = (props) => {
                 }
               >
                 <div className="balance-lq ml-auto">
-                  <p className="bal">
+                  <p className="bal" onClick={onClickAmount} style={{ cursor: 'pointer' }}>
                     Balance:{' '}
                     <span className="balance-value-liq">
                       {props.userBalances[props.tokenIn.name] >= 0 ? (
@@ -457,12 +455,6 @@ const AddLiquidityNew = (props) => {
                       ) : (
                         <div className="shimmer">0.00</div>
                       )}{' '}
-                      <img
-                        src={props.theme === 'light' ? maxlight : maxDark}
-                        style={{ cursor: 'pointer' }}
-                        onClick={onClickAmount}
-                        className="max-swap"
-                      />
                     </span>
                   </p>
                 </div>
@@ -531,7 +523,9 @@ const AddLiquidityNew = (props) => {
                   className="token-user-input-lq"
                   placeholder="0.0"
                   value={
-                    secondTokenAmount ? secondTokenAmount : estimatedTokenAmout.otherTokenAmount
+                    secondTokenAmount
+                      ? fromExponential(secondTokenAmount)
+                      : fromExponential(estimatedTokenAmout.otherTokenAmount)
                   }
                   onChange={(e) => handleLiquiditySecondInput(e.target.value)}
                 />
@@ -551,7 +545,7 @@ const AddLiquidityNew = (props) => {
                 overlay={
                   <Tooltip id="button-tooltip" {...props}>
                     {props.userBalances[props.tokenOut.name]
-                      ? props.userBalances[props.tokenOut.name]
+                      ? fromExponential(props.userBalances[props.tokenOut.name])
                       : 0.0}
                     {props.tokenOut.name === 'tez'
                       ? 'TEZ'
@@ -621,7 +615,7 @@ const AddLiquidityNew = (props) => {
                     overlay={
                       <Tooltip id="button-tooltip" {...props}>
                         {props.positionDetails.data
-                          ? props.positionDetails.data.tokenAPoolBalance
+                          ? fromExponential(props.positionDetails.data.tokenAPoolBalance)
                           : '0.00'}
                       </Tooltip>
                     }
@@ -649,7 +643,7 @@ const AddLiquidityNew = (props) => {
                     overlay={
                       <Tooltip id="button-tooltip" {...props}>
                         {props.positionDetails.data
-                          ? props.positionDetails.data.tokenBPoolBalance
+                          ? fromExponential(props.positionDetails.data.tokenBPoolBalance)
                           : '0.00'}
                       </Tooltip>
                     }
@@ -679,7 +673,9 @@ const AddLiquidityNew = (props) => {
                   placement="top"
                   overlay={
                     <Tooltip id="button-tooltip" {...props}>
-                      {props.positionDetails.data ? props.positionDetails.data.lpBalance : '0.00'}
+                      {props.positionDetails.data
+                        ? fromExponential(props.positionDetails.data.lpBalance)
+                        : '0.00'}
                     </Tooltip>
                   }
                 >
@@ -699,7 +695,7 @@ const AddLiquidityNew = (props) => {
                   overlay={
                     <Tooltip id="button-tooltip" {...props}>
                       {props.positionDetails.data
-                        ? props.positionDetails.data.lpTokenShare
+                        ? fromExponential(props.positionDetails.data.lpTokenShare)
                         : '0.00'}
                     </Tooltip>
                   }
@@ -733,7 +729,7 @@ const AddLiquidityNew = (props) => {
 
       <ConfirmTransaction
         show={showConfirmTransaction}
-        content={`Creating ${Number(localStorage.getItem('liqinput')).toFixed(
+        content={`Minting ${Number(localStorage.getItem('liqinput')).toFixed(
           6,
         )} ${localStorage.getItem('tokeninliq')} / ${localStorage.getItem('tokenoutliq')} LP `}
         theme={props.theme}
@@ -741,7 +737,7 @@ const AddLiquidityNew = (props) => {
       />
       <InfoModal
         open={showTransactionSubmitModal}
-        InfoMessage={`Creating ${Number(localStorage.getItem('liqinput')).toFixed(
+        InfoMessage={`Minting ${Number(localStorage.getItem('liqinput')).toFixed(
           6,
         )} ${localStorage.getItem('tokeninliq')} / ${localStorage.getItem('tokenoutliq')} LP `}
         theme={props.theme}

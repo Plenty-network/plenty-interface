@@ -23,6 +23,7 @@ import {
 import LiquidityModal from '../../Components/LiquidityModal/LiquidityModal';
 import ctez from '../../assets/images/ctez.png';
 import { getUserBalanceByRpcStable, loadSwapDataStable } from '../../apis/stableswap/stableswap';
+import SettingsLiq from '../../Components/TransactionSettings/SettingsLiq';
 
 const LiquidityNew = (props) => {
   const { activeTab, tokenIn, setTokenIn, tokenOut, setTokenOut, setActiveTab } =
@@ -333,7 +334,7 @@ const LiquidityNew = (props) => {
           )}
         </p>
       )}
-      {isLiquidityPosition && <div className="liq-label">Your Liquidity Positions</div>}
+      {isLiquidityPosition && <div className="liq-label">Position overview</div>}
       {/* <div className="liq-label">{isLiquidityPosition ? 'Liquidity Positions' : 'Liquidity'}</div> */}
       {!isLiquidityPosition ? (
         <Col
@@ -436,6 +437,14 @@ const LiquidityNew = (props) => {
                 </Tab>
               ) : null}
             </Tabs>
+            <div className="settings-liq">
+              <SettingsLiq
+                slippage={slippage}
+                setSlippage={setSlippage}
+                walletAddress={props.walletAddress}
+                theme={props.theme}
+              />
+            </div>
           </div>
         </Col>
       ) : (

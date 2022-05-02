@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import SimpleModal from './SimpleModal';
 import React, { useEffect, useMemo, useState } from 'react';
 import Button from '../Buttons/Button';
-
+import fromExponential from 'from-exponential';
 import styles from './modal.module.scss';
 import clsx from 'clsx';
 
@@ -78,7 +78,7 @@ const StakeModal = (props) => {
     >
       <div className={clsx(styles.inputWrapper, 'd-flex')}>
         <input
-          value={inputValue}
+          value={fromExponential(inputValue)}
           onChange={(event) => setInputValue(event.target.value)}
           placeholder={'0.0'}
           type="text"

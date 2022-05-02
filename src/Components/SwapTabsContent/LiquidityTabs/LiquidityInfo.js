@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import clsx from 'clsx';
 import StableSwap from '../../../assets/images/lq-stableswap.svg';
-
+import Feetooltip from '../../../assets/images/fee-tooltip.svg';
+import Stableswapwhite from '../../../assets/images/stableswapwhite.svg';
 import StableSwapDark from '../../../assets/images/lq-stableswap-dark.svg';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import useMediaQuery from '../../../hooks/mediaQuery';
@@ -133,15 +134,35 @@ const LiquidityInfo = (props) => {
           </div>
         )}
       </div>
-      <div className={clsx(isMobile && 'order-4', 'details', isMobile && 'mt-2', 'ml-2')}>
-        {props.isStable ? '0.10' : '0.25'}% <span className="content">LP fee</span>
-        {props.isStable && (
-          <>
-            <span className="divider-lq mx-2"></span>
-            <img src={props.theme === 'light' ? StableSwap : StableSwapDark} />
-          </>
-        )}
-      </div>
+      <OverlayTrigger
+        placement="top"
+        overlay={
+          <Tooltip id="button-tooltip" {...props}>
+            <>
+              Stable pair
+              <div>
+                <span className="material-icons-round">expand_less</span>
+              </div>
+              <img src={props.theme === 'light' ? Feetooltip : Feetooltip} />
+              <div className="flex flex-row fee-tooltip-center">
+                0.10 % <span className="content ml-1"> LP fee</span>
+                <span className="divider-lq-tooltip mx-2"></span>
+                <img src={props.theme === 'light' ? Stableswapwhite : StableSwapDark} />
+              </div>
+            </>
+          </Tooltip>
+        }
+      >
+        <div className={clsx(isMobile && 'order-4', 'details', isMobile && 'mt-2', 'ml-2')}>
+          {props.isStable ? '0.10' : '0.35'}% <span className="content">LP fee</span>
+          {props.isStable && (
+            <>
+              <span className="divider-lq mx-2"></span>
+              <img src={props.theme === 'light' ? StableSwap : StableSwapDark} />
+            </>
+          )}
+        </div>
+      </OverlayTrigger>
     </div>
   );
 };

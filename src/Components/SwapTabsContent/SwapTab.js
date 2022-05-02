@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import SwapDetails from '../SwapDetails';
 import ConfirmSwap from './ConfirmSwap';
 import { connect } from 'react-redux';
-
+import fromExponential from 'from-exponential';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { swapTokens } from '../../apis/swap/swap';
 import Button from '../Ui/Buttons/Button';
@@ -27,8 +27,6 @@ import { setLoader } from '../../redux/slices/settings/settings.slice';
 import switchImg from '../../assets/images/SwapModal/swap-switch.svg';
 
 import switchImgDark from '../../assets/images/SwapModal/swap-switch-dark.svg';
-import maxlight from '../../assets/images/max-light.svg';
-import maxDark from '../../assets/images/max-dark.svg';
 
 const SwapTab = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -76,27 +74,17 @@ const SwapTab = (props) => {
       getSwapData();
     }
   }, [props]);
-  const isStable1 =
-    (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
-    (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez');
+
   useEffect(() => {
     setRouteDataCopy(false);
     setRoutePath([]);
     setFirstTokenAmount('');
     setSecondTokenAmount('');
-  }, [props.tokenIn, isStable1]);
-  useEffect(() => {
-    setRouteDataCopy(false);
-    setRoutePath([]);
-    setFirstTokenAmount('');
-    setSecondTokenAmount('');
-  }, [props.tokenOut]);
+  }, [props.tokenIn, props.tokenOut]);
+
   useEffect(() => {
     setRouteDataCopy(props.routeData);
   }, [props.routeData]);
-  // useEffect(() => {
-  //   setRouteDataCopy(false);
-  // }, [props.tokenIn, props.tokenOut]);
 
   useEffect(() => {
     firstTokenAmount && setFirstAmount(firstTokenAmount);
@@ -543,7 +531,7 @@ const SwapTab = (props) => {
                     errorMessage && message === 'Insufficient balance' && 'error-text-color',
                   )}
                   placeholder="0.0"
-                  value={firstTokenAmount}
+                  value={fromExponential(firstTokenAmount)}
                   onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenIn')}
                 />
               ) : (
@@ -564,7 +552,7 @@ const SwapTab = (props) => {
                         placement="top"
                         overlay={
                           <Tooltip id="tooltip-e" {...props}>
-                            {Number(props.userBalances[props.tokenIn.name])}
+                            {fromExponential(props.userBalances[props.tokenIn.name])}
                           </Tooltip>
                         }
                       >
@@ -581,10 +569,10 @@ const SwapTab = (props) => {
                           ) : (
                             <div className="shimmer">0.0000</div>
                           )}{' '}
-                          <img
+                          {/* <img
                             src={props.theme === 'light' ? maxlight : maxDark}
                             className="max-swap"
-                          />
+                          /> */}
                         </span>
                       </OverlayTrigger>
                     ) : (
@@ -599,10 +587,6 @@ const SwapTab = (props) => {
                         ) : (
                           <div className="shimmer">0.0000</div>
                         )}{' '}
-                        <img
-                          src={props.theme === 'light' ? maxlight : maxDark}
-                          className="max-swap"
-                        />
                       </span>
                     )}
                   </p>
@@ -687,7 +671,7 @@ const SwapTab = (props) => {
                   <input
                     type="text"
                     className={clsx('token-user-input', secondTokenAmount && 'second-input-color')}
-                    value={secondTokenAmount && Number(secondTokenAmount)}
+                    value={secondTokenAmount && fromExponential(secondTokenAmount)}
                     placeholder="0.0"
                     onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenOut')}
                   />
@@ -707,7 +691,7 @@ const SwapTab = (props) => {
                     Balance:{' '}
                     {props.tokenOut.name ? (
                       props.userBalances[props.tokenOut.name] >= 0 ? (
-                        props.userBalances[props.tokenOut.name]
+                        fromExponential(props.userBalances[props.tokenOut.name])
                       ) : (
                         <div className="shimmer">0.0000</div>
                       )

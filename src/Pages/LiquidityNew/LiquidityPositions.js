@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
+import fromExponential from 'from-exponential';
 import StableSwap from '../../assets/images/lq-stableswap.svg';
 import StableSwapDark from '../../assets/images/lq-stableswap-dark.svg';
 import Button from '../../Components/Ui/Buttons/Button';
@@ -131,7 +132,9 @@ export const LiquidityPositions = (props) => {
                             placement="top"
                             overlay={
                               <Tooltip id="button-tooltip" {...props}>
-                                {positionDetails ? positionDetails.tokenAPoolBalance : '0.00'}
+                                {positionDetails
+                                  ? fromExponential(positionDetails.tokenAPoolBalance)
+                                  : '0.00'}
                               </Tooltip>
                             }
                           >
@@ -161,7 +164,9 @@ export const LiquidityPositions = (props) => {
                             placement="top"
                             overlay={
                               <Tooltip id="button-tooltip" {...props}>
-                                {positionDetails ? positionDetails.tokenBPoolBalance : '0.00'}
+                                {positionDetails
+                                  ? fromExponential(positionDetails.tokenBPoolBalance)
+                                  : '0.00'}
                               </Tooltip>
                             }
                           >
@@ -187,7 +192,9 @@ export const LiquidityPositions = (props) => {
                             placement="top"
                             overlay={
                               <Tooltip id="button-tooltip" {...props}>
-                                {positionDetails ? positionDetails.lpTokenShare : '0.00'}
+                                {positionDetails
+                                  ? fromExponential(positionDetails.lpTokenShare)
+                                  : '0.00'}
                               </Tooltip>
                             }
                           >
@@ -207,7 +214,9 @@ export const LiquidityPositions = (props) => {
                             placement="top"
                             overlay={
                               <Tooltip id="button-tooltip" {...props}>
-                                {positionDetails ? positionDetails.lpBalance : '0.00'}
+                                {positionDetails
+                                  ? fromExponential(positionDetails.lpBalance)
+                                  : '0.00'}
                               </Tooltip>
                             }
                           >

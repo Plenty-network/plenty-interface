@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-
+import fromExponential from 'from-exponential';
 import plenty from '../../assets/images/logo_small.png';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
@@ -134,7 +134,7 @@ const StakePlenty = (props) => {
             <input
               type="text"
               onChange={(event) => plentyInputHandler(event.target.value)}
-              value={plentyInput}
+              value={fromExponential(plentyInput)}
               className="token-user-input"
               placeholder="0.0"
             />
@@ -159,7 +159,7 @@ const StakePlenty = (props) => {
               placement="auto"
               overlay={
                 <Tooltip id="button-tooltip" {...props}>
-                  {props.xPlentyData.data.plentyPerXplenty}
+                  {fromExponential(props.xPlentyData.data.plentyPerXplenty)}
                 </Tooltip>
               }
             >

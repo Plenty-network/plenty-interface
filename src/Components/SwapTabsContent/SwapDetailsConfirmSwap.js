@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import fromExponential from 'from-exponential';
 import { MdChevronRight } from 'react-icons/all';
 import { Image, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import React, { useMemo, useState } from 'react';
@@ -36,7 +37,7 @@ const SwapDetailsConfirmSwap = (props) => {
                 <Tooltip id="swap-token-out-tooltip" {...props}>
                   {props.isStableSwap
                     ? Number(props.computedOutDetails.data.exchangeRate).toFixed(6)
-                    : props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn}
+                    : fromExponential(props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn)}
                 </Tooltip>
               }
             >
@@ -55,7 +56,11 @@ const SwapDetailsConfirmSwap = (props) => {
             </OverlayTrigger>
           </p>
         </div>
-        <span className={`material-icons-round buttonanim button--trigger open-confirmswap-details ${isOpen ? 'dropdown-open' : 'dropdown-close'}`}>
+        <span
+          className={`material-icons-round buttonanim button--trigger open-confirmswap-details ${
+            isOpen ? 'dropdown-open' : 'dropdown-close'
+          }`}
+        >
           expand_more
         </span>
         {/* {isOpen ? (
@@ -71,7 +76,7 @@ const SwapDetailsConfirmSwap = (props) => {
       <div className="buttonanim button--disapear-cs">
         {props.firstTokenAmount &&
           (isOpen ? (
-            <div className='scale-in-animation-confirm-swap'>
+            <div className="scale-in-animation-confirm-swap">
               <div className="flex flex-row mt-3 align-items-center">
                 <p className="swap-detail-amt-details-cs">Minimum received </p>
                 <OverlayTrigger
@@ -145,7 +150,7 @@ const SwapDetailsConfirmSwap = (props) => {
                     >
                       {props.isStableSwap
                         ? 'A portion of each trade (0.10%) goes to liquidity providers as a protocol incentive.'
-                        : 'A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive.'}
+                        : 'A portion of each trade (0.35%) goes to liquidity providers as a protocol incentive.'}
                     </Tooltip>
                   }
                 >
@@ -163,7 +168,7 @@ const SwapDetailsConfirmSwap = (props) => {
                   {props.isStableSwap ? props.tokenOut.name : props.tokenIn.name}
                 </p>
               </div>
-              {props.isConfirmSwap && !props.isStableSwap && (
+              {/* {props.isConfirmSwap && !props.isStableSwap && (
                 <div className="flex flex-row align-items-center">
                   <p className="swap-detail-amt-details-cs">xPlenty Fee </p>
                   <OverlayTrigger
@@ -190,7 +195,7 @@ const SwapDetailsConfirmSwap = (props) => {
                     {props.firstTokenAmount / 1000} {props.tokenIn.name}
                   </p>
                 </div>
-              )}
+              )} */}
               {props.isConfirmSwap ? (
                 <div className="flex flex-row align-items-center">
                   <p className="swap-detail-amt-details-cs">Slippage tolerance </p>

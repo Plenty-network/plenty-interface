@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { MdChevronRight } from 'react-icons/all';
+import fromExponential from 'from-exponential';
 import { Image, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import React, { useMemo, useState } from 'react';
 import { tokens } from '../constants/swapPage';
@@ -65,8 +66,10 @@ const SwapDetails = (props) => {
                 overlay={
                   <Tooltip id="button-tooltip" {...props}>
                     {props.isStableSwap
-                      ? Number(props.computedOutDetails.data.exchangeRate).toFixed(6)
-                      : Number(props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn)}
+                      ? fromExponential(Number(props.computedOutDetails.data.exchangeRate))
+                      : fromExponential(
+                          Number(props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn),
+                        )}
                   </Tooltip>
                 }
               >
