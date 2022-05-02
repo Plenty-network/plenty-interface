@@ -4,6 +4,8 @@ import { MdChevronRight } from 'react-icons/all';
 import { Image, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import React, { useMemo, useState } from 'react';
 import { tokens } from '../../constants/swapPage';
+import ChevronDownDark from '../../assets/images/SwapModal/chevron-down_dark.svg';
+import ChevronDown from '../../assets/images/SwapModal/chevron-down.svg';
 
 const SwapDetailsConfirmSwap = (props) => {
   const [isOpen, setOpen] = useState(false);
@@ -27,7 +29,7 @@ const SwapDetailsConfirmSwap = (props) => {
         onClick={() => setOpen(!isOpen)}
         style={{ cursor: 'pointer' }}
       >
-        <div className="flex">
+        <div className="flex" style={{paddingTop: '4px'}}>
           <p className="price-formula-cs whitespace-prewrap  flex flex-row">
             1 {props.tokenIn.name} ={' '}
             <OverlayTrigger
@@ -55,7 +57,15 @@ const SwapDetailsConfirmSwap = (props) => {
             </OverlayTrigger>
           </p>
         </div>
-        {isOpen ? (
+        <img
+          src={props.theme === 'light' ? ChevronDown : ChevronDownDark}
+          className={`${isOpen ? 'dropdown-open' : 'dropdown-close'}`}
+          style={{height: '22px', width: '22px'}}
+        ></img>
+        {/* <span className={`material-icons-round buttonanim button--trigger flex open-confirmswap-details ${isOpen ? 'dropdown-open' : 'dropdown-close'}`} style={{display: 'block'}}>
+          keyboard_arrow_down
+        </span> */}
+        {/* {isOpen ? (
           <span className="material-icons-round flex buttonanim button--trigger-todisappear  open-confirmswap-details">
             keyboard_arrow_up
           </span>
@@ -63,12 +73,12 @@ const SwapDetailsConfirmSwap = (props) => {
           <span className="material-icons-round buttonanim button--trigger flex open-confirmswap-details">
             keyboard_arrow_down
           </span>
-        )}
+        )} */}
       </div>
       <div className="buttonanim button--disapear-cs">
         {props.firstTokenAmount &&
           (isOpen ? (
-            <>
+            <div className='scale-in-animation-confirm-swap'>
               <div className="flex flex-row mt-3 align-items-center">
                 <p className="swap-detail-amt-details-cs">Minimum received </p>
                 <OverlayTrigger
@@ -213,7 +223,7 @@ const SwapDetailsConfirmSwap = (props) => {
                   <p className="swap-detail-amt-details-cs ml-auto">{props.slippage} %</p>
                 </div>
               ) : null}
-            </>
+            </div>
           ) : null)}
         {props.firstTokenAmount && swapRoute && <hr />}
         {swapRoute && (
@@ -267,6 +277,7 @@ SwapDetailsConfirmSwap.propTypes = {
   isStableSwap: PropTypes.any,
   slippage: PropTypes.any,
   isConfirmSwap: PropTypes.any,
+  theme: PropTypes.any,
 };
 
 export default SwapDetailsConfirmSwap;

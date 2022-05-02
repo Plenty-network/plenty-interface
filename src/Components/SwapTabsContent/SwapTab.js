@@ -770,6 +770,7 @@ const SwapTab = (props) => {
         routeData={props.routeData}
         loading={props.loading}
         isStableSwap={false}
+        theme={props.theme}
       />
       <ConfirmTransaction
         show={props.showConfirmTransaction}

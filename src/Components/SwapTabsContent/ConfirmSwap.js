@@ -71,6 +71,7 @@ const ConfirmSwap = (props) => {
               (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
               (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez')
             }
+            theme={props.theme}
           />
 
           <Button
@@ -108,4 +109,5 @@ ConfirmSwap.propTypes = {
   tokenIn: PropTypes.any,
   tokenOut: PropTypes.any,
   isStableSwap: PropTypes.any,
+  theme: PropTypes.any,
 };

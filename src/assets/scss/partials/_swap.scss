@@ -1758,14 +1758,15 @@
 .space-between {
   display: flex;
   //justify-content: space-between;
-  padding-top: 4px;
+  //padding-top: 4px;
   margin-bottom: -15px;
+  align-items: flex-start;
 }
 .space-between-confirmswap {
   justify-content: space-between;
   display: flex;
-
-  padding-top: 4px;
+  align-items: flex-start;
+  //padding-top: 4px;
   margin-bottom: -15px;
 }
 .swap-detail-route-container {
@@ -2593,4 +2594,15 @@ input:checked {
   line-height: 25px;
   letter-spacing: 0em;
   text-align: left;
+}
+
+
+.dropdown-open {
+  transform: rotate(180deg);            
+  transition: transform 150ms ease;
+}
+
+.dropdown-close {
+  transform: rotate(0deg);            
+  transition: transform 150ms ease;
 }

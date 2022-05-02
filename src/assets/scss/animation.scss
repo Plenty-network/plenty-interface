@@ -241,3 +241,31 @@
     transform: rotate(360deg);
   }
 }
+
+
+.scale-in-animation {
+  animation: scale-in 0.2s;
+  -webkit-animation: scale-in 0.2s;
+  &-confirm-swap {
+    animation: scale-in 0.3s;
+  -webkit-animation: scale-in 0.3s;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    transform: scale(0.98);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@-webkit-keyframes scale-in {
+  from {
+    transform: scale(0.98);
+  }
+  to {
+    transform: scale(1);
+  }
+}

@@ -12,6 +12,8 @@ import '../assets/scss/animation.scss';
 import { ReactComponent as RouterDark } from '../assets/images/router-tooltip-dark.svg';
 import { ReactComponent as BracketDark } from '../assets/images/bracket-dark.svg';
 import '../assets/scss/animation.scss';
+import ChevronDownDark from '../assets/images/SwapModal/chevron-down_dark.svg';
+import ChevronDown from '../assets/images/SwapModal/chevron-down.svg';
 
 const SwapDetails = (props) => {
   const [isOpen, setOpen] = useState(false);
@@ -40,8 +42,8 @@ const SwapDetails = (props) => {
         onClick={() => setOpen(!isOpen)}
         id="topdiv"
       >
-        <div className="space-between" style={{ cursor: 'pointer' }}>
-          <div className="flex">
+        <div className="space-between justify-content-between" style={{ cursor: 'pointer' }}>
+          <div className="flex" style={{paddingTop: '2px'}}>
             <p className="price-formula whitespace-prewrap  flex flex-row">
               1{' '}
               {isConvert
@@ -100,8 +102,11 @@ const SwapDetails = (props) => {
               </span>
             </p>
           </div>
-
-          {props.firstTokenAmount > 0 && isOpen ? (
+          <img 
+            src={props.theme === 'light' ? ChevronDown : ChevronDownDark}
+            className={`${props.firstTokenAmount > 0 && isOpen ? 'dropdown-open' : 'dropdown-close'}`}
+          ></img>
+          {/* {props.firstTokenAmount > 0 && isOpen ? (
             <span
               className="material-icons-round buttonanim button--trigger-todisappear flex open"
               style={{ cursor: 'pointer' }}
@@ -115,14 +120,14 @@ const SwapDetails = (props) => {
             >
               keyboard_arrow_down
             </span>
-          )}
+          )} */}
         </div>
       </div>
       {props.firstTokenAmount > 0}
       {isOpen && (
-        <div className={clsx('swap-detail-wrapper-open buttonanim button--disapear')}>
+        <div className={clsx('swap-detail-wrapper-open', 'buttonanim button--disapear')}>
           {/* {isOpen ? ( */}
-          <div className="">
+          <div className="scale-in-animation">
             <div className="flex flex-row  align-items-center swap-sub-details">
               {' '}
               <p className="swap-detail-amt-details">Minimum received </p>
