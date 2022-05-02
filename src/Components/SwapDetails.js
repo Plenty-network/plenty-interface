@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { MdChevronRight } from 'react-icons/all';
 import { Image, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState } from 'react';
 import { tokens } from '../constants/swapPage';
 import { ReactComponent as Stableswap } from '../assets/images/SwapModal/stableswap-light.svg';
 import { ReactComponent as StableswapDark } from '../assets/images/SwapModal/stableswap-dark.svg';
