@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import SwapDetails from '../SwapDetails';
 import ConfirmSwap from './ConfirmSwap';
 import { connect } from 'react-redux';
@@ -31,7 +31,7 @@ import switchImgDark from '../../assets/images/SwapModal/swap-switch-dark.svg';
 const SwapTab = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
   const [secondTokenAmount, setSecondTokenAmount] = useState();
-  const [routeDataCopy, setRouteDataCopy] = useState({});
+  const [routeDataCopy, setRouteDataCopy] = useState(false);
   const [firstAmount, setFirstAmount] = useState(0);
   const [secondAmount, setSecondAmount] = useState(0);
   const [routePath, setRoutePath] = useState([]);
@@ -61,6 +61,7 @@ const SwapTab = (props) => {
     lpToken: null,
     dexContractInstance: null,
   });
+  const isStableSwap = useRef(false);
   const getSwapData = async () => {
     const res = await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
 
@@ -77,13 +78,18 @@ const SwapTab = (props) => {
 
   useEffect(() => {
     setRouteDataCopy(false);
+    isStableSwap.current = (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
+    (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez');
     setRoutePath([]);
     setFirstTokenAmount('');
     setSecondTokenAmount('');
   }, [props.tokenIn, props.tokenOut]);
 
   useEffect(() => {
-    setRouteDataCopy(props.routeData);
+    if(props.routeData.success) {
+      setRouteDataCopy(true);
+    }
+    //setRouteDataCopy(props.routeData);
   }, [props.routeData]);
 
   useEffect(() => {
@@ -750,10 +756,11 @@ const SwapTab = (props) => {
               routeData={props.routeData}
               firstTokenAmount={firstTokenAmount}
               stableList={stableList}
-              isStableSwap={
-                (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
-                (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez')
-              }
+              isStableSwap={isStableSwap.current}
+              // isStableSwap={
+              //   (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
+              //   (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez')
+              // }
             />
           ) : null}
           {swapContentButton}
