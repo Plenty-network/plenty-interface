@@ -411,7 +411,7 @@ const AddLiquidityNew = (props) => {
           </div>
           <div className="d-flex  align-items-center input-lq">
             <div className="input-width">
-              {props.swapData.success && props.userBalances[props.tokenIn.name] ? (
+              {props.swapData.success ? (
                 <input
                   type="text"
                   className="token-user-input-lq"
@@ -525,7 +525,7 @@ const AddLiquidityNew = (props) => {
 
           <div className="d-flex  align-items-center input-lq">
             <div className="input-width">
-              {props.swapData.success && props.userBalances[props.tokenOut.name] ? (
+              {props.swapData.success ? (
                 <input
                   type="text"
                   className="token-user-input-lq"
@@ -615,13 +615,7 @@ const AddLiquidityNew = (props) => {
               </span>
               <div className="d-flex mt-2">
                 <div>
-                  <div className="token-name-lp">
-                    {props.tokenIn.name === 'tez'
-                      ? 'TEZ'
-                      : props.tokenIn.name === 'ctez'
-                      ? 'CTEZ'
-                      : props.tokenIn.name}
-                  </div>
+                  <div className="token-name-lp"></div>
                   <OverlayTrigger
                     placement="top"
                     overlay={
@@ -638,19 +632,18 @@ const AddLiquidityNew = (props) => {
                           props.positionDetails.data.tokenAPoolBalance.toFixed(4)
                         ) : (
                           <span className="shimmer">99999</span>
-                        )}
+                        )}{' '}
+                        {props.tokenIn.name === 'tez'
+                          ? 'TEZ'
+                          : props.tokenIn.name === 'ctez'
+                          ? 'CTEZ'
+                          : props.tokenIn.name}
                       </span>{' '}
                     </div>
                   </OverlayTrigger>
                 </div>
                 <div className="ml-2">
-                  <div className="token-name-lp">
-                    {props.tokenOut.name === 'tez'
-                      ? 'TEZ'
-                      : props.tokenOut.name === 'ctez'
-                      ? 'CTEZ'
-                      : props.tokenOut.name}
-                  </div>
+                  <div className="token-name-lp"></div>
                   <OverlayTrigger
                     placement="top"
                     overlay={
@@ -667,7 +660,12 @@ const AddLiquidityNew = (props) => {
                           props.positionDetails.data.tokenBPoolBalance.toFixed(4)
                         ) : (
                           <span className="shimmer">99999</span>
-                        )}
+                        )}{' '}
+                        {props.tokenOut.name === 'tez'
+                          ? 'TEZ'
+                          : props.tokenOut.name === 'ctez'
+                          ? 'CTEZ'
+                          : props.tokenOut.name}
                       </span>{' '}
                     </div>
                   </OverlayTrigger>

@@ -178,7 +178,7 @@ const StakePlenty = (props) => {
       <ConfirmTransaction
         show={showConfirmTransaction}
         theme={props.theme}
-        content={`Staking ${Number(localStorage.getItem('stakeInput')).toFixed(6)} plenty `}
+        content={`Staking ${Number(localStorage.getItem('stakeInput')).toFixed(6)} PLENTY `}
       />
     </>
   );

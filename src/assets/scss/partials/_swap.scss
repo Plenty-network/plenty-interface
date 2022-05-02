@@ -1139,9 +1139,9 @@
 .swap-sub-details {
   margin-bottom: 6px;
 }
-.swap-sub-details-padding {
-  padding-bottom: 18px;
-}
+// .swap-sub-details-padding {
+//   padding-bottom: 18px;
+// }
 .icon-animated {
   transition: transform 0.3s ease-in-out;
 
@@ -1598,7 +1598,7 @@
   border: 0.863044px solid var(--theme-second-swap-input);
   box-sizing: border-box;
   border-radius: 0px 0px 12px 12px;
-  padding: 0px 20px 24px;
+  padding: 4px 20px 24px;
   @media screen and (min-width: 320px) and (max-width: 900px) {
     padding: 22.5px 16px;
   }
@@ -1759,6 +1759,7 @@
   display: flex;
   //justify-content: space-between;
   //padding-top: 4px;
+
   margin-bottom: -15px;
   align-items: flex-start;
 }
@@ -2596,13 +2597,12 @@ input:checked {
   text-align: left;
 }
 
-
 .dropdown-open {
-  transform: rotate(180deg);            
+  transform: rotate(180deg);
   transition: transform 150ms ease;
 }
 
 .dropdown-close {
-  transform: rotate(0deg);            
+  transform: rotate(0deg);
   transition: transform 150ms ease;
 }

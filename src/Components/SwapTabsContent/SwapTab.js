@@ -69,16 +69,34 @@ const SwapTab = (props) => {
     setSwapData(res);
   };
   useEffect(() => {
-    if (props.isStablePair) {
+    if (
+      (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
+      (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez')
+    ) {
       getSwapData();
     }
   }, [props]);
+  const isStable1 =
+    (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
+    (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez');
+  useEffect(() => {
+    setRouteDataCopy(false);
+    setRoutePath([]);
+    setFirstTokenAmount('');
+    setSecondTokenAmount('');
+  }, [props.tokenIn, isStable1]);
+  useEffect(() => {
+    setRouteDataCopy(false);
+    setRoutePath([]);
+    setFirstTokenAmount('');
+    setSecondTokenAmount('');
+  }, [props.tokenOut]);
   useEffect(() => {
     setRouteDataCopy(props.routeData);
   }, [props.routeData]);
-  useEffect(() => {
-    setRouteDataCopy(false);
-  }, [props.tokenIn, props.tokenOut]);
+  // useEffect(() => {
+  //   setRouteDataCopy(false);
+  // }, [props.tokenIn, props.tokenOut]);
 
   useEffect(() => {
     firstTokenAmount && setFirstAmount(firstTokenAmount);
@@ -737,7 +755,7 @@ const SwapTab = (props) => {
           {props.walletAddress &&
           props.tokenIn.name &&
           props.tokenOut.name &&
-          firstTokenAmount > 0 &&
+          Number(firstTokenAmount) > 0 &&
           routeDataCopy ? (
             <SwapDetails
               routePath={routePath}
@@ -745,7 +763,7 @@ const SwapTab = (props) => {
               computedOutDetails={computedData}
               tokenIn={props.tokenIn}
               tokenOut={props.tokenOut}
-              routeData={routeDataCopy}
+              routeData={props.routeData}
               firstTokenAmount={firstTokenAmount}
               stableList={stableList}
               isStableSwap={

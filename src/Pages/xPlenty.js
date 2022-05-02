@@ -205,7 +205,7 @@ const Stake = (props) => {
         loaderMessage={loaderMessage}
         content={
           localStorage.getItem('type') === 'stake'
-            ? `${Number(localStorage.getItem('stakeInput')).toFixed(6)} plenty Staked`
+            ? `${Number(localStorage.getItem('stakeInput')).toFixed(6)} PLENTY Staked`
             : `${Number(localStorage.getItem('unstakeInput')).toFixed(6)} xPlenty UnStaked`
         }
         tokenIn={true}
@@ -222,7 +222,7 @@ const Stake = (props) => {
         onClose={props.closetransactionInjectionModal}
         InfoMessage={
           localStorage.getItem('type') === 'stake'
-            ? `Staking ${Number(localStorage.getItem('stakeInput')).toFixed(6)} plenty `
+            ? `Staking ${Number(localStorage.getItem('stakeInput')).toFixed(6)} PLENTY `
             : `UnStaking ${Number(localStorage.getItem('unstakeInput')).toFixed(6)} xPlenty `
         }
         message={'Transaction submitted'}
