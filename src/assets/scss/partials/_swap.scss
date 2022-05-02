@@ -227,7 +227,7 @@
 .closedbg {
   background: transparent;
   border: 1px solid var(--theme-swap-border) !important;
-  padding: 12px 21px !important;
+  //padding: 12px 21px !important;
 }
 .new {
   background: var(--theme-primary-button-bg);
@@ -2270,6 +2270,7 @@ input:checked {
   top: 8px;
   margin-left: 10.3px;
   margin-right: 15px;
+  display: inline-block;
   @media screen and (min-width: 320px) and (max-width: 900px) {
     margin-right: 0px;
   }
@@ -2455,6 +2456,7 @@ input:checked {
 }
 .rotate {
   transform: rotate(180deg);
+  transition: transform 150ms ease;
 }
 .centerAlign {
   justify-content: center !important;

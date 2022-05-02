@@ -4,8 +4,6 @@ import { MdChevronRight } from 'react-icons/all';
 import { Image, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import React, { useMemo, useState } from 'react';
 import { tokens } from '../../constants/swapPage';
-import ChevronDownDark from '../../assets/images/SwapModal/chevron-down_dark.svg';
-import ChevronDown from '../../assets/images/SwapModal/chevron-down.svg';
 
 const SwapDetailsConfirmSwap = (props) => {
   const [isOpen, setOpen] = useState(false);
@@ -29,7 +27,7 @@ const SwapDetailsConfirmSwap = (props) => {
         onClick={() => setOpen(!isOpen)}
         style={{ cursor: 'pointer' }}
       >
-        <div className="flex" style={{paddingTop: '4px'}}>
+        <div className="flex">
           <p className="price-formula-cs whitespace-prewrap  flex flex-row">
             1 {props.tokenIn.name} ={' '}
             <OverlayTrigger
@@ -57,14 +55,9 @@ const SwapDetailsConfirmSwap = (props) => {
             </OverlayTrigger>
           </p>
         </div>
-        <img
-          src={props.theme === 'light' ? ChevronDown : ChevronDownDark}
-          className={`${isOpen ? 'dropdown-open' : 'dropdown-close'}`}
-          style={{height: '22px', width: '22px'}}
-        ></img>
-        {/* <span className={`material-icons-round buttonanim button--trigger flex open-confirmswap-details ${isOpen ? 'dropdown-open' : 'dropdown-close'}`} style={{display: 'block'}}>
-          keyboard_arrow_down
-        </span> */}
+        <span className={`material-icons-round buttonanim button--trigger open-confirmswap-details ${isOpen ? 'dropdown-open' : 'dropdown-close'}`}>
+          expand_more
+        </span>
         {/* {isOpen ? (
           <span className="material-icons-round flex buttonanim button--trigger-todisappear  open-confirmswap-details">
             keyboard_arrow_up
