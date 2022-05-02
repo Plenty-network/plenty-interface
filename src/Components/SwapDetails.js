@@ -30,6 +30,10 @@ const SwapDetails = (props) => {
   if (!props.firstTokenAmount && !swapRoute) {
     return null;
   }
+  const ratesConvert = (e) => {
+    e.stopPropagation();
+    setConvert(!isConvert);
+  };
 
   return (
     <>
@@ -43,7 +47,7 @@ const SwapDetails = (props) => {
         id="topdiv"
       >
         <div className="space-between justify-content-between" style={{ cursor: 'pointer' }}>
-          <div className="flex" style={{paddingTop: '2px'}}>
+          <div className="flex" style={{ paddingTop: '2px' }}>
             <p className="price-formula whitespace-prewrap  flex flex-row">
               1{' '}
               {isConvert
@@ -95,16 +99,18 @@ const SwapDetails = (props) => {
               </OverlayTrigger>
               <span
                 className="material-icons-round convert ml-1"
-                onClick={() => setConvert(!isConvert)}
+                onClick={(e) => ratesConvert(e)}
                 style={{ cursor: 'pointer' }}
               >
                 cached
               </span>
             </p>
           </div>
-          <img 
+          <img
             src={props.theme === 'light' ? ChevronDown : ChevronDownDark}
-            className={`${props.firstTokenAmount > 0 && isOpen ? 'dropdown-open' : 'dropdown-close'}`}
+            className={`${
+              props.firstTokenAmount > 0 && isOpen ? 'dropdown-open' : 'dropdown-close'
+            }`}
           ></img>
           {/* {props.firstTokenAmount > 0 && isOpen ? (
             <span
