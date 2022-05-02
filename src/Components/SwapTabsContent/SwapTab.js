@@ -393,7 +393,11 @@ const SwapTab = (props) => {
       }
     }
   };
-
+  const switchTokens = () => {
+    props.changeTokenLocation();
+    setFirstTokenAmount('');
+    setSecondTokenAmount('');
+  };
   const onClickAmount = () => {
     const value =
       props.userBalances[props.tokenIn.name].toLocaleString('en-US', {
@@ -614,25 +618,15 @@ const SwapTab = (props) => {
           </div>
           {errorMessage && <span className="error-message">{message}</span>}
         </div>
-        <OverlayTrigger
-          overlay={(props) => (
-            <Tooltip id="button-tooltip" {...props}>
-              Switch
-            </Tooltip>
-          )}
-          placement="top"
-        >
-          <div className={clsx('switch-img-background', errorMessage && 'alignment-switch')}>
-            <div className="switch-img">
-              <div
-                className="swap-arrow-center-revamp  icon-animated"
-                onClick={props.changeTokenLocation}
-              >
-                <img src={props.theme === 'light' ? switchImg : switchImgDark} />
-              </div>
+
+        <div className={clsx('switch-img-background', errorMessage && 'alignment-switch')}>
+          <div className="switch-img">
+            <div className="swap-arrow-center-revamp  icon-animated" onClick={switchTokens}>
+              <img src={props.theme === 'light' ? switchImg : switchImgDark} />
             </div>
           </div>
-        </OverlayTrigger>
+        </div>
+
         <div className="second-token-bg">
           <div className="swap-content-box ">
             <div
@@ -675,7 +669,7 @@ const SwapTab = (props) => {
                   <input
                     type="text"
                     className={clsx('token-user-input', secondTokenAmount && 'second-input-color')}
-                    value={secondTokenAmount && secondTokenAmount}
+                    value={secondTokenAmount && Number(secondTokenAmount)}
                     placeholder="0.0"
                     onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenOut')}
                   />
@@ -685,7 +679,7 @@ const SwapTab = (props) => {
                     className="token-user-input"
                     disabled
                     placeholder="--"
-                    value={firstTokenAmount}
+                    value={secondTokenAmount}
                   />
                 )}
               </div>
@@ -743,7 +737,7 @@ const SwapTab = (props) => {
           {props.walletAddress &&
           props.tokenIn.name &&
           props.tokenOut.name &&
-          firstTokenAmount &&
+          firstTokenAmount > 0 &&
           routeDataCopy ? (
             <SwapDetails
               routePath={routePath}
@@ -793,7 +787,7 @@ const SwapTab = (props) => {
         theme={props.theme}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
-        buttonText={'View on TzKT'}
+        buttonText={'View on Block Explorer'}
         onBtnClick={
           transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
         }

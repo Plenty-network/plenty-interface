@@ -598,7 +598,7 @@ const RemoveLiquidityNew = (props) => {
         )} ${localStorage.getItem('tokeninliq')} / ${localStorage.getItem('tokenoutliq')} LP `}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
-        buttonText={'View on TzKT'}
+        buttonText={'View on Block Explorer'}
         onBtnClick={
           transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
         }

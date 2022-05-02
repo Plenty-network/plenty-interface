@@ -64,6 +64,13 @@
     -o-animation: topToBottomFloater 1s; /* Opera < 12.1 */
     animation: topToBottomFloater 1s;
   }
+  &-1-header {
+    -webkit-animation: topToBottomFloater 0.1s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: topToBottomFloater 0.1s; /* Firefox < 16 */
+    -ms-animation: topToBottomFloater 0.1s; /* Internet Explorer */
+    -o-animation: topToBottomFloater 0.1s; /* Opera < 12.1 */
+    animation: topToBottomFloater 0.1s;
+  }
 }
 
 @keyframes rightToleftF {

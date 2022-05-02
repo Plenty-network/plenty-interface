@@ -71,6 +71,8 @@ export const LiquidityPositions = (props) => {
                   isOpen && indexPosition === index && 'openLqDetails',
                 )}
                 key={index}
+                onClick={() => openManage(position, index, !isOpen, position.isStable)}
+                style={{ cursor: 'pointer' }}
               >
                 <div className="token-label">
                   <img className="token-img" src={position.tokenA.image} />
@@ -98,11 +100,7 @@ export const LiquidityPositions = (props) => {
                       </>
                     )}
                   </div>
-                  <div
-                    className="manage-label"
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => openManage(position, index, !isOpen, position.isStable)}
-                  >
+                  <div className="manage-label" style={{ cursor: 'pointer' }}>
                     {!isMobile && 'Manage'}
                     <span
                       className={clsx('material-icons-round', 'manage-arrow', {

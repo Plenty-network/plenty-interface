@@ -79,7 +79,7 @@ const FarmModals = (props) => {
         onClose={onClose}
         theme={props.theme}
         message={'Transaction submitted'}
-        buttonText={'View on TzKT'}
+        buttonText={'View on Block Explorer'}
         onBtnClick={
           !modalData.transactionId
             ? undefined

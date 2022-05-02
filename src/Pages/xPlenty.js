@@ -226,7 +226,7 @@ const Stake = (props) => {
             : `UnStaking ${Number(localStorage.getItem('unstakeInput')).toFixed(6)} xPlenty `
         }
         message={'Transaction submitted'}
-        buttonText={'View on TzKT'}
+        buttonText={'View on Block Explorer'}
         onBtnClick={
           props.currentOpHash
             ? () => window.open(`https://tzkt.io/${props.currentOpHash}`, '_blank')

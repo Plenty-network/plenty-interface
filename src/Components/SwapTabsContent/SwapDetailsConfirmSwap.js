@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import $ from 'jquery';
 import { MdChevronRight } from 'react-icons/all';
 import { Image, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import React, { useMemo, useState, useEffect } from 'react';
@@ -169,7 +168,7 @@ const SwapDetailsConfirmSwap = (props) => {
               </OverlayTrigger>
               <p className="swap-detail-amt-details-cs ml-auto">
                 {props.isStableSwap
-                  ? props.computedOutDetails.data.fees.toFixed(6)
+                  ? Number(props.computedOutDetails.data.fees).toFixed(6)
                   : props.firstTokenAmount / 400}{' '}
                 {props.isStableSwap ? props.tokenOut.name : props.tokenIn.name}
               </p>

@@ -551,7 +551,7 @@ const Frontpage = ({
         InfoMessage={'Harvest'}
         onClose={() => openCloseModal({ open: HOME_PAGE_MODAL.NULL, transactionId: '' })}
         message={'Transaction submitted'}
-        buttonText={'View on TzKT'}
+        buttonText={'View on Block Explorer'}
         onBtnClick={
           !modalData.transactionId
             ? undefined
@@ -562,7 +562,7 @@ const Frontpage = ({
         <Loader
           loading={harvestAllOperations.processing}
           loaderMessage={loaderMessage}
-          content={'Harvested All'}
+          content={'Harvested All Successful'}
           theme={theme}
           onBtnClick={
             !modalData.transactionId
