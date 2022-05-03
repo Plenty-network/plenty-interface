@@ -297,6 +297,8 @@ export const getAllRoutes = async (tokenIn, tokenOut) => {
       swapData: [],
       tokenOutPerTokenIn: 0,
       isStableList: [],
+      feeList : [],
+      maxFee : 0,
     };
 
     allPathsUtil(tokenIn, tokenOut, paths, vis, path);
@@ -493,11 +495,21 @@ export const computeTokenOutForRouteBaseV2 = (input, allRoutes, slippage) => {
     });
 
     const isStable = [];
+    const fee = [];
+    let maxFee = 0;
     for (let i = 0; i < bestRoute.path.length - 1; i++) {
       isStable[i] = isTokenPairStable(bestRoute.path[i], bestRoute.path[i + 1]);
-    }
-    bestRoute.isStableList = isStable;
+      fee[i] = isStable[i] ? 0.10 :0.35;
+      maxFee += fee[i];
 
+    }
+    // maxFee = fee.reduce((a, b) => a + b, 0);
+    maxFee = maxFee.toPrecision(2);
+    bestRoute.isStableList = isStable;
+    bestRoute.feeList = fee;
+    bestRoute.maxFee = maxFee;
+
+    console.log(bestRoute);
     return {
       success: true,
       bestRoute,
@@ -635,12 +647,22 @@ export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, allRoutes
       }
     });
 
+    const fee = [];
+    let maxFee = 0;
     const isStable = [];
     for (let i = 0; i < bestRoute.path.length - 1; i++) {
       isStable[i] = isTokenPairStable(bestRoute.path[i], bestRoute.path[i + 1]);
+      fee[i] = isStable[i] ? 0.10 :0.35;
+      maxFee += fee[i];
     }
+    // maxFee = fee.reduce((a, b) => a + b, 0);
+    maxFee = maxFee.toPrecision(2);
     bestRoute.isStableList = isStable;
+    bestRoute.feeList = fee;
+    bestRoute.maxFee = maxFee;
 
+    console.log(bestRoute);
+    
     return {
       success: true,
       bestRoute,
