@@ -167,7 +167,7 @@ const HeaderBottom = (props) => {
               <Row>
                 <Col xl={5} lg={6} xs={12}>
                   <div className="topics">
-                    <Link to="/farms" className="text-decoration-none">
+                    <Link to="/liquidity" className="text-decoration-none">
                       <p className="heading">LIQUIDITY</p>
                       <div className="flex  para ">
                         <div className="parainside">
@@ -214,7 +214,7 @@ const HeaderBottom = (props) => {
                 </Col>
                 <Col xl={5} lg={6} xs={12}>
                   <div className="topics">
-                    <Link to="/liquidity" className="text-decoration-none">
+                    <Link to="/farms" className="text-decoration-none">
                       <p className="heading">FARM</p>
                       <div className="flex para ">
                         <div className="parainside">
