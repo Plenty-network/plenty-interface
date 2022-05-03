@@ -90,7 +90,6 @@ const SwapTab = (props) => {
     if (props.routeData.success) {
       setRouteDataCopy(true);
     }
-    //setRouteDataCopy(props.routeData);
   }, [props.routeData]);
 
   useEffect(() => {
@@ -98,7 +97,7 @@ const SwapTab = (props) => {
     secondTokenAmount && setSecondAmount(secondTokenAmount);
     if (props.walletAddress) {
       if (firstTokenAmount > props.userBalances[props.tokenIn.name]) {
-        setErrorMessageOnUI(`Insufficient ${props.tokenIn.name} balance`);
+        setErrorMessageOnUI('Insufficient balance');
       } else {
         setErrorMessage(false);
       }
@@ -230,7 +229,6 @@ const SwapTab = (props) => {
             props.routeData.allRoutes,
             props.slippage,
           );
-          console.log(res.bestRoute.maxFee);
           setComputedData({
             success: true,
             data: {
@@ -254,7 +252,15 @@ const SwapTab = (props) => {
       }
     }
   };
-
+  const onClickAmount = () => {
+    setSecondTokenAmount('');
+    const value =
+      props.userBalances[props.tokenIn.name].toLocaleString('en-US', {
+        maximumFractionDigits: 20,
+        useGrouping: false,
+      }) ?? 0;
+    handleSwapTokenInput(value, 'tokenIn');
+  };
   useEffect(() => {
     handleSwapTokenInput(firstTokenAmount, 'tokenIn');
   }, [props.routeData]);
@@ -264,7 +270,6 @@ const SwapTab = (props) => {
 
   const callSwapToken = () => {
     props.setShowConfirmSwap(true);
-    //props.setHideContent('content-hide');
   };
 
   const resetVal = () => {
@@ -290,7 +295,6 @@ const SwapTab = (props) => {
       props.setLoader(false);
       props.setShowConfirmSwap(false);
       props.setShowConfirmTransaction(false);
-      //props.setHideContent('');
       props.setSecondTokenAmount('');
       props.resetAllValues();
       props.setLoaderInButton(false);
@@ -304,7 +308,6 @@ const SwapTab = (props) => {
       props.setLoader(false);
       props.setShowConfirmSwap(false);
       props.setShowConfirmTransaction(false);
-      //props.setHideContent('');
       props.resetAllValues();
       props.setSecondTokenAmount('');
       props.setLoaderInButton(false);
@@ -414,14 +417,6 @@ const SwapTab = (props) => {
     props.changeTokenLocation();
     setFirstTokenAmount('');
     setSecondTokenAmount('');
-  };
-  const onClickAmount = () => {
-    const value =
-      props.userBalances[props.tokenIn.name].toLocaleString('en-US', {
-        maximumFractionDigits: 20,
-        useGrouping: false,
-      }) ?? 0;
-    handleSwapTokenInput(value, 'tokenIn');
   };
 
   const setErrorMessageOnUI = (value) => {
@@ -818,9 +813,9 @@ const SwapTab = (props) => {
       />
       <Loader
         loading={props.loading}
-        content={`${Number(localStorage.getItem('wrapped')).toFixed(6)} ${localStorage.getItem(
+        content={`Swap ${Number(localStorage.getItem('wrapped')).toFixed(6)} ${localStorage.getItem(
           'token',
-        )} Swapped`}
+        )} `}
         loaderMessage={props.loaderMessage}
         tokenIn={props.tokenIn.name}
         firstTokenAmount={firstAmount}

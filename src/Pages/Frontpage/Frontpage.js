@@ -562,7 +562,7 @@ const Frontpage = ({
         <Loader
           loading={harvestAllOperations.processing}
           loaderMessage={loaderMessage}
-          content={'Harvested All Successful'}
+          content={'Harvest All Successful'}
           theme={theme}
           onBtnClick={
             !modalData.transactionId

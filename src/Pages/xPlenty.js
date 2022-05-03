@@ -205,8 +205,8 @@ const Stake = (props) => {
         loaderMessage={loaderMessage}
         content={
           localStorage.getItem('type') === 'stake'
-            ? `${Number(localStorage.getItem('stakeInput')).toFixed(6)} PLENTY Staked`
-            : `${Number(localStorage.getItem('unstakeInput')).toFixed(6)} xPlenty Burned`
+            ? `Stake ${Number(localStorage.getItem('stakeInput')).toFixed(6)} PLENTY `
+            : `Burn ${Number(localStorage.getItem('unstakeInput')).toFixed(6)} xPlenty `
         }
         tokenIn={true}
         setLoaderMessage={setLoaderMessage}

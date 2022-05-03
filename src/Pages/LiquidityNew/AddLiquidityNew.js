@@ -784,9 +784,9 @@ const AddLiquidityNew = (props) => {
       <Loader
         loading={props.loading}
         loaderMessage={props.loaderMessage}
-        content={`${Number(localStorage.getItem('liqinput')).toFixed(6)} ${localStorage.getItem(
-          'tokeninliq',
-        )} / ${localStorage.getItem('tokenoutliq')} LP Minted`}
+        content={`Mint ${Number(localStorage.getItem('liqinput')).toFixed(
+          6,
+        )} ${localStorage.getItem('tokeninliq')} / ${localStorage.getItem('tokenoutliq')} LP `}
         tokenIn={props.tokenIn.name}
         tokenOut={props.tokenOut.name}
         onBtnClick={

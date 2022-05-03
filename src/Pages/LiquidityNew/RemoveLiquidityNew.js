@@ -633,9 +633,9 @@ const RemoveLiquidityNew = (props) => {
       <Loader
         loading={props.loading}
         loaderMessage={props.loaderMessage}
-        content={` ${Number(localStorage.getItem('liqinput')).toFixed(6)} ${localStorage.getItem(
-          'tokeninliq',
-        )} / ${localStorage.getItem('tokenoutliq')} LP Burned`}
+        content={`Burn ${Number(localStorage.getItem('liqinput')).toFixed(
+          6,
+        )} ${localStorage.getItem('tokeninliq')} / ${localStorage.getItem('tokenoutliq')} LP `}
         tokenIn={props.tokenIn.name}
         tokenOut={props.tokenOut.name}
         onBtnClick={

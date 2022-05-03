@@ -91,11 +91,7 @@ const FarmModals = (props) => {
           theme={props.theme}
           loading={stakeOperations.processing || unstakeOperations.processing}
           loaderMessage={loaderMessage}
-          content={
-            props.type === 'Harvest'
-              ? `${props.value} ${props.pair} Harvested `
-              : `${Number(props.value).toFixed(6)} ${props.pair} LP Staked`
-          }
+          content={props.content}
           onBtnClick={
             !modalData.transactionId
               ? undefined
