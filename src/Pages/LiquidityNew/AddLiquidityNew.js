@@ -400,7 +400,9 @@ const AddLiquidityNew = (props) => {
           <Button
             onClick={() => null}
             color={'disabled'}
-            className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+            className={
+              ' mt-4 w-100 flex align-items-center justify-content-center disable-button-swap'
+            }
           >
             Insufficient Balance
           </Button>
