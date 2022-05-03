@@ -440,6 +440,18 @@ const SwapTab = (props) => {
               Swap
             </Button>
           );
+        } else if (firstTokenAmount === 0 || secondTokenAmount === 0) {
+          return (
+            <Button
+              onClick={() => setErrorMessageOnUI('Enter an amount to swap')}
+              color={'disabled'}
+              className={
+                ' mt-4 w-100 flex align-items-center justify-content-center disable-button-swap'
+              }
+            >
+              Swap
+            </Button>
+          );
         } else {
           return (
             <Button
@@ -466,6 +478,7 @@ const SwapTab = (props) => {
           </Button>
         );
       }
+
       return (
         <Button
           onClick={() => setErrorMessageOnUI('Enter an amount to swap')}
