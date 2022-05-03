@@ -502,12 +502,11 @@ export const computeTokenOutForRouteBaseV2 = (input, allRoutes, slippage) => {
       fee[i] = isStable[i] ? 0.1 : 0.35;
       maxFee += fee[i];
     }
-    // maxFee = fee.reduce((a, b) => a + b, 0);
-    maxFee = maxFee.toPrecision(2);
+    maxFee = Math.round((maxFee + Number.EPSILON) * 100) / 100;
     bestRoute.isStableList = isStable;
     bestRoute.feeList = fee;
     bestRoute.maxFee = maxFee;
-
+    console.log(bestRoute);
     return {
       success: true,
       bestRoute,
@@ -653,12 +652,12 @@ export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, allRoutes
       fee[i] = isStable[i] ? 0.1 : 0.35;
       maxFee += fee[i];
     }
-    // maxFee = fee.reduce((a, b) => a + b, 0);
-    maxFee = maxFee.toPrecision(2);
+    maxFee = Math.round((maxFee + Number.EPSILON) * 100) / 100;
     bestRoute.isStableList = isStable;
     bestRoute.feeList = fee;
     bestRoute.maxFee = maxFee;
 
+    console.log(bestRoute);
     return {
       success: true,
       bestRoute,
