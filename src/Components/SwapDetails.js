@@ -208,7 +208,7 @@ const SwapDetails = (props) => {
                     <Tooltip id="button-tooltip-swap-details" {...props}>
                       {props.isStableSwap
                         ? 'A portion of each trade (0.10%) goes to liquidity providers as a protocol incentive.'
-                        : 'A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive.'}
+                        : 'A portion of each trade (0.35%) goes to liquidity providers as a protocol incentive.'}
                     </Tooltip>
                   }
                 >
