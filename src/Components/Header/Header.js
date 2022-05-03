@@ -206,7 +206,7 @@ const Header = (props) => {
                           'selected-menu-item-active',
                         'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
-                      {...(isMobile ? {} : { as: Link, to: '/farms' })}
+                      {...(isMobile ? {} : { as: Link, to: '/liquidity' })}
                       onMouseEnter={() => setHeader(HEADER_MODAL.EARN)}
                       onClick={() => setHeaderMobile(HEADER_MODAL.EARN)}
                     >

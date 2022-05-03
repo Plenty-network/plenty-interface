@@ -13,9 +13,6 @@ import axios from 'axios';
 import { setNode } from '../../redux/slices/settings/settings.slice';
 
 const HeaderBottom = (props) => {
-  //const location = useLocation();
-  //const { pathname } = location;
-  //const splitLocation = pathname.split('/');
   const [nodeSelector, setNodeSelector] = useState(false);
   const isMobile = useMediaQuery('(max-width: 991px)');
   const [open, isOpen] = useState(true);
@@ -171,11 +168,10 @@ const HeaderBottom = (props) => {
                 <Col xl={5} lg={6} xs={12}>
                   <div className="topics">
                     <Link to="/farms" className="text-decoration-none">
-                      <p className="heading">FARM</p>
+                      <p className="heading">LIQUIDITY</p>
                       <div className="flex  para ">
                         <div className="parainside">
-                          Deposit your Plenty Liquidity Provider tokens in a farm to receive
-                          rewards.
+                          Add liquidity to receive LP tokens and trading fees.
                         </div>
                         <div>
                           <span className=" material-icons-round arrowforward ">arrow_forward</span>
@@ -219,10 +215,11 @@ const HeaderBottom = (props) => {
                 <Col xl={5} lg={6} xs={12}>
                   <div className="topics">
                     <Link to="/liquidity" className="text-decoration-none">
-                      <p className="heading">LIQUIDITY</p>
+                      <p className="heading">FARM</p>
                       <div className="flex para ">
                         <div className="parainside">
-                          Add liquidity to receive LP tokens and trading fees
+                          Deposit your Plenty Liquidity Provider tokens in a farm to receive
+                          rewards.
                         </div>
                         <div>
                           <span className=" material-icons-round arrowforward">arrow_forward</span>
