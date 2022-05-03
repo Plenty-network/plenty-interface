@@ -448,7 +448,7 @@ const computeTokenOutForRouteBaseV2Base = (inputAmount, swapData, slippage) => {
         priceImpact: 0,
       },
     );
-
+    console.log(data);
     return {
       success: true,
       data,

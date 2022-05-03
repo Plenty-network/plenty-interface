@@ -164,7 +164,7 @@ const SwapDetailsConfirmSwap = (props) => {
                 <p className="swap-detail-amt-details-cs ml-auto">
                   {props.isStableSwap
                     ? Number(props.computedOutDetails.data.fees).toFixed(6)
-                    : props.firstTokenAmount / 400}{' '}
+                    : props.firstTokenAmount / 285.714285714}{' '}
                   {props.isStableSwap ? props.tokenOut.name : props.tokenIn.name}
                 </p>
               </div>
