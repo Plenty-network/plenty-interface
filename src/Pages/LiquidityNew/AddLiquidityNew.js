@@ -342,7 +342,7 @@ const AddLiquidityNew = (props) => {
   );
 
   if (props.walletAddress) {
-    if (props.tokenOut.name && firstTokenAmount) {
+    if (props.tokenOut.name && firstTokenAmount > 0) {
       swapContentButton = (
         <Button
           onClick={confirmAddLiquidity}
@@ -353,13 +353,27 @@ const AddLiquidityNew = (props) => {
           Add Liquidity
         </Button>
       );
+    } else if (firstTokenAmount === 0 || secondTokenAmount === 0) {
+      return (
+        <Button
+          color={'disabled'}
+          startIcon={'add'}
+          className={
+            ' mt-4 w-100 flex align-items-center justify-content-center disable-button-swap'
+          }
+        >
+          Add Liquidity
+        </Button>
+      );
     } else if (!props.tokenOut.name) {
       swapContentButton = (
         <Button
           onClick={() => setErrorMessageOnUI('Please select a token and then enter the amount')}
           color={'disabled'}
           startIcon={'add'}
-          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+          className={
+            ' mt-4 w-100 flex align-items-center justify-content-center disable-button-swap'
+          }
         >
           Add Liquidity
         </Button>
@@ -376,12 +390,29 @@ const AddLiquidityNew = (props) => {
         </Button>
       );
     }
+    if (props.tokenIn.name && props.tokenOut.name) {
+      if (
+        props.walletAddress &&
+        firstTokenAmount &&
+        firstTokenAmount > props.userBalances[props.tokenIn.name]
+      ) {
+        swapContentButton = (
+          <Button
+            onClick={() => null}
+            color={'disabled'}
+            className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+          >
+            Insufficient Balance
+          </Button>
+        );
+      }
+    }
   }
 
   return (
     <>
       <div className="lq-content-box">
-        <div className={clsx('lq-token-select-box', errorMessage && 'errorBorder')}>
+        <div className={clsx('lq-token-select-box', errorMessage && 'errorBorder-liq')}>
           <div className="token-selector-lq">
             <button
               className={clsx('liquidity-token-selector')}
@@ -473,7 +504,7 @@ const AddLiquidityNew = (props) => {
           className={clsx(
             'lq-token-select-box',
 
-            errorMessage && 'errorBorder',
+            errorMessage && 'errorBorder-liq',
           )}
         >
           <div className="token-selector-lq">

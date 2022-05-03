@@ -428,25 +428,25 @@ const SwapTab = (props) => {
   const swapContentButton = useMemo(() => {
     if (props.walletAddress) {
       if (props.tokenOut.name && firstTokenAmount) {
-        if (firstTokenAmount > props.userBalances[props.tokenIn.name]) {
-          return (
-            <Button
-              onClick={() => setErrorMessageOnUI('Insufficient balance')}
-              color={'disabled'}
-              className={
-                'mt-4 w-100 flex align-items-center justify-content-center disable-button-swap'
-              }
-            >
-              Swap
-            </Button>
-          );
-        } else if (firstTokenAmount === 0 || secondTokenAmount === 0) {
+        if (Number(firstTokenAmount) === 0 || Number(secondTokenAmount) === 0) {
           return (
             <Button
               onClick={() => setErrorMessageOnUI('Enter an amount to swap')}
               color={'disabled'}
               className={
                 ' mt-4 w-100 flex align-items-center justify-content-center disable-button-swap'
+              }
+            >
+              Swap
+            </Button>
+          );
+        } else if (firstTokenAmount > props.userBalances[props.tokenIn.name]) {
+          return (
+            <Button
+              onClick={() => setErrorMessageOnUI('Insufficient balance')}
+              color={'disabled'}
+              className={
+                'mt-4 w-100 flex align-items-center justify-content-center disable-button-swap'
               }
             >
               Swap

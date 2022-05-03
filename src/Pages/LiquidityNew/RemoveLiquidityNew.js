@@ -210,18 +210,27 @@ const RemoveLiquidityNew = (props) => {
       <Button
         onClick={() => setErrorMessageOnUI('Enter an amount to withdraw')}
         color={'disabled'}
-        className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+        className={' mt-4 w-100 flex align-items-center justify-content-center '}
       >
         Remove Liquidity
       </Button>
     );
   }
-  if (props.walletAddress && firstTokenAmount) {
+  if (props.walletAddress && firstTokenAmount > 0) {
     swapContentButton = (
       <Button
         onClick={handleRemoveLiquidity}
         color={'primary'}
         className={'mt-4 w-100 flex align-items-center justify-content-center'}
+      >
+        Remove Liquidity
+      </Button>
+    );
+  } else if (firstTokenAmount === 0) {
+    return (
+      <Button
+        color={'disabled'}
+        className={' mt-4 w-100 flex align-items-center justify-content-center disable-button-swap'}
       >
         Remove Liquidity
       </Button>
@@ -243,8 +252,10 @@ const RemoveLiquidityNew = (props) => {
       swapContentButton = (
         <Button
           onClick={() => null}
-          color={'primary'}
-          className={'enter-amount mt-4 w-100 flex align-items-center justify-content-center'}
+          color={'disabled'}
+          className={
+            ' mt-4 w-100 flex align-items-center justify-content-center disable-button-swap'
+          }
         >
           Insufficient Balance
         </Button>
@@ -276,7 +287,7 @@ const RemoveLiquidityNew = (props) => {
   return (
     <>
       <div className="lq-content-box">
-        <div className={clsx('lq-token-select-box', errorMessage && 'errorBorder')}>
+        <div className={clsx('lq-token-select-box', errorMessage && 'errorBorder-liq')}>
           <div className="token-selector-lq-remove align-items-center flex ">Amount to remove</div>
           <div className="input-lq-remove  ">
             <div className="d-flex  align-items-center ">
@@ -388,7 +399,7 @@ const RemoveLiquidityNew = (props) => {
             'lq-token-select-box',
             'remove-lq-input-height',
 
-            errorMessage && 'errorBorder',
+            errorMessage && 'errorBorder-liq',
           )}
         >
           <div className="token-selector-lq-remove align-items-center flex remove-lq-border">
