@@ -158,7 +158,7 @@ const LiquidityInfo = (props) => {
         }
       >
         <div className={clsx(isMobile && 'order-4', 'details', isMobile && 'mt-2', 'ml-2')}>
-          {props.isStable ? '0.10' : '0.35'}% <span className="content">LP fee</span>
+          {props.isStable ? '0.10' : '0.25'}% <span className="content">LP fee</span>
           {props.isStable && (
             <>
               <span className="divider-lq mx-2"></span>

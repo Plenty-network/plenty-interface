@@ -148,9 +148,7 @@ const SwapDetailsConfirmSwap = (props) => {
                       id="button-tooltip-swap-details"
                       arrowProps={{ styles: { display: 'none' } }}
                     >
-                      {props.isStableSwap
-                        ? 'A portion of each trade (0.10%) goes to liquidity providers as a protocol incentive.'
-                        : 'A portion of each trade (0.35%) goes to liquidity providers as a protocol incentive.'}
+                      Fees are 0.35% for each volatile swap and 0.10% for each stable swap.
                     </Tooltip>
                   }
                 >

@@ -1235,7 +1235,13 @@
   right: 42px;
 }
 .input-width {
-  width: 74%;
+  width: 72%;
+  @media screen and (min-width: 320px) and (max-width: 900px) {
+    width: 36%;
+  }
+}
+.input-width-liq {
+  width: 70%;
   @media screen and (min-width: 320px) and (max-width: 900px) {
     width: 36%;
   }

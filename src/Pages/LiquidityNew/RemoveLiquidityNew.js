@@ -93,7 +93,6 @@ const RemoveLiquidityNew = (props) => {
 
   const handleRemoveLiquidity = () => {
     props.setShowConfirmRemoveSupply(true);
-    //props.setHideContent('content-hide');
   };
   const confirmRemoveLiquidity = () => {
     props.setLoading(true);
@@ -281,7 +280,7 @@ const RemoveLiquidityNew = (props) => {
           <div className="token-selector-lq-remove align-items-center flex ">Amount to remove</div>
           <div className="input-lq-remove  ">
             <div className="d-flex  align-items-center ">
-              <div className="input-width">
+              <div className="input-width-liq">
                 {props.userBalances[props.tokenIn.name] ? (
                   <input
                     type="text"

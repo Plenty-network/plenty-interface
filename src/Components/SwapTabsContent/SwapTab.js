@@ -735,7 +735,7 @@ const SwapTab = (props) => {
               <input
                 type="text"
                 className="receiptant"
-                placeholder="Receipient address"
+                placeholder="Recipient address"
                 onChange={(e) => props.setRecepient(e.target.value)}
                 value={props.recepient}
               />
