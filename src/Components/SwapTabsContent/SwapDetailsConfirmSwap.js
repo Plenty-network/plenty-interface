@@ -160,10 +160,7 @@ const SwapDetailsConfirmSwap = (props) => {
                   </span>
                 </OverlayTrigger>
                 <p className="swap-detail-amt-details-cs ml-auto">
-                  {props.isStableSwap
-                    ? Number(props.computedOutDetails.data.fees).toFixed(6)
-                    : Number(props.computedOutDetails.data.totalFees).toFixed(10)}{' '}
-                  {props.isStableSwap ? props.tokenOut.name : props.tokenIn.name}
+                  {props.isStableSwap ? '0.10' : props.computedOutDetails.data.maxfee} %
                 </p>
               </div>
               {/* {props.isConfirmSwap && !props.isStableSwap && (

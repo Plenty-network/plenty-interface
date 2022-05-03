@@ -182,6 +182,7 @@ const SwapTab = (props) => {
           );
 
           setComputedData(res);
+
           setComputedData({
             success: true,
             data: {
@@ -195,6 +196,7 @@ const SwapTab = (props) => {
                   res.bestRoute.computations.minimumOut.length - 1
                 ],
               priceImpact: res.bestRoute.computations.priceImpact,
+              maxfee: res.bestRoute.maxFee,
             },
           });
           setRoutePath(res.bestRoute.path);
@@ -228,6 +230,7 @@ const SwapTab = (props) => {
             props.routeData.allRoutes,
             props.slippage,
           );
+          console.log(res.bestRoute.maxFee);
           setComputedData({
             success: true,
             data: {
@@ -241,6 +244,7 @@ const SwapTab = (props) => {
                   res.bestRoute.computations.minimumOut.length - 1
                 ],
               priceImpact: res.bestRoute.computations.priceImpact,
+              maxfee: res.bestRoute.maxFee,
             },
           });
           setRoutePath(res.bestRoute.path);

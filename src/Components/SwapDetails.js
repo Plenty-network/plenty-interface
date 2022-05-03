@@ -218,20 +218,7 @@ const SwapDetails = (props) => {
                   </span>
                 </OverlayTrigger>
                 <p className="swap-detail-amt-details-value ml-auto">
-                  {props.isStableSwap
-                    ? Number(props.computedOutDetails.data.fees).toFixed(6)
-                    : Number(props.computedOutDetails.data.totalFees).toFixed(10)}{' '}
-                  {props.isStableSwap
-                    ? props.tokenOut.name === 'tez'
-                      ? 'TEZ'
-                      : props.tokenOut.name === 'ctez'
-                      ? 'CTEZ'
-                      : props.tokenOut.name
-                    : props.tokenIn.name === 'tez'
-                    ? 'TEZ'
-                    : props.tokenIn.name === 'ctez'
-                    ? 'CTEZ'
-                    : props.tokenIn.name}
+                  {props.isStableSwap ? '0.10' : props.computedOutDetails.data.maxfee} %
                 </p>
               </div>
               {props.isConfirmSwap && !props.isStableSwap && (
