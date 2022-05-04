@@ -16,7 +16,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Loader from '../../Components/loader';
 import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransaction';
 
-const RemoveLiquidityNew = (props) => {
+const RemoveLiquidity = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
@@ -655,9 +655,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setLoader: (value) => dispatch(setLoader(value)),
 });
-export default connect(mapStateToProps, mapDispatchToProps)(RemoveLiquidityNew);
+export default connect(mapStateToProps, mapDispatchToProps)(RemoveLiquidity);
 
-RemoveLiquidityNew.propTypes = {
+RemoveLiquidity.propTypes = {
   theme: PropTypes.any,
   loaderMessage: PropTypes.any,
   loading: PropTypes.any,
