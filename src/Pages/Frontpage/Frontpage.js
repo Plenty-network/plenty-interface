@@ -548,7 +548,7 @@ const Frontpage = ({
       <InfoModal
         open={modalData.open === HOME_PAGE_MODAL.TRANSACTION_SUCCESS}
         theme={theme}
-        InfoMessage={'Harvest'}
+        InfoMessage={'Harvest tokens'}
         onClose={() => openCloseModal({ open: HOME_PAGE_MODAL.NULL, transactionId: '' })}
         message={'Transaction submitted'}
         buttonText={'View on Block Explorer'}
@@ -562,7 +562,7 @@ const Frontpage = ({
         <Loader
           loading={harvestAllOperations.processing}
           loaderMessage={loaderMessage}
-          content={'Harvest All Successful'}
+          content={'Harvest tokens'}
           theme={theme}
           onBtnClick={
             !modalData.transactionId
@@ -574,7 +574,7 @@ const Frontpage = ({
       <ConfirmTransaction
         show={showConfirmTransaction}
         theme={theme}
-        content={'Harvest'}
+        content={'Harvest tokens'}
         onHide={handleClose}
       />
     </>
