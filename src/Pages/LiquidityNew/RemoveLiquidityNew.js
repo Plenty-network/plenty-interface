@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import BigNumber from 'bignumber.js';
 import { computeRemoveTokens, removeLiquidity } from '../../apis/swap/swap';
 import { remove_liquidity, liqCalcRemove, getExchangeRate } from '../../apis/stableswap/stableswap';
 import React, { useEffect, useState } from 'react';
@@ -155,9 +156,9 @@ const RemoveLiquidityNew = (props) => {
       removeLiquidity(
         props.tokenIn.name,
         props.tokenOut.name,
-        removableTokens.tokenFirst_Out,
-        removableTokens.tokenSecond_Out,
-        removableTokens.removeAmount,
+        new BigNumber(removableTokens.tokenFirst_Out),
+        new BigNumber(removableTokens.tokenSecond_Out),
+        new BigNumber(removableTokens.removeAmount),
         props.walletAddress,
         props.swapData.dexContractInstance,
         transactionSubmitModal,
@@ -276,12 +277,9 @@ const RemoveLiquidityNew = (props) => {
               .liquidityToken
           : CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
               .liquidityToken
-      ].toLocaleString('en-US', {
-        maximumFractionDigits: 20,
-        useGrouping: false,
-      }) ?? 0;
-    setFirstTokenAmount(value.substring(0, value.length));
-    removeLiquidityInput(value.substring(0, value.length));
+      ];
+    setFirstTokenAmount(value);
+    removeLiquidityInput(value);
   };
 
   return (
