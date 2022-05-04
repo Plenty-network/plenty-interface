@@ -20,6 +20,7 @@ const Frontpage = React.lazy(() => import('../Pages/Frontpage/Frontpage'));
 const Stake = React.lazy(() => import('../Pages/xPlenty'));
 const Governance = React.lazy(() => import('../Pages/Governance/Governance'));
 const WrappedAssets = React.lazy(() => import('../Pages/WrappedAssets/WrappedAssets'));
+const Bridge = React.lazy(() => import('../Pages/Bridge/Bridge'));
 
 
 const MyRoutes = (props) => {
