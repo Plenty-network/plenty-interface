@@ -30,13 +30,17 @@ import {
 } from '../redux/slices/farms/farms.thunk';
 import { populateFarmsWithoutData } from '../utils/farmsPageUtils';
 import { FARM_SORT_OPTIONS, FARM_TAB } from '../constants/farmsPage';
+import ConfirmTransaction from '../Components/WrappedAssets/ConfirmTransaction';
+import { setLoader } from '../redux/slices/settings/settings.slice';
 
 const Farms = (props) => {
   const [sortValue, setSortValue] = useState(FARM_SORT_OPTIONS.APR);
+  const [floaterValue, setFloaterValue] = useState({});
   const [searchValue, setSearchValue] = useState('');
   const [tabChange, setTabChange] = useState(FARM_TAB.ALL);
   const [isSelected, setIsSelected] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
 
   function toggleHidden() {
     setIsOpen(!isOpen);
@@ -53,6 +57,10 @@ const Farms = (props) => {
       props.populateEmptyFarmsData(farmsWithoutData);
     }
   }, []);
+
+  const handleClose = () => {
+    setShowConfirmTransaction(false);
+  };
 
   useEffect(() => {
     const fetchData = () => {
@@ -251,14 +259,6 @@ const Farms = (props) => {
                     inverted={true}
                   />
                 </div>
-                {/* <div className={styles.stakedSwitch}>
-                  <Form.Switch
-                    id="switch-staked"
-                    label="Staked Only"
-                    checked={props.isStakedOnlyOpen}
-                    onChange={() => props.toggleStakedFarmsOnly(!props.isStakedOnlyOpen)}
-                  />
-                </div> */}
               </div>
             </div>
           </div>
@@ -312,6 +312,9 @@ const Farms = (props) => {
                   currentBlock={props.currentBlock}
                   harvestOperation={props.harvestOperation}
                   theme={props.theme}
+                  setShowConfirmTransaction={setShowConfirmTransaction}
+                  setFloaterValue={setFloaterValue}
+                  setLoader={props.setLoader}
                 />
               );
             })}
@@ -326,6 +329,9 @@ const Farms = (props) => {
         onClose={() => props.closeFarmsStakeModal()}
         stakeOnFarm={props.stakeOnFarm}
         stakeOperation={props.stakeOperation}
+        setShowConfirmTransaction={setShowConfirmTransaction}
+        setFloaterValue={setFloaterValue}
+        setLoader={props.setLoader}
       />
       <UnstakeModal
         modalData={props.unstakeModal}
@@ -338,8 +344,36 @@ const Farms = (props) => {
         isActiveOpen={props.isActiveOpen}
         unstakeOnFarm={props.unstakeOnFarm}
         unstakeOperation={props.unstakeOperation}
+        setShowConfirmTransaction={setShowConfirmTransaction}
+        setFloaterValue={setFloaterValue}
+        setLoader={props.setLoader}
       />
-      <FarmModals />
+      <ConfirmTransaction
+        show={showConfirmTransaction}
+        theme={props.theme}
+        content={
+          floaterValue.type === 'Harvest'
+            ? `${floaterValue.type} ${floaterValue.value} ${floaterValue.pair}  `
+            : `${floaterValue.type} ${Number(floaterValue.value).toFixed(6)} ${
+                floaterValue.pair
+              } LP `
+        }
+        onHide={handleClose}
+      />
+      <FarmModals
+        setLoader={props.setLoader}
+        type={floaterValue.type}
+        pair={floaterValue.pair}
+        value={floaterValue.value}
+        theme={props.theme}
+        content={
+          floaterValue.type === 'Harvest'
+            ? `${floaterValue.type} ${floaterValue.value} ${floaterValue.pair}  `
+            : `${floaterValue.type} ${Number(floaterValue.value).toFixed(6)} ${
+                floaterValue.pair
+              } LP `
+        }
+      />
     </>
   );
 };
@@ -377,6 +411,7 @@ Farms.propTypes = {
   walletAddress: PropTypes.string.isRequired,
   walletBalances: PropTypes.any,
   theme: PropTypes.any,
+  setLoader: PropTypes.any,
 };
 
 const mapStateToProps = (state) => {
@@ -407,10 +442,34 @@ const mapDispatchToProps = (dispatch) => {
     populateEmptyFarmsData: (farms) => dispatch(populateEmptyFarmsData(farms)),
     toggleFarmsType: (isActive) => dispatch(toggleFarmsType(isActive)),
     toggleStakedFarmsOnly: (isActive) => dispatch(toggleStakedFarmsOnly(isActive)),
-    stakeOnFarm: (amount, farmIdentifier, isActive, position) =>
-      dispatch(stakeOnFarmThunk(amount, farmIdentifier, isActive, position)),
-    harvestOnFarm: (farmIdentifier, isActive, position) =>
-      dispatch(harvestOnFarmThunk(farmIdentifier, isActive, position)),
+    stakeOnFarm: (
+      amount,
+      farmIdentifier,
+      isActive,
+      position,
+      setShowConfirmTransaction,
+      setLoader,
+    ) =>
+      dispatch(
+        stakeOnFarmThunk(
+          amount,
+          farmIdentifier,
+          isActive,
+          position,
+          setShowConfirmTransaction,
+          setLoader,
+        ),
+      ),
+    harvestOnFarm: (farmIdentifier, isActive, position, setShowConfirmTransaction, setLoader) =>
+      dispatch(
+        harvestOnFarmThunk(
+          farmIdentifier,
+          isActive,
+          position,
+          setShowConfirmTransaction,
+          setLoader,
+        ),
+      ),
     getFarmsData: (isActive) => dispatch(getFarmsDataThunk(isActive)),
     getUserStakes: (address, type, isActive) =>
       dispatch(userActions.getUserStakes(address, type, isActive)),
@@ -437,9 +496,26 @@ const mapDispatchToProps = (dispatch) => {
         }),
       ),
     closeFarmsUnstakeModal: () => dispatch(closeFarmsUnstakeModal()),
-    unstakeOnFarm: (stakesToUnstake, farmIdentifier, isActive, position) =>
-      dispatch(unstakeOnFarmThunk(stakesToUnstake, farmIdentifier, isActive, position)),
+    unstakeOnFarm: (
+      stakesToUnstake,
+      farmIdentifier,
+      isActive,
+      position,
+      setShowConfirmTransaction,
+      setLoader,
+    ) =>
+      dispatch(
+        unstakeOnFarmThunk(
+          stakesToUnstake,
+          farmIdentifier,
+          isActive,
+          position,
+          setShowConfirmTransaction,
+          setLoader,
+        ),
+      ),
     fetchUserBalances: (address) => dispatch(userActions.fetchUserBalances(address)),
+    setLoader: (value) => dispatch(setLoader(value)),
   };
 };
 

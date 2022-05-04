@@ -4,6 +4,7 @@ export interface IConfig {
   RPC_NODES: INodes;
   TZKT_NODES: INodes;
   TOKENS_PAGE: INodes;
+  CTEZ: INodes;
   STAKING_CONTRACTS: {
     POOLS: any;
     FARMS: {
@@ -20,7 +21,7 @@ export interface IConfig {
     testnet: Record<string, string>;
     mainnet: Record<string, string>;
   };
-  ROUTER: { mainnet: string };
+  ROUTER: { mainnet: string; testnet: string };
   STABLESWAP: {
     testnet: Record<string, IStableAmmContract>;
     mainnet: Record<string, IStableAmmContract>;
@@ -42,6 +43,14 @@ export interface IConfig {
   WALLET_NETWORK: string;
   ADMIN_ADDRESS: string;
   BURNER: string;
+  WRAPPED_ASSETS: {
+    testnet: Record<string, IWrappedToken>;
+    mainnet: Record<string, IWrappedToken>;
+  };
+  WRAPPED_ASSETS_SWAP_CONTRACT: {
+    testnet: string;
+    mainnet: string;
+  };
 }
 
 interface IApi {
@@ -178,4 +187,14 @@ export interface IDualToken {
   tokenId: number;
   rewardContract: string;
   rewardMapId?: number;
+}
+
+interface IWrappedToken {
+  ICON: string;
+  TOKEN_CONTRACT: string;
+  mapId?: number;
+  TOKEN_ID: number;
+  TOKEN_DECIMAL: number;
+  REF_TOKEN: string;
+  READ_TYPE: TTokenType;
 }

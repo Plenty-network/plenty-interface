@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import truncateMiddle from 'truncate-middle';
 import { Col, Container, Nav, Navbar, Row } from 'react-bootstrap';
 import clsx from 'clsx';
@@ -13,8 +14,11 @@ import Button from '../Ui/Buttons/Button';
 import HeaderBottom from './HeaderBottom';
 import useMediaQuery from '../../hooks/mediaQuery';
 import { HEADER_MODAL } from '../../constants/header';
+import '../../assets/scss/animation.scss';
 
 const Header = (props) => {
+  const loader = useSelector((state) => state.settings.loader);
+
   const isMobile = useMediaQuery('(max-width: 991px)');
   const location = useLocation();
   const { pathname } = location;
@@ -43,7 +47,10 @@ const Header = (props) => {
     if (props.walletAddress) {
       return (
         <Button onClick={props.disconnectWallet} className="button-bg w-100">
-          <span>{truncateMiddle(props.walletAddress, 4, 4, '...')}</span>
+          <div className="flex flex-row mx-2">
+            <span>{truncateMiddle(props.walletAddress, 4, 4, '...')}</span>
+            {loader && <span className="loader-button ml-2"></span>}
+          </div>
         </Button>
       );
     } else {
@@ -83,10 +90,24 @@ const Header = (props) => {
 
   return (
     <>
-      <Container className="header" fluid>
-        <Row>
+      <Container
+        className={clsx(
+          'header',
+          (splitLocation[1] === 'wrappedAssets' || splitLocation[1] === 'WrappedAssets') &&
+            'header-wrappedAssets',
+        )}
+        fluid
+      >
+        <Row className="removing-margin">
           <Col className={clsx('innerHeader')} sm={12} md={12}>
-            <Navbar id="nav-bar" expand="lg" className="px-0 mx-sm-4 menu-wrapper">
+            <Navbar
+              id="nav-bar"
+              expand="lg"
+              className="px-0 menu-wrapper"
+              {...(selectedHeader === HEADER_MODAL.SETTINGS
+                ? {}
+                : { onMouseEnter: () => setHeader('') })}
+            >
               <Navbar.Brand as={Link} to="/" className="mx-3 mx-sm-0">
                 {props.isGradientBgPage ? (
                   <LogoWhite />
@@ -125,22 +146,29 @@ const Header = (props) => {
                 )}
               </Navbar.Toggle>
 
-              <Navbar.Collapse id="responsive-navbar-nav">
+              <Navbar.Collapse
+                id="responsive-navbar-nav"
+                {...(selectedHeader === HEADER_MODAL.SETTINGS
+                  ? {}
+                  : { onMouseEnter: () => setHeader('') })}
+              >
                 <Nav
                   className={clsx('align-items-lg-center w-100 mobileview ')}
                   {...(selectedHeader === HEADER_MODAL.SETTINGS
                     ? {}
                     : { onMouseEnter: () => setHeader('') })}
                 >
-                  <div className="col-lg-6 d-lg-flex flex-lg-row flex-column align-items-center links">
+                  <div
+                    className={clsx(
+                      'col-lg-6 d-lg-flex flex-lg-row flex-column align-items-center links ',
+                    )}
+                  >
                     <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.TRADE ? 'menu-item-active' : 'menu-item',
                         (splitLocation[1] === 'swap' ||
                           splitLocation[1] === 'Stableswap' ||
-                          splitLocation[1] === 'liquidityStable' ||
-                          splitLocation[1] === 'tokens' ||
-                          splitLocation[1] === 'liquidity') &&
+                          splitLocation[1] === 'tokens') &&
                           'selected-menu-item-active',
                         'align-self-start align-self-lg-center d-lg-flex align-items-center',
                       )}
@@ -152,7 +180,7 @@ const Header = (props) => {
                         Trade
                       </span>
                       <span
-                        className={clsx('material-icons', 'arrow', {
+                        className={clsx('material-icons', 'arrow-header', {
                           rotate:
                             selectedHeader === HEADER_MODAL.TRADE && (isMobile ? isExpanded : true),
                         })}
@@ -160,7 +188,6 @@ const Header = (props) => {
                         expand_more
                       </span>
                     </Nav.Link>
-
                     {selectedHeader === HEADER_MODAL.TRADE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
@@ -168,17 +195,18 @@ const Header = (props) => {
                         {...props}
                       />
                     )}
-
                     <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.EARN ? 'menu-item-active' : 'menu-item',
                         (splitLocation[1] === 'farms' ||
                           splitLocation[1] === 'liquidity-pools' ||
-                          splitLocation[1] === 'stake') &&
+                          splitLocation[1] === 'stake' ||
+                          splitLocation[1] === 'liquidity' ||
+                          splitLocation[1] === 'liquidityPositions') &&
                           'selected-menu-item-active',
                         'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
-                      {...(isMobile ? {} : { as: Link, to: '/farms' })}
+                      {...(isMobile ? {} : { as: Link, to: '/liquidity' })}
                       onMouseEnter={() => setHeader(HEADER_MODAL.EARN)}
                       onClick={() => setHeaderMobile(HEADER_MODAL.EARN)}
                     >
@@ -186,7 +214,7 @@ const Header = (props) => {
                         Earn
                       </span>
                       <span
-                        className={clsx('material-icons', 'arrow', {
+                        className={clsx('material-icons', 'arrow-header', {
                           rotate:
                             selectedHeader === HEADER_MODAL.EARN && (isMobile ? isExpanded : true),
                         })}
@@ -194,7 +222,6 @@ const Header = (props) => {
                         expand_more
                       </span>
                     </Nav.Link>
-
                     {selectedHeader === HEADER_MODAL.EARN && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
@@ -217,7 +244,7 @@ const Header = (props) => {
                         Vote
                       </span>
                       <span
-                        className={clsx('material-icons', 'arrow', {
+                        className={clsx('material-icons', 'arrow-header', {
                           rotate:
                             selectedHeader === HEADER_MODAL.VOTE && (isMobile ? isExpanded : true),
                         })}
@@ -225,7 +252,6 @@ const Header = (props) => {
                         expand_more
                       </span>
                     </Nav.Link>
-
                     {selectedHeader === HEADER_MODAL.VOTE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
@@ -233,7 +259,6 @@ const Header = (props) => {
                         {...props}
                       />
                     )}
-
                     <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.MORE ? 'menu-item-active' : 'menu-item',
@@ -247,7 +272,7 @@ const Header = (props) => {
                         More
                       </span>
                       <span
-                        className={clsx('material-icons', 'arrow', {
+                        className={clsx('material-icons', 'arrow-header', {
                           rotate:
                             selectedHeader === HEADER_MODAL.MORE && (isMobile ? isExpanded : true),
                         })}
@@ -255,7 +280,6 @@ const Header = (props) => {
                         expand_more
                       </span>
                     </Nav.Link>
-
                     {selectedHeader === HEADER_MODAL.MORE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
@@ -278,7 +302,7 @@ const Header = (props) => {
                         <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                           Settings
                         </span>
-                        <span className={clsx('material-icons', 'arrow', 'align-self-end')}>
+                        <span className={clsx('material-icons', 'arrow-header', 'align-self-end')}>
                           settings
                         </span>
                       </Nav.Link>
@@ -345,6 +369,12 @@ const Header = (props) => {
 
 const mapStateToProps = (state) => ({
   rpcNode: state.settings.rpcNode,
+  loader: state.settings.loader,
+  firstTokenAmount: state.settings.firstTokenAmount,
+  secondTokenAmount: state.settings.secondTokenAmount,
+  tokenIn: state.settings.tokenIn,
+  tokenOut: state.settings.tokenOut,
+  opertaionId: state.settings.opertaionId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -355,7 +385,6 @@ Header.propTypes = {
   connectWallet: PropTypes.func,
   disconnectWallet: PropTypes.func,
   isGradientBgPage: PropTypes.bool,
-
   setNode: PropTypes.func,
   theme: PropTypes.string,
   toggleTheme: PropTypes.func,
