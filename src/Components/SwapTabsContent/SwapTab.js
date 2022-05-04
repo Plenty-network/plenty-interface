@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import SwapDetails from '../SwapDetails';
 import ConfirmSwap from './ConfirmSwap';
 import { connect } from 'react-redux';
-
+import fromExponential from 'from-exponential';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { swapTokens } from '../../apis/swap/swap';
 import Button from '../Ui/Buttons/Button';
@@ -27,12 +27,11 @@ import { setLoader } from '../../redux/slices/settings/settings.slice';
 import switchImg from '../../assets/images/SwapModal/swap-switch.svg';
 
 import switchImgDark from '../../assets/images/SwapModal/swap-switch-dark.svg';
-import maxlight from '../../assets/images/max-light.svg';
-import maxDark from '../../assets/images/max-dark.svg';
 
 const SwapTab = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
   const [secondTokenAmount, setSecondTokenAmount] = useState();
+  const [routeDataCopy, setRouteDataCopy] = useState(false);
   const [firstAmount, setFirstAmount] = useState(0);
   const [secondAmount, setSecondAmount] = useState(0);
   const [routePath, setRoutePath] = useState([]);
@@ -62,21 +61,54 @@ const SwapTab = (props) => {
     lpToken: null,
     dexContractInstance: null,
   });
+  const isStableSwap = useRef(false);
   const getSwapData = async () => {
     const res = await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
 
     setSwapData(res);
   };
   useEffect(() => {
-    if (props.isStablePair) {
+    if (
+      (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
+      (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez')
+    ) {
       getSwapData();
     }
   }, [props]);
 
   useEffect(() => {
+    setRouteDataCopy(false);
+    isStableSwap.current =
+      (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
+      (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez');
+    setRoutePath([]);
+    setFirstTokenAmount('');
+    setSecondTokenAmount('');
+  }, [props.tokenIn, props.tokenOut]);
+
+  useEffect(() => {
+    if (props.routeData.success) {
+      setRouteDataCopy(true);
+    }
+  }, [props.routeData]);
+
+  useEffect(() => {
     firstTokenAmount && setFirstAmount(firstTokenAmount);
     secondTokenAmount && setSecondAmount(secondTokenAmount);
-  }, [firstTokenAmount, secondTokenAmount]);
+    if (props.walletAddress) {
+      if (firstTokenAmount > props.userBalances[props.tokenIn.name]) {
+        setErrorMessageOnUI('Insufficient balance');
+      } else {
+        setErrorMessage(false);
+      }
+    }
+  }, [
+    firstTokenAmount,
+    secondTokenAmount,
+    props.changeTokenLocation,
+    props.tokenIn,
+    props.tokenOut,
+  ]);
 
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const [transactionId, setTransactionId] = useState('');
@@ -149,6 +181,7 @@ const SwapTab = (props) => {
           );
 
           setComputedData(res);
+
           setComputedData({
             success: true,
             data: {
@@ -162,6 +195,7 @@ const SwapTab = (props) => {
                   res.bestRoute.computations.minimumOut.length - 1
                 ],
               priceImpact: res.bestRoute.computations.priceImpact,
+              maxfee: res.bestRoute.maxFee,
             },
           });
           setRoutePath(res.bestRoute.path);
@@ -208,6 +242,7 @@ const SwapTab = (props) => {
                   res.bestRoute.computations.minimumOut.length - 1
                 ],
               priceImpact: res.bestRoute.computations.priceImpact,
+              maxfee: res.bestRoute.maxFee,
             },
           });
           setRoutePath(res.bestRoute.path);
@@ -217,17 +252,24 @@ const SwapTab = (props) => {
       }
     }
   };
-
+  const onClickAmount = () => {
+    setSecondTokenAmount('');
+    const value =
+      props.userBalances[props.tokenIn.name].toLocaleString('en-US', {
+        maximumFractionDigits: 20,
+        useGrouping: false,
+      }) ?? 0;
+    handleSwapTokenInput(value, 'tokenIn');
+  };
   useEffect(() => {
     handleSwapTokenInput(firstTokenAmount, 'tokenIn');
   }, [props.routeData]);
   useEffect(() => {
     setErrorMessage(false);
-  }, [props.tokenOut.name, firstTokenAmount]);
+  }, [props.tokenOut.name]);
 
   const callSwapToken = () => {
     props.setShowConfirmSwap(true);
-    //props.setHideContent('content-hide');
   };
 
   const resetVal = () => {
@@ -253,7 +295,6 @@ const SwapTab = (props) => {
       props.setLoader(false);
       props.setShowConfirmSwap(false);
       props.setShowConfirmTransaction(false);
-      //props.setHideContent('');
       props.setSecondTokenAmount('');
       props.resetAllValues();
       props.setLoaderInButton(false);
@@ -267,7 +308,6 @@ const SwapTab = (props) => {
       props.setLoader(false);
       props.setShowConfirmSwap(false);
       props.setShowConfirmTransaction(false);
-      //props.setHideContent('');
       props.resetAllValues();
       props.setSecondTokenAmount('');
       props.setLoaderInButton(false);
@@ -373,14 +413,10 @@ const SwapTab = (props) => {
       }
     }
   };
-
-  const onClickAmount = () => {
-    const value =
-      props.userBalances[props.tokenIn.name].toLocaleString('en-US', {
-        maximumFractionDigits: 20,
-        useGrouping: false,
-      }) ?? 0;
-    handleSwapTokenInput(value, 'tokenIn');
+  const switchTokens = () => {
+    props.changeTokenLocation();
+    setFirstTokenAmount('');
+    setSecondTokenAmount('');
   };
 
   const setErrorMessageOnUI = (value) => {
@@ -391,7 +427,19 @@ const SwapTab = (props) => {
   const swapContentButton = useMemo(() => {
     if (props.walletAddress) {
       if (props.tokenOut.name && firstTokenAmount) {
-        if (firstTokenAmount > props.userBalances[props.tokenIn.name]) {
+        if (Number(firstTokenAmount) === 0 || Number(secondTokenAmount) === 0) {
+          return (
+            <Button
+              onClick={() => setErrorMessageOnUI('Enter an amount to swap')}
+              color={'disabled'}
+              className={
+                ' mt-4 w-100 flex align-items-center justify-content-center disable-button-swap'
+              }
+            >
+              Swap
+            </Button>
+          );
+        } else if (firstTokenAmount > props.userBalances[props.tokenIn.name]) {
           return (
             <Button
               onClick={() => setErrorMessageOnUI('Insufficient balance')}
@@ -429,6 +477,7 @@ const SwapTab = (props) => {
           </Button>
         );
       }
+
       return (
         <Button
           onClick={() => setErrorMessageOnUI('Enter an amount to swap')}
@@ -468,7 +517,7 @@ const SwapTab = (props) => {
         <div className="swap-content-box swap-left-right-padding">
           <div
             className={clsx(
-              'swap-token-select-box',
+              !errorMessage && 'swap-token-select-box',
 
               errorMessage && 'errorBorder',
               firstTokenAmount > 0 && (errorMessage ? 'errorBorder' : 'typing-border'),
@@ -498,10 +547,10 @@ const SwapTab = (props) => {
                   type="text"
                   className={clsx(
                     'token-user-input',
-                    errorMessage && message === 'Insufficient balance' && 'error-text-color',
+                    errorMessage ? 'error-text-color' : 'typing-input-color',
                   )}
                   placeholder="0.0"
-                  value={firstTokenAmount}
+                  value={fromExponential(firstTokenAmount)}
                   onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenIn')}
                 />
               ) : (
@@ -521,8 +570,8 @@ const SwapTab = (props) => {
                       <OverlayTrigger
                         placement="top"
                         overlay={
-                          <Tooltip id="button-tooltip" {...props}>
-                            {props.userBalances[props.tokenIn.name]}
+                          <Tooltip id="tooltip-e" {...props}>
+                            {fromExponential(props.userBalances[props.tokenIn.name])}
                           </Tooltip>
                         }
                       >
@@ -539,10 +588,10 @@ const SwapTab = (props) => {
                           ) : (
                             <div className="shimmer">0.0000</div>
                           )}{' '}
-                          <img
+                          {/* <img
                             src={props.theme === 'light' ? maxlight : maxDark}
                             className="max-swap"
-                          />
+                          /> */}
                         </span>
                       </OverlayTrigger>
                     ) : (
@@ -557,10 +606,6 @@ const SwapTab = (props) => {
                         ) : (
                           <div className="shimmer">0.0000</div>
                         )}{' '}
-                        <img
-                          src={props.theme === 'light' ? maxlight : maxDark}
-                          className="max-swap"
-                        />
                       </span>
                     )}
                   </p>
@@ -594,33 +639,23 @@ const SwapTab = (props) => {
           </div>
           {errorMessage && <span className="error-message">{message}</span>}
         </div>
-        <OverlayTrigger
-          overlay={(props) => (
-            <Tooltip id="button-tooltip" {...props}>
-              Switch
-            </Tooltip>
-          )}
-          placement="top"
-        >
-          <div className={clsx('switch-img-background', errorMessage && 'alignment-switch')}>
-            <div className="switch-img">
-              <div
-                className="swap-arrow-center-revamp  icon-animated"
-                onClick={props.changeTokenLocation}
-              >
-                <img src={props.theme === 'light' ? switchImg : switchImgDark} />
-              </div>
+
+        <div className={clsx('switch-img-background', errorMessage && 'alignment-switch')}>
+          <div className="switch-img">
+            <div className="swap-arrow-center-revamp  icon-animated" onClick={switchTokens}>
+              <img src={props.theme === 'light' ? switchImg : switchImgDark} />
             </div>
           </div>
-        </OverlayTrigger>
+        </div>
+
         <div className="second-token-bg">
           <div className="swap-content-box ">
             <div
               className={clsx(
-                'swap-token-select-box',
+                !errorMessage && 'swap-token-select-box',
                 'second-token-input-swap',
                 errorMessage && 'errorBorder',
-                secondTokenAmount && 'second-input-typing',
+                secondTokenAmount > 0 && (errorMessage ? 'errorBorder' : 'second-input-typing'),
               )}
             >
               <div className="token-selector-balance-wrapper-swap">
@@ -655,7 +690,7 @@ const SwapTab = (props) => {
                   <input
                     type="text"
                     className={clsx('token-user-input', secondTokenAmount && 'second-input-color')}
-                    value={secondTokenAmount && secondTokenAmount}
+                    value={secondTokenAmount && fromExponential(secondTokenAmount)}
                     placeholder="0.0"
                     onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenOut')}
                   />
@@ -665,7 +700,7 @@ const SwapTab = (props) => {
                     className="token-user-input"
                     disabled
                     placeholder="--"
-                    value={firstTokenAmount}
+                    value={secondTokenAmount}
                   />
                 )}
               </div>
@@ -675,7 +710,7 @@ const SwapTab = (props) => {
                     Balance:{' '}
                     {props.tokenOut.name ? (
                       props.userBalances[props.tokenOut.name] >= 0 ? (
-                        props.userBalances[props.tokenOut.name]
+                        fromExponential(props.userBalances[props.tokenOut.name])
                       ) : (
                         <div className="shimmer">0.0000</div>
                       )
@@ -712,7 +747,7 @@ const SwapTab = (props) => {
               <input
                 type="text"
                 className="receiptant"
-                placeholder="Receipient address"
+                placeholder="Recipient address"
                 onChange={(e) => props.setRecepient(e.target.value)}
                 value={props.recepient}
               />
@@ -723,8 +758,8 @@ const SwapTab = (props) => {
           {props.walletAddress &&
           props.tokenIn.name &&
           props.tokenOut.name &&
-          firstTokenAmount &&
-          props.routeData.success ? (
+          Number(firstTokenAmount) > 0 &&
+          routeDataCopy ? (
             <SwapDetails
               routePath={routePath}
               theme={props.theme}
@@ -734,10 +769,7 @@ const SwapTab = (props) => {
               routeData={props.routeData}
               firstTokenAmount={firstTokenAmount}
               stableList={stableList}
-              isStableSwap={
-                (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
-                (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez')
-              }
+              isStableSwap={isStableSwap.current}
             />
           ) : null}
           {swapContentButton}
@@ -756,33 +788,34 @@ const SwapTab = (props) => {
         routeData={props.routeData}
         loading={props.loading}
         isStableSwap={false}
+        theme={props.theme}
       />
       <ConfirmTransaction
         show={props.showConfirmTransaction}
-        content={`Swapping ${Number(localStorage.getItem('wrapped')).toFixed(
-          6,
-        )} ${localStorage.getItem('token')} `}
+        content={`Swap ${Number(localStorage.getItem('wrapped')).toFixed(6)} ${localStorage.getItem(
+          'token',
+        )} `}
         theme={props.theme}
         onHide={handleCloseModal}
       />
       <InfoModal
         open={showTransactionSubmitModal}
-        InfoMessage={`Swapping ${Number(localStorage.getItem('wrapped')).toFixed(
+        InfoMessage={`Swap ${Number(localStorage.getItem('wrapped')).toFixed(
           6,
         )} ${localStorage.getItem('token')} `}
         theme={props.theme}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
-        buttonText={'View on TzKT'}
+        buttonText={'View on Block Explorer'}
         onBtnClick={
           transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
         }
       />
       <Loader
         loading={props.loading}
-        content={`${Number(localStorage.getItem('wrapped')).toFixed(6)} ${localStorage.getItem(
+        content={`Swap ${Number(localStorage.getItem('wrapped')).toFixed(6)} ${localStorage.getItem(
           'token',
-        )} Swapped`}
+        )} `}
         loaderMessage={props.loaderMessage}
         tokenIn={props.tokenIn.name}
         firstTokenAmount={firstAmount}
@@ -809,7 +842,6 @@ SwapTab.propTypes = {
   connecthWallet: PropTypes.any,
   fetchUserWalletBalance: PropTypes.any,
   setLoader: PropTypes.func,
-  // firstTokenAmount: PropTypes.any,
   getTokenPrice: PropTypes.any,
   handleClose: PropTypes.any,
   handleLoaderMessage: PropTypes.any,
@@ -817,12 +849,9 @@ SwapTab.propTypes = {
   handleOutTokenInput: PropTypes.any,
   handleTokenType: PropTypes.any,
   loaderInButton: PropTypes.any,
-  // midTokens: PropTypes.any,
   recepient: PropTypes.any,
   resetAllValues: PropTypes.any,
-  // secondTokenAmount: PropTypes.any,
   setFirstTokenAmount: PropTypes.any,
-  //setHideContent: PropTypes.any,
   setLoaderInButton: PropTypes.any,
   setLoaderMessage: PropTypes.any,
   setLoading: PropTypes.any,
@@ -833,7 +862,6 @@ SwapTab.propTypes = {
   showConfirmSwap: PropTypes.any,
   showRecepient: PropTypes.any,
   slippage: PropTypes.any,
-  // swapData: PropTypes.any,
   routeData: PropTypes.any,
   tokenContractInstances: PropTypes.any,
   tokenIn: PropTypes.any,

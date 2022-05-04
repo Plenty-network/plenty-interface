@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { MdChevronRight } from 'react-icons/all';
+import fromExponential from 'from-exponential';
 import { Image, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import React, { useMemo, useState } from 'react';
 import { tokens } from '../constants/swapPage';
@@ -28,6 +29,10 @@ const SwapDetails = (props) => {
   if (!props.firstTokenAmount && !swapRoute) {
     return null;
   }
+  const ratesConvert = (e) => {
+    e.stopPropagation();
+    setConvert(!isConvert);
+  };
 
   return (
     <>
@@ -37,18 +42,34 @@ const SwapDetails = (props) => {
           !isOpen && 'closedbg',
           isOpen && 'open-swap-detail-wrapper-first',
         )}
+        onClick={() => setOpen(!isOpen)}
+        id="topdiv"
       >
-        <div className="space-between">
+        <div className="space-between justify-content-between" style={{ cursor: 'pointer' }}>
           <div className="flex">
             <p className="price-formula whitespace-prewrap  flex flex-row">
-              1 {isConvert ? props.tokenOut.name : props.tokenIn.name} ={' '}
+              1{' '}
+              {isConvert
+                ? props.tokenOut.name === 'tez'
+                  ? 'TEZ'
+                  : props.tokenOut.name === 'ctez'
+                  ? 'CTEZ'
+                  : props.tokenOut.name
+                : props.tokenIn.name === 'tez'
+                ? 'TEZ'
+                : props.tokenIn.name === 'ctez'
+                ? 'CTEZ'
+                : props.tokenIn.name}{' '}
+              ={' '}
               <OverlayTrigger
                 placement="top"
                 overlay={
                   <Tooltip id="button-tooltip" {...props}>
                     {props.isStableSwap
-                      ? Number(props.computedOutDetails.data.exchangeRate).toFixed(6)
-                      : props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn}
+                      ? fromExponential(Number(props.computedOutDetails.data.exchangeRate))
+                      : fromExponential(
+                          Number(props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn),
+                        )}
                   </Tooltip>
                 }
               >
@@ -64,47 +85,59 @@ const SwapDetails = (props) => {
                         ).toFixed(3)
                       : Number(props.routeData.bestRouteUntilNoInput.tokenOutPerTokenIn).toFixed(3)
                     : 0}{' '}
-                  {isConvert ? props.tokenIn.name : props.tokenOut.name}
+                  {isConvert
+                    ? props.tokenIn.name === 'tez'
+                      ? 'TEZ'
+                      : props.tokenIn.name === 'ctez'
+                      ? 'CTEZ'
+                      : props.tokenIn.name
+                    : props.tokenOut.name === 'tez'
+                    ? 'TEZ'
+                    : props.tokenOut.name === 'ctez'
+                    ? 'CTEZ'
+                    : props.tokenOut.name}
                 </div>
               </OverlayTrigger>
               <span
-                className="material-icons-round convert"
-                onClick={() => setConvert(!isConvert)}
+                className="material-icons-round convert ml-1"
+                onClick={(e) => ratesConvert(e)}
                 style={{ cursor: 'pointer' }}
               >
-                cached_rounded_icon
+                cached
               </span>
             </p>
           </div>
-
-          {props.firstTokenAmount > 0 && isOpen ? (
+          <span
+            className={`material-icons-round buttonanim button--trigger open ${
+              props.firstTokenAmount > 0 && isOpen ? 'dropdown-open' : 'dropdown-close'
+            }`}
+            style={{ cursor: 'pointer' }}
+          >
+            expand_more
+          </span>
+          {/* {props.firstTokenAmount > 0 && isOpen ? (
             <span
-              className="material-icons-round flex open"
-              onClick={() => setOpen(!isOpen)}
+              className="material-icons-round buttonanim button--trigger-todisappear flex open"
               style={{ cursor: 'pointer' }}
             >
               keyboard_arrow_up
             </span>
           ) : (
             <span
-              className="material-icons-round flex open"
-              onClick={() => setOpen(!isOpen)}
+              className="material-icons-round buttonanim button--trigger flex open"
               style={{ cursor: 'pointer' }}
             >
               keyboard_arrow_down
             </span>
-          )}
+          )} */}
         </div>
       </div>
+      {props.firstTokenAmount > 0}
       {isOpen && (
-        <div
-          className={clsx(
-            'swap-detail-wrapper-open',
-            isOpen && 'topToBottomFadeInAnimation-4-floater',
-          )}
-        >
-          {isOpen ? (
-            <div className="open-swap-details ">
+        <div className={clsx('swap-detail-wrapper-open', 'buttonanim button--disapear')}>
+          <div className="scale-in-animation">
+            {/* {isOpen ? ( */}
+            <>
               <div className="flex flex-row  align-items-center swap-sub-details">
                 {' '}
                 <p className="swap-detail-amt-details">Minimum received </p>
@@ -129,7 +162,11 @@ const SwapDetails = (props) => {
                   {props.computedOutDetails.data.finalMinimumOut
                     ? props.computedOutDetails.data.finalMinimumOut
                     : '0.00'}{' '}
-                  {props.tokenOut.name}
+                  {props.tokenOut.name === 'tez'
+                    ? 'TEZ'
+                    : props.tokenOut.name === 'ctez'
+                    ? 'CTEZ'
+                    : props.tokenOut.name}
                 </p>
               </div>
               <div className="flex flex-row align-items-center swap-sub-details">
@@ -169,9 +206,7 @@ const SwapDetails = (props) => {
                   key="top"
                   overlay={
                     <Tooltip id="button-tooltip-swap-details" {...props}>
-                      {props.isStableSwap
-                        ? 'A portion of each trade (0.10%) goes to liquidity providers as a protocol incentive.'
-                        : 'A portion of each trade (0.25%) goes to liquidity providers as a protocol incentive.'}
+                      Fees are 0.35% for each volatile swap and 0.10% for each stable swap.
                     </Tooltip>
                   }
                 >
@@ -183,10 +218,7 @@ const SwapDetails = (props) => {
                   </span>
                 </OverlayTrigger>
                 <p className="swap-detail-amt-details-value ml-auto">
-                  {props.isStableSwap
-                    ? props.computedOutDetails.data.fees.toFixed(6)
-                    : props.firstTokenAmount / 400}{' '}
-                  {props.isStableSwap ? props.tokenOut.name : props.tokenIn.name}
+                  {props.isStableSwap ? '0.10' : props.computedOutDetails.data.maxfee} %
                 </p>
               </div>
               {props.isConfirmSwap && !props.isStableSwap && (
@@ -213,7 +245,12 @@ const SwapDetails = (props) => {
                     </span>
                   </OverlayTrigger>
                   <p className="swap-detail-amt-details-value ml-auto">
-                    {props.firstTokenAmount / 1000} {props.tokenIn.name}
+                    {props.firstTokenAmount / 1000}{' '}
+                    {props.tokenIn.name === 'tez'
+                      ? 'TEZ'
+                      : props.tokenIn.name === 'ctez'
+                      ? 'CTEZ'
+                      : props.tokenIn.name}
                   </p>
                 </div>
               )}
@@ -242,85 +279,91 @@ const SwapDetails = (props) => {
                   <p className="swap-detail-amt-details ml-auto">{props.slippage} %</p>
                 </div>
               ) : null}
-            </div>
-          ) : null}
-
-          {isOpen && props.firstTokenAmount && swapRoute && <hr className="swap-details-divider" />}
-          {isOpen && props.firstTokenAmount && swapRoute && (
-            <>
-              <div className="flex flex-row">
-                <p className="swap-detail-amt-details route-heading">Route </p>
-                <OverlayTrigger
-                  placement="top"
-                  key="top"
-                  overlay={
-                    <Tooltip id="button-tooltip-swap-details-router" {...props}>
-                      Routing through these tokens results in the best price for your trade
-                      <div className="flex flex-row">
-                        {props.theme === 'light' ? <Router /> : <RouterDark />}
-                        {props.theme === 'light' ? (
-                          <Bracket className="router-bracket" />
-                        ) : (
-                          <BracketDark className="router-bracket" />
-                        )}
-                        <MdChevronRight className={clsx('router-arrow', 'ml-1')} fontSize={20} />
-                        <span className="router-text">Stable pair</span>
-                      </div>
-                    </Tooltip>
-                  }
-                >
-                  <span
-                    style={{ cursor: 'pointer' }}
-                    className="material-icons-round ml-1 swap-detail-amt-details"
-                  >
-                    help_outline
-                  </span>
-                </OverlayTrigger>
-              </div>
-
-              <div className="swap-detail-route-container mt-3">
-                {swapRoute.map((token, idx) => (
-                  <div key={token.name} className="d-flex my-2 align-self-center">
-                    <div
-                      className={clsx(
-                        idx !== 0 &&
-                          props.stableList[idx - 1] === true &&
-                          'outer-border-stableswap d-flex',
-                      )}
-                    >
-                      {idx !== 0 && props.stableList[idx - 1] === true && (
-                        <div>
-                          <span className="stableswap-img">
-                            {props.theme === 'light' ? <Stableswap /> : <StableswapDark />}
-                          </span>
+            </>
+            {/* ) : null} */}
+            {props.firstTokenAmount && swapRoute && <hr className="swap-details-divider" />}
+            {props.firstTokenAmount && swapRoute && (
+              <>
+                <div className="flex flex-row">
+                  <p className="swap-detail-amt-details route-heading">Route </p>
+                  <OverlayTrigger
+                    placement="top"
+                    key="top"
+                    overlay={
+                      <Tooltip id="button-tooltip-swap-details-router" {...props}>
+                        Routing through these tokens results in the best price for your trade
+                        <div className="flex flex-row">
+                          {props.theme === 'light' ? <Router /> : <RouterDark />}
+                          {props.theme === 'light' ? (
+                            <Bracket className="router-bracket" />
+                          ) : (
+                            <BracketDark className="router-bracket" />
+                          )}
+                          <MdChevronRight className={clsx('router-arrow', 'ml-1')} fontSize={20} />
+                          <span className="router-text">Stable pair</span>
                         </div>
-                      )}
+                      </Tooltip>
+                    }
+                  >
+                    <span
+                      style={{ cursor: 'pointer' }}
+                      className="material-icons-round ml-1 swap-detail-amt-details"
+                    >
+                      help_outline
+                    </span>
+                  </OverlayTrigger>
+                </div>
+
+                <div className="swap-detail-route-container mt-3">
+                  {swapRoute.map((token, idx) => (
+                    <div key={token.name} className="d-flex my-2 align-self-center">
                       <div
                         className={clsx(
-                          idx !== 0 && props.stableList[idx - 1] === true
-                            ? 'stablepair-outline'
-                            : 'route-Outline',
+                          idx !== 0 &&
+                            props.stableList[idx - 1] === true &&
+                            'outer-border-stableswap d-flex',
                         )}
                       >
-                        <Image src={token.image} height={18} width={18} alt={''} />
-                        <span className="ml-1 my-auto token-name-route">{token.name}</span>
-                      </div>
-                    </div>
-                    {swapRoute[idx + 1] && (
-                      <MdChevronRight
-                        className={clsx(
-                          token.name === 'tez' || token.name === 'ctez'
-                            ? 'route-arrow-stable'
-                            : 'route-arrow',
+                        {idx !== 0 && props.stableList[idx - 1] === true && (
+                          <div>
+                            <span className="stableswap-img">
+                              {props.theme === 'light' ? <Stableswap /> : <StableswapDark />}
+                            </span>
+                          </div>
                         )}
-                        fontSize={20}
-                      />
-                    )}
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
+                        <div
+                          className={clsx(
+                            idx !== 0 && props.stableList[idx - 1] === true
+                              ? 'stablepair-outline'
+                              : 'route-Outline',
+                          )}
+                        >
+                          <Image src={token.image} height={18} width={18} alt={''} />
+                          <span className="ml-1 my-auto token-name-route">
+                            {token.name === 'tez'
+                              ? 'TEZ'
+                              : token.name === 'ctez'
+                              ? 'CTEZ'
+                              : token.name}
+                          </span>
+                        </div>
+                      </div>
+                      {swapRoute[idx + 1] && (
+                        <MdChevronRight
+                          className={clsx(
+                            idx !== 0 && props.stableList[idx - 1] === true
+                              ? 'route-arrow-stable'
+                              : 'route-arrow',
+                          )}
+                          fontSize={20}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
         </div>
       )}
     </>
@@ -331,7 +374,6 @@ SwapDetails.propTypes = {
   computedOutDetails: PropTypes.any,
   firstTokenAmount: PropTypes.any,
   routeData: PropTypes.any,
-  // midTokens: PropTypes.any,
   tokenIn: PropTypes.any,
   tokenOut: PropTypes.any,
   routePath: PropTypes.any,

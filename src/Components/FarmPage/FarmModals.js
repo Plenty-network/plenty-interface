@@ -79,7 +79,7 @@ const FarmModals = (props) => {
         onClose={onClose}
         theme={props.theme}
         message={'Transaction submitted'}
-        buttonText={'View on TzKT'}
+        buttonText={'View on Block Explorer'}
         onBtnClick={
           !modalData.transactionId
             ? undefined
@@ -91,11 +91,7 @@ const FarmModals = (props) => {
           theme={props.theme}
           loading={stakeOperations.processing || unstakeOperations.processing}
           loaderMessage={loaderMessage}
-          content={
-            props.type === 'Harvesting'
-              ? `${props.pair} Harvested `
-              : `${Number(props.value).toFixed(6)} ${props.pair} LP Staked`
-          }
+          content={props.content}
           onBtnClick={
             !modalData.transactionId
               ? undefined

@@ -64,6 +64,13 @@
     -o-animation: topToBottomFloater 1s; /* Opera < 12.1 */
     animation: topToBottomFloater 1s;
   }
+  &-1-header {
+    -webkit-animation: topToBottomFloater 0.1s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: topToBottomFloater 0.1s; /* Firefox < 16 */
+    -ms-animation: topToBottomFloater 0.1s; /* Internet Explorer */
+    -o-animation: topToBottomFloater 0.1s; /* Opera < 12.1 */
+    animation: topToBottomFloater 0.1s;
+  }
 }
 
 @keyframes rightToleftF {
@@ -212,8 +219,8 @@
   border-top: 2.40218px solid var(--theme-loader-border-top);
   width: 21.99px;
   height: 21.99px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
-  animation: spin 2s linear infinite;
+  -webkit-animation: spin 0.7s linear infinite; /* Safari */
+  animation: spin 0.7s linear infinite;
 }
 
 /* Safari */
@@ -232,5 +239,32 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+.scale-in-animation {
+  animation: scale-in 0.2s;
+  -webkit-animation: scale-in 0.2s;
+  &-confirm-swap {
+    animation: scale-in 0.3s;
+    -webkit-animation: scale-in 0.3s;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    transform: scale(0.98);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@-webkit-keyframes scale-in {
+  from {
+    transform: scale(0.98);
+  }
+  to {
+    transform: scale(1);
   }
 }

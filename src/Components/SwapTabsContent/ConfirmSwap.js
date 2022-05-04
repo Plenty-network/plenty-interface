@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-// import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import React from 'react';
 import SimpleModal from '../Ui/Modals/SimpleModal';
 import Button from '../Ui/Buttons/Button';
@@ -24,7 +23,11 @@ const ConfirmSwap = (props) => {
               <div className="token-selector-balance-wrapper">
                 <div className="token-selector stable-swap-token-selector">
                   <img src={props.tokenIn.image} className="button-logo" />
-                  {props.tokenIn.name}{' '}
+                  {props.tokenIn.name === 'tez'
+                    ? 'TEZ'
+                    : props.tokenIn.name === 'ctez'
+                    ? 'CTEZ'
+                    : props.tokenIn.name}{' '}
                 </div>
               </div>
 
@@ -43,7 +46,11 @@ const ConfirmSwap = (props) => {
               <div className="token-selector-balance-wrapper">
                 <button className="token-selector stable-swap-token-selector">
                   <img src={props.tokenOut.image} className="button-logo" />
-                  {props.tokenOut.name}{' '}
+                  {props.tokenOut.name === 'tez'
+                    ? 'TEZ'
+                    : props.tokenOut.name === 'ctez'
+                    ? 'CTEZ'
+                    : props.tokenOut.name}{' '}
                 </button>
               </div>
 
@@ -64,6 +71,7 @@ const ConfirmSwap = (props) => {
               (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
               (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez')
             }
+            theme={props.theme}
           />
 
           <Button
@@ -83,8 +91,6 @@ const ConfirmSwap = (props) => {
           </Button>
         </div>
       </>
-      {/* </Modal.Body>
-      </Modal> */}
     </SimpleModal>
   );
 };
@@ -92,12 +98,10 @@ const ConfirmSwap = (props) => {
 export default ConfirmSwap;
 
 ConfirmSwap.propTypes = {
-  // computedOutDetails: PropTypes.any,
   computedData: PropTypes.any,
   confirmSwapToken: PropTypes.any,
   firstTokenAmount: PropTypes.any,
   loading: PropTypes.any,
-  // midTokens: PropTypes.any,
   routeData: PropTypes.any,
   onHide: PropTypes.any,
   show: PropTypes.any,
@@ -105,4 +109,5 @@ ConfirmSwap.propTypes = {
   tokenIn: PropTypes.any,
   tokenOut: PropTypes.any,
   isStableSwap: PropTypes.any,
+  theme: PropTypes.any,
 };

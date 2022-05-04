@@ -297,6 +297,8 @@ export const getAllRoutes = async (tokenIn, tokenOut) => {
       swapData: [],
       tokenOutPerTokenIn: 0,
       isStableList: [],
+      feeList: [],
+      maxFee: 0,
     };
 
     allPathsUtil(tokenIn, tokenOut, paths, vis, path);
@@ -493,11 +495,18 @@ export const computeTokenOutForRouteBaseV2 = (input, allRoutes, slippage) => {
     });
 
     const isStable = [];
+    const fee = [];
+    let maxFee = 0;
     for (let i = 0; i < bestRoute.path.length - 1; i++) {
       isStable[i] = isTokenPairStable(bestRoute.path[i], bestRoute.path[i + 1]);
+      fee[i] = isStable[i] ? 0.1 : 0.35;
+      maxFee += fee[i];
     }
+    maxFee = Math.round((maxFee + Number.EPSILON) * 100) / 100;
     bestRoute.isStableList = isStable;
-
+    bestRoute.feeList = fee;
+    bestRoute.maxFee = maxFee;
+    console.log(bestRoute);
     return {
       success: true,
       bestRoute,
@@ -635,12 +644,20 @@ export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, allRoutes
       }
     });
 
+    const fee = [];
+    let maxFee = 0;
     const isStable = [];
     for (let i = 0; i < bestRoute.path.length - 1; i++) {
       isStable[i] = isTokenPairStable(bestRoute.path[i], bestRoute.path[i + 1]);
+      fee[i] = isStable[i] ? 0.1 : 0.35;
+      maxFee += fee[i];
     }
+    maxFee = Math.round((maxFee + Number.EPSILON) * 100) / 100;
     bestRoute.isStableList = isStable;
+    bestRoute.feeList = fee;
+    bestRoute.maxFee = maxFee;
 
+    console.log(bestRoute);
     return {
       success: true,
       bestRoute,
@@ -697,9 +714,7 @@ export const swapTokenUsingRouteV3 = async (
     const tokenInAddress = CONFIG.AMM[connectedNetwork][path[0]].TOKEN_CONTRACT;
     const tokenInId = CONFIG.AMM[connectedNetwork][path[0]].TOKEN_ID;
 
-    // Manually updating router addy
     const routerAddress = CONFIG.ROUTER[CONFIG.NETWORK];
-    // const routerAddress = 'KT1FMZVMeyCrNFyGjJfiB6VSq3LX1ShSEzuw';
     const routerInstance = await Tezos.contract.at(routerAddress);
 
     const DataLiteral = {};
@@ -723,7 +738,7 @@ export const swapTokenUsingRouteV3 = async (
     const swapAmount = Math.floor(
       amount * Math.pow(10, CONFIG.AMM[connectedNetwork][path[0]].TOKEN_DECIMAL),
     );
-    // TODO : else if call type == xtz then direct send no approve
+    //  else if call type == xtz then direct send no approve
     let batch;
     if (tokenInCallType === 'XTZ') {
       batch = Tezos.wallet.batch([

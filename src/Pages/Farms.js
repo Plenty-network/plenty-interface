@@ -352,8 +352,8 @@ const Farms = (props) => {
         show={showConfirmTransaction}
         theme={props.theme}
         content={
-          floaterValue.type === 'Harvesting'
-            ? `${floaterValue.type}  ${floaterValue.pair}  `
+          floaterValue.type === 'Harvest'
+            ? `${floaterValue.type} ${floaterValue.value} ${floaterValue.pair}  `
             : `${floaterValue.type} ${Number(floaterValue.value).toFixed(6)} ${
                 floaterValue.pair
               } LP `
@@ -367,8 +367,8 @@ const Farms = (props) => {
         value={floaterValue.value}
         theme={props.theme}
         content={
-          floaterValue.type === 'Harvesting'
-            ? `${floaterValue.type}  ${floaterValue.pair}  `
+          floaterValue.type === 'Harvest'
+            ? `${floaterValue.type} ${floaterValue.value} ${floaterValue.pair}  `
             : `${floaterValue.type} ${Number(floaterValue.value).toFixed(6)} ${
                 floaterValue.pair
               } LP `

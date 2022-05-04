@@ -359,9 +359,7 @@ const Frontpage = ({
               <a href={'https://discord.gg/9wZ4CuvkuJ'} target="_blank" rel="noreferrer">
                 <Discord className="mr-2 icon-themed" />
               </a>
-              {/* <a href={'https://t.me/PlentyDeFi'} target="_blank" rel="noreferrer">
-                <Telegram className="mr-2 icon-themed" />
-              </a> */}
+
               <a href={'https://twitter.com/PlentyDeFi'} target="_blank" rel="noreferrer">
                 <Twitter className="mr-2 icon-themed" />
               </a>
@@ -550,10 +548,10 @@ const Frontpage = ({
       <InfoModal
         open={modalData.open === HOME_PAGE_MODAL.TRANSACTION_SUCCESS}
         theme={theme}
-        InfoMessage={'Harvesting All'}
+        InfoMessage={'Harvest'}
         onClose={() => openCloseModal({ open: HOME_PAGE_MODAL.NULL, transactionId: '' })}
         message={'Transaction submitted'}
-        buttonText={'View on TzKT'}
+        buttonText={'View on Block Explorer'}
         onBtnClick={
           !modalData.transactionId
             ? undefined
@@ -564,7 +562,7 @@ const Frontpage = ({
         <Loader
           loading={harvestAllOperations.processing}
           loaderMessage={loaderMessage}
-          content={'Harvested All'}
+          content={'Harvest All Successful'}
           theme={theme}
           onBtnClick={
             !modalData.transactionId
@@ -576,7 +574,7 @@ const Frontpage = ({
       <ConfirmTransaction
         show={showConfirmTransaction}
         theme={theme}
-        content={'Harvesting all'}
+        content={'Harvest'}
         onHide={handleClose}
       />
     </>

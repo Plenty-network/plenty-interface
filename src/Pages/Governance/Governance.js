@@ -123,7 +123,7 @@ const Governance = (props) => {
         InfoMessage={'Vote submitted'}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
-        buttonText={'View on TzKT'}
+        buttonText={'View on Block Explorer'}
         onBtnClick={
           props.transactionId
             ? () => window.open(`https://tzkt.io/${props.transactionId}`, '_blank')

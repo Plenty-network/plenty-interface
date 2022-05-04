@@ -74,15 +74,6 @@
     right: 40px;
     top: 736px;
   }
-  // &.success {
-  //   background-color: rgba(35, 193, 89, 0.14);
-  //   color: #23c159;
-  // }
-
-  // &.error {
-  //   background-color: rgba(193, 35, 35, 0.14);
-  //   color: #c12323;
-  // }
 
   > span {
     vertical-align: middle;
@@ -157,9 +148,9 @@ h1 {
   color: var(--theme-tooltip-text);
   opacity: 1 !important;
   max-width: 324px !important;
-  position: absolute;
-  top: -20px;
-  left: -20px;
+  // position: absolute;
+  // top: -20px;
+  // left: -20px;
 }
 
 .tooltip > .arrow {

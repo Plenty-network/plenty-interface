@@ -50,9 +50,7 @@ const ConfirmTransaction = (props) => {
             >
               {props.content}
             </Button>
-            <div className="footer-confirm-transaction">
-              Confirm this transaction on your wallet
-            </div>
+            <div className="footer-confirm-transaction">Confirm the transaction in your wallet</div>
           </div>
         </>
       </SimpleModal>

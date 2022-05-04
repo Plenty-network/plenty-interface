@@ -75,35 +75,40 @@ const Swap = (props) => {
   useEffect(() => {
     const updateBalance = async () => {
       setTokenContractInstances({});
-      //const userBalancesCopy = { ...userBalances };
+
       const tzBTCName = 'tzBTC';
       const balancePromises = [];
-      // if (!userBalancesCopy[tokenIn.name]) {
+
       tokenIn.name === tzBTCName
         ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
-        : isStablePair
+        : (tokenIn.name === 'tez' && tokenOut.name === 'ctez') ||
+          (tokenOut.name === 'tez' && tokenIn.name === 'ctez')
         ? balancePromises.push(getUserBalanceByRpcStable(tokenIn.name, props.walletAddress))
         : tokenIn.name === 'tez'
         ? balancePromises.push(getxtzBalance(tokenIn.name, props.walletAddress))
         : balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
-      //}
-      // if (!userBalancesCopy[tokenOut.name]) {
+
       tokenIn.name === tzBTCName
         ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
-        : isStablePair
+        : (tokenIn.name === 'tez' && tokenOut.name === 'ctez') ||
+          (tokenOut.name === 'tez' && tokenIn.name === 'ctez')
         ? balancePromises.push(getUserBalanceByRpcStable(tokenOut.name, props.walletAddress))
         : tokenOut.name === 'tez'
         ? balancePromises.push(getxtzBalance(tokenOut.name, props.walletAddress))
         : balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));
-      // }
+
       if (
-        isStablePair
+        (tokenIn.name === 'tez' && tokenOut.name === 'ctez') ||
+        (tokenOut.name === 'tez' && tokenIn.name === 'ctez')
           ? config.STABLESWAP[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]
           : config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]
       ) {
-        const lpToken = isStablePair
-          ? config.STABLESWAP[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken
-          : config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
+        const lpToken =
+          (tokenIn.name === 'tez' && tokenOut.name === 'ctez') ||
+          (tokenOut.name === 'tez' && tokenIn.name === 'ctez')
+            ? config.STABLESWAP[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]
+                .liquidityToken
+            : config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
 
         balancePromises.push(getUserBalanceByRpc(lpToken, props.walletAddress));
       }
@@ -152,7 +157,7 @@ const Swap = (props) => {
         }
       }
     }
-  }, [tokenIn, tokenOut, activeTab]);
+  }, [tokenIn, tokenOut, balanceUpdate]);
 
   const handleClose = () => {
     setShow(false);
@@ -300,7 +305,7 @@ const Swap = (props) => {
   };
 
   const resetAllValues = () => {
-    setSlippage(0.05);
+    // setSlippage(0.5);
     setRecepient('');
     setTokenType('tokenIn');
     setFirstTokenAmount('');

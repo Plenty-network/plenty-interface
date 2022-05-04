@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-
+import fromExponential from 'from-exponential';
 import xplenty from '../../assets/images/xplenty-icon.png';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
@@ -141,7 +141,7 @@ const UnstakePlenty = (props) => {
               type="text"
               className="token-user-input"
               placeholder="0.0"
-              value={xPlentyInput}
+              value={fromExponential(xPlentyInput)}
               onChange={(event) => {
                 xPlentyInputHandler(event.target.value);
               }}
@@ -167,7 +167,7 @@ const UnstakePlenty = (props) => {
               placement="auto"
               overlay={
                 <Tooltip id="button-tooltip" {...props}>
-                  {props.xPlentyData.data.xPlentyPerPlenty}
+                  {fromExponential(props.xPlentyData.data.xPlentyPerPlenty)}
                 </Tooltip>
               }
             >
@@ -186,7 +186,7 @@ const UnstakePlenty = (props) => {
       <ConfirmTransaction
         show={showConfirmTransaction}
         theme={props.theme}
-        content={`Unstaking ${Number(localStorage.getItem('unstakeInput')).toFixed(6)} xPlenty `}
+        content={`Burn ${Number(localStorage.getItem('unstakeInput')).toFixed(6)} xPlenty `}
       />
     </>
   );

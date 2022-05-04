@@ -205,8 +205,8 @@ const Stake = (props) => {
         loaderMessage={loaderMessage}
         content={
           localStorage.getItem('type') === 'stake'
-            ? `${Number(localStorage.getItem('stakeInput')).toFixed(6)} plenty Staked`
-            : `${Number(localStorage.getItem('unstakeInput')).toFixed(6)} xPlenty UnStaked`
+            ? `Stake ${Number(localStorage.getItem('stakeInput')).toFixed(6)} PLENTY `
+            : `Burn ${Number(localStorage.getItem('unstakeInput')).toFixed(6)} xPlenty `
         }
         tokenIn={true}
         setLoaderMessage={setLoaderMessage}
@@ -222,11 +222,11 @@ const Stake = (props) => {
         onClose={props.closetransactionInjectionModal}
         InfoMessage={
           localStorage.getItem('type') === 'stake'
-            ? `Staking ${Number(localStorage.getItem('stakeInput')).toFixed(6)} plenty `
-            : `UnStaking ${Number(localStorage.getItem('unstakeInput')).toFixed(6)} xPlenty `
+            ? `Stake ${Number(localStorage.getItem('stakeInput')).toFixed(6)} PLENTY `
+            : `Burn ${Number(localStorage.getItem('unstakeInput')).toFixed(6)} xPlenty `
         }
         message={'Transaction submitted'}
-        buttonText={'View on TzKT'}
+        buttonText={'View on Block Explorer'}
         onBtnClick={
           props.currentOpHash
             ? () => window.open(`https://tzkt.io/${props.currentOpHash}`, '_blank')

@@ -21,6 +21,7 @@ const Stake = React.lazy(() => import('../Pages/xPlenty'));
 const Governance = React.lazy(() => import('../Pages/Governance/Governance'));
 const WrappedAssets = React.lazy(() => import('../Pages/WrappedAssets/WrappedAssets'));
 
+
 const MyRoutes = (props) => {
   const { theme, toggleTheme } = useThemes();
 
@@ -179,6 +180,7 @@ const MyRoutes = (props) => {
                 </OtherPages>
               }
             />
+
           </Routes>
         </React.Suspense>
       </BrowserRouter>

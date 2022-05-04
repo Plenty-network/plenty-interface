@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap';
 import Button from '../../Ui/Buttons/Button';
 import React from 'react';
+import fromExponential from 'from-exponential';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 const ConfirmRemoveLiquidity = (props) => {
   return (
@@ -31,15 +33,27 @@ const ConfirmRemoveLiquidity = (props) => {
                 <div className="confirm-supply-remove">
                   <button className="token-left">
                     <img src={props.tokenIn.image} className="button-logo" />
-                    {props.tokenIn.name}{' '}
+                    {props.tokenIn.name === 'tez'
+                      ? 'TEZ'
+                      : props.tokenIn.name === 'ctez'
+                      ? 'CTEZ'
+                      : props.tokenIn.name}{' '}
                   </button>
                 </div>
-
-                <div className="token-user-input-wrapper add-padding">
-                  {props.removableTokens.tokenFirst_Out
-                    ? props.removableTokens.tokenFirst_Out.toFixed(6)
-                    : '0.00'}
-                </div>
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    <Tooltip id="button-tooltip" {...props}>
+                      {fromExponential(props.removableTokens.tokenFirst_Out)}
+                    </Tooltip>
+                  }
+                >
+                  <div className="token-user-input-wrapper add-padding">
+                    {props.removableTokens.tokenFirst_Out
+                      ? props.removableTokens.tokenFirst_Out.toFixed(6)
+                      : '0.00'}
+                  </div>
+                </OverlayTrigger>
               </div>
             </div>
 
@@ -52,15 +66,27 @@ const ConfirmRemoveLiquidity = (props) => {
                 <div className="confirm-supply-remove">
                   <button className="token-left">
                     <img src={props.tokenOut.image} className="button-logo" />
-                    {props.tokenOut.name}{' '}
+                    {props.tokenOut.name === 'tez'
+                      ? 'TEZ'
+                      : props.tokenOut.name === 'ctez'
+                      ? 'CTEZ'
+                      : props.tokenOut.name}{' '}
                   </button>
                 </div>
-
-                <div className="token-user-input-wrapper add-padding">
-                  {props.removableTokens.tokenSecond_Out
-                    ? props.removableTokens.tokenSecond_Out.toFixed(6)
-                    : '0.00'}
-                </div>
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    <Tooltip id="button-tooltip" {...props}>
+                      {fromExponential(props.removableTokens.tokenSecond_Out)}
+                    </Tooltip>
+                  }
+                >
+                  <div className="token-user-input-wrapper add-padding">
+                    {props.removableTokens.tokenSecond_Out
+                      ? props.removableTokens.tokenSecond_Out.toFixed(6)
+                      : '0.00'}
+                  </div>
+                </OverlayTrigger>
               </div>
             </div>
           </div>
@@ -73,24 +99,44 @@ const ConfirmRemoveLiquidity = (props) => {
             <div className="">
               {props.swapData ? (
                 <p className="confirm-supply-amt-details">
-                  1 {props.tokenIn.name} ={' '}
+                  1{' '}
+                  {props.tokenIn.name === 'tez'
+                    ? 'TEZ'
+                    : props.tokenIn.name === 'ctez'
+                    ? 'CTEZ'
+                    : props.tokenIn.name}{' '}
+                  ={' '}
                   <span className="rates-value">
                     {props.isStableSwap
                       ? props.xtztoctez
                       : props.swapData.tokenOutPerTokenIn?.toFixed(10)}{' '}
-                    {props.tokenOut.name}
+                    {props.tokenOut.name === 'tez'
+                      ? 'TEZ'
+                      : props.tokenOut.name === 'ctez'
+                      ? 'CTEZ'
+                      : props.tokenOut.name}
                   </span>
                 </p>
               ) : null}
 
               {props.swapData ? (
                 <p className="mt-1 confirm-supply-amt-details">
-                  1 {props.tokenOut.name} ={' '}
+                  1{' '}
+                  {props.tokenOut.name === 'tez'
+                    ? 'TEZ'
+                    : props.tokenOut.name === 'ctez'
+                    ? 'CTEZ'
+                    : props.tokenOut.name}{' '}
+                  ={' '}
                   <span className="rates-value">
                     {props.isStableSwap
                       ? props.cteztoxtz
                       : (1 / props.swapData.tokenOutPerTokenIn).toFixed(10)}{' '}
-                    {props.tokenIn.name}
+                    {props.tokenIn.name === 'tez'
+                      ? 'TEZ'
+                      : props.tokenIn.name === 'ctez'
+                      ? 'CTEZ'
+                      : props.tokenIn.name}
                   </span>
                 </p>
               ) : null}
@@ -100,9 +146,29 @@ const ConfirmRemoveLiquidity = (props) => {
           <div className="divider-confirm-supply-remove"></div>
           <div className="flex justify-content-between remove-footer">
             <div className="lp-pair-remove">
-              {props.tokenIn.name} / {props.tokenOut.name} Burned
+              {props.tokenIn.name === 'tez'
+                ? 'TEZ'
+                : props.tokenIn.name === 'ctez'
+                ? 'CTEZ'
+                : props.tokenIn.name}{' '}
+              /{' '}
+              {props.tokenOut.name === 'tez'
+                ? 'TEZ'
+                : props.tokenOut.name === 'ctez'
+                ? 'CTEZ'
+                : props.tokenOut.name}{' '}
+              Burned LP
             </div>
-            <div className="lp-pair-value">{props.firstTokenAmount}</div>
+            <OverlayTrigger
+              placement="top"
+              overlay={
+                <Tooltip id="button-tooltip" {...props}>
+                  {fromExponential(props.firstTokenAmount)}
+                </Tooltip>
+              }
+            >
+              <div className="lp-pair-value">{Number(props.firstTokenAmount).toFixed(10)}</div>
+            </OverlayTrigger>
           </div>
           <div className="confirm-supply-button">
             <Button

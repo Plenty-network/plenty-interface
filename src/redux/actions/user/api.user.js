@@ -492,10 +492,6 @@ const calculateHarvestValue = async (
  */
 export const getHarvestValue = async (address, type, isActive) => {
   try {
-    //   stakingContract,
-    // dualInfo,
-    // currentBlock,
-    // packedAddress
     const packedKey = getPackedKey(0, address, 'FA1.2');
     const blockData = await axios.get(`${CONFIG.TZKT_NODES[CONFIG.NETWORK]}/v1/blocks/count`);
     const promises = [];

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import SimpleModal from './SimpleModal';
 import React, { useEffect, useMemo, useState } from 'react';
 import Button from '../Buttons/Button';
-
+import fromExponential from 'from-exponential';
 import styles from './modal.module.scss';
 import clsx from 'clsx';
 
@@ -30,7 +30,7 @@ const StakeModal = (props) => {
     props.setFloaterValue({
       value: localStorage.getItem('stakeInput'),
       pair: localStorage.getItem('stakePair'),
-      type: 'Staking',
+      type: 'Stake',
     });
 
     props.stakeOnFarm(
@@ -78,7 +78,7 @@ const StakeModal = (props) => {
     >
       <div className={clsx(styles.inputWrapper, 'd-flex')}>
         <input
-          value={inputValue}
+          value={fromExponential(inputValue)}
           onChange={(event) => setInputValue(event.target.value)}
           placeholder={'0.0'}
           type="text"
