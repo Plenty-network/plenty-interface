@@ -410,20 +410,22 @@ const RemoveLiquidityNew = (props) => {
                 <img height="42" width="42" src={props.tokenIn.image} />
               </div>
               <div className="ml-2">
-                <OverlayTrigger
-                  placement="top"
-                  overlay={
-                    <Tooltip id="button-tooltip" {...props}>
-                      {fromExponential(removableTokens.tokenFirst_Out)}
-                    </Tooltip>
-                  }
-                >
-                  <span className="remove-value-lq">
-                    {removableTokens.tokenFirst_Out
-                      ? removableTokens.tokenFirst_Out.toFixed(4)
-                      : '0.00'}
-                  </span>
-                </OverlayTrigger>
+                {removableTokens.tokenFirst_Out ? (
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={
+                      <Tooltip id="button-tooltip" {...props}>
+                        {fromExponential(removableTokens.tokenFirst_Out)}
+                      </Tooltip>
+                    }
+                  >
+                    <span className="remove-value-lq">
+                      {removableTokens.tokenFirst_Out.toFixed(4)}
+                    </span>
+                  </OverlayTrigger>
+                ) : (
+                  <span className="remove-value-lq">0.00</span>
+                )}
                 <div className="remove-token-lq">
                   {props.tokenIn.name === 'tez'
                     ? 'TEZ'
@@ -438,20 +440,23 @@ const RemoveLiquidityNew = (props) => {
                 <img height="42" width="42" src={props.tokenOut.image} />
               </div>
               <div className="ml-2">
-                <OverlayTrigger
-                  placement="top"
-                  overlay={
-                    <Tooltip id="button-tooltip" {...props}>
-                      {fromExponential(removableTokens.tokenSecond_Out)}
-                    </Tooltip>
-                  }
-                >
-                  <span className="remove-value-lq">
-                    {removableTokens.tokenSecond_Out
-                      ? removableTokens.tokenSecond_Out.toFixed(4)
-                      : '0.00'}
-                  </span>
-                </OverlayTrigger>
+                {removableTokens.tokenSecond_Out ? (
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={
+                      <Tooltip id="button-tooltip" {...props}>
+                        {fromExponential(removableTokens.tokenSecond_Out)}
+                      </Tooltip>
+                    }
+                  >
+                    <span className="remove-value-lq">
+                      {removableTokens.tokenSecond_Out.toFixed(4)}
+                    </span>
+                  </OverlayTrigger>
+                ) : (
+                  <span className="remove-value-lq">0.00</span>
+                )}
+
                 <div className="remove-token-lq">
                   {' '}
                   {props.tokenOut.name === 'tez'
