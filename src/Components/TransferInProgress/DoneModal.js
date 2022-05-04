@@ -8,6 +8,7 @@ import React, { useEffect } from 'react';
 import { mintTokens, releaseTokens } from '../../apis/bridge/bridgeAPI';
 import CONFIG from '../../config/config';
 import { FLASH_MESSAGE_DURATION } from '../../constants/global';
+import '../../assets/scss/animation.scss';
 
 const DoneModal = (props) => {
   const {
@@ -30,6 +31,7 @@ const DoneModal = (props) => {
     openingFromHistory,
     displayMessage,
     tokenIn,
+    setOpeningFromHistory,
   } = props;
 
   useEffect(async () => {
@@ -42,6 +44,7 @@ const DoneModal = (props) => {
         console.log(mintResult);
         if (mintResult.success) {
           setFinalOpHash(mintResult.transactionHash);
+          setOpeningFromHistory(false);
           displayMessage({
             type: 'success',
             duration: FLASH_MESSAGE_DURATION,
@@ -69,6 +72,7 @@ const DoneModal = (props) => {
         console.log(releaseResult);
         if (releaseResult.success) {
           setFinalOpHash(releaseResult.transactionHash);
+          setOpeningFromHistory(false);
           displayMessage({
             type: 'success',
             duration: FLASH_MESSAGE_DURATION,
@@ -113,7 +117,7 @@ const DoneModal = (props) => {
             </div>
           </div>
         ) : (
-          <div className="border-tile success">
+          <div className={`border-tile success ${!openingFromHistory ? 'topToBottomFadeInAnimation-4' : ''}`}>
             <div className="left-div">
               <div className="containerwithicon">
                 <img src={tokenOut.image} />
@@ -159,8 +163,8 @@ const DoneModal = (props) => {
             <div className="containerwithicon">
               <FeeBigIcon />
               <div className="right-div">
-                <span className="fromreceived">Estimated transaction fee</span>
-                <span className="value-text">~{Number(transactionFees).toFixed(6)}{` ${operation === 'BRIDGE' ? tokenOut.name : tokenIn.name}`}</span>
+                <span className="fromreceived">{operation === 'BRIDGE' ? 'Bridging Fee' : 'Unbridging Fee'}</span>
+                <span className="value-text">{Number(transactionFees).toFixed(6)}{` ${operation === 'BRIDGE' ? tokenOut.name : tokenIn.name}`}</span>
               </div>
             </div>
           </div>
@@ -181,7 +185,7 @@ const DoneModal = (props) => {
                 target="_blank"
                 rel="noreferrer"
               >
-                View detailed trasaction
+                View on Explorer
               </a>
               <Link className="ml-2 mb-1" />
             </p>
@@ -210,6 +214,7 @@ DoneModal.propTypes = {
   openingFromHistory: PropTypes.any,
   displayMessage: PropTypes.any,
   tokenIn: PropTypes.any,
+  setOpeningFromHistory: PropTypes.any,
 };
 
 export default DoneModal;

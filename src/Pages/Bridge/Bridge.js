@@ -23,6 +23,10 @@ import { getCurrentNetwork } from '../../apis/bridge/bridgeAPI';
 import FlashMessage from '../../Components/FlashMessage/FlashMessage';
 import { FLASH_MESSAGE_DURATION } from '../../constants/global';
 import '../Bridge/bridge.scss';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en.json';
+
+TimeAgo.addDefaultLocale(en);
 
 const Bridge = (props) => {
   //const isMobile = useMediaQuery('(max-width: 991px)');
@@ -152,6 +156,7 @@ const Bridge = (props) => {
         .request({ method: 'eth_requestAccounts' })
         .then((result) => {
           setMetamaskAddress(result[0]);
+          localStorage.setItem('isWalletConnected', true);
         })
         .catch((error) => {
           console.log(error);
@@ -160,6 +165,14 @@ const Bridge = (props) => {
     } else {
       console.log('Need to install MetaMask');
       localStorage.setItem('isWalletConnected', false);
+      displayMessage({
+        type: 'warning',
+        duration: null,
+        title: 'Metamask Not Found',
+        content: 'Please install Metamask wallet and reload.',
+        isFlashMessageALink: false,
+        flashMessageLink: '#',
+      });
     }
   };
 
@@ -219,15 +232,29 @@ const Bridge = (props) => {
 
   //Add all metamask event listeners and remove them on unmount.
   useEffect(() => {
-    // Call chain change handler first time app loads to set the metamask chain state.
-    metamaskChainChangeHandler();
-    // Listen to chain change on metamask.
-    window.ethereum.on('chainChanged', metamaskChainChangeHandler);
-    // listen for account changes
-    window.ethereum.on('accountsChanged', metamaskAccountChangeHandler);
+    if (window.ethereum && window.ethereum.isMetaMask) { 
+      // Call chain change handler first time app loads to set the metamask chain state.
+      metamaskChainChangeHandler();
+      // Listen to chain change on metamask.
+      window.ethereum.on('chainChanged', metamaskChainChangeHandler);
+      // listen for account changes
+      window.ethereum.on('accountsChanged', metamaskAccountChangeHandler);
+    } else {
+      console.log('Need to install Metamask wallet.');
+      displayMessage({
+        type: 'warning',
+        duration: null,
+        title: 'Metamask Not Found',
+        content: 'Please install Metamask wallet and reload.',
+        isFlashMessageALink: false,
+        flashMessageLink: '#',
+      });
+    }
     return () => {
-      window.ethereum.removeListener('chainChanged', metamaskChainChangeHandler);
-      window.ethereum.removeListener('accountsChanged', metamaskAccountChangeHandler);
+      if (window.ethereum && window.ethereum.isMetaMask) {
+        window.ethereum.removeListener('chainChanged', metamaskChainChangeHandler);
+        window.ethereum.removeListener('accountsChanged', metamaskAccountChangeHandler);
+      }
     };
   }, []);
 
@@ -434,6 +461,7 @@ const Bridge = (props) => {
                 metamaskChain={metamaskChain}
                 displayMessage={displayMessage}
                 setSwitchButtonPressed={setSwitchButtonPressed}
+                connectWalletHandler={connectWalletHandler}
               />
             )}
             {transaction === 2 && (
@@ -506,6 +534,7 @@ const Bridge = (props) => {
                 setFinalOpHash={setFinalOpHash}
                 openingFromHistory={openingFromHistory.current}
                 displayMessage={displayMessage}
+                setOpeningFromHistory={setOpeningFromHistory}
               />
             )}
           </Col>

@@ -93,23 +93,27 @@ const MintReleaseModal = (props) => {
     <>
       <p className={styles.contentLabel}>{operation === 'BRIDGE' ? 'Minting' : 'Releasing'}</p>
       <p className={styles.contentDes}>{description}</p>
-      <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
+      {/* <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
         <a
-          href={`${operation === 'BRIDGE' ? CONFIG.EXPLORER_LINKS[fromBridge.name] : CONFIG.EXPLORER_LINKS.TEZOS}${mintUnmintOpHash}`}
+          href={`${
+            operation === 'BRIDGE'
+              ? CONFIG.EXPLORER_LINKS[fromBridge.name]
+              : CONFIG.EXPLORER_LINKS.TEZOS
+          }${mintUnmintOpHash}`}
           target="_blank"
           rel="noreferrer"
         >
           View on Block Explorer
         </a>
         <Link className="ml-2 mb-1" />
-      </p>
+      </p> */}
       <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
       <div className={styles.resultsHeader}>
         <div className={`${styles.bottomInfo} ${styles.width} ${styles.confirmTextWrapper}`}>
           {awaitingConfirmation ? (
-            <p>Awaiting confirmation..</p>
+            <p>Fetching Data..</p>
           ) : (
-            confirmationsCount !== 0 && confirmationsRequired !== 0 && confirmationsCount >= confirmationsRequired ? (
+            /* confirmationsCount !== 0 && confirmationsRequired !== 0 && confirmationsCount >= confirmationsRequired ? (
               <p>
                 Waiting for signatures <span className={styles.feeValue}>{signaturesCount}/{signaturesRequired}</span>
               </p>
@@ -117,10 +121,24 @@ const MintReleaseModal = (props) => {
               <p>
                 Waiting for confirmations <span className={styles.feeValue}>{confirmationsCount}/{confirmationsRequired}</span>
               </p>
-            )
+            ) */
+            <>
+              <p>
+                Waiting for confirmations{' '}
+                <span className={styles.feeValue}>
+                  {confirmationsCount <= confirmationsRequired ? confirmationsCount : confirmationsRequired}/{confirmationsRequired}
+                </span>
+              </p>
+              <p>
+                Waiting for signatures{' '}
+                <span className={styles.feeValue}>
+                  {signaturesCount}/{signaturesRequired}
+                </span>
+              </p>
+            </>
           )}
         </div>
-        <div style={{ width: '50%' }}>
+        <div className={styles.mainButtonWrapper}>
           <Button
             color={'primary'}
             className={`xplenty-btn mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
@@ -133,13 +151,13 @@ const MintReleaseModal = (props) => {
       </div>
       <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
       <div className={styles.feeInfoWrapper}>
-        <img
+        {/* <img
           src={theme === 'light' ? GasIcon : GasIconDark}
           alt="GasIcon"
           style={{ height: '20px' }}
-        ></img>
-        <p className={styles.bottomInfo}>Estimated Gas fee</p>
-        <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~{Number(gasFees).toFixed(6)}</p>
+        ></img> */}
+        <p className={styles.bottomInfo}>Review your gas fee in your wallet</p>
+        {/* <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~{Number(gasFees).toFixed(6)}</p> */}
       </div>
     </>
   );

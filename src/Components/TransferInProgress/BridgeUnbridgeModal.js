@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import styles from './Transfer.module.scss';
 import Button from '../Ui/Buttons/Button';
@@ -57,8 +58,8 @@ const BridgeUnbridgeModal = (props) => {
         displayMessage({
           type: 'success',
           duration: FLASH_MESSAGE_DURATION,
-          title: 'Wrap call Successful',
-          content: `${Number(firstTokenAmount).toFixed(3)} ${tokenIn.name} wrapped successfully.`,
+          title: 'Lock call Successful',
+          content: `${Number(firstTokenAmount).toFixed(3)} ${tokenIn.name} locked successfully.`,
           isFlashMessageALink: false,
           flashMessageLink: '#',
         });
@@ -69,8 +70,8 @@ const BridgeUnbridgeModal = (props) => {
         displayMessage({
           type: 'error',
           duration: FLASH_MESSAGE_DURATION,
-          title: 'Wrap Failed',
-          content: 'Failed to wrap tokens. Please try again.',
+          title: 'Lock Failed',
+          content: 'Failed to lock tokens. Please try again.',
           isFlashMessageALink: false,
           flashMessageLink: '#',
         });
@@ -97,8 +98,8 @@ const BridgeUnbridgeModal = (props) => {
         displayMessage({
           type: 'error',
           duration: FLASH_MESSAGE_DURATION,
-          title: 'Wrap Failed',
-          content: 'Failed to wrap tokens. Please try again.',
+          title: 'Unwrap Failed',
+          content: 'Failed to unwrap tokens. Please try again.',
           isFlashMessageALink: false,
           flashMessageLink: '#',
         });
@@ -143,9 +144,9 @@ const BridgeUnbridgeModal = (props) => {
 
   return (
     <>
-      <p className={styles.contentLabel}>{operation === 'BRIDGE' ? 'Bridging' : 'Unbridging'}</p>
+      <p className={styles.contentLabel}>{operation === 'BRIDGE' ? 'Locking' : 'Unbridging'}</p>
       <p className={styles.contentDes}>{description}</p>
-      {operation === 'BRIDGE' && approveHash && (
+      {/* {operation === 'BRIDGE' && approveHash && (
         <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
           <a
             href={`${CONFIG.EXPLORER_LINKS[fromBridge.name]}${approveHash}`}
@@ -156,32 +157,32 @@ const BridgeUnbridgeModal = (props) => {
           </a>
           <Link className="ml-2 mb-1" />
         </p>
-      )}
+      )} */}
       <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
       <div className={styles.resultsHeader}>
         <div className={`${styles.bottomInfo} ${styles.width}`}>
           Please approve in your wallet to proceed with the tranfer{' '}
         </div>
-        <div style={{ width: '50%' }}>
+        <div className={styles.mainButtonWrapper}>
           <Button
             color={'primary'}
             className={`xplenty-btn mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
             onClick={bridgeButtonClick}
             loading={isButtonLoading}
           >
-            {operation === 'BRIDGE' ? 'Bridge' : 'Unbridge'}
+            {operation === 'BRIDGE' ? 'Lock' : 'Unbridge'}
           </Button>
         </div>
       </div>
       <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
       <div className={styles.feeInfoWrapper}>
-        <img
+        {/* <img
           src={theme === 'light' ? GasIcon : GasIconDark}
           alt="GasIcon"
           style={{ height: '20px' }}
-        ></img>
-        <p className={styles.bottomInfo}>Estimated Gas fee</p>
-        <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~{Number(gasFees).toFixed(6)}</p>
+        ></img> */}
+        <p className={styles.bottomInfo}>Review your gas fee in your wallet</p>
+        {/* <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~{Number(gasFees).toFixed(6)}</p> */}
       </div>
     </>
   );

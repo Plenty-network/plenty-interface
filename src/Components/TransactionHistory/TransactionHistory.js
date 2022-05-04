@@ -28,8 +28,11 @@ import { getHistory } from '../../apis/bridge/bridgeAPI';
 import { FLASH_MESSAGE_DURATION } from '../../constants/global';
 import { changeNetwork } from '../../apis/bridge/bridgeAPI';
 import { CHANGE_NETWORK_PROMPT_DELAY } from '../../constants/bridges';
+import ReactTimeAgo from 'react-time-ago';
+import { filterData, sortData } from './helpers';
 
 const TransactionHistory = (props) => {
+  // eslint-disable-next-line
   const [animationCalss, SetAnimationClass] = useState('leftToRightFadeInAnimation-4-bridge');
   const [showFilter, setShowFilter] = useState(false);
   const [showSort, setShowSort] = useState(false);
@@ -48,6 +51,10 @@ const TransactionHistory = (props) => {
   const [radioButtonSelected, setRadioButtonSelected] = useState('MOST_RECENT');
 
   const dummyLoadingDivisions = useRef([0, 0, 0, 0, 0, 0, 0]);
+  const filterButtonRef = useRef(null);
+  const sortButtonRef = useRef(null);
+  const filterDivisionRef = useRef(null);
+  const sortDivisionRef = useRef(null);
 
   const {
     // eslint-disable-next-line
@@ -84,83 +91,8 @@ const TransactionHistory = (props) => {
     displayMessage,
   } = props;
 
-  const filterData = (originalData, checkBoxesState) => {
-    const checkedCount = Object.values(checkBoxesState).filter(
-      (checkBoxState) => checkBoxState,
-    ).length;
-    const dataToFilter = [...originalData];
-    if (checkedCount === 0 || checkedCount === 3) {
-      return dataToFilter;
-    } else if (checkedCount === 1) {
-      // Have to add conditions if any other filters introduced in future.
-      return dataToFilter.filter((transaction) => {
-        if (checkBoxesState['TO_TEZOS']) {
-          return transaction.operation === 'BRIDGE' && transaction.currentProgress === 4;
-        } else if (checkBoxesState['FROM_TEZOS']) {
-          return transaction.operation === 'UNBRIDGE' && transaction.currentProgress === 4;
-        } else if (checkBoxesState['ACTION_REQUIRED']) {
-          return transaction.currentProgress !== 4;
-        }
-        return true;
-      });
-    } else {
-      if (checkBoxesState['TO_TEZOS'] && checkBoxesState['FROM_TEZOS']) {
-        return dataToFilter.filter(
-          (transaction) =>
-            (transaction.operation === 'BRIDGE' || transaction.operation === 'UNBRIDGE') &&
-            transaction.currentProgress === 4,
-        );
-      } else if (checkBoxesState['TO_TEZOS'] && checkBoxesState['ACTION_REQUIRED']) {
-        return dataToFilter.filter(
-          (transaction) => transaction.operation === 'BRIDGE' || transaction.currentProgress !== 4,
-        );
-      } else if (checkBoxesState['FROM_TEZOS'] && checkBoxesState['ACTION_REQUIRED']) {
-        return dataToFilter.filter(
-          (transaction) =>
-            transaction.operation === 'UNBRIDGE' || transaction.currentProgress !== 4,
-        );
-      }
-    }
-  };
-
-  const sortData = (filteredData, radioSelected) => {
-    const dataToSort = filteredData;
-    // Change the date comparison method anf format.
-    return dataToSort.sort((a, b) => {
-      if (radioSelected === 'MOST_RECENT') {
-        if (new Date(a.timestamp).getTime() > new Date(b.timestamp).getTime()) {
-          return -1;
-        } else if (new Date(a.timestamp).getTime() < new Date(b.timestamp).getTime()) {
-          return 1;
-        }
-        return 0;
-      } else if (radioSelected === 'OLDEST') {
-        if (new Date(a.timestamp).getTime() < new Date(b.timestamp).getTime()) {
-          return -1;
-        } else if (new Date(a.timestamp).getTime() > new Date(b.timestamp).getTime()) {
-          return 1;
-        }
-        return 0;
-      } else if (radioSelected === 'INCREASING_VALUE') {
-        if (a.secondTokenAmount < b.secondTokenAmount) {
-          return -1;
-        } else if (a.secondTokenAmount > b.secondTokenAmount) {
-          return 1;
-        }
-        return 0;
-      } else if (radioSelected === 'DECREASING_VALUE') {
-        if (a.secondTokenAmount > b.secondTokenAmount) {
-          return -1;
-        } else if (a.secondTokenAmount < b.secondTokenAmount) {
-          return 1;
-        }
-        return 0;
-      }
-    });
-  };
-
   const filteredData = useMemo(
-    () => filterData(transactionData, checkBoxesState, checkedCount),
+    () => filterData(transactionData, checkBoxesState),
     [transactionData, checkBoxesState],
   );
 
@@ -264,9 +196,9 @@ const TransactionHistory = (props) => {
     setOperation(selectedData.operation);
     setMintUnmintOpHash(selectedData.txHash);
     setFinalOpHash(selectedData.txHash);
-    if (selectedData.currentProgress === 4) {
+    //if (selectedData.currentProgress === 4) {
       setOpeningFromHistory(true);
-    }
+    //}
     // console.log(prevFromBridge, prevToBridge, prevOperation);
     // setSavedFromBridge(prevFromBridge);
     // setSavedToBridge(prevToBridge);
@@ -323,22 +255,31 @@ const TransactionHistory = (props) => {
     }
   }, []);
 
-  /* api call example 
-  const fetchData = async () => {
-    const res = await axios.get(
-      'https://api.hangzhou2net.tzkt.io/v1/accounts/KT1X6MCugcwqhS8oikqHDQvAdVjVvtxZ3tUF/operations?type=transaction&limit=999&entrypoint=mint&sender=KT1X6MCugcwqhS8oikqHDQvAdVjVvtxZ3tUF&status=applied',
-    );
-    console.log(res);
-  };
-  fetchData();
-*/
+  // Handle closing of filter and sort components on clicking of outside of them.
+  useEffect(() => {
+    function handleClickOutsideDiv(event) {
+      if (filterButtonRef.current && filterDivisionRef.current && !filterButtonRef.current.contains(event.target) && !filterDivisionRef.current.contains(event.target)) {
+        setShowFilter((prevState) => (prevState ? !prevState : prevState));
+      }
+      if (sortButtonRef.current && sortDivisionRef.current && !sortButtonRef.current.contains(event.target) && !sortDivisionRef.current.contains(event.target)) {
+        setShowSort((prevState) => (prevState ? !prevState : prevState));
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutsideDiv);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutsideDiv);
+    };
+  }, []);
+
   return (
     <div
       className={`justify-content-center mx-auto col-20 col-md-10 col-lg-10 col-xl-10 ${styles.gov}`}
     >
       <div className={styles.border}>
-        <div className={` ${styles.bridgeModal} ${animationCalss}`}>
-          <div className="flex flex-row justify-content-between mb-3">
+        <div className={` ${styles.bridgeModal}`}>
+          <div
+            className={`flex flex-row justify-content-between mb-3 ${styles.topWrapper} rightToLeftFadeInAnimation-4`}
+          >
             <div className={`flex ${styles.headingWrapper}`}>
               <p
                 className={styles.arrowback}
@@ -351,53 +292,61 @@ const TransactionHistory = (props) => {
               </p>
               <p className={styles.heading}>Transaction history</p>
             </div>
-            <div className={styles.filterImageWrapper}>
-              <img
-                src={
-                  theme === 'light'
-                    ? showSort
-                      ? sortSelected
-                      : sortNotSelected
-                    : showSort
-                    ? sortSelectedDark
-                    : sortNotSelectedDark
-                }
-                onClick={sortClickHandler}
-                style={{ cursor: 'pointer' }}
-              ></img>
-              <img
-                src={
-                  theme === 'light'
-                    ? checkedCount > 0
-                      ? filterApplied
+            {!isLoading && (
+              <div className={styles.filterImageWrapper}>
+                <img
+                  src={
+                    theme === 'light'
+                      ? showSort
+                        ? sortSelected
+                        : sortNotSelected
+                      : showSort
+                      ? sortSelectedDark
+                      : sortNotSelectedDark
+                  }
+                  ref={sortButtonRef}
+                  onClick={sortClickHandler}
+                  style={{ cursor: 'pointer' }}
+                ></img>
+                <img
+                  src={
+                    theme === 'light'
+                      ? checkedCount > 0
+                        ? filterApplied
+                        : showFilter
+                        ? filterSelected
+                        : filterNotSelected
+                      : checkedCount > 0
+                      ? filterAppliedDark
                       : showFilter
-                      ? filterSelected
-                      : filterNotSelected
-                    : checkedCount > 0
-                    ? filterAppliedDark
-                    : showFilter
-                    ? filterSelectedDark
-                    : filterNotSelectedDark
-                }
-                onClick={filterClickHandler}
-                style={{ cursor: 'pointer' }}
-              ></img>
-            </div>
+                      ? filterSelectedDark
+                      : filterNotSelectedDark
+                  }
+                  ref={filterButtonRef}
+                  onClick={filterClickHandler}
+                  style={{ cursor: 'pointer' }}
+                ></img>
+              </div>
+            )}
             {showFilter ? (
               <TransactionHistoryFilter
                 checkBoxesState={checkBoxesState}
                 setCheckBoxesState={setCheckBoxesState}
+                filterDivisionRef={filterDivisionRef}
               />
             ) : null}
             {showSort ? (
               <TransactionHistorySort
                 radioButtonSelected={radioButtonSelected}
                 setRadioButtonSelected={setRadioButtonSelected}
+                sortDivisionRef={sortDivisionRef}
               />
             ) : null}
           </div>
-          <div className={`mb-3 ${styles.lineBottom} `}></div>
-          <div className={styles.transactionDataWrapper}>
+          <div
+            className={`mb-3 ${styles.lineBottom} ${styles.width} rightToLeftFadeInAnimation-4`}
+          ></div>
+          <div className={`${styles.transactionDataWrapper} rightToLeftFadeInAnimation-4`}>
             {isLoading ? (
               dummyLoadingDivisions.current.map((box, index) => {
                 return (
@@ -411,8 +360,8 @@ const TransactionHistory = (props) => {
             ) : sortedData.length > 0 ? (
               sortedData.map((data, index) => {
                 return (
-                  <>
-                    <div key={index} className={styles.resultsHeader}>
+                  <React.Fragment key={index}>
+                    <div className={styles.resultsHeader}>
                       <div className={styles.resultsInfoWrapper}>
                         <div className={styles.tokenbg}>
                           <img
@@ -435,9 +384,14 @@ const TransactionHistory = (props) => {
                             {Number(data.secondTokenAmount).toFixed(4)} {data.tokenOut}
                           </p>
                           <p className={styles.amt}>
-                            {new Date(data.timestamp).toLocaleDateString('en-IN')} ;{' '}
-                            {('0' + new Date(data.timestamp).getHours()).slice(-2)}:
-                            {('0' + new Date(data.timestamp).getMinutes()).slice(-2)}
+                            {/* {new Date(data.timestamp).toLocaleDateString('en-GB', {
+                              day: 'numeric',
+                              month: 'short',
+                              year: 'numeric',
+                            })}{' '}
+                            ; {('0' + new Date(data.timestamp).getHours()).slice(-2)}:
+                            {('0' + new Date(data.timestamp).getMinutes()).slice(-2)} */}
+                            <ReactTimeAgo date={data.timestamp} locale="en-US" />
                           </p>
                         </div>
                       </div>
@@ -464,7 +418,7 @@ const TransactionHistory = (props) => {
                       )}
                     </div>
                     <div className={`mt-3 mb-3 ${styles.lineBottom} `}></div>
-                  </>
+                  </React.Fragment>
                 );
               })
             ) : (

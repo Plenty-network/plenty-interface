@@ -104,6 +104,7 @@ const BridgeTransferModal = (props) => {
     setFinalOpHash,
     openingFromHistory,
     displayMessage,
+    setOpeningFromHistory,
   } = props;
 
   const setBack = (value) => {
@@ -243,7 +244,7 @@ const BridgeTransferModal = (props) => {
   //const numberOfSteps = ['Approve', 'Bridge', 'Mint', 'Done'];
   const numberOfSteps = [
     { BRIDGE: 'Approve', UNBRIDGE: '' },
-    { BRIDGE: 'Bridge', UNBRIDGE: 'Unbridge' },
+    { BRIDGE: 'Lock', UNBRIDGE: 'Unbridge' },
     { BRIDGE: 'Mint', UNBRIDGE: 'Release' },
     { BRIDGE: 'Done', UNBRIDGE: 'Done' },
   ];
@@ -615,16 +616,28 @@ const BridgeTransferModal = (props) => {
     >
       <div className={styles.border}>
         <div
-          className={` ${styles.bridgeModal} leftToRightFadeInAnimation-4-bridge-${isButtonLoading}`}
+          className={` ${styles.bridgeModal}`}
         >
+          <div className='rightToLeftFadeInAnimation-4'>
           <div className="flex flex-row justify-content-between mb-3">
             <div className={`flex ${styles.headingWrapper}`}>
-              {currentProgress === 0 && (
+              {(currentProgress === 0 ||
+                (currentProgress === 2 && openingFromHistory) ||
+                (currentProgress === 1 && operation === 'UNBRIDGE')) && (
                 <p
                   className={styles.arrowback}
-                  onClick={isApproveLoading ? null :() => {
-                    setBack(1);
-                  }}
+                  onClick={
+                    currentProgress === 2 && openingFromHistory
+                      ? () => {
+                          resetToDefaultStates();
+                          setTransaction(2);
+                        }
+                      : isApproveLoading
+                      ? null
+                      : () => {
+                          setBack(1);
+                        }
+                  }
                   style={{ cursor: 'pointer' }}
                 >
                   <span className="mr-3 material-icons-round ">arrow_back</span>
@@ -637,7 +650,7 @@ const BridgeTransferModal = (props) => {
                 </div>
               ) : currentProgress === numberOfSteps.length - 1 ? (
                 <p className={styles.TransferInProgress}>
-                  {operation === 'BIRDGE' ? 'Minting' : 'Release'} in progress
+                  {operation === 'BRIDGE' ? 'Minting' : 'Release'} in progress
                 </p>
               ) : (
                 <p className={styles.TransferInProgress}>Transfer in progress</p>
@@ -645,15 +658,17 @@ const BridgeTransferModal = (props) => {
             </div>
             {(currentProgress === numberOfSteps.length || currentProgress === 2) && (
               <div>
-                {currentProgress === numberOfSteps.length && (<img
-                  src={theme === 'light' ? HistoryIcon : HistoryIconDark}
-                  alt="History"
-                  className={`${styles.historyIcon} ${styles.transactionIcons}`}
-                  onClick={() => {
-                    resetToDefaultStates();
-                    setTransaction(2);
-                  }}
-                ></img>)}
+                {currentProgress === numberOfSteps.length && (
+                  <img
+                    src={theme === 'light' ? HistoryIcon : HistoryIconDark}
+                    alt="History"
+                    className={`${styles.historyIcon} ${styles.transactionIcons}`}
+                    onClick={() => {
+                      resetToDefaultStates();
+                      setTransaction(2);
+                    }}
+                  ></img>
+                )}
                 <img
                   src={theme === 'light' ? HomeIcon : HomeIconDark}
                   alt="Home"
@@ -667,7 +682,7 @@ const BridgeTransferModal = (props) => {
             )}
           </div>
           <div className={`mb-4 mt-2 ${styles.lineBottom} `}></div>
-          <div className={styles.resultsHeader}>
+          <div className={`${styles.resultsHeader} rightToLeftFadeInAnimation-4`}>
             {operation === 'BRIDGE'
               ? numberOfSteps.map((currentStep, index) => {
                   if (currentProgress > index) {
@@ -774,6 +789,7 @@ const BridgeTransferModal = (props) => {
               openingFromHistory={openingFromHistory}
               displayMessage={displayMessage}
               tokenIn={tokenIn}
+              setOpeningFromHistory={setOpeningFromHistory}
             />
           )}
           {/* code will go here */}
@@ -787,6 +803,7 @@ const BridgeTransferModal = (props) => {
             transactionFees={fee}
           /> */}
           {/*  */}
+          </div>
         </div>
       </div>
     </div>
@@ -827,6 +844,7 @@ BridgeTransferModal.propTypes = {
   setFinalOpHash: PropTypes.any,
   openingFromHistory: PropTypes.any,
   displayMessage: PropTypes.any,
+  setOpeningFromHistory: PropTypes.any,
 };
 
 export default BridgeTransferModal;
