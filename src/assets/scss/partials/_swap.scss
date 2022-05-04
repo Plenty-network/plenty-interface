@@ -2155,6 +2155,10 @@ input:checked {
 .floater-text {
   margin-left: 12px;
 }
+.center-floater-message {
+  display: flex;
+  align-items: center;
+}
 .close-icon-floater-error {
   position: relative;
   left: 145px;

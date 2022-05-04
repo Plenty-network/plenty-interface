@@ -495,13 +495,7 @@ const RemoveLiquidityNew = (props) => {
               </span>
               <div className="d-flex mt-2">
                 <div>
-                  <div className="token-name-lp">
-                    {props.tokenIn.name === 'tez'
-                      ? 'TEZ'
-                      : props.tokenIn.name === 'ctez'
-                      ? 'CTEZ'
-                      : props.tokenIn.name}
-                  </div>
+                  <div className="token-name-lp"></div>
                   <OverlayTrigger
                     placement="top"
                     overlay={
@@ -514,6 +508,11 @@ const RemoveLiquidityNew = (props) => {
                   >
                     <div className="tokenin-value">
                       <span className="value">
+                        {props.tokenIn.name === 'tez'
+                          ? 'TEZ'
+                          : props.tokenIn.name === 'ctez'
+                          ? 'CTEZ'
+                          : props.tokenIn.name}{' '}
                         {props.positionDetails.data ? (
                           props.positionDetails.data.tokenAPoolBalance.toFixed(4)
                         ) : (
@@ -524,13 +523,7 @@ const RemoveLiquidityNew = (props) => {
                   </OverlayTrigger>
                 </div>
                 <div className="ml-2">
-                  <div className="token-name-lp">
-                    {props.tokenOut.name === 'tez'
-                      ? 'TEZ'
-                      : props.tokenOut.name === 'ctez'
-                      ? 'CTEZ'
-                      : props.tokenOut.name}
-                  </div>
+                  <div className="token-name-lp"></div>
                   <OverlayTrigger
                     placement="top"
                     overlay={
@@ -543,6 +536,11 @@ const RemoveLiquidityNew = (props) => {
                   >
                     <div className="tokenin-value">
                       <span className="value">
+                        {props.tokenOut.name === 'tez'
+                          ? 'TEZ'
+                          : props.tokenOut.name === 'ctez'
+                          ? 'CTEZ'
+                          : props.tokenOut.name}{' '}
                         {props.positionDetails.data ? (
                           props.positionDetails.data.tokenBPoolBalance.toFixed(4)
                         ) : (
