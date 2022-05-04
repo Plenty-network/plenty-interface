@@ -299,7 +299,7 @@ const getPriceForPlentyLpTokens = async (
     if (token2Address === 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4') {
       const ctezPriceInUSD = await getCtezPrice();
       tokenData['token1'] = {
-        tokenName: 'cTez',
+        tokenName: 'ctez',
         tokenValue: ctezPriceInUSD.ctezPriceInUSD,
         tokenDecimal: 6,
       };

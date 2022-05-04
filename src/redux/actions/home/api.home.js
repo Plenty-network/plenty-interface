@@ -46,10 +46,6 @@ export const getTVLHelper = async () => {
       data: 0,
     };
   }
-  // const res = await axios.get(
-  //   SERVERLESS_BASE_URL[CONFIG.NETWORK] +
-  //     SERVERLESS_REQUEST[CONFIG.NETWORK]['HOME-PAGE-TVL']
-  // );
 };
 
 export const calculateHarvestValue = async (
@@ -582,7 +578,7 @@ const getPriceForPlentyLpTokens = async (
     if (token2Address === 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4') {
       const ctezPriceInUSD = await getCtezPrice();
       tokenData['token1'] = {
-        tokenName: 'cTez',
+        tokenName: 'ctez',
         tokenValue: ctezPriceInUSD.ctezPriceInUSD,
         tokenDecimal: 6,
       };

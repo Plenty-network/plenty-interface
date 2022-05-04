@@ -27,6 +27,14 @@ const getListOfPositions = async (tokenList, isStable, walletAddress) => {
         const liquidityToken = pairedtTokenValue.liquidityToken;
         // Check if the lp token is not already parsed and proceed only if not.
         if (!tempLPTokenObj[liquidityToken]) {
+          /* The below if condition is to avoid the stable pairs that are present in non-stable(AMM) config list 
+          to eliminate duplicates. Any stable pair present in non-stable config(AMM) for routing purpose should 
+          be added to stable swap config list as well for this whole function to work properly. This is a 
+          workaround till a common config with appropriate identifier is created. */
+          if(!isStable && isTokenPairStable(token,pairedtToken)) {
+            continue;
+          }
+          /* Special workaround if ends */
           const tokenA = isStable
             ? stableSwapTokens.find((stableToken) => stableToken.name === token)
             : tokens.find((normalToken) => normalToken.name === token);
@@ -51,7 +59,7 @@ const getListOfPositions = async (tokenList, isStable, walletAddress) => {
   );
 
   promiseResults.forEach((result, index) => {
-    if (result.status === 'fulfilled' && result.value.success) {
+    if (result.status === 'fulfilled' && result.value.success && result.value.balance > 0) {
       listOfAvailablePostions.push({
         tokenA: tokensPromiseList[index].tokenA,
         tokenB: tokensPromiseList[index].tokenB,
@@ -120,7 +128,7 @@ export const getLpTokenBalanceForPair = async (tokenA, tokenB, walletAddress) =>
     const result = isPairStable
       ? await getUserBalanceByRpcStable(liquidityToken, walletAddress)
       : await getUserBalanceByRpc(liquidityToken, walletAddress);
-    return result.success
+    return result.success && result.balance > 0
       ? { success: true, isLiquidityAvailable: true, lpBalance: result.balance, isPairStable }
       : { success: true, isLiquidityAvailable: false, lpBalance: 0, isPairStable };
   } catch (error) {
@@ -155,7 +163,7 @@ export const getLiquidityPositionDetails = async (tokenA, tokenB, walletAddress)
     let lpBalance = 0;
 
     const result = await getUserBalanceByRpc(liquidityToken, walletAddress);
-    if (result.success) {
+    if (result.success && result.balance > 0) {
       lpBalance = result.balance;
     } else {
       throw new Error('Liquidity not available for the selected pair.');
@@ -248,7 +256,7 @@ export const getLiquidityPositionDetailsStable = async (tokenA, tokenB, walletAd
 
     const result = await getUserBalanceByRpcStable(liquidityToken, walletAddress);
 
-    if (result.success) {
+    if (result.success && result.balance > 0) {
       lpBalance = result.balance;
     } else {
       throw new Error('Liquidity not available for the selected pair.');

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
+import fromExponential from 'from-exponential';
 import StableSwap from '../../assets/images/lq-stableswap.svg';
 import StableSwapDark from '../../assets/images/lq-stableswap-dark.svg';
 import Button from '../../Components/Ui/Buttons/Button';
@@ -24,7 +25,7 @@ export const LiquidityPositions = (props) => {
   useEffect(async () => {
     const res = await getLiquidityPositionsForUser(props.walletAddress);
 
-    if (res.success) {
+    if (res.success && res.data.length > 0) {
       setEmpty(false);
       setPositions(res.data);
     } else {
@@ -71,11 +72,23 @@ export const LiquidityPositions = (props) => {
                   isOpen && indexPosition === index && 'openLqDetails',
                 )}
                 key={index}
+                onClick={() => openManage(position, index, !isOpen, position.isStable)}
+                style={{ cursor: 'pointer' }}
               >
                 <div className="token-label">
                   <img className="token-img" src={position.tokenA.image} />
                   <img className="ml-1 mr-sm-3 mr-2 token-img" src={position.tokenB.image} />
-                  {position.tokenA.name} / {position.tokenB.name}
+                  {position.tokenA.name === 'tez'
+                    ? 'TEZ'
+                    : position.tokenA.name === 'ctez'
+                    ? 'CTEZ'
+                    : position.tokenA.name}{' '}
+                  /{' '}
+                  {position.tokenB.name === 'tez'
+                    ? 'TEZ'
+                    : position.tokenB.name === 'ctez'
+                    ? 'CTEZ'
+                    : position.tokenB.name}
                 </div>
                 <div className="d-flex">
                   <div className="lp-fee">
@@ -88,16 +101,14 @@ export const LiquidityPositions = (props) => {
                       </>
                     )}
                   </div>
-                  <div
-                    className="manage-label"
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => openManage(position, index, !isOpen, position.isStable)}
-                  >
+                  <div className="manage-label" style={{ cursor: 'pointer' }}>
                     {!isMobile && 'Manage'}
                     <span
-                      className={clsx('material-icons-round', 'manage-arrow', {
-                        rotate: indexPosition === index && isOpen,
-                      })}
+                      className={clsx(
+                        'material-icons-round',
+                        'manage-arrow',
+                        indexPosition === index && isOpen ? 'dropdown-open' : 'dropdown-close',
+                      )}
                     >
                       expand_more
                     </span>
@@ -105,111 +116,154 @@ export const LiquidityPositions = (props) => {
                 </div>
               </div>
               {isOpen && indexPosition === index && (
-                <div className={clsx('position-details ', isOpen && 'openLqDetails-manage')}>
-                  <div className=" d-sm-flex justify-content-between">
-                    <div>
-                      <div className="pooled">
-                        POOLED {position.tokenA.name}:{' '}
-                        <OverlayTrigger
-                          placement="top"
-                          overlay={
-                            <Tooltip id="button-tooltip" {...props}>
-                              {positionDetails ? positionDetails.tokenAPoolBalance : '0.00'}
-                            </Tooltip>
-                          }
-                        >
-                          <span className="value">
-                            {positionDetails
-                              ? positionDetails.tokenAPoolBalance?.toFixed(4)
-                              : '0.00'}{' '}
-                            {position.tokenA.name}
-                          </span>
-                        </OverlayTrigger>
+                <div className={clsx('position-details ', isOpen && 'openLqDetails-manage', '')}>
+                  <div className="scale-in-animation">
+                    <div className=" d-sm-flex justify-content-between">
+                      <div>
+                        <div className="pooled">
+                          POOLED{' '}
+                          {position.tokenA.name === 'tez'
+                            ? 'TEZ'
+                            : position.tokenA.name === 'ctez'
+                            ? 'CTEZ'
+                            : position.tokenA.name}
+                          :{' '}
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={
+                              <Tooltip id="button-tooltip" {...props}>
+                                {positionDetails
+                                  ? fromExponential(positionDetails.tokenAPoolBalance)
+                                  : '0.00'}
+                              </Tooltip>
+                            }
+                          >
+                            <span className="value">
+                              {positionDetails.tokenAPoolBalance ? (
+                                positionDetails.tokenAPoolBalance?.toFixed(4)
+                              ) : (
+                                <span className="shimmer">99999</span>
+                              )}{' '}
+                              {position.tokenA.name === 'tez'
+                                ? 'TEZ'
+                                : position.tokenA.name === 'ctez'
+                                ? 'CTEZ'
+                                : position.tokenA.name}
+                            </span>
+                          </OverlayTrigger>
+                        </div>
+                        <div className="pooled mt-1">
+                          POOLED{' '}
+                          {position.tokenB.name === 'tez'
+                            ? 'TEZ'
+                            : position.tokenB.name === 'ctez'
+                            ? 'CTEZ'
+                            : position.tokenB.name}
+                          :{' '}
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={
+                              <Tooltip id="button-tooltip" {...props}>
+                                {positionDetails
+                                  ? fromExponential(positionDetails.tokenBPoolBalance)
+                                  : '0.00'}
+                              </Tooltip>
+                            }
+                          >
+                            <span className="value">
+                              {positionDetails.tokenBPoolBalance ? (
+                                positionDetails.tokenBPoolBalance?.toFixed(4)
+                              ) : (
+                                <span className="shimmer">99999</span>
+                              )}{' '}
+                              {position.tokenB.name === 'tez'
+                                ? 'TEZ'
+                                : position.tokenB.name === 'ctez'
+                                ? 'CTEZ'
+                                : position.tokenB.name}
+                            </span>
+                          </OverlayTrigger>
+                        </div>
                       </div>
-                      <div className="pooled mt-1">
-                        POOLED {position.tokenB.name}:{' '}
-                        <OverlayTrigger
-                          placement="top"
-                          overlay={
-                            <Tooltip id="button-tooltip" {...props}>
-                              {positionDetails ? positionDetails.tokenBPoolBalance : '0.00'}
-                            </Tooltip>
-                          }
-                        >
-                          <span className="value">
-                            {positionDetails
-                              ? positionDetails.tokenBPoolBalance?.toFixed(4)
-                              : '0.00'}{' '}
-                            {position.tokenB.name}
-                          </span>
-                        </OverlayTrigger>
+                      <div className="d-flex">
+                        <div className="lq-details-right">
+                          <div className="label">Pool share</div>
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={
+                              <Tooltip id="button-tooltip" {...props}>
+                                {positionDetails
+                                  ? fromExponential(positionDetails.lpTokenShare)
+                                  : '0.00'}
+                              </Tooltip>
+                            }
+                          >
+                            <div className="value">
+                              {positionDetails.lpTokenShare ? (
+                                positionDetails.lpTokenShare?.toFixed(4)
+                              ) : (
+                                <span className="shimmer">99999</span>
+                              )}{' '}
+                              %
+                            </div>
+                          </OverlayTrigger>
+                        </div>
+                        <div className="ml-2 lq-details-right">
+                          <div className="label">Pool tokens</div>
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={
+                              <Tooltip id="button-tooltip" {...props}>
+                                {positionDetails
+                                  ? fromExponential(positionDetails.lpBalance)
+                                  : '0.00'}
+                              </Tooltip>
+                            }
+                          >
+                            <div className="value">
+                              {positionDetails.lpBalance ? (
+                                positionDetails.lpBalance?.toFixed(4)
+                              ) : (
+                                <span className="shimmer">99999</span>
+                              )}
+                            </div>
+                          </OverlayTrigger>
+                        </div>
                       </div>
                     </div>
-                    <div className="d-flex">
-                      <div className="lq-details-right">
-                        <div className="label">Pool share</div>
-                        <OverlayTrigger
-                          placement="top"
-                          overlay={
-                            <Tooltip id="button-tooltip" {...props}>
-                              {positionDetails ? positionDetails.lpTokenShare : '0.00'}
-                            </Tooltip>
-                          }
-                        >
-                          <div className="value">
-                            {positionDetails ? positionDetails.lpTokenShare?.toFixed(4) : '0.00'} %
-                          </div>
-                        </OverlayTrigger>
-                      </div>
-                      <div className="ml-2 lq-details-right">
-                        <div className="label">Pool tokens</div>
-                        <OverlayTrigger
-                          placement="top"
-                          overlay={
-                            <Tooltip id="button-tooltip" {...props}>
-                              {positionDetails ? positionDetails.lpBalance : '0.00'}
-                            </Tooltip>
-                          }
-                        >
-                          <div className="value">
-                            {positionDetails ? positionDetails.lpBalance?.toFixed(4) : '0.00'}
-                          </div>
-                        </OverlayTrigger>
-                      </div>
+                    <div className="divider-lq-manage"></div>
+                    <div className="d-flex justify-content-between ">
+                      <Link
+                        style={{ textDecoration: 'none' }}
+                        to={{
+                          pathname: '/liquidity/remove',
+                          search: `?${createSearchParams({
+                            tokenA: position.isStable ? position.tokenB.name : position.tokenA.name,
+                            tokenB: position.isStable ? position.tokenA.name : position.tokenB.name,
+                          })}`,
+                        }}
+                        className="w-100"
+                      >
+                        <Button color={'primaryOutline'} className={'mr-3 w-100  '}>
+                          Remove
+                        </Button>
+                      </Link>
+                      <Link
+                        style={{ textDecoration: 'none' }}
+                        to={{
+                          pathname: '/liquidity/add',
+                          search: `?${createSearchParams({
+                            tokenA: position.isStable ? position.tokenB.name : position.tokenA.name,
+                            tokenB: position.isStable ? position.tokenA.name : position.tokenB.name,
+                          })}`,
+                        }}
+                        className="w-100"
+                      >
+                        <Button color={'primary'} className={' w-100 ml-3 '}>
+                          Add
+                        </Button>
+                      </Link>
                     </div>
-                  </div>
-                  <div className="divider-lq-manage"></div>
-                  <div className="d-flex justify-content-between ">
-                    <Link
-                      style={{ textDecoration: 'none' }}
-                      to={{
-                        pathname: '/liquidity/remove',
-                        search: `?${createSearchParams({
-                          tokenA: position.isStable ? position.tokenB.name : position.tokenA.name,
-                          tokenB: position.isStable ? position.tokenA.name : position.tokenB.name,
-                        })}`,
-                      }}
-                      className="w-100"
-                    >
-                      <Button color={'primaryOutline'} className={'mr-3 w-100  '}>
-                        Remove
-                      </Button>
-                    </Link>
-                    <Link
-                      style={{ textDecoration: 'none' }}
-                      to={{
-                        pathname: '/liquidity/add',
-                        search: `?${createSearchParams({
-                          tokenA: position.isStable ? position.tokenB.name : position.tokenA.name,
-                          tokenB: position.isStable ? position.tokenA.name : position.tokenB.name,
-                        })}`,
-                      }}
-                      className="w-100"
-                    >
-                      <Button color={'primary'} className={' w-100 ml-3 '}>
-                        Add
-                      </Button>
-                    </Link>
                   </div>
                 </div>
               )}

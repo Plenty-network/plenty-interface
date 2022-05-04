@@ -14,7 +14,7 @@ const InfoModal = (props) => {
     props.open && props.theme === 'light'
       ? lottieWeb.loadAnimation({
           container: container.current,
-          path: 'animation-light.json',
+          path: '/animation-light.json',
           renderer: 'svg',
           loop: false,
           autoplay: true,
@@ -22,7 +22,7 @@ const InfoModal = (props) => {
         })
       : lottieWeb.loadAnimation({
           container: container.current,
-          path: 'animation-dark.json',
+          path: '/animation-dark.json',
           renderer: 'svg',
           loop: false,
           autoplay: true,
@@ -31,11 +31,6 @@ const InfoModal = (props) => {
   }, [props.open]);
   return (
     <>
-      <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.7/lottie.min.js"
-        integrity="sha512-HDCfX3BneBQMfloBfluMQe6yio+OfXnbKAbI0SnfcZ4YfZL670nc52Aue1bBhgXa+QdWsBdhMVR2hYROljf+Fg=="
-        crossOrigin="anonymous"
-      ></script>
       <SimpleModal
         className="confirm-swap-modal"
         title="Transaction Submitted"

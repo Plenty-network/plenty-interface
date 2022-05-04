@@ -10,7 +10,7 @@ const LiquidityModal = (props) => {
   const doesPairExist = useCallback(
     (token) => {
       if (props.tokenType === 'tokenOut') {
-        if (token.name === 'TEZ' || props.tokenIn.name === 'TEZ') {
+        if (token.name === 'tez' || props.tokenIn.name === 'tez') {
           return false;
         }
         if (config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[token.name]) {
@@ -20,7 +20,7 @@ const LiquidityModal = (props) => {
         if (props.tokenOut.name) {
           if (config.AMM[config.NETWORK][props.tokenOut.name].DEX_PAIRS[token.name]) {
             return true;
-          } else if (token.name === 'TEZ') {
+          } else if (token.name === 'tez') {
             return true;
           }
         } else {
@@ -142,7 +142,9 @@ const LiquidityModal = (props) => {
                 onClick={() => props.selectToken(token)}
               >
                 <img src={token.image} className="select-token-img" alt={token.name} />
-                <span className="span-themed">{token.name}</span>
+                <span className="span-themed">
+                  {token.name === 'tez' ? 'TEZ' : token.name === 'ctez' ? 'CTEZ' : token.name}
+                </span>
                 {token.new ? <span className="new-badge-icon">New!</span> : null}
                 {token.extra && (
                   <a

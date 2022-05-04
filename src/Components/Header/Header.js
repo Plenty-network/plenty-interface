@@ -16,21 +16,10 @@ import HeaderBottom from './HeaderBottom';
 import useMediaQuery from '../../hooks/mediaQuery';
 import { HEADER_MODAL } from '../../constants/header';
 import '../../assets/scss/animation.scss';
-//import Loader from '../loader';
 
 const Header = (props) => {
   const loader = useSelector((state) => state.settings.loader);
-  // const firstTokenAmount = useSelector((state) => state.settings.firstTokenAmount);
-  // const secondTokenAmount = useSelector((state) => state.settings.secondTokenAmount);
-  // const tokenIn = useSelector((state) => state.settings.tokenIn);
-  // const tokenOut = useSelector((state) => state.settings.tokenOut);
-  // const opertaionId = useSelector((state) => state.settings.opertaionId);
-  // const loaderMessage = useSelector((state) => state.settings.loaderMessage);
 
-  // const loaderMessage = {
-  //   type: 'success',
-  //   message: 'success',
-  // };
   const isMobile = useMediaQuery('(max-width: 991px)');
   const location = useLocation();
   const { pathname } = location;
@@ -38,6 +27,7 @@ const Header = (props) => {
   const [selectedHeader, setSelectedHeader] = useState('');
   const [isExpanded, toggleExpand] = useState(false);
   const [open, setOpen] = useState(false);
+  const [isBannerOpen, setBannerOpen] = useState(true);
 
   useEffect(() => {
     const RPCNodeInLS = localStorage.getItem(RPC_NODE);
@@ -54,6 +44,10 @@ const Header = (props) => {
     }
     setHeader('');
   }, [splitLocation[1]]);
+
+  const closeBanner = () => {
+    setBannerOpen(false);
+  };
 
   const connectWalletButton = () => {
     if (props.walletAddress) {
@@ -110,26 +104,43 @@ const Header = (props) => {
         )}
         fluid
       >
-        {splitLocation[1] !== 'wrappedAssets' && (
+        {splitLocation[1] !== 'wrappedAssets' && isBannerOpen && (
           <div className="banner" onMouseEnter={() => setHeader('')}>
-            <span className="banner-text">
-              {isMobile
-                ? 'Swap Wrapped Assets now'
-                : 'Wrap protocol is deprecated. All the wrapped assets are rebranded. Swap your wrapped assets now'}
-            </span>
-            <Link to="/wrappedAssets" className="text-decoration-none">
-              <span className="bottom-last" style={{ cursor: 'pointer' }}>
-                Swap now
+            <div className="banner-middle">
+              <span className="banner-text">
+                {isMobile
+                  ? 'Swap Wrapped Assets now'
+                  : 'Wrap protocol is deprecated. All the wrapped assets are rebranded. Swap your wrapped assets now'}
               </span>
-              <span className="new">New</span>
-              <BannerArrow className="ml-2" />
-            </Link>
+              <Link to="/wrappedAssets" className="text-decoration-none">
+                <span className="bottom-last" style={{ cursor: 'pointer' }}>
+                  Swap now
+                </span>
+                <BannerArrow className="ml-2" />
+              </Link>
+            </div>
+            <div className="banner-right">
+              <span
+                className="closebanner"
+                onClick={() => closeBanner()}
+                style={{ cursor: 'pointer' }}
+              >
+                <span className={clsx('material-icons-round', 'banner-close')}>close</span>
+              </span>
+            </div>
           </div>
         )}
 
         <Row className="removing-margin">
           <Col className={clsx('innerHeader')} sm={12} md={12}>
-            <Navbar id="nav-bar" expand="lg" className="px-0 menu-wrapper">
+            <Navbar
+              id="nav-bar"
+              expand="lg"
+              className="px-0 menu-wrapper"
+              {...(selectedHeader === HEADER_MODAL.SETTINGS
+                ? {}
+                : { onMouseEnter: () => setHeader('') })}
+            >
               <Navbar.Brand as={Link} to="/" className="mx-3 mx-sm-0">
                 {props.isGradientBgPage ? (
                   <LogoWhite />
@@ -168,14 +179,23 @@ const Header = (props) => {
                 )}
               </Navbar.Toggle>
 
-              <Navbar.Collapse id="responsive-navbar-nav">
+              <Navbar.Collapse
+                id="responsive-navbar-nav"
+                {...(selectedHeader === HEADER_MODAL.SETTINGS
+                  ? {}
+                  : { onMouseEnter: () => setHeader('') })}
+              >
                 <Nav
                   className={clsx('align-items-lg-center w-100 mobileview ')}
                   {...(selectedHeader === HEADER_MODAL.SETTINGS
                     ? {}
                     : { onMouseEnter: () => setHeader('') })}
                 >
-                  <div className="col-lg-6 d-lg-flex flex-lg-row flex-column align-items-center links">
+                  <div
+                    className={clsx(
+                      'col-lg-6 d-lg-flex flex-lg-row flex-column align-items-center links ',
+                    )}
+                  >
                     <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.TRADE ? 'menu-item-active' : 'menu-item',
@@ -201,7 +221,6 @@ const Header = (props) => {
                         expand_more
                       </span>
                     </Nav.Link>
-
                     {selectedHeader === HEADER_MODAL.TRADE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
@@ -209,7 +228,6 @@ const Header = (props) => {
                         {...props}
                       />
                     )}
-
                     <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.EARN ? 'menu-item-active' : 'menu-item',
@@ -221,7 +239,7 @@ const Header = (props) => {
                           'selected-menu-item-active',
                         'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
-                      {...(isMobile ? {} : { as: Link, to: '/farms' })}
+                      {...(isMobile ? {} : { as: Link, to: '/liquidity' })}
                       onMouseEnter={() => setHeader(HEADER_MODAL.EARN)}
                       onClick={() => setHeaderMobile(HEADER_MODAL.EARN)}
                     >
@@ -237,7 +255,6 @@ const Header = (props) => {
                         expand_more
                       </span>
                     </Nav.Link>
-
                     {selectedHeader === HEADER_MODAL.EARN && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
@@ -299,7 +316,6 @@ const Header = (props) => {
                         expand_more
                       </span>
                     </Nav.Link>
-
                     {selectedHeader === HEADER_MODAL.VOTE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
@@ -307,7 +323,6 @@ const Header = (props) => {
                         {...props}
                       />
                     )}
-
                     <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.MORE ? 'menu-item-active' : 'menu-item',
@@ -329,7 +344,6 @@ const Header = (props) => {
                         expand_more
                       </span>
                     </Nav.Link>
-
                     {selectedHeader === HEADER_MODAL.MORE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
@@ -421,17 +435,11 @@ const Header = (props) => {
             selectedHeader={selectedHeader}
             isExpanded={isExpanded}
             page={splitLocation[1]}
+            isBannerOpen={isBannerOpen}
             {...props}
           />
         </div>
       )}
-      {/* <Loader
-        loaderMessage={loaderMessage}
-        tokenIn={tokenIn}
-        firstTokenAmount={firstTokenAmount}
-        tokenOut={tokenOut}
-        secondTokenAmount={secondTokenAmount}
-      /> */}
     </>
   );
 };
@@ -444,7 +452,7 @@ const mapStateToProps = (state) => ({
   tokenIn: state.settings.tokenIn,
   tokenOut: state.settings.tokenOut,
   opertaionId: state.settings.opertaionId,
-  connectWalletTooltip: state.settings.connectWalletTooltip
+  connectWalletTooltip: state.settings.connectWalletTooltip,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -459,7 +467,7 @@ Header.propTypes = {
   theme: PropTypes.string,
   toggleTheme: PropTypes.func,
   walletAddress: PropTypes.oneOf(),
-  connectWalletTooltip: PropTypes.bool
+  connectWalletTooltip: PropTypes.bool,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -23,9 +23,10 @@ import {
 import LiquidityModal from '../../Components/LiquidityModal/LiquidityModal';
 import ctez from '../../assets/images/ctez.png';
 import { getUserBalanceByRpcStable, loadSwapDataStable } from '../../apis/stableswap/stableswap';
+import SettingsLiq from '../../Components/TransactionSettings/SettingsLiq';
 
 const LiquidityNew = (props) => {
-  const { tokenIn, setTokenIn, tokenOut, setTokenOut, setActiveTab } =
+  const { activeTab, tokenIn, setTokenIn, tokenOut, setTokenOut, setActiveTab } =
     useLocationStateInLiquidity();
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -43,7 +44,7 @@ const LiquidityNew = (props) => {
   const [loading, setLoading] = useState(false);
   const [getTokenPrice, setGetTokenPrice] = useState({});
   const [userBalances, setUserBalances] = useState({});
-  const activeTab = 'liquidity';
+
   const location = useLocation();
   const navigate = useNavigate();
   const { pathname } = location;
@@ -54,9 +55,9 @@ const LiquidityNew = (props) => {
   const [isPositionAvailable, setPositionAvailable] = useState(false);
 
   useEffect(() => {
-    if (tokenIn.name === 'TEZ') {
+    if (tokenIn.name === 'tez') {
       setTokenOut({
-        name: 'CTEZ',
+        name: 'ctez',
         image: ctez,
       });
     }
@@ -102,7 +103,7 @@ const LiquidityNew = (props) => {
     return 'add';
   }, [location.pathname]);
   useEffect(() => {
-    if (location.pathname.includes('liquidity')) {
+    if (!location.pathname.includes('liquidityPositions')) {
       setLiquidityPosition(false);
     }
   }, [searchParams]);
@@ -188,9 +189,9 @@ const LiquidityNew = (props) => {
         name: token.name,
         image: token.image,
       });
-      if (token.name === 'TEZ') {
+      if (token.name === 'tez') {
         setTokenOut({
-          name: 'CTEZ',
+          name: 'ctez',
           image: ctez,
         });
       }
@@ -232,7 +233,7 @@ const LiquidityNew = (props) => {
         }
       }
     }
-  }, [tokenIn, tokenOut, activeTab]);
+  }, [tokenIn, tokenOut, activeTab, splitLocation[1]]);
 
   const handleTokenType = (type) => {
     //setHideContent('content-hide');
@@ -254,7 +255,7 @@ const LiquidityNew = (props) => {
   };
 
   const resetAllValues = () => {
-    setSlippage(0.05);
+    // setSlippage(0.5);
     setRecepient('');
     setTokenType('tokenIn');
   };
@@ -276,12 +277,12 @@ const LiquidityNew = (props) => {
     value ? setActiveTab('liquidityPositions') : setActiveTab('liquidity');
   };
 
-  useEffect(() => {
-    splitLocation[1] === 'liquidityPositions'
-      ? setLiquidityPosition(true)
-      : setLiquidityPosition(false);
-    splitLocation[1] === 'liquidity' && setActiveTab('liquidity');
-  }, [splitLocation[1]]);
+  // useEffect(() => {
+  //   splitLocation[1] === 'liquidityPositions'
+  //     ? setLiquidityPosition(true)
+  //     : setLiquidityPosition(false);
+  //   splitLocation[1] === 'liquidity' && setActiveTab('liquidity');
+  // }, [splitLocation[1]]);
 
   useEffect(() => {
     const tokenAFromParam = searchParams.get('tokenA');
@@ -333,7 +334,7 @@ const LiquidityNew = (props) => {
           )}
         </p>
       )}
-      {isLiquidityPosition && <div className="liq-label">Your Liquidity Positions</div>}
+      {isLiquidityPosition && <div className="liq-label">Position overview</div>}
       {/* <div className="liq-label">{isLiquidityPosition ? 'Liquidity Positions' : 'Liquidity'}</div> */}
       {!isLiquidityPosition ? (
         <Col
@@ -436,6 +437,14 @@ const LiquidityNew = (props) => {
                 </Tab>
               ) : null}
             </Tabs>
+            <div className="settings-liq">
+              <SettingsLiq
+                slippage={slippage}
+                setSlippage={setSlippage}
+                walletAddress={props.walletAddress}
+                theme={props.theme}
+              />
+            </div>
           </div>
         </Col>
       ) : (

@@ -96,13 +96,13 @@ const UnstakeModal = (props) => {
     props.onClose();
 
     props.setShowConfirmTransaction(true);
-
+    props.setLoader(true);
     localStorage.setItem('stakeInput', selected[0].amount);
     localStorage.setItem('stakePair', props.modalData.identifier);
     props.setFloaterValue({
       value: localStorage.getItem('stakeInput'),
       pair: localStorage.getItem('stakePair'),
-      type: 'UnStaking',
+      type: 'UnStake',
     });
     props.unstakeOnFarm(
       selected,
@@ -110,6 +110,7 @@ const UnstakeModal = (props) => {
       props.isActiveOpen,
       props.modalData.position,
       props.setShowConfirmTransaction,
+      props.setLoader,
     );
   };
 
@@ -224,6 +225,7 @@ UnstakeModal.propTypes = {
   setShowConfirmTransaction: PropTypes.any,
   setConfirmTransactionContent: PropTypes.any,
   setFloaterValue: PropTypes.any,
+  setLoader: PropTypes.any,
 };
 
 export default UnstakeModal;

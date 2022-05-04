@@ -7,8 +7,12 @@ import { connect } from 'react-redux';
 import Button from '../Ui/Buttons/Button';
 import Loader from '../loader';
 import InfoModal from '../Ui/Modals/InfoModal';
-import { swapWrappedAssets } from '../../apis/WrappedAssets/WrappedAssets';
+import {
+  getAvailableLiquidityPairs,
+  swapWrappedAssets,
+} from '../../apis/WrappedAssets/WrappedAssets';
 import { setLoader } from '../../redux/slices/settings/settings.slice';
+import LpPair from '../SwapTabsContent/LpPair';
 
 const SwapContent = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -18,15 +22,33 @@ const SwapContent = (props) => {
 
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState('');
-
+  const [showLpPair, setShowLpPair] = useState(false);
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const [transactionId, setTransactionId] = useState('');
-
+  const [isLpPairAvailable, setLpPairAvailable] = useState(false);
+  const [pairs, setPairs] = useState([]);
   const transactionSubmitModal = (id) => {
     setTransactionId(id);
     setShowTransactionSubmitModal(true);
   };
 
+  useEffect(async () => {
+    const res = await getAvailableLiquidityPairs(props.tokenOut.name);
+    setLpPairAvailable(res.isLiquidityPairAvailable);
+
+    if (res.isLiquidityPairAvailable) {
+      setPairs(res.data);
+    }
+  }, [props.tokenOut]);
+  useEffect(() => {
+    if (props.walletAddress) {
+      if (firstTokenAmount > props.userBalances[props.tokenIn.name]) {
+        setErrorMessageOnUI('Insufficient balance');
+      } else {
+        setErrorMessage(false);
+      }
+    }
+  }, [firstTokenAmount, secondTokenAmount, props.tokenIn, props.tokenOut]);
   const handleSwapTokenInput = (input, tokenType) => {
     if (input === '' || isNaN(input)) {
       setFirstTokenAmount('');
@@ -45,9 +67,10 @@ const SwapContent = (props) => {
   useEffect(() => {
     handleSwapTokenInput(firstTokenAmount, 'tokenIn');
   }, [props.routeData]);
+
   useEffect(() => {
     setErrorMessage(false);
-  }, [props.tokenOut.name, firstTokenAmount]);
+  }, [props.tokenOut.name]);
 
   const callSwapToken = () => {
     props.setShowConfirmSwap(true);
@@ -71,8 +94,13 @@ const SwapContent = (props) => {
   const handleSwapResponse = (status) => {
     if (status) {
       props.setLoading(false);
+      props.setBalanceUpdate(true);
       setShowTransactionSubmitModal(false);
       props.handleLoaderMessage('success', 'Transaction confirmed');
+      setTimeout(() => {
+        setShowLpPair(true);
+      }, 2000);
+
       props.setLoader(false);
       props.setShowConfirmSwap(false);
       props.setSecondTokenAmount('');
@@ -82,6 +110,7 @@ const SwapContent = (props) => {
       setSecondTokenAmount('');
     } else {
       props.setLoading(false);
+      props.setBalanceUpdate(true);
       setShowTransactionSubmitModal(false);
       props.handleLoaderMessage('error', 'Transaction failed');
       props.setLoader(false);
@@ -114,13 +143,14 @@ const SwapContent = (props) => {
     ).then((response) => {
       props.setShowConfirmSwap(false);
       props.setShowConfirmTransaction(false);
-      // setTimeout(() => {
-      //   props.setShowTransactionSubmitModal(false);
-      // }, 5000);
+
       handleSwapResponse(response.success);
       setTimeout(() => {
         props.setLoaderMessage({});
       }, 6000);
+      setTimeout(() => {
+        setShowLpPair(false);
+      }, 8000);
     });
   };
 
@@ -141,15 +171,41 @@ const SwapContent = (props) => {
   const swapContentButton = useMemo(() => {
     if (props.walletAddress) {
       if (props.tokenOut.name && firstTokenAmount) {
-        return (
-          <Button
-            onClick={callSwapToken}
-            color={'primary'}
-            className={'mt-4 w-100 flex align-items-center justify-content-center'}
-          >
-            Swap
-          </Button>
-        );
+        if (Number(firstTokenAmount) === 0 || Number(secondTokenAmount) === 0) {
+          return (
+            <Button
+              onClick={() => setErrorMessageOnUI('Enter an amount to swap')}
+              color={'disabled'}
+              className={
+                ' mt-4 w-100 flex align-items-center justify-content-center disable-button-swap'
+              }
+            >
+              Swap
+            </Button>
+          );
+        } else if (firstTokenAmount > props.userBalances[props.tokenIn.name]) {
+          return (
+            <Button
+              onClick={() => setErrorMessageOnUI('Insufficient balance')}
+              color={'disabled'}
+              className={
+                'mt-4 w-100 flex align-items-center justify-content-center disable-button-swap'
+              }
+            >
+              Swap
+            </Button>
+          );
+        } else {
+          return (
+            <Button
+              onClick={callSwapToken}
+              color={'primary'}
+              className={'mt-4 w-100 flex align-items-center justify-content-center'}
+            >
+              Swap
+            </Button>
+          );
+        }
       }
 
       if (!props.tokenOut.name) {
@@ -201,26 +257,26 @@ const SwapContent = (props) => {
         <div className="swap-content-box">
           <div
             className={clsx(
-              'swap-token-select-box',
-              'bg-themed-light',
-              errorMessage && 'errorBorder',
+              !errorMessage && 'swap-token-select-box-wa',
+
+              errorMessage && 'errorBorder-wa',
             )}
           >
             <div className="token-selector-balance-wrapper">
-              <button
-                className="token-selector dropdown-themed"
-                onClick={() => props.handleTokenType('tokenIn')}
-              >
+              <button className="token-selector " onClick={() => props.handleTokenType('tokenIn')}>
                 <img src={props.tokenIn.image} className="button-logo" />
                 <span className="span-themed">{props.tokenIn.name} </span>
                 <span className="span-themed material-icons-round">expand_more</span>
               </button>
             </div>
 
-            <div className="token-user-input-wrapper">
+            <div className="token-user-input-wrapper wa-token-user-input-wrapper">
               <input
                 type="text"
-                className="token-user-input"
+                className={clsx(
+                  'token-user-input',
+                  errorMessage ? 'error-text-color' : 'typing-input-color',
+                )}
                 placeholder="0.0"
                 value={firstTokenAmount}
                 onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenIn')}
@@ -267,23 +323,26 @@ const SwapContent = (props) => {
         <div className="swap-content-box">
           <div
             className={clsx(
-              'swap-token-select-box',
-              'bg-themed-light',
-              errorMessage && 'errorBorder',
+              !errorMessage && 'swap-token-select-box-wa',
+
+              errorMessage && 'errorBorder-wa',
             )}
           >
             <div className="token-selector-balance-wrapper">
-              <button className="token-selector dropdown-themed">
+              <button className="token-selector ">
                 <img src={props.tokenOut.image} className="button-logo" />
                 <span className="span-themed">{props.tokenOut.name} </span>
               </button>
             </div>
 
-            <div className="token-user-input-wrapper">
+            <div className="token-user-input-wrapper wa-token-user-input-wrapper">
               {props.tokenOut.name ? (
                 <input
                   type="text"
-                  className="token-user-input"
+                  className={clsx(
+                    'token-user-input',
+                    errorMessage ? 'error-text-color' : 'typing-input-color',
+                  )}
                   value={secondTokenAmount}
                   placeholder="0.0"
                   onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenOut')}
@@ -339,9 +398,9 @@ const SwapContent = (props) => {
       />
       <ConfirmTransaction
         show={props.showConfirmTransaction}
-        content={`Swapping ${Number(localStorage.getItem('wrapped')).toFixed(
-          6,
-        )} ${localStorage.getItem('token')} `}
+        content={`Swap ${Number(localStorage.getItem('wrapped')).toFixed(6)} ${localStorage.getItem(
+          'token',
+        )} `}
         theme={props.theme}
         onHide={props.handleClose}
       />
@@ -353,7 +412,7 @@ const SwapContent = (props) => {
         tokenIn={props.tokenIn.name}
         tokenOut={props.tokenOut.name}
         theme={props.theme}
-        InfoMessage={`Swapping ${Number(localStorage.getItem('wrapped')).toFixed(
+        InfoMessage={`Swap ${Number(localStorage.getItem('wrapped')).toFixed(
           6,
         )} ${localStorage.getItem('token')} `}
         onClose={() => setShowTransactionSubmitModal(false)}
@@ -365,15 +424,26 @@ const SwapContent = (props) => {
       />
       <Loader
         loading={props.loading}
-        content={`${Number(localStorage.getItem('wrapped')).toFixed(6)} ${localStorage.getItem(
+        content={`Swap ${Number(localStorage.getItem('wrapped')).toFixed(6)} ${localStorage.getItem(
           'token',
-        )} Swapped`}
+        )} `}
         loaderMessage={props.loaderMessage}
         tokenIn={props.tokenIn.name}
         firstTokenAmount={firstAmount}
         tokenOut={props.tokenOut.name}
         secondTokenAmount={secondAmount}
         setLoaderMessage={props.setLoaderMessage}
+        onBtnClick={
+          transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
+        }
+      />
+      <LpPair
+        isLpPairAvailable={isLpPairAvailable}
+        showLpPair={showLpPair}
+        pairs={pairs}
+        tokenIn={props.tokenIn}
+        tokenOut={props.tokenOut}
+        setShowLpPair={setShowLpPair}
       />
     </>
   );
@@ -425,6 +495,7 @@ SwapContent.propTypes = {
   setShowTransactionSubmitModal: PropTypes.any,
   transactionId: PropTypes.any,
   showTransactionSubmitModal: PropTypes.any,
+  setBalanceUpdate: PropTypes.any,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SwapContent);

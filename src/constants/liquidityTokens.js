@@ -32,7 +32,7 @@ import PXL from '../assets/images/PXL.png';
 import PAUL from '../assets/images/PAUL.png';
 export const liquidityTokens = [
   {
-    name: 'TEZ',
+    name: 'tez',
     image: xtz,
     new: true,
   },
@@ -47,7 +47,7 @@ export const liquidityTokens = [
     new: false,
   },
   {
-    name: 'CTEZ',
+    name: 'ctez',
     image: ctez,
     new: false,
     extra: {
@@ -198,5 +198,13 @@ export const liquidityTokens = [
     name: 'YOU',
     image: youGov,
     new: false,
+  },
+  {
+    name: 'DAI.e',
+    image: youGov,
+  },
+  {
+    name: 'BUSD.e',
+    image: youGov,
   },
 ];

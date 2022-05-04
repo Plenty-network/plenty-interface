@@ -146,18 +146,25 @@ const FarmCardBottom = (props) => {
             <Button
               onClick={() => {
                 props.setShowConfirmTransaction(true);
-
+                props.setLoader(true);
                 localStorage.setItem('stakePair', properties.source);
                 props.setFloaterValue({
-                  value: null,
+                  value:
+                    props.harvestValueOnFarms[props.isActiveOpen][farmData.CONTRACT].totalRewards >
+                    0
+                      ? props.harvestValueOnFarms[props.isActiveOpen][
+                          farmData.CONTRACT
+                        ].totalRewards.toFixed(6)
+                      : null,
                   pair: localStorage.getItem('stakePair'),
-                  type: 'Harvesting',
+                  type: 'Harvest',
                 });
                 props.harvestOnFarm(
                   props.farmCardData.identifier,
                   props.isActiveOpen,
                   props.farmCardData.position,
                   props.setShowConfirmTransaction,
+                  props.setLoader,
                 );
               }}
               color={stakedAmount > 0 ? 'primary' : 'default'}
@@ -315,6 +322,7 @@ FarmCardBottom.propTypes = {
   setShowConfirmTransaction: PropTypes.any,
   setConfirmTransactionContent: PropTypes.any,
   setFloaterValue: PropTypes.any,
+  setLoader: PropTypes.any,
 };
 
 export default FarmCardBottom;

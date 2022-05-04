@@ -100,31 +100,16 @@ const MyRoutes = (props) => {
                 </OtherPages>
               }
             />
-            <Route
-              path={'/Stableswap/*'}
-              element={
-                <OtherPages {...otherPageProps}>
-                  <Swap
-                    walletAddress={props.userAddress}
-                    connecthWallet={connectWallet}
-                    theme={otherPageProps.theme}
-                  />
-                </OtherPages>
-              }
-            />
-            <Route
-              path="/liquidityStable/*"
-              element={
-                <OtherPages {...otherPageProps}>
-                  <Swap walletAddress={props.userAddress} theme={otherPageProps.theme} />
-                </OtherPages>
-              }
-            />
+
             <Route
               path="/farms"
               element={
                 <OtherPages {...otherPageProps}>
-                  <Farms walletAddress={props.userAddress} {...otherPageProps} />
+                  <Farms
+                    walletAddress={props.userAddress}
+                    theme={otherPageProps.theme}
+                    {...otherPageProps}
+                  />
                 </OtherPages>
               }
             />
@@ -180,10 +165,7 @@ const MyRoutes = (props) => {
               path="/bridge"
               element={
                 <OtherPages {...otherPageProps}>
-                  <Bridge
-                    walletAddress={props.userAddress} 
-                    theme={otherPageProps.theme}
-                  />
+                  <Bridge walletAddress={props.userAddress} theme={otherPageProps.theme} />
                 </OtherPages>
               }
             />

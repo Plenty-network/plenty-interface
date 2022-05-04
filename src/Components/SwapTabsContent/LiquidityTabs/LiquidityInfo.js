@@ -2,7 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import clsx from 'clsx';
 import StableSwap from '../../../assets/images/lq-stableswap.svg';
-
+import Feetooltip from '../../../assets/images/fee-tooltip.svg';
+import FeetooltipDark from '../../../assets/images/fee-tooltip-dark.svg';
+import Stableswapwhite from '../../../assets/images/stableswapwhite.svg';
 import StableSwapDark from '../../../assets/images/lq-stableswap-dark.svg';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import useMediaQuery from '../../../hooks/mediaQuery';
@@ -22,9 +24,27 @@ const LiquidityInfo = (props) => {
           }
         >
           <div className="details">
-            {props.isStable ? props.xtztoctez : props.swapData.tokenOutPerTokenIn?.toFixed(4)}{' '}
+            {(props.isStable ? !isNaN(props.xtztoctez) : props.swapData.tokenOutPerTokenIn) ? (
+              props.isStable ? (
+                props.xtztoctez
+              ) : (
+                props.swapData.tokenOutPerTokenIn?.toFixed(4)
+              )
+            ) : (
+              <span className="shimmer">99999</span>
+            )}{' '}
             <span className="content">
-              {props.tokenIn.name} per {props.tokenOut.name}
+              {props.tokenIn.name === 'tez'
+                ? 'TEZ'
+                : props.tokenIn.name === 'ctez'
+                ? 'CTEZ'
+                : props.tokenIn.name}{' '}
+              per{' '}
+              {props.tokenOut.name === 'tez'
+                ? 'TEZ'
+                : props.tokenOut.name === 'ctez'
+                ? 'CTEZ'
+                : props.tokenOut.name}
             </span>
           </div>
         </OverlayTrigger>
@@ -39,21 +59,39 @@ const LiquidityInfo = (props) => {
           }
         >
           <div className="details">
-            {props.isStable ? props.cteztoxtz : (1 / props.swapData.tokenOutPerTokenIn).toFixed(4)}{' '}
+            {(props.isStable ? !isNaN(props.cteztoxtz) : 1 / props.swapData.tokenOutPerTokenIn) ? (
+              props.isStable ? (
+                props.cteztoxtz
+              ) : (
+                (1 / props.swapData.tokenOutPerTokenIn).toFixed(4)
+              )
+            ) : (
+              <span className="shimmer">99999</span>
+            )}{' '}
             <span className="content">
-              {props.tokenOut.name} per {props.tokenIn.name}
+              {props.tokenOut.name === 'tez'
+                ? 'TEZ'
+                : props.tokenOut.name === 'ctez'
+                ? 'CTEZ'
+                : props.tokenOut.name}{' '}
+              per{' '}
+              {props.tokenIn.name === 'tez'
+                ? 'TEZ'
+                : props.tokenIn.name === 'ctez'
+                ? 'CTEZ'
+                : props.tokenIn.name}
             </span>
           </div>
         </OverlayTrigger>
       </div>
       <div className={clsx(isMobile && 'order-2', 'ml-2')}>
-        {(props.tokenIn.name === 'TEZ' ? props.poolShare : props.lpTokenAmount.estimatedLpOutput) >
+        {(props.tokenIn.name === 'tez' ? props.poolShare : props.lpTokenAmount.estimatedLpOutput) >
         0 ? (
           <OverlayTrigger
             placement="top"
             overlay={
               <Tooltip id="button-tooltip" {...props}>
-                {props.tokenIn.name === 'TEZ'
+                {props.tokenIn.name === 'tez'
                   ? props.poolShare
                   : props.lpTokenAmount.estimatedLpOutput
                   ? (props.lpTokenAmount.estimatedLpOutput /
@@ -65,7 +103,7 @@ const LiquidityInfo = (props) => {
           >
             <div className="details">
               <span className="content">Share of pool:</span>{' '}
-              {props.tokenIn.name === 'TEZ'
+              {props.tokenIn.name === 'tez'
                 ? Number(props.poolShare) > 0
                   ? Number(props.poolShare).toFixed(4)
                   : '0'
@@ -82,7 +120,7 @@ const LiquidityInfo = (props) => {
         ) : (
           <div className="details">
             <span className="content">Share of pool:</span>{' '}
-            {props.tokenIn.name === 'TEZ'
+            {props.tokenIn.name === 'tez'
               ? Number(props.poolShare) > 0
                 ? Number(props.poolShare).toFixed(4)
                 : '0'
@@ -97,15 +135,38 @@ const LiquidityInfo = (props) => {
           </div>
         )}
       </div>
-      <div className={clsx(isMobile && 'order-4', 'details', isMobile && 'mt-2', 'ml-2')}>
-        {props.isStable ? '0.10' : '0.25'}% <span className="content">LP fee</span>
-        {props.isStable && (
-          <>
-            <span className="divider-lq mx-2"></span>
-            <img src={props.theme === 'light' ? StableSwap : StableSwapDark} />
-          </>
-        )}
-      </div>
+      <OverlayTrigger
+        placement="top"
+        overlay={
+          <Tooltip id="button-tooltip" {...props}>
+            <>
+              <span className="fee-tooltip-heading">Stable pair</span>
+              <div>
+                <span className="material-icons-round">expand_less</span>
+              </div>
+              <img
+                className="fee-tooltip-bracket"
+                src={props.theme === 'light' ? Feetooltip : FeetooltipDark}
+              />
+              <div className="flex flex-row fee-tooltip-center">
+                0.10 % <span className="content ml-1"> LP fee</span>
+                <span className="divider-lq-tooltip mx-2"></span>
+                <img src={props.theme === 'light' ? Stableswapwhite : StableSwap} />
+              </div>
+            </>
+          </Tooltip>
+        }
+      >
+        <div className={clsx(isMobile && 'order-4', 'details', isMobile && 'mt-2', 'ml-2')}>
+          {props.isStable ? '0.10' : '0.25'}% <span className="content">LP fee</span>
+          {props.isStable && (
+            <>
+              <span className="divider-lq mx-2"></span>
+              <img src={props.theme === 'light' ? StableSwap : StableSwapDark} />
+            </>
+          )}
+        </div>
+      </OverlayTrigger>
     </div>
   );
 };
