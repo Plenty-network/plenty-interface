@@ -4,3 +4,5 @@ export const RPC_NODE = 'rpcNode';
 export const TOKEN_FAVORITE_TOKENS = 'favoriteTokens';
 export const LIQUIDITY_FAVORITE_TOKENS = 'favoriteTokens';
 export const SWAP_PAGE_ACTIVE_TAB = 'swapPageActiveTab';
+export const BRIDGES_CONFIG = 'bridgesConfig';
+export const BRIDGES_CONFIG_EXPIRY_TIME = 'bridgesConfigExpTime'; 

@@ -9,9 +9,7 @@ const Footer = () => {
         <a href={'https://discord.gg/9wZ4CuvkuJ'} target="_blank" rel="noreferrer">
           <Discord className="mx-2 icon-themed" />
         </a>
-        {/* <a href={'https://t.me/PlentyDeFi'} target="_blank" rel="noreferrer">
-          <Telegram className="mx-2 icon-themed" />
-        </a> */}
+
         <a href={'https://twitter.com/PlentyDeFi'} target="_blank" rel="noreferrer">
           <Twitter className="mx-2 icon-themed" />
         </a>

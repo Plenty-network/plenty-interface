@@ -46,10 +46,6 @@ export const getTVLHelper = async () => {
       data: 0,
     };
   }
-  // const res = await axios.get(
-  //   SERVERLESS_BASE_URL[CONFIG.NETWORK] +
-  //     SERVERLESS_REQUEST[CONFIG.NETWORK]['HOME-PAGE-TVL']
-  // );
 };
 
 export const calculateHarvestValue = async (
@@ -463,31 +459,31 @@ export const getStorageForFarms = async (isActive, tokenPricesData) => {
           key === 'uUSD - YOU' ||
           key === 'uUSD - wUSDC' ||
           key === 'uUSD - uDEFI' ||
-          key === 'ctez - kUSD' ||
-          key === 'ctez - USDtz' ||
-          key === 'ctez - wUSDT' ||
-          key === 'ctez - wBUSD' ||
-          key === 'ctez - wUSDC' ||
-          key === 'ctez - wDAI' ||
-          key === 'ctez - KALAM' ||
-          key === 'ctez - GIF' ||
-          key === 'ctez - ETHtz' ||
-          key === 'ctez - QUIPU' ||
-          key === 'ctez - hDAO' ||
-          key === 'ctez - kDAO' ||
-          key === 'ctez - wWETH' ||
-          key === 'ctez - uUSD' ||
-          key === 'ctez - FLAME' ||
-          key === 'ctez - SMAK' ||
-          key === 'ctez - crDAO' ||
-          key === 'ctez - PXL' ||
-          key === 'ctez - UNO' ||
-          key === 'ctez - WRAP' ||
-          key === 'ctez - wWBTC' ||
-          key === 'ctez - tzBTC' ||
-          key === 'ctez - PAUL' ||
-          key === 'ctez - INSTA' ||
-          key === 'ctez - CRUNCH'
+          key === 'CTEZ - kUSD' ||
+          key === 'CTEZ - USDtz' ||
+          key === 'CTEZ - wUSDT' ||
+          key === 'CTEZ - wBUSD' ||
+          key === 'CTEZ - wUSDC' ||
+          key === 'CTEZ - wDAI' ||
+          key === 'CTEZ - KALAM' ||
+          key === 'CTEZ - GIF' ||
+          key === 'CTEZ - ETHtz' ||
+          key === 'CTEZ - QUIPU' ||
+          key === 'CTEZ - hDAO' ||
+          key === 'CTEZ - kDAO' ||
+          key === 'CTEZ - wWETH' ||
+          key === 'CTEZ - uUSD' ||
+          key === 'CTEZ - FLAME' ||
+          key === 'CTEZ - SMAK' ||
+          key === 'CTEZ - crDAO' ||
+          key === 'CTEZ - PXL' ||
+          key === 'CTEZ - UNO' ||
+          key === 'CTEZ - WRAP' ||
+          key === 'CTEZ - wWBTC' ||
+          key === 'CTEZ - tzBTC' ||
+          key === 'CTEZ - PAUL' ||
+          key === 'CTEZ - INSTA' ||
+          key === 'CTEZ - CRUNCH'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(
@@ -582,7 +578,7 @@ const getPriceForPlentyLpTokens = async (
     if (token2Address === 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4') {
       const ctezPriceInUSD = await getCtezPrice();
       tokenData['token1'] = {
-        tokenName: 'cTez',
+        tokenName: 'ctez',
         tokenValue: ctezPriceInUSD.ctezPriceInUSD,
         tokenDecimal: 6,
       };
@@ -969,7 +965,11 @@ const getCurrentBlockLevel = async () => {
   return response.data[0].level;
 };
 
-export const harvestAllHelper = async (userAddress, dispatchHarvestAllProcessing) => {
+export const harvestAllHelper = async (
+  userAddress,
+  dispatchHarvestAllProcessing,
+  setShowConfirmTransaction,
+) => {
   try {
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -1032,6 +1032,7 @@ export const harvestAllHelper = async (userAddress, dispatchHarvestAllProcessing
         }
         const batch = await Tezos.wallet.batch(harvestBatch);
         const batchOperation = await batch.send();
+        setShowConfirmTransaction(false);
         dispatchHarvestAllProcessing(batchOperation);
         const batchConfirm = await batchOperation.confirmation();
         return {

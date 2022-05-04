@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import SimpleModal from './SimpleModal';
 import React, { useEffect, useMemo, useState } from 'react';
 import Button from '../Buttons/Button';
-
+import fromExponential from 'from-exponential';
 import styles from './modal.module.scss';
 import clsx from 'clsx';
 
@@ -22,11 +22,24 @@ const StakeModal = (props) => {
   }, [props.open]);
 
   const onStake = () => {
+    props.onClose();
+    props.setShowConfirmTransaction(true);
+    props.setLoader(true);
+    localStorage.setItem('stakeInput', inputValue);
+    localStorage.setItem('stakePair', props.modalData.identifier);
+    props.setFloaterValue({
+      value: localStorage.getItem('stakeInput'),
+      pair: localStorage.getItem('stakePair'),
+      type: 'Stake',
+    });
+
     props.stakeOnFarm(
       parseFloat(inputValue),
       props.modalData.identifier,
       props.isActiveOpen,
       props.modalData.position,
+      props.setShowConfirmTransaction,
+      props.setLoader,
     );
   };
 
@@ -65,7 +78,7 @@ const StakeModal = (props) => {
     >
       <div className={clsx(styles.inputWrapper, 'd-flex')}>
         <input
-          value={inputValue}
+          value={fromExponential(inputValue)}
           onChange={(event) => setInputValue(event.target.value)}
           placeholder={'0.0'}
           type="text"
@@ -110,6 +123,10 @@ StakeModal.propTypes = {
     failed: PropTypes.bool,
   }),
   walletBalances: PropTypes.any,
+  setShowConfirmTransaction: PropTypes.any,
+  setConfirmTransactionContent: PropTypes.any,
+  setFloaterValue: PropTypes.any,
+  setLoader: PropTypes.any,
 };
 
 export default StakeModal;
