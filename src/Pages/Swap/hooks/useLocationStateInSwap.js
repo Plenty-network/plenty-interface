@@ -1,6 +1,6 @@
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
-import plenty from '../../../assets/images/logo_small.png';
+import ctez from '../../../assets/images/ctez.png';
 import config from '../../../config/config';
 import { tokens } from '../../../constants/swapPage';
 
@@ -9,8 +9,8 @@ export const useLocationStateInSwap = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [tokenIn, setTokenIn] = useState({
-    name: 'PLENTY',
-    image: plenty,
+    name: 'ctez',
+    image: ctez,
   });
 
   const [tokenOut, setTokenOut] = useState({});
