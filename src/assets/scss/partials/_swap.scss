@@ -2467,6 +2467,9 @@ input:checked {
 
   letter-spacing: 0em;
   text-align: center;
+  @media screen and (min-width: 320px) and (max-width: 900px) {
+    width: 394px;
+  }
 }
 .confirm-add-liquidity-modal {
   .modal-header {
