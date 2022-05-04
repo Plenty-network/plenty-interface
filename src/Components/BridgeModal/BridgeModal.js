@@ -795,11 +795,11 @@ const BridgeModal = (props) => {
                     <span className={styles.balanceValue} onClick={onClickAmount}>
                       {/* {userTokenBalance} */}
                       {userBalances[tokenIn.name]}
-                      {theme === 'light' ? (
+                      {/* {theme === 'light' ? (
                         <MaxBtnIcon className={styles.maxButton} />
                       ) : (
                         <MaxBtnIconDark className={styles.maxButton} />
-                      )}
+                      )} */}
                     </span>
                   </>
                 )}
