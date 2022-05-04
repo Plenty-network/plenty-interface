@@ -608,6 +608,7 @@ const RemoveLiquidityNew = (props) => {
         onHide={props.handleClose}
         xtztoctez={xtztoctez}
         cteztoxtz={cteztoxtz}
+        isStableSwap={props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez'}
       />
       <ConfirmTransaction
         show={showConfirmTransaction}

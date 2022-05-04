@@ -61,7 +61,7 @@ export const LiquidityPositions = (props) => {
   return (
     <>
       {isEmpty ? (
-        <div className="no-positions">No Liquidity positions!</div>
+        <div className="no-positions">No positions found</div>
       ) : positions.length > 0 ? (
         positions?.map((position, index) => {
           return (

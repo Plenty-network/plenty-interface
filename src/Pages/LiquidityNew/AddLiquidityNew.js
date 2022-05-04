@@ -758,6 +758,7 @@ const AddLiquidityNew = (props) => {
         poolShare={poolShare}
         xtztoctez={xtztoctez}
         cteztoxtz={cteztoxtz}
+        isStableSwap={props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez'}
       />
 
       <ConfirmTransaction
