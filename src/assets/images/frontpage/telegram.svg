@@ -1,11 +1,6 @@
 <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-        <linearGradient id="telegram-icon-bg-gradient">
-            <stop offset="0" class="start-color"/>
-            <stop offset="1" class="end-color"/>
-        </linearGradient>
-    </defs>
-    <path id="telegram-icon-bg"
+   
+    <path class="icon-bg-gradient"
           d="M35.75 44H8.25C3.69325 44 0 40.3068 0 35.75V8.25C0 3.69325 3.69325 0 8.25 0H35.75C40.3068 0 44 3.69325 44 8.25V35.75C44 40.3068 40.3068 44 35.75 44Z"
           />
     <path id="Vector_2"

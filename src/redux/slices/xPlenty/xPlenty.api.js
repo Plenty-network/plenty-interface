@@ -192,7 +192,12 @@ const CheckIfWalletConnected = async (wallet) => {
  * @param recipient - Address to which xPlenty should be transferred after the trade
  * @returns {Promise<{success: boolean, operationId}>}
  */
-export const buyXPlenty = async (plentyAmount, minimumExpected, recipient) => {
+export const buyXPlenty = async (
+  plentyAmount,
+  minimumExpected,
+  recipient,
+  setShowConfirmTransaction,
+) => {
   try {
     const options = {
       name: CONFIG.NAME,
@@ -223,7 +228,9 @@ export const buyXPlenty = async (plentyAmount, minimumExpected, recipient) => {
           xPlentyBuySellContractInstance.methods.buy(minimumExpected, plentyAmount, recipient),
         )
         .withContractCall(plentyContractInstance.methods.approve(xPlentyBuySellContract, 0));
+
       const batchOperation = await batch.send();
+      setShowConfirmTransaction(false);
       store.dispatch(opentransactionInjectionModal(batchOperation.opHash));
       await batchOperation.confirmation().then(() => batchOperation.opHash);
       store.dispatch(closetransactionInjectionModal());
@@ -234,6 +241,7 @@ export const buyXPlenty = async (plentyAmount, minimumExpected, recipient) => {
       };
     }
   } catch (error) {
+    setShowConfirmTransaction(false);
     store.dispatch(closetransactionInjectionModal());
     store.dispatch(openToastOnFail());
     console.log(error);
@@ -246,7 +254,12 @@ export const buyXPlenty = async (plentyAmount, minimumExpected, recipient) => {
  * @param recipient - Address to which plenty should be transferred after the trade
  * @returns {Promise<{success: boolean, operationId}>}
  */
-export const sellXPlenty = async (xPlentyAmount, minimumExpected, recipient) => {
+export const sellXPlenty = async (
+  xPlentyAmount,
+  minimumExpected,
+  recipient,
+  setShowConfirmTransaction,
+) => {
   try {
     const options = {
       name: CONFIG.NAME,
@@ -273,7 +286,9 @@ export const sellXPlenty = async (xPlentyAmount, minimumExpected, recipient) => 
         .withContractCall(
           xPlentyBuySellContractInstance.methods.sell(minimumExpected, recipient, xPlentyAmount),
         );
+
       const batchOperation = await batch.send();
+      setShowConfirmTransaction(false);
       store.dispatch(opentransactionInjectionModal(batchOperation.opHash));
       await batchOperation.confirmation().then(() => batchOperation.opHash);
       store.dispatch(closetransactionInjectionModal());
@@ -284,6 +299,7 @@ export const sellXPlenty = async (xPlentyAmount, minimumExpected, recipient) => 
       };
     }
   } catch (error) {
+    setShowConfirmTransaction(false);
     console.log(error);
     store.dispatch(closetransactionInjectionModal());
     store.dispatch(openToastOnFail());

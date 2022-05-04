@@ -1,6 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
 import styled from 'styled-components';
 import lineBg from './assets/images/banner-bg.png';
+import waBglight from './assets/images/WrappedAssets/ic_light-1440.svg';
+import waBg from './assets/images/WrappedAssets/ic_dark-1440.svg';
 
 export const lightTheme = {
   name: 'light',
@@ -10,10 +12,9 @@ export const lightTheme = {
   hr: '#d2d2d2',
   logo: '#5603AD',
   logoFrontPage: '#FFFFFF',
-  // frontPageGradient: `linear-gradient(178.62deg, #7028E4 16.71%, #E5B2CA 217.99%)`,
-  // frontPageBottomGradient: `linear-gradient(94.97deg, #7028E4 4%, #E5B2CA 142.86%)`,
   frontPageGradient: `url(${lineBg}), linear-gradient(180.62deg,#7028E4 100.71%,#E5B2CA 0%)`,
   frontPageBottomGradient: `url(${lineBg}), linear-gradient(180.62deg,#7028E4 100.71%,#E5B2CA 0%)`,
+  WrappedAssetsGradient: `url(${waBglight})`,
   topGradient: 'linear-gradient(178.62deg, #7028E4 16.71%, #E5B2CA 217.99%)',
   bg: '#FFFFFF',
   bgAlt: '#FFFFFF',
@@ -24,14 +25,13 @@ export const lightTheme = {
   dropdownThemed: '#FFFFFF',
   dropdownThemedHighlight: '#eeeeee',
   iconFill: '#4E5D78',
-  iconHoverFill: '#6202ef',
+  iconHoverFill: '#ffffff',
   iconBgStartColor: '#D2D5DB',
+  iconBgHover: '#6202ef',
   iconBgEndColor: '#D2D5DB',
   iconHoverBgStartColor: '#7028E4',
   iconHoverBgEndColor: '#E5B2CA',
 };
-
-// body: 'linear-gradient(108.61deg, #A060D9 -24.15%, #7028E4 99.76%)',
 
 export const darkTheme = {
   name: 'dark',
@@ -43,9 +43,8 @@ export const darkTheme = {
   logoFrontPage: '#FFFFFF',
   frontPageGradient: `url(${lineBg})`,
   frontPageBottomGradient: `url(${lineBg})`,
+  WrappedAssetsGradient: `url(${waBg})`,
   topGradient: 'transparent',
-  // frontPageGradient: ``,
-  // frontPageBottomGradient: ``,
   bg: '#201c41',
   bgAlt: '#252146',
   backgroundLight: '#343052',
@@ -54,16 +53,20 @@ export const darkTheme = {
   btnFrontPage: '#19263A',
   dropdownThemed: '#514b6b',
   dropdownThemedHighlight: '#5e6884',
-  iconFill: '#4E5D78',
-  iconHoverFill: '#6202ef',
-  iconBgStartColor: '#D2D5DB',
-  iconBgEndColor: '#D2D5DB',
+  iconFill: '#FFFFFF',
+  iconHoverFill: '#252146',
+  iconBgStartColor: '#3D395F',
+  iconBgEndColor: '#3D395F',
+  iconBgHover: '#CEAEFE',
   iconHoverBgStartColor: '#7028E4',
   iconHoverBgEndColor: '#E5B2CA',
 };
 
 export const FrontPageGradientDiv = styled.div`
   background-image: ${(props) => props.theme.frontPageGradient};
+`;
+export const WrappedAssetsGradientDiv = styled.div`
+  background-image: ${(props) => props.theme.WrappedAssetsGradient};
 `;
 
 export const TopGradientDiv = styled.div`
@@ -77,10 +80,26 @@ export const FrontPageBottomGradientDiv = styled.div`
 export const GlobalStyles = createGlobalStyle`
   .start-color {
     stop-color: ${(props) => props.theme.iconBgStartColor};
+    &:hover {
+      stop-color: ${(props) => props.theme.iconBgHover};
+    }
+  }
+  &:hover {
+   > .start-color{
+    stop-color: ${(props) => props.theme.iconBgHover};
+    }
   }
   
   .end-color {
     stop-color: ${(props) => props.theme.iconBgEndColor};
+    &:hover {
+      stop-color: ${(props) => props.theme.iconBgHover};
+    }
+  }
+  &:hover {
+   > .end-color{
+    stop-color: ${(props) => props.theme.iconBgHover};
+    }
   }
   
   .icon-themed {
@@ -92,31 +111,27 @@ export const GlobalStyles = createGlobalStyle`
       > .icon-fill-themed {
         fill: ${(props) => props.theme.iconHoverFill};
       }
-       
-      // > defs stop:first-child {
-      //   stop-color: ${(props) => props.theme.iconHoverBgStartColor};
-      // }
-      
-      // > defs stop:last-child {
-      //   stop-color: ${(props) => props.theme.iconHoverBgEndColor};
-      // }
     }
+    > .icon-bg-gradient{
+      fill: ${(props) => props.theme.iconBgEndColor};
+    }
+    &:hover {
+      > .icon-bg-gradient{
+      fill: ${(props) => props.theme.iconBgHover};
+      }
   }
-  
-  #medium-icon-bg {
-    fill: url(#medium-icon-bg-gradient);
+
   }
- 
-  #twitter-icon-bg {
-    fill: url(#twitter-icon-bg-gradient);
-  }
-  
-  #discord-icon-bg {
-    fill: url(#discord-icon-bg-gradient);
-  }
-  
-  #telegram-icon-bg {
-    fill: url(#telegram-icon-bg-gradient);
+  .discord-icon-bg-gradient{
+   
+        fill: ${(props) => props.theme.iconBgEndColor};
+      
+    
+    &:hover {
+     
+        fill: ${(props) => props.theme.iconBgHover};
+      
+    }
   }
   
   .span-themed {
