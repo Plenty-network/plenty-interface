@@ -104,7 +104,6 @@ const Header = (props) => {
         )}
         fluid
       >
-
         {splitLocation[1] !== 'wrappedAssets' && isBannerOpen && (
           <div className="banner" onMouseEnter={() => setHeader('')}>
             <div className="banner-middle">
@@ -117,7 +116,6 @@ const Header = (props) => {
                 <span className="bottom-last" style={{ cursor: 'pointer' }}>
                   Swap now
                 </span>
-
                 <BannerArrow className="ml-2" />
               </Link>
             </div>
@@ -437,6 +435,7 @@ const Header = (props) => {
             selectedHeader={selectedHeader}
             isExpanded={isExpanded}
             page={splitLocation[1]}
+            isBannerOpen={isBannerOpen}
             {...props}
           />
         </div>
@@ -453,7 +452,7 @@ const mapStateToProps = (state) => ({
   tokenIn: state.settings.tokenIn,
   tokenOut: state.settings.tokenOut,
   opertaionId: state.settings.opertaionId,
-  connectWalletTooltip: state.settings.connectWalletTooltip
+  connectWalletTooltip: state.settings.connectWalletTooltip,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -468,7 +467,7 @@ Header.propTypes = {
   theme: PropTypes.string,
   toggleTheme: PropTypes.func,
   walletAddress: PropTypes.oneOf(),
-  connectWalletTooltip: PropTypes.bool
+  connectWalletTooltip: PropTypes.bool,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
