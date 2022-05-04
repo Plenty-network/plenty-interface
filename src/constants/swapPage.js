@@ -22,7 +22,6 @@ import uDEFI from '../assets/images/uDEFI.png';
 import UNO from '../assets/images/uno.png';
 import uUSD from '../assets/images/uUSD.png';
 import youGov from '../assets/images/you-gov.png';
-
 import CRUNCH from '../assets/images/CRUNCH.png';
 import crDAO from '../assets/images/crDAO.png';
 import FLAME from '../assets/images/FLAME.png';
@@ -30,6 +29,7 @@ import INSTA from '../assets/images/INSTA.png';
 import kDAO from '../assets/images/kDAO.png';
 import PXL from '../assets/images/PXL.png';
 import PAUL from '../assets/images/PAUL.png';
+import tez from '../assets/images/tez.png';
 export const tokens = [
   {
     name: 'CRUNCH',
@@ -39,6 +39,11 @@ export const tokens = [
   {
     name: 'crDAO',
     image: crDAO,
+    new: false,
+  },
+  {
+    name: 'tez',
+    image: tez,
     new: false,
   },
   {

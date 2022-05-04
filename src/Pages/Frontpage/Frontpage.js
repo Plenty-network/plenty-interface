@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styles from './frontpage.module.scss';
 import Button from '../../Components/Ui/Buttons/Button';
 import Label from '../../Components/Ui/Label/Label';
@@ -53,6 +53,8 @@ import Footer from '../../Components/Footer/Footer';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import { HOME_PAGE_MODAL } from '../../constants/homePage';
 import NumericLabel from 'react-pretty-numbers';
+import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransaction';
+import { setLoader } from '../../redux/slices/settings/settings.slice';
 
 const Frontpage = ({
   homeStats,
@@ -73,7 +75,9 @@ const Frontpage = ({
   rpcNode,
   xplentyBalance,
   theme,
+  setLoader,
 }) => {
+  const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
   useEffect(() => {
     const getAllData = () => {
       getHomeStats();
@@ -88,15 +92,21 @@ const Frontpage = ({
     const intervalId = setInterval(getAllData(), 60 * 1000);
     return () => clearInterval(intervalId);
   }, [wallet, rpcNode]);
+  const handleClose = () => {
+    setShowConfirmTransaction(false);
+  };
 
   const walletConnected = !!wallet;
 
   const onHarvestAll = () => {
-    !!wallet && harvestAll(wallet);
+    setShowConfirmTransaction(true);
+    setLoader(true);
+    !!wallet && harvestAll(wallet, setShowConfirmTransaction, setLoader);
   };
 
   const loaderMessage = useMemo(() => {
     if (harvestAllOperations.completed || harvestAllOperations.failed) {
+      setLoader(false);
       return {
         message: harvestAllOperations.completed ? 'Transaction confirmed' : 'Transaction failed',
         type: harvestAllOperations.completed ? 'success' : 'error',
@@ -349,9 +359,7 @@ const Frontpage = ({
               <a href={'https://discord.gg/9wZ4CuvkuJ'} target="_blank" rel="noreferrer">
                 <Discord className="mr-2 icon-themed" />
               </a>
-              {/* <a href={'https://t.me/PlentyDeFi'} target="_blank" rel="noreferrer">
-                <Telegram className="mr-2 icon-themed" />
-              </a> */}
+
               <a href={'https://twitter.com/PlentyDeFi'} target="_blank" rel="noreferrer">
                 <Twitter className="mr-2 icon-themed" />
               </a>
@@ -539,9 +547,11 @@ const Frontpage = ({
       </Container>
       <InfoModal
         open={modalData.open === HOME_PAGE_MODAL.TRANSACTION_SUCCESS}
+        theme={theme}
+        InfoMessage={'Harvest tokens'}
         onClose={() => openCloseModal({ open: HOME_PAGE_MODAL.NULL, transactionId: '' })}
         message={'Transaction submitted'}
-        buttonText={'View on Tezos'}
+        buttonText={'View on Block Explorer'}
         onBtnClick={
           !modalData.transactionId
             ? undefined
@@ -549,8 +559,24 @@ const Frontpage = ({
         }
       />
       {modalData.snackbar && (
-        <Loader loading={harvestAllOperations.processing} loaderMessage={loaderMessage} />
+        <Loader
+          loading={harvestAllOperations.processing}
+          loaderMessage={loaderMessage}
+          content={'Harvest tokens'}
+          theme={theme}
+          onBtnClick={
+            !modalData.transactionId
+              ? undefined
+              : () => window.open(`https://tzkt.io/${modalData.transactionId}`, '_blank')
+          }
+        />
       )}
+      <ConfirmTransaction
+        show={showConfirmTransaction}
+        theme={theme}
+        content={'Harvest tokens'}
+        onHide={handleClose}
+      />
     </>
   );
 };
@@ -574,8 +600,10 @@ const mapDispatchToProps = (dispatch) => ({
   getPlentyToHarvest: (wallet) => dispatch(getPlentyToHarvest(wallet)),
   getPlentyBalanceOfUser: (wallet) => dispatch(getPlentyBalanceOfUser(wallet)),
   getTVLOfUser: (wallet) => dispatch(getTVLOfUser(wallet)),
-  harvestAll: (wallet) => dispatch(harvestAll(wallet)),
+  harvestAll: (wallet, setShowConfirmTransaction, setLoader) =>
+    dispatch(harvestAll(wallet, setShowConfirmTransaction, setLoader)),
   openCloseModal: (payload) => dispatch(onModalOpenClose(payload)),
+  setLoader: (value) => dispatch(setLoader(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Frontpage);
@@ -603,4 +631,5 @@ Frontpage.propTypes = {
   wallet: PropTypes.any,
   walletAddress: PropTypes.any,
   xplentyBalance: PropTypes.any,
+  setLoader: PropTypes.any,
 };

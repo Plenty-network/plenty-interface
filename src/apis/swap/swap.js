@@ -3,7 +3,6 @@ import { BeaconWallet } from '@taquito/beacon-wallet';
 import { CheckIfWalletConnected } from '../wallet/wallet';
 import CONFIG from '../../config/config';
 import axios from 'axios';
-import { RPC_NODE } from '../../constants/localStorage';
 import { packDataBytes, unpackDataBytes } from '@taquito/michel-codec';
 import { TezosMessageUtils, TezosParameterFormat } from 'conseiljs';
 import {
@@ -58,9 +57,11 @@ export const swapTokens = async (
   transactionSubmitModal,
   setShowConfirmSwap,
   resetAllValues,
+  setShowConfirmTransaction,
 ) => {
   const connectedNetwork = CONFIG.NETWORK;
-  const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+  const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+  // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
   try {
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -143,9 +144,12 @@ export const swapTokens = async (
     }
 
     const batchOperation = await batch.send();
-    resetAllValues();
+    setShowConfirmTransaction(false);
+
     setShowConfirmSwap(false);
     transactionSubmitModal(batchOperation.opHash);
+    resetAllValues();
+
     await batchOperation.confirmation().then(() => batchOperation.opHash);
     return {
       success: true,
@@ -174,7 +178,9 @@ export const swapTokenUsingRoute = async (
   middleToken,
 ) => {
   const connectedNetwork = CONFIG.NETWORK;
-  const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+  const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+
+  // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
   try {
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -249,7 +255,6 @@ export const swapTokenUsingRoute = async (
         .withContractCall(tokenInInstance.methods.transfer(caller, routerAddress, swapAmount))
         .withContractCall(routerInstance.methods.routerSwap(DataMap, swapAmount, caller));
     } else {
-      //console.log({ caller, routerAddress, tokenInId, swapAmount });
       batch = Tezos.wallet
         .batch()
         .withContractCall(
@@ -279,7 +284,8 @@ export const swapTokenUsingRoute = async (
 export const loadSwapData = async (tokenIn, tokenOut) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
     const Tezos = new TezosToolkit(rpcNode);
     const dexContractInstance = await Tezos.contract.at(dexContractAddress);
@@ -444,7 +450,6 @@ export const computeTokenOutForRouteBaseByOutAmount = (outputAmount, swapData, s
     // minimum_Out_Plenty =
     //   inToMidOutput.tokenOut_amount - (slippage * inToMidOutput.tokenOut_amount) / 100;
 
-    // console.log({ minimum_Out_Plenty, actual: inToMidOutput.minimum_Out });
     return {
       tokenIn_amount: midToOutOutput.tokenOut_amount,
       tokenOut_amount: outputAmount,
@@ -587,6 +592,7 @@ export const addLiquidity = async (
   transactionSubmitModal,
   resetAllValues,
   setShowConfirmAddSupply,
+  setShowConfirmTransaction,
 ) => {
   try {
     const network = {
@@ -608,7 +614,8 @@ export const addLiquidity = async (
     let tokenSecondInstance = null;
 
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const Tezos = new TezosToolkit(rpcNode);
     Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
@@ -785,9 +792,11 @@ export const addLiquidity = async (
         .withContractCall(tokenSecondInstance.methods.approve(dexContractAddress, 0));
     }
     const batchOperation = await batch.send();
-    resetAllValues();
+
     setShowConfirmAddSupply(false);
+    setShowConfirmTransaction(false);
     transactionSubmitModal(batchOperation.opHash);
+    resetAllValues();
     await batchOperation.confirmation().then(() => batchOperation.opHash);
     return {
       success: true,
@@ -850,6 +859,7 @@ export const getUserBalanceByRpc = async (identifier, address) => {
     const packedKey = getPackedKey(tokenId, address, type);
     const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
     const response = await axios.get(url);
+
     const balance = (() => {
       // IIFE
       let _balance;
@@ -908,6 +918,7 @@ export const removeLiquidity = async (
   transactionSubmitModal,
   resetAllValues,
   setShowConfirmRemoveSupply,
+  setShowConfirmTransaction,
 ) => {
   try {
     let tokenFirst = null;
@@ -921,7 +932,8 @@ export const removeLiquidity = async (
       name: CONFIG.NAME,
     };
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const wallet = new BeaconWallet(options);
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (!WALLET_RESP.success) {
@@ -971,9 +983,11 @@ export const removeLiquidity = async (
         ),
       );
     const batchOperation = await batch.send();
-    resetAllValues();
+
     setShowConfirmRemoveSupply(false);
+    setShowConfirmTransaction(false);
     transactionSubmitModal(batchOperation.opHash);
+    resetAllValues();
     await batchOperation.confirmation().then(() => batchOperation.opHash);
     return {
       success: true,
@@ -996,7 +1010,8 @@ export const fetchtzBTCBalance = async (addressOfUser) => {
   try {
     const tokenContractAddress = 'KT1PWx2mnDueood7fEmfbBDKx1D9BAnnXitn';
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const Tezos = new TezosToolkit(rpcNode);
     Tezos.setProvider(rpcNode);
     const contract = await Tezos.contract.at(tokenContractAddress);
@@ -1047,7 +1062,8 @@ export const fetchWalletBalance = async (
 ) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const Tezos = new TezosToolkit(rpcNode);
     Tezos.setProvider(rpcNode);
     const contract = await Tezos.contract.at(tokenContractAddress);
@@ -1283,7 +1299,9 @@ export const fetchAllWalletBalance = async (addressOfUser) => {
  */
 const getCtezPrice = async () => {
   try {
-    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
+    const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
     const promises = [];
     const cfmmStorageUrl = `${rpcNode}chains/main/blocks/head/context/contracts/KT1H5b7LxEExkFd2Tng77TfuWbM5aPvHstPr/storage`;
     const xtzDollarValueUrl = CONFIG.API.url;
@@ -1311,7 +1329,9 @@ const getCtezPrice = async () => {
  */
 const getuDEFIPrice = async () => {
   try {
-    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
+    const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
 
     const uDEFIOracleUrl = `${rpcNode}chains/main/blocks/head/context/contracts/KT1UuqJiGQgfNrTK5tuR1wdYi5jJ3hnxSA55/storage`;
     const uedfipriceResponse = await axios.get(uDEFIOracleUrl);
@@ -1470,6 +1490,7 @@ export const getTokenPrices = async () => {
         }
       }
     }
+
     tokenPrice['ctez'] = promisesResponse[1].ctezPriceInUSD;
     tokenPrice['uDEFI'] = promisesResponse[2].uDEFIinUSD;
     return {

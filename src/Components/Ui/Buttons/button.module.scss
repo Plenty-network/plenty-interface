@@ -2,7 +2,7 @@
 
 .btn {
   min-width: 112px;
-  height: 50px;
+  height: 54px;
   border-radius: 8px;
   display: flex;
   justify-content: center;
@@ -60,6 +60,12 @@
   border: 0;
   font-weight: bold;
 }
+.primaryOutline {
+  color: var(--theme-primary-button-bg);
+  background: transparent;
+  border: 1px solid var(--theme-primary-button-bg);
+  font-weight: bold;
+}
 
 .secondary {
   background: var(--theme-secondary-1);
@@ -70,7 +76,16 @@
   background: var(--theme-disabled-button);
   color: var(--theme-disable-button-text);
   border: 0;
-  font-weight: 700;
+  font-weight: 500;
+}
+.outline-button {
+  border: 0.2px solid var(--theme-confirm-transaction-border);
+  background: rgba(78, 93, 120, 0.02);
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--theme-confirm-transaction-button-text);
 }
 
 .smallBtn {
