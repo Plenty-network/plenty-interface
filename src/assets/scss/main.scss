@@ -203,6 +203,69 @@ hr {
 }
 
 .switchTooltip .tooltip-inner {
-  background-color: #282828;
-  color: #fff;
+  background-color: var(--theme-tooltip-bg);
+  color: var(--theme-tooltip-text);
+  position: static;
+  left:auto;
+  top: auto;
+}
+
+.connect-wallet-tooltip{
+  z-index: 9999 !important;
+  .tooltip-inner {
+    background-color: var(--theme-tooltip-bg);
+    color: var(--theme-tooltip-text);
+    position: static;
+    left:auto;
+    top: auto;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 94%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent transparent var(--theme-tooltip-bg);
+  }
+}
+
+.metamask-wallet-tooltip {
+  &::after {
+    content: "";
+    position: absolute;
+    top: 96%;
+    left: 44%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--theme-tooltip-bg) transparent transparent transparent;
+  }
+}
+
+.token-output-tooltip{
+  z-index: 9999 !important;
+  margin-bottom: 6px;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 96%;
+    left: 60%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--theme-tooltip-bg) transparent transparent transparent;
+  }
+}
+
+.bridge-main-component button  {
+  height: 54px;
+}
+
+.bridge-main-component button span  {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 21px; 
 }

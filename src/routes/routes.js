@@ -180,7 +180,17 @@ const MyRoutes = (props) => {
                 </OtherPages>
               }
             />
-
+            <Route
+              path="/bridge"
+              element={
+                <OtherPages {...otherPageProps}>
+                  <Bridge
+                    walletAddress={props.userAddress} 
+                    theme={otherPageProps.theme}
+                  />
+                </OtherPages>
+              }
+            />
           </Routes>
         </React.Suspense>
       </BrowserRouter>

@@ -1,0 +1,564 @@
+.border {
+  //background: var(--theme-gradient-border);
+  padding: 1px;
+  margin-top: 60px;
+  border-radius: 8px;
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    background: none;
+    margin: 20px auto;
+    padding: 0px;
+    border-radius: 0px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 992px) {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+}
+.gov {
+  padding: 0px 0px;
+  margin-right: 0px;
+  top: 100px;
+  position: sticky;
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    top: auto;
+    margin-top: -10px;
+  }
+}
+
+.bridgeModal {
+  box-shadow: var(--theme-swap-boxshadow);
+  //background: var(--theme-bridge-token-sel-bg);
+  background: linear-gradient(180deg, var(--theme-bridge-main-bg-1) 60%, var(--theme-bridge-main-bg-2) 0%);
+  border:1px solid var(--theme-bridge-history-border);
+  border-radius: 16px;
+  padding: 24px 24px;
+  margin: auto;
+  overflow-y: auto;
+  max-width: 520px;
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    //max-width: 440px;
+    border-radius: 0px;
+    box-shadow: none;
+    padding: 20px 20px;
+    margin: 0 auto;
+    width: auto;
+    border: none;
+  }
+  .resultsHeader {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 8px;
+    padding-right: 8px;
+    .res {
+      font-style: normal;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 13px;
+      height: 32px;
+      padding: 9px 20px;
+      background: var(--theme-bridge-history-btn-bg);
+      border-radius: 4px;
+      color: var(--theme-bridge-history-btn-text);
+      align-items: center;
+      display: flex;
+    }
+    .pendingHistory {
+      background: rgba(255, 157, 157, 0.1);
+      color: #FF5A5A;
+    }
+  }
+  .heading {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 17px;
+    letter-spacing: 0px;
+    color: var(--theme-bridge-header-text);
+    margin-top: 7px;
+    @media screen and (min-width: 320px) and (max-width: 767px) {
+      font-size: 16px;
+    }
+    > .metamaskAddressText {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--theme-bridge-max-btn-border-text);
+      @media screen and (min-width: 320px) and (max-width: 767px) {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+.from {
+  background: var(--theme-bridge-from-bg);
+  border: var(--theme-bridge-from-border);
+  box-sizing: border-box;
+  border-radius: 4px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 27px;
+  width: 54px;
+  color: var(--theme-bridge-from-text);
+}
+.to {
+  height: 27px;
+  width: 36px;
+  background: var(--theme-bridge-to-bg);
+  border: var(--theme-bridge-from-border);
+  box-sizing: border-box;
+  border-radius: 4px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+  color: var(--theme-bridge-max-btn-border-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.toDiv {
+  background: rgba(98, 2, 239, 0.05);
+}
+.tokenSelectBox {
+  min-height: 54px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  mix-blend-mode: normal;
+  padding: 10px;
+  border: 0.803667px solid var(--theme-bridge-ip-border);
+  box-sizing: border-box;
+  border-radius: 16px;
+
+  &:hover {
+    border: 1px solid var(--theme-border-light);
+  }
+
+  &.selected {
+    background-color: var(--theme-input-bg);
+    border: 0.803667px solid rgba(98, 2, 239, 0.4);
+  }
+}
+.inputSelectBox {
+  background: var(--theme-bridge-input-bg);
+}
+
+.lineBottom {
+  border-bottom: 0.5px solid var(--theme-bridge-token-sel-lb);
+  width: 100%;
+}
+.arrowSwap {
+  width: 54px;
+  height: 54px;
+  background: var(--theme-bridge-max-btn-border-text);
+  border-radius: 8px;
+  filter: drop-shadow(0px 4.69565px 42px var(--theme-bridge-switch-drop-shadow));
+  cursor: pointer;
+  transition: transform 0.5s ease-in-out;
+  .arrow {
+    margin-left: 5px;
+    margin-top: 9px;
+  }
+  &:hover {
+    transform: rotate(180deg);
+  }
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    width: 42px;
+    height: 42px;
+    >img {
+      width: 30px;
+      height: 30px;
+    }
+  }
+}
+.tokenSelector {
+  background: #f4f4f4;
+  box-shadow: 0px 10px 30px rgba(138, 149, 158, 0.09);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--theme-text-1);
+  border-radius: 3px;
+  padding: 8px 7px;
+  cursor: pointer;
+  border: 0;
+  &.not-selected {
+    padding: 10px 6px;
+    background-color: #ffffff;
+    color: var(--theme-primary-gradient-1);
+    //
+    //&:hover {
+    //  opacity: 85%;
+    //}
+  }
+  > span {
+    font-size: 16px;
+    vertical-align: middle;
+  }
+}
+.tokenUserInput {
+  width: 100%;
+  text-align: left;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 31px;
+  color: var(--theme-bridge-input-text);
+  border: 0;
+  background-color: transparent;
+  outline: none;
+  &::placeholder {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 31px;
+    color: rgba(176, 183, 195, 0.5);
+  }
+}
+.toLabel {
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 13px;
+  letter-spacing: 0em;
+  color: var(--theme-bridge-to-sub-label);
+  margin-bottom: 0px;
+}
+
+.lineMid {
+  border-bottom: 0.86px dashed var(--theme-bridge-chain-from-lb);
+  width: 100%;
+}
+
+.midLabel {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: var(--theme-bridge-chain-sel-text);
+  margin-bottom: 8px;
+}
+
+.fromBridgeSelectBox {
+  min-height: 54px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: var(--theme-bridge-from-ip-bg);
+  mix-blend-mode: normal;
+  padding: 8px 12px 8px 20px;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
+.fromLabelTop {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: var(--theme-bridge-chain-sel-text);
+}
+
+.fromLabelBottom {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 17px;
+  color: var(--theme-bridge-chain-sel-subtext);
+}
+
+.selector {
+  background: var(--theme-bridge-selector-bg);
+  mix-blend-mode: normal;
+  border: 0.803667px solid var(--theme-bridge-selector-border);
+  box-sizing: border-box;
+  box-shadow: 0px 4px 9px var(--theme-bridge-selector-box-shadow);
+  border-radius: 8px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--theme-text-1);
+  padding: 8px 7px;
+  cursor: pointer;
+}
+
+.bridgeSelector, .toTokenSelector {
+  
+  &.not-selected {
+    padding: 10px 6px;
+    background-color: #ffffff;
+    color: var(--theme-primary-gradient-1);
+    //
+    //&:hover {
+    //  opacity: 85%;
+    //}
+  }
+  > span {
+    font-size: 14px;
+    vertical-align: middle;
+  }
+}
+
+.selectMaxBtn {
+  background: var(--theme-bridge-max-btn-bg);
+  mix-blend-mode: normal;
+  border: 0.863044px solid var(--theme-bridge-max-btn-border-text);
+  box-sizing: border-box;
+  border-radius: 8px;
+  width: 36px;
+  height: 20px;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 13px;
+  color: var(--theme-bridge-max-btn-border-text);
+  cursor: pointer;
+}
+
+.errorText {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #FF5A43;
+  margin: 10px 0 0;
+}
+
+.inputWrapper {
+  flex: 0 0 65%;
+  color: var(--theme-text-1);
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    flex: 0 0 50%;
+  }
+}
+
+.toBridgeSelector {
+  background: var(--theme-bridge-to-chain);
+  mix-blend-mode: normal;
+  border: 0.4px solid var(--theme-bridge-max-btn-border-text);
+  box-sizing: border-box;
+  border-radius: 8px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--theme-text-1);
+  padding: 11px 12px;
+
+  >img {
+    margin-right: 4px;
+    height: 18px;
+    width: 18px;
+  }
+
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    padding: 11px 6px;
+  }
+}
+
+.toBridgeWrapper {
+  display: flex;
+  flex: 1 1 0;
+  height: 42px;
+  align-items: center;
+}
+
+.lineVertical {
+  border: 1px solid var(--theme-bridge-vertical-line);
+  height: 32px;
+  margin-left: 12px;
+  margin-right: 12px;
+}
+
+.toTokenLabel {
+  min-width: 30px;
+  background: var(--theme-bridge-to-token-bg);
+  mix-blend-mode: normal;
+  border: 1px solid var(--theme-bridge-max-btn-border-text);
+  box-sizing: border-box;
+  border-radius: 19px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--theme-bridge-max-btn-border-text);
+  padding: 4px 12px;
+}
+
+.toBridgeSelectBox {
+  min-height: 54px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color:  var(--theme-bridge-to-ip-bg);
+  mix-blend-mode: normal;
+  padding: 15px;
+  border: 1px solid var(--theme-bridge-to-ip-border);
+  box-sizing: border-box;
+  border-radius: 16px;
+
+  &:hover {
+    border: 1px solid var(--theme-bridge-to-ip-border);
+  }
+}
+
+.toTokenOutput {
+  width: 204px;
+  text-align: left;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 31px;
+  color: var(--theme-bridge-max-btn-border-text);
+  border: 0;
+  background-color: transparent;
+  outline: none;
+  overflow-x: auto;
+  &::placeholder {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 31px;
+    color:var(--theme-bridge-max-btn-border-text);
+  }
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    width: 102px;
+  }
+}
+
+.feeEstimateText {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--theme-bridge-fee-text);
+  margin: 10px 0 0;
+}
+
+#switchTooltip {
+  background-color: var(--theme-tooltip-bg);
+  color: var(--theme-tooltip-text);
+  border-radius: 8px;
+  margin-left: 1rem;
+  .tooltip-inner {
+    background-color: var(--theme-tooltip-bg) !important;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent var(--theme-tooltip-bg) transparent transparent;
+  }
+}
+
+.toTokenSelector {
+  height: 40px;
+  padding: 8px 14px;
+  >img {
+    margin-right: 4px;
+    height: 18px;
+    width: 18px;
+  }
+  &:hover {
+    background: var(--theme-bridge-token-select-hover-bg);
+    border: 0.803667px solid var(--theme-bridge-token-select-hover-border);
+  }
+}
+
+.tokenInSelected {
+  background-color: var(--theme-input-bg);
+  border: 0.803667px solid var(--theme-bridge-token-in-selected-border);
+  &:hover {
+    background-color: var(--theme-input-bg);
+    border: 0.803667px solid var(--theme-bridge-token-in-selected-border);
+  }
+}
+
+.inputError {
+  background: rgba(255, 90, 67, 0.05);
+  border: 0.734783px solid #FF5A43;
+  &:hover {
+    background: rgba(255, 90, 67, 0.05);
+    border: 0.734783px solid #FF5A43;
+  }
+  .tokenUserInput {
+    color: rgba(255, 90, 67, 0.5);
+    &::placeholder{
+      color: rgba(255, 90, 67, 0.5);
+    }
+  }
+}
+
+.bridgeSelector{
+  height: 60px;
+  font-size: 16px;
+  line-height: 21px;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  >img {
+    margin-right: 4px;
+    height: 24px;
+    width: 24px;
+  }
+  &:hover {
+    background: var(--theme-bridge-token-select-hover-bg);
+    border: 1px solid var(--theme-bridge-chain-select-hover-border);
+  }
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    min-width: 154px;
+  }
+}
+
+.fromBridgeClicked {
+  background: var(--theme-bridge-chain-select-click-bg);
+  border: 0.803667px solid var(--theme-bridge-chain-select-click-border);
+}
+
+.balanceText {
+  color: var(--theme-bridge-balance-text);
+  line-height: 16px;
+}
+
+.balanceValue {
+  color:var(--theme-bridge-max-btn-border-text);
+  font-weight: 700;
+  cursor: pointer;
+  //vertical-align: middle;
+}
+
+.maxButton {
+  margin-left: 5px;
+  margin-bottom: 2px;
+}
+
+.toBridgeSelected { 
+  box-shadow: var(--theme-bridge-main-to-box-shadow);
+}
+
+.actionRequiredCount {
+  font-size: 90%;
+  background-color: #FF5A5A;
+  /* padding: 0.2rem 0.4rem; */
+  padding-top: 0.23rem;
+  border-radius: 50%;
+  color: #ffffff;
+  vertical-align: middle;
+  text-align: center;
+  margin-left: 4px;
+  height: 20px;
+  width: 20px;
+}
+
+

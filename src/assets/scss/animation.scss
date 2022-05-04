@@ -6,6 +6,31 @@
     -o-animation: fadein 1s; /* Opera < 12.1 */
     animation: fadein 1s;
   }
+  &-4-bridge{
+    -webkit-animation: fadeinBridge 1.5s; /* Safari, Chrome and Opera > 12.1 */
+   -moz-animation: fadeinBridge 1.5s; /* Firefox < 16 */
+    -ms-animation: fadeinBridge 1.5s; /* Internet Explorer */
+     -o-animation: fadeinBridge 1.5s; /* Opera < 12.1 */
+        animation: fadeinBridge 1.5s;
+  }
+  &-4-bridge-false{
+    -webkit-animation: fadeinBridge 0.4s; /* Safari, Chrome and Opera > 12.1 */
+   -moz-animation: fadeinBridge 0.4s; /* Firefox < 16 */
+    -ms-animation: fadeinBridge 0.4s; /* Internet Explorer */
+     -o-animation: fadeinBridge 0.4s; /* Opera < 12.1 */
+        animation: fadeinBridge 0.4s;
+  }
+}
+
+@keyframes fadeinBridge {
+  from { opacity: 0.2;transform: translateX(-20px);}
+  to   { opacity: 1;transform: translateX(0px); }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadeinBridge {
+  from { opacity: 0.2;transform: translateX(-20px);}
+  to   { opacity: 1;transform: translateX(0px); }
 }
 
 @keyframes fadein {
@@ -45,6 +70,24 @@
     -o-animation: rightToleftFloater 2s; /* Opera < 12.1 */
     animation: rightToleftFloater 2s;
   }
+  &-4{
+    -webkit-animation: rightToleftFBridge 1.5s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: rightToleftFBridge 1.5s; /* Firefox < 16 */
+    -ms-animation: rightToleftFBridge 1.5s; /* Internet Explorer */
+    -o-animation: rightToleftFBridge 1.5s; /* Opera < 12.1 */
+    animation: rightToleftFBridge 1.5s;
+  }
+}
+
+@keyframes rightToleftFBridge {
+  from { opacity: 0.2;transform: translateX(20px);}
+  to   { opacity: 1;transform: translateX(0px); }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes rightToleftFBridge {
+  from { opacity: 0.2;transform: translateX(20px);}
+  to   { opacity: 1;transform: translateX(0px); }
 }
 
 .bottomToTopFadeInAnimation {
@@ -126,6 +169,39 @@
     transform: translateX(0px);
   }
 }
+
+
+.topToBottomFadeInAnimation {
+  &-4{
+    -webkit-animation: topToBottomBridge 3s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: topToBottomBridge 3s; /* Firefox < 16 */
+    -ms-animation: topToBottomBridge 3s; /* Internet Explorer */
+    -o-animation: topToBottomBridge 3s; /* Opera < 12.1 */
+    animation: topToBottomBridge 3s;
+  }
+}
+@keyframes topToBottomBridge {
+  from {
+    opacity: 0.2;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@-moz-keyframes topToBottomBridge {
+  from {
+    opacity: 0.2;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
 
 .lds-default {
   margin-right: auto;

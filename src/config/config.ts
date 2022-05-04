@@ -4454,13 +4454,10 @@ const Config: IConfig = {
     address: 'KT1CAeUQfyMnBVqkt4QcztmjsjAWYzK6ZPYQ',
     mapId: 55983,
   },
-
-  // NETWORK: 'testnet',
-  // WALLET_NETWORK: 'hangzhounet',
-
-  NETWORK: 'mainnet',
-  WALLET_NETWORK: 'mainnet',
-
+  NETWORK: 'testnet',
+  WALLET_NETWORK: 'hangzhounet',
+  // NETWORK: 'mainnet',
+  // WALLET_NETWORK: 'mainnet',
   ADMIN_ADDRESS: 'KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW',
   BURNER: 'tz1ZnK6zYJrC9PfKCPryg9tPW6LrERisTGtg',
   WRAPPED_ASSETS: {
@@ -4760,6 +4757,19 @@ const Config: IConfig = {
   WRAPPED_ASSETS_SWAP_CONTRACT: {
     testnet: 'KT1D5QJhRM7t2ibHPYYqWQs4o9nianxa9E49',
     mainnet: 'KT1Tf2rFp2khyF83jvtinLFxR7vEhFZ8nL2J',
+  },
+  BRIDGES_INDEXER_LINKS: {
+    testnet: {
+      RINKEBY: 'https://bridgeindexer.plentydefi.com/v1/configuration',
+    },
+    mainnet: {
+      ETHEREUM: 'https://indexer.app.tzwrap.com/v1/configuration',
+    },
+  },
+  EXPLORER_LINKS: {
+    RINKEBY: 'https://rinkeby.etherscan.io/tx/',
+    ETHEREUM: 'https://etherscan.io/tx/',
+    TEZOS: 'https://tzkt.io/',
   },
 };
 
