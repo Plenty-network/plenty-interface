@@ -151,8 +151,14 @@ const Bridge = (props) => {
   const connectWalletHandler = () => {
     console.log('Connecting');
     if (window.ethereum && window.ethereum.isMetaMask) {
-      console.log(window.ethereum);
       console.log('MetaMask Here!');
+      // Set the provider to metamask to resolve the conflict between metamask and coinbase wallet.
+      // Allow only metamask wallet to open on connecting.
+      if (window.ethereum.providers && window.ethereum.providers.length > 1) {
+        window.ethereum.selectedProvider = window.ethereum.providers.find(
+          (provider) => provider.isMetaMask,
+        );
+      }
       window.ethereum
         .request({ method: 'eth_requestAccounts' })
         .then((result) => {

@@ -881,22 +881,33 @@ export const changeNetwork = async ({ networkName }) => {
     throw new Error(err.message);
   }
 };
-function delay(delayInms) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(2);
-    }, delayInms);
-  });
-}
+
+// function delay(delayInms) {
+//   return new Promise((resolve) => {
+//     setTimeout(() => {
+//       resolve(2);
+//     }, delayInms);
+//   });
+// }
 
 export const getCurrentNetwork = async () => {
   if (window.ethereum.selectedAddress) {
-    if (!window.ethereum.selectedProvider) {
-      await delay(500);
-    }
+    // if (!window.ethereum.selectedProvider) {
+    //   await delay(500);
+    // } 
     try {
-      console.log(window.ethereum);
       if (!window.ethereum) throw new Error('No crypto wallet found');
+      // Set the provider to metamask to resolve the conflict between metamask and coinbase wallet.
+      // Allow only metamask wallet to be set as provider before getting chain.
+      if (
+        window.ethereum.isMetaMask &&
+        window.ethereum.providers &&
+        window.ethereum.providers.length > 1
+      ) {
+        window.ethereum.selectedProvider = window.ethereum.providers.find(
+          (provider) => provider.isMetaMask,
+        );
+      }
       const chainId = await window.ethereum.request({ method: 'eth_chainId' });
       const networkName = Object.keys(networks).find((key) => networks[key].chainId === chainId);
       console.log(chainId);
