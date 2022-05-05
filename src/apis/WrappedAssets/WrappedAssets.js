@@ -13,7 +13,7 @@ import {
   type5MapIds,
 } from '../../constants/global';
 import { tokens } from '../../constants/swapPage';
-import { wrappedTokens } from '../../constants/wrappedAssets';
+
 /**
  * Returns packed key (expr...) which will help to fetch user specific data from bigmap directly using rpc.
  * @param tokenId - Id of map from where you want to fetch data
@@ -207,7 +207,6 @@ export const getReferenceToken = (tokenIn) =>
     (token) => token.name === CONFIG.WRAPPED_ASSETS[CONFIG.NETWORK][tokenIn].REF_TOKEN,
   );
 
-
 /**
  * Get the list of available liquidity pairs for a selected reference token.
  * @param {string} referenceToken - The reference token to be checked for available pairs on plenty.
@@ -233,14 +232,16 @@ export const getAvailableLiquidityPairs = (referenceToken) => {
     } else {
       Object.keys(tokenList[referenceToken].DEX_PAIRS).forEach((token) => {
         let finalTokenA, finalTokenB, finalTokenAImage, finalTokenBImage;
+
         const tokenAImage =
           tokens.filter((tokenInfo) => tokenInfo.name === referenceToken).length > 0
             ? tokens.find((tokenInfo) => tokenInfo.name === referenceToken).image
-            : wrappedTokens.find((tokenInfo) => tokenInfo.name === referenceToken).image;
+            : referenceTokens.find((tokenInfo) => tokenInfo.name === referenceToken).image;
+
         const tokenBImage =
           tokens.filter((tokenInfo) => tokenInfo.name === token).length > 0
             ? tokens.find((tokenInfo) => tokenInfo.name === token).image
-            : wrappedTokens.find((tokenInfo) => tokenInfo.name === token).image;
+            : referenceTokens.find((tokenInfo) => tokenInfo.name === token).image;
         // Order the pairs according to the contract storage order.
         if (tokenList[referenceToken].DEX_PAIRS[token].property === 'token2_pool') {
           finalTokenA = referenceToken;

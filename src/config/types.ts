@@ -4,6 +4,7 @@ export interface IConfig {
   RPC_NODES: INodes;
   TZKT_NODES: INodes;
   TOKENS_PAGE: INodes;
+  CTEZ: INodes;
   EXPLORER_LINKS: IExplorerLinks;
   STAKING_CONTRACTS: {
     POOLS: any;
@@ -21,7 +22,7 @@ export interface IConfig {
     testnet: Record<string, string>;
     mainnet: Record<string, string>;
   };
-  ROUTER: { mainnet: string };
+  ROUTER: { mainnet: string; testnet: string };
   STABLESWAP: {
     testnet: Record<string, IStableAmmContract>;
     mainnet: Record<string, IStableAmmContract>;

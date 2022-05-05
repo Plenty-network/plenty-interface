@@ -29,6 +29,7 @@ import INSTA from '../assets/images/INSTA.png';
 import kDAO from '../assets/images/kDAO.png';
 import PXL from '../assets/images/PXL.png';
 import PAUL from '../assets/images/PAUL.png';
+import tez from '../assets/images/tez.png';
 export const tokens = [
   {
     name: 'CRUNCH',
@@ -41,7 +42,12 @@ export const tokens = [
     new: false,
   },
   {
-    name: 'CTEZ',
+    name: 'tez',
+    image: tez,
+    new: false,
+  },
+  {
+    name: 'ctez',
     image: ctez,
     new: false,
     extra: {

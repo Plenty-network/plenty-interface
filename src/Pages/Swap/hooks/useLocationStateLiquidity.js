@@ -3,34 +3,34 @@ import { useEffect, useMemo, useState } from 'react';
 import plenty from '../../../assets/images/logo_small.png';
 import ctez from '../../../assets/images/ctez.png';
 import config from '../../../config/config';
-import { liquidityTokens } from '../../../constants/liquidityTokens';
+import { tokens } from '../../../constants/swapPage';
 
 export const useLocationStateInLiquidity = () => {
   const [tokenParams, setTokenParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
   const [tokenIn, setTokenIn] = useState({
-    name: 'CTEZ',
+    name: 'ctez',
     image: ctez,
   });
-
-  const [tokenOut, setTokenOut] = useState({ name: 'PLENTY', image: plenty });
   useEffect(() => {
-    if (tokenIn.name === 'TEZ') {
+    if (tokenIn.name === 'tez') {
       setTokenOut({
-        name: 'CTEZ',
+        name: 'ctez',
         image: ctez,
       });
     }
   }, [tokenIn]);
+  const [tokenOut, setTokenOut] = useState({ name: 'PLENTY', image: plenty });
+
   const AMMExists = useMemo(() => {
-    if (tokenIn.name === 'TEZ')
+    if (tokenIn.name === 'tez')
       return !!config.STABLESWAP[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
     else return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
   }, [tokenIn, tokenOut]);
 
   const activeTab = useMemo(() => {
-    if (location.pathname === '/liquidity') {
+    if (!location.pathname.includes('/liquidityPositions')) {
       return 'liquidity';
     }
 
@@ -38,9 +38,11 @@ export const useLocationStateInLiquidity = () => {
   }, [location.pathname]);
 
   const paramKeys = useMemo(() => {
-    if (activeTab === 'liquidity') {
-      return { a: 'tokenA', b: 'tokenB' };
+    if (activeTab === 'swap') {
+      return { a: 'from', b: 'to' };
     }
+
+    return { a: 'tokenA', b: 'tokenB' };
   }, [activeTab]);
 
   const setActiveTab = (elem) => {
@@ -54,37 +56,34 @@ export const useLocationStateInLiquidity = () => {
   };
 
   useEffect(() => {
-    if (activeTab === 'liquidity') {
-      setTokenParams(
-        {
-          ...(tokenIn.name ? { [paramKeys.a]: tokenIn.name } : {}),
-          ...(tokenParams.get(paramKeys.b) ? { [paramKeys.b]: tokenParams.get(paramKeys.b) } : {}),
-        },
-        { replace: true },
-      );
-    }
+    setTokenParams(
+      {
+        ...(tokenIn.name ? { [paramKeys.a]: tokenIn.name } : {}),
+        ...(tokenParams.get(paramKeys.b) ? { [paramKeys.b]: tokenParams.get(paramKeys.b) } : {}),
+      },
+      { replace: true },
+    );
   }, [tokenIn]);
 
   useEffect(() => {
-    if (activeTab === 'liquidity') {
-      setTokenParams(
-        {
-          ...(tokenParams.get(paramKeys.a) ? { [paramKeys.a]: tokenParams.get(paramKeys.a) } : {}),
-          ...(tokenOut.name ? { [paramKeys.b]: tokenOut.name } : {}),
-        },
-        { replace: true },
-      );
-    }
+    setTokenParams(
+      {
+        ...(tokenParams.get(paramKeys.a) ? { [paramKeys.a]: tokenParams.get(paramKeys.a) } : {}),
+        ...(tokenOut.name ? { [paramKeys.b]: tokenOut.name } : {}),
+      },
+      { replace: true },
+    );
   }, [tokenOut]);
 
   useEffect(() => {
-    const paramKey = { a: 'tokenA', b: 'tokenB' };
+    const paramKey =
+      location.pathname === '/swap' ? { a: 'from', b: 'to' } : { a: 'tokenA', b: 'tokenB' };
 
     const tokenInFromParam = tokenParams.get(paramKey.a);
     const tokenOutFromParam = tokenParams.get(paramKey.b);
 
     if (tokenInFromParam) {
-      const tokenInDatum = liquidityTokens.find((token) => token.name === tokenInFromParam);
+      const tokenInDatum = tokens.find((token) => token.name === tokenInFromParam);
 
       if (tokenInDatum) {
         setTokenIn({
@@ -95,7 +94,7 @@ export const useLocationStateInLiquidity = () => {
     }
 
     if (tokenOutFromParam) {
-      const tokenOutDatum = liquidityTokens.find((token) => token.name === tokenOutFromParam);
+      const tokenOutDatum = tokens.find((token) => token.name === tokenOutFromParam);
 
       if (tokenOutDatum) {
         setTokenOut({

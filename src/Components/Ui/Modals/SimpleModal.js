@@ -34,10 +34,8 @@ const SimpleModal = (props) => {
               placement="right"
               overlay={
                 <Tooltip id="button-tooltip-ts" {...props}>
-                  Your transaction has been added to mempool now. A bunch of transactions from
-                  mempool will be added to a block, verified and then added to the blockchain. It
-                  would take 15-20 secs for this process and once it is done your transaction will
-                  be confirmed.
+                  Your transaction has been added to the mempool. It can take up to 30 seconds
+                  before your transaction is confirmed.
                 </Tooltip>
               }
             >

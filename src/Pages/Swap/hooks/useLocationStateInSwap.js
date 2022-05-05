@@ -1,7 +1,5 @@
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
-import plenty from '../../../assets/images/logo_small.png';
-import tez from '../../../assets/images/tez.png';
 import ctez from '../../../assets/images/ctez.png';
 import config from '../../../config/config';
 import { tokens } from '../../../constants/swapPage';
@@ -11,18 +9,11 @@ export const useLocationStateInSwap = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [tokenIn, setTokenIn] = useState({
-    name: 'PLENTY',
-    image: plenty,
-  });
-  const [tokenInStable, setTokenInStable] = useState({
-    name: 'CTEZ',
+    name: 'ctez',
     image: ctez,
   });
+
   const [tokenOut, setTokenOut] = useState({});
-  const [tokenOutStable, setTokenOutStable] = useState({
-    name: 'tez',
-    image: tez,
-  });
 
   const AMMExists = useMemo(() => {
     return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
@@ -32,16 +23,12 @@ export const useLocationStateInSwap = () => {
     if (location.pathname === '/swap') {
       return 'swap';
     }
-
-    return 'liquidity';
   }, [location.pathname]);
 
   const paramKeys = useMemo(() => {
     if (activeTab === 'swap') {
       return { a: 'from', b: 'to' };
     }
-
-    return { a: 'tokenA', b: 'tokenB' };
   }, [activeTab]);
 
   const setActiveTab = (elem) => {
@@ -111,9 +98,5 @@ export const useLocationStateInSwap = () => {
     setTokenIn,
     tokenOut,
     setTokenOut,
-    tokenInStable,
-    setTokenInStable,
-    tokenOutStable,
-    setTokenOutStable,
   };
 };

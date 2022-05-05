@@ -35,12 +35,23 @@ const ConfirmAddLiquidity = (props) => {
 
                 <div className="lp-token-details">
                   <p className="lp-token-info-desc">
-                    {props.tokenIn.name === 'TEZ'
+                    {props.tokenIn.name === 'tez'
                       ? props.lpTokenAmount
                       : props.lpTokenAmount.estimatedLpOutput}
                   </p>
                   <p className="mt-2 lp-token-info-desc-bottom">
-                    {props.tokenIn.name}/{props.tokenOut.name} LP Tokens
+                    {props.tokenIn.name === 'tez'
+                      ? 'TEZ'
+                      : props.tokenIn.name === 'ctez'
+                      ? 'CTEZ'
+                      : props.tokenIn.name}
+                    /
+                    {props.tokenOut.name === 'tez'
+                      ? 'TEZ'
+                      : props.tokenOut.name === 'ctez'
+                      ? 'CTEZ'
+                      : props.tokenOut.name}{' '}
+                    LP Tokens
                   </p>
                 </div>
               </div>
@@ -52,47 +63,90 @@ const ConfirmAddLiquidity = (props) => {
             <div className="">
               {props.swapData ? (
                 <p className="confirm-supply-amt-details">
-                  1 {props.tokenIn.name} ={' '}
+                  1{' '}
+                  {props.tokenIn.name === 'tez'
+                    ? 'TEZ'
+                    : props.tokenIn.name === 'ctez'
+                    ? 'CTEZ'
+                    : props.tokenIn.name}{' '}
+                  ={' '}
                   {props.isStableSwap
                     ? props.xtztoctez
                     : props.swapData.tokenOutPerTokenIn?.toFixed(10)}{' '}
-                  {props.tokenOut.name}
+                  {props.tokenOut.name === 'tez'
+                    ? 'TEZ'
+                    : props.tokenOut.name === 'ctez'
+                    ? 'CTEZ'
+                    : props.tokenOut.name}
                 </p>
               ) : null}
 
               {props.swapData ? (
                 <p className="mt-1 confirm-supply-amt-details">
-                  1 {props.tokenOut.name} ={' '}
+                  1{' '}
+                  {props.tokenOut.name === 'tez'
+                    ? 'TEZ'
+                    : props.tokenOut.name === 'ctez'
+                    ? 'CTEZ'
+                    : props.tokenOut.name}{' '}
+                  ={' '}
                   {props.isStableSwap
                     ? props.cteztoxtz
                     : (1 / props.swapData.tokenOutPerTokenIn).toFixed(10)}{' '}
-                  {props.tokenIn.name}
+                  {props.tokenIn.name === 'tez'
+                    ? 'TEZ'
+                    : props.tokenIn.name === 'ctez'
+                    ? 'CTEZ'
+                    : props.tokenIn.name}
                 </p>
               ) : null}
             </div>
           </div>
           <div className="confirm-supply-bottom">
             <div className="swap-detail-amt-wrapper">
-              <div className="confirm-supply-details-label">{props.tokenIn.name} deposited </div>
+              <div className="confirm-supply-details-label">
+                {props.tokenIn.name === 'tez'
+                  ? 'TEZ'
+                  : props.tokenIn.name === 'ctez'
+                  ? 'CTEZ'
+                  : props.tokenIn.name}{' '}
+                deposited{' '}
+              </div>
               <div className="confirm-supply-details-value">
-                {props.firstTokenAmount} {props.tokenIn.name}
+                {props.firstTokenAmount}{' '}
+                {props.tokenIn.name === 'tez'
+                  ? 'TEZ'
+                  : props.tokenIn.name === 'ctez'
+                  ? 'CTEZ'
+                  : props.tokenIn.name}
               </div>
             </div>
 
             <div className="swap-detail-amt-wrapper mb-0">
-              <div className="confirm-supply-details-label">{props.tokenOut.name} deposited </div>
+              <div className="confirm-supply-details-label">
+                {props.tokenOut.name === 'tez'
+                  ? 'TEZ'
+                  : props.tokenOut.name === 'ctez'
+                  ? 'CTEZ'
+                  : props.tokenOut.name}{' '}
+                deposited{' '}
+              </div>
               <div className="confirm-supply-details-value">
                 {props.secondTokenAmount
                   ? props.secondTokenAmount
                   : props.estimatedTokenAmout.otherTokenAmount}{' '}
-                {props.tokenOut.name}
+                {props.tokenOut.name === 'tez'
+                  ? 'TEZ'
+                  : props.tokenOut.name === 'ctez'
+                  ? 'CTEZ'
+                  : props.tokenOut.name}
               </div>
             </div>
           </div>
           <div className="share-pool flex justify-between">
             <div className="share-pool-label">Your pool share</div>
             <div className="confirm-supply-details-sharevalue">
-              {props.tokenIn.name === 'TEZ'
+              {props.tokenIn.name === 'tez'
                 ? props.poolShare
                 : (
                     (props.lpTokenAmount.estimatedLpOutput /

@@ -47,9 +47,6 @@ export const getVoteDataApi = async (status) => {
     const response = await axios.get(
       `${rpcNode}chains/main/blocks/head/context/contracts/${dexContractAddress}/storage`,
     );
-    // const response = await axios.get(
-    //   'https://mainnet.smartpy.io/chains/main/blocks/head/context/contracts/KT1HiQmDGiMxEmLdbTNpVZpxwnjgXNdkoyyP/storage',
-    // );
 
     const abstainTokensCount = parseInt(response.data.args[0].args[0].args[0].int) / 1e18;
 
@@ -109,16 +106,11 @@ export const checkVote = async (address) => {
     const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
     const dexContractAddress = CONFIG.GOVERNANCE.address;
     const mapId = CONFIG.GOVERNANCE.mapId;
-    //const response = await axios.get(
-    //  `https://mainnet.smartpy.io/chains/main/blocks/head/context/big_maps/55015/${userKey}`,
-    //);
+
     const response = await axios.get(
       `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${userKey}`,
     );
 
-    // const response = await axios.get(
-    //   `https://mainnet.smartpy.io/chains/main/blocks/head/context/big_maps/${mapId}/${userKey}`,
-    // );
     const response1 = await axios.get(
       `${rpcNode}chains/main/blocks/head/context/contracts/${dexContractAddress}/storage`,
     );

@@ -1,20 +1,17 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-
+import fromExponential from 'from-exponential';
 import xplenty from '../../assets/images/xplenty-icon.png';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Button from '../Ui/Buttons/Button';
-import Loader from '../../Components/loader';
 import ConfirmTransaction from '../WrappedAssets/ConfirmTransaction';
-import InfoModal from '../Ui/Modals/InfoModal';
 import { connect } from 'react-redux';
 import { closetransactionInjectionModalThunk } from '../../redux/slices/xPlenty/xPlenty.thunk';
 
 const UnstakePlenty = (props) => {
   const [xPlentyInput, setxPlentyInput] = useState('');
   const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
-  const [stakeInput, setStakeInput] = useState(0);
 
   const xPlentyInputHandler = (value) => {
     if (value === '' || isNaN(value)) {
@@ -31,8 +28,8 @@ const UnstakePlenty = (props) => {
   const sellHandler = () => {
     setShowConfirmTransaction(true);
     props.setLoader(true);
-    localStorage.setItem(stakeInput, xPlentyInput);
-    setStakeInput(localStorage.getItem(stakeInput));
+    localStorage.setItem('unstakeInput', xPlentyInput);
+    localStorage.setItem('type', 'UnStake');
     let xPlentyInputWithFormat = xPlentyInput * Math.pow(10, 18);
     xPlentyInputWithFormat = Math.floor(xPlentyInputWithFormat);
 
@@ -139,12 +136,12 @@ const UnstakePlenty = (props) => {
             </button>
           </div>
 
-          <div className="token-user-input-wrapper">
+          <div className="token-user-input-wrapper wa-token-user-input-wrapper">
             <input
               type="text"
               className="token-user-input"
               placeholder="0.0"
-              value={xPlentyInput}
+              value={fromExponential(xPlentyInput)}
               onChange={(event) => {
                 xPlentyInputHandler(event.target.value);
               }}
@@ -170,7 +167,7 @@ const UnstakePlenty = (props) => {
               placement="auto"
               overlay={
                 <Tooltip id="button-tooltip" {...props}>
-                  {props.xPlentyData.data.xPlentyPerPlenty}
+                  {fromExponential(props.xPlentyData.data.xPlentyPerPlenty)}
                 </Tooltip>
               }
             >
@@ -185,30 +182,11 @@ const UnstakePlenty = (props) => {
         </div>
         {xplentyButton}
       </>
-      <Loader
-        loading={props.isProcessing}
-        loaderMessage={props.loaderMessage}
-        content={`${stakeInput} xPlenty Unstaked`}
-        tokenIn={true}
-        setLoaderMessage={props.setLoaderMessage}
-      />
+
       <ConfirmTransaction
         show={showConfirmTransaction}
         theme={props.theme}
-        content={`Unstaking ${stakeInput} xPlenty `}
-      />
-
-      <InfoModal
-        open={props.isTransactionInjectionModalOpen}
-        onClose={props.closetransactionInjectionModal}
-        InfoMessage={`Unstaking ${stakeInput} xPlenty `}
-        message={'Transaction submitted'}
-        buttonText={'View on TzKT'}
-        onBtnClick={
-          props.currentOpHash
-            ? () => window.open(`https://tzkt.io/${props.currentOpHash}`, '_blank')
-            : null
-        }
+        content={`Burn ${Number(localStorage.getItem('unstakeInput')).toFixed(6)} xPlenty `}
       />
     </>
   );

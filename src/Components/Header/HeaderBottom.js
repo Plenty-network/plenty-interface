@@ -124,19 +124,18 @@ const HeaderBottom = (props) => {
     open && (
       <>
         <div
-          className={clsx('headerBottom', {
+          className={clsx('headerBottom', 'topToBottomFadeInAnimation-1-header', {
             'pt-0': !props.selectedHeader,
             height: props.selectedHeader === HEADER_MODAL.SETTINGS && nodeSelector,
-
-            'headerBottom-banner': splitLocation[1] === 'wrappedAssets',
+            'headerBottom-banner': splitLocation[1] === 'wrappedAssets' || !props.isBannerOpen,
           })}
           onMouseLeave={() => isOpen(false)}
         >
           <div className=" innerSubmenus">
             {props.selectedHeader === HEADER_MODAL.TRADE && (
               <Row>
-                <Col xl={5} lg={6} xs={12}>
-                  <div className=" topics">
+                <Col lg={12} xs={12}>
+                  <div className=" topics gov">
                     <Link to="/swap" className="text-decoration-none">
                       <p className="heading">SWAP</p>
                       <div className="flex   para">
@@ -150,24 +149,9 @@ const HeaderBottom = (props) => {
                     </Link>
                   </div>
                 </Col>
-                <Col xl={5} lg={6} xs={12}>
-                  <div className="topics">
-                    <Link to="/Stableswap" className="text-decoration-none">
-                      <p className="heading">STABLESWAP</p>
-                      <div className="flex   para">
-                        <div className="parainside">
-                          Swap similar Tezos tokens instantly with low slippage and audited smart
-                          contracts.
-                        </div>
-                        <div>
-                          <span className=" material-icons-round arrowforward">arrow_forward</span>
-                        </div>
-                      </div>
-                    </Link>
-                  </div>
-                </Col>
-                <Col xl={5} lg={6} xs={12}>
-                  <div className="topics">
+
+                <Col lg={12} xs={12}>
+                  <div className="topics gov">
                     <Link to="/tokens" className="text-decoration-none">
                       <p className="heading">TOKENS</p>
                       <div className="flex   para">
@@ -183,16 +167,50 @@ const HeaderBottom = (props) => {
                 </Col>
               </Row>
             )}
+            {props.selectedHeader === HEADER_MODAL.BRIDGE && (
+              <Row>
+                <Col lg={12} xs={12}>
+                  <div className=" topics gov">
+                    <Link to="/bridge" className="text-decoration-none">
+                      <p className="heading">BRIDGE</p>
+                      <div className="flex   para">
+                        <div className="parainside">
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        </div>
+                        <div>
+                          <span className=" material-icons-round arrowforward">arrow_forward</span>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                </Col>
+
+                <Col lg={12} xs={12}>
+                  <div className="topics gov">
+                    <Link to="/wrappedAssets" className="text-decoration-none">
+                      <p className="heading">WRAPPED ASSETS</p>
+                      <div className="flex   para">
+                        <div className="parainside">
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        </div>
+                        <div>
+                          <span className=" material-icons-round arrowforward">arrow_forward</span>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                </Col>
+              </Row>
+            )}
             {props.selectedHeader === HEADER_MODAL.EARN && (
               <Row>
                 <Col xl={5} lg={6} xs={12}>
                   <div className="topics">
-                    <Link to="/farms" className="text-decoration-none">
-                      <p className="heading">FARM</p>
+                    <Link to="/liquidity" className="text-decoration-none">
+                      <p className="heading">LIQUIDITY</p>
                       <div className="flex  para ">
                         <div className="parainside">
-                          Deposit your Plenty Liquidity Provider tokens in a farm to receive
-                          rewards.
+                          Add liquidity to receive LP tokens and trading fees.
                         </div>
                         <div>
                           <span className=" material-icons-round arrowforward ">arrow_forward</span>
@@ -235,11 +253,12 @@ const HeaderBottom = (props) => {
                 </Col>
                 <Col xl={5} lg={6} xs={12}>
                   <div className="topics">
-                    <Link to="/liquidity" className="text-decoration-none">
-                      <p className="heading">LIQUIDTY</p>
+                    <Link to="/farms" className="text-decoration-none">
+                      <p className="heading">FARM</p>
                       <div className="flex para ">
                         <div className="parainside">
-                          Add liquidity to receive LP tokens and trading fees
+                          Deposit your Plenty Liquidity Provider tokens in a farm to receive
+                          rewards.
                         </div>
                         <div>
                           <span className=" material-icons-round arrowforward">arrow_forward</span>
@@ -443,7 +462,6 @@ const HeaderBottom = (props) => {
                     </div>
                     <div className="horizontal-line"></div>
                     <div className="node">
-                      {/* <NodeSelectorModal title={'Node Selector'} open={open} isOpen={isOpen} /> */}
                       <>
                         <div className="node-selector-modal">
                           <div className="node-selector-radio-container node-selector-list">
@@ -545,5 +563,6 @@ HeaderBottom.propTypes = {
   setLoaderMessage: PropTypes.func.isRequired,
   setNode: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
+  isBannerOpen: PropTypes.any,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderBottom);
