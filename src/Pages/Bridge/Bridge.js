@@ -151,6 +151,7 @@ const Bridge = (props) => {
   const connectWalletHandler = () => {
     console.log('Connecting');
     if (window.ethereum && window.ethereum.isMetaMask) {
+      console.log(window.ethereum);
       console.log('MetaMask Here!');
       window.ethereum
         .request({ method: 'eth_requestAccounts' })
@@ -186,11 +187,12 @@ const Bridge = (props) => {
       console.log('change handler triggered');
       const chainResult = await getCurrentNetwork();
       console.log(chainResult);
-      if (chainResult !== undefined) {
+      setMetamaskChain(chainResult);
+      /* if (chainResult !== undefined) {
         setMetamaskChain(chainResult);
       } else {
         throw new Error('Undefined Chain');
-      }
+      } */
     } catch (error) {
       console.log(error.message);
       // Add flash message to show error or chain which doesn't exist on PLENTY DeFi.
@@ -233,6 +235,7 @@ const Bridge = (props) => {
   //Add all metamask event listeners and remove them on unmount.
   useEffect(() => {
     if (window.ethereum && window.ethereum.isMetaMask) { 
+      console.log(window.ethereum);
       // Call chain change handler first time app loads to set the metamask chain state.
       metamaskChainChangeHandler();
       // Listen to chain change on metamask.
