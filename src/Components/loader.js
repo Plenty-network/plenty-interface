@@ -89,7 +89,7 @@ const Loader = (props) => {
               <div>
                 <ErrorImg />
               </div>
-              <div className="floater-text">
+              <div className={clsx('floater-text', !props.onBtnClick && 'center-floater-message')}>
                 <span className="status-text">Transaction Rejected</span>
                 {props.onBtnClick && (
                   <div

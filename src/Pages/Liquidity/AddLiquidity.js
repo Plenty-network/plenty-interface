@@ -21,7 +21,7 @@ import { isTokenPairStable } from '../../apis/Liquidity/Liquidity';
 import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransaction';
 import Loader from '../../Components/loader';
 
-const AddLiquidityNew = (props) => {
+const AddLiquidity = (props) => {
   const [estimatedTokenAmout, setEstimatedTokenAmout] = useState('');
 
   const [secondTokenAmount, setSecondTokenAmount] = useState('');
@@ -758,6 +758,7 @@ const AddLiquidityNew = (props) => {
         poolShare={poolShare}
         xtztoctez={xtztoctez}
         cteztoxtz={cteztoxtz}
+        isStableSwap={props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez'}
       />
 
       <ConfirmTransaction
@@ -804,9 +805,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setLoader: (value) => dispatch(setLoader(value)),
 });
-export default connect(mapStateToProps, mapDispatchToProps)(AddLiquidityNew);
+export default connect(mapStateToProps, mapDispatchToProps)(AddLiquidity);
 
-AddLiquidityNew.propTypes = {
+AddLiquidity.propTypes = {
   theme: PropTypes.any,
   loaderMessage: PropTypes.any,
   loading: PropTypes.any,
