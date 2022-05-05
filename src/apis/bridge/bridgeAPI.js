@@ -855,6 +855,7 @@ export const changeNetwork = async ({ networkName }) => {
   try {
     console.log(networkName);
     if (!window.ethereum) throw new Error('No crypto wallet found');
+    console.log(window.ethereum);
     try {
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
@@ -884,6 +885,7 @@ export const changeNetwork = async ({ networkName }) => {
 export const getCurrentNetwork = async () => {
   try {
     if (!window.ethereum) throw new Error('No crypto wallet found');
+    console.log(window.ethereum.selectedProvider);
     const chainId = await window.ethereum.request({ method: 'eth_chainId' });
     const networkName = Object.keys(networks).find((key) => networks[key].chainId === chainId);
     console.log(chainId);
