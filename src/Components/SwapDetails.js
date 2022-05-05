@@ -291,7 +291,7 @@ const SwapDetails = (props) => {
                     key="top"
                     overlay={
                       <Tooltip id="button-tooltip-swap-details-router" {...props}>
-                        Routing through these tokens results in the best price for your trade
+                        Routing through these tokens results in the best price for your trade.
                         <div className="flex flex-row">
                           {props.theme === 'light' ? <Router /> : <RouterDark />}
                           {props.theme === 'light' ? (

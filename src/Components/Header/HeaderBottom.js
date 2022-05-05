@@ -167,6 +167,41 @@ const HeaderBottom = (props) => {
                 </Col>
               </Row>
             )}
+            {props.selectedHeader === HEADER_MODAL.BRIDGE && (
+              <Row>
+                <Col lg={12} xs={12}>
+                  <div className=" topics gov">
+                    <Link to="/bridge" className="text-decoration-none">
+                      <p className="heading">BRIDGE</p>
+                      <div className="flex   para">
+                        <div className="parainside">
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        </div>
+                        <div>
+                          <span className=" material-icons-round arrowforward">arrow_forward</span>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                </Col>
+
+                <Col lg={12} xs={12}>
+                  <div className="topics gov">
+                    <Link to="/wrappedAssets" className="text-decoration-none">
+                      <p className="heading">WRAPPED ASSETS</p>
+                      <div className="flex   para">
+                        <div className="parainside">
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        </div>
+                        <div>
+                          <span className=" material-icons-round arrowforward">arrow_forward</span>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                </Col>
+              </Row>
+            )}
             {props.selectedHeader === HEADER_MODAL.EARN && (
               <Row>
                 <Col xl={5} lg={6} xs={12}>

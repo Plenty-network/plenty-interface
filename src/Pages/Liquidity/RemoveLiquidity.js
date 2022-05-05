@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import BigNumber from 'bignumber.js';
 import { computeRemoveTokens, removeLiquidity } from '../../apis/swap/swap';
 import { remove_liquidity, liqCalcRemove, getExchangeRate } from '../../apis/stableswap/stableswap';
 import React, { useEffect, useState } from 'react';
@@ -15,7 +16,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Loader from '../../Components/loader';
 import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransaction';
 
-const RemoveLiquidityNew = (props) => {
+const RemoveLiquidity = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
@@ -155,9 +156,9 @@ const RemoveLiquidityNew = (props) => {
       removeLiquidity(
         props.tokenIn.name,
         props.tokenOut.name,
-        removableTokens.tokenFirst_Out,
-        removableTokens.tokenSecond_Out,
-        removableTokens.removeAmount,
+        new BigNumber(removableTokens.tokenFirst_Out),
+        new BigNumber(removableTokens.tokenSecond_Out),
+        new BigNumber(removableTokens.removeAmount),
         props.walletAddress,
         props.swapData.dexContractInstance,
         transactionSubmitModal,
@@ -276,12 +277,9 @@ const RemoveLiquidityNew = (props) => {
               .liquidityToken
           : CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
               .liquidityToken
-      ].toLocaleString('en-US', {
-        maximumFractionDigits: 20,
-        useGrouping: false,
-      }) ?? 0;
-    setFirstTokenAmount(value.substring(0, value.length));
-    removeLiquidityInput(value.substring(0, value.length));
+      ];
+    setFirstTokenAmount(value);
+    removeLiquidityInput(value);
   };
 
   return (
@@ -412,20 +410,22 @@ const RemoveLiquidityNew = (props) => {
                 <img height="42" width="42" src={props.tokenIn.image} />
               </div>
               <div className="ml-2">
-                <OverlayTrigger
-                  placement="top"
-                  overlay={
-                    <Tooltip id="button-tooltip" {...props}>
-                      {fromExponential(removableTokens.tokenFirst_Out)}
-                    </Tooltip>
-                  }
-                >
-                  <span className="remove-value-lq">
-                    {removableTokens.tokenFirst_Out
-                      ? removableTokens.tokenFirst_Out.toFixed(4)
-                      : '0.00'}
-                  </span>
-                </OverlayTrigger>
+                {removableTokens.tokenFirst_Out ? (
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={
+                      <Tooltip id="button-tooltip" {...props}>
+                        {fromExponential(removableTokens.tokenFirst_Out)}
+                      </Tooltip>
+                    }
+                  >
+                    <span className="remove-value-lq">
+                      {removableTokens.tokenFirst_Out.toFixed(4)}
+                    </span>
+                  </OverlayTrigger>
+                ) : (
+                  <span className="remove-value-lq">0.00</span>
+                )}
                 <div className="remove-token-lq">
                   {props.tokenIn.name === 'tez'
                     ? 'TEZ'
@@ -440,20 +440,23 @@ const RemoveLiquidityNew = (props) => {
                 <img height="42" width="42" src={props.tokenOut.image} />
               </div>
               <div className="ml-2">
-                <OverlayTrigger
-                  placement="top"
-                  overlay={
-                    <Tooltip id="button-tooltip" {...props}>
-                      {fromExponential(removableTokens.tokenSecond_Out)}
-                    </Tooltip>
-                  }
-                >
-                  <span className="remove-value-lq">
-                    {removableTokens.tokenSecond_Out
-                      ? removableTokens.tokenSecond_Out.toFixed(4)
-                      : '0.00'}
-                  </span>
-                </OverlayTrigger>
+                {removableTokens.tokenSecond_Out ? (
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={
+                      <Tooltip id="button-tooltip" {...props}>
+                        {fromExponential(removableTokens.tokenSecond_Out)}
+                      </Tooltip>
+                    }
+                  >
+                    <span className="remove-value-lq">
+                      {removableTokens.tokenSecond_Out.toFixed(4)}
+                    </span>
+                  </OverlayTrigger>
+                ) : (
+                  <span className="remove-value-lq">0.00</span>
+                )}
+
                 <div className="remove-token-lq">
                   {' '}
                   {props.tokenOut.name === 'tez'
@@ -492,13 +495,7 @@ const RemoveLiquidityNew = (props) => {
               </span>
               <div className="d-flex mt-2">
                 <div>
-                  <div className="token-name-lp">
-                    {props.tokenIn.name === 'tez'
-                      ? 'TEZ'
-                      : props.tokenIn.name === 'ctez'
-                      ? 'CTEZ'
-                      : props.tokenIn.name}
-                  </div>
+                  <div className="token-name-lp"></div>
                   <OverlayTrigger
                     placement="top"
                     overlay={
@@ -511,6 +508,11 @@ const RemoveLiquidityNew = (props) => {
                   >
                     <div className="tokenin-value">
                       <span className="value">
+                        {props.tokenIn.name === 'tez'
+                          ? 'TEZ'
+                          : props.tokenIn.name === 'ctez'
+                          ? 'CTEZ'
+                          : props.tokenIn.name}{' '}
                         {props.positionDetails.data ? (
                           props.positionDetails.data.tokenAPoolBalance.toFixed(4)
                         ) : (
@@ -521,13 +523,7 @@ const RemoveLiquidityNew = (props) => {
                   </OverlayTrigger>
                 </div>
                 <div className="ml-2">
-                  <div className="token-name-lp">
-                    {props.tokenOut.name === 'tez'
-                      ? 'TEZ'
-                      : props.tokenOut.name === 'ctez'
-                      ? 'CTEZ'
-                      : props.tokenOut.name}
-                  </div>
+                  <div className="token-name-lp"></div>
                   <OverlayTrigger
                     placement="top"
                     overlay={
@@ -540,6 +536,11 @@ const RemoveLiquidityNew = (props) => {
                   >
                     <div className="tokenin-value">
                       <span className="value">
+                        {props.tokenOut.name === 'tez'
+                          ? 'TEZ'
+                          : props.tokenOut.name === 'ctez'
+                          ? 'CTEZ'
+                          : props.tokenOut.name}{' '}
                         {props.positionDetails.data ? (
                           props.positionDetails.data.tokenBPoolBalance.toFixed(4)
                         ) : (
@@ -608,6 +609,7 @@ const RemoveLiquidityNew = (props) => {
         onHide={props.handleClose}
         xtztoctez={xtztoctez}
         cteztoxtz={cteztoxtz}
+        isStableSwap={props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez'}
       />
       <ConfirmTransaction
         show={showConfirmTransaction}
@@ -653,9 +655,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setLoader: (value) => dispatch(setLoader(value)),
 });
-export default connect(mapStateToProps, mapDispatchToProps)(RemoveLiquidityNew);
+export default connect(mapStateToProps, mapDispatchToProps)(RemoveLiquidity);
 
-RemoveLiquidityNew.propTypes = {
+RemoveLiquidity.propTypes = {
   theme: PropTypes.any,
   loaderMessage: PropTypes.any,
   loading: PropTypes.any,
