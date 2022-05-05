@@ -17,8 +17,6 @@ import LpPair from '../SwapTabsContent/LpPair';
 const SwapContent = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
   const [secondTokenAmount, setSecondTokenAmount] = useState();
-  const [firstAmount, setFirstAmount] = useState(0);
-  const [secondAmount, setSecondAmount] = useState(0);
 
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState('');
@@ -129,8 +127,7 @@ const SwapContent = (props) => {
     props.setLoaderInButton(true);
     localStorage.setItem('wrapped', firstTokenAmount);
     localStorage.setItem('token', props.tokenIn.name);
-    firstTokenAmount && setFirstAmount(firstTokenAmount);
-    secondTokenAmount && setSecondAmount(secondTokenAmount);
+
     const recepientAddress = props.recepient ? props.recepient : props.walletAddress;
     swapWrappedAssets(
       props.tokenIn.name,
@@ -407,10 +404,6 @@ const SwapContent = (props) => {
 
       <InfoModal
         open={showTransactionSubmitModal}
-        firstTokenAmount={firstAmount}
-        secondTokenAmount={secondAmount}
-        tokenIn={props.tokenIn.name}
-        tokenOut={props.tokenOut.name}
         theme={props.theme}
         InfoMessage={`Swap ${Number(localStorage.getItem('wrapped')).toFixed(
           6,
@@ -428,10 +421,6 @@ const SwapContent = (props) => {
           'token',
         )} `}
         loaderMessage={props.loaderMessage}
-        tokenIn={props.tokenIn.name}
-        firstTokenAmount={firstAmount}
-        tokenOut={props.tokenOut.name}
-        secondTokenAmount={secondAmount}
         setLoaderMessage={props.setLoaderMessage}
         onBtnClick={
           transactionId ? () => window.open(`https://tzkt.io/${transactionId}`, '_blank') : null
