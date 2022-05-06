@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../Ui/Buttons/Button';
 import clsx from 'clsx';
@@ -19,11 +19,14 @@ const HeaderBottom = (props) => {
   const [nodeSelector, setNodeSelector] = useState(false);
   const isMobile = useMediaQuery('(max-width: 991px)');
   const [open, isOpen] = useState(true);
+  const [rpcNodeDetecting, setRpcNodeDetecting] = useState(false);
+  const setRPCRunning = useRef(false);
 
   useEffect(() => {
     isOpen(true);
   }, [props.selectedHeader]);
   const setDefault = () => {
+    setRPCRunning.current = false;
     isOpen(false);
     setNodeSelector(false);
   };
@@ -56,6 +59,7 @@ const HeaderBottom = (props) => {
   };
 
   const rpcNodeDetect = async () => {
+    setRpcNodeDetecting(true);
     let RPCNodeInLS = localStorage.getItem(RPC_NODE);
 
     if (!RPCNodeInLS) {
@@ -70,6 +74,7 @@ const HeaderBottom = (props) => {
       localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES['PLENTY']);
       props.setNode(LOCAL_RPC_NODES['PLENTY']);
       setCurrentRPC('PLENTY');
+      setRpcNodeDetecting(false);
       return;
     }
 
@@ -80,18 +85,22 @@ const HeaderBottom = (props) => {
     if (!matchedNode) {
       setCurrentRPC('CUSTOM');
       setCustomRPC(RPCNodeInLS);
+      setRpcNodeDetecting(false);
       return;
     }
-
+    setRpcNodeDetecting(false);
     setCurrentRPC(matchedNode);
   };
 
-  useEffect(() => {
-    rpcNodeDetect();
+  useEffect(() => {   
+    if(!setRPCRunning.current && nodeSelector) {
+      rpcNodeDetect();
+    }
     // eslint-disable-next-line
   }, [nodeSelector]);
 
   const setRPCInLS = async () => {
+    setRPCRunning.current = true;
     if (currentRPC !== 'CUSTOM') {
       localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES[currentRPC]);
       props.setNode(LOCAL_RPC_NODES[currentRPC]);
@@ -471,7 +480,7 @@ const HeaderBottom = (props) => {
                                   <label
                                     className={clsx(currentRPC === identifier && 'selected-border')}
                                     htmlFor={identifier}
-                                    onClick={() => setCurrentRPC(identifier)}
+                                    onClick={!rpcNodeDetecting ? () => setCurrentRPC(identifier) : null}
                                   >
                                     <div className="check" />
                                     <input
@@ -481,6 +490,7 @@ const HeaderBottom = (props) => {
                                       id={identifier}
                                       name="selector"
                                       className="input-nodeselector"
+                                      disabled={rpcNodeDetecting}
                                     />
                                     <span
                                       className={clsx(
@@ -501,7 +511,7 @@ const HeaderBottom = (props) => {
                                     currentRPC === 'CUSTOM' && 'selected-border',
                                   )}
                                   htmlFor="w-option"
-                                  onClick={() => setCurrentRPC('CUSTOM')}
+                                  onClick={!rpcNodeDetecting ? () => setCurrentRPC('CUSTOM') : null}
                                 >
                                   <input
                                     defaultChecked={currentRPC === 'CUSTOM'}
@@ -510,10 +520,11 @@ const HeaderBottom = (props) => {
                                     checked={currentRPC === 'CUSTOM'}
                                     name="selector"
                                     className="custominput"
+                                    disabled={rpcNodeDetecting}
                                   />
                                 </label>
                                 <input
-                                  disabled={currentRPC !== 'CUSTOM'}
+                                  disabled={currentRPC !== 'CUSTOM' && rpcNodeDetecting}
                                   type="url"
                                   htmlFor="w-option"
                                   className={clsx(
@@ -529,8 +540,8 @@ const HeaderBottom = (props) => {
                               </li>
                             </ul>
                           </div>
-                          <Button onClick={setRPCInLS} className="button-bg w-100 mt-1 mb-2 py-1">
-                            Set Node
+                          <Button onClick={setRPCInLS} className="button-bg w-100 mt-1 mb-2 py-1" color={rpcNodeDetecting ? 'disabled' : ''} disabled={rpcNodeDetecting}>
+                            {rpcNodeDetecting ? 'Checking RPC Node Validity..' :'Set Node'}
                           </Button>
                         </div>
                       </>
