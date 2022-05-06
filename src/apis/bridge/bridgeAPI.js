@@ -855,6 +855,7 @@ export const changeNetwork = async ({ networkName }) => {
   try {
     console.log(networkName);
     if (!window.ethereum) throw new Error('No crypto wallet found');
+    console.log(window.ethereum);
     try {
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
@@ -881,17 +882,43 @@ export const changeNetwork = async ({ networkName }) => {
   }
 };
 
+// function delay(delayInms) {
+//   return new Promise((resolve) => {
+//     setTimeout(() => {
+//       resolve(2);
+//     }, delayInms);
+//   });
+// }
+
 export const getCurrentNetwork = async () => {
-  try {
-    if (!window.ethereum) throw new Error('No crypto wallet found');
-    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-    const networkName = Object.keys(networks).find((key) => networks[key].chainId === chainId);
-    console.log(chainId);
-    console.log(networkName);
-    return networkName;
-  } catch (err) {
-    console.log(err);
-    throw new Error(err.message);
+  if (window.ethereum.selectedAddress) {
+    // if (!window.ethereum.selectedProvider) {
+    //   await delay(500);
+    // } 
+    try {
+      if (!window.ethereum) throw new Error('No crypto wallet found');
+      // Set the provider to metamask to resolve the conflict between metamask and coinbase wallet.
+      // Allow only metamask wallet to be set as provider before getting chain.
+      // if (
+      //   window.ethereum.isMetaMask &&
+      //   window.ethereum.providers &&
+      //   window.ethereum.providers.length > 1
+      // ) {
+      //   window.ethereum.selectedProvider = window.ethereum.providers.find(
+      //     (provider) => provider.isMetaMask,
+      //   );
+      // }
+      const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+      const networkName = Object.keys(networks).find((key) => networks[key].chainId === chainId);
+      console.log(chainId);
+      console.log(networkName);
+      return networkName;
+    } catch (err) {
+      console.log(err);
+      throw new Error(err.message);
+    }
+  } else {
+    return 'RINKEBY'; //TODO: CHANGE IT LATER
   }
 };
 
@@ -936,7 +963,6 @@ export const getActionRequiredCount = async ({ ethereumAddress, tzAddress }) => 
           ethereumAddress: ethereumAddress ? ethereumAddress : '',
           type: 'ERC20',
           status: 'asked',
-          
         },
       });
 

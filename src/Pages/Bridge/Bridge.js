@@ -152,6 +152,18 @@ const Bridge = (props) => {
     console.log('Connecting');
     if (window.ethereum && window.ethereum.isMetaMask) {
       console.log('MetaMask Here!');
+      console.log(window.ethereum);
+      // Set the provider to metamask to resolve the conflict between metamask and coinbase wallet.
+      // Allow only metamask wallet to open on connecting.
+      // if (window.ethereum.isMetaMask && window.ethereum.providers && window.ethereum.providers.length > 1) {
+      //   window.ethereum.selectedProvider = window.ethereum.providers.find(
+      //     (provider) => provider.isMetaMask,
+      //   );
+      //   console.log(window.ethereum.providers.find(
+      //     (provider) => provider.isMetaMask,
+      //   ));
+      //   console.log(typeof window.ethereum.selectedProvider);
+      // }
       window.ethereum
         .request({ method: 'eth_requestAccounts' })
         .then((result) => {
@@ -186,11 +198,12 @@ const Bridge = (props) => {
       console.log('change handler triggered');
       const chainResult = await getCurrentNetwork();
       console.log(chainResult);
-      if (chainResult !== undefined) {
+      setMetamaskChain(chainResult);
+      /* if (chainResult !== undefined) {
         setMetamaskChain(chainResult);
       } else {
         throw new Error('Undefined Chain');
-      }
+      } */
     } catch (error) {
       console.log(error.message);
       // Add flash message to show error or chain which doesn't exist on PLENTY DeFi.
@@ -233,6 +246,7 @@ const Bridge = (props) => {
   //Add all metamask event listeners and remove them on unmount.
   useEffect(() => {
     if (window.ethereum && window.ethereum.isMetaMask) { 
+      console.log(window.ethereum);
       // Call chain change handler first time app loads to set the metamask chain state.
       metamaskChainChangeHandler();
       // Listen to chain change on metamask.
