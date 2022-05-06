@@ -899,15 +899,15 @@ export const getCurrentNetwork = async () => {
       if (!window.ethereum) throw new Error('No crypto wallet found');
       // Set the provider to metamask to resolve the conflict between metamask and coinbase wallet.
       // Allow only metamask wallet to be set as provider before getting chain.
-      if (
-        window.ethereum.isMetaMask &&
-        window.ethereum.providers &&
-        window.ethereum.providers.length > 1
-      ) {
-        window.ethereum.selectedProvider = window.ethereum.providers.find(
-          (provider) => provider.isMetaMask,
-        );
-      }
+      // if (
+      //   window.ethereum.isMetaMask &&
+      //   window.ethereum.providers &&
+      //   window.ethereum.providers.length > 1
+      // ) {
+      //   window.ethereum.selectedProvider = window.ethereum.providers.find(
+      //     (provider) => provider.isMetaMask,
+      //   );
+      // }
       const chainId = await window.ethereum.request({ method: 'eth_chainId' });
       const networkName = Object.keys(networks).find((key) => networks[key].chainId === chainId);
       console.log(chainId);
