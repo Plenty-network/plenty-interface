@@ -350,11 +350,7 @@ const Header = (props) => {
         </Row>
       </Container>
       {!isMobile && (
-        <div
-          {...(selectedHeader === HEADER_MODAL.SETTINGS
-            ? {}
-            : { onMouseLeave: () => setHeader('') })}
-        >
+        <div onMouseLeave={() => setHeader('')}>
           <HeaderBottom
             selectedHeader={selectedHeader}
             isExpanded={isExpanded}
