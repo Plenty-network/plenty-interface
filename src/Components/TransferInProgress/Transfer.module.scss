@@ -247,18 +247,130 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-top: 10px;
+  padding-top: 0px;
+  gap: 6px;
+  margin-bottom: 0px;
+  width: 50%;
   > p {
-    margin-bottom: 0.25rem;
-    @media screen and (min-width: 320px) and (max-width: 767px) {
+    //margin-bottom: 0.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    font-size: 12px;
+    /* @media screen and (min-width: 320px) and (max-width: 767px) {
       font-size: 12px;
-    }
+    } */
+  }
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    width: 65%;
+  }
+  .fetchingText {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: auto;
   }
 }
 
 .mainButtonWrapper {
   width: 50%;
   @media screen and (min-width: 320px) and (max-width: 767px) {
-    width: 45%;
+    width: 35%;
+  }
+}
+
+.processTextContainer {
+  display: flex;
+  height: 28px;
+  align-items: center;
+  margin-bottom: 0px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.processing {
+  background: var(--theme-bridge-trans-proc-bg);
+  border-radius: 4px;
+  color: var(--theme-bridge-trans-proc-text);
+}
+
+.waiting {
+  background: var(--theme-bridge-trans-wait-bg);
+  border-radius: 4px;
+  color: var(--theme-bridge-trans-wait-text);
+}
+
+.processingValue {
+  font-weight: 700;
+  color: var(--theme-bridge-max-btn-border-text);
+}
+
+.waitingValue {
+  font-weight: 700;
+  color: var(--theme-bridge-trans-wait-text);
+}
+
+.checkMark {
+  line-height: 18px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--theme-bridge-max-btn-border-text);
+}
+
+
+
+//Loading spinner related styles
+$spinner_speed: 1s;
+$spinner_radius: 80%;
+$spinner_fill_radius: 90px;
+
+$spinner_size: 16px;
+$spinner_thickness: 5px;
+$spinner_inner_circle: $spinner_size - $spinner_thickness;
+
+$spinner_color: var(--theme-bridge-trans-spin);
+$spinner_bg: var(--theme-bridge-trans-spin-bg);
+$spinner_inner_bg: var(--theme-bridge-trans-spin-inner-bg);
+
+.spinLoader {
+  border-radius: 80%;
+  display: block;
+  height: $spinner_size;
+  width: $spinner_size;
+  position: relative;
+  animation: spin $spinner_speed linear 0s infinite normal;
+  background: $spinner_bg;
+
+  &:before,
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+  }
+
+  &:before {
+    border-radius: 0 $spinner_fill_radius $spinner_fill_radius 0;
+    height: $spinner_size;
+    width: 50%;
+    top: 0; right: 0;
+    z-index: 1;
+    background: var(--theme-bridge-trans-spin-bg-lg);
+    background-image: var(--theme-bridge-trans-spin-bg-lg);
+  }
+
+  &:after {
+    border-radius: $spinner_radius;
+    height: $spinner_inner_circle;
+    width: $spinner_inner_circle;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    background: $spinner_inner_bg;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(-360deg);
   }
 }

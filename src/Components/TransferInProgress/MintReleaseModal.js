@@ -71,12 +71,25 @@ const MintReleaseModal = (props) => {
         setAwaitingConfirmation(true);
       }
     }
+    /* setConfirmationsRequired(5);
+    setSignaturesRequired(5);
+    setAwaitingConfirmation(false);
+    dummyApiCall({ confirmationsCount: 5 }).then((res) => {
+      setConfirmationsCount(res.confirmationsCount);
+      dummyApiCall({ confirmationsCount: 5 }).then((res) => {
+        setSignaturesCount(res.confirmationsCount);
+        dummyApiCall({ confirmationsCount: 5 }).then((res) => {
+          setIsReadyToMintRelease(true);
+        });
+      });
+    }); */
     
   }, !isReadyToMintRelease ? delay.current : null);
 
   const mintButtonClick = () => {
     //SetIsButtonLoading(true);
     SetCurrentProgress(currentProgress + 1);
+    //console.log(`${operation === 'BRIDGE' ? 'Mint' : 'Release'}`);
     /* dummyApiCall({ currentProgress: currentProgress }).then((res) => {
       setTransactionData((prevData) =>
         prevData.map((transaction) =>
@@ -108,10 +121,10 @@ const MintReleaseModal = (props) => {
         <Link className="ml-2 mb-1" />
       </p> */}
       <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
-      <div className={styles.resultsHeader}>
-        <div className={`${styles.bottomInfo} ${styles.width} ${styles.confirmTextWrapper}`}>
+      <div className={styles.resultsHeader} style={{ alignItems: 'center' }}>
+        <div className={`${styles.confirmTextWrapper}`}>
           {awaitingConfirmation ? (
-            <p>Fetching Data..</p>
+            <p className={styles.fetchingText}>Fetching Data..</p>
           ) : (
             /* confirmationsCount !== 0 && confirmationsRequired !== 0 && confirmationsCount >= confirmationsRequired ? (
               <p>
@@ -123,17 +136,58 @@ const MintReleaseModal = (props) => {
               </p>
             ) */
             <>
-              <p>
+              <p className={`${styles.processTextContainer} ${styles.processing}`}>
                 Waiting for confirmations{' '}
-                <span className={styles.feeValue}>
-                  {confirmationsCount <= confirmationsRequired ? confirmationsCount : confirmationsRequired}/{confirmationsRequired}
+                <span className={styles.processingValue} style={{ marginLeft: '2px' }}>
+                  {confirmationsCount <= confirmationsRequired
+                    ? confirmationsCount
+                    : confirmationsRequired}
+                  /{confirmationsRequired}
                 </span>
+                {confirmationsCount < confirmationsRequired ? (
+                  <span
+                    className={styles.spinLoader}
+                    style={{ display: 'inline-block', marginLeft: '10px' }}
+                  ></span>
+                ) : (
+                  <span
+                    className={`material-icons-round ${styles.checkMark}`}
+                    style={{ display: 'inline-block', marginLeft: '10px' }}
+                  >
+                    check_circle
+                  </span>
+                )}
               </p>
-              <p>
+              <p
+                className={`${styles.processTextContainer} ${
+                  confirmationsCount < confirmationsRequired ? styles.waiting : styles.processing
+                }`}
+              >
                 Waiting for signatures{' '}
-                <span className={styles.feeValue}>
+                <span
+                  className={
+                    confirmationsCount < confirmationsRequired
+                      ? styles.waitingValue
+                      : styles.processingValue
+                  }
+                  style={{ marginLeft: '2px' }}
+                >
                   {signaturesCount}/{signaturesRequired}
                 </span>
+                {confirmationsCount >= confirmationsRequired &&
+                  (signaturesCount < signaturesRequired ? (
+                    <span
+                      className={styles.spinLoader}
+                      style={{ display: 'inline-block', marginLeft: '10px' }}
+                    ></span>
+                  ) : (
+                    <span
+                      className={`material-icons-round ${styles.checkMark}`}
+                      style={{ display: 'inline-block', marginLeft: '10px' }}
+                    >
+                      check_circle
+                    </span>
+                  ))}
               </p>
             </>
           )}
@@ -141,15 +195,16 @@ const MintReleaseModal = (props) => {
         <div className={styles.mainButtonWrapper}>
           <Button
             color={'primary'}
-            className={`xplenty-btn mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
-            onClick={mintButtonClick}
-            loading={isReadyToMintRelease ? false : true}
+            className={`xplenty-btn flex align-items-center justify-content-center ${styles.progressButtons}`}
+            onClick={isReadyToMintRelease ? mintButtonClick : null}
+            style={{ cursor: !isReadyToMintRelease ? 'not-allowed' : 'pointer' }}
+            disabled={!isReadyToMintRelease}
           >
             {operation === 'BRIDGE' ? 'Mint' : 'Release'}
           </Button>
         </div>
       </div>
-      <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
+      <div className={`mt-3 mb-3 ${styles.lineBottom} `}></div>
       <div className={styles.feeInfoWrapper}>
         {/* <img
           src={theme === 'light' ? GasIcon : GasIconDark}

@@ -224,6 +224,14 @@
   --theme-bridge-scrollbar: #F1F1F1;
   --theme-bridge-scrollbar-bg: #ffffff;
   --theme-bridge-trans-bottom-info: #B0B7C3;
+  --theme-bridge-trans-proc-bg: #f7f2fe;
+  --theme-bridge-trans-wait-bg: rgba(176, 183, 195, 0.1);
+  --theme-bridge-trans-proc-text: #333333;
+  --theme-bridge-trans-wait-text: #8A94A6;
+  --theme-bridge-trans-spin: #7F3FF3;
+  --theme-bridge-trans-spin-bg: #7F3FF333;
+  --theme-bridge-trans-spin-inner-bg: #f7f2fe;
+  --theme-bridge-trans-spin-bg-lg: linear-gradient(180deg, #7F3FF3 0%, #7F3FF301 75.52%, #7F3FF300 100%);
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -451,6 +459,14 @@
   --theme-bridge-scrollbar: #393456;
   --theme-bridge-scrollbar-bg: #201c41;
   --theme-bridge-trans-bottom-info: #8A94A6;
+  --theme-bridge-trans-proc-bg: #433967;
+  --theme-bridge-trans-wait-bg: rgba(138, 149, 158, 0.05);
+  --theme-bridge-trans-proc-text: #ffffff;
+  --theme-bridge-trans-wait-text: #49446C;
+  --theme-bridge-trans-spin: #CEAEFE;
+  --theme-bridge-trans-spin-bg: #8A94A633;
+  --theme-bridge-trans-spin-inner-bg: #433967;
+  --theme-bridge-trans-spin-bg-lg: linear-gradient(180deg, #CEAEFE 0%, #CEAEFE01 75.52%, #CEAEFE00 100%);
 }
 
 :root.theme-transiton {
