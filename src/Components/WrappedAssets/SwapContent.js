@@ -289,11 +289,17 @@ const SwapContent = (props) => {
                   >
                     Balance:{' '}
                     {props.userBalances[props.tokenIn.name] >= 0 ? (
-                      props.userBalances[props.tokenIn.name]
+                      <span
+                        className={clsx(
+                          'balance-tokenin',
+                          errorMessage && message === 'Insufficient balance' && 'error-text-color',
+                        )}
+                      >
+                        {props.userBalances[props.tokenIn.name]}
+                      </span>
                     ) : (
                       <div className="shimmer">0.0000</div>
                     )}{' '}
-                    <span className="max-btn">(Max)</span>
                   </p>
                 ) : (
                   <p className="wallet-token-balance">
