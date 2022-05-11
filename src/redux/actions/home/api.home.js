@@ -483,7 +483,8 @@ export const getStorageForFarms = async (isActive, tokenPricesData) => {
           key === 'CTEZ - tzBTC' ||
           key === 'CTEZ - PAUL' ||
           key === 'CTEZ - INSTA' ||
-          key === 'CTEZ - CRUNCH'
+          key === 'CTEZ - CRUNCH' ||
+          key === 'CTEZ - DOGA'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(

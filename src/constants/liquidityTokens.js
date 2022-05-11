@@ -207,4 +207,9 @@ export const liquidityTokens = [
     name: 'BUSD.e',
     image: youGov,
   },
+  {
+    name: 'DOGA',
+    image: youGov,
+    new: false,
+  },
 ];

@@ -161,6 +161,17 @@ const Config: IConfig = {
             },
           ],
         },
+        'CTEZ - DOGA': {
+          active: [
+            {
+              address: 'KT1JQAZqShNMakSNXc2cgTzdAWZFemGcU6n1',
+              mapId: 4503,
+              decimal: 18,
+              tokenDecimal: 6,
+            },
+          ],
+          inactive: [],
+        },
         'KALAM - XTZ': {
           active: [],
           inactive: [
@@ -847,6 +858,13 @@ const Config: IConfig = {
         tokenId: 0,
       },
       'PLENTY - XTZ': {
+        address: 'KT1X1LgNkQShpF9nRLYw3Dgdy4qp38MX617z',
+        mapId: 3956,
+        decimal: 6,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+      'CTEZ - DOGA': {
         address: 'KT1X1LgNkQShpF9nRLYw3Dgdy4qp38MX617z',
         mapId: 3956,
         decimal: 6,
@@ -2104,6 +2122,11 @@ const Config: IConfig = {
             property: 'ctezPool',
             liquidityToken: 'ctez-XTZ-LP',
           },
+          DOGA: {
+            contract: 'KT1C9gJRfkpPbNdBn3XyYbrUHT6XgfPzZqXP',
+            property: 'token1_pool',
+            liquidityToken: 'PlentyCtezlp',
+          },
           PLENTY: {
             contract: 'KT1C9gJRfkpPbNdBn3XyYbrUHT6XgfPzZqXP',
             property: 'token1_pool',
@@ -2232,6 +2255,22 @@ const Config: IConfig = {
           PAUL: {
             contract: 'KT1LixgLzdK4nseeD6MmmVpokuw9CvpVX9KW',
             property: 'token2_pool',
+            liquidityToken: 'ctez-paul-lp',
+          },
+        },
+      },
+      DOGA: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT19DUSZw7mfeEATrbWVPHRrWNVbNnmfFAE6',
+        mapId: 6901,
+        READ_TYPE: 'FA1.2',
+        CALL_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 8,
+        DEX_PAIRS: {
+          ctez: {
+            contract: 'KT1LixgLzdK4nseeD6MmmVpokuw9CvpVX9KW',
+            property: 'token1_pool',
             liquidityToken: 'ctez-paul-lp',
           },
         },
@@ -3325,6 +3364,26 @@ const Config: IConfig = {
             isDualFarm: false,
           },
         ],
+      },
+      'CTEZ - DOGA': {
+        active: [
+          {
+            LP_TOKEN: 'KT1X1LgNkQShpF9nRLYw3Dgdy4qp38MX617z',
+            CONTRACT: 'KT1JQAZqShNMakSNXc2cgTzdAWZFemGcU6n1',
+            DEX: 'KT1X1LgNkQShpF9nRLYw3Dgdy4qp38MX617z',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            CARD_TYPE: 'CTEZ / DOGA LP',
+            TOKEN_DECIMAL: 6,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 18,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+            liquidityLink: '/liquidity/add?tokenA=ctez&tokenB=doga',
+            isDualFarm: false,
+          },
+        ],
+        inactive: [],
       },
       'KALAM - XTZ': {
         active: [],

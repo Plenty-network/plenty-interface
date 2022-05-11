@@ -199,4 +199,9 @@ export const tokens = [
     image: youGov,
     new: false,
   },
+  {
+    name: 'DOGA',
+    image: youGov,
+    new: false,
+  },
 ];
