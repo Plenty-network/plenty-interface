@@ -692,6 +692,7 @@ const SwapTab = (props) => {
                     className={clsx('token-user-input', secondTokenAmount && 'second-input-color')}
                     value={secondTokenAmount && fromExponential(secondTokenAmount)}
                     placeholder="0.0"
+                    disabled
                     onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenOut')}
                   />
                 ) : (
