@@ -401,6 +401,37 @@ const Config: IConfig = {
             },
           ],
         },
+        'CTEZ - TEZ': {
+          active: [
+            {
+              address: 'KT1UH21n4iwXu7gGrh34RKZfRewpcgQLdbXq',
+              mapId: 17071,
+              decimal: 18,
+              tokenDecimal: 13,
+              dualInfo: {
+                tokenFirst: {
+                  symbol: 'PLENTY',
+                  tokenContract: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+                  tokenDecimal: 18,
+                  tokenType: 'FA1.2',
+                  tokenId: 0,
+                  rewardContract: 'KT1KPSKAsmM9k28Lsbk1mmrujHpCnQHxKhKS',
+                  rewardMapId: 17068,
+                },
+                tokenSecond: {
+                  symbol: 'GIF',
+                  tokenContract: 'KT1XTxpQvo7oRCqp85LikEZgAZ22uDxhbWJv',
+                  tokenDecimal: 9,
+                  tokenType: 'FA2',
+                  tokenId: 0,
+                  rewardContract: 'KT1LQS3kyhaaW6thmW96anY71gZ92ECGU7Ja',
+                  rewardMapId: 17069,
+                },
+              },
+            },
+          ],
+          inactive: [],
+        },
         'PLENTY - YOU': {
           active: [],
           inactive: [
@@ -998,6 +1029,13 @@ const Config: IConfig = {
         tokenId: 0,
       },
       'PLENTY - GIF': {
+        address: 'KT1MVLRQ7K7275oHDvbtKcUzNJsPBstZGKUp',
+        mapId: 17061,
+        decimal: 13,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+      'CTEZ - TEZ': {
         address: 'KT1MVLRQ7K7275oHDvbtKcUzNJsPBstZGKUp',
         mapId: 17061,
         decimal: 13,
@@ -3792,6 +3830,46 @@ const Config: IConfig = {
             isDualFarm: true,
           },
         ],
+      },
+      'CTEZ - TEZ': {
+        active: [
+          {
+            LP_TOKEN: 'KT1MVLRQ7K7275oHDvbtKcUzNJsPBstZGKUp',
+            CONTRACT: 'KT1UH21n4iwXu7gGrh34RKZfRewpcgQLdbXq',
+            DEX: 'KT1Cge8y4JG6Bi8dGKf1bUfpCAv2AiW6MjtW',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            dualInfo: {
+              tokenFirst: {
+                symbol: 'PLENTY',
+                tokenContract: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+                tokenDecimal: 18,
+                tokenType: 'FA1.2',
+                tokenId: 0,
+                rewardContract: 'KT1KPSKAsmM9k28Lsbk1mmrujHpCnQHxKhKS',
+              },
+              tokenSecond: {
+                symbol: 'GIF',
+                tokenContract: 'KT1XTxpQvo7oRCqp85LikEZgAZ22uDxhbWJv',
+                tokenDecimal: 9,
+                tokenType: 'FA2',
+                tokenId: 0,
+                rewardContract: 'KT1LQS3kyhaaW6thmW96anY71gZ92ECGU7Ja',
+              },
+            },
+            CARD_TYPE: 'CTEZ / TEZ Dual LP',
+            TOKEN_DECIMAL: 13,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 12,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+            //message: 'Rewards ended October 19',
+            bannerType: 'alert',
+            liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=GIF',
+            isDualFarm: true,
+          },
+        ],
+        inactive: [],
       },
       'PLENTY - YOU': {
         active: [],
