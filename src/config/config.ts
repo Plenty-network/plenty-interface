@@ -402,31 +402,32 @@ const Config: IConfig = {
             },
           ],
         },
+        // TODO: change to deployed contract
         'CTEZ - TEZ': {
           active: [
             {
-              address: 'KT1UH21n4iwXu7gGrh34RKZfRewpcgQLdbXq',
-              mapId: 17071,
-              decimal: 18,
+              address: 'KT1DMnJvNrFYc8N9Ptxhw3NtqKN7AWqxCpkS',
+              mapId: 171168,
+              decimal: 6,
               tokenDecimal: 13,
               dualInfo: {
                 tokenFirst: {
-                  symbol: 'PLENTY',
-                  tokenContract: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-                  tokenDecimal: 18,
-                  tokenType: 'FA1.2',
-                  tokenId: 0,
-                  rewardContract: 'KT1KPSKAsmM9k28Lsbk1mmrujHpCnQHxKhKS',
-                  rewardMapId: 17068,
-                },
-                tokenSecond: {
-                  symbol: 'GIF',
+                  symbol: 'TEZ',
                   tokenContract: 'KT1XTxpQvo7oRCqp85LikEZgAZ22uDxhbWJv',
                   tokenDecimal: 9,
                   tokenType: 'FA2',
                   tokenId: 0,
                   rewardContract: 'KT1LQS3kyhaaW6thmW96anY71gZ92ECGU7Ja',
                   rewardMapId: 17069,
+                },
+                tokenSecond: {
+                  symbol: 'CTEZ',
+                  tokenContract: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+                  tokenDecimal: 18,
+                  tokenType: 'FA1.2',
+                  tokenId: 0,
+                  rewardContract: 'KT1KPSKAsmM9k28Lsbk1mmrujHpCnQHxKhKS',
+                  rewardMapId: 17068,
                 },
               },
             },
@@ -1037,6 +1038,7 @@ const Config: IConfig = {
         type: 'FA1.2',
         tokenId: 0,
       },
+      // TODO: change to deployed contract
       'CTEZ - TEZ': {
         address: 'KT1MVLRQ7K7275oHDvbtKcUzNJsPBstZGKUp',
         mapId: 17061,
@@ -1349,8 +1351,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
           tez: {
-            // TODO: Update new with new ctez-tez AMM
-            contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
+            contract: 'KT1CAYNQGvYSF5UvHK21grMrKpe2563w9UcX',
             property: 'ctezPool',
             liquidityToken: 'ctez-XTZ-LP',
           },
@@ -1366,8 +1367,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
           ctez: {
-            // TODO: Update new with new ctez-tez AMM
-            contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
+            contract: 'KT1CAYNQGvYSF5UvHK21grMrKpe2563w9UcX',
             property: 'tezPool',
             liquidityToken: 'ctez-XTZ-LP',
           },
@@ -1375,8 +1375,8 @@ const Config: IConfig = {
       },
       'ctez-XTZ-LP': {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1AhTJqRFY3ABSV4kfR3RUS4B66jp1H6A1F',
-        mapId: 108017,
+        TOKEN_CONTRACT: 'KT1DMnJvNrFYc8N9Ptxhw3NtqKN7AWqxCpkS',
+        mapId: 171168,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA1.2',
         TOKEN_ID: 0,
@@ -1662,8 +1662,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
           ctez: {
-            // TODO: Update new with new ctez-tez AMM
-            contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
+            contract: 'KT1CAYNQGvYSF5UvHK21grMrKpe2563w9UcX',
             property: 'tezPool',
             liquidityToken: 'ctez-XTZ-LP',
           },
@@ -2161,8 +2160,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
           tez: {
-            // TODO: Update new with new ctez-tez AMM
-            contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
+            contract: 'KT1CAYNQGvYSF5UvHK21grMrKpe2563w9UcX',
             property: 'ctezPool',
             liquidityToken: 'ctez-XTZ-LP',
           },
@@ -2679,8 +2677,8 @@ const Config: IConfig = {
       },
       'ctez-XTZ-LP': {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1AhTJqRFY3ABSV4kfR3RUS4B66jp1H6A1F',
-        mapId: 108017,
+        TOKEN_CONTRACT: 'KT1DMnJvNrFYc8N9Ptxhw3NtqKN7AWqxCpkS',
+        mapId: 171168,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA1.2',
         TOKEN_ID: 0,
@@ -3422,7 +3420,7 @@ const Config: IConfig = {
         ],
       },
       'CTEZ - DOGA': {
-        // TODO :update farm contract details 
+        // TODO :update farm contract details
         active: [
           {
             LP_TOKEN: 'KT1X1LgNkQShpF9nRLYw3Dgdy4qp38MX617z',
@@ -3850,29 +3848,30 @@ const Config: IConfig = {
           },
         ],
       },
+      // TODO: change to deployed contract
       'CTEZ - TEZ': {
         active: [
           {
-            LP_TOKEN: 'KT1MVLRQ7K7275oHDvbtKcUzNJsPBstZGKUp',
+            LP_TOKEN: 'KT1DMnJvNrFYc8N9Ptxhw3NtqKN7AWqxCpkS',
             CONTRACT: 'KT1UH21n4iwXu7gGrh34RKZfRewpcgQLdbXq',
-            DEX: 'KT1Cge8y4JG6Bi8dGKf1bUfpCAv2AiW6MjtW',
+            DEX: 'KT1CAYNQGvYSF5UvHK21grMrKpe2563w9UcX',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             dualInfo: {
               tokenFirst: {
-                symbol: 'PLENTY',
-                tokenContract: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-                tokenDecimal: 18,
+                symbol: 'TEZ',
+                tokenContract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
+                tokenDecimal: 6,
+                tokenType: 'XTZ',
+                tokenId: 0,
+                rewardContract: 'KT1LQS3kyhaaW6thmW96anY71gZ92ECGU7Ja',
+              },
+              tokenSecond: {
+                symbol: 'CTEZ',
+                tokenContract: 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4',
+                tokenDecimal: 6,
                 tokenType: 'FA1.2',
                 tokenId: 0,
                 rewardContract: 'KT1KPSKAsmM9k28Lsbk1mmrujHpCnQHxKhKS',
-              },
-              tokenSecond: {
-                symbol: 'GIF',
-                tokenContract: 'KT1XTxpQvo7oRCqp85LikEZgAZ22uDxhbWJv',
-                tokenDecimal: 9,
-                tokenType: 'FA2',
-                tokenId: 0,
-                rewardContract: 'KT1LQS3kyhaaW6thmW96anY71gZ92ECGU7Ja',
               },
             },
             CARD_TYPE: 'CTEZ / TEZ Dual LP',
@@ -3882,7 +3881,6 @@ const Config: IConfig = {
             TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             DECIMAL: 18,
             withdrawalFeeType: 'type2',
-            //message: 'Rewards ended October 19',
             bannerType: 'alert',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=GIF',
             isDualFarm: true,
