@@ -225,7 +225,7 @@ const SwapTab = (props) => {
           setSecondTokenAmount(input);
 
           const res = computeTokenOutForRouteBaseByOutAmountV2(
-            Number(input),
+            input,
             props.routeData.allRoutes,
             props.slippage,
           );

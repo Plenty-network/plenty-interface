@@ -529,16 +529,18 @@ const computeTokenOutForRouteBaseByOutAmountV2Base = (outputAmount, swapData, sl
     let minimum_Out = 0;
     let priceImpact = 0;
     const fees = [];
+    console.log(swapData);
     let swapCompute = computeTokenOutputV2(
       outputAmount,
       swapData[swapData.length - 1].tokenOut_supply,
       swapData[swapData.length - 1].tokenIn_supply,
       swapData[swapData.length - 1].exchangeFee,
       slippage,
-      swapData[swapData.length - 1].tokenIn,
       swapData[swapData.length - 1].tokenOut,
+      swapData[swapData.length - 1].tokenIn,
       swapData[swapData.length - 1].target,
     );
+    console.log(swapCompute);
     for (let i = swapData.length - 2; i >= 0; i--) {
       swapCompute = computeTokenOutputV2(
         swapCompute.tokenOut_amount,
@@ -546,14 +548,15 @@ const computeTokenOutForRouteBaseByOutAmountV2Base = (outputAmount, swapData, sl
         swapData[i].tokenIn_supply,
         swapData[i].exchangeFee,
         slippage,
-        swapData[i].tokenIn,
         swapData[i].tokenOut,
+        swapData[i].tokenIn,
         swapData[i].target,
       );
       if (i === 0) {
         tokenIn_amount = swapCompute.tokenOut_amount;
       }
     }
+    console.log(tokenIn_amount);
     swapCompute = computeTokenOutputV2(
       tokenIn_amount,
       swapData[0].tokenIn_supply,
@@ -585,11 +588,12 @@ const computeTokenOutForRouteBaseByOutAmountV2Base = (outputAmount, swapData, sl
         minimum_Out = swapCompute.minimum_Out;
       }
     }
+    console.log(swapCompute);
     return {
       success: true,
       data: {
         tokenInAmount: tokenIn_amount,
-        tokenOutAmount: outputAmount,
+        tokenOutAmount: swapCompute.tokenOut_amount,
         fees: fees,
         totalFees: fees.reduce((acc, cur) => acc + cur, 0),
         minimumOut: minimum_Out_All,
