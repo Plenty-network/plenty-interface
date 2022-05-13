@@ -162,6 +162,7 @@ const Config: IConfig = {
           ],
         },
         'CTEZ - DOGA': {
+          //TODO: update details here
           active: [
             {
               address: 'KT1JQAZqShNMakSNXc2cgTzdAWZFemGcU6n1',
@@ -896,6 +897,7 @@ const Config: IConfig = {
         tokenId: 0,
       },
       'CTEZ - DOGA': {
+        // TODO: update details here
         address: 'KT1X1LgNkQShpF9nRLYw3Dgdy4qp38MX617z',
         mapId: 3956,
         decimal: 6,
@@ -1347,6 +1349,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
           tez: {
+            // TODO: Update new with new ctez-tez AMM
             contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
             property: 'ctezPool',
             liquidityToken: 'ctez-XTZ-LP',
@@ -1363,6 +1366,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
           ctez: {
+            // TODO: Update new with new ctez-tez AMM
             contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
             property: 'tezPool',
             liquidityToken: 'ctez-XTZ-LP',
@@ -1658,6 +1662,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
           ctez: {
+            // TODO: Update new with new ctez-tez AMM
             contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
             property: 'tezPool',
             liquidityToken: 'ctez-XTZ-LP',
@@ -2156,14 +2161,16 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
           tez: {
+            // TODO: Update new with new ctez-tez AMM
             contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
             property: 'ctezPool',
             liquidityToken: 'ctez-XTZ-LP',
           },
           DOGA: {
+            // TODO: Update ctez-DOGA AMM & liquidity token
             contract: 'KT1C9gJRfkpPbNdBn3XyYbrUHT6XgfPzZqXP',
-            property: 'token1_pool',
-            liquidityToken: 'PlentyCtezlp',
+            property: 'token2_pool',
+            liquidityToken: 'ctez-doga-lp',
           },
           PLENTY: {
             contract: 'KT1C9gJRfkpPbNdBn3XyYbrUHT6XgfPzZqXP',
@@ -2299,17 +2306,18 @@ const Config: IConfig = {
       },
       DOGA: {
         ICON: '',
-        TOKEN_CONTRACT: 'KT19DUSZw7mfeEATrbWVPHRrWNVbNnmfFAE6',
-        mapId: 6901,
+        TOKEN_CONTRACT: 'KT1Ha4yFVeyzw6KRAdkzq6TxDHB97KG4pZe8',
+        mapId: 134335,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA1.2',
         TOKEN_ID: 0,
-        TOKEN_DECIMAL: 8,
+        TOKEN_DECIMAL: 5,
         DEX_PAIRS: {
           ctez: {
+            // must update ctez-doga contract & liquidity
             contract: 'KT1LixgLzdK4nseeD6MmmVpokuw9CvpVX9KW',
             property: 'token1_pool',
-            liquidityToken: 'ctez-paul-lp',
+            liquidityToken: 'ctez-doga-lp',
           },
         },
       },
@@ -2561,15 +2569,6 @@ const Config: IConfig = {
           },
         },
       },
-      PlentywUSDClp: {
-        ICON: '',
-        TOKEN_CONTRACT: 'KT1Gz1mx1jm7JHqU7GuMVWF6soB9RjsfLN3o',
-        mapId: 10755,
-        READ_TYPE: 'FA1.2',
-        TOKEN_ID: 0,
-        TOKEN_DECIMAL: 12,
-        CALL_TYPE: 'FA1.2',
-      },
       PlentywBUSDlp: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1UC3vcVZ4K9b39uQxaMNA2N1RuJXKLCnoA',
@@ -2577,6 +2576,15 @@ const Config: IConfig = {
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 18,
+        CALL_TYPE: 'FA1.2',
+      },
+      PlentywUSDClp: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1Gz1mx1jm7JHqU7GuMVWF6soB9RjsfLN3o',
+        mapId: 10755,
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 12,
         CALL_TYPE: 'FA1.2',
       },
       PlentywWBTClp: {
@@ -3056,6 +3064,16 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 7,
         CALL_TYPE: 'FA1.2',
       },
+      'ctez-doga-lp': {
+        // TODO: change to deployed contract
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1N93veCzepAPydFGGUhDFiA69PoawasxXi',
+        mapId: 46392,
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 7,
+        CALL_TYPE: 'FA1.2',
+      },
     },
   },
   POOLS: {
@@ -3404,6 +3422,7 @@ const Config: IConfig = {
         ],
       },
       'CTEZ - DOGA': {
+        // TODO :update farm contract details 
         active: [
           {
             LP_TOKEN: 'KT1X1LgNkQShpF9nRLYw3Dgdy4qp38MX617z',
