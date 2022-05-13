@@ -523,12 +523,13 @@ export const computeTokenOutForRouteBaseV2 = (input, allRoutes, slippage) => {
 };
 
 const computeTokenOutForRouteBaseByOutAmountV2Base = (outputAmount, swapData, slippage) => {
-  try {
+    try {
     let tokenIn_amount = 0;
     const minimum_Out_All = [];
     let minimum_Out = 0;
     let priceImpact = 0;
     const fees = [];
+    console.log(outputAmount);
     console.log(swapData);
     let swapCompute = computeTokenOutputV2(
       outputAmount,
@@ -541,6 +542,7 @@ const computeTokenOutForRouteBaseByOutAmountV2Base = (outputAmount, swapData, sl
       swapData[swapData.length - 1].target,
     );
     console.log(swapCompute);
+    if(swapData.length === 1){tokenIn_amount = swapCompute.tokenOut_amount;}
     for (let i = swapData.length - 2; i >= 0; i--) {
       swapCompute = computeTokenOutputV2(
         swapCompute.tokenOut_amount,
