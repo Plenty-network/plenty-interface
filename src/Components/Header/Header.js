@@ -110,7 +110,7 @@ const Header = (props) => {
               <span className="banner-text">
                 {isMobile
                   ? 'Swap Wrapped Assets now'
-                  : 'Wrap protocol is deprecated. All the wrapped assets are rebranded. Swap your wrapped assets now'}
+                  : 'Swap wAssets for the new Plenty Bridge tokens BUSD.e, MATIC.e, USDC.e, WBTC.e, WETH.e, LINK.e, and DAI.e.'}
               </span>
               <Link to="/wrappedAssets" className="text-decoration-none">
                 <span className="bottom-last" style={{ cursor: 'pointer' }}>

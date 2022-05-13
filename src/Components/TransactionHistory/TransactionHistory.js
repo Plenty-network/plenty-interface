@@ -33,7 +33,7 @@ import { filterData, sortData } from './helpers';
 
 const TransactionHistory = (props) => {
   // eslint-disable-next-line
-  const [animationCalss, SetAnimationClass] = useState('leftToRightFadeInAnimation-4-bridge');
+  
   const [showFilter, setShowFilter] = useState(false);
   const [showSort, setShowSort] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -89,7 +89,11 @@ const TransactionHistory = (props) => {
     operation,
     resetToDefaultStates,
     displayMessage,
+    openingFromTransaction,
+    setOpeningFromTransaction,
   } = props;
+
+  const [animationClass, setAnimationClass] = useState(openingFromTransaction ? 'leftToRightFadeInAnimation-4-bridge' : 'rightToLeftFadeInAnimation-4');
 
   const filteredData = useMemo(
     () => filterData(transactionData, checkBoxesState),
@@ -104,12 +108,12 @@ const TransactionHistory = (props) => {
   //const [filteredData, setFilteredData] = useState(transactionData);
 
   const setBack = (value) => {
-    SetAnimationClass('rightToLeftFadeInAnimation-4');
+    setAnimationClass('leftToRightFadeOutAnimation-4');
     setTimeout(() => {
       if (value) {
         setTransaction(1);
       }
-    }, 200);
+    }, 600);
   };
 
   const filterClickHandler = () => {
@@ -183,7 +187,7 @@ const TransactionHistory = (props) => {
         name: `${currentTokenOut.name}`,
         image: currentTokenOut.image, //Change after creating config.
       });
-      if(selectedData.currentProgress === 4) {
+      if(selectedData.currentProgress === 3) {
         console.log(prevFromBridge, prevToBridge, prevOperation);
         setSavedFromBridge(prevFromBridge);
         setSavedToBridge(prevToBridge);
@@ -203,7 +207,7 @@ const TransactionHistory = (props) => {
     // setSavedFromBridge(prevFromBridge);
     // setSavedToBridge(prevToBridge);
     // setSavedOperation(prevOperation);
-    if(selectedData.currentProgress !== 4 && selectedData.chain !== metamaskChain) {
+    if(selectedData.currentProgress !== 3 && selectedData.chain !== metamaskChain) {
       //alert(`Chain for this operation is ${selectedData.chain} and the chain selected in metamask wallet is ${metamaskChain}. Please change the chain to ${selectedData.chain} in metamask wallet to proceed.`);
       console.log(`Please change metamask wallet chain to ${selectedData.chain}.`);
       displayMessage({
@@ -225,15 +229,17 @@ const TransactionHistory = (props) => {
       
       resetToDefaultStates();
     } else {
+      setAnimationClass('rightToLeftFadeOutAnimation-4');
       setTimeout(() => {
         setTransaction(3);
-      }, 200);
+      }, 600);
     }
     
   };
 
   useEffect(async () => {
     setIsLoading(true);
+    setOpeningFromTransaction(false);
     // const data = await getHistory({ ethereumAddress:'0xb96E3B80D52Fed6Aa53bE5aE282a4DDA06db8122', tzAddress: 'tz1QNjbsi2TZEusWyvdH3nmsCVE3T1YqD9sv' });
     console.log(metamaskAddress,walletAddress);
     const data = await getHistory({ ethereumAddress: metamaskAddress, tzAddress: walletAddress });
@@ -273,12 +279,12 @@ const TransactionHistory = (props) => {
 
   return (
     <div
-      className={`justify-content-center mx-auto col-20 col-md-10 col-lg-10 col-xl-10 ${styles.gov}`}
+      className={`justify-content-center mx-auto col-20 col-md-10 col-lg-10 col-xl-10 ${styles.gov} ${animationClass}`}
     >
       <div className={styles.border}>
         <div className={` ${styles.bridgeModal}`}>
           <div
-            className={`flex flex-row justify-content-between mb-3 ${styles.topWrapper} rightToLeftFadeInAnimation-4`}
+            className={`flex flex-row justify-content-between mb-3 ${styles.topWrapper} `}
           >
             <div className={`flex ${styles.headingWrapper}`}>
               <p
@@ -344,9 +350,9 @@ const TransactionHistory = (props) => {
             ) : null}
           </div>
           <div
-            className={`mb-3 ${styles.lineBottom} ${styles.width} rightToLeftFadeInAnimation-4`}
+            className={`mb-3 ${styles.lineBottom} ${styles.width}`}
           ></div>
-          <div className={`${styles.transactionDataWrapper} rightToLeftFadeInAnimation-4`}>
+          <div className={`${styles.transactionDataWrapper}`}>
             {isLoading ? (
               dummyLoadingDivisions.current.map((box, index) => {
                 return (
@@ -366,7 +372,7 @@ const TransactionHistory = (props) => {
                         <div className={styles.tokenbg}>
                           <img
                             src={
-                              data.currentProgress === 4
+                              data.currentProgress === 3
                                 ? data.operation === 'BRIDGE'
                                   ? theme === 'light'
                                     ? downArrow
@@ -395,7 +401,7 @@ const TransactionHistory = (props) => {
                           </p>
                         </div>
                       </div>
-                      {data.currentProgress === 4 ? (
+                      {data.currentProgress === 3 ? (
                         <div className={styles.detailWrapper}>
                           <p
                             id={data.id}
@@ -465,6 +471,8 @@ TransactionHistory.propTypes = {
   operation: PropTypes.any,
   resetToDefaultStates: PropTypes.any,
   displayMessage: PropTypes.any,
+  openingFromTransaction: PropTypes.any,
+  setOpeningFromTransaction: PropTypes.any,
 };
 
 export default TransactionHistory;

@@ -232,6 +232,8 @@
   --theme-bridge-trans-spin-bg: #7F3FF333;
   --theme-bridge-trans-spin-inner-bg: #f7f2fe;
   --theme-bridge-trans-spin-bg-lg: linear-gradient(180deg, #7F3FF3 0%, #7F3FF301 75.52%, #7F3FF300 100%);
+  --theme-bridge-done-spin-bg: #E7E1F1;
+  --theme-bridge-trans-approved-btn-bg: rgba(98, 2, 239, 0.05);
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -313,8 +315,8 @@
   --theme-primary-button-bg: #ceaefe;
   --theme-menu-highlighter: #524666;
   --theme-menu-text: #dec9fe;
-  --theme-disabled-button-bg: #8974a9;
-  --theme-disabled-button-text: #353153;
+  --theme-disabled-button-bg: #3B3660;
+  --theme-disabled-button-text: #635E80;
   --theme-modal-boxshadow: 0px 2px 82px 1px rgba(22, 19, 37, 0.65);
   --theme-balance-bg: #211c49;
   --theme-thead-text: #edecef;
@@ -467,6 +469,8 @@
   --theme-bridge-trans-spin-bg: #8A94A633;
   --theme-bridge-trans-spin-inner-bg: #433967;
   --theme-bridge-trans-spin-bg-lg: linear-gradient(180deg, #CEAEFE 0%, #CEAEFE01 75.52%, #CEAEFE00 100%);
+  --theme-bridge-done-spin-bg: #514B74;
+  --theme-bridge-trans-approved-btn-bg: rgba(206, 174, 254, 0.05);
 }
 
 :root.theme-transiton {

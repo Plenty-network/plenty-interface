@@ -72,6 +72,8 @@ const BridgeModal = (props) => {
   const [isTokenSelected, setIsTokenSelected] = useState(false);
   const [isBridgeClicked, setIsBridgeClicked] = useState(false);
   const [pendingTransCount, setPendingTransCount] = useState(0);
+  const [animationClass, setAnimationClass] = useState('leftToRightFadeInAnimation-4-bridge');
+  const [isHistoryLoading, setIsHistoryLoading] = useState(true);
   //const [fromBridge, setFromBridge] = useState({name: 'ETHEREUM', image: ethereum, buttonImage: ethereum});
   //const [toBridge, setToBridge] = useState({name: 'TEZOS', image: tezos, buttonImage: ''});
   //const [connectBridgeWallet, setConnectBrigeWallet] = useState({name: fromBridge.name, image: fromBridge.image, buttonImage: fromBridge.buttonImage});
@@ -79,6 +81,7 @@ const BridgeModal = (props) => {
   //const [selector, setSelector] = useState('BRIDGES');
   const selector = useRef('BRIDGES');
   const delay = useRef(5000);
+  const firstTimeLoading = useRef(true);
   //const [operation, setOperation] = useState('BRIDGE');
   //const operation = useRef('BRIDGE');
   //const [tokenList, setTokenList] = useState(tokensList[fromBridge.name]);
@@ -119,6 +122,7 @@ const BridgeModal = (props) => {
     displayMessage,
     setSwitchButtonPressed,
     connectWalletHandler,
+    setIsApproved,
   } = props;
 
   //const [tokenList, setTokenList] = useState(tokensList[fromBridge.name]);
@@ -180,10 +184,17 @@ const BridgeModal = (props) => {
     }
   }, [walletAddress]);
 
-  useEffect(() => {
+  useEffect(async () => {
     if (metamaskAddress) {
       setShowMetamaskTooltip(false);
       setIsError(false);
+    }
+    if(firstTimeLoading.current && metamaskAddress && walletAddress) {
+      const pendingHistoryCount = await getActionRequiredCount({ethereumAddress: metamaskAddress, tzAddress: walletAddress});
+      //console.log(pendingHistoryCount);
+      setPendingTransCount(pendingHistoryCount.count);
+      setIsHistoryLoading(false);
+      firstTimeLoading.current = false;
     }
   }, [metamaskAddress]);
 
@@ -257,6 +268,7 @@ const BridgeModal = (props) => {
       const pendingHistoryCount = await getActionRequiredCount({ethereumAddress: metamaskAddress, tzAddress: walletAddress});
       //console.log(pendingHistoryCount);
       setPendingTransCount(pendingHistoryCount.count);
+      setIsHistoryLoading(false);
     }
   }, delay.current);
 
@@ -392,15 +404,19 @@ const BridgeModal = (props) => {
         
       } else {
         SetisLoading(true);
-        if (operation === 'UNBRIDGE') {
-          SetCurrentProgress(1);
-        } else {
+        if (operation === 'BRIDGE') {
           const allowanceResult = await getAllowance(tokenIn,metamaskAddress,fromBridge.name);
           if(allowanceResult.success) {
             console.log(allowanceResult.allowance);
             if(allowanceResult.allowance >= Number(firstTokenAmount)) {
-              SetCurrentProgress(1);
+              //SetCurrentProgress(1);
+              setIsApproved(true);
             }
+            setAnimationClass('rightToLeftFadeOutAnimation-4');
+            setTimeout(() => {
+              SetisLoading(false);
+              setTransaction(3);
+            }, 600);
           } else {
             console.log(allowanceResult.error);
             displayMessage({
@@ -411,13 +427,17 @@ const BridgeModal = (props) => {
               isFlashMessageALink: false,
               flashMessageLink: '#',
             });
+            SetisLoading(false);
           }
           
+        } else {
+          setAnimationClass('rightToLeftFadeOutAnimation-4');
+          setTimeout(() => {
+            SetisLoading(false);
+            setTransaction(3);
+          }, 600);
         }
-        setTimeout(() => {
-          SetisLoading(false);
-          setTransaction(3);
-        }, 100);
+        
       }
     }
   };
@@ -689,14 +709,14 @@ const BridgeModal = (props) => {
 
   return (
     <div
-      className={`justify-content-center mx-auto col-20 col-md-10 col-lg-12 col-xl-12 mb-3 ${styles.gov}`}
+      className={`justify-content-center mx-auto col-20 col-md-10 col-lg-12 col-xl-12 mb-3 ${styles.gov} ${animationClass}`}
     >
       <div className={styles.border}>
         <div className={` ${styles.bridgeModal}`}>
-          <div className="leftToRightFadeInAnimation-4-bridge">
+          <div>
             <div className={styles.resultsHeader}>
               <p className={styles.heading}>
-                Bridges{' '}
+                Bridge{' '}
                 {metamaskAddress && (
                   <span className={styles.metamaskAddressText}>{`(${truncateMiddle(
                     metamaskAddress,
@@ -707,10 +727,16 @@ const BridgeModal = (props) => {
                 )}
               </p>
               {walletAddress && metamaskAddress && (
-                <p
+                isHistoryLoading ? (
+                  <p className={`${styles.resLoading} shimmer`}>View History</p>
+                ) : (
+                  <p
                   className={`${styles.res} ${pendingTransCount > 0 && styles.pendingHistory}`}
                   onClick={() => {
-                    setTransaction(2);
+                    setAnimationClass('rightToLeftFadeOutAnimation-4');
+                    setTimeout(() => {
+                      setTransaction(2);
+                    }, 600);
                   }}
                   style={{ cursor: 'pointer' }}
                 >
@@ -719,14 +745,15 @@ const BridgeModal = (props) => {
                     <span className={styles.actionRequiredCount}>{pendingTransCount}</span>
                   )}
                 </p>
+                )
               )}
             </div>
             <div className={`mb-2 ${styles.lineBottom} `}></div>
             <div className={`mt-4 ${styles.from}`}>From</div>
             <div className={`mt-2 ${styles.fromBridgeSelectBox}`}>
               <div>
-                <p className={`mb-1 ${styles.fromLabelTop}`}>Select chain: </p>
-                <p className={`mb-0 ${styles.fromLabelBottom}`}>Choose your entry chain</p>
+                <p className={`mb-1 ${styles.fromLabelTop}`}>Select blockchain </p>
+                <p className={`mb-0 ${styles.fromLabelBottom}`}>Start the bridge process</p>
               </div>
               <div
                 className={clsx(
@@ -745,7 +772,7 @@ const BridgeModal = (props) => {
               </div>
             </div>
             <div className={`my-3 ${styles.lineMid} `}></div>
-            <p className={styles.midLabel}>Choose your token and enter the amount</p>
+            <p className={styles.midLabel}>Select your token and enter the amount</p>
             <div
               className={`mt-2 ${styles.tokenSelectBox} ${
                 isTokenInSelected && styles.tokenInSelected
@@ -988,6 +1015,7 @@ BridgeModal.propTypes = {
   displayMessage: PropTypes.any,
   setSwitchButtonPressed: PropTypes.any,
   connectWalletHandler: PropTypes.any,
+  setIsApproved: PropTypes.any,
 };
 
 export default BridgeModal;

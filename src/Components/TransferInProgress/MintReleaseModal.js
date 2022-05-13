@@ -21,6 +21,7 @@ const MintReleaseModal = (props) => {
   const [confirmationsCount, setConfirmationsCount] = useState(0);
   const [awaitingConfirmation, setAwaitingConfirmation] = useState(true);
   const delay = useRef(5000);
+  const dots = useRef(['.','.','.']);
 
   const {
     description,
@@ -124,7 +125,13 @@ const MintReleaseModal = (props) => {
       <div className={styles.resultsHeader} style={{ alignItems: 'center' }}>
         <div className={`${styles.confirmTextWrapper}`}>
           {awaitingConfirmation ? (
-            <p className={styles.fetchingText}>Fetching Data..</p>
+            <p className={styles.fetchingText}>
+              Fetching Data
+              {dots.current.map((char, index) => {
+                const style = {'animation-delay': (0.5 + index / 5) + 's'};
+                return <span key={index} style={style}>{char}</span>;
+              })}
+            </p>
           ) : (
             /* confirmationsCount !== 0 && confirmationsRequired !== 0 && confirmationsCount >= confirmationsRequired ? (
               <p>
@@ -211,7 +218,7 @@ const MintReleaseModal = (props) => {
           alt="GasIcon"
           style={{ height: '20px' }}
         ></img> */}
-        <p className={styles.bottomInfo}>Review your gas fee in your wallet</p>
+        {/* <p className={styles.bottomInfo}>Review your gas fee in your wallet</p> */}
         {/* <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~{Number(gasFees).toFixed(6)}</p> */}
       </div>
     </>

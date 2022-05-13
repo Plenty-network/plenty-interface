@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import styles from './Transfer.module.scss';
+// eslint-disable-next-line
 import LoadingRing from '../Ui/LoadingRing/loadingRing';
 import { ReactComponent as FeeBigIcon } from '../../assets/images/bridge/new_trans_fee_icon.svg';
 import { ReactComponent as ProcessSuccess } from '../../assets/images/bridge/process_success.svg';
@@ -112,9 +113,10 @@ const DoneModal = (props) => {
                 </span>
               </div>
             </div>
-            <div className="loading-div">
+            {/* <div className="loading-div">
               <LoadingRing />
-            </div>
+            </div> */}
+            <div className={styles.completeSpinLoader}></div>
           </div>
         ) : (
           <div className={`border-tile success ${!openingFromHistory ? 'topToBottomFadeInAnimation-4' : ''}`}>
