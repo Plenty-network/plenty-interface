@@ -24,6 +24,8 @@ import wdaiLpFarm from '../assets/images/farms/wdaiLpFarm.png';
 import wusdtLpFarm from '../assets/images/farms/wusdtLpFarm.png';
 import ctez from '../assets/images/farms/ctez.png';
 import tez from '../assets/images/farms/tez.png';
+import cteztezlpFarm from '../assets/images/farms/ctez-tez.png';
+import ctezdogalpFarm from '../assets/images/farms/ctez-doga.png';
 import youLpFarm from '../assets/images/farms/youLpFarm.png';
 import ctezFarmLpIcon from '../assets/images/farms/ctezFarmLpIcon.png';
 import uUSDYOULp from '../assets/images/farms/uUSDYOULp.png';
@@ -156,7 +158,7 @@ export const FARMS_CARD_TYPE_LIST = {
     isDualFarm: false,
   },
   'CTEZ / DOGA LP': {
-    image: plentyXtz,
+    image: ctezdogalpFarm,
     harvestImg: plentyToken,
     multi: '100',
     title: 'CTEZ / DOGA LP',
@@ -618,7 +620,7 @@ export const FARMS_CARD_TYPE_LIST = {
     isDualFarm: true,
   },
   'CTEZ / TEZ Dual LP': {
-    image: gifDualLpFarm,
+    image: cteztezlpFarm,
     harvestImg: ctez,
     harvestImg1: tez,
     multi: '100',
