@@ -2165,7 +2165,7 @@ const Config: IConfig = {
           },
           DOGA: {
             contract: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
-            property: 'token2_pool',
+            property: 'token1_pool',
             liquidityToken: 'ctez-doga-lp',
           },
           PLENTY: {
@@ -2311,7 +2311,7 @@ const Config: IConfig = {
         DEX_PAIRS: {
           ctez: {
             contract: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
-            property: 'token1_pool',
+            property: 'token2_pool',
             liquidityToken: 'ctez-doga-lp',
           },
         },
