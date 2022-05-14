@@ -899,10 +899,9 @@ const Config: IConfig = {
         tokenId: 0,
       },
       'CTEZ - DOGA': {
-        // TODO: update details here
-        address: 'KT1X1LgNkQShpF9nRLYw3Dgdy4qp38MX617z',
-        mapId: 3956,
-        decimal: 6,
+        address: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
+        mapId: 171789,
+        decimal: 5,
         type: 'FA1.2',
         tokenId: 0,
       },
@@ -2165,8 +2164,7 @@ const Config: IConfig = {
             liquidityToken: 'ctez-XTZ-LP',
           },
           DOGA: {
-            // TODO: Update ctez-DOGA AMM & liquidity token
-            contract: 'KT1C9gJRfkpPbNdBn3XyYbrUHT6XgfPzZqXP',
+            contract: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
             property: 'token2_pool',
             liquidityToken: 'ctez-doga-lp',
           },
@@ -2312,8 +2310,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 5,
         DEX_PAIRS: {
           ctez: {
-            // must update ctez-doga contract & liquidity
-            contract: 'KT1LixgLzdK4nseeD6MmmVpokuw9CvpVX9KW',
+            contract: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
             property: 'token1_pool',
             liquidityToken: 'ctez-doga-lp',
           },
@@ -3063,13 +3060,12 @@ const Config: IConfig = {
         CALL_TYPE: 'FA1.2',
       },
       'ctez-doga-lp': {
-        // TODO: change to deployed contract
         ICON: '',
-        TOKEN_CONTRACT: 'KT1N93veCzepAPydFGGUhDFiA69PoawasxXi',
-        mapId: 46392,
+        TOKEN_CONTRACT: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
+        mapId: 171789,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
-        TOKEN_DECIMAL: 7,
+        TOKEN_DECIMAL: 5,
         CALL_TYPE: 'FA1.2',
       },
     },
