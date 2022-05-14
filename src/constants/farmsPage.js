@@ -160,7 +160,7 @@ export const FARMS_CARD_TYPE_LIST = {
     image: ctezdogalpFarm,
     harvestImg: plentyToken,
     multi: '100',
-    title: 'CTEZ / DOGA LP',
+    title: 'CTEZ / DOGA PNLP',
     apr: 0,
     apy: 0,
     earn: 'PLENTY',
