@@ -278,114 +278,120 @@ const getPriceForPlentyLpTokens = async (
       CONFIG.RPC_NODES[CONFIG.NETWORK] +
         `/chains/main/blocks/head/context/contracts/${dexAddress}/storage`,
     );
-    const token1Pool = parseInt(storageResponse.data.args[1].args[1].int);
-    // token1Pool = token1Pool / Math.pow(10, 12);
-    const token2Pool = parseInt(storageResponse.data.args[4].int);
-    const lpTokenTotalSupply = parseInt(storageResponse.data.args[5].int);
-
-    const token1Address = storageResponse.data.args[0].args[2].string.toString();
-    const token1Check = storageResponse.data.args[0].args[3].prim.toString();
-
-    const token2Address = storageResponse.data.args[1].args[2].string.toString();
-    const token2Id = parseInt(storageResponse.data.args[2].args[1].int);
-    const token2Check = storageResponse.data.args[2].args[0].prim.toString();
-
-    // const tokenPriceResponse = await axios.get(
-    //   'https://api.teztools.io/token/prices'
-    // );
-    // const tokenPricesData = tokenPriceResponse.data.contracts;
-    const tokenData = {};
-
-    if (token2Address === 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4') {
-      const ctezPriceInUSD = await getCtezPrice();
-      tokenData['token1'] = {
-        tokenName: 'ctez',
-        tokenValue: ctezPriceInUSD.ctezPriceInUSD,
-        tokenDecimal: 6,
-      };
-    }
-
-    let token1Type;
-    let token2Type;
-
-    if (token1Check.match('True')) {
-      token1Type = 'fa2';
+    if (identifier === 'CTEZ - TEZ') {
+      // do remodelling changes for ctez-tez
     } else {
-      token1Type = 'fa1.2';
-    }
+      const token1Pool = parseInt(storageResponse.data.args[1].args[1].int);
+      // token1Pool = token1Pool / Math.pow(10, 12);
+      const token2Pool = parseInt(storageResponse.data.args[4].int);
+      const lpTokenTotalSupply = parseInt(storageResponse.data.args[5].int);
 
-    if (token2Check.match('True')) {
-      token2Type = 'fa2';
-    } else {
-      token2Type = 'fa1.2';
-    }
+      const token1Address = storageResponse.data.args[0].args[2].string.toString();
+      const token1Check = storageResponse.data.args[0].args[3].prim.toString();
 
-    for (const i in tokenPricesData) {
-      if (
-        tokenPricesData[i].tokenAddress === token1Address &&
-        tokenPricesData[i].type === token1Type &&
-        tokenPricesData[i].symbol !== 'uBTC'
-      ) {
-        tokenData['token0'] = {
-          tokenName: tokenPricesData[i].symbol,
-          tokenValue: tokenPricesData[i].usdValue,
-          tokenDecimal: tokenPricesData[i].decimals,
+      const token2Address = storageResponse.data.args[1].args[2].string.toString();
+      const token2Id = parseInt(storageResponse.data.args[2].args[1].int);
+      const token2Check = storageResponse.data.args[2].args[0].prim.toString();
+
+      // const tokenPriceResponse = await axios.get(
+      //   'https://api.teztools.io/token/prices'
+      // );
+      // const tokenPricesData = tokenPriceResponse.data.contracts;
+
+      const tokenData = {};
+
+      if (token2Address === 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4') {
+        const ctezPriceInUSD = await getCtezPrice();
+        tokenData['token1'] = {
+          tokenName: 'ctez',
+          tokenValue: ctezPriceInUSD.ctezPriceInUSD,
+          tokenDecimal: 6,
         };
       }
 
-      // if (
-      //   tokenPricesData[i].tokenAddress === token2Address &&
-      //   tokenPricesData[i].type === token2Type &&
-      //   tokenPricesData[i].tokenId === token2Id &&
-      //   tokenPricesData[i].tokenId === token2Id
-      // ) {
-      //   tokenData['token1'] = {
-      //     tokenName: tokenPricesData[i].symbol,
-      //     tokenValue: tokenPricesData[i].usdValue,
-      //     tokenDecimal: tokenPricesData[i].decimals,
-      //   };
-      // }
+      let token1Type;
+      let token2Type;
 
-      if (token2Type === 'fa2') {
+      if (token1Check.match('True')) {
+        token1Type = 'fa2';
+      } else {
+        token1Type = 'fa1.2';
+      }
+
+      if (token2Check.match('True')) {
+        token2Type = 'fa2';
+      } else {
+        token2Type = 'fa1.2';
+      }
+
+      for (const i in tokenPricesData) {
         if (
-          tokenPricesData[i].tokenAddress === token2Address &&
-          tokenPricesData[i].type === token2Type &&
-          tokenPricesData[i].tokenId === token2Id
+          tokenPricesData[i].tokenAddress === token1Address &&
+          tokenPricesData[i].type === token1Type &&
+          tokenPricesData[i].symbol !== 'uBTC'
         ) {
-          tokenData['token1'] = {
+          tokenData['token0'] = {
             tokenName: tokenPricesData[i].symbol,
             tokenValue: tokenPricesData[i].usdValue,
             tokenDecimal: tokenPricesData[i].decimals,
           };
         }
-      } else if (token2Type === 'fa1.2') {
-        if (
-          tokenPricesData[i].tokenAddress === token2Address &&
-          tokenPricesData[i].type === token2Type
-        ) {
-          tokenData['token1'] = {
-            tokenName: tokenPricesData[i].symbol,
-            tokenValue: tokenPricesData[i].usdValue,
-            tokenDecimal: tokenPricesData[i].decimals,
-          };
+
+        // if (
+        //   tokenPricesData[i].tokenAddress === token2Address &&
+        //   tokenPricesData[i].type === token2Type &&
+        //   tokenPricesData[i].tokenId === token2Id &&
+        //   tokenPricesData[i].tokenId === token2Id
+        // ) {
+        //   tokenData['token1'] = {
+        //     tokenName: tokenPricesData[i].symbol,
+        //     tokenValue: tokenPricesData[i].usdValue,
+        //     tokenDecimal: tokenPricesData[i].decimals,
+        //   };
+        // }
+
+        if (token2Type === 'fa2') {
+          if (
+            tokenPricesData[i].tokenAddress === token2Address &&
+            tokenPricesData[i].type === token2Type &&
+            tokenPricesData[i].tokenId === token2Id
+          ) {
+            tokenData['token1'] = {
+              tokenName: tokenPricesData[i].symbol,
+              tokenValue: tokenPricesData[i].usdValue,
+              tokenDecimal: tokenPricesData[i].decimals,
+            };
+          }
+        } else if (token2Type === 'fa1.2') {
+          if (
+            tokenPricesData[i].tokenAddress === token2Address &&
+            tokenPricesData[i].type === token2Type
+          ) {
+            tokenData['token1'] = {
+              tokenName: tokenPricesData[i].symbol,
+              tokenValue: tokenPricesData[i].usdValue,
+              tokenDecimal: tokenPricesData[i].decimals,
+            };
+          }
         }
       }
-    }
-    let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
-    token1Amount =
-      (token1Amount * tokenData['token0'].tokenValue) /
-      Math.pow(10, tokenData['token0'].tokenDecimal);
+      let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
+      token1Amount =
+        (token1Amount * tokenData['token0'].tokenValue) /
+        Math.pow(10, tokenData['token0'].tokenDecimal);
 
-    let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
-    token2Amount =
-      (token2Amount * tokenData['token1'].tokenValue) /
-      Math.pow(10, tokenData['token1'].tokenDecimal);
-    const totalAmount = (token1Amount + token2Amount).toFixed(2);
-    return {
-      success: true,
-      identifier,
-      totalAmount,
-    };
+      let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
+      token2Amount =
+        (token2Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
+      const totalAmount = (token1Amount + token2Amount).toFixed(2);
+
+      return {
+        success: true,
+        identifier,
+        totalAmount,
+      };
+    }
   } catch (error) {
     return {
       success: false,
@@ -505,6 +511,7 @@ export const getFarmsDataAPI = async (isActive) => {
       }
     }
     const response = await Promise.all(dexPromises);
+
     const lpPricesInUsd = {};
     for (const i in response) {
       // Condition for PLP token
@@ -516,6 +523,7 @@ export const getFarmsDataAPI = async (isActive) => {
         lpPricesInUsd[response[i].identifier] = response[i].totalAmount;
       }
     }
+
     for (const key in CONFIG.FARMS[CONFIG.NETWORK]) {
       for (const i in CONFIG.FARMS[CONFIG.NETWORK][key][
         isActive === true ? 'active' : 'inactive'
