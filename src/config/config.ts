@@ -410,7 +410,7 @@ const Config: IConfig = {
               mapId: 171752,
               //check these data
               decimal: 6,
-              tokenDecimal: 13,
+              tokenDecimal: 6,
               dualInfo: {
                 tokenFirst: {
                   symbol: 'PLENTY',
@@ -423,8 +423,8 @@ const Config: IConfig = {
                 },
                 tokenSecond: {
                   symbol: 'TEZ',
-                  tokenContract: 'KT1XTxpQvo7oRCqp85LikEZgAZ22uDxhbWJv',
-                  tokenDecimal: 9,
+                  tokenContract: '',
+                  tokenDecimal: 6,
                   tokenType: 'XTZ',
                   tokenId: 0,
                   rewardContract: 'KT1PxZCPGoxukDXq1smJcmQcLiadTB6czjCY',
@@ -3866,8 +3866,9 @@ const Config: IConfig = {
               },
               tokenSecond: {
                 symbol: 'TEZ',
-                tokenContract: 'KT1XTxpQvo7oRCqp85LikEZgAZ22uDxhbWJv',
-                tokenDecimal: 9,
+                // check if it is throwing errors
+                tokenContract: '',
+                tokenDecimal: 6,
                 tokenType: 'XTZ',
                 tokenId: 0,
                 rewardContract: 'KT1PxZCPGoxukDXq1smJcmQcLiadTB6czjCY',
