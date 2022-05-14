@@ -161,17 +161,17 @@ const Config: IConfig = {
             },
           ],
         },
-        'CTEZ - DOGA': {
-          active: [
-            {
-              address: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
-              mapId: 171836,
-              decimal: 18,
-              tokenDecimal: 5,
-            },
-          ],
-          inactive: [],
-        },
+        // 'CTEZ - DOGA': {
+        //   active: [
+        //     {
+        //       address: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
+        //       mapId: 171836,
+        //       decimal: 18,
+        //       tokenDecimal: 5,
+        //     },
+        //   ],
+        //   inactive: [],
+        // },
         'KALAM - XTZ': {
           active: [],
           inactive: [
@@ -896,13 +896,13 @@ const Config: IConfig = {
         type: 'FA1.2',
         tokenId: 0,
       },
-      'CTEZ - DOGA': {
-        address: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
-        mapId: 171789,
-        decimal: 5,
-        type: 'FA1.2',
-        tokenId: 0,
-      },
+      // 'CTEZ - DOGA': {
+      //   address: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
+      //   mapId: 171789,
+      //   decimal: 5,
+      //   type: 'FA1.2',
+      //   tokenId: 0,
+      // },
       'KALAM - XTZ': {
         address: 'KT1J3wTYb4xk5BsSBkg6ML55bX1xq7desS34',
         mapId: 4353,
@@ -2161,11 +2161,11 @@ const Config: IConfig = {
             property: 'ctezPool',
             liquidityToken: 'ctez-XTZ-LP',
           },
-          DOGA: {
-            contract: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
-            property: 'token1_pool',
-            liquidityToken: 'ctez-doga-lp',
-          },
+          // DOGA: {
+          //   contract: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
+          //   property: 'token1_pool',
+          //   liquidityToken: 'ctez-doga-lp',
+          // },
           PLENTY: {
             contract: 'KT1C9gJRfkpPbNdBn3XyYbrUHT6XgfPzZqXP',
             property: 'token1_pool',
@@ -2298,22 +2298,22 @@ const Config: IConfig = {
           },
         },
       },
-      DOGA: {
-        ICON: '',
-        TOKEN_CONTRACT: 'KT1Ha4yFVeyzw6KRAdkzq6TxDHB97KG4pZe8',
-        mapId: 134335,
-        READ_TYPE: 'FA1.2',
-        CALL_TYPE: 'FA1.2',
-        TOKEN_ID: 0,
-        TOKEN_DECIMAL: 5,
-        DEX_PAIRS: {
-          ctez: {
-            contract: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
-            property: 'token2_pool',
-            liquidityToken: 'ctez-doga-lp',
-          },
-        },
-      },
+      // DOGA: {
+      //   ICON: '',
+      //   TOKEN_CONTRACT: 'KT1Ha4yFVeyzw6KRAdkzq6TxDHB97KG4pZe8',
+      //   mapId: 134335,
+      //   READ_TYPE: 'FA1.2',
+      //   CALL_TYPE: 'FA1.2',
+      //   TOKEN_ID: 0,
+      //   TOKEN_DECIMAL: 5,
+      //   DEX_PAIRS: {
+      //     ctez: {
+      //       contract: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
+      //       property: 'token2_pool',
+      //       liquidityToken: 'ctez-doga-lp',
+      //     },
+      //   },
+      // },
       PAUL: {
         ICON: '',
         TOKEN_CONTRACT: 'KT19DUSZw7mfeEATrbWVPHRrWNVbNnmfFAE6',
@@ -3057,15 +3057,15 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 7,
         CALL_TYPE: 'FA1.2',
       },
-      'ctez-doga-lp': {
-        ICON: '',
-        TOKEN_CONTRACT: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
-        mapId: 171789,
-        READ_TYPE: 'FA1.2',
-        TOKEN_ID: 0,
-        TOKEN_DECIMAL: 5,
-        CALL_TYPE: 'FA1.2',
-      },
+      // 'ctez-doga-lp': {
+      //   ICON: '',
+      //   TOKEN_CONTRACT: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
+      //   mapId: 171789,
+      //   READ_TYPE: 'FA1.2',
+      //   TOKEN_ID: 0,
+      //   TOKEN_DECIMAL: 5,
+      //   CALL_TYPE: 'FA1.2',
+      // },
     },
   },
   POOLS: {
@@ -3413,28 +3413,28 @@ const Config: IConfig = {
           },
         ],
       },
-      'CTEZ - DOGA': {
-        active: [
-          {
-            LP_TOKEN: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
-            CONTRACT: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
-            DEX: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
-            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'CTEZ / DOGA LP',
-            TOKEN_DECIMAL: 5,
-            TYPE: 'FA1.2',
-            LP_DECIMAL: 18,
-            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            DECIMAL: 18,
-            withdrawalFeeType: 'type2',
-            liquidityLink: '/liquidity/add?tokenA=ctez&tokenB=doga',
-            message: 'New farm',
-            bannerType: 'info',
-            isDualFarm: false,
-          },
-        ],
-        inactive: [],
-      },
+      // 'CTEZ - DOGA': {
+      //   active: [
+      //     {
+      //       LP_TOKEN: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
+      //       CONTRACT: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
+      //       DEX: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
+      //       TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       CARD_TYPE: 'CTEZ / DOGA LP',
+      //       TOKEN_DECIMAL: 5,
+      //       TYPE: 'FA1.2',
+      //       LP_DECIMAL: 18,
+      //       TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       DECIMAL: 18,
+      //       withdrawalFeeType: 'type2',
+      //       liquidityLink: '/liquidity/add?tokenA=ctez&tokenB=doga',
+      //       message: 'New farm',
+      //       bannerType: 'info',
+      //       isDualFarm: false,
+      //     },
+      //   ],
+      //   inactive: [],
+      // },
       'KALAM - XTZ': {
         active: [],
         inactive: [
