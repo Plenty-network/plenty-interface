@@ -407,7 +407,6 @@ const Config: IConfig = {
             {
               address: 'KT1WzUmmF98aQdpKnWigkg3SnJiL1s2Fj6QQ',
               mapId: 171752,
-              //check these data
               decimal: 6,
               tokenDecimal: 6,
               dualInfo: {
@@ -3429,6 +3428,8 @@ const Config: IConfig = {
             DECIMAL: 18,
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=ctez&tokenB=doga',
+            message: 'New farm',
+            bannerType: 'info',
             isDualFarm: false,
           },
         ],
@@ -3860,7 +3861,6 @@ const Config: IConfig = {
               },
               tokenSecond: {
                 symbol: 'TEZ',
-                // check if it is throwing errors
                 tokenContract: '',
                 tokenDecimal: 6,
                 tokenType: 'XTZ',
@@ -3875,9 +3875,10 @@ const Config: IConfig = {
             TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             DECIMAL: 18,
             withdrawalFeeType: 'type2',
-            bannerType: 'alert',
             liquidityLink: '/liquidity/add?tokenA=ctez&tokenB=tez',
             isDualFarm: true,
+            message: 'New farm',
+            bannerType: 'info',
           },
         ],
         inactive: [],

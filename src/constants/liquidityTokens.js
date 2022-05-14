@@ -211,6 +211,6 @@ export const liquidityTokens = [
   {
     name: 'DOGA',
     image: doga,
-    new: false,
+    new: true,
   },
 ];

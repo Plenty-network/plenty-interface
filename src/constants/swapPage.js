@@ -203,6 +203,6 @@ export const tokens = [
   {
     name: 'DOGA',
     image: doga,
-    new: false,
+    new: true,
   },
 ];
