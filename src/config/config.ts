@@ -162,13 +162,12 @@ const Config: IConfig = {
           ],
         },
         'CTEZ - DOGA': {
-          //TODO: update details here
           active: [
             {
-              address: 'KT1JQAZqShNMakSNXc2cgTzdAWZFemGcU6n1',
-              mapId: 4503,
+              address: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
+              mapId: 171836,
               decimal: 18,
-              tokenDecimal: 6,
+              tokenDecimal: 5,
             },
           ],
           inactive: [],
@@ -3416,15 +3415,14 @@ const Config: IConfig = {
         ],
       },
       'CTEZ - DOGA': {
-        // TODO :update farm contract details
         active: [
           {
-            LP_TOKEN: 'KT1X1LgNkQShpF9nRLYw3Dgdy4qp38MX617z',
-            CONTRACT: 'KT1JQAZqShNMakSNXc2cgTzdAWZFemGcU6n1',
-            DEX: 'KT1X1LgNkQShpF9nRLYw3Dgdy4qp38MX617z',
+            LP_TOKEN: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
+            CONTRACT: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
+            DEX: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             CARD_TYPE: 'CTEZ / DOGA LP',
-            TOKEN_DECIMAL: 6,
+            TOKEN_DECIMAL: 5,
             TYPE: 'FA1.2',
             LP_DECIMAL: 18,
             TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
