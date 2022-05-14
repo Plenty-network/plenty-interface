@@ -30,6 +30,7 @@ import INSTA from '../assets/images/INSTA.png';
 import kDAO from '../assets/images/kDAO.png';
 import PXL from '../assets/images/PXL.png';
 import PAUL from '../assets/images/PAUL.png';
+import doga from '../assets/images/doga.png';
 export const liquidityTokens = [
   {
     name: 'tez',
@@ -209,7 +210,7 @@ export const liquidityTokens = [
   },
   {
     name: 'DOGA',
-    image: youGov,
+    image: doga,
     new: false,
   },
 ];
