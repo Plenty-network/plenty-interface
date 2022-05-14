@@ -22,7 +22,6 @@ import gifDualLpFarm from '../assets/images/plenty-gif-dual-lp.png';
 import gifIcon from '../assets/images/gif-dao-token.png';
 import wdaiLpFarm from '../assets/images/farms/wdaiLpFarm.png';
 import wusdtLpFarm from '../assets/images/farms/wusdtLpFarm.png';
-import ctez from '../assets/images/farms/ctez.png';
 import tez from '../assets/images/farms/tez.png';
 import cteztezlpFarm from '../assets/images/farms/ctez-tez.png';
 import ctezdogalpFarm from '../assets/images/farms/ctez-doga.png';
@@ -619,19 +618,19 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
     isDualFarm: true,
   },
-  'CTEZ / TEZ Dual LP': {
+  'CTEZ / TEZ Dual PNLP': {
     image: cteztezlpFarm,
-    harvestImg: ctez,
+    harvestImg: plentyToken,
     harvestImg1: tez,
     multi: '100',
-    title: 'CTEZ / TEZ LP',
+    title: 'CTEZ / TEZ PNLP',
     apr: 0,
-    apy: '2621',
+    apy: 0,
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
     deposit: 'CTEZ / TEZ Dual LP',
-    liquidity: '5000',
+    liquidity: 0,
     withdrawalFee: '0%',
     balance: 0,
     userBalance: 0,
