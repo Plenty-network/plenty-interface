@@ -489,7 +489,8 @@ export const getFarmsDataAPI = async (isActive) => {
           key === 'CTEZ - PAUL' ||
           key === 'CTEZ - INSTA' ||
           key === 'CTEZ - CRUNCH' ||
-          key === 'CTEZ - TEZ'
+          key === 'CTEZ - TEZ' ||
+          key === 'CTEZ - DOGA'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(
