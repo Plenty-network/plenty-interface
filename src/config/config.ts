@@ -855,6 +855,13 @@ const Config: IConfig = {
         type: 'FA2',
         tokenId: 10,
       },
+      DOGA: {
+        address: 'KT1Ha4yFVeyzw6KRAdkzq6TxDHB97KG4pZe8',
+        mapId: 134335,
+        decimal: 5,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
       USDtz: {
         address: 'KT1LN4LPSqTMS7Sd2CJw4bbDGRkMv2t68Fy9',
         mapId: 36,
@@ -1268,6 +1275,14 @@ const Config: IConfig = {
         type: 'FA1.2',
         tokenId: 0,
       },
+      // add lp here
+      'ctez - DOGA': {
+        address: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
+        mapId: 171789,
+        decimal: 5,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
       // PlentywUSDTlp: {
       //   ICON: '',
       //   TOKEN_CONTRACT: 'KT1PcM1LUqgVdkXqKvZ4CeC9aiwLgYYCEHMH',
@@ -1291,7 +1306,7 @@ const Config: IConfig = {
   },
   ROUTER: {
     // KT1QzuJg2dJZVSoDf56BmvPGMduWzjYggkf5
-    mainnet: 'KT1VDJiD3JRUsTjcpPhHmTioBB7iMhVpoi7b',
+    mainnet: 'KT1MEVCrGRCsoERXf6ahNLC4ik6J2vRH7Mm6',
     testnet: 'KT1FMZVMeyCrNFyGjJfiB6VSq3LX1ShSEzuw',
   },
   STABLESWAP: {
@@ -2164,7 +2179,7 @@ const Config: IConfig = {
           },
           DOGA: {
             contract: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
-            property: 'token1_pool',
+            property: 'token2_pool',
             liquidityToken: 'ctez-doga-lp',
           },
           PLENTY: {
@@ -2310,7 +2325,7 @@ const Config: IConfig = {
         DEX_PAIRS: {
           ctez: {
             contract: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
-            property: 'token2_pool',
+            property: 'token1_pool',
             liquidityToken: 'ctez-doga-lp',
           },
         },

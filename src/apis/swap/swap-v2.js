@@ -11,6 +11,7 @@ import { isTokenPairStable } from '../Liquidity/Liquidity';
  * @param tokenOut - token which user wants to get, case-sensitive to CONFIG
  */
 export const loadSwapData = async (tokenIn, tokenOut) => {
+  console.log(tokenIn,tokenOut);
   try {
     if ((tokenIn === 'ctez' && tokenOut === 'tez') || (tokenIn === 'tez' && tokenOut === 'ctez')) {
       const connectedNetwork = CONFIG.NETWORK;
@@ -55,7 +56,59 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
         lpToken,
         target,
       };
-    } else {
+    } else if ((tokenIn === 'ctez' && tokenOut === 'DOGA') || (tokenIn === 'DOGA' && tokenOut === 'ctez')){
+
+      const connectedNetwork = CONFIG.NETWORK;
+      const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+      const dexContractAddress =
+        CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
+
+      const Tezos = new TezosToolkit(rpcNode);
+      const dexContractInstance = await Tezos.contract.at(dexContractAddress);
+      const dexStorage = await dexContractInstance.storage();
+      // token1 == doga
+      // token2 == ctez
+
+      const lpFee = await dexStorage.lpFee;
+      const token1_pool = await dexStorage.token1_pool;
+      const token2_pool = await dexStorage.token2_pool;
+      let lpTokenSupply = await dexStorage.totalSupply;
+      const lpToken = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
+      let tokenIn_supply = 0;
+      let tokenOut_supply = 0;
+      if (CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].property === 'token2_pool') {
+        tokenOut_supply = token2_pool;
+        tokenIn_supply = token1_pool;
+      } else {
+        tokenOut_supply = token1_pool;
+        tokenIn_supply = token2_pool;
+      }
+
+      const tokenIn_Decimal = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL;
+      const tokenOut_Decimal = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_DECIMAL;
+      const liquidityToken_Decimal =
+        CONFIG.AMM[connectedNetwork][
+          CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken
+        ].TOKEN_DECIMAL;
+      tokenIn_supply = tokenIn_supply / Math.pow(10, tokenIn_Decimal);
+      tokenOut_supply = tokenOut_supply / Math.pow(10, tokenOut_Decimal);
+      lpTokenSupply = lpTokenSupply / Math.pow(10, liquidityToken_Decimal);
+      const exchangeFee = 1 / lpFee;
+      const tokenOutPerTokenIn = tokenOut_supply / tokenIn_supply;
+      return {
+        success: true,
+        tokenIn,
+        tokenIn_supply,
+        tokenOut,
+        tokenOut_supply,
+        exchangeFee,
+        tokenOutPerTokenIn,
+        lpTokenSupply,
+        lpToken,
+      };
+    }
+    
+    else {
       const connectedNetwork = CONFIG.NETWORK;
       const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
 
@@ -64,6 +117,7 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
       const storageResponse = await axios.get(
         `${rpcNode}chains/main/blocks/head/context/contracts/${dexContractAddress}/storage`,
       );
+
       const systemFee = storageResponse.data.args[0].args[1].args[1].int;
       const lpFee = storageResponse.data.args[0].args[0].args[0].args[1].int;
       const token1_pool = storageResponse.data.args[1].args[1].int;
@@ -320,6 +374,7 @@ export const getAllRoutes = async (tokenIn, tokenOut) => {
         bestRoute.path = routeDataResponses[i].path;
       }
     }
+    console.log(routeDataResponses);
     return {
       success: true,
       bestRouteUntilNoInput: bestRoute,
@@ -416,7 +471,7 @@ const computeTokenOutForRouteBaseV2Base = (inputAmount, swapData, slippage) => {
     finalAmount: 0,
     priceImpact: 0,
   };
-
+  console.log(swapData);
   try {
     const data = swapData.reduce(
       (acc, cur) => {
@@ -450,7 +505,7 @@ const computeTokenOutForRouteBaseV2Base = (inputAmount, swapData, slippage) => {
         priceImpact: 0,
       },
     );
-
+    console.log(data);
     return {
       success: true,
       data,
