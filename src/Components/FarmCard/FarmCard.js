@@ -130,7 +130,11 @@ const FarmCard = (props) => {
             <div className="text-right">
               <p className={styles.title}>{properties.title}</p>
               <a
-                href={`/liquidity?tokenA=${tokens[0]}&tokenB=${tokens[1]}`}
+                href={
+                  tokens[1] === 'TEZ' && tokens[0] === 'CTEZ'
+                    ? '/liquidity?tokenA=tez'
+                    : `/liquidity?tokenA=${tokens[0]}&tokenB=${tokens[1]}`
+                }
                 target="_blank"
                 className={clsx(
                   styles.titleBadge,
