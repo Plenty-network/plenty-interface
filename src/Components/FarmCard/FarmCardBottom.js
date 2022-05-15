@@ -266,16 +266,28 @@ const FarmCardBottom = (props) => {
 
             <div className={'w-50 text-center'}>
               <div>Withdrawal Fee</div>
-              <Button
-                size="small"
-                color="mute"
-                startIcon="help_outline"
-                className="mt-1 ml-auto mr-auto"
-                rounded={false}
-                onClick={onWithdrawalFeeClick}
-              >
-                Variable
-              </Button>
+              {props.farmCardData.identifier === 'CTEZ - TEZ' ? (
+                <Button
+                  size="small"
+                  color="mute"
+                  startIcon="help_outline"
+                  className="mt-1 ml-auto mr-auto"
+                  rounded={false}
+                >
+                  0 %
+                </Button>
+              ) : (
+                <Button
+                  size="small"
+                  color="mute"
+                  startIcon="help_outline"
+                  className="mt-1 ml-auto mr-auto"
+                  rounded={false}
+                  onClick={onWithdrawalFeeClick}
+                >
+                  Variable
+                </Button>
+              )}
             </div>
           </div>
 
