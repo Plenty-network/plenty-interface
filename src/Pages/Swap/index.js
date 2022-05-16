@@ -163,7 +163,6 @@ const Swap = (props) => {
 
   const handleClose = () => {
     setShow(false);
-    //setLoader(false);
     resetAllValues();
     setShowConfirmSwap(false);
     setShowConfirmTransaction(false);

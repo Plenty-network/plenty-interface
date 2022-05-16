@@ -267,15 +267,28 @@ const FarmCardBottom = (props) => {
             <div className={'w-50 text-center'}>
               <div>Withdrawal Fee</div>
               {props.farmCardData.identifier === 'CTEZ - TEZ' ? (
-                <Button
-                  size="small"
-                  color="mute"
-                  startIcon="help_outline"
-                  className="mt-1 ml-auto mr-auto"
-                  rounded={false}
+                <OverlayTrigger
+                  key="top"
+                  placement="top"
+                  overlay={
+                    <Tooltip
+                      id={'deposit-fee-tooltip'}
+                      arrowProps={{ styles: { display: 'none' } }}
+                    >
+                      No Withdrawal Fee
+                    </Tooltip>
+                  }
                 >
-                  0 %
-                </Button>
+                  <Button
+                    size="small"
+                    color="mute"
+                    startIcon="help_outline"
+                    className="mt-1 ml-auto mr-auto"
+                    rounded={false}
+                  >
+                    0 %{' '}
+                  </Button>
+                </OverlayTrigger>
               ) : (
                 <Button
                   size="small"
