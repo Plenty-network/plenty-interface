@@ -23,19 +23,17 @@ const fetchStorageForDualStakingContract = async (
   tokenPricesData,
 ) => {
   try {
-
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
 
     let tokenFirstPrice = 0;
     let tokenSecondPrice = 0;
 
-    if(identifier === 'CTEZ - TEZ'){
-
+    if (identifier === 'CTEZ - TEZ') {
       for (const i in tokenPricesData) {
         if (
-            tokenPricesData[i].symbol === dualInfo.tokenFirst.symbol &&
-            tokenPricesData[i].tokenAddress === dualInfo.tokenFirst.tokenContract
+          tokenPricesData[i].symbol === dualInfo.tokenFirst.symbol &&
+          tokenPricesData[i].tokenAddress === dualInfo.tokenFirst.tokenContract
         ) {
           tokenFirstPrice = tokenPricesData[i].usdValue;
         }
@@ -66,26 +64,24 @@ const fetchStorageForDualStakingContract = async (
       rewardRateFirst = (rewardRateFirst / Math.pow(10, 18)).toFixed(3);
 
       let rewardRateSecond = secondResponse[1].data.args[3].int;
-      rewardRateSecond = (rewardRateSecond / Math.pow(10, 18)).toFixed(
-          3,
-      );
+      rewardRateSecond = (rewardRateSecond / Math.pow(10, 18)).toFixed(3);
 
-      rewardRateSecond = 0 ;
+      rewardRateSecond = 0;
 
       const APRFirst =
-          (rewardRateFirst * 1051200 * tokenFirstPrice) / (totalSupply * priceOfStakeTokenInUsd);
+        (rewardRateFirst * 1051200 * tokenFirstPrice) / (totalSupply * priceOfStakeTokenInUsd);
 
       const APRSecond =
-          (rewardRateSecond * 1051200 * tokenSecondPrice) / (totalSupply * priceOfStakeTokenInUsd);
+        (rewardRateSecond * 1051200 * tokenSecondPrice) / (totalSupply * priceOfStakeTokenInUsd);
 
       let APR = APRFirst + APRSecond;
       APR = APR * 100;
 
       const DPYFirst =
-          (rewardRateFirst * 2880 * tokenFirstPrice) / (totalSupply * priceOfStakeTokenInUsd);
+        (rewardRateFirst * 2880 * tokenFirstPrice) / (totalSupply * priceOfStakeTokenInUsd);
 
       const DPYSecond =
-          (rewardRateSecond * 2880 * tokenSecondPrice) / (totalSupply * priceOfStakeTokenInUsd);
+        (rewardRateSecond * 2880 * tokenSecondPrice) / (totalSupply * priceOfStakeTokenInUsd);
       // Add two DPY's to show cumulative DPY
       let DPY = DPYFirst + DPYSecond;
       DPY = DPY * 100;
@@ -113,19 +109,16 @@ const fetchStorageForDualStakingContract = async (
         rewardRate: [rewardRateFirst, rewardRateSecond],
         tokens: [dualInfo.tokenFirst.symbol, dualInfo.tokenSecond.symbol],
       };
-
-    }
-    else{
-
+    } else {
       for (const i in tokenPricesData) {
         if (
-            tokenPricesData[i].symbol === dualInfo.tokenFirst.symbol &&
-            tokenPricesData[i].tokenAddress === dualInfo.tokenFirst.tokenContract
+          tokenPricesData[i].symbol === dualInfo.tokenFirst.symbol &&
+          tokenPricesData[i].tokenAddress === dualInfo.tokenFirst.tokenContract
         ) {
           tokenFirstPrice = tokenPricesData[i].usdValue;
         } else if (
-            tokenPricesData[i].symbol === dualInfo.tokenSecond.symbol &&
-            tokenPricesData[i].tokenAddress === dualInfo.tokenSecond.tokenContract
+          tokenPricesData[i].symbol === dualInfo.tokenSecond.symbol &&
+          tokenPricesData[i].tokenAddress === dualInfo.tokenSecond.tokenContract
         ) {
           tokenSecondPrice = tokenPricesData[i].usdValue;
         }
@@ -142,26 +135,28 @@ const fetchStorageForDualStakingContract = async (
       totalSupply = (totalSupply / Math.pow(10, 18)).toFixed(2);
 
       let rewardRateFirst = response[0].data.args[1].args[2].int;
-      rewardRateFirst = (rewardRateFirst / Math.pow(10, dualInfo.tokenFirst.tokenDecimal)).toFixed(3);
-      let rewardRateSecond = response[1].data.args[1].args[2].int;
-      rewardRateSecond = (rewardRateSecond / Math.pow(10, dualInfo.tokenSecond.tokenDecimal)).toFixed(
-          3,
+      rewardRateFirst = (rewardRateFirst / Math.pow(10, dualInfo.tokenFirst.tokenDecimal)).toFixed(
+        3,
       );
+      let rewardRateSecond = response[1].data.args[1].args[2].int;
+      rewardRateSecond = (
+        rewardRateSecond / Math.pow(10, dualInfo.tokenSecond.tokenDecimal)
+      ).toFixed(3);
 
       const APRFirst =
-          (rewardRateFirst * 1051200 * tokenFirstPrice) / (totalSupply * priceOfStakeTokenInUsd);
+        (rewardRateFirst * 1051200 * tokenFirstPrice) / (totalSupply * priceOfStakeTokenInUsd);
 
       const APRSecond =
-          (rewardRateSecond * 1051200 * tokenSecondPrice) / (totalSupply * priceOfStakeTokenInUsd);
+        (rewardRateSecond * 1051200 * tokenSecondPrice) / (totalSupply * priceOfStakeTokenInUsd);
       // Add two APR's to show cumulative APR
       let APR = APRFirst + APRSecond;
       APR = APR * 100;
 
       const DPYFirst =
-          (rewardRateFirst * 2880 * tokenFirstPrice) / (totalSupply * priceOfStakeTokenInUsd);
+        (rewardRateFirst * 2880 * tokenFirstPrice) / (totalSupply * priceOfStakeTokenInUsd);
 
       const DPYSecond =
-          (rewardRateSecond * 2880 * tokenSecondPrice) / (totalSupply * priceOfStakeTokenInUsd);
+        (rewardRateSecond * 2880 * tokenSecondPrice) / (totalSupply * priceOfStakeTokenInUsd);
       // Add two DPY's to show cumulative DPY
       let DPY = DPYFirst + DPYSecond;
       DPY = DPY * 100;
@@ -189,9 +184,7 @@ const fetchStorageForDualStakingContract = async (
         rewardRate: [rewardRateFirst, rewardRateSecond],
         tokens: [dualInfo.tokenFirst.symbol, dualInfo.tokenSecond.symbol],
       };
-
     }
-
   } catch (error) {
     console.log({ message: 'Dual Storage error', error });
     return {
@@ -222,7 +215,6 @@ const fetchStorageOfStakingContract = async (
   priceOfPlentyInUSD,
 ) => {
   try {
-
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const url = `${rpcNode}chains/main/blocks/head/context/contracts/${address}/storage`;
@@ -373,7 +365,6 @@ const getPriceForPlentyLpTokens = async (
         `/chains/main/blocks/head/context/contracts/${dexAddress}/storage`,
     );
     if (identifier === 'CTEZ - TEZ') {
-
       // do remodelling changes for ctez-tez
       // token1 - tez, token2 - ctez
 
@@ -399,9 +390,7 @@ const getPriceForPlentyLpTokens = async (
       token1Amount = (token1Amount * xtzPrice) / Math.pow(10, 6);
 
       let token2Amount = (Math.pow(10, 6) * token2Pool) / lpTokenTotalSupply;
-      token2Amount =
-          (token2Amount * ctezPriceInUSD.ctezPriceInUSD) /
-          Math.pow(10, 6);
+      token2Amount = (token2Amount * ctezPriceInUSD.ctezPriceInUSD) / Math.pow(10, 6);
 
       const totalAmount = (token1Amount + token2Amount).toFixed(2);
 
@@ -410,15 +399,14 @@ const getPriceForPlentyLpTokens = async (
         identifier,
         totalAmount,
       };
-    } else if(identifier === 'CTEZ - DOGA'){
-
+    } else if (identifier === 'CTEZ - DOGA') {
       const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
       // token1Pool = token1Pool / Math.pow(10, 12);
       const token2Pool = parseInt(storageResponse.data.args[3].int);
       const lpTokenTotalSupply = parseInt(storageResponse.data.args[4].int);
 
       const token1Address = 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4';
-      const token1Check = 'False';
+      //const token1Check = 'False';
 
       const token2Address = 'KT1Ha4yFVeyzw6KRAdkzq6TxDHB97KG4pZe8';
       const token2Id = 0;
@@ -435,14 +423,14 @@ const getPriceForPlentyLpTokens = async (
         };
       }
 
-      let token1Type;
+      //let token1Type;
       let token2Type;
 
-      if (token1Check.match('True')) {
-        token1Type = 'fa2';
-      } else {
-        token1Type = 'fa1.2';
-      }
+      // if (token1Check.match('True')) {
+      //   token1Type = 'fa2';
+      // } else {
+      //   token1Type = 'fa1.2';
+      // }
 
       if (token2Check.match('True')) {
         token2Type = 'fa2';
@@ -451,12 +439,11 @@ const getPriceForPlentyLpTokens = async (
       }
 
       for (const i in tokenPricesData) {
-
         if (token2Type === 'fa2') {
           if (
-              tokenPricesData[i].tokenAddress === token2Address &&
-              tokenPricesData[i].type === token2Type &&
-              tokenPricesData[i].tokenId === token2Id
+            tokenPricesData[i].tokenAddress === token2Address &&
+            tokenPricesData[i].type === token2Type &&
+            tokenPricesData[i].tokenId === token2Id
           ) {
             tokenData['token2'] = {
               tokenName: tokenPricesData[i].symbol,
@@ -466,8 +453,8 @@ const getPriceForPlentyLpTokens = async (
           }
         } else if (token2Type === 'fa1.2') {
           if (
-              tokenPricesData[i].tokenAddress === token2Address &&
-              tokenPricesData[i].type === token2Type
+            tokenPricesData[i].tokenAddress === token2Address &&
+            tokenPricesData[i].type === token2Type
           ) {
             tokenData['token2'] = {
               tokenName: tokenPricesData[i].symbol,
@@ -480,13 +467,13 @@ const getPriceForPlentyLpTokens = async (
 
       let token1Amount = (Math.pow(10, 5) * token1Pool) / lpTokenTotalSupply;
       token1Amount =
-          (token1Amount * tokenData['token2'].tokenValue) /
-          Math.pow(10, tokenData['token2'].tokenDecimal);
+        (token1Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
 
       let token2Amount = (Math.pow(10, 6) * token2Pool) / lpTokenTotalSupply;
       token2Amount =
-          (token2Amount * tokenData['token1'].tokenValue) /
-          Math.pow(10, tokenData['token1'].tokenDecimal);
+        (token2Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
       const totalAmount = (token1Amount + token2Amount).toFixed(2);
 
       return {
@@ -494,9 +481,7 @@ const getPriceForPlentyLpTokens = async (
         identifier,
         totalAmount,
       };
-    }
-    else {
-
+    } else {
       const token1Pool = parseInt(storageResponse.data.args[1].args[1].int);
       // token1Pool = token1Pool / Math.pow(10, 12);
       const token2Pool = parseInt(storageResponse.data.args[4].int);
@@ -999,16 +984,18 @@ export const unstakeAPI = async (
       );
       let amount;
 
-      if(farmIdentifier === 'CTEZ - TEZ'){
-          amount = stakesToUnstake[0].amount *
-              Math.pow(
-                  10,
-                  CONFIG.FARMS[connectedNetwork][farmIdentifier][
-                      isActive === true ? 'active' : 'inactive'
-                      ][position].TOKEN_DECIMAL,
-              );
-        const batch = await Tezos.wallet.batch()
-            .withContractCall(contractInstance.methods.unstake(amount));
+      if (farmIdentifier === 'CTEZ - TEZ') {
+        amount =
+          stakesToUnstake[0].amount *
+          Math.pow(
+            10,
+            CONFIG.FARMS[connectedNetwork][farmIdentifier][
+              isActive === true ? 'active' : 'inactive'
+            ][position].TOKEN_DECIMAL,
+          );
+        const batch = await Tezos.wallet
+          .batch()
+          .withContractCall(contractInstance.methods.unstake(amount));
         const batchOperation = await batch.send();
         setShowConfirmTransaction(false);
         store.dispatch(unstakingOnFarmProcessing(batchOperation));
@@ -1017,17 +1004,16 @@ export const unstakeAPI = async (
           success: true,
           operationId: batchOperation.opHash,
         };
-      }
-      else{
+      } else {
         const unstakeBatch = stakesToUnstake.map((stake) => {
           amount =
-              stake.amount *
-              Math.pow(
-                  10,
-                  CONFIG.FARMS[connectedNetwork][farmIdentifier][
-                      isActive === true ? 'active' : 'inactive'
-                      ][position].TOKEN_DECIMAL,
-              );
+            stake.amount *
+            Math.pow(
+              10,
+              CONFIG.FARMS[connectedNetwork][farmIdentifier][
+                isActive === true ? 'active' : 'inactive'
+              ][position].TOKEN_DECIMAL,
+            );
           return {
             kind: OpKind.TRANSACTION,
             ...contractInstance.methods.unstake(amount, stake.mapId).toTransferParams(),
