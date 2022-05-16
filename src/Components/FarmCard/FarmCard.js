@@ -132,7 +132,7 @@ const FarmCard = (props) => {
               <a
                 href={
                   tokens[1] === 'TEZ' && tokens[0] === 'CTEZ'
-                    ? '/liquidity?tokenA=tez'
+                    ? '/liquidity?tokenA=tez&tokenB=ctez'
                     : `/liquidity?tokenA=${tokens[0]}&tokenB=${tokens[1]}`
                 }
                 target="_blank"
