@@ -11,7 +11,6 @@ import { isTokenPairStable } from '../Liquidity/Liquidity';
  * @param tokenOut - token which user wants to get, case-sensitive to CONFIG
  */
 export const loadSwapData = async (tokenIn, tokenOut) => {
-  console.log(tokenIn,tokenOut);
   try {
     if ((tokenIn === 'ctez' && tokenOut === 'tez') || (tokenIn === 'tez' && tokenOut === 'ctez')) {
       const connectedNetwork = CONFIG.NETWORK;
@@ -56,12 +55,13 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
         lpToken,
         target,
       };
-    } else if ((tokenIn === 'ctez' && tokenOut === 'DOGA') || (tokenIn === 'DOGA' && tokenOut === 'ctez')){
-
+    } else if (
+      (tokenIn === 'ctez' && tokenOut === 'DOGA') ||
+      (tokenIn === 'DOGA' && tokenOut === 'ctez')
+    ) {
       const connectedNetwork = CONFIG.NETWORK;
       const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
-      const dexContractAddress =
-        CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
+      const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
 
       const Tezos = new TezosToolkit(rpcNode);
       const dexContractInstance = await Tezos.contract.at(dexContractAddress);
@@ -106,9 +106,7 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
         lpTokenSupply,
         lpToken,
       };
-    }
-    
-    else {
+    } else {
       const connectedNetwork = CONFIG.NETWORK;
       const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
 
@@ -142,7 +140,7 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
       tokenIn_supply = tokenIn_supply / Math.pow(10, tokenIn_Decimal);
       tokenOut_supply = tokenOut_supply / Math.pow(10, tokenOut_Decimal);
       lpTokenSupply = lpTokenSupply / Math.pow(10, liquidityToken_Decimal);
-      const exchangeFee = (1 / lpFee) + (1 / systemFee);
+      const exchangeFee = 1 / lpFee + 1 / systemFee;
       const tokenOutPerTokenIn = tokenOut_supply / tokenIn_supply;
       return {
         success: true,
@@ -374,7 +372,7 @@ export const getAllRoutes = async (tokenIn, tokenOut) => {
         bestRoute.path = routeDataResponses[i].path;
       }
     }
-    console.log(routeDataResponses);
+
     return {
       success: true,
       bestRouteUntilNoInput: bestRoute,
@@ -426,7 +424,8 @@ const computeTokenOutputV2 = (
           parseInt(target),
           tokenIn,
         );
-      }}
+      }
+    }
     // } else if((tokenIn === 'ctez' && tokenOut === 'DOGA') || (tokenIn === 'DOGA' && tokenOut === 'ctez'))
     // {
     //   console.log(tokenIn_amount,
@@ -440,7 +439,7 @@ const computeTokenOutputV2 = (
 
     //     // token1 = doga
     //     // token 2 - ctez
-      
+
     //   let tokenIn_Decimal=0;
     //   let tokenOut_Decimal=0;
     //   if(tokenIn === 'CTEZ'){
@@ -463,7 +462,7 @@ const computeTokenOutputV2 = (
     //   requiredTokenAmount = tokenIn_supply;
     //         SwapTokenPool = tokenOut_supply;
     //   }
-    //   else{ 
+    //   else{
 
     //         requiredTokenAmount = tokenOut_supply;
     //         SwapTokenPool = tokenIn_supply;
@@ -478,8 +477,6 @@ const computeTokenOutputV2 = (
     //   tokenOut_amount = SwapTokenPool - invariant;
 
     //   tokenOut_amount /= (10 ** tokenOut_Decimal);
-
-
 
     //   // tokenOut_amount = (1 - exchangeFee) * tokenOut_supply * tokenIn_amount;
     //   // tokenOut_amount /= tokenIn_supply + (1 - exchangeFee) * tokenIn_amount;
@@ -503,20 +500,9 @@ const computeTokenOutputV2 = (
     //     priceImpact,
     //   };
 
-
-
     // }
     else {
-      console.log(tokenIn_amount,
-        tokenIn_supply,
-        tokenOut_supply,
-        exchangeFee,
-        slippage,
-        tokenIn,
-        tokenOut,
-        target,);
-
-        // WHY IS THIS CALC FAILING FOR CTEZ DOGA AND WORKING FOR OTHER PAIRS
+      // WHY IS THIS CALC FAILING FOR CTEZ DOGA AND WORKING FOR OTHER PAIRS
       let tokenOut_amount = 0;
       tokenOut_amount = (1 - exchangeFee) * tokenOut_supply * tokenIn_amount;
       tokenOut_amount /= tokenIn_supply + (1 - exchangeFee) * tokenIn_amount;
@@ -560,7 +546,7 @@ const computeTokenOutForRouteBaseV2Base = (inputAmount, swapData, slippage) => {
     finalAmount: 0,
     priceImpact: 0,
   };
-  console.log(swapData);
+
   try {
     const data = swapData.reduce(
       (acc, cur) => {
@@ -594,7 +580,7 @@ const computeTokenOutForRouteBaseV2Base = (inputAmount, swapData, slippage) => {
         priceImpact: 0,
       },
     );
-    console.log(data);
+
     return {
       success: true,
       data,
@@ -650,7 +636,7 @@ export const computeTokenOutForRouteBaseV2 = (input, allRoutes, slippage) => {
     bestRoute.isStableList = isStable;
     bestRoute.feeList = fee;
     bestRoute.maxFee = maxFee;
-    console.log(bestRoute);
+
     return {
       success: true,
       bestRoute,
@@ -801,7 +787,6 @@ export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, allRoutes
     bestRoute.feeList = fee;
     bestRoute.maxFee = maxFee;
 
-    console.log(bestRoute);
     return {
       success: true,
       bestRoute,

@@ -42,18 +42,15 @@ const getPackedKey = (tokenId, address, type) => {
  */
 const getStakedAmount = async (mapId, packedKey, identifier, decimal, address, tokenDecimal) => {
   try {
-
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
     const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
     const response = await axios.get(url);
 
-    if(identifier === 'CTEZ - TEZ'){
-
+    if (identifier === 'CTEZ - TEZ') {
       let balance = response.data.int;
       balance = parseInt(balance);
       balance = balance / Math.pow(10, decimal);
 
-      console.log(balance);
       const singularStakes = [];
 
       singularStakes.push({
@@ -68,8 +65,7 @@ const getStakedAmount = async (mapId, packedKey, identifier, decimal, address, t
         address,
         singularStakes,
       };
-    }
-    else{
+    } else {
       let balance = response.data.args[0].args[1].int;
       balance = parseInt(balance);
       balance = balance / Math.pow(10, decimal);
@@ -77,7 +73,7 @@ const getStakedAmount = async (mapId, packedKey, identifier, decimal, address, t
       for (let i = 0; i < response.data.args[0].args[0].length; i++) {
         let amount = parseInt(response.data.args[0].args[0][i].args[1].args[0].int);
         amount = parseFloat(
-            response.data.args[0].args[0][i].args[1].args[0].int / Math.pow(10, tokenDecimal),
+          response.data.args[0].args[0][i].args[1].args[0].int / Math.pow(10, tokenDecimal),
         );
         singularStakes.push({
           mapId: response.data.args[0].args[0][i].args[0].int,
@@ -93,7 +89,6 @@ const getStakedAmount = async (mapId, packedKey, identifier, decimal, address, t
         singularStakes,
       };
     }
-
   } catch (error) {
     return {
       success: false,
@@ -351,8 +346,7 @@ const calculateHarvestValueDualEntity = async (
   packedAddress,
 ) => {
   try {
-
-    if(stakingContractAddress === 'KT1PxZCPGoxukDXq1smJcmQcLiadTB6czjCY'){
+    if (stakingContractAddress === 'KT1PxZCPGoxukDXq1smJcmQcLiadTB6czjCY') {
       return {
         success: true,
         totalRewards: 0,
@@ -364,9 +358,7 @@ const calculateHarvestValueDualEntity = async (
     let url = `${rpcNode}chains/main/blocks/head/context/contracts/${stakingContractAddress}/storage`;
     const smartContractResponse = await axios.get(url);
 
-    if(stakingContractAddress === 'KT1QkadMTUTDxyNiTaz587ssPXFuwmWWQzDG'){
-
-      
+    if (stakingContractAddress === 'KT1QkadMTUTDxyNiTaz587ssPXFuwmWWQzDG') {
       const periodFinish = smartContractResponse.data.args[0].args[3].int;
 
       // TODO : periodFinish = lastUpdate time as of now if wrog pls swap
@@ -389,10 +381,6 @@ const calculateHarvestValueDualEntity = async (
 
       url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedAddress}`;
       const bigMapResponse = await axios.get(url);
-
-      console.log('yha run hori');
-      console.log(url);
-
       const userBalance = bigMapResponse.data.args[0].int;
       const userRewardPaid = bigMapResponse.data.args[2].int;
       const rewards = bigMapResponse.data.args[1].int;
@@ -409,9 +397,7 @@ const calculateHarvestValueDualEntity = async (
         totalRewards,
         address: stakingContractAddress,
       };
-
-    }else{
-
+    } else {
       const periodFinish = smartContractResponse.data.args[1].args[0].int;
 
       const lastUpdateTime = smartContractResponse.data.args[0].args[2].int;
@@ -449,7 +435,6 @@ const calculateHarvestValueDualEntity = async (
         address: stakingContractAddress,
       };
     }
-
   } catch (error) {
     return {
       success: false,
@@ -473,12 +458,6 @@ const calculateHarvestValueDual = async (
   packedAddress,
 ) => {
   try {
-
-    console.log(stakingContract);
-    console.log(dualInfo);
-    console.log(currentBlock);
-    console.log(packedAddress);
-
     const harvestValuePromises = [];
     harvestValuePromises.push(
       calculateHarvestValueDualEntity(
@@ -531,7 +510,6 @@ const calculateHarvestValue = async (
   packedAddress,
 ) => {
   try {
-
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
     let url = `${rpcNode}chains/main/blocks/head/context/contracts/${stakingContractAddress}/storage`;
     const smartContractResponse = await axios.get(url);
@@ -604,8 +582,7 @@ export const getHarvestValue = async (address, type, isActive) => {
               packedKey,
             ),
           );
-        }
-        else {
+        } else {
           promises.push(
             calculateHarvestValue(
               CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
