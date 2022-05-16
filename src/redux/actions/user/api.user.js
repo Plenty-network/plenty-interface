@@ -390,6 +390,9 @@ const calculateHarvestValueDualEntity = async (
       url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedAddress}`;
       const bigMapResponse = await axios.get(url);
 
+      console.log('yha run hori');
+      console.log(url);
+
       const userBalance = bigMapResponse.data.args[0].int;
       const userRewardPaid = bigMapResponse.data.args[2].int;
       const rewards = bigMapResponse.data.args[1].int;
@@ -486,7 +489,6 @@ const calculateHarvestValueDual = async (
         packedAddress,
       ),
     );
-
     harvestValuePromises.push(
       calculateHarvestValueDualEntity(
         dualInfo.tokenSecond.rewardContract,

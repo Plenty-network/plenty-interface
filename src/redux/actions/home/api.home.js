@@ -167,6 +167,7 @@ const calculateHarvestValueDual = async (
 ) => {
   try {
     const harvestValuePromises = [];
+    
     harvestValuePromises.push(
       calculateHarvestValueDualEntity(
         dualInfo.tokenFirst.rewardContract,
