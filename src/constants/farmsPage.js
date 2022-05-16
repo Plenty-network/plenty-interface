@@ -132,6 +132,7 @@ export const FARM_TAB = {
   CTEZ: '🔥 Ctez Extravaganza 🔥',
   YOU: 'My Farms',
   ALL: 'All Farms',
+  NEW: 'New Farms',
 };
 
 export const FARMS_CARD_TYPE_LIST = {

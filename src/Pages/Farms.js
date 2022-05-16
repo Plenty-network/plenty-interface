@@ -109,7 +109,9 @@ const Farms = (props) => {
       if (tabChange === FARM_TAB.CTEZ) {
         return farm.farmData.CARD_TYPE.toLowerCase().includes('ctez');
       }
-
+      if (tabChange === FARM_TAB.NEW) {
+        return farm.farmData.bannerType?.includes('info');
+      }
       if (tabChange === FARM_TAB.YOU) {
         return props.userStakes[farm.farmData.CONTRACT]?.stakedAmount > 0;
       }
@@ -160,6 +162,7 @@ const Farms = (props) => {
               onSelect={(e) => setTabChange(e)}
             >
               <Tab eventKey={FARM_TAB.ALL} title={FARM_TAB.ALL} />
+              <Tab eventKey={FARM_TAB.NEW} title={FARM_TAB.NEW} />
               <Tab eventKey={FARM_TAB.YOU} title={FARM_TAB.YOU} />
             </Tabs>
 
