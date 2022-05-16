@@ -1391,6 +1391,7 @@ export const getTokenPrices = async () => {
       'CRUNCH',
       'FLAME',
       'PAUL',
+      'DOGA',
     ];
     const tokenAddress = {
       PLENTY: {
@@ -1476,6 +1477,9 @@ export const getTokenPrices = async () => {
       },
       PAUL: {
         contractAddress: 'KT19DUSZw7mfeEATrbWVPHRrWNVbNnmfFAE6',
+      },
+      DOGA: {
+        contractAddress: 'KT1Ha4yFVeyzw6KRAdkzq6TxDHB97KG4pZe8',
       },
     };
     for (const i in tokenPriceResponse.contracts) {
