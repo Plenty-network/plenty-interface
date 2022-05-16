@@ -49,7 +49,7 @@ const StakeModal = (props) => {
         maximumFractionDigits: 20,
         useGrouping: false,
       }) ?? 0;
-    setInputValue(value.substring(0, value.length - 1));
+    setInputValue(value.substring(0, value.length));
   };
 
   const onModalClose = () => {
