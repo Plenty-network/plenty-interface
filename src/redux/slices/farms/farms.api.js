@@ -24,8 +24,6 @@ const fetchStorageForDualStakingContract = async (
 ) => {
   try {
 
-    console.log(identifier);
-
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
 
@@ -33,9 +31,6 @@ const fetchStorageForDualStakingContract = async (
     let tokenSecondPrice = 0;
 
     if(identifier === 'CTEZ - TEZ'){
-
-      console.log(dualInfo.tokenFirst.symbol);
-      console.log(dualInfo.tokenSecond.symbol);
 
       for (const i in tokenPricesData) {
         if (
@@ -920,30 +915,53 @@ export const unstakeAPI = async (
         ].CONTRACT,
       );
       let amount;
-      // Creating multiple un-staking operation for batching them
-      const unstakeBatch = stakesToUnstake.map((stake) => {
-        amount =
-          stake.amount *
-          Math.pow(
-            10,
-            CONFIG.FARMS[connectedNetwork][farmIdentifier][
-              isActive === true ? 'active' : 'inactive'
-            ][position].TOKEN_DECIMAL,
-          );
+
+      if(farmIdentifier === 'CTEZ - TEZ'){
+          amount = stakesToUnstake[0].amount *
+              Math.pow(
+                  10,
+                  CONFIG.FARMS[connectedNetwork][farmIdentifier][
+                      isActive === true ? 'active' : 'inactive'
+                      ][position].TOKEN_DECIMAL,
+              );
+        const batch = await Tezos.wallet.batch()
+            .withContractCall(contractInstance.methods.unstake(amount));
+        const batchOperation = await batch.send();
+        setShowConfirmTransaction(false);
+        store.dispatch(unstakingOnFarmProcessing(batchOperation));
+        await batchOperation.confirmation().then(() => batchOperation.hash);
         return {
-          kind: OpKind.TRANSACTION,
-          ...contractInstance.methods.unstake(amount, stake.mapId).toTransferParams(),
+          success: true,
+          operationId: batchOperation.opHash,
         };
-      });
-      const batch = await Tezos.wallet.batch(unstakeBatch);
-      const batchOperation = await batch.send();
-      setShowConfirmTransaction(false);
-      store.dispatch(unstakingOnFarmProcessing(batchOperation));
-      await batchOperation.confirmation().then(() => batchOperation.hash);
-      return {
-        success: true,
-        operationId: batchOperation.opHash,
-      };
+      }
+      else{
+        const unstakeBatch = stakesToUnstake.map((stake) => {
+          amount =
+              stake.amount *
+              Math.pow(
+                  10,
+                  CONFIG.FARMS[connectedNetwork][farmIdentifier][
+                      isActive === true ? 'active' : 'inactive'
+                      ][position].TOKEN_DECIMAL,
+              );
+          return {
+            kind: OpKind.TRANSACTION,
+            ...contractInstance.methods.unstake(amount, stake.mapId).toTransferParams(),
+          };
+        });
+        const batch = await Tezos.wallet.batch(unstakeBatch);
+        const batchOperation = await batch.send();
+        setShowConfirmTransaction(false);
+        store.dispatch(unstakingOnFarmProcessing(batchOperation));
+        await batchOperation.confirmation().then(() => batchOperation.hash);
+        return {
+          success: true,
+          operationId: batchOperation.opHash,
+        };
+      }
+      // Creating multiple un-staking operation for batching them
+
       // let tokenAmount = amount * Math.pow(10, CONFIG.FARMS[connectedNetwork][farmIdentifier][isActive === true ? 'active' : 'inactive'][position].DECIMAL);
       // const operation = await contractInstance.methods
       //   .unstake(tokenAmount, mapKey)
