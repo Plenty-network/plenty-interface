@@ -42,32 +42,58 @@ const getPackedKey = (tokenId, address, type) => {
  */
 const getStakedAmount = async (mapId, packedKey, identifier, decimal, address, tokenDecimal) => {
   try {
+
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
     const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
     const response = await axios.get(url);
-    let balance = response.data.args[0].args[1].int;
-    balance = parseInt(balance);
-    balance = balance / Math.pow(10, decimal);
-    const singularStakes = [];
-    for (let i = 0; i < response.data.args[0].args[0].length; i++) {
-      let amount = parseInt(response.data.args[0].args[0][i].args[1].args[0].int);
-      amount = parseFloat(
-        response.data.args[0].args[0][i].args[1].args[0].int / Math.pow(10, tokenDecimal),
-      );
+
+    if(identifier === 'CTEZ - TEZ'){
+
+      let balance = response.data.int;
+      balance = parseInt(balance);
+      balance = balance / Math.pow(10, decimal);
+
+      console.log(balance);
+      const singularStakes = [];
+
       singularStakes.push({
-        mapId: response.data.args[0].args[0][i].args[0].int,
-        amount: amount,
-        block: response.data.args[0].args[0][i].args[1].args[1].int,
+        mapId: 0,
+        amount: balance,
+        block: 0,
       });
+      return {
+        success: true,
+        balance,
+        identifier,
+        address,
+        singularStakes,
+      };
+    }
+    else{
+      let balance = response.data.args[0].args[1].int;
+      balance = parseInt(balance);
+      balance = balance / Math.pow(10, decimal);
+      const singularStakes = [];
+      for (let i = 0; i < response.data.args[0].args[0].length; i++) {
+        let amount = parseInt(response.data.args[0].args[0][i].args[1].args[0].int);
+        amount = parseFloat(
+            response.data.args[0].args[0][i].args[1].args[0].int / Math.pow(10, tokenDecimal),
+        );
+        singularStakes.push({
+          mapId: response.data.args[0].args[0][i].args[0].int,
+          amount: amount,
+          block: response.data.args[0].args[0][i].args[1].args[1].int,
+        });
+      }
+      return {
+        success: true,
+        balance,
+        identifier,
+        address,
+        singularStakes,
+      };
     }
 
-    return {
-      success: true,
-      balance,
-      identifier,
-      address,
-      singularStakes,
-    };
   } catch (error) {
     return {
       success: false,
