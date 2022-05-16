@@ -199,7 +199,7 @@ const BridgeTransferModal = (props) => {
   ];
   const defaultTile = (buttonText, index) => {
     return (
-      <p className={styles.progressLabel + ' leftToRightFadeInAnimation-4-bridge'} key={index}>
+      <p className={styles.progressLabel} key={index}>
         <div className="flex flex-row">
           <span className={styles.defaultRadioButton}></span>
           <span>{buttonText}</span>
@@ -211,7 +211,7 @@ const BridgeTransferModal = (props) => {
   const completedTile = (buttonText, index) => {
     return (
       <p
-        className={`${styles.completedLabel} ${styles.progressLabel} leftToRightFadeInAnimation-4-bridge`}
+        className={`${styles.completedLabel} ${styles.progressLabel}`}
         key={index}
       >
         <div className="flex flex-row">
@@ -227,7 +227,7 @@ const BridgeTransferModal = (props) => {
   };
   const currentTile = (buttonText, index) => {
     return (
-      <p className={styles.progressLabel + ' leftToRightFadeInAnimation-4-bridge'} key={index}>
+      <p className={styles.progressLabel} key={index}>
         <div className="flex flex-row">
           <span className={styles.radioButton}></span>
           <span className={styles.activeLabel}>{buttonText}</span>
@@ -320,7 +320,7 @@ const BridgeTransferModal = (props) => {
             )}
           </div>
           <div className={`mb-4 mt-2 ${styles.lineBottom} `}></div>
-          <div className={`${styles.resultsHeader} rightToLeftFadeInAnimation-4`}>
+          <div className={`${styles.resultsHeader}`}>
             {
               numberOfSteps.map((currentStep, index) => {
                 if (currentProgress > index) {
