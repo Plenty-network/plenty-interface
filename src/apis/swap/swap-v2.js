@@ -438,8 +438,8 @@ const computeTokenOutputV2 = (
     //     tokenOut,
     //     target,'enter here');
 
-    //     // token1 = ctez
-    //     // token 2 - doga
+    //     // token1 = doga
+    //     // token 2 - ctez
       
     //   let tokenIn_Decimal=0;
     //   let tokenOut_Decimal=0;
