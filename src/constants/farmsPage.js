@@ -24,7 +24,7 @@ import wdaiLpFarm from '../assets/images/farms/wdaiLpFarm.png';
 import wusdtLpFarm from '../assets/images/farms/wusdtLpFarm.png';
 import tez from '../assets/images/farms/tez.png';
 import cteztezlpFarm from '../assets/images/farms/ctez-tez.png';
-//import ctezdogalpFarm from '../assets/images/farms/ctez-doga.png';
+import ctezdogalpFarm from '../assets/images/farms/ctez-doga.png';
 import youLpFarm from '../assets/images/farms/youLpFarm.png';
 import ctezFarmLpIcon from '../assets/images/farms/ctezFarmLpIcon.png';
 import uUSDYOULp from '../assets/images/farms/uUSDYOULp.png';
@@ -156,27 +156,27 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
     isDualFarm: false,
   },
-  // 'CTEZ / DOGA LP': {
-  //   image: ctezdogalpFarm,
-  //   harvestImg: plentyToken,
-  //   multi: '100',
-  //   title: 'CTEZ / DOGA PNLP',
-  //   apr: 0,
-  //   apy: 0,
-  //   earn: 'PLENTY',
-  //   fee: '0%',
-  //   earned: 0,
-  //   deposit: 'CTEZ / DOGA LP',
-  //   liquidity: 0,
-  //   withdrawalFee: '0%',
-  //   balance: 0,
-  //   userBalance: 0,
-  //   URL: '',
-  //   active: true,
-  //   source: 'Plenty LP',
-  //   rewards: '1000 PLENTY / DAY',
-  //   isDualFarm: false,
-  // },
+  'CTEZ / DOGA LP': {
+    image: ctezdogalpFarm,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'CTEZ / DOGA PNLP',
+    apr: 0,
+    apy: 0,
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'CTEZ / DOGA LP',
+    liquidity: 0,
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
+  },
   'KALAM / XTZ LP': {
     image: kalamXtz,
     harvestImg: plentyToken,

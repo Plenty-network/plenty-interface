@@ -849,7 +849,6 @@ export const computeRemoveTokens = (
  */
 export const getUserBalanceByRpc = async (identifier, address) => {
   try {
-    //let balance;
     const token = CONFIG.AMM[CONFIG.NETWORK][identifier];
     const mapId = token.mapId;
     const type = token.READ_TYPE;
