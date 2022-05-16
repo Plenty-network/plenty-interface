@@ -142,7 +142,7 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
       tokenIn_supply = tokenIn_supply / Math.pow(10, tokenIn_Decimal);
       tokenOut_supply = tokenOut_supply / Math.pow(10, tokenOut_Decimal);
       lpTokenSupply = lpTokenSupply / Math.pow(10, liquidityToken_Decimal);
-      const exchangeFee = 1 / lpFee + 1 / systemFee;
+      const exchangeFee = (1 / lpFee) + (1 / systemFee);
       const tokenOutPerTokenIn = tokenOut_supply / tokenIn_supply;
       return {
         success: true,
@@ -426,8 +426,97 @@ const computeTokenOutputV2 = (
           parseInt(target),
           tokenIn,
         );
-      }
-    } else {
+      }}
+    // } else if((tokenIn === 'ctez' && tokenOut === 'DOGA') || (tokenIn === 'DOGA' && tokenOut === 'ctez'))
+    // {
+    //   console.log(tokenIn_amount,
+    //     tokenIn_supply,
+    //     tokenOut_supply,
+    //     exchangeFee,
+    //     slippage,
+    //     tokenIn,
+    //     tokenOut,
+    //     target,'enter here');
+
+    //     // token1 = ctez
+    //     // token 2 - doga
+      
+    //   let tokenIn_Decimal=0;
+    //   let tokenOut_Decimal=0;
+    //   if(tokenIn === 'CTEZ'){
+    //     tokenIn_Decimal=6;
+    //     tokenOut_Decimal=5;
+    //   }else{
+    //     tokenIn_Decimal=5;
+    //     tokenOut_Decimal=6;
+    //   }
+
+    //   tokenIn_amount = tokenIn_amount * (10 ** tokenIn_Decimal);
+    //   tokenIn_supply = tokenIn_supply * (10 ** tokenIn_Decimal);
+    //   tokenOut_supply = tokenOut_supply * (10 ** tokenOut_Decimal);
+    //   exchangeFee = tokenIn_amount/290;
+
+    //   let requiredTokenAmount =0;
+    //   let SwapTokenPool =0;
+
+    //   if(tokenOut === 'DOGA'){
+    //   requiredTokenAmount = tokenIn_supply;
+    //         SwapTokenPool = tokenOut_supply;
+    //   }
+    //   else{ 
+
+    //         requiredTokenAmount = tokenOut_supply;
+    //         SwapTokenPool = tokenIn_supply;
+    //   }
+
+    //     // UPDATE CTEZ - DOGA CALC here
+    //   let tokenOut_amount = 0;
+
+    //   let invariant = tokenIn_supply * tokenOut_supply;
+    //   invariant = invariant /  ((requiredTokenAmount + tokenIn_amount) - exchangeFee);
+
+    //   tokenOut_amount = SwapTokenPool - invariant;
+
+    //   tokenOut_amount /= (10 ** tokenOut_Decimal);
+
+
+
+    //   // tokenOut_amount = (1 - exchangeFee) * tokenOut_supply * tokenIn_amount;
+    //   // tokenOut_amount /= tokenIn_supply + (1 - exchangeFee) * tokenIn_amount;
+    //   const fees = tokenIn_amount * exchangeFee;
+    //   const minimum_Out = tokenOut_amount - (slippage * tokenOut_amount) / 100;
+
+    //   const updated_TokenIn_Supply = tokenIn_supply - tokenIn_amount;
+    //   const updated_TokenOut_Supply = tokenOut_supply - tokenOut_amount;
+    //   let next_tokenOut_Amount = (1 - exchangeFee) * updated_TokenOut_Supply * tokenIn_amount;
+    //   next_tokenOut_Amount /= updated_TokenIn_Supply + (1 - exchangeFee) * tokenIn_amount;
+    //   let priceImpact = (tokenOut_amount - next_tokenOut_Amount) / tokenOut_amount;
+    //   priceImpact = priceImpact * 100;
+    //   priceImpact = priceImpact.toFixed(5);
+    //   priceImpact = Math.abs(priceImpact);
+    //   priceImpact = priceImpact * 100;
+
+    //   return {
+    //     tokenOut_amount,
+    //     fees,
+    //     minimum_Out,
+    //     priceImpact,
+    //   };
+
+
+
+    // }
+    else {
+      console.log(tokenIn_amount,
+        tokenIn_supply,
+        tokenOut_supply,
+        exchangeFee,
+        slippage,
+        tokenIn,
+        tokenOut,
+        target,);
+
+        // WHY IS THIS CALC FAILING FOR CTEZ DOGA AND WORKING FOR OTHER PAIRS
       let tokenOut_amount = 0;
       tokenOut_amount = (1 - exchangeFee) * tokenOut_supply * tokenIn_amount;
       tokenOut_amount /= tokenIn_supply + (1 - exchangeFee) * tokenIn_amount;
