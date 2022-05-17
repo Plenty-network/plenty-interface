@@ -102,13 +102,11 @@ const FarmCardBottom = (props) => {
                       farmData.CONTRACT,
                     ) &&
                     props.harvestValueOnFarms[props.isActiveOpen][farmData.CONTRACT]
-                      .totalRewards[1] > 0 ? (
-                      props.harvestValueOnFarms[props.isActiveOpen][
-                        farmData.CONTRACT
-                      ].totalRewards[1].toFixed(4)
-                    ) : (
-                      <span className="shimmer">99999</span>
-                    )}
+                      .totalRewards[1] > 0
+                      ? props.harvestValueOnFarms[props.isActiveOpen][
+                          farmData.CONTRACT
+                        ].totalRewards[1].toFixed(4)
+                      : 0}
                   </span>
                 </div>
               </div>
@@ -357,4 +355,3 @@ FarmCardBottom.propTypes = {
 };
 
 export default FarmCardBottom;
-
