@@ -22,7 +22,9 @@ import gifDualLpFarm from '../assets/images/plenty-gif-dual-lp.png';
 import gifIcon from '../assets/images/gif-dao-token.png';
 import wdaiLpFarm from '../assets/images/farms/wdaiLpFarm.png';
 import wusdtLpFarm from '../assets/images/farms/wusdtLpFarm.png';
-
+import tez from '../assets/images/farms/tez.png';
+import cteztezlpFarm from '../assets/images/farms/ctez-tez.png';
+import dogactezLpFarm from '../assets/images/farms/dogactezLpFarm.png';
 import youLpFarm from '../assets/images/farms/youLpFarm.png';
 import ctezFarmLpIcon from '../assets/images/farms/ctezFarmLpIcon.png';
 import uUSDYOULp from '../assets/images/farms/uUSDYOULp.png';
@@ -130,6 +132,7 @@ export const FARM_TAB = {
   CTEZ: '🔥 Ctez Extravaganza 🔥',
   YOU: 'My Farms',
   ALL: 'All Farms',
+  NEW: 'New Farms',
 };
 
 export const FARMS_CARD_TYPE_LIST = {
@@ -151,6 +154,27 @@ export const FARMS_CARD_TYPE_LIST = {
     URL: '',
     active: true,
     source: 'Quipuswap LP',
+    rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
+  },
+  'CTEZ / DOGA LP': {
+    image: dogactezLpFarm,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'DOGA / CTEZ PNLP',
+    apr: 0,
+    apy: 0,
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'CTEZ / DOGA LP',
+    liquidity: 0,
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
     isDualFarm: false,
   },
@@ -586,6 +610,28 @@ export const FARMS_CARD_TYPE_LIST = {
     earned: 0,
     deposit: 'PLENTY / GIF Dual LP',
     liquidity: '5000',
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+    isDualFarm: true,
+  },
+  'CTEZ / TEZ Dual PNLP': {
+    image: cteztezlpFarm,
+    harvestImg: plentyToken,
+    harvestImg1: tez,
+    multi: '100',
+    title: 'CTEZ / TEZ PNLP',
+    apr: 0,
+    apy: 0,
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'CTEZ / TEZ Dual LP',
+    liquidity: 0,
     withdrawalFee: '0%',
     balance: 0,
     userBalance: 0,

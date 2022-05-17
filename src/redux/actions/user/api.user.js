@@ -45,29 +45,50 @@ const getStakedAmount = async (mapId, packedKey, identifier, decimal, address, t
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
     const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
     const response = await axios.get(url);
-    let balance = response.data.args[0].args[1].int;
-    balance = parseInt(balance);
-    balance = balance / Math.pow(10, decimal);
-    const singularStakes = [];
-    for (let i = 0; i < response.data.args[0].args[0].length; i++) {
-      let amount = parseInt(response.data.args[0].args[0][i].args[1].args[0].int);
-      amount = parseFloat(
-        response.data.args[0].args[0][i].args[1].args[0].int / Math.pow(10, tokenDecimal),
-      );
-      singularStakes.push({
-        mapId: response.data.args[0].args[0][i].args[0].int,
-        amount: amount,
-        block: response.data.args[0].args[0][i].args[1].args[1].int,
-      });
-    }
 
-    return {
-      success: true,
-      balance,
-      identifier,
-      address,
-      singularStakes,
-    };
+    if (identifier === 'CTEZ - TEZ') {
+      let balance = response.data.int;
+      balance = parseInt(balance);
+      balance = balance / Math.pow(10, decimal);
+
+      const singularStakes = [];
+
+      singularStakes.push({
+        mapId: 0,
+        amount: balance,
+        block: 0,
+      });
+      return {
+        success: true,
+        balance,
+        identifier,
+        address,
+        singularStakes,
+      };
+    } else {
+      let balance = response.data.args[0].args[1].int;
+      balance = parseInt(balance);
+      balance = balance / Math.pow(10, decimal);
+      const singularStakes = [];
+      for (let i = 0; i < response.data.args[0].args[0].length; i++) {
+        let amount = parseInt(response.data.args[0].args[0][i].args[1].args[0].int);
+        amount = parseFloat(
+          response.data.args[0].args[0][i].args[1].args[0].int / Math.pow(10, tokenDecimal),
+        );
+        singularStakes.push({
+          mapId: response.data.args[0].args[0][i].args[0].int,
+          amount: amount,
+          block: response.data.args[0].args[0][i].args[1].args[1].int,
+        });
+      }
+      return {
+        success: true,
+        balance,
+        identifier,
+        address,
+        singularStakes,
+      };
+    }
   } catch (error) {
     return {
       success: false,
@@ -325,46 +346,95 @@ const calculateHarvestValueDualEntity = async (
   packedAddress,
 ) => {
   try {
+    if (stakingContractAddress === 'KT1PxZCPGoxukDXq1smJcmQcLiadTB6czjCY') {
+      return {
+        success: true,
+        totalRewards: 0,
+        address: stakingContractAddress,
+      };
+    }
+
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
     let url = `${rpcNode}chains/main/blocks/head/context/contracts/${stakingContractAddress}/storage`;
     const smartContractResponse = await axios.get(url);
 
-    const periodFinish = smartContractResponse.data.args[1].args[0].int;
+    if (stakingContractAddress === 'KT1QkadMTUTDxyNiTaz587ssPXFuwmWWQzDG') {
 
-    const lastUpdateTime = smartContractResponse.data.args[0].args[2].int;
+      const periodFinish = smartContractResponse.data.args[1].args[1].int;
 
-    const rewardRate = smartContractResponse.data.args[1].args[2].int;
+      const lastUpdateTime = smartContractResponse.data.args[0].args[3].int;
 
-    const totalSupply = smartContractResponse.data.args[4].int;
+      const rewardRate = smartContractResponse.data.args[2].int;
 
-    const rewardPerTokenStored = smartContractResponse.data.args[1].args[1].int;
+      const totalSupply = smartContractResponse.data.args[4].int;
 
-    if (totalSupply === 0) {
-      throw 'No One Staked';
+      const rewardPerTokenStored = smartContractResponse.data.args[1].args[2].int;
+
+      if (totalSupply === 0) {
+        throw 'No One Staked';
+      }
+
+      let rewardPerToken = Math.min(currentBlockLevel, parseInt(periodFinish));
+      rewardPerToken = rewardPerToken - parseInt(lastUpdateTime);
+      rewardPerToken *= parseInt(rewardRate) * Math.pow(10, DECIMAL);
+      rewardPerToken = rewardPerToken / totalSupply + parseInt(rewardPerTokenStored);
+
+      url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedAddress}`;
+      const bigMapResponse = await axios.get(url);
+      const userBalance = bigMapResponse.data.args[0].int;
+      const userRewardPaid = bigMapResponse.data.args[2].int;
+      const rewards = bigMapResponse.data.args[1].int;
+
+      let totalRewards = parseInt(userBalance) * (rewardPerToken - parseInt(userRewardPaid));
+      totalRewards = totalRewards / Math.pow(10, DECIMAL) + parseInt(rewards);
+      totalRewards = totalRewards / Math.pow(10, DECIMAL);
+
+      if (totalRewards < 0) {
+        totalRewards = 0;
+      }
+      return {
+        success: true,
+        totalRewards,
+        address: stakingContractAddress,
+      };
+    } else {
+      const periodFinish = smartContractResponse.data.args[1].args[0].int;
+
+      const lastUpdateTime = smartContractResponse.data.args[0].args[2].int;
+
+      const rewardRate = smartContractResponse.data.args[1].args[2].int;
+
+      const totalSupply = smartContractResponse.data.args[4].int;
+
+      const rewardPerTokenStored = smartContractResponse.data.args[1].args[1].int;
+
+      if (totalSupply === 0) {
+        throw 'No One Staked';
+      }
+
+      let rewardPerToken = Math.min(currentBlockLevel, parseInt(periodFinish));
+      rewardPerToken = rewardPerToken - parseInt(lastUpdateTime);
+      rewardPerToken *= parseInt(rewardRate) * Math.pow(10, DECIMAL);
+      rewardPerToken = rewardPerToken / totalSupply + parseInt(rewardPerTokenStored);
+      url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedAddress}`;
+      const bigMapResponse = await axios.get(url);
+
+      const userBalance = bigMapResponse.data.args[0].int;
+      const userRewardPaid = bigMapResponse.data.args[2].int;
+      const rewards = bigMapResponse.data.args[1].int;
+      let totalRewards = parseInt(userBalance) * (rewardPerToken - parseInt(userRewardPaid));
+      totalRewards = totalRewards / Math.pow(10, DECIMAL) + parseInt(rewards);
+      totalRewards = totalRewards / Math.pow(10, DECIMAL);
+
+      if (totalRewards < 0) {
+        totalRewards = 0;
+      }
+      return {
+        success: true,
+        totalRewards,
+        address: stakingContractAddress,
+      };
     }
-
-    let rewardPerToken = Math.min(currentBlockLevel, parseInt(periodFinish));
-    rewardPerToken = rewardPerToken - parseInt(lastUpdateTime);
-    rewardPerToken *= parseInt(rewardRate) * Math.pow(10, DECIMAL);
-    rewardPerToken = rewardPerToken / totalSupply + parseInt(rewardPerTokenStored);
-    url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedAddress}`;
-    const bigMapResponse = await axios.get(url);
-
-    const userBalance = bigMapResponse.data.args[0].int;
-    const userRewardPaid = bigMapResponse.data.args[2].int;
-    const rewards = bigMapResponse.data.args[1].int;
-    let totalRewards = parseInt(userBalance) * (rewardPerToken - parseInt(userRewardPaid));
-    totalRewards = totalRewards / Math.pow(10, DECIMAL) + parseInt(rewards);
-    totalRewards = totalRewards / Math.pow(10, DECIMAL);
-
-    if (totalRewards < 0) {
-      totalRewards = 0;
-    }
-    return {
-      success: true,
-      totalRewards,
-      address: stakingContractAddress,
-    };
   } catch (error) {
     return {
       success: false,
@@ -398,7 +468,6 @@ const calculateHarvestValueDual = async (
         packedAddress,
       ),
     );
-
     harvestValuePromises.push(
       calculateHarvestValueDualEntity(
         dualInfo.tokenSecond.rewardContract,
@@ -500,7 +569,7 @@ export const getHarvestValue = async (address, type, isActive) => {
       for (const i in CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
         isActive === true ? 'active' : 'inactive'
       ]) {
-        if (identifier === 'PLENTY - GIF') {
+        if (identifier === 'PLENTY - GIF' || identifier === 'CTEZ - TEZ') {
           promises.push(
             calculateHarvestValueDual(
               CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][

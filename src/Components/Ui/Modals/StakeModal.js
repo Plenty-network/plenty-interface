@@ -44,12 +44,12 @@ const StakeModal = (props) => {
   };
 
   const onMaxClick = () => {
-    const value =
-      props.walletBalances?.[props.modalData.identifier].toLocaleString('en-US', {
-        maximumFractionDigits: 20,
-        useGrouping: false,
-      }) ?? 0;
-    setInputValue(value.substring(0, value.length - 1));
+    // //const value =
+    // props.walletBalances?.[props.modalData.identifier].toLocaleString('en-US', {
+    //   maximumFractionDigits: 20,
+    //   useGrouping: false,
+    // }) ?? 0;
+    setInputValue(Number(props.walletBalances?.[props.modalData.identifier]));
   };
 
   const onModalClose = () => {
