@@ -3,8 +3,7 @@ const isDev = process.env.NODE_ENV === 'development';
 
 // * Add common rules here
 const mainRules = {
-  // ['error', 'unix']
-  'linebreak-style': 0,
+  'linebreak-style': ['error', 'unix'],
   quotes: ['error', 'single'],
   semi: ['error', 'always'],
   'prefer-const': [

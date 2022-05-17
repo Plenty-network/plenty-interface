@@ -555,6 +555,7 @@ export const computeTokenOutput = (
   }
 };
 export const estimateOtherToken = (tokenIn_amount, tokenIn_supply, tokenOut_supply) => {
+  console.log(tokenIn_amount , tokenIn_supply , tokenOut_supply);
   try {
     const otherTokenAmount = (tokenIn_amount * tokenOut_supply) / tokenIn_supply;
     return {
