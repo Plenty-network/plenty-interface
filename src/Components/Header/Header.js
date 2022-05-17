@@ -179,22 +179,22 @@ const Header = (props) => {
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                         Trade
                       </span>
-                      <span
+                      {/* <span
                         className={clsx('material-icons', 'arrow-header', {
                           rotate:
                             selectedHeader === HEADER_MODAL.TRADE && (isMobile ? isExpanded : true),
                         })}
                       >
                         expand_more
-                      </span>
+                      </span> */}
                     </Nav.Link>
-                    {selectedHeader === HEADER_MODAL.TRADE && isMobile && (
+                    {/* {selectedHeader === HEADER_MODAL.TRADE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
                         isExpanded={isExpanded}
                         {...props}
                       />
-                    )}
+                    )} */}
                     <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.EARN ? 'menu-item-active' : 'menu-item',
@@ -349,7 +349,7 @@ const Header = (props) => {
           </Col>
         </Row>
       </Container>
-      {!isMobile && (
+      {!isMobile && selectedHeader !== HEADER_MODAL.TRADE && (
         <div onMouseLeave={() => setHeader('')}>
           <HeaderBottom
             selectedHeader={selectedHeader}

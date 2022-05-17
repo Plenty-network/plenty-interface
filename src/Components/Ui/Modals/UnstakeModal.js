@@ -102,7 +102,7 @@ const UnstakeModal = (props) => {
     props.setFloaterValue({
       value: localStorage.getItem('stakeInput'),
       pair: localStorage.getItem('stakePair'),
-      type: 'UnStake',
+      type: 'Unstake',
     });
     props.unstakeOnFarm(
       selected,

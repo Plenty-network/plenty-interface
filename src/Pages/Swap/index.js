@@ -89,7 +89,7 @@ const Swap = (props) => {
           ? balancePromises.push(getxtzBalance(tokenIn.name, props.walletAddress))
           : balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
 
-        tokenIn.name === tzBTCName
+        tokenOut.name === tzBTCName
           ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
           : (tokenIn.name === 'tez' && tokenOut.name === 'ctez') ||
             (tokenOut.name === 'tez' && tokenIn.name === 'ctez')
@@ -163,7 +163,6 @@ const Swap = (props) => {
 
   const handleClose = () => {
     setShow(false);
-    //setLoader(false);
     resetAllValues();
     setShowConfirmSwap(false);
     setShowConfirmTransaction(false);
