@@ -289,7 +289,7 @@ export const getHarvestValue = async (address, type, isActive) => {
       for (const i in CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
         isActive === true ? 'active' : 'inactive'
       ]) {
-        if (identifier === 'PLENTY - GIF') {
+        if (identifier === 'PLENTY - GIF' || identifier === 'CTEZ - TEZ') {
           promises.push(
             calculateHarvestValueDual(
               CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
