@@ -188,13 +188,13 @@ const Header = (props) => {
                         expand_more
                       </span>
                     </Nav.Link>
-                    {selectedHeader === HEADER_MODAL.TRADE && isMobile && (
+                    {/* {selectedHeader === HEADER_MODAL.TRADE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
                         isExpanded={isExpanded}
                         {...props}
                       />
-                    )}
+                    )} */}
                     <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.EARN ? 'menu-item-active' : 'menu-item',
@@ -349,7 +349,7 @@ const Header = (props) => {
           </Col>
         </Row>
       </Container>
-      {!isMobile && (
+      {!isMobile && selectedHeader !== HEADER_MODAL.TRADE && (
         <div onMouseLeave={() => setHeader('')}>
           <HeaderBottom
             selectedHeader={selectedHeader}
