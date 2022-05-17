@@ -149,13 +149,19 @@ const FarmCardBottom = (props) => {
                 props.setLoader(true);
                 localStorage.setItem('stakePair', properties.source);
                 props.setFloaterValue({
-                  value:
-                    props.harvestValueOnFarms[props.isActiveOpen][farmData.CONTRACT].totalRewards >
-                    0
+                  value: properties.isDualFarm
+                    ? props.harvestValueOnFarms[props.isActiveOpen][farmData.CONTRACT]
+                        .totalRewards[0] > 0
                       ? props.harvestValueOnFarms[props.isActiveOpen][
                           farmData.CONTRACT
-                        ].totalRewards.toFixed(6)
-                      : null,
+                        ].totalRewards[0].toFixed(4)
+                      : null
+                    : props.harvestValueOnFarms[props.isActiveOpen][farmData.CONTRACT]
+                        .totalRewards > 0
+                    ? props.harvestValueOnFarms[props.isActiveOpen][
+                        farmData.CONTRACT
+                      ].totalRewards.toFixed(6)
+                    : null,
                   pair: localStorage.getItem('stakePair'),
                   type: 'Harvest',
                 });
@@ -351,3 +357,4 @@ FarmCardBottom.propTypes = {
 };
 
 export default FarmCardBottom;
+
