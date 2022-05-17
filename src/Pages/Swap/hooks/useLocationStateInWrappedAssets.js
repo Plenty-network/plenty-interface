@@ -1,8 +1,8 @@
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 
-import wBUSD from '../../../assets/images/wBUSD.png';
-import BUSDe from '../../../assets/images/BUSD.e.png';
+import wMATIC from '../../../assets/images/wmatic.png';
+import MATICe from '../../../assets/images/MATIC.e.png';
 
 import config from '../../../config/config';
 import { tokens } from '../../../constants/swapPage';
@@ -12,13 +12,13 @@ export const useLocationStateInWrappedAssets = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [tokenIn, setTokenIn] = useState({
-    name: 'wBUSD',
-    image: wBUSD,
+    name: 'wMATIC',
+    image: wMATIC,
   });
 
   const [tokenOut, setTokenOut] = useState({
-    name: 'BUSDe',
-    image: BUSDe,
+    name: 'MATIC.e',
+    image: MATICe,
   });
 
   const AMMExists = useMemo(() => {
