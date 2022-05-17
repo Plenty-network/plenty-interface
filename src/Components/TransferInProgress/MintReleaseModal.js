@@ -128,7 +128,7 @@ const MintReleaseModal = (props) => {
             <p className={styles.fetchingText}>
               Fetching Data
               {dots.current.map((char, index) => {
-                const style = {'animation-delay': (0.5 + index / 5) + 's'};
+                const style = {animationDelay: (0.5 + index / 5) + 's'};
                 return <span key={index} style={style}>{char}</span>;
               })}
             </p>
