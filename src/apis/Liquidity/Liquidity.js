@@ -174,6 +174,66 @@ export const getLiquidityPositionDetails = async (tokenA, tokenB, walletAddress)
     const storageResponse = await axios.get(
       `${rpcNode}chains/main/blocks/head/context/contracts/${tokenPairContract}/storage`,
     );
+
+    if((tokenA === 'ctez' && tokenB === 'DOGA') || (tokenA === 'DOGA' && tokenB === 'ctez')){
+
+// Do changes here
+
+
+const tokenOneAddress = 'KT1Ha4yFVeyzw6KRAdkzq6TxDHB97KG4pZe8';
+const tokenOneID = 0;
+const tokenOnePool = Number(storageResponse.data.args[1].args[0].args[1].int);
+const tokenTwoAddress = 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4';
+const tokenTwoID = 0;
+const tokenTwoPool = Number(storageResponse.data.args[3].int);
+const lpTokenSupply = Number(storageResponse.data.args[4].int);
+
+// Token pool share percentage.
+const lpTokenShare = (lpTokenBalance * 100) / lpTokenSupply;
+
+// Check if the order of pair sent in arguments is same as order of pair stored in contract storage and calculate balance accordingly[Swap or No Swap].
+if (
+  tokenAContractAddress === tokenOneAddress &&
+  tokenAID === tokenOneID &&
+  tokenBContractAddress === tokenTwoAddress &&
+  tokenBID === tokenTwoID
+) {
+  // No swap.
+  poolBalances['tokenAPoolBalance'] =
+    (lpTokenBalance * tokenOnePool) / lpTokenSupply / 10 ** tokenADecimal;
+  poolBalances['tokenBPoolBalance'] =
+    (lpTokenBalance * tokenTwoPool) / lpTokenSupply / 10 ** tokenBDecimal;
+} else if (
+  tokenAContractAddress === tokenTwoAddress &&
+  tokenAID === tokenTwoID &&
+  tokenBContractAddress === tokenOneAddress &&
+  tokenBID === tokenOneID
+) {
+  // Swap.
+  poolBalances['tokenAPoolBalance'] =
+    (lpTokenBalance * tokenTwoPool) / lpTokenSupply / 10 ** tokenADecimal;
+  poolBalances['tokenBPoolBalance'] =
+    (lpTokenBalance * tokenOnePool) / lpTokenSupply / 10 ** tokenBDecimal;
+} else {
+  throw new Error('Invalid Token Pairs');
+}
+
+return {
+  success: true,
+  data: {
+    tokenA,
+    tokenB,
+    tokenAPoolBalance: poolBalances.tokenAPoolBalance,
+    tokenBPoolBalance: poolBalances.tokenBPoolBalance,
+    lpBalance,
+    lpTokenShare,
+  },
+};
+
+
+
+    } 
+    else{
     const tokenOneAddress = storageResponse.data.args[0].args[2].string;
     const tokenOneID = Number(storageResponse.data.args[1].args[0].args[0].int);
     const tokenOnePool = Number(storageResponse.data.args[1].args[1].int);
@@ -222,7 +282,7 @@ export const getLiquidityPositionDetails = async (tokenA, tokenB, walletAddress)
         lpBalance,
         lpTokenShare,
       },
-    };
+    };}
   } catch (error) {
     return {
       success: false,
@@ -232,7 +292,7 @@ export const getLiquidityPositionDetails = async (tokenA, tokenB, walletAddress)
 };
 
 /**
- * Get the required details of liquidity position for seleted stable pair of tokens.
+ * Get the required details of liquidity position for selected stable pair of tokens.
  * @param {string} tokenA - First token from the stable pair selected.
  * @param {string} tokenB - Second token from the stable pair selected.
  * @param {string} walletAddress - Address of the wallet connected.
@@ -264,14 +324,15 @@ export const getLiquidityPositionDetailsStable = async (tokenA, tokenB, walletAd
     // Convert the balance to actual value stored in storage, for calculation.
     const lpTokenBalance = lpBalance * 10 ** lpTokenDecimal;
 
+
     const storageResponse = await axios.get(
       `${rpcNode}chains/main/blocks/head/context/contracts/${tokenPairContract}/storage`,
     );
-    const tokenOneAddress = storageResponse.data.args[0].args[0].args[2].string;
-    const tokenOnePool = Number(storageResponse.data.args[0].args[1].int);
+    const tokenOneAddress = 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4';
+    const tokenOnePool = Number(storageResponse.data.args[2].args[1].int);
     const tokenTwoAddress = '';
-    const tokenTwoPool = Number(storageResponse.data.args[3].int);
-    const lpTokenSupply = Number(storageResponse.data.args[1].args[1].int);
+    const tokenTwoPool = Number(storageResponse.data.args[0].args[1].args[0].int);
+    const lpTokenSupply = Number(storageResponse.data.args[0].args[4].int);
 
     // Token pool share percentage.
     const lpTokenShare = (lpTokenBalance * 100) / lpTokenSupply;
