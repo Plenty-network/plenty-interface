@@ -359,10 +359,10 @@ const calculateHarvestValueDualEntity = async (
     const smartContractResponse = await axios.get(url);
 
     if (stakingContractAddress === 'KT1QkadMTUTDxyNiTaz587ssPXFuwmWWQzDG') {
-      const periodFinish = smartContractResponse.data.args[0].args[3].int;
 
-      // TODO : periodFinish = lastUpdate time as of now if wrog pls swap
-      const lastUpdateTime = smartContractResponse.data.args[1].args[1].int;
+      const periodFinish = smartContractResponse.data.args[1].args[1].int;
+
+      const lastUpdateTime = smartContractResponse.data.args[0].args[3].int;
 
       const rewardRate = smartContractResponse.data.args[2].int;
 
