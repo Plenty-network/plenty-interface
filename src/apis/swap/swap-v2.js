@@ -55,6 +55,57 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
         lpToken,
         target,
       };
+    } else if (
+      (tokenIn === 'ctez' && tokenOut === 'DOGA') ||
+      (tokenIn === 'DOGA' && tokenOut === 'ctez')
+    ) {
+      const connectedNetwork = CONFIG.NETWORK;
+      const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+      const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
+
+      const Tezos = new TezosToolkit(rpcNode);
+      const dexContractInstance = await Tezos.contract.at(dexContractAddress);
+      const dexStorage = await dexContractInstance.storage();
+      // token1 == doga
+      // token2 == ctez
+
+      const lpFee = await dexStorage.lpFee;
+      const token1_pool = await dexStorage.token1_pool;
+      const token2_pool = await dexStorage.token2_pool;
+      let lpTokenSupply = await dexStorage.totalSupply;
+      const lpToken = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
+      let tokenIn_supply = 0;
+      let tokenOut_supply = 0;
+      if (CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].property === 'token2_pool') {
+        tokenOut_supply = token2_pool;
+        tokenIn_supply = token1_pool;
+      } else {
+        tokenOut_supply = token1_pool;
+        tokenIn_supply = token2_pool;
+      }
+
+      const tokenIn_Decimal = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL;
+      const tokenOut_Decimal = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_DECIMAL;
+      const liquidityToken_Decimal =
+        CONFIG.AMM[connectedNetwork][
+          CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken
+        ].TOKEN_DECIMAL;
+      tokenIn_supply = tokenIn_supply / Math.pow(10, tokenIn_Decimal);
+      tokenOut_supply = tokenOut_supply / Math.pow(10, tokenOut_Decimal);
+      lpTokenSupply = lpTokenSupply / Math.pow(10, liquidityToken_Decimal);
+      const exchangeFee = 1 / lpFee;
+      const tokenOutPerTokenIn = tokenOut_supply / tokenIn_supply;
+      return {
+        success: true,
+        tokenIn,
+        tokenIn_supply,
+        tokenOut,
+        tokenOut_supply,
+        exchangeFee,
+        tokenOutPerTokenIn,
+        lpTokenSupply,
+        lpToken,
+      };
     } else {
       const connectedNetwork = CONFIG.NETWORK;
       const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
@@ -64,6 +115,7 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
       const storageResponse = await axios.get(
         `${rpcNode}chains/main/blocks/head/context/contracts/${dexContractAddress}/storage`,
       );
+
       const systemFee = storageResponse.data.args[0].args[1].args[1].int;
       const lpFee = storageResponse.data.args[0].args[0].args[0].args[1].int;
       const token1_pool = storageResponse.data.args[1].args[1].int;
@@ -320,6 +372,7 @@ export const getAllRoutes = async (tokenIn, tokenOut) => {
         bestRoute.path = routeDataResponses[i].path;
       }
     }
+
     return {
       success: true,
       bestRouteUntilNoInput: bestRoute,
@@ -372,7 +425,68 @@ const computeTokenOutputV2 = (
           tokenIn,
         );
       }
-    } else {
+    }
+     else if((tokenIn === 'ctez' && tokenOut === 'DOGA') || (tokenIn === 'DOGA' && tokenOut === 'ctez'))
+    {
+
+
+        // token1 = doga
+        // token 2 - ctez
+
+      let tokenIn_Decimal=0;
+      let tokenOut_Decimal=0;
+      if(tokenIn === 'ctez'){
+        tokenIn_Decimal=6;
+        tokenOut_Decimal=5;
+      }else{
+        tokenIn_Decimal=5;
+        tokenOut_Decimal=6;
+      }
+
+      tokenIn_amount = tokenIn_amount * (10 ** tokenIn_Decimal);
+      tokenIn_supply = tokenIn_supply * (10 ** tokenIn_Decimal);
+      tokenOut_supply = tokenOut_supply * (10 ** tokenOut_Decimal);
+      exchangeFee = tokenIn_amount/290;
+
+
+        // UPDATE CTEZ - DOGA CALC here
+      let tokenOut_amount = 0;
+
+      let invariant = tokenIn_supply * tokenOut_supply;
+      invariant = invariant /  ((tokenIn_supply + tokenIn_amount) - exchangeFee);
+
+      tokenOut_amount = tokenOut_supply - invariant;
+
+      tokenOut_amount /= (10 ** tokenOut_Decimal);
+      const fees = tokenIn_amount * exchangeFee;
+      const minimum_Out = tokenOut_amount - (slippage * tokenOut_amount) / 100;
+
+      const updated_TokenIn_Supply = tokenIn_supply + tokenIn_amount;
+      const updated_TokenOut_Supply = tokenOut_supply - tokenOut_amount;
+
+      let next_tokenOut_Amount = 0;
+
+      invariant = updated_TokenIn_Supply * updated_TokenOut_Supply;
+      invariant = invariant /  ((updated_TokenIn_Supply + tokenIn_amount) - exchangeFee);
+
+      next_tokenOut_Amount = updated_TokenOut_Supply - invariant;
+
+      next_tokenOut_Amount /= (10 ** tokenOut_Decimal);
+      let priceImpact = (tokenOut_amount - next_tokenOut_Amount) / tokenOut_amount;
+      priceImpact = priceImpact * 100;
+      priceImpact = priceImpact.toFixed(5);
+      priceImpact = Math.abs(priceImpact);
+      priceImpact = priceImpact * 100;
+
+      return {
+        tokenOut_amount,
+        fees,
+        minimum_Out,
+        priceImpact,
+      };
+
+    }
+    else {
       let tokenOut_amount = 0;
       tokenOut_amount = (1 - exchangeFee) * tokenOut_supply * tokenIn_amount;
       tokenOut_amount /= tokenIn_supply + (1 - exchangeFee) * tokenIn_amount;
@@ -506,7 +620,7 @@ export const computeTokenOutForRouteBaseV2 = (input, allRoutes, slippage) => {
     bestRoute.isStableList = isStable;
     bestRoute.feeList = fee;
     bestRoute.maxFee = maxFee;
-    console.log(bestRoute);
+
     return {
       success: true,
       bestRoute,
@@ -657,7 +771,6 @@ export const computeTokenOutForRouteBaseByOutAmountV2 = (outputAmount, allRoutes
     bestRoute.feeList = fee;
     bestRoute.maxFee = maxFee;
 
-    console.log(bestRoute);
     return {
       success: true,
       bestRoute,

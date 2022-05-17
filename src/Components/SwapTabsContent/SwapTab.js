@@ -588,10 +588,6 @@ const SwapTab = (props) => {
                           ) : (
                             <div className="shimmer">0.0000</div>
                           )}{' '}
-                          {/* <img
-                            src={props.theme === 'light' ? maxlight : maxDark}
-                            className="max-swap"
-                          /> */}
                         </span>
                       </OverlayTrigger>
                     ) : (

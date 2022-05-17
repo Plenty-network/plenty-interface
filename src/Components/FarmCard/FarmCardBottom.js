@@ -102,13 +102,11 @@ const FarmCardBottom = (props) => {
                       farmData.CONTRACT,
                     ) &&
                     props.harvestValueOnFarms[props.isActiveOpen][farmData.CONTRACT]
-                      .totalRewards[1] > 0 ? (
-                      props.harvestValueOnFarms[props.isActiveOpen][
-                        farmData.CONTRACT
-                      ].totalRewards[1].toFixed(4)
-                    ) : (
-                      <span className="shimmer">99999</span>
-                    )}
+                      .totalRewards[1] > 0
+                      ? props.harvestValueOnFarms[props.isActiveOpen][
+                          farmData.CONTRACT
+                        ].totalRewards[1].toFixed(4)
+                      : 0}
                   </span>
                 </div>
               </div>
@@ -149,13 +147,19 @@ const FarmCardBottom = (props) => {
                 props.setLoader(true);
                 localStorage.setItem('stakePair', properties.source);
                 props.setFloaterValue({
-                  value:
-                    props.harvestValueOnFarms[props.isActiveOpen][farmData.CONTRACT].totalRewards >
-                    0
+                  value: properties.isDualFarm
+                    ? props.harvestValueOnFarms[props.isActiveOpen][farmData.CONTRACT]
+                        .totalRewards[0] > 0
                       ? props.harvestValueOnFarms[props.isActiveOpen][
                           farmData.CONTRACT
-                        ].totalRewards.toFixed(6)
-                      : null,
+                        ].totalRewards[0].toFixed(4)
+                      : null
+                    : props.harvestValueOnFarms[props.isActiveOpen][farmData.CONTRACT]
+                        .totalRewards > 0
+                    ? props.harvestValueOnFarms[props.isActiveOpen][
+                        farmData.CONTRACT
+                      ].totalRewards.toFixed(6)
+                    : null,
                   pair: localStorage.getItem('stakePair'),
                   type: 'Harvest',
                 });
@@ -266,16 +270,41 @@ const FarmCardBottom = (props) => {
 
             <div className={'w-50 text-center'}>
               <div>Withdrawal Fee</div>
-              <Button
-                size="small"
-                color="mute"
-                startIcon="help_outline"
-                className="mt-1 ml-auto mr-auto"
-                rounded={false}
-                onClick={onWithdrawalFeeClick}
-              >
-                Variable
-              </Button>
+              {props.farmCardData.identifier === 'CTEZ - TEZ' ? (
+                <OverlayTrigger
+                  key="top"
+                  placement="top"
+                  overlay={
+                    <Tooltip
+                      id={'deposit-fee-tooltip'}
+                      arrowProps={{ styles: { display: 'none' } }}
+                    >
+                      No Withdrawal Fee
+                    </Tooltip>
+                  }
+                >
+                  <Button
+                    size="small"
+                    color="mute"
+                    startIcon="help_outline"
+                    className="mt-1 ml-auto mr-auto"
+                    rounded={false}
+                  >
+                    0 %{' '}
+                  </Button>
+                </OverlayTrigger>
+              ) : (
+                <Button
+                  size="small"
+                  color="mute"
+                  startIcon="help_outline"
+                  className="mt-1 ml-auto mr-auto"
+                  rounded={false}
+                  onClick={onWithdrawalFeeClick}
+                >
+                  Variable
+                </Button>
+              )}
             </div>
           </div>
 
