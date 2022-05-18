@@ -602,7 +602,7 @@ export const computeTokenOutForRouteBaseV2 = (input, allRoutes, slippage) => {
     bestRoute.path = computeResponses[0].path;
     // Checking for best route among all routes based on maximum tokenOutAmount
     computeResponses.forEach((route) => {
-      if (route.computations.tokenOutAmount > bestRoute.computations.tokenOutAmount) {
+      if (Number(route.computations.tokenOutAmount) > Number(bestRoute.computations.tokenOutAmount)) {
         bestRoute.computations = route.computations;
         bestRoute.path = route.path;
       }
@@ -620,7 +620,6 @@ export const computeTokenOutForRouteBaseV2 = (input, allRoutes, slippage) => {
     bestRoute.isStableList = isStable;
     bestRoute.feeList = fee;
     bestRoute.maxFee = maxFee;
-
     return {
       success: true,
       bestRoute,
