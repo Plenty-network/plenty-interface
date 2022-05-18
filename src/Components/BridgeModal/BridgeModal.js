@@ -175,6 +175,7 @@ const BridgeModal = (props) => {
 
   useEffect(() => {
     setOpeningFromHistory(false);
+    setIsApproved(false);
   }, []);
 
   useEffect(() => {
