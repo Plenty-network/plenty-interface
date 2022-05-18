@@ -542,7 +542,7 @@ const SwapTab = (props) => {
 
             <div className="token-user-input-wrapper">
               <div className="input-heading">YOU PAY</div>
-              {props.routeData.success ? (
+              {props.tokenOut.name && props.userBalances[props.tokenIn.name] ? (
                 <input
                   type="text"
                   className={clsx(
@@ -682,7 +682,7 @@ const SwapTab = (props) => {
 
               <div className="token-user-input-wrapper">
                 <div className="input-heading receive-heading">YOU RECEIVE</div>
-                {props.routeData.success && props.tokenOut.name ? (
+                {props.userBalances[props.tokenOut.name] >= 0 && props.tokenOut.name ? (
                   <input
                     type="text"
                     className={clsx('token-user-input', secondTokenAmount && 'second-input-color')}
