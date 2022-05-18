@@ -426,66 +426,66 @@ const computeTokenOutputV2 = (
         );
       }
     }
-     else if((tokenIn === 'ctez' && tokenOut === 'DOGA') || (tokenIn === 'DOGA' && tokenOut === 'ctez'))
-    {
+    //  else if((tokenIn === 'ctez' && tokenOut === 'DOGA') || (tokenIn === 'DOGA' && tokenOut === 'ctez'))
+    // {
 
 
-        // token1 = doga
-        // token 2 - ctez
+    //     // token1 = doga
+    //     // token 2 - ctez
 
-      let tokenIn_Decimal=0;
-      let tokenOut_Decimal=0;
-      if(tokenIn === 'ctez'){
-        tokenIn_Decimal=6;
-        tokenOut_Decimal=5;
-      }else{
-        tokenIn_Decimal=5;
-        tokenOut_Decimal=6;
-      }
+    //   let tokenIn_Decimal=0;
+    //   let tokenOut_Decimal=0;
+    //   if(tokenIn === 'ctez'){
+    //     tokenIn_Decimal=6;
+    //     tokenOut_Decimal=5;
+    //   }else{
+    //     tokenIn_Decimal=5;
+    //     tokenOut_Decimal=6;
+    //   }
 
-      tokenIn_amount = tokenIn_amount * (10 ** tokenIn_Decimal);
-      tokenIn_supply = tokenIn_supply * (10 ** tokenIn_Decimal);
-      tokenOut_supply = tokenOut_supply * (10 ** tokenOut_Decimal);
-      exchangeFee = tokenIn_amount/290;
+    //   tokenIn_amount = tokenIn_amount * (10 ** tokenIn_Decimal);
+    //   tokenIn_supply = tokenIn_supply * (10 ** tokenIn_Decimal);
+    //   tokenOut_supply = tokenOut_supply * (10 ** tokenOut_Decimal);
+    //   exchangeFee = tokenIn_amount/290;
 
 
-        // UPDATE CTEZ - DOGA CALC here
-      let tokenOut_amount = 0;
+    //     // UPDATE CTEZ - DOGA CALC here
+    //   let tokenOut_amount = 0;
 
-      let invariant = tokenIn_supply * tokenOut_supply;
-      invariant = invariant /  ((tokenIn_supply + tokenIn_amount) - exchangeFee);
+    //   let invariant = tokenIn_supply * tokenOut_supply;
+    //   invariant = invariant /  ((tokenIn_supply + tokenIn_amount) - exchangeFee);
 
-      tokenOut_amount = tokenOut_supply - invariant;
+    //   tokenOut_amount = tokenOut_supply - invariant;
 
-      tokenOut_amount /= (10 ** tokenOut_Decimal);
-      const fees = tokenIn_amount * exchangeFee;
-      const minimum_Out = tokenOut_amount - (slippage * tokenOut_amount) / 100;
+    //   tokenOut_amount /= (10 ** tokenOut_Decimal);
+    //   const fees = tokenIn_amount * exchangeFee;
+    //   const minimum_Out = tokenOut_amount - (slippage * tokenOut_amount) / 100;
 
-      const updated_TokenIn_Supply = tokenIn_supply + tokenIn_amount;
-      const updated_TokenOut_Supply = tokenOut_supply - tokenOut_amount;
+    //   const updated_TokenIn_Supply = tokenIn_supply + tokenIn_amount;
+    //   const updated_TokenOut_Supply = tokenOut_supply - tokenOut_amount;
 
-      let next_tokenOut_Amount = 0;
+    //   let next_tokenOut_Amount = 0;
 
-      invariant = updated_TokenIn_Supply * updated_TokenOut_Supply;
-      invariant = invariant /  ((updated_TokenIn_Supply + tokenIn_amount) - exchangeFee);
+    //   invariant = updated_TokenIn_Supply * updated_TokenOut_Supply;
+    //   invariant = invariant /  ((updated_TokenIn_Supply + tokenIn_amount) - exchangeFee);
 
-      next_tokenOut_Amount = updated_TokenOut_Supply - invariant;
+    //   next_tokenOut_Amount = updated_TokenOut_Supply - invariant;
 
-      next_tokenOut_Amount /= (10 ** tokenOut_Decimal);
-      let priceImpact = (tokenOut_amount - next_tokenOut_Amount) / tokenOut_amount;
-      priceImpact = priceImpact * 100;
-      priceImpact = priceImpact.toFixed(5);
-      priceImpact = Math.abs(priceImpact);
-      priceImpact = priceImpact * 100;
+    //   next_tokenOut_Amount /= (10 ** tokenOut_Decimal);
+    //   let priceImpact = (tokenOut_amount - next_tokenOut_Amount) / tokenOut_amount;
+    //   priceImpact = priceImpact * 100;
+    //   priceImpact = priceImpact.toFixed(5);
+    //   priceImpact = Math.abs(priceImpact);
+    //   priceImpact = priceImpact * 100;
 
-      return {
-        tokenOut_amount,
-        fees,
-        minimum_Out,
-        priceImpact,
-      };
+    //   return {
+    //     tokenOut_amount,
+    //     fees,
+    //     minimum_Out,
+    //     priceImpact,
+    //   };
 
-    }
+    // }
     else {
       let tokenOut_amount = 0;
       tokenOut_amount = (1 - exchangeFee) * tokenOut_supply * tokenIn_amount;
