@@ -544,7 +544,7 @@ const SwapTab = (props) => {
 
             <div className="token-user-input-wrapper">
               <div className="input-heading">YOU PAY</div>
-              {props.tokenOut.name && props.userBalances[props.tokenIn.name] ? (
+              {props.tokenOut.name && props.userBalances[props.tokenIn.name] >= 0 ? (
                 <input
                   type="text"
                   className={clsx(
