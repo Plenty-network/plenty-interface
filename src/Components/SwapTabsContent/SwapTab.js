@@ -259,7 +259,9 @@ const SwapTab = (props) => {
         maximumFractionDigits: 20,
         useGrouping: false,
       }) ?? 0;
-    handleSwapTokenInput(value, 'tokenIn');
+    props.tokenIn.name === 'tez'
+      ? handleSwapTokenInput(value - 0.02, 'tokenIn')
+      : handleSwapTokenInput(value, 'tokenIn');
   };
   useEffect(() => {
     handleSwapTokenInput(firstTokenAmount, 'tokenIn');
