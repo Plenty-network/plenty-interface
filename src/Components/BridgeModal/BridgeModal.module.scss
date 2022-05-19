@@ -49,6 +49,17 @@
     justify-content: space-between;
     padding-left: 8px;
     padding-right: 8px;
+    .resLoading {
+      font-style: normal;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 13px;
+      height: 32px;
+      width: 135px;
+      border-radius: 4px;
+      align-items: center;
+      display: flex;
+    }
     .res {
       font-style: normal;
       font-weight: 500;

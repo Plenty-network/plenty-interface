@@ -7,11 +7,11 @@
     animation: fadein 1s;
   }
   &-4-bridge{
-    -webkit-animation: fadeinBridge 1.5s; /* Safari, Chrome and Opera > 12.1 */
-   -moz-animation: fadeinBridge 1.5s; /* Firefox < 16 */
-    -ms-animation: fadeinBridge 1.5s; /* Internet Explorer */
-     -o-animation: fadeinBridge 1.5s; /* Opera < 12.1 */
-        animation: fadeinBridge 1.5s;
+    -webkit-animation: fadeinBridge 0.6s; /* Safari, Chrome and Opera > 12.1 */
+   -moz-animation: fadeinBridge 0.6s; /* Firefox < 16 */
+    -ms-animation: fadeinBridge 0.6s; /* Internet Explorer */
+     -o-animation: fadeinBridge 0.6s; /* Opera < 12.1 */
+        animation: fadeinBridge 0.6s;
   }
   &-4-bridge-false{
     -webkit-animation: fadeinBridge 0.4s; /* Safari, Chrome and Opera > 12.1 */
@@ -23,13 +23,13 @@
 }
 
 @keyframes fadeinBridge {
-  from { opacity: 0.2;transform: translateX(-20px);}
+  from { opacity: 0;transform: translateX(-40px);}
   to   { opacity: 1;transform: translateX(0px); }
 }
 
 /* Firefox < 16 */
 @-moz-keyframes fadeinBridge {
-  from { opacity: 0.2;transform: translateX(-20px);}
+  from { opacity: 0;transform: translateX(-40px);}
   to   { opacity: 1;transform: translateX(0px); }
 }
 
@@ -71,23 +71,65 @@
     animation: rightToleftFloater 2s;
   }
   &-4{
-    -webkit-animation: rightToleftFBridge 1.5s; /* Safari, Chrome and Opera > 12.1 */
-    -moz-animation: rightToleftFBridge 1.5s; /* Firefox < 16 */
-    -ms-animation: rightToleftFBridge 1.5s; /* Internet Explorer */
-    -o-animation: rightToleftFBridge 1.5s; /* Opera < 12.1 */
-    animation: rightToleftFBridge 1.5s;
+    -webkit-animation: rightToleftFBridge 0.6s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: rightToleftFBridge 0.6s; /* Firefox < 16 */
+    -ms-animation: rightToleftFBridge 0.6s; /* Internet Explorer */
+    -o-animation: rightToleftFBridge 0.6s; /* Opera < 12.1 */
+    animation: rightToleftFBridge 0.6s;
   }
 }
 
 @keyframes rightToleftFBridge {
-  from { opacity: 0.2;transform: translateX(20px);}
+  from { opacity: 0;transform: translateX(40px);}
   to   { opacity: 1;transform: translateX(0px); }
 }
 
 /* Firefox < 16 */
 @-moz-keyframes rightToleftFBridge {
-  from { opacity: 0.2;transform: translateX(20px);}
+  from { opacity: 0;transform: translateX(40px);}
   to   { opacity: 1;transform: translateX(0px); }
+}
+
+.rightToLeftFadeOutAnimation {
+  &-4{
+    -webkit-animation: rightToleftFOBridge 0.6s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: rightToleftFOBridge 0.6s; /* Firefox < 16 */
+    -ms-animation: rightToleftFOBridge 0.6s; /* Internet Explorer */
+    -o-animation: rightToleftFOBridge 0.6s; /* Opera < 12.1 */
+    animation: rightToleftFOBridge 0.6s;
+  }
+}
+
+@keyframes rightToleftFOBridge {
+  from { opacity: 1;transform: translateX(0px); }
+  to   { opacity: 0;transform: translateX(-40px);}
+}
+
+/* Firefox < 16 */
+@-moz-keyframes rightToleftFOBridge {
+  from { opacity: 1;transform: translateX(0px); }
+  to   { opacity: 0;transform: translateX(-40px);}
+}
+
+.leftToRightFadeOutAnimation {
+  &-4{
+    -webkit-animation: leftToRightFOBridge 0.6s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: leftToRightFOBridge 0.6s; /* Firefox < 16 */
+    -ms-animation: leftToRightFOBridge 0.6s; /* Internet Explorer */
+    -o-animation: leftToRightFOBridge 0.6s; /* Opera < 12.1 */
+    animation: leftToRightFOBridge 0.6s;
+  }
+}
+
+@keyframes leftToRightFOBridge {
+  from { opacity: 1;transform: translateX(0px); }
+  to   { opacity: 0;transform: translateX(40px);}
+}
+
+/* Firefox < 16 */
+@-moz-keyframes leftToRightFOBridge {
+  from { opacity: 1;transform: translateX(0px); }
+  to   { opacity: 0;transform: translateX(40px);}
 }
 
 .bottomToTopFadeInAnimation {

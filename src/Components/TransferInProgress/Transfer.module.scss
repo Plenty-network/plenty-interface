@@ -268,7 +268,21 @@
     font-size: 14px;
     font-weight: 500;
     margin-bottom: auto;
+    > span{
+      animation: move-text 1s infinite;
+      -webkit-animation: move-text 1s infinite;
+    }
   }
+}
+
+@keyframes move-text {
+  from { opacity: 0;}
+  to { opacity: 1;}
+}
+
+@-webkit-keyframes move-text {
+  from { opacity: 0;}
+  to { opacity: 1;}
 }
 
 .mainButtonWrapper {
@@ -316,9 +330,17 @@
   color: var(--theme-bridge-max-btn-border-text);
 }
 
+.approvedButton {
+  background: var(--theme-bridge-trans-approved-btn-bg) !important;
+  border: 1px solid var(--theme-bridge-max-btn-border-text) !important;
+  color: var(--theme-bridge-max-btn-border-text) !important;
+}
+
 
 
 //Loading spinner related styles
+
+//Confirmation and Signatures spinner
 $spinner_speed: 1s;
 $spinner_radius: 80%;
 $spinner_fill_radius: 90px;
@@ -327,7 +349,7 @@ $spinner_size: 16px;
 $spinner_thickness: 5px;
 $spinner_inner_circle: $spinner_size - $spinner_thickness;
 
-$spinner_color: var(--theme-bridge-trans-spin);
+// $spinner_color: var(--theme-bridge-trans-spin);
 $spinner_bg: var(--theme-bridge-trans-spin-bg);
 $spinner_inner_bg: var(--theme-bridge-trans-spin-inner-bg);
 
@@ -338,6 +360,7 @@ $spinner_inner_bg: var(--theme-bridge-trans-spin-inner-bg);
   width: $spinner_size;
   position: relative;
   animation: spin $spinner_speed linear 0s infinite normal;
+  -webkit-animation: spin $spinner_speed linear 0s infinite normal;;
   background: $spinner_bg;
 
   &:before,
@@ -369,7 +392,68 @@ $spinner_inner_bg: var(--theme-bridge-trans-spin-inner-bg);
   }
 }
 
+
+
+//Done process spinner
+$spinner_speed_2: 1s;
+$spinner_radius_2: 80%;
+$spinner_fill_radius_2: 90px;
+
+$spinner_size_2: 45px;
+$spinner_thickness_2: 10px;
+$spinner_inner_circle: $spinner_size_2 - $spinner_thickness_2;
+
+$spinner_color_2: var(--theme-bridge-max-btn-border-text);
+$spinner_bg_2: var(--theme-bridge-done-spin-bg);
+$spinner_inner_bg_2: var(--theme-bridge-selector-bg);
+
+.completeSpinLoader {
+  border-radius: 80%;
+  display: block;
+  height: $spinner_size_2;
+  width: $spinner_size_2;
+  position: relative;
+  animation: spin $spinner_speed_2 linear 0s infinite normal;
+  -webkit-animation: spin $spinner_speed_2 linear 0s infinite normal;;
+  background: $spinner_bg_2;
+
+  &:before,
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+  }
+
+  &:before {
+    border-radius: 0 $spinner_fill_radius $spinner_fill_radius 0;
+    height: $spinner_size_2;
+    width: 50%;
+    top: 0; right: 0;
+    z-index: 1;
+    background: $spinner_color_2;
+    background-image: linear-gradient( $spinner_color_2, $spinner_bg_2);
+  }
+
+  &:after {
+    border-radius: $spinner_radius_2;
+    height: $spinner_inner_circle;
+    width: $spinner_inner_circle;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    background: $spinner_inner_bg_2;
+  }
+}
+
 @keyframes spin {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+
+@-webkit-keyframes spin {
   to {
     transform: rotate(-360deg);
   }

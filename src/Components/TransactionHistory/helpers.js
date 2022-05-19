@@ -11,11 +11,11 @@ export const filterData = (originalData, checkBoxesState) => {
       // Have to add conditions if any other filters introduced in future.
       return dataToFilter.filter((transaction) => {
         if (checkBoxesState['TO_TEZOS']) {
-          return transaction.operation === 'BRIDGE' && transaction.currentProgress === 4;
+          return transaction.operation === 'BRIDGE' && transaction.currentProgress === 3;
         } else if (checkBoxesState['FROM_TEZOS']) {
-          return transaction.operation === 'UNBRIDGE' && transaction.currentProgress === 4;
+          return transaction.operation === 'UNBRIDGE' && transaction.currentProgress === 3;
         } else if (checkBoxesState['ACTION_REQUIRED']) {
-          return transaction.currentProgress !== 4;
+          return transaction.currentProgress !== 3;
         }
         return true;
       });
@@ -24,16 +24,16 @@ export const filterData = (originalData, checkBoxesState) => {
         return dataToFilter.filter(
           (transaction) =>
             (transaction.operation === 'BRIDGE' || transaction.operation === 'UNBRIDGE') &&
-            transaction.currentProgress === 4,
+            transaction.currentProgress === 3,
         );
       } else if (checkBoxesState['TO_TEZOS'] && checkBoxesState['ACTION_REQUIRED']) {
         return dataToFilter.filter(
-          (transaction) => transaction.operation === 'BRIDGE' || transaction.currentProgress !== 4,
+          (transaction) => transaction.operation === 'BRIDGE' || transaction.currentProgress !== 3,
         );
       } else if (checkBoxesState['FROM_TEZOS'] && checkBoxesState['ACTION_REQUIRED']) {
         return dataToFilter.filter(
           (transaction) =>
-            transaction.operation === 'UNBRIDGE' || transaction.currentProgress !== 4,
+            transaction.operation === 'UNBRIDGE' || transaction.currentProgress !== 3,
         );
       }
     }

@@ -35,7 +35,7 @@ import {
   getCurrentNetwork,
 } from '../../apis/bridge/bridgeAPI';
 const BridgeTransferModal = (props) => {
-  const [animationCalss, SetAnimationClass] = useState('leftToRightFadeInAnimation-4-bridge');
+  const [animationClass, setAnimationClass] = useState('rightToLeftFadeInAnimation-4');
   //const [currentProgress,SetCurrentProgress]=useState(4);
   const [isButtonLoading, SetIsButtonLoading] = useState(false);
   const [isApproveLoading, setIsApproveLoading] = useState(false);
@@ -105,15 +105,18 @@ const BridgeTransferModal = (props) => {
     openingFromHistory,
     displayMessage,
     setOpeningFromHistory,
+    isApproved,
+    setIsApproved,
+    setOpeningFromTransaction,
   } = props;
 
   const setBack = (value) => {
-    SetAnimationClass('rightToLeftFadeInAnimation-4');
+    setAnimationClass('leftToRightFadeOutAnimation-4');
     setTimeout(() => {
       if (value) {
         setTransaction(1);
       }
-    }, 200);
+    }, 600);
   };
 
   const bridgeButtonClick = async () => {
@@ -185,72 +188,18 @@ const BridgeTransferModal = (props) => {
       SetIsButtonLoading(false);
     }); */
 
-    /*     dummyApiCall({ currentProgress: currentProgress }).then((res) => {
-      if (res.currentProgress === 0) {
-        const newIndex = getTransactionListLength();
-        const newProgress = res.currentProgress + 1;
-        const newDate = new Date().toLocaleDateString('en-IN');
-        const newTime = `${new Date().getHours()}:${new Date().getMinutes()}`;
-        const newData = {
-          id: newIndex,
-          currentProgress: newProgress,
-          operation: operation,
-          fromBridge: fromBridge.name,
-          toBridge: toBridge.name,
-          tokenIn: tokenIn.name,
-          tokenOut: tokenOut.name,
-          firstTokenAmount: firstTokenAmount,
-          secondTokenAmount: secondTokenAmount,
-          fee: fee,
-          date: newDate,
-          time: newTime,
-        };
-        setTransactionData((prevData) => [...prevData, newData]);
-      } else {
-        if (operation === 'UNBRIDGE' && res.currentProgress === 1) {
-          const newIndex = getTransactionListLength();
-          const newProgress = res.currentProgress + 1;
-          const newDate = new Date().toLocaleDateString('en-IN');
-          const newTime = `${new Date().getHours()}:${new Date().getMinutes()}`;
-          const newData = {
-            id: newIndex,
-            currentProgress: newProgress,
-            operation: operation,
-            fromBridge: fromBridge.name,
-            toBridge: toBridge.name,
-            tokenIn: tokenIn.name,
-            tokenOut: tokenOut.name,
-            firstTokenAmount: firstTokenAmount,
-            secondTokenAmount: secondTokenAmount,
-            fee: fee,
-            date: newDate,
-            time: newTime,
-          };ß
-          setTransactionData((prevData) => [...prevData, newData]);
-        } else {
-          setTransactionData((prevData) =>
-            prevData.map((transaction) =>
-              transaction.id === selectedId
-                ? { ...transaction, currentProgress: res.currentProgress + 1 }
-                : transaction,
-            ),
-          );
-        }
-      }
-      SetIsButtonLoading(false);
-      SetCurrentProgress(res.currentProgress + 1);
-    }); */
+    
   };
   //const numberOfSteps = ['Approve', 'Bridge', 'Mint', 'Done'];
   const numberOfSteps = [
-    { BRIDGE: 'Approve', UNBRIDGE: '' },
+    // { BRIDGE: 'Approve', UNBRIDGE: '' },
     { BRIDGE: 'Lock', UNBRIDGE: 'Unbridge' },
     { BRIDGE: 'Mint', UNBRIDGE: 'Release' },
-    { BRIDGE: 'Done', UNBRIDGE: 'Done' },
+    { BRIDGE: 'Complete', UNBRIDGE: 'Complete' },
   ];
-  const defaultTile = (buttonText) => {
+  const defaultTile = (buttonText, index) => {
     return (
-      <p className={styles.progressLabel + ' leftToRightFadeInAnimation-4-bridge'}>
+      <p className={styles.progressLabel} key={index}>
         <div className="flex flex-row">
           <span className={styles.defaultRadioButton}></span>
           <span>{buttonText}</span>
@@ -259,10 +208,11 @@ const BridgeTransferModal = (props) => {
       </p>
     );
   };
-  const completedTile = (buttonText) => {
+  const completedTile = (buttonText, index) => {
     return (
       <p
-        className={`${styles.completedLabel} ${styles.progressLabel} leftToRightFadeInAnimation-4-bridge`}
+        className={`${styles.completedLabel} ${styles.progressLabel}`}
+        key={index}
       >
         <div className="flex flex-row">
           {/* <span className={styles.defaultRadioButton}></span> */}
@@ -275,9 +225,9 @@ const BridgeTransferModal = (props) => {
       </p>
     );
   };
-  const currentTile = (buttonText) => {
+  const currentTile = (buttonText, index) => {
     return (
-      <p className={styles.progressLabel + ' leftToRightFadeInAnimation-4-bridge'}>
+      <p className={styles.progressLabel} key={index}>
         <div className="flex flex-row">
           <span className={styles.radioButton}></span>
           <span className={styles.activeLabel}>{buttonText}</span>
@@ -287,350 +237,31 @@ const BridgeTransferModal = (props) => {
     );
   };
 
-  const InSideElement = (p) => {
-    /* if (currentProgress === numberOfSteps.length - 1) {
-      dummyApiCall({ isCompletedtranscation: true }).then((res) => {
-        setTransactionData((prevData) =>
-          prevData.map((transaction) =>
-            transaction.id === selectedId
-              ? { ...transaction, currentProgress: currentProgress + 1 }
-              : transaction,
-          ),
-        );
-        if (res.isCompletedtranscation) {
-          SetCurrentProgress(currentProgress + 1);
-        }
-      });
-
-      return (
-        <>
-          <div className="bridge-done_screen">
-            <div className="border-tile shaded">
-              <div className="left-div">
-                <p className={styles.youWillReceive}>You will receive</p>
-                <div className="containerwithicon">
-                  <img src={tokenOut.image} />
-                  <span className="value-text">
-                    {secondTokenAmount} {tokenOut.name}
-                  </span>
-                </div>
-              </div>
-              <div className="loading-div">
-                <LoadingRing />
-              </div>
-            </div>
-            <div className="border-tile">
-              <div className="left-div">
-                <div className="containerwithicon">
-                  <img src={fromBridge.image} />
-                  <div className="right-div">
-                    <span className="fromreceived">From</span>
-                    <span className="value-text">{fromBridge.name}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="border-tile">
-              <div className="left-div">
-                <div className="containerwithicon">
-                  <img src={toBridge.image} />
-                  <div className="right-div">
-                    <span className="fromreceived">To</span>
-                    <span className="value-text">{toBridge.name}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="border-tile">
-              <div className="left-div">
-                <div className="containerwithicon">
-                  <FeeBigIcon />
-                  <div className="right-div">
-                    <span className="fromreceived">Estimated transaction fee</span>
-                    <span className="value-text">~{p.transactionFees}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
-      );
-    } else if (currentProgress === numberOfSteps.length) {
-      //resetToDefaultStates();
-      return (
-        <>
-          <div className="bridge-done_screen">
-            <div className="border-tile success">
-              <div className="left-div">
-                <div className="containerwithicon">
-                  <img src={tokenOut.image} />
-                  <div className="right-div">
-                    <span className="value-text">
-                      {secondTokenAmount} {tokenOut.name}
-                    </span>
-                    <span className="fromreceived success-text">Bridging Successful</span>
-                  </div>
-                </div>
-              </div>
-              <div className="loading-div">
-                <ProcessSuccess />
-              </div>
-            </div>
-            <div className="border-tile">
-              <div className="left-div">
-                <div className="containerwithicon">
-                  <img src={fromBridge.image} />
-                  <div className="right-div">
-                    <span className="fromreceived">From</span>
-                    <span className="value-text">{fromBridge.name}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="border-tile">
-              <div className="left-div">
-                <div className="containerwithicon">
-                  <img src={toBridge.image} />
-                  <div className="right-div">
-                    <span className="fromreceived">To</span>
-                    <span className="value-text">{toBridge.name}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="border-tile">
-              <div className="left-div">
-                <div className="containerwithicon">
-                  <FeeBigIcon />
-                  <div className="right-div">
-                    <span className="fromreceived">Estimated transaction fee</span>
-                    <span className="value-text">~{p.transactionFees}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="borderless mt-3">
-              <p className={`mb-1 mt-1 ${styles.discriptionInfo}`} style={{ width: 'max-content' }}>
-                <a
-                  href="https://forum.plentydefi.com/t/pip-001-minting-rate-reduction/51"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  View detailed trasaction
-                </a>
-                <Link className="ml-2 mb-1" />
-              </p>
-            </div>
-          </div>
-        </>
-      );
-    }
-    return (
-      <>
-        <p className={styles.contentLabel}>{currentProgress <= 1 ? 'Approving' : 'Minting'}</p>
-        <p className={styles.contentDes}>{p.description}</p>
-        <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
-          <a
-            href="https://forum.plentydefi.com/t/pip-001-minting-rate-reduction/51"
-            target="_blank"
-            rel="noreferrer"
-          >
-            View on Block Explorer
-          </a>
-          <Link className="ml-2 mb-1" />
-        </p>
-        <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
-        {currentProgress === 0 && (
-          <div className={`${styles.topInfo} my-2`}>
-            Please approve in your wallet to proceed with the tranfer{' '}
-          </div>
-        )}
-        <div className={styles.resultsHeader}>
-          {currentProgress === 0 ? (
-            <>
-              <div style={{ width: '50%' }}>
-                <Button
-                  color={'default'}
-                  className={`mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
-                  onClick={() => setBack(1)}
-                >
-                  {'Cancel'}
-                </Button>
-              </div>
-              <div style={{ width: '50%' }}>
-                <Button
-                  color={'primary'}
-                  className={`xplenty-btn mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
-                  onClick={bridgeButtonClick}
-                  loading={isButtonLoading}
-                >
-                  {numberOfSteps[currentProgress][operation]}
-                </Button>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className={`${styles.bottomInfo} ${styles.width}`}>
-                Please approve in your wallet to proceed with the tranfer{' '}
-              </div>
-              <div style={{ width: '50%' }}>
-                <Button
-                  color={'primary'}
-                  className={`xplenty-btn mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
-                  onClick={bridgeButtonClick}
-                  loading={isButtonLoading}
-                >
-                  {numberOfSteps[currentProgress][operation]}
-                </Button>
-              </div>
-            </>
-          )}
-        </div>
-
-        <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
-        <div className={styles.feeInfoWrapper}>
-          <FeeIcon />
-          <p className={styles.bottomInfo}>Estimated Transaction fee</p>
-          <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~{p.transactionFees}</p>
-        </div>
-      </>
-    ); */
-    console.log('rendering insideElement.');
-    if (currentProgress === 0) {
-      return (
-        <ApproveModal
-          description={p.description}
-          gasFees={fee}
-          setBack={setBack}
-          currentProgress={currentProgress}
-          getTransactionListLength={getTransactionListLength}
-          operation={operation}
-          fromBridge={fromBridge}
-          toBridge={toBridge}
-          tokenIn={tokenIn}
-          tokenOut={tokenOut}
-          firstTokenAmount={firstTokenAmount}
-          secondTokenAmount={secondTokenAmount}
-          setTransactionData={setTransactionData}
-          SetCurrentProgress={SetCurrentProgress}
-          setSelectedId={setSelectedId}
-          setApproveHash={setApproveHash}
-          theme={theme}
-          displayMessage={displayMessage}
-        />
-      );
-    } else if (currentProgress === 1) {
-      return (
-        <BridgeUnbridgeModal
-          description={p.description}
-          gasFees={fee}
-          currentProgress={currentProgress}
-          getTransactionListLength={getTransactionListLength}
-          operation={operation}
-          fromBridge={fromBridge}
-          toBridge={toBridge}
-          tokenIn={tokenIn}
-          tokenOut={tokenOut}
-          firstTokenAmount={firstTokenAmount}
-          secondTokenAmount={secondTokenAmount}
-          setTransactionData={setTransactionData}
-          selectedId={selectedId}
-          SetCurrentProgress={SetCurrentProgress}
-          walletAddress={walletAddress}
-          setMintUnmintOpHash={setMintUnmintOpHash}
-          setSelectedId={setSelectedId}
-          approveHash={approveHash.current}
-          theme={theme}
-          displayMessage={displayMessage}
-        />
-      );
-    } else if (currentProgress === 2) {
-      return (
-        <MintReleaseModal
-          description={p.description}
-          gasFees={fee}
-          currentProgress={currentProgress}
-          operation={operation}
-          setTransactionData={setTransactionData}
-          selectedId={selectedId}
-          SetCurrentProgress={SetCurrentProgress}
-          mintUnmintOpHash={mintUnmintOpHash}
-          fromBridge={fromBridge}
-          setWrapUnwrapData={setWrapUnwrapData}
-          toBridge={toBridge}
-          theme={theme}
-          displayMessage={displayMessage}
-        />
-      );
-    } /* else if (currentProgress === 3) {
-      dummyApiCall({ isCompletedtranscation: true }).then((res) => {
-        setTransactionData((prevData) =>
-          prevData.map((transaction) =>
-            transaction.id === selectedId
-              ? { ...transaction, currentProgress: currentProgress + 1 }
-              : transaction,
-          ),
-        );
-        if (res.isCompletedtranscation) {
-          SetCurrentProgress(currentProgress + 1);
-        }
-      });
-      return (<DoneModal
-        transactionFees={fee}
-        currentProgress={currentProgress}
-        numberOfSteps={numberOfSteps}
-        tokenOut={tokenOut}
-        secondTokenAmount={secondTokenAmount}
-        fromBridge={fromBridge}
-        toBridge={toBridge}
-        operation={operation}
-        SetCurrentProgress={SetCurrentProgress}
-        wrappedUnwrappedData={wrappedUnwrappedData.current}
-      />);
-    } */ else {
-      return (
-        <DoneModal
-          transactionFees={fee}
-          currentProgress={currentProgress}
-          numberOfSteps={numberOfSteps}
-          tokenOut={tokenOut}
-          secondTokenAmount={secondTokenAmount}
-          fromBridge={fromBridge}
-          toBridge={toBridge}
-          operation={operation}
-          SetCurrentProgress={SetCurrentProgress}
-          wrappedUnwrappedData={wrappedUnwrappedData.current}
-          selectedId={selectedId}
-          setTransactionData={setTransactionData}
-          finalOpHash={finalOpHash}
-          setFinalOpHash={setFinalOpHash}
-          openingFromHistory={openingFromHistory}
-          displayMessage={displayMessage}
-        />
-      );
-    }
-  };
   return (
     <div
-      className={`row justify-content-center mx-auto col-24 col-md-10 col-lg-10 col-xl-10 ${styles.gov}`}
+      className={`row justify-content-center mx-auto col-24 col-md-10 col-lg-10 col-xl-10 ${styles.gov} ${animationClass}`}
     >
       <div className={styles.border}>
         <div
           className={` ${styles.bridgeModal}`}
         >
-          <div className='rightToLeftFadeInAnimation-4'>
+          <div>
           <div className="flex flex-row justify-content-between mb-3">
             <div className={`flex ${styles.headingWrapper}`}>
               {(currentProgress === 0 ||
-                (currentProgress === 2 && openingFromHistory) ||
-                (currentProgress === 1 && operation === 'UNBRIDGE')) && (
+                (currentProgress === 1 && openingFromHistory)) && (
                 <p
                   className={styles.arrowback}
                   onClick={
-                    currentProgress === 2 && openingFromHistory
+                    currentProgress === 1 && openingFromHistory
                       ? () => {
-                          resetToDefaultStates();
-                          setTransaction(2);
+                          setAnimationClass('leftToRightFadeOutAnimation-4');
+                          setOpeningFromTransaction(true);
+                          setTimeout(() => {
+                            resetToDefaultStates();
+                            setTransaction(2);
+                          }, 600);
+                          
                         }
                       : isApproveLoading
                       ? null
@@ -656,7 +287,7 @@ const BridgeTransferModal = (props) => {
                 <p className={styles.TransferInProgress}>Transfer in progress</p>
               )}
             </div>
-            {(currentProgress === numberOfSteps.length || currentProgress === 2) && (
+            {(currentProgress === numberOfSteps.length || currentProgress === 1) && (
               <div>
                 {currentProgress === numberOfSteps.length && (
                   <img
@@ -664,8 +295,12 @@ const BridgeTransferModal = (props) => {
                     alt="History"
                     className={`${styles.historyIcon} ${styles.transactionIcons}`}
                     onClick={() => {
-                      resetToDefaultStates();
-                      setTransaction(2);
+                      setAnimationClass('leftToRightFadeOutAnimation-4');
+                      setOpeningFromTransaction(true);
+                      setTimeout(() => {
+                        resetToDefaultStates();
+                        setTransaction(2);
+                      }, 600);
                     }}
                   ></img>
                 )}
@@ -674,16 +309,29 @@ const BridgeTransferModal = (props) => {
                   alt="Home"
                   className={styles.transactionIcons}
                   onClick={() => {
-                    resetToDefaultStates();
-                    setTransaction(1);
+                    setAnimationClass('leftToRightFadeOutAnimation-4');
+                    setTimeout(() => {
+                      resetToDefaultStates();
+                      setTransaction(1);
+                    }, 600);
                   }}
                 ></img>
               </div>
             )}
           </div>
           <div className={`mb-4 mt-2 ${styles.lineBottom} `}></div>
-          <div className={`${styles.resultsHeader} rightToLeftFadeInAnimation-4`}>
-            {operation === 'BRIDGE'
+          <div className={`${styles.resultsHeader}`}>
+            {
+              numberOfSteps.map((currentStep, index) => {
+                if (currentProgress > index) {
+                  return completedTile(currentStep[operation], index);
+                } else if (currentProgress === index) {
+                  return currentTile(currentStep[operation], index);
+                } else {
+                  return defaultTile(currentStep[operation], index);
+                }
+              })
+            /* {operation === 'BRIDGE'
               ? numberOfSteps.map((currentStep, index) => {
                   if (currentProgress > index) {
                     return completedTile(currentStep[operation]);
@@ -701,10 +349,10 @@ const BridgeTransferModal = (props) => {
                   } else {
                     return defaultTile(currentStep[operation]);
                   }
-                })}
+                })} */}
           </div>
           <div className={`mb-4 ${styles.lineBottom} `}></div>
-          {currentProgress === 0 && (
+          {/* {currentProgress === 0 && (
             <ApproveModal
               description={`${fromBridge.name} transactions can take  longer time to complete based upon the network congestion.`}
               gasFees={fee}
@@ -728,8 +376,8 @@ const BridgeTransferModal = (props) => {
               isApproveLoading={isApproveLoading}
               setIsApproveLoading={setIsApproveLoading}
             />
-          )}
-          {currentProgress === 1 && (
+          )} */}
+          {currentProgress === 0 && (
             <BridgeUnbridgeModal
               description={`${fromBridge.name} transactions can take  longer time to complete based upon the network congestion.`}
               gasFees={fee}
@@ -751,9 +399,16 @@ const BridgeTransferModal = (props) => {
               approveHash={approveHash.current}
               theme={theme}
               displayMessage={displayMessage}
+              setBack={setBack}
+              setApproveHash={setApproveHash}
+              resetToDefaultStates={resetToDefaultStates}
+              isApproveLoading={isApproveLoading}
+              setIsApproveLoading={setIsApproveLoading}
+              isApproved={isApproved}
+              setIsApproved={setIsApproved}
             />
           )}
-          {currentProgress === 2 && (
+          {currentProgress === 1 && (
             <MintReleaseModal
               description={`${fromBridge.name} transactions can take  longer time to complete based upon the network congestion.`}
               gasFees={fee}
@@ -770,7 +425,7 @@ const BridgeTransferModal = (props) => {
               displayMessage={displayMessage}
             />
           )}
-          {currentProgress > 2 && (
+          {currentProgress > 1 && (
             <DoneModal
               transactionFees={fee}
               currentProgress={currentProgress}
@@ -845,6 +500,9 @@ BridgeTransferModal.propTypes = {
   openingFromHistory: PropTypes.any,
   displayMessage: PropTypes.any,
   setOpeningFromHistory: PropTypes.any,
+  isApproved: PropTypes.any,
+  setIsApproved: PropTypes.any,
+  setOpeningFromTransaction: PropTypes.any,
 };
 
 export default BridgeTransferModal;

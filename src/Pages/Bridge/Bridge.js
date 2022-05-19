@@ -61,6 +61,7 @@ const Bridge = (props) => {
   const [currentProgress, SetCurrentProgress] = useState(0);
   const [selectedId, setSelectedId] = useState(null);
   const [transactionData, setTransactionData] = useState([]);
+  const [isApproved, setIsApproved] = useState(false);
   //const [currentOperation, setCurrentOperation] = useState('BRIDGE');
   const [metamaskAddress, setMetamaskAddress] = useState(null);
   const [currentChain, setCurrentChain] = useState(fromBridge.name);
@@ -81,6 +82,7 @@ const Bridge = (props) => {
   const mintUnmintOpHash = useRef(null);
   const finalOpHash = useRef(null);
   const openingFromHistory = useRef(false);
+  const openingFromTransaction = useRef(false);
 
   const [showFlashMessage, setShowFlashMessage] = useState(false);
   const [flashMessageType, setFlashMessageType] = useState('success');
@@ -120,6 +122,10 @@ const Bridge = (props) => {
 
   const setSwitchButtonPressed = (value) => {
     switchButtonPressed.current = value;
+  };
+
+  const setOpeningFromTransaction = (value) => {
+    openingFromTransaction.current = value;
   };
 
   const displayMessage = useCallback((messageObj) => {
@@ -476,6 +482,7 @@ const Bridge = (props) => {
                 displayMessage={displayMessage}
                 setSwitchButtonPressed={setSwitchButtonPressed}
                 connectWalletHandler={connectWalletHandler}
+                setIsApproved={setIsApproved}
               />
             )}
             {transaction === 2 && (
@@ -511,6 +518,8 @@ const Bridge = (props) => {
                 operation={operation.current}
                 resetToDefaultStates={resetToDefaultStates}
                 displayMessage={displayMessage}
+                openingFromTransaction={openingFromTransaction.current}
+                setOpeningFromTransaction={setOpeningFromTransaction}
               />
             )}
             {transaction === 3 && (
@@ -549,6 +558,9 @@ const Bridge = (props) => {
                 openingFromHistory={openingFromHistory.current}
                 displayMessage={displayMessage}
                 setOpeningFromHistory={setOpeningFromHistory}
+                isApproved={isApproved}
+                setIsApproved={setIsApproved}
+                setOpeningFromTransaction={setOpeningFromTransaction}
               />
             )}
           </Col>

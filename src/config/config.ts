@@ -8,12 +8,12 @@ const Config: IConfig = {
     tezToolTokenPrice: 'https://api.teztools.io/token/prices',
   },
   RPC_NODES: {
-    testnet: 'https://hangzhounet.smartpy.io/',
+    testnet: 'https://ithacanet.smartpy.io/',
     mainnet: 'https://tezos-prod.cryptonomic-infra.tech/',
   },
   TZKT_NODES: {
     mainnet: 'https://api.tzkt.io',
-    testnet: 'https://api.hangzhou2net.tzkt.io',
+    testnet: 'https://api.ithacanet.tzkt.io',
   },
   TOKENS_PAGE: {
     mainnet: 'https://indexer.plentydefi.com/',
@@ -4455,7 +4455,7 @@ const Config: IConfig = {
     mapId: 55983,
   },
   NETWORK: 'testnet',
-  WALLET_NETWORK: 'hangzhounet',
+  WALLET_NETWORK: 'ithacanet',
   // NETWORK: 'mainnet',
   // WALLET_NETWORK: 'mainnet',
   ADMIN_ADDRESS: 'KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW',
@@ -4491,9 +4491,9 @@ const Config: IConfig = {
       },
       wUSDC: {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1VoHhkb6wXnoPDvcpbnPFYGTcpJaPfRoEh',
-        mapId: 162869,
-        TOKEN_ID: 17,
+        TOKEN_CONTRACT: 'KT1FcWdvGqggfaY4AuepEj2GjHBmk5jP33jE',
+        mapId: 84170,
+        TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
         REF_TOKEN: 'USDC.e',
         READ_TYPE: 'FA2',
@@ -4509,9 +4509,9 @@ const Config: IConfig = {
       },
       wMATIC: {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1VoHhkb6wXnoPDvcpbnPFYGTcpJaPfRoEh',
-        mapId: 162869,
-        TOKEN_ID: 11,
+        TOKEN_CONTRACT: 'KT1FcWdvGqggfaY4AuepEj2GjHBmk5jP33jE',
+        mapId: 84170,
+        TOKEN_ID: 2,
         TOKEN_DECIMAL: 18,
         REF_TOKEN: 'MATIC.e',
         READ_TYPE: 'FA2',
@@ -4563,10 +4563,10 @@ const Config: IConfig = {
       },
       'USDC.e': {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1EZBn43coqL6xfT5xL6e49nhEPLp9B8m4n',
-        mapId: 162915,
-        TOKEN_ID: 2,
-        TOKEN_DECIMAL: 6,
+        TOKEN_CONTRACT: 'KT1AXQ7BgYgi8KBVhF3NmcdBNNTwyqXDC2vT',
+        mapId: 84183,
+        TOKEN_ID: 1,
+        TOKEN_DECIMAL: 18,
         REF_TOKEN: 'wUSDC',
         READ_TYPE: 'FA2',
       },
@@ -4581,9 +4581,9 @@ const Config: IConfig = {
       },
       'MATIC.e': {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1EZBn43coqL6xfT5xL6e49nhEPLp9B8m4n',
-        mapId: 162915,
-        TOKEN_ID: 1,
+        TOKEN_CONTRACT: 'KT1AXQ7BgYgi8KBVhF3NmcdBNNTwyqXDC2vT',
+        mapId: 84183,
+        TOKEN_ID: 0,
         TOKEN_DECIMAL: 18,
         REF_TOKEN: 'wMATIC',
         READ_TYPE: 'FA2',
@@ -4755,7 +4755,7 @@ const Config: IConfig = {
     },
   },
   WRAPPED_ASSETS_SWAP_CONTRACT: {
-    testnet: 'KT1D5QJhRM7t2ibHPYYqWQs4o9nianxa9E49',
+    testnet: 'KT1QeredMEzkQtkDuL7SbEQ3VTicPLX2qJfU',
     mainnet: 'KT1Tf2rFp2khyF83jvtinLFxR7vEhFZ8nL2J',
   },
   BRIDGES_INDEXER_LINKS: {
@@ -4769,7 +4769,7 @@ const Config: IConfig = {
   EXPLORER_LINKS: {
     RINKEBY: 'https://rinkeby.etherscan.io/tx/',
     ETHEREUM: 'https://etherscan.io/tx/',
-    TEZOS: 'https://tzkt.io/',
+    TEZOS: 'https://ithacanet.tzkt.io/',
   },
 };
 

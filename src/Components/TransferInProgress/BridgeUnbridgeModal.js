@@ -7,7 +7,7 @@ import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
 import GasIcon from '../../assets/images/bridge/gas_fee_icon.svg';
 import GasIconDark from '../../assets/images/bridge/gas_fee_icon_dark.svg';
 import { useState } from 'react';
-import { wrap, unwrap } from '../../apis/bridge/bridgeAPI';
+import { wrap, unwrap, approveToken } from '../../apis/bridge/bridgeAPI';
 import CONFIG from '../../config/config';
 import { FLASH_MESSAGE_DURATION } from '../../constants/global';
 
@@ -17,29 +17,30 @@ const BridgeUnbridgeModal = (props) => {
     description,
     gasFees,
     currentProgress,
-    // eslint-disable-next-line
     getTransactionListLength,
     operation,
     fromBridge,
     toBridge,
     tokenIn,
-    // eslint-disable-next-line
     tokenOut,
     firstTokenAmount,
-    // eslint-disable-next-line
     secondTokenAmount,
-    // eslint-disable-next-line
     setTransactionData,
-    // eslint-disable-next-line
     selectedId,
     SetCurrentProgress,
     walletAddress,
     setMintUnmintOpHash,
-    // eslint-disable-next-line
     setSelectedId,
     approveHash,
     theme,
     displayMessage,
+    setBack,
+    setApproveHash,
+    resetToDefaultStates,
+    isApproveLoading,
+    setIsApproveLoading,
+    isApproved,
+    setIsApproved,
   } = props;
 
   const bridgeButtonClick = async () => {
@@ -106,74 +107,125 @@ const BridgeUnbridgeModal = (props) => {
         SetIsButtonLoading(false);
       }
     }
+  };
 
-    /* dummyApiCall({ currentProgress: currentProgress }).then((res) => {
-      if (operation === 'UNBRIDGE') {
-        const newIndex = getTransactionListLength();
-        const newProgress = res.currentProgress + 1;
-        const newDate = new Date().toLocaleDateString('en-IN');
-        const newTime = `${new Date().getHours()}:${new Date().getMinutes()}`;
-        const newData = {
-          id: newIndex,
-          currentProgress: newProgress,
-          operation: operation,
-          fromBridge: fromBridge.name,
-          toBridge: toBridge.name,
-          tokenIn: tokenIn.name,
-          tokenOut: tokenOut.name,
-          firstTokenAmount: firstTokenAmount,
-          secondTokenAmount: secondTokenAmount,
-          fee: gasFees,
-          date: newDate,
-          time: newTime,
-        };
-        setTransactionData((prevData) => [...prevData, newData]);
-      } else {
-        setTransactionData((prevData) =>
-          prevData.map((transaction) =>
-            transaction.id === selectedId
-              ? { ...transaction, currentProgress: res.currentProgress + 1 }
-              : transaction,
-          ),
-        );
-      }
-      SetIsButtonLoading(false);
-      SetCurrentProgress(res.currentProgress + 1);
-    }); */
+  const approveButtonClick = async () => {
+    setIsApproveLoading(true);
+    const approveResult = await approveToken(tokenIn, fromBridge.name, firstTokenAmount);
+    console.log('Approve Results: ');
+    console.log(approveResult);
+    if (approveResult.success) {
+      setApproveHash(approveResult.transactionHash);
+      displayMessage({
+        type: 'success',
+        duration: FLASH_MESSAGE_DURATION,
+        title: 'Transaction Approved',
+        content: `${Number(firstTokenAmount).toFixed(3)} ${
+          tokenIn.name
+        } are approved to the bridge.`,
+        isFlashMessageALink: false,
+        flashMessageLink: '#',
+      });
+      setIsApproveLoading(false);
+      setIsApproved(true);
+      //SetCurrentProgress(currentProgress + 1);
+    } else {
+      console.log(approveResult.error);
+      displayMessage({
+        type: 'error',
+        duration: FLASH_MESSAGE_DURATION,
+        title: 'Approval Failed',
+        content: 'Failed to approve transaction. Please try again.',
+        isFlashMessageALink: false,
+        flashMessageLink: '#',
+      });
+      setIsApproveLoading(false);
+      setIsApproved(false);
+    }
   };
 
   return (
     <>
       <p className={styles.contentLabel}>{operation === 'BRIDGE' ? 'Locking' : 'Unbridging'}</p>
       <p className={styles.contentDes}>{description}</p>
-      {/* {operation === 'BRIDGE' && approveHash && (
-        <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
-          <a
-            href={`${CONFIG.EXPLORER_LINKS[fromBridge.name]}${approveHash}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            View on Block Explorer
-          </a>
-          <Link className="ml-2 mb-1" />
-        </p>
-      )} */}
       <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
+      {operation === 'BRIDGE' && (<div className={`${styles.topInfo} my-2`}>
+        Grant permission to allow the bridge to interact with the token you want to bridge.{' '}
+      </div>)}
       <div className={styles.resultsHeader}>
-        <div className={`${styles.bottomInfo} ${styles.width}`}>
-          Please approve in your wallet to proceed with the tranfer{' '}
-        </div>
-        <div className={styles.mainButtonWrapper}>
-          <Button
-            color={'primary'}
-            className={`xplenty-btn mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
-            onClick={bridgeButtonClick}
-            loading={isButtonLoading}
-          >
-            {operation === 'BRIDGE' ? 'Lock' : 'Unbridge'}
-          </Button>
-        </div>
+        {operation === 'UNBRIDGE' && (
+          <>
+            <div style={{ width: '50%' }}></div>
+            <div style={{ width: '50%' }}>
+              <Button
+                color={'primary'}
+                className={`xplenty-btn mt-2  flex align-items-center justify-content-center ${styles.progressButtons}`}
+                onClick={bridgeButtonClick}
+                loading={isButtonLoading}
+              >
+                Unbridge
+              </Button>
+            </div>
+          </>
+        )}
+        {operation === 'BRIDGE' &&
+          (!isApproved ? (
+            <>
+              <div style={{ width: '50%' }}>
+                <Button
+                  color={'primary'}
+                  className={`xplenty-btn mt-2 flex align-items-center justify-content-center ${styles.progressButtons}`}
+                  onClick={approveButtonClick}
+                  loading={isApproveLoading}
+                >
+                  Approve
+                </Button>
+              </div>
+              <div style={{ width: '50%' }}>
+                <Button
+                  color={'primary'}
+                  className={`xplenty-btn mt-2 flex align-items-center justify-content-center ${styles.progressButtons}`}
+                  style={{ cursor: 'not-allowed' }}
+                  disabled={true}
+                >
+                  Lock
+                </Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div style={{ width: '50%' }}>
+                <Button
+                  color={'default'}
+                  className={`xplenty-btn mt-2 flex align-items-center justify-content-center ${styles.progressButtons} ${styles.approvedButton}`}
+                  style={{ cursor: 'not-allowed' }}
+                  disabled={true}
+                >
+                  <div className='flex'>
+                    <span>Approve</span>
+                    <span
+                      className={`material-icons-round ${styles.checkMark}`}
+                      style={{ display: 'inline-block', marginLeft: '10px', fontSize: '20px' }}
+                    >
+                      check_circle
+                    </span>
+                  </div>
+                </Button>
+              </div>
+              <div style={{ width: '50%' }}>
+                <Button
+                  color={'primary'}
+                  className={`xplenty-btn mt-2 flex align-items-center justify-content-center ${styles.progressButtons}`}
+                  onClick={bridgeButtonClick}
+                  loading={isButtonLoading}
+                >
+                  Lock
+                </Button>
+              </div>
+            </>
+          ))}
       </div>
+
       <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
       <div className={styles.feeInfoWrapper}>
         {/* <img
@@ -181,7 +233,7 @@ const BridgeUnbridgeModal = (props) => {
           alt="GasIcon"
           style={{ height: '20px' }}
         ></img> */}
-        <p className={styles.bottomInfo}>Review your gas fee in your wallet</p>
+        {/* <p className={styles.bottomInfo}>Review your gas fee in your wallet</p> */}
         {/* <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~{Number(gasFees).toFixed(6)}</p> */}
       </div>
     </>
@@ -209,6 +261,13 @@ BridgeUnbridgeModal.propTypes = {
   approveHash: PropTypes.any,
   theme: PropTypes.any,
   displayMessage: PropTypes.any,
+  setBack: PropTypes.any,
+  setApproveHash: PropTypes.any,
+  resetToDefaultStates: PropTypes.any,
+  isApproveLoading: PropTypes.any,
+  setIsApproveLoading: PropTypes.any,
+  isApproved: PropTypes.any,
+  setIsApproved: PropTypes.any,
 };
 
 export default BridgeUnbridgeModal;

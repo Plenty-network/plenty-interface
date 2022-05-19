@@ -178,13 +178,13 @@ const HeaderBottom = (props) => {
             )}
             {props.selectedHeader === HEADER_MODAL.BRIDGE && (
               <Row>
-                <Col lg={12} xs={12}>
+                <Col xl={5} lg={6} xs={12}>
                   <div className=" topics gov">
                     <Link to="/bridge" className="text-decoration-none">
                       <p className="heading">BRIDGE</p>
                       <div className="flex   para">
                         <div className="parainside">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                          Transfer your Ethereum assets to Tezos within five minutes.
                         </div>
                         <div>
                           <span className=" material-icons-round arrowforward">arrow_forward</span>
@@ -193,11 +193,25 @@ const HeaderBottom = (props) => {
                     </Link>
                   </div>
                 </Col>
-
-                <Col lg={12} xs={12}>
+                <Col xl={5} lg={6} xs={12}>
                   <div className="topics gov">
                     <Link to="/wrappedAssets" className="text-decoration-none">
-                      <p className="heading">WRAPPED ASSETS</p>
+                      <p className="heading">MIGRATE</p>
+                      <div className="flex   para">
+                        <div className="parainside">
+                          Swap your wAssets for the new Plenty Bridge asset.e tokens.
+                        </div>
+                        <div>
+                          <span className=" material-icons-round arrowforward">arrow_forward</span>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                </Col>
+                <Col xl={5} lg={6} xs={12}>
+                  <div className=" topics gov">
+                    <a className="text-decoration-none" href='https://bridge-analytics.netlify.app/' target='_blank' rel='noreferrer'>
+                      <p className="heading">BRIDGE ANALYTICS</p>
                       <div className="flex   para">
                         <div className="parainside">
                           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -206,7 +220,7 @@ const HeaderBottom = (props) => {
                           <span className=" material-icons-round arrowforward">arrow_forward</span>
                         </div>
                       </div>
-                    </Link>
+                    </a>
                   </div>
                 </Col>
               </Row>

@@ -101,11 +101,11 @@ const ApproveModal = (props) => {
 
   return (
     <>
-      <p className={styles.contentLabel}>Approving</p>
+      <p className={styles.contentLabel}>Approve</p>
       <p className={styles.contentDes}>{description}</p>
       <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
       <div className={`${styles.topInfo} my-2`}>
-        Please approve in your wallet to proceed with the tranfer{' '}
+        Grant permission to allow the bridge to interact with the token you want to bridge.  {' '}
       </div>
       <div className={styles.resultsHeader}>
         <div style={{ width: '50%' }}>
@@ -139,7 +139,7 @@ const ApproveModal = (props) => {
           alt="GasIcon"
           style={{ height: '20px' }}
         ></img> */}
-        <p className={styles.bottomInfo}>Review your gas fee in your wallet</p>
+        {/* <p className={styles.bottomInfo}>Review your gas fee in your wallet</p> */}
         {/* <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~{Number(gasFees).toFixed(6)}</p> */}
       </div>
     </>
