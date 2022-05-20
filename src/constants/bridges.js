@@ -2,7 +2,7 @@
 /* import avaxRed from '../assets/images/bridge/avax_red.svg';
 import avax from '../assets/images/bridge/avax.svg'; */
 import ethereum from '../assets/images/bridge/eth.svg';
-import tezos from '../assets/images/bridge/tezos.svg';
+import tezos from '../assets/images/bridge/ic_tezos.svg';
 
 // Tokens
 import dai_normal from '../assets/images/bridge/tokens/dai_icon.svg';

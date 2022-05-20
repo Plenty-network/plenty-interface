@@ -613,7 +613,7 @@ const BridgeModal = (props) => {
   };
 
   const handleTokenSelect = () => {
-    setIsError(false);
+    /* setIsError(false);
     if (!walletAddress && !metamaskAddress) {
       dispatch(setConnectWalletTooltip(true));
       setShowMetamaskTooltip(true);
@@ -643,7 +643,9 @@ const BridgeModal = (props) => {
       //setSelector('TOKENS');
       selector.current = 'TOKENS';
       setShow(true);
-    }
+    } */
+    selector.current = 'TOKENS';
+    setShow(true);
   };
 
   //To Bridge/Token/Switch Related
@@ -917,7 +919,7 @@ const BridgeModal = (props) => {
               </span>
             </div>
             <p className={clsx('mt-2', styles.feeEstimateText)}>
-              Estimated fee:{' '}
+              Bridge fee:{' '}
               <span style={{ fontWeight: '700' }}>
                 {Number(fee) > 0 ? Number(fee).toFixed(6) : 0}
                 {` ${operation === 'BRIDGE' ? tokenOut.name : tokenIn.name}`}

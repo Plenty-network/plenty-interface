@@ -498,7 +498,7 @@ export const getMintStatus = async (txHash, chain) => {
 /* mint tokens on tezos side
 takes in data from getMintStatus and mints the tokens
 */
-export const mintTokens = async (wrapData, chain /* setMintReleaseSubmitted */) => {
+export const mintTokens = async (wrapData, chain, setMintReleaseSubmitted) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
@@ -551,7 +551,7 @@ export const mintTokens = async (wrapData, chain /* setMintReleaseSubmitted */) 
 
     const batchOp = await batch.send();
     console.log('Accepted now temple');
-    //setMintReleaseSubmitted(true);
+    setMintReleaseSubmitted(true);
     await batchOp.confirmation();
     console.log('batchOp', batchOp.opHash);
     return {
@@ -679,7 +679,7 @@ const buildFullSignature = (signatures) => {
 /* Releases the token, to be called when awaiting signatures and awaiting confirmation is false and the tokens are ready to be released.
 Call with the data received from the release status api, chain
   */
-export const releaseTokens = async (unwrapData, chain /* setMintReleaseSubmitted */) => {
+export const releaseTokens = async (unwrapData, chain, setMintReleaseSubmitted) => {
   try {
     const web3 = new Web3(window.ethereum);
     const userData = await getUserAddress();
@@ -714,7 +714,7 @@ export const releaseTokens = async (unwrapData, chain /* setMintReleaseSubmitted
         .on('transactionHash', (hash) => {
           console.log(hash);
           console.log('accept now metamask tx');
-          //setMintReleaseSubmitted(true);
+          setMintReleaseSubmitted(true);
         })
         .on('receipt', function (receipt) {
           console.log('receipt', receipt);

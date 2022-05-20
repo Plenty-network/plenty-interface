@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import styles from './Transfer.module.scss';
 // eslint-disable-next-line
@@ -10,6 +11,8 @@ import { mintTokens, releaseTokens } from '../../apis/bridge/bridgeAPI';
 import CONFIG from '../../config/config';
 import { FLASH_MESSAGE_DURATION } from '../../constants/global';
 import '../../assets/scss/animation.scss';
+// import Lottie from 'lottie-react';
+// import icLoader from '../../assets/images/bridge/loaders/test.json';
 
 const DoneModal = (props) => {
   const {
@@ -37,7 +40,7 @@ const DoneModal = (props) => {
 
   useEffect(async () => {
     console.log('rendering done modal use effect.');
-    if (currentProgress === numberOfSteps.length - 1) {
+    /* if (currentProgress === numberOfSteps.length - 1) {
       console.log(`Current progress: ${currentProgress}`);
       if (operation === 'BRIDGE') {
         const mintResult = await mintTokens(wrappedUnwrappedData, fromBridge.name);
@@ -96,7 +99,7 @@ const DoneModal = (props) => {
           SetCurrentProgress(currentProgress - 1);
         }
       }
-    }
+    } */
   }, []);
 
   return (
@@ -117,6 +120,7 @@ const DoneModal = (props) => {
               <LoadingRing />
             </div> */}
             <div className={styles.completeSpinLoader}></div>
+            {/* <Lottie animationData={icLoader} loop={true} style={{height: '45px', width: '45px'}} /> */}
           </div>
         ) : (
           <div className={`border-tile success ${!openingFromHistory ? 'topToBottomFadeInAnimation-4' : ''}`}>
@@ -128,7 +132,7 @@ const DoneModal = (props) => {
                     {Number(secondTokenAmount).toFixed(8)} {tokenOut.name}
                   </span>
                   <span className="fromreceived success-text">
-                    {operation === 'BRIDGE' ? 'Bridging' : 'Unbridging'} Successful
+                    Received
                   </span>
                 </div>
               </div>
@@ -165,7 +169,7 @@ const DoneModal = (props) => {
             <div className="containerwithicon">
               <FeeBigIcon />
               <div className="right-div">
-                <span className="fromreceived">{operation === 'BRIDGE' ? 'Bridging Fee' : 'Unbridging Fee'}</span>
+                <span className="fromreceived">Bridge fee</span>
                 <span className="value-text">{Number(transactionFees).toFixed(6)}{` ${operation === 'BRIDGE' ? tokenOut.name : tokenIn.name}`}</span>
               </div>
             </div>
@@ -187,7 +191,7 @@ const DoneModal = (props) => {
                 target="_blank"
                 rel="noreferrer"
               >
-                View on Explorer
+                View on explorer
               </a>
               <Link className="ml-2 mb-1" />
             </p>
