@@ -11,6 +11,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useInterval } from '../../hooks/useInterval';
 import { getMintStatus, getReleaseStatus } from '../../apis/bridge/bridgeAPI';
 import CONFIG from '../../config/config';
+import useMediaQuery from '../../hooks/mediaQuery';
+import { PuffLoader } from 'react-spinners';
 
 const MintReleaseModal = (props) => {
   const [isButtonLoading, SetIsButtonLoading] = useState(false);
@@ -40,6 +42,7 @@ const MintReleaseModal = (props) => {
     mintButtonClick,
     isMintLoading,
   } = props;
+  const isMobile = useMediaQuery('(max-width: 991px)');
 
   useInterval(async ()=>{
     console.log('Checking mint/relese ready status..');
@@ -222,6 +225,11 @@ const MintReleaseModal = (props) => {
         {/* <p className={styles.bottomInfo}>Review your gas fee in your wallet</p> */}
         {/* <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~{Number(gasFees).toFixed(6)}</p> */}
       </div>
+      {isReadyToMintRelease && isMintLoading && !isMobile && (
+        <div className="loading-data-wrapper">
+          <PuffLoader color="var(--theme-primary-1)" size={36} />
+        </div>
+      )}
     </>
   );
 };

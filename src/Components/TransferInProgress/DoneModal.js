@@ -11,6 +11,10 @@ import { mintTokens, releaseTokens } from '../../apis/bridge/bridgeAPI';
 import CONFIG from '../../config/config';
 import { FLASH_MESSAGE_DURATION } from '../../constants/global';
 import '../../assets/scss/animation.scss';
+import useMediaQuery from '../../hooks/mediaQuery';
+import { PuffLoader } from 'react-spinners';
+import { useDispatch } from 'react-redux';
+import { setLoader } from '../../redux/slices/settings/settings.slice';
 // import Lottie from 'lottie-react';
 // import icLoader from '../../assets/images/bridge/loaders/test.json';
 
@@ -37,6 +41,16 @@ const DoneModal = (props) => {
     tokenIn,
     setOpeningFromHistory,
   } = props;
+  const isMobile = useMediaQuery('(max-width: 991px)');
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if(currentProgress === numberOfSteps.length - 1) {
+      dispatch(setLoader(true));
+    } else {
+      dispatch(setLoader(false));
+    }
+  }, [currentProgress]);
 
   useEffect(async () => {
     console.log('rendering done modal use effect.');
@@ -100,6 +114,7 @@ const DoneModal = (props) => {
         }
       }
     } */
+    return () => dispatch(setLoader(false));
   }, []);
 
   return (
@@ -123,7 +138,11 @@ const DoneModal = (props) => {
             {/* <Lottie animationData={icLoader} loop={true} style={{height: '45px', width: '45px'}} /> */}
           </div>
         ) : (
-          <div className={`border-tile success ${!openingFromHistory ? 'topToBottomFadeInAnimation-4' : ''}`}>
+          <div
+            className={`border-tile success ${
+              !openingFromHistory ? 'topToBottomFadeInAnimation-4' : ''
+            }`}
+          >
             <div className="left-div">
               <div className="containerwithicon">
                 <img src={tokenOut.image} />
@@ -131,9 +150,7 @@ const DoneModal = (props) => {
                   <span className="value-text">
                     {Number(secondTokenAmount).toFixed(8)} {tokenOut.name}
                   </span>
-                  <span className="fromreceived success-text">
-                    Received
-                  </span>
+                  <span className="fromreceived success-text">Received</span>
                 </div>
               </div>
             </div>
@@ -170,7 +187,10 @@ const DoneModal = (props) => {
               <FeeBigIcon />
               <div className="right-div">
                 <span className="fromreceived">Bridge fee</span>
-                <span className="value-text">{Number(transactionFees).toFixed(6)}{` ${operation === 'BRIDGE' ? tokenOut.name : tokenIn.name}`}</span>
+                <span className="value-text">
+                  {Number(transactionFees).toFixed(6)}
+                  {` ${operation === 'BRIDGE' ? tokenOut.name : tokenIn.name}`}
+                </span>
               </div>
             </div>
           </div>
@@ -198,6 +218,11 @@ const DoneModal = (props) => {
           </div>
         )}
       </div>
+      {currentProgress === numberOfSteps.length - 1 && !isMobile && (
+        <div className="loading-data-wrapper">
+          <PuffLoader color="var(--theme-primary-1)" size={36} />
+        </div>
+      )}
     </>
   );
 };

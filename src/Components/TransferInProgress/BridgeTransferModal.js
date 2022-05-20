@@ -23,6 +23,8 @@ import MintReleaseModal from './MintReleaseModal';
 import DoneModal from './DoneModal';
 import CONFIG from '../../config/config';
 import { FLASH_MESSAGE_DURATION } from '../../constants/global';
+import { useDispatch } from 'react-redux';
+import { setLoader } from '../../redux/slices/settings/settings.slice';
 import {
   approveToken,
   wrap,
@@ -48,6 +50,7 @@ const BridgeTransferModal = (props) => {
   //const finalOpHash = useRef(null);
   //const [wrappedUnwrappedData, setWrapUnwrapData] = useState(null);
   const wrappedUnwrappedData = useRef(null);
+  const dispatch = useDispatch();
 
   const setWrapUnwrapData = (data) => {
     wrappedUnwrappedData.current = data;
@@ -134,6 +137,7 @@ const BridgeTransferModal = (props) => {
     console.log(`Mint/Release Click Event - Current progress: ${currentProgress}`);
     //SetCurrentProgress((prevProgress) => prevProgress + 1);
     setIsMintLoading(true);
+    dispatch(setLoader(true));
     if (operation === 'BRIDGE') {
       console.log(wrappedUnwrappedData.current);
       console.log(`Bridge - Current progress: ${currentProgress}`);
@@ -164,6 +168,7 @@ const BridgeTransferModal = (props) => {
           flashMessageLink: '#',
         });
         setIsMintLoading(false);
+        dispatch(setLoader(false));
         setMintReleaseSubmitted(false);
         SetCurrentProgress((prevProgress) => prevProgress === numberOfSteps.length - 1 ? prevProgress - 1 : prevProgress);
       }
@@ -196,6 +201,7 @@ const BridgeTransferModal = (props) => {
           flashMessageLink: '#',
         });
         setIsMintLoading(false);
+        dispatch(setLoader(false));
         setMintReleaseSubmitted(false);
         SetCurrentProgress((prevProgress) => prevProgress === numberOfSteps.length - 1 ? prevProgress - 1 : prevProgress);
       }

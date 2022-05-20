@@ -10,6 +10,10 @@ import { useState } from 'react';
 import { wrap, unwrap, approveToken } from '../../apis/bridge/bridgeAPI';
 import CONFIG from '../../config/config';
 import { FLASH_MESSAGE_DURATION } from '../../constants/global';
+import useMediaQuery from '../../hooks/mediaQuery';
+import { PuffLoader } from 'react-spinners';
+import { useDispatch } from 'react-redux';
+import { setLoader } from '../../redux/slices/settings/settings.slice';
 
 const BridgeUnbridgeModal = (props) => {
   const [isButtonLoading, SetIsButtonLoading] = useState(false);
@@ -42,9 +46,12 @@ const BridgeUnbridgeModal = (props) => {
     isApproved,
     setIsApproved,
   } = props;
+  const isMobile = useMediaQuery('(max-width: 991px)');
+  const dispatch = useDispatch();
 
   const bridgeButtonClick = async () => {
     SetIsButtonLoading(true);
+    dispatch(setLoader(true));
     if (operation === 'BRIDGE') {
       const bridgeUnbridgeResult = await wrap(
         tokenIn,
@@ -65,6 +72,7 @@ const BridgeUnbridgeModal = (props) => {
           flashMessageLink: '#',
         });
         SetIsButtonLoading(false);
+        dispatch(setLoader(false));
         SetCurrentProgress(currentProgress + 1);
       } else {
         console.log(bridgeUnbridgeResult.error);
@@ -77,6 +85,7 @@ const BridgeUnbridgeModal = (props) => {
           flashMessageLink: '#',
         });
         SetIsButtonLoading(false);
+        dispatch(setLoader(false));
       }
     } else {
       const bridgeUnbridgeResult = await unwrap(toBridge.name, firstTokenAmount, tokenIn);
@@ -93,6 +102,7 @@ const BridgeUnbridgeModal = (props) => {
           flashMessageLink: '#',
         });
         SetIsButtonLoading(false);
+        dispatch(setLoader(false));
         SetCurrentProgress(currentProgress + 1);
       } else {
         console.log(bridgeUnbridgeResult.error);
@@ -105,12 +115,14 @@ const BridgeUnbridgeModal = (props) => {
           flashMessageLink: '#',
         });
         SetIsButtonLoading(false);
+        dispatch(setLoader(false));
       }
     }
   };
 
   const approveButtonClick = async () => {
     setIsApproveLoading(true);
+    dispatch(setLoader(true));
     const approveResult = await approveToken(tokenIn, fromBridge.name, firstTokenAmount);
     console.log('Approve Results: ');
     console.log(approveResult);
@@ -127,6 +139,7 @@ const BridgeUnbridgeModal = (props) => {
         flashMessageLink: '#',
       });
       setIsApproveLoading(false);
+      dispatch(setLoader(false));
       setIsApproved(true);
       //SetCurrentProgress(currentProgress + 1);
     } else {
@@ -140,6 +153,7 @@ const BridgeUnbridgeModal = (props) => {
         flashMessageLink: '#',
       });
       setIsApproveLoading(false);
+      dispatch(setLoader(false));
       setIsApproved(false);
     }
   };
@@ -243,6 +257,11 @@ const BridgeUnbridgeModal = (props) => {
         {/* <p className={styles.bottomInfo}>Review your gas fee in your wallet</p> */}
         {/* <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~{Number(gasFees).toFixed(6)}</p> */}
       </div>
+      {(isApproveLoading || isButtonLoading) && !isMobile && (
+        <div className="loading-data-wrapper">
+          <PuffLoader color="var(--theme-primary-1)" size={36} />
+        </div>
+      )}
     </>
   );
 };
