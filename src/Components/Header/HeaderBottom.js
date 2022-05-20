@@ -205,7 +205,7 @@ const HeaderBottom = (props) => {
                     </Link>
                   </div>
                 </Col>
-                <Col xl={5} lg={6} xs={12}>
+                {/* <Col xl={5} lg={6} xs={12}>
                   <div className="topics">
                     <Link to="/liquidity-pools" className="text-decoration-none">
                       <p className="heading">POOL</p>
@@ -220,7 +220,7 @@ const HeaderBottom = (props) => {
                       </div>
                     </Link>
                   </div>
-                </Col>
+                </Col> */}
                 <Col xl={5} lg={6} xs={12}>
                   <div className="topics">
                     <Link to="/farms" className="text-decoration-none">
