@@ -199,7 +199,6 @@ const Header = (props) => {
                       className={clsx(
                         selectedHeader === HEADER_MODAL.EARN ? 'menu-item-active' : 'menu-item',
                         (splitLocation[1] === 'farms' ||
-                          splitLocation[1] === 'liquidity-pools' ||
                           splitLocation[1] === 'stake' ||
                           splitLocation[1] === 'liquidity' ||
                           splitLocation[1] === 'liquidityPositions') &&
