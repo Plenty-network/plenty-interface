@@ -184,7 +184,7 @@ const BridgeUnbridgeModal = (props) => {
                 onClick={bridgeButtonClick}
                 loading={isButtonLoading}
               >
-                Unbridge
+                Burn
               </Button>
             </div>
           </>
