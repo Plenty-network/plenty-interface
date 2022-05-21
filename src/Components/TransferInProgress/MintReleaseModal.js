@@ -102,7 +102,7 @@ const MintReleaseModal = (props) => {
     <>
       <p className={styles.contentLabel}>{operation === 'BRIDGE' ? 'Minting' : 'Releasing'}</p>
       <p className={styles.contentDes}>
-        {operation === 'BRIDGE' ? 'Minting' : 'Releasing'} is enabled when the threshold for blocks
+        {operation === 'BRIDGE' ? 'Minting' : 'Releasing'} is enabled when the threshold for block
         confirmations is reached and five out of seven signers have published their signature on
         IPFS.{' '}
       </p>
