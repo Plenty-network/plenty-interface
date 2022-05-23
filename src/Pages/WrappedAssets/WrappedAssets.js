@@ -17,7 +17,7 @@ const WrappedAssets = (props) => {
       style={{ height: divHeight }}
     >
       <Container fluid className="removing-padding">
-        <Col sm={8} md={6} className="swap-content-section wrapped-assets-margin-top">
+        <Col sm={8} md={6} className="wrapped-assets-margin-top">
           <SwapWA {...props} />
 
           <div className="bottom-footer mt-2 flex flex-row">

@@ -14,7 +14,7 @@ const useDivHeight = () => {
     const viewportHeight = document.documentElement.clientHeight;
     const waDivHeight = viewportHeight - headerHeight - 1;
     // Calculate the height including margins for the swap components
-    const swapComponent = document.getElementsByClassName('swap-content-section')[0];
+    const swapComponent = document.getElementsByClassName('wrapped-assets-margin-top')[0];
     const swapComponentsMargins =
       parseFloat(window.getComputedStyle(swapComponent)['marginTop']) +
       parseFloat(window.getComputedStyle(swapComponent)['marginBottom']);

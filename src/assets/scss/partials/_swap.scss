@@ -171,7 +171,12 @@
   }
 }
 .wrapped-assets-margin-top {
+  margin: 0 auto;
+  max-width: 1200px;
   margin-top: 10vh;
+  @media screen and (min-width: 320px) and (max-width: 900px) {
+    //padding-right: 0px;
+  }
 }
 .redirect-label {
   margin: 80px auto 16px auto;
