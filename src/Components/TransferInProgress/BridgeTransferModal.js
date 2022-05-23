@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import PropTypes, { number } from 'prop-types';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './Transfer.module.scss';
 import Button from '../Ui/Buttons/Button';
 import { ReactComponent as Tick } from '../../assets/images/bridge/green_tick.svg';
@@ -21,6 +21,10 @@ import ApproveModal from './ApproveModal';
 import BridgeUnbridgeModal from './BridgeUnbridgeModal';
 import MintReleaseModal from './MintReleaseModal';
 import DoneModal from './DoneModal';
+import CONFIG from '../../config/config';
+import { FLASH_MESSAGE_DURATION } from '../../constants/global';
+import { useDispatch } from 'react-redux';
+import { setLoader } from '../../redux/slices/settings/settings.slice';
 import {
   approveToken,
   wrap,
@@ -37,14 +41,16 @@ import {
 const BridgeTransferModal = (props) => {
   const [animationClass, setAnimationClass] = useState('rightToLeftFadeInAnimation-4');
   //const [currentProgress,SetCurrentProgress]=useState(4);
-  const [isButtonLoading, SetIsButtonLoading] = useState(false);
+  const [isMintLoading, setIsMintLoading] = useState(false);
   const [isApproveLoading, setIsApproveLoading] = useState(false);
+  const [mintReleaseSubmitted, setMintReleaseSubmitted] = useState(false);
   const approveHash = useRef(null);
   //const [mintUnmintOpHash, setMintUnmintOpHash] = useState(null);
   //const mintUnmintOpHash = useRef(null);
   //const finalOpHash = useRef(null);
   //const [wrappedUnwrappedData, setWrapUnwrapData] = useState(null);
   const wrappedUnwrappedData = useRef(null);
+  const dispatch = useDispatch();
 
   const setWrapUnwrapData = (data) => {
     wrappedUnwrappedData.current = data;
@@ -57,6 +63,14 @@ const BridgeTransferModal = (props) => {
   useEffect(() => {
     console.log('Bridge transfer component rendered');
   }, []);
+
+  useEffect(() => {
+    if(isMintLoading && mintReleaseSubmitted) {
+      setIsMintLoading(false);
+      setMintReleaseSubmitted(false);
+      SetCurrentProgress((prevProgress) => prevProgress + 1);
+    }
+  }, [mintReleaseSubmitted]);
 
   // const setMintUnmintOpHash = (hash) => {
   //   mintUnmintOpHash.current = hash;
@@ -119,81 +133,86 @@ const BridgeTransferModal = (props) => {
     }, 600);
   };
 
-  const bridgeButtonClick = async () => {
-    SetIsButtonLoading(true);
-    //getApproveTxCost
-    /*     getApproveTxCost(tokenIn, fromBridge.name, firstTokenAmount).then((res) => {
-      console.log('fee:', res);
-      approveToken(tokenIn, fromBridge.name, firstTokenAmount).then((data) => {
-        console.log(data);
-        SetIsButtonLoading(false);
-      });
-    }); */
-    //getHistory
-    /*     const data = await getHistory({
-      tzAddress: 'tz1hA9rHfejN9qYup2abtPs8LPFHZEiP8TAX',
-      ethereumAddress: '0xb41f25a011B1d84d66eA1f8E803cb8d42ed3Ef26',
-    });
-    console.log(data.history);
-    SetIsButtonLoading(false); */
-
-    //getReleaseStatus
-    /*     getReleaseStatus('ooWF1KUxzQRWn8TcnRMBpViuZkGWUvKZDK3uCiy4obnAgSYhxc9', toBridge.name).then(
-      async (data) => {
-        console.log(data);
-        //release token Call
-        const result = await releaseTokens(data.data, toBridge.name);
-        console.log(result);
-        SetIsButtonLoading(false);
-      },
-    ); */
-
-    //unwrap call
-    /*     const result = await unwrap(toBridge.name, firstTokenAmount, tokenIn);
-    console.log(result); */
-
-    //get Balance tez
-    /*    const balance = await getBalanceTez(
-      'KT1JCrNtQCS1taDngHfaLUnnMi5EJYMy4jEC',
-      0,
-      walletAddress,
-      18,
-    );
-    console.log(balance.balance); */
-
-    //Approve call
-    /*        approveToken(tokenIn, fromBridge.name, firstTokenAmount).then((data) => {
-      console.log(data);
-      SetIsButtonLoading(false);
-    });  */
-
-    //Wrap call
-    /*     wrap(tokenIn, fromBridge.name, firstTokenAmount, walletAddress).then((data) => {
-      console.log(data);
-      SetIsButtonLoading(false);
-    }); */
-
-    //Check Mint Status
-    /*     getMintStatus(
-      '0x952fadffdfb333e14eeee98ab22a9adcbd92c456a14b13eb193f2ae81eb906e0',
-      fromBridge.name,
-    ).then((data) => {
-      console.log(data);
-      SetIsButtonLoading(false);
-    }); */
-
-    //mint call
-    /*     mintTokens(data.data, fromBridge.name).then((data) => {
-      console.log(data);
-      SetIsButtonLoading(false);
-    }); */
-
-    
+  const mintButtonClick = async () => {
+    console.log(`Mint/Release Click Event - Current progress: ${currentProgress}`);
+    //SetCurrentProgress((prevProgress) => prevProgress + 1);
+    setIsMintLoading(true);
+    dispatch(setLoader(true));
+    if (operation === 'BRIDGE') {
+      console.log(wrappedUnwrappedData.current);
+      console.log(`Bridge - Current progress: ${currentProgress}`);
+      const mintResult = await mintTokens(wrappedUnwrappedData.current, fromBridge.name, setMintReleaseSubmitted);
+      console.log('Mint Results: ');
+      console.log(mintResult);
+      if (mintResult.success) {
+        setFinalOpHash(mintResult.transactionHash);
+        setOpeningFromHistory(false);
+        displayMessage({
+          type: 'success',
+          duration: FLASH_MESSAGE_DURATION,
+          title: `${Number(secondTokenAmount).toFixed(3)} ${tokenOut.name} minted successfully`,
+          content: 'View on explorer.',
+          isFlashMessageALink: true,
+          flashMessageLink: `${CONFIG.EXPLORER_LINKS.TEZOS}${mintResult.transactionHash}`,
+        });
+        SetCurrentProgress((prevProgress) => prevProgress + 1);
+      } else {
+        console.log(mintResult.error);
+        console.log(`Error - Current progress: ${currentProgress}`);
+        displayMessage({
+          type: 'error',
+          duration: FLASH_MESSAGE_DURATION,
+          title: 'Minting Failed',
+          content: 'Failed to mint tokens. Please try again.',
+          isFlashMessageALink: false,
+          flashMessageLink: '#',
+        });
+        setIsMintLoading(false);
+        dispatch(setLoader(false));
+        setMintReleaseSubmitted(false);
+        SetCurrentProgress((prevProgress) => prevProgress === numberOfSteps.length - 1 ? prevProgress - 1 : prevProgress);
+      }
+    } else {
+      const releaseResult = await releaseTokens(wrappedUnwrappedData.current, toBridge.name, setMintReleaseSubmitted);
+      console.log('Release Results: ');
+      console.log(releaseResult);
+      if (releaseResult.success) {
+        setFinalOpHash(releaseResult.transactionHash);
+        setOpeningFromHistory(false);
+        displayMessage({
+          type: 'success',
+          duration: FLASH_MESSAGE_DURATION,
+          title: `${Number(secondTokenAmount).toFixed(3)} ${tokenOut.name} released successfully`,
+          content: 'View on explorer.',
+          isFlashMessageALink: true,
+          flashMessageLink: `${CONFIG.EXPLORER_LINKS[toBridge.name]}${
+            releaseResult.transactionHash
+          }`,
+        });
+        SetCurrentProgress((prevProgress) => prevProgress + 1);
+      } else {
+        console.log(releaseResult.error);
+        displayMessage({
+          type: 'error',
+          duration: FLASH_MESSAGE_DURATION,
+          title: 'Release Failed',
+          content: 'Failed to release tokens. Please try again.',
+          isFlashMessageALink: false,
+          flashMessageLink: '#',
+        });
+        setIsMintLoading(false);
+        dispatch(setLoader(false));
+        setMintReleaseSubmitted(false);
+        SetCurrentProgress((prevProgress) => prevProgress === numberOfSteps.length - 1 ? prevProgress - 1 : prevProgress);
+      }
+    }
   };
+
+  
   //const numberOfSteps = ['Approve', 'Bridge', 'Mint', 'Done'];
   const numberOfSteps = [
     // { BRIDGE: 'Approve', UNBRIDGE: '' },
-    { BRIDGE: 'Lock', UNBRIDGE: 'Unbridge' },
+    { BRIDGE: 'Lock', UNBRIDGE: 'Burn' },
     { BRIDGE: 'Mint', UNBRIDGE: 'Release' },
     { BRIDGE: 'Complete', UNBRIDGE: 'Complete' },
   ];
@@ -275,10 +294,11 @@ const BridgeTransferModal = (props) => {
                 </p>
               )}
               {currentProgress === numberOfSteps.length ? (
-                <div className="flex flex-column">
-                  <p className={styles.TransferInProgress}>Transaction Details</p>
-                  <p className={styles.reviewText}>Review you transaction</p>
-                </div>
+                // <div className="flex flex-column">
+                //   <p className={styles.TransferInProgress}>Transaction Details</p>
+                //   <p className={styles.reviewText}>Review you transaction</p>
+                // </div>
+                <p className={styles.TransferInProgress}>Transaction details</p>
               ) : currentProgress === numberOfSteps.length - 1 ? (
                 <p className={styles.TransferInProgress}>
                   {operation === 'BRIDGE' ? 'Minting' : 'Release'} in progress
@@ -423,6 +443,8 @@ const BridgeTransferModal = (props) => {
               toBridge={toBridge}
               theme={theme}
               displayMessage={displayMessage}
+              mintButtonClick={mintButtonClick}
+              isMintLoading={isMintLoading}
             />
           )}
           {currentProgress > 1 && (

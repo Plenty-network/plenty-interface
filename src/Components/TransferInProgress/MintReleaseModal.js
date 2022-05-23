@@ -11,6 +11,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useInterval } from '../../hooks/useInterval';
 import { getMintStatus, getReleaseStatus } from '../../apis/bridge/bridgeAPI';
 import CONFIG from '../../config/config';
+import useMediaQuery from '../../hooks/mediaQuery';
+import { PuffLoader } from 'react-spinners';
 
 const MintReleaseModal = (props) => {
   const [isButtonLoading, SetIsButtonLoading] = useState(false);
@@ -37,7 +39,10 @@ const MintReleaseModal = (props) => {
     toBridge,
     theme,
     displayMessage,
+    mintButtonClick,
+    isMintLoading,
   } = props;
+  const isMobile = useMediaQuery('(max-width: 991px)');
 
   useInterval(async ()=>{
     console.log('Checking mint/relese ready status..');
@@ -87,26 +92,20 @@ const MintReleaseModal = (props) => {
     
   }, !isReadyToMintRelease ? delay.current : null);
 
-  const mintButtonClick = () => {
+  /* const mintButtonClick = () => {
     //SetIsButtonLoading(true);
     SetCurrentProgress(currentProgress + 1);
     //console.log(`${operation === 'BRIDGE' ? 'Mint' : 'Release'}`);
-    /* dummyApiCall({ currentProgress: currentProgress }).then((res) => {
-      setTransactionData((prevData) =>
-        prevData.map((transaction) =>
-          transaction.id === selectedId
-            ? { ...transaction, currentProgress: res.currentProgress + 1 }
-            : transaction,
-        ),
-      );
-      SetIsButtonLoading(false);
-      SetCurrentProgress(res.currentProgress + 1); 
-    });*/
-  };
+    
+  }; */
   return (
     <>
       <p className={styles.contentLabel}>{operation === 'BRIDGE' ? 'Minting' : 'Releasing'}</p>
-      <p className={styles.contentDes}>{description}</p>
+      <p className={styles.contentDes}>
+        {operation === 'BRIDGE' ? 'Minting' : 'Releasing'} is enabled when the threshold for block
+        confirmations is reached and five out of seven signers have published their signature on
+        IPFS.{' '}
+      </p>
       {/* <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
         <a
           href={`${
@@ -126,10 +125,14 @@ const MintReleaseModal = (props) => {
         <div className={`${styles.confirmTextWrapper}`}>
           {awaitingConfirmation ? (
             <p className={styles.fetchingText}>
-              Fetching Data
+              Fetching data
               {dots.current.map((char, index) => {
-                const style = {animationDelay: (0.5 + index / 5) + 's'};
-                return <span key={index} style={style}>{char}</span>;
+                const style = { animationDelay: 0.5 + index / 5 + 's' };
+                return (
+                  <span key={index} style={style}>
+                    {char}
+                  </span>
+                );
               })}
             </p>
           ) : (
@@ -206,6 +209,7 @@ const MintReleaseModal = (props) => {
             onClick={isReadyToMintRelease ? mintButtonClick : null}
             style={{ cursor: !isReadyToMintRelease ? 'not-allowed' : 'pointer' }}
             disabled={!isReadyToMintRelease}
+            loading={isReadyToMintRelease && isMintLoading}
           >
             {operation === 'BRIDGE' ? 'Mint' : 'Release'}
           </Button>
@@ -221,6 +225,11 @@ const MintReleaseModal = (props) => {
         {/* <p className={styles.bottomInfo}>Review your gas fee in your wallet</p> */}
         {/* <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~{Number(gasFees).toFixed(6)}</p> */}
       </div>
+      {isReadyToMintRelease && isMintLoading && !isMobile && (
+        <div className="loading-data-wrapper">
+          <PuffLoader color="var(--theme-primary-1)" size={36} />
+        </div>
+      )}
     </>
   );
 };
@@ -239,6 +248,8 @@ MintReleaseModal.propTypes = {
   toBridge: PropTypes.any,
   theme: PropTypes.any,
   displayMessage: PropTypes.any,
+  mintButtonClick: PropTypes.any,
+  isMintLoading: PropTypes.any,
 };
 
 export default MintReleaseModal;

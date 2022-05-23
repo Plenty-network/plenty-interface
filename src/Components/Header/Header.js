@@ -276,7 +276,7 @@ const Header = (props) => {
                         Bridge
                       </span>
                       <span
-                        className={clsx('material-icons', 'arrow', {
+                        className={clsx('material-icons', 'arrow-header', {
                           rotate:
                             selectedHeader === HEADER_MODAL.BRIDGE &&
                             (isMobile ? isExpanded : true),

@@ -298,7 +298,7 @@ const TransactionHistory = (props) => {
               </p>
               <p className={styles.heading}>Transaction history</p>
             </div>
-            {!isLoading && (
+            {!isLoading && sortedData.length > 0 && (
               <div className={styles.filterImageWrapper}>
                 <img
                   src={
@@ -429,7 +429,7 @@ const TransactionHistory = (props) => {
               })
             ) : (
               <div className={styles.noDataDiv}>
-                <p className={styles.value}>No trasaction history data.</p>
+                <p className={styles.value}>No transactions found.</p>
               </div>
             )}
           </div>
