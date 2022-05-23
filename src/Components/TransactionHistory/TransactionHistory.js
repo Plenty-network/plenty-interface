@@ -253,13 +253,13 @@ const TransactionHistory = (props) => {
         type: 'error',
         duration: FLASH_MESSAGE_DURATION,
         title: 'Fetch Error',
-        content: 'Failed to fetch transaction history. Please retry after some time.',
+        content: 'Failed to fetch transaction history. Please retry after some time or make sure both wallets are connected.',
         isFlashMessageALink: false,
         flashMessageLink: '#',
       });
       setIsLoading(false);
     }
-  }, []);
+  }, [walletAddress, metamaskAddress]);
 
   // Handle closing of filter and sort components on clicking of outside of them.
   useEffect(() => {
