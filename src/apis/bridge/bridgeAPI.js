@@ -760,8 +760,12 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
           type: 'ERC20',
         },
       });
-
-      const unwrapsArrPromise = unwraps.data.result.map(async (obj) => {
+      const unwrapsMain = unwraps.data.result.filter(
+        (obj) =>
+          obj.destination.toLowerCase() === ethereumAddress.toLowerCase() &&
+          obj.source.toLowerCase() === tzAddress.toLowerCase(),
+      );
+      const unwrapsArrPromise = unwrapsMain.map(async (obj) => {
         const data = await axios.get(tzkt + '/v1/operations/' + obj.operationHash);
         const timeStamp = new Date(data.data[0].timestamp);
         const feePercentage = BridgeConfiguration.getFeesForChain(chain).UNWRAP_FEES / 10000;
@@ -772,6 +776,7 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
         // const transFee =
         //   (obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS) *
         //   (BridgeConfiguration.getFeesForChain(chain).UNWRAP_FEES / 10000);
+
         return {
           ...obj,
           isWrap: false,
@@ -805,38 +810,49 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
           type: 'ERC20',
         },
       });
+      const wrapsMain = wraps.data.result.filter(
+        (obj) =>
+          obj.destination.toLowerCase() === tzAddress.toLowerCase() &&
+          obj.source.toLowerCase() === ethereumAddress.toLowerCase(),
+      );
+      const wrapsArrPromise = wrapsMain.map(async (obj) => {
+        if (
+          obj.destination.toLowerCase() === tzAddress.toLowerCase() &&
+          obj.source.toLowerCase() === ethereumAddress.toLowerCase()
+        ) {
+          const customHttpProvider = new ethers.providers.JsonRpcProvider(
+            networks[chain].rpcUrls[0],
+          );
+          const tx = await customHttpProvider.getTransaction(obj.transactionHash);
 
-      const wrapsArrPromise = wraps.data.result.map(async (obj) => {
-        const customHttpProvider = new ethers.providers.JsonRpcProvider(networks[chain].rpcUrls[0]);
-        const tx = await customHttpProvider.getTransaction(obj.transactionHash);
+          const block = await customHttpProvider.getBlock(tx.blockNumber);
 
-        const block = await customHttpProvider.getBlock(tx.blockNumber);
-
-        const timeStamp = new Date(block.timestamp * 1000);
-        const transFee =
-          (obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS) *
-          (BridgeConfiguration.getFeesForChain(chain).WRAP_FEES / 10000);
-        return {
-          ...obj,
-          isWrap: true,
-          isUnwrap: false,
-          operation: 'BRIDGE',
-          token: BridgeConfiguration.getToken(chain, obj.token),
-          tokenIn: BridgeConfiguration.getToken(chain, obj.token).SYMBOL,
-          tokenOut: BridgeConfiguration.getToken(chain, obj.token).WRAPPED_TOKEN.NAME,
-          firstTokenAmount:
-            obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS,
-          secondTokenAmount:
-            obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS - transFee,
-          txHash: obj.transactionHash,
-          timestamp: timeStamp,
-          actionRequired: obj.status === 'finalized' ? false : true,
-          currentProgress: obj.status === 'finalized' ? 3 : 1,
-          fromBridge: chain,
-          toBridge: 'TEZOS',
-          fee: transFee,
-          chain,
-        };
+          const timeStamp = new Date(block.timestamp * 1000);
+          const transFee =
+            (obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS) *
+            (BridgeConfiguration.getFeesForChain(chain).WRAP_FEES / 10000);
+          return {
+            ...obj,
+            isWrap: true,
+            isUnwrap: false,
+            operation: 'BRIDGE',
+            token: BridgeConfiguration.getToken(chain, obj.token),
+            tokenIn: BridgeConfiguration.getToken(chain, obj.token).SYMBOL,
+            tokenOut: BridgeConfiguration.getToken(chain, obj.token).WRAPPED_TOKEN.NAME,
+            firstTokenAmount:
+              obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS,
+            secondTokenAmount:
+              obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS - transFee,
+            txHash: obj.transactionHash,
+            timestamp: timeStamp,
+            actionRequired: obj.status === 'finalized' ? false : true,
+            currentProgress: obj.status === 'finalized' ? 3 : 1,
+            fromBridge: chain,
+            toBridge: 'TEZOS',
+            fee: transFee,
+            chain,
+          };
+        }
       });
       const wrapsArr = await Promise.all(wrapsArrPromise);
 
@@ -973,8 +989,12 @@ export const getActionRequiredCount = async ({ ethereumAddress, tzAddress }) => 
           status: 'asked',
         },
       });
-
-      const unwrapsCount = unwraps.data.result.length;
+      const unwrapsMain = unwraps.data.result.filter(
+        (obj) =>
+          obj.destination.toLowerCase() === ethereumAddress.toLowerCase() &&
+          obj.source.toLowerCase() === tzAddress.toLowerCase(),
+      );
+      const unwrapsCount = unwrapsMain.length;
 
       const wraps = await axios.get(indexerLink + 'wraps', {
         params: {
@@ -984,8 +1004,12 @@ export const getActionRequiredCount = async ({ ethereumAddress, tzAddress }) => 
           status: 'asked',
         },
       });
-
-      const wrapsCount = wraps.data.result.length;
+      const wrapsMain = wraps.data.result.filter(
+        (obj) =>
+          obj.destination.toLowerCase() === tzAddress.toLowerCase() &&
+          obj.source.toLowerCase() === ethereumAddress.toLowerCase(),
+      );
+      const wrapsCount = wrapsMain.length;
       count = count + unwrapsCount + wrapsCount;
     }
 
