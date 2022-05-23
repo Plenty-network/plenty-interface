@@ -210,7 +210,7 @@ const HeaderBottom = (props) => {
                 </Col>
                 <Col xl={5} lg={6} xs={12}>
                   <div className=" topics gov">
-                    <a className="text-decoration-none" href='https://bridge-analytics.netlify.app/' target='_blank' rel='noreferrer'>
+                    <a className="text-decoration-none" href='https://analytics.plentydefi.com/' target='_blank' rel='noreferrer'>
                       <p className="heading">BRIDGE ANALYTICS</p>
                       <div className="flex   para">
                         <div className="parainside">
