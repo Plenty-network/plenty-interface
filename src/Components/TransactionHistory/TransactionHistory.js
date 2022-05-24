@@ -214,7 +214,7 @@ const TransactionHistory = (props) => {
         type: 'warning',
         duration: FLASH_MESSAGE_DURATION,
         title: 'Chain Mismatch',
-        content: `Please change metamask wallet chain to ${selectedData.chain}.`,
+        content: `Please change wallet chain to ${selectedData.chain}.`,
         isFlashMessageALink: false,
         flashMessageLink: '#',
       });
@@ -408,7 +408,7 @@ const TransactionHistory = (props) => {
                             className={styles.details}
                             onClick={(e) => actionClickHandler(e.target.id)}
                           >
-                            View Details
+                            View details
                           </p>
                         </div>
                       ) : (
@@ -418,7 +418,7 @@ const TransactionHistory = (props) => {
                             className={styles.action}
                             onClick={(e) => actionClickHandler(e.target.id)}
                           >
-                            Action Required <img src={actionRequired}></img>
+                            Action required <img src={actionRequired}></img>
                           </p>
                         </div>
                       )}

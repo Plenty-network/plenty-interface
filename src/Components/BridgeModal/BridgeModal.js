@@ -149,14 +149,14 @@ const BridgeModal = (props) => {
           type: 'warning',
           duration: FLASH_MESSAGE_DURATION,
           title: 'Chain Mismatch',
-          content: `Change metamask wallet chain to ${currentChain}.`,
+          content: `Change wallet chain to ${currentChain}.`,
           isFlashMessageALink: false,
           flashMessageLink: '#',
         });
 
         setTimeout(async () => {
           try {
-            console.log('Changing metamask chain to ', currentChain);
+            console.log('Changing chain to ', currentChain);
             await changeNetwork({ networkName: currentChain });
           } catch (error) {
             console.log(error.message);
@@ -400,14 +400,14 @@ const BridgeModal = (props) => {
           type: 'warning',
           duration: FLASH_MESSAGE_DURATION,
           title: 'Chain Mismatch',
-          content: `Change metamask wallet chain to ${currentChain}.`,
+          content: `Change wallet chain to ${currentChain}.`,
           isFlashMessageALink: false,
           flashMessageLink: '#',
         });
 
         setTimeout(async () => {
           try {
-            console.log('Changing metamask chain to ', currentChain);
+            console.log('Changing chain to ', currentChain);
             await changeNetwork({ networkName: currentChain });
           } catch (error) {
             console.log(error.message);
@@ -723,18 +723,30 @@ const BridgeModal = (props) => {
               <p className={styles.heading}>
                 Bridge{' '}
                 {metamaskAddress && (
-                  <span className={styles.metamaskAddressText}>{`(${truncateMiddle(
-                    metamaskAddress,
-                    5,
-                    4,
-                    '...',
-                  )})`}</span>
+                  <OverlayTrigger
+                    overlay={(props) => (
+                      <Tooltip
+                        className="connect-wallet-tooltip wallet-message-tooltip"
+                        {...props}
+                      >
+                        Disconnect Ethereum wallets through wallet.
+                      </Tooltip>
+                    )}
+                    placement="top"
+                  >
+                    <span className={styles.metamaskAddressText}>{`(${truncateMiddle(
+                      metamaskAddress,
+                      5,
+                      4,
+                      '...',
+                    )})`}</span>
+                  </OverlayTrigger>
                 )}
               </p>
               {walletAddress &&
                 metamaskAddress &&
                 (isHistoryLoading ? (
-                  <p className={`${styles.resLoading} shimmer`}>View History</p>
+                  <p className={`${styles.resLoading} shimmer`}>View history</p>
                 ) : (
                   <p
                     className={`${styles.res} ${pendingTransCount > 0 && styles.pendingHistory}`}
@@ -746,7 +758,7 @@ const BridgeModal = (props) => {
                     }}
                     style={{ cursor: 'pointer' }}
                   >
-                    View History{' '}
+                    View history{' '}
                     {pendingTransCount > 0 && (
                       <span className={styles.actionRequiredCount}>{pendingTransCount}</span>
                     )}
@@ -945,7 +957,8 @@ const BridgeModal = (props) => {
                   <div className={clsx('connect-wallet-btn')}>
                     <div className="flex flex-row align-items-center">
                       {/* <Avalanche /> */}
-                      <img src={connectBridgeWallet.buttonImage} />
+                      {/* <img src={connectBridgeWallet.buttonImage} /> */}
+                      <connectBridgeWallet.buttonImage />
                       <span className="ml-2">Connect to {connectBridgeWallet.name} wallet</span>
                     </div>
                   </div>
@@ -954,7 +967,7 @@ const BridgeModal = (props) => {
             ) : (
               <>
                 <Button
-                  className={clsx('px-md-3', 'mt-3', 'w-100', 'connect-wallet-btn', 'button-bg')}
+                  className={clsx('px-md-3', 'mt-3', 'w-100', 'connect-wallet-btn', 'button-bg', firstTokenAmount === '' ? styles.disabledProceedButton : '')}
                   onClick={handelClickWithMetaAddedBtn}
                   loading={isLoading}
                 >

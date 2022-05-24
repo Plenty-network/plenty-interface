@@ -12,11 +12,11 @@ import CONFIG from '../../config/config';
 import { FLASH_MESSAGE_DURATION } from '../../constants/global';
 import '../../assets/scss/animation.scss';
 import useMediaQuery from '../../hooks/mediaQuery';
-import { PuffLoader } from 'react-spinners';
+// import { PuffLoader } from 'react-spinners';
 import { useDispatch } from 'react-redux';
 import { setLoader } from '../../redux/slices/settings/settings.slice';
-// import Lottie from 'lottie-react';
-// import icLoader from '../../assets/images/bridge/loaders/test.json';
+import Lottie from 'lottie-react';
+import loader from '../../assets/images/bridge/loaders/loader_big.json';
 
 const DoneModal = (props) => {
   const {
@@ -134,8 +134,8 @@ const DoneModal = (props) => {
             {/* <div className="loading-div">
               <LoadingRing />
             </div> */}
-            <div className={styles.completeSpinLoader}></div>
-            {/* <Lottie animationData={icLoader} loop={true} style={{height: '45px', width: '45px'}} /> */}
+            {/* <div className={styles.completeSpinLoader}></div> */}
+            <Lottie animationData={loader} loop={true} style={{height: '45px', width: '45px'}} />
           </div>
         ) : (
           <div
@@ -196,9 +196,25 @@ const DoneModal = (props) => {
           </div>
         </div>
         {currentProgress === numberOfSteps.length && (
-          <div className="borderless mt-3">
+          <div
+            className="borderless mt-3"
+            onClick={() =>
+              window.open(
+                `${
+                  operation === 'BRIDGE'
+                    ? openingFromHistory
+                      ? CONFIG.EXPLORER_LINKS[fromBridge.name]
+                      : CONFIG.EXPLORER_LINKS.TEZOS
+                    : openingFromHistory
+                    ? CONFIG.EXPLORER_LINKS.TEZOS
+                    : CONFIG.EXPLORER_LINKS[toBridge.name]
+                }${finalOpHash}`,
+                '_blank',
+              )
+            }
+          >
             <p className={`mb-1 mt-1 ${styles.discriptionInfo}`} style={{ width: 'max-content' }}>
-              <a
+              {/* <a
                 href={`${
                   operation === 'BRIDGE'
                     ? openingFromHistory
@@ -212,17 +228,18 @@ const DoneModal = (props) => {
                 rel="noreferrer"
               >
                 View on explorer
-              </a>
+              </a> */}
+              <span>View on explorer</span>
               <Link className="ml-2 mb-1" />
             </p>
           </div>
         )}
       </div>
-      {currentProgress === numberOfSteps.length - 1 && !isMobile && (
+      {/* {currentProgress === numberOfSteps.length - 1 && !isMobile && (
         <div className="loading-data-wrapper">
           <PuffLoader color="var(--theme-primary-1)" size={36} />
         </div>
-      )}
+      )} */}
     </>
   );
 };

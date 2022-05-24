@@ -4,7 +4,7 @@ import styles from './styles/TransactionHistorySort.module.scss';
 export const SORT_OPTIONS = [
   {
     radioButtonValue: 'MOST_RECENT',
-    radioButtonLabel: 'Most Recent',
+    radioButtonLabel: 'Most recent',
   },
   {
     radioButtonValue: 'OLDEST',
@@ -12,11 +12,11 @@ export const SORT_OPTIONS = [
   },
   {
     radioButtonValue: 'INCREASING_VALUE',
-    radioButtonLabel: 'Increasing Value',
+    radioButtonLabel: 'Increasing value',
   },
   {
     radioButtonValue: 'DECREASING_VALUE',
-    radioButtonLabel: 'Decreasing Value',
+    radioButtonLabel: 'Decreasing value',
   },
 ];
 

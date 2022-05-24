@@ -4,17 +4,17 @@ import styles from './styles/TransactionHistoryFilter.module.scss';
 export const FILTER_OPTIONS = [
   {
     checkboxId: 'FROM_TEZOS',
-    checkboxLabel: 'Bridge From Tezos',
+    checkboxLabel: 'Bridge from tezos',
     labelImageClass: styles.filterLabelUpImage,
   },
   {
     checkboxId: 'TO_TEZOS',
-    checkboxLabel: 'Bridge To Tezos',
+    checkboxLabel: 'Bridge to tezos',
     labelImageClass: styles.filterLabelDownImage,
   },
   {
     checkboxId: 'ACTION_REQUIRED',
-    checkboxLabel: 'Action Required',
+    checkboxLabel: 'Action required',
     labelImageClass: styles.filterLabelActionImage,
   },
 ];

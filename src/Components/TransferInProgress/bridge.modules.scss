@@ -16,6 +16,11 @@
         justify-content: center;
         align-items: center;
         border-radius: 4px;
+        cursor: pointer;
+        &:hover{
+            background-color: var(--theme-bridge-trans-explorer-hover-bg);
+        }
+        
     }
     .border-tile{
      display: flex;

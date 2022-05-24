@@ -25,14 +25,31 @@ const providerOptions = {
   },
 };
 
-const web3Modal = new Web3Modal({
+let web3Modal;
+/* const web3Modal = new Web3Modal({
   network: 'rinkeby',
   cacheProvider: true,
   providerOptions,
-});
+  theme: 'light',
+}); */
 
-export const connectWallet = async (setMetamaskAddress) => {
+export const connectWallet = async (setMetamaskAddress, theme) => {
   try {
+    if(theme === 'light') {
+      web3Modal = new Web3Modal({
+        network: 'rinkeby',
+        cacheProvider: true,
+        providerOptions,
+        theme: 'light',
+      });
+    } else {
+      web3Modal = new Web3Modal({
+        network: 'rinkeby',
+        cacheProvider: true,
+        providerOptions,
+        theme: 'dark',
+      });
+    }
     const provider = await web3Modal.connect();
     console.log('provider', provider);
     const web3 = new Web3(provider);
@@ -52,7 +69,9 @@ export const connectWallet = async (setMetamaskAddress) => {
     console.log('Error', e);
     if (setMetamaskAddress) {
       localStorage.setItem('isWalletConnected', false);
+      setMetamaskAddress(null);
     }
+    return;
   }
 };
 

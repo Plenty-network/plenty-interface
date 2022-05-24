@@ -93,6 +93,7 @@
       font-size: 16px;
       font-weight: 500;
       color: var(--theme-bridge-max-btn-border-text);
+      cursor: default;
       @media screen and (min-width: 320px) and (max-width: 767px) {
         font-size: 12px;
       }
@@ -570,6 +571,10 @@
   margin-left: 4px;
   height: 20px;
   width: 20px;
+}
+
+.disabledProceedButton {
+  background-color: var(--theme-swap-disable-button) !important;
 }
 
 

@@ -234,6 +234,7 @@
   --theme-bridge-trans-spin-bg-lg: linear-gradient(180deg, #7F3FF3 0%, #7F3FF301 75.52%, #7F3FF300 100%);
   --theme-bridge-done-spin-bg: #E7E1F1;
   --theme-bridge-trans-approved-btn-bg: rgba(98, 2, 239, 0.05);
+  --theme-bridge-trans-explorer-hover-bg: rgba(98, 2, 239, 0.15);
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -471,6 +472,7 @@
   --theme-bridge-trans-spin-bg-lg: linear-gradient(180deg, #CEAEFE 0%, #CEAEFE01 75.52%, #CEAEFE00 100%);
   --theme-bridge-done-spin-bg: #514B74;
   --theme-bridge-trans-approved-btn-bg: rgba(206, 174, 254, 0.05);
+  --theme-bridge-trans-explorer-hover-bg: rgb(206, 174, 254, 0.15);
 }
 
 :root.theme-transiton {

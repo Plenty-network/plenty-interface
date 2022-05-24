@@ -11,7 +11,7 @@ import { wrap, unwrap, approveToken } from '../../apis/bridge/bridgeAPI';
 import CONFIG from '../../config/config';
 import { FLASH_MESSAGE_DURATION } from '../../constants/global';
 import useMediaQuery from '../../hooks/mediaQuery';
-import { PuffLoader } from 'react-spinners';
+// import { PuffLoader } from 'react-spinners';
 import { useDispatch } from 'react-redux';
 import { setLoader } from '../../redux/slices/settings/settings.slice';
 
@@ -257,11 +257,11 @@ const BridgeUnbridgeModal = (props) => {
         {/* <p className={styles.bottomInfo}>Review your gas fee in your wallet</p> */}
         {/* <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~{Number(gasFees).toFixed(6)}</p> */}
       </div>
-      {(isApproveLoading || isButtonLoading) && !isMobile && (
+      {/* {(isApproveLoading || isButtonLoading) && !isMobile && (
         <div className="loading-data-wrapper">
           <PuffLoader color="var(--theme-primary-1)" size={36} />
         </div>
-      )}
+      )} */}
     </>
   );
 };

@@ -7,7 +7,8 @@ import Col from 'react-bootstrap/Col';
 import BridgeText from '../../Components/BridgeText/BridgeText';
 import BridgeModal from '../../Components/BridgeModal/BridgeModal';
 import ethereum from '../../assets/images/bridge/eth.svg';
-import tezos from '../../assets/images/bridge/tezos.svg';
+import {ReactComponent as ethereumButtonIcon} from '../../assets/images/bridge/ethereum_btn_icon.svg';
+import tezos from '../../assets/images/bridge/ic_tezos.svg';
 //import { tokens } from '../../constants/swapPage';
 import { createTokensList } from '../../apis/Config/BridgeConfig';
 import { BridgeConfiguration } from '../../apis/Config/BridgeConfig';
@@ -55,7 +56,7 @@ const Bridge = (props) => {
   const [fromBridge, setFromBridge] = useState({
     name: 'RINKEBY',
     image: ethereum,
-    buttonImage: ethereum,
+    buttonImage: ethereumButtonIcon,
   });
   const [toBridge, setToBridge] = useState({ name: 'TEZOS', image: tezos, buttonImage: '' });
   const [fee, setFee] = useState(0);
@@ -63,7 +64,7 @@ const Bridge = (props) => {
   const [selectedId, setSelectedId] = useState(null);
   const [transactionData, setTransactionData] = useState([]);
   const [isApproved, setIsApproved] = useState(false);
-  const [isListening, setIsListening] = useState(false);
+  // const [isListening, setIsListening] = useState(false);
   //const [currentOperation, setCurrentOperation] = useState('BRIDGE');
   const [metamaskAddress, setMetamaskAddress] = useState(null);
   const [currentChain, setCurrentChain] = useState(fromBridge.name);
@@ -157,7 +158,7 @@ const Bridge = (props) => {
           setMetamaskAddress(null);
           localStorage.setItem('isWalletConnected', false);
           disconnectWallet();
-          setIsListening(false);
+          // setIsListening(false);
         } else {
           connectWalletHandler();
         }
@@ -205,13 +206,15 @@ const Bridge = (props) => {
         flashMessageLink: '#',
       }); */
 
-    const web3 = await connectWallet(setMetamaskAddress);
+    const web3 = await connectWallet(setMetamaskAddress, props.theme);
     //listenEvents();
     metamaskChainChangeHandler();
-    web3.provider.on('chainChanged', metamaskChainChangeHandler);
-    web3.provider.on('accountsChanged', metamaskAccountChangeHandler);
-    web3.provider.on('disconnect', onDisconnect);
-    console.log(web3);
+    if(web3) {
+      web3.provider.on('chainChanged', metamaskChainChangeHandler);
+      web3.provider.on('accountsChanged', metamaskAccountChangeHandler);
+      web3.provider.on('disconnect', onDisconnect);
+      console.log(web3);
+    }
   };
 
   const handleFlashMessageClose = useCallback(() => {
@@ -254,7 +257,7 @@ const Bridge = (props) => {
         setMetamaskAddress(null);
         localStorage.setItem('isWalletConnected', false);
         disconnectWallet();
-        setIsListening(false);
+        // setIsListening(false);
       }
       //setMetamaskAddress(newAccount);
     },
@@ -271,7 +274,7 @@ const Bridge = (props) => {
     setMetamaskAddress(null);
     localStorage.setItem('isWalletConnected', false);
     disconnectWallet();
-    setIsListening(false);
+    // setIsListening(false);
   }, []);
 
   //Add all metamask event listeners and remove them on unmount.
@@ -287,11 +290,11 @@ const Bridge = (props) => {
   }; */
 
   const removeListenEvents = async () => {
-    const providerData = await connectWallet();
+    const providerData = await connectWallet(null,props.theme);
     providerData.provider.removeListener('chainChanged', metamaskChainChangeHandler);
     providerData.provider.removeListener('disconnect', onDisconnect);
     providerData.provider.removeListener('accountsChanged', metamaskAccountChangeHandler);
-    setIsListening(false);
+    // setIsListening(false);
   };
 
   useEffect(() => {
@@ -437,6 +440,7 @@ const Bridge = (props) => {
     return () => clearTimeout(timer);
   }, []);
 
+
   // Function to reset all the current states to default values
   const resetToDefaultStates = useCallback(() => {
     console.log('reset called');
@@ -444,8 +448,9 @@ const Bridge = (props) => {
     setOperation(savedOperation.current);
     setFirstTokenAmount('');
     setSecondTokenAmount('');
-    setFromBridge(savedFromBridge.current);
     setToBridge(savedToBridge.current);
+    setFromBridge(savedFromBridge.current);
+    // setToBridge(savedToBridge.current);
     setTimeout(() => {
       console.log(savedToBridge.current);
       //setToBridge(savedToBridge.current);

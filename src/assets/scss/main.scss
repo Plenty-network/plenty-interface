@@ -244,6 +244,20 @@ hr {
   }
 }
 
+.wallet-message-tooltip {
+  margin-left: 6.5%;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 96%;
+    left: 17%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--theme-tooltip-bg) transparent transparent transparent;
+  }
+}
+
 .token-output-tooltip{
   z-index: 9999 !important;
   margin-bottom: 6px;
