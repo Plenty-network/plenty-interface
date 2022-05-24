@@ -223,7 +223,7 @@ const Frontpage = ({
                       {homeStats.marketcap.toFixed(0)}
                     </NumericLabel>
                   ) : (
-                    '1967696'
+                    '1,967,696'
                   )
                 }
                 icon={theme === 'light' ? marketCap : marketCapDark}
@@ -238,7 +238,7 @@ const Frontpage = ({
                       {homeStats.total_minted.toFixed(0)}
                     </NumericLabel>
                   ) : (
-                    '42141682'
+                    '42,141,682'
                   )
                 }
                 icon={theme === 'light' ? farms : farmsDark}
@@ -253,7 +253,7 @@ const Frontpage = ({
                       {homeStats.total_burned.toFixed(0)}
                     </NumericLabel>
                   ) : (
-                    '793809'
+                    '793,809'
                   )
                 }
                 icon={theme === 'light' ? totalBurned : totalBurnedDark}
@@ -268,7 +268,7 @@ const Frontpage = ({
                       {homeStats.circulating_supply.toFixed(0)}
                     </NumericLabel>
                   ) : (
-                    '34534242'
+                    '34,534,242'
                   )
                 }
                 icon={theme === 'light' ? circulatingSupply : circulatingSupplyDark}
