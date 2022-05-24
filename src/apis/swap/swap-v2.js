@@ -57,7 +57,7 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
       };
     } else if (
       (tokenIn === 'ctez' && tokenOut === 'DOGA') ||
-      (tokenIn === 'DOGA' && tokenOut === 'ctez')
+      (tokenIn === 'DOGA' && tokenOut === 'ctez') || (tokenIn === 'USDC.e' && tokenOut === 'ctez') || (tokenIn === 'ctez' && tokenOut === 'USDC.e') || (tokenIn === 'WBTC.e' && tokenOut === 'ctez') || (tokenIn === 'ctez' && tokenOut === 'WBTC.e')
     ) {
       const connectedNetwork = CONFIG.NETWORK;
       const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
@@ -66,9 +66,6 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
       const Tezos = new TezosToolkit(rpcNode);
       const dexContractInstance = await Tezos.contract.at(dexContractAddress);
       const dexStorage = await dexContractInstance.storage();
-      // token1 == doga
-      // token2 == ctez
-
       const lpFee = await dexStorage.lpFee;
       const token1_pool = await dexStorage.token1_pool;
       const token2_pool = await dexStorage.token2_pool;
