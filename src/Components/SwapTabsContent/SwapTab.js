@@ -265,7 +265,7 @@ const SwapTab = (props) => {
   };
   useEffect(() => {
     handleSwapTokenInput(firstTokenAmount, 'tokenIn');
-  }, [props.routeData]);
+  }, [routeDataCopy]);
   useEffect(() => {
     setErrorMessage(false);
   }, [props.tokenOut.name]);
@@ -684,7 +684,7 @@ const SwapTab = (props) => {
 
               <div className="token-user-input-wrapper">
                 <div className="input-heading receive-heading">YOU RECEIVE</div>
-                {props.userBalances[props.tokenOut.name] >= 0 && props.tokenOut.name ? (
+                {props.userBalances[props.tokenOut.name] >= 0 && routeDataCopy ? (
                   <input
                     type="text"
                     className={clsx('token-user-input', secondTokenAmount && 'second-input-color')}
@@ -699,7 +699,7 @@ const SwapTab = (props) => {
                     className="token-user-input"
                     disabled
                     placeholder="--"
-                    value={secondTokenAmount}
+                    value="--"
                   />
                 )}
               </div>

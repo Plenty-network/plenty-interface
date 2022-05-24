@@ -16,7 +16,7 @@ import { useLocationStateInSwap } from './hooks';
 import '../../assets/scss/animation.scss';
 import { tokens } from '../../constants/swapPage';
 import SwapTab from '../../Components/SwapTabsContent/SwapTab';
-import { getAllRoutes, loadSwapData } from '../../apis/swap/swap-v2';
+import { getAllRoutes } from '../../apis/swap/swap-v2';
 import SwapModal from '../../Components/SwapModal/SwapModal';
 import TransactionSettings from '../../Components/TransactionSettings/TransactionSettings';
 import {
@@ -171,8 +171,8 @@ const Swap = (props) => {
   };
 
   const changeTokenLocation = () => {
-    const tempTokenIn = tokenIn.name;
-    const tempTokenOut = tokenOut.name;
+    // const tempTokenIn = tokenIn.name;
+    // const tempTokenOut = tokenOut.name;
     if (tokenOut.name) {
       setTokenIn({
         name: tokenOut.name,
@@ -190,22 +190,22 @@ const Swap = (props) => {
       });
       setFirstTokenAmount('');
       setSecondTokenAmount('');
-      if (
-        (tokenIn.name === 'tez' && tokenOut.name === 'ctez') ||
-        (tokenOut.name === 'tez' && tokenIn.name === 'ctez')
-      ) {
-        loadSwapDataStable(tempTokenOut, tempTokenIn).then((data) => {
-          if (data.success) {
-            setSwapData(data);
-          }
-        });
-      } else {
-        loadSwapData(tempTokenOut, tempTokenIn).then((data) => {
-          if (data.success) {
-            setSwapData(data);
-          }
-        });
-      }
+      // if (
+      //   (tokenIn.name === 'tez' && tokenOut.name === 'ctez') ||
+      //   (tokenOut.name === 'tez' && tokenIn.name === 'ctez')
+      // ) {
+      //   loadSwapDataStable(tempTokenOut, tempTokenIn).then((data) => {
+      //     if (data.success) {
+      //       setSwapData(data);
+      //     }
+      //   });
+      // } else {
+      //   loadSwapData(tempTokenOut, tempTokenIn).then((data) => {
+      //     if (data.success) {
+      //       setSwapData(data);
+      //     }
+      //   });
+      // }
     }
   };
 
