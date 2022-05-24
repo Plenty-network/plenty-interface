@@ -12,6 +12,7 @@ import { BeaconWallet } from '@taquito/beacon-wallet';
 import { CheckIfWalletConnected } from '../wallet/wallet';
 import { BigNumber, ethers } from 'ethers';
 import { networks } from '../Config/networks';
+import { connectWallet } from './ethereumWalletConnect';
 /* eslint-enable no-unused-vars */
 
 const fakeSigner = (account, publicKey) => ({
@@ -31,20 +32,11 @@ const fakeSigner = (account, publicKey) => ({
 });
 
 const getUserAddress = async () => {
-  if (window.ethereum && window.ethereum.isMetaMask) {
-    const data = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    return {
-      success: true,
-      address: data[0],
-    };
-  } else {
-    console.log('Need to install MetaMask');
-    alert('Please install MetaMask browser extension to interact');
-    return {
-      success: false,
-      error: 'Need to install MetaMask',
-    };
-  }
+  const data = await connectWallet();
+  return {
+    success: true,
+    address: data.address,
+  };
 };
 
 /* use to get balance of a token, returns balance without decimals
@@ -52,7 +44,8 @@ tokenAddress: address of the token
 userAddress: address of the user ETHEREUM */
 export const getBalance = async (tokenAddress, userAddress) => {
   try {
-    const web3 = new Web3(window.ethereum);
+    const provider = await connectWallet();
+    const web3 = provider.web3;
     const tokenContract = new web3.eth.Contract(ERC20_ABI, tokenAddress);
     const balance = await tokenContract.methods.balanceOf(userAddress).call();
     return {
@@ -149,6 +142,7 @@ export const getApproveTxCost = async (tokenIn, chain, amount) => {
     };
   }
 };
+
 export const getWrapTxCost = async (tokenIn, chain, amount, tzAddress) => {
   const userData = await getUserAddress();
   if (userData.success && userData.address) {
@@ -346,41 +340,35 @@ amount: Amount to wrap
   */
 export const approveToken = async (tokenIn, chain, amount) => {
   try {
-    const web3 = new Web3(window.ethereum);
-    const userData = await getUserAddress();
-    if (userData.success && userData.address) {
-      const userAddress = userData.address;
-      const wrapContractAddress = BridgeConfiguration.getWrapContract(chain);
-      const tokenContract = new web3.eth.Contract(ERC20_ABI, tokenIn.tokenData.CONTRACT_ADDRESS);
-      const amountToAprove = amount * 10 ** tokenIn.tokenData.DECIMALS;
-      let result;
-      await tokenContract.methods
-        .approve(wrapContractAddress, amountToAprove.toString())
-        .send({
-          from: userAddress,
-        })
-        .on('receipt', function (receipt) {
-          console.log('receipt', receipt);
-          result = {
-            success: true,
-            transactionHash: receipt.transactionHash,
-            amount: amount,
-          };
-        })
-        .on('error', function (error) {
-          result = {
-            success: false,
-            error: error,
-          };
-        });
+    const provider = await connectWallet();
+    const web3 = provider.web3;
 
-      return result;
-    } else {
-      return {
-        success: false,
-        error: userData.error,
-      };
-    }
+    const userAddress = provider.address;
+    const wrapContractAddress = BridgeConfiguration.getWrapContract(chain);
+    const tokenContract = new web3.eth.Contract(ERC20_ABI, tokenIn.tokenData.CONTRACT_ADDRESS);
+    const amountToAprove = amount * 10 ** tokenIn.tokenData.DECIMALS;
+    let result;
+    await tokenContract.methods
+      .approve(wrapContractAddress, amountToAprove.toString())
+      .send({
+        from: userAddress,
+      })
+      .on('receipt', function (receipt) {
+        console.log('receipt', receipt);
+        result = {
+          success: true,
+          transactionHash: receipt.transactionHash,
+          amount: amount,
+        };
+      })
+      .on('error', function (error) {
+        result = {
+          success: false,
+          error: error,
+        };
+      });
+
+    return result;
   } catch (e) {
     return {
       success: false,
@@ -409,42 +397,35 @@ returns a transaction hash which will be used to call getMintStatus
 export const wrap = async (tokenIn, chain, amount, tzAddress) => {
   try {
     console.log(tzAddress);
-    const web3 = new Web3(window.ethereum);
-    const userData = await getUserAddress();
-    if (userData.success && userData.address) {
-      const userAddress = userData.address;
-      const wrapContractAddress = BridgeConfiguration.getWrapContract(chain);
-      console.log(wrapContractAddress);
-      const tokenContractAddress = tokenIn.tokenData.CONTRACT_ADDRESS;
-      console.log(tokenContractAddress);
-      const amountToWrap = amount * 10 ** tokenIn.tokenData.DECIMALS;
-      const wrapContract = new web3.eth.Contract(CUSTODIAN_ABI, wrapContractAddress);
-      let result;
-      await wrapContract.methods
-        .wrapERC20(tokenContractAddress, amountToWrap.toString(), tzAddress)
-        .send({
-          from: userAddress,
-        })
-        .on('receipt', function (receipt) {
-          console.log('receipt', receipt);
-          result = {
-            success: true,
-            transactionHash: receipt.transactionHash,
-          };
-        })
-        .on('error', function (error) {
-          result = {
-            success: false,
-            error: error,
-          };
-        });
-      return result;
-    } else {
-      return {
-        success: false,
-        error: userData.error,
-      };
-    }
+    const provider = await connectWallet();
+    const web3 = provider.web3;
+    const userAddress = provider.address;
+    const wrapContractAddress = BridgeConfiguration.getWrapContract(chain);
+    console.log(wrapContractAddress);
+    const tokenContractAddress = tokenIn.tokenData.CONTRACT_ADDRESS;
+    console.log(tokenContractAddress);
+    const amountToWrap = amount * 10 ** tokenIn.tokenData.DECIMALS;
+    const wrapContract = new web3.eth.Contract(CUSTODIAN_ABI, wrapContractAddress);
+    let result;
+    await wrapContract.methods
+      .wrapERC20(tokenContractAddress, amountToWrap.toString(), tzAddress)
+      .send({
+        from: userAddress,
+      })
+      .on('receipt', function (receipt) {
+        console.log('receipt', receipt);
+        result = {
+          success: true,
+          transactionHash: receipt.transactionHash,
+        };
+      })
+      .on('error', function (error) {
+        result = {
+          success: false,
+          error: error,
+        };
+      });
+    return result;
   } catch (e) {
     return {
       success: false,
@@ -681,61 +662,55 @@ Call with the data received from the release status api, chain
   */
 export const releaseTokens = async (unwrapData, chain, setMintReleaseSubmitted) => {
   try {
-    const web3 = new Web3(window.ethereum);
-    const userData = await getUserAddress();
-    if (userData.success && userData.address) {
-      const userAddress = userData.address;
-      const wrapContractAddress = BridgeConfiguration.getWrapContract(chain);
-      const wrapContract = new web3.eth.Contract(CUSTODIAN_ABI, wrapContractAddress);
-      const erc20Interface = new ethers.utils.Interface(ERC20_ABI);
-      const data = erc20Interface.encodeFunctionData('transfer', [
-        unwrapData.destination,
-        unwrapData.amount,
-      ]);
-      let result;
-      console.log(
+    const provider = await connectWallet();
+    const web3 = provider.web3;
+
+    const userAddress = provider.address;
+    const wrapContractAddress = BridgeConfiguration.getWrapContract(chain);
+    const wrapContract = new web3.eth.Contract(CUSTODIAN_ABI, wrapContractAddress);
+    const erc20Interface = new ethers.utils.Interface(ERC20_ABI);
+    const data = erc20Interface.encodeFunctionData('transfer', [
+      unwrapData.destination,
+      unwrapData.amount,
+    ]);
+    let result;
+    console.log(
+      unwrapData.token,
+      0,
+      data,
+      unwrapData.id,
+      buildFullSignature(unwrapData.signatures),
+    );
+    await wrapContract.methods
+      .execTransaction(
         unwrapData.token,
         0,
         data,
         unwrapData.id,
         buildFullSignature(unwrapData.signatures),
-      );
-      await wrapContract.methods
-        .execTransaction(
-          unwrapData.token,
-          0,
-          data,
-          unwrapData.id,
-          buildFullSignature(unwrapData.signatures),
-        )
-        .send({
-          from: userAddress,
-        })
-        .on('transactionHash', (hash) => {
-          console.log(hash);
-          console.log('accept now metamask tx');
-          setMintReleaseSubmitted(true);
-        })
-        .on('receipt', function (receipt) {
-          console.log('receipt', receipt);
-          result = {
-            success: true,
-            transactionHash: receipt.transactionHash,
-          };
-        })
-        .on('error', function (error) {
-          result = {
-            success: false,
-            error: error,
-          };
-        });
-      return result;
-    } else {
-      return {
-        success: false,
-        error: userData.error,
-      };
-    }
+      )
+      .send({
+        from: userAddress,
+      })
+      .on('transactionHash', (hash) => {
+        console.log(hash);
+        console.log('accept now metamask tx');
+        setMintReleaseSubmitted(true);
+      })
+      .on('receipt', function (receipt) {
+        console.log('receipt', receipt);
+        result = {
+          success: true,
+          transactionHash: receipt.transactionHash,
+        };
+      })
+      .on('error', function (error) {
+        result = {
+          success: false,
+          error: error,
+        };
+      });
+    return result;
   } catch (e) {
     return {
       success: false,
@@ -878,16 +853,18 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
 export const changeNetwork = async ({ networkName }) => {
   try {
     console.log(networkName);
-    if (!window.ethereum) throw new Error('No crypto wallet found');
-    console.log(window.ethereum);
+    const providerData = await connectWallet();
+    const provider = providerData.provider;
+    if (!provider) throw new Error('No crypto wallet found');
     try {
-      await window.ethereum.request({
+      await provider.request({
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: networks[networkName].chainId }],
       });
     } catch (switchError) {
+      console.log(switchError);
       try {
-        await window.ethereum.request({
+        await provider.request({
           method: 'wallet_addEthereumChain',
           params: [
             {
@@ -915,12 +892,16 @@ export const changeNetwork = async ({ networkName }) => {
 // }
 
 export const getCurrentNetwork = async () => {
-  if (window.ethereum.selectedAddress) {
+  const providerData = await connectWallet();
+  const web3 = providerData.web3;
+  const provider = providerData.provider;
+  const address = await web3.eth.getAccounts();
+  if (address.length !== 0) {
     // if (!window.ethereum.selectedProvider) {
     //   await delay(500);
     // }
     try {
-      if (!window.ethereum) throw new Error('No crypto wallet found');
+      if (!provider) throw new Error('No crypto wallet found');
       // Set the provider to metamask to resolve the conflict between metamask and coinbase wallet.
       // Allow only metamask wallet to be set as provider before getting chain.
       // if (
@@ -932,8 +913,15 @@ export const getCurrentNetwork = async () => {
       //     (provider) => provider.isMetaMask,
       //   );
       // }
-      const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-      const networkName = Object.keys(networks).find((key) => networks[key].chainId === chainId);
+      const chainId = await provider.request({ method: 'eth_chainId' });
+      console.log(chainId);
+      let networkName;
+      if (provider.isMetaMask || provider.isWalletLink)
+        networkName = Object.keys(networks).find((key) => networks[key].chainId === chainId);
+      else
+        networkName = Object.keys(networks).find(
+          (key) => networks[key].chainId === `0x${chainId.toString(16)}`,
+        );
       console.log(chainId);
       console.log(networkName);
       return networkName;
@@ -942,6 +930,7 @@ export const getCurrentNetwork = async () => {
       throw new Error(err.message);
     }
   } else {
+    console.log('No crypto wallet found');
     return 'RINKEBY'; //TODO: CHANGE IT LATER
   }
 };
@@ -952,8 +941,8 @@ userAddress: address of the user ETHEREUM
 chain */
 export const getAllowance = async (tokenIn, userAddress, chain) => {
   try {
-    const web3 = new Web3(window.ethereum);
-
+    const provider = await connectWallet();
+    const web3 = provider.web3;
     const tokenContract = new web3.eth.Contract(ERC20_ABI, tokenIn.tokenData.CONTRACT_ADDRESS);
     const wrapContractAddress = BridgeConfiguration.getWrapContract(chain);
     const allowance = await tokenContract.methods

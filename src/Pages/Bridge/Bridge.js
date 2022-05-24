@@ -25,6 +25,7 @@ import { FLASH_MESSAGE_DURATION } from '../../constants/global';
 import '../Bridge/bridge.scss';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
+import { connectWallet, disconnectWallet } from '../../apis/bridge/ethereumWalletConnect';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -62,6 +63,7 @@ const Bridge = (props) => {
   const [selectedId, setSelectedId] = useState(null);
   const [transactionData, setTransactionData] = useState([]);
   const [isApproved, setIsApproved] = useState(false);
+  const [isListening, setIsListening] = useState(false);
   //const [currentOperation, setCurrentOperation] = useState('BRIDGE');
   const [metamaskAddress, setMetamaskAddress] = useState(null);
   const [currentChain, setCurrentChain] = useState(fromBridge.name);
@@ -147,15 +149,26 @@ const Bridge = (props) => {
     if (localStorage?.getItem('isWalletConnected') === 'true') {
       try {
         console.log('HERE');
-        connectWalletHandler();
+        if (
+          !localStorage?.getItem('-walletlink:https://www.walletlink.org:IsStandaloneSigning') &&
+          localStorage?.getItem('WEB3_CONNECT_CACHED_PROVIDER') === '"coinbasewallet"'
+        ) {
+          console.log('disconnected');
+          setMetamaskAddress(null);
+          localStorage.setItem('isWalletConnected', false);
+          disconnectWallet();
+          setIsListening(false);
+        } else {
+          connectWalletHandler();
+        }
       } catch (ex) {
         localStorage.setItem('isWalletConnected', false);
       }
     }
   }, []);
 
-  const connectWalletHandler = () => {
-    console.log('Connecting');
+  const connectWalletHandler = async () => {
+    /*     console.log('Connecting');
     if (window.ethereum && window.ethereum.isMetaMask) {
       console.log('MetaMask Here!');
       console.log(window.ethereum);
@@ -190,8 +203,11 @@ const Bridge = (props) => {
         content: 'Please install Metamask wallet and reload.',
         isFlashMessageALink: false,
         flashMessageLink: '#',
-      });
-    }
+      }); */
+
+    const web3 = await connectWallet(setMetamaskAddress);
+    listenEvents();
+    console.log(web3);
   };
 
   const handleFlashMessageClose = useCallback(() => {
@@ -233,6 +249,8 @@ const Bridge = (props) => {
       } else {
         setMetamaskAddress(null);
         localStorage.setItem('isWalletConnected', false);
+        disconnectWallet();
+        setIsListening(false);
       }
       //setMetamaskAddress(newAccount);
     },
@@ -242,41 +260,46 @@ const Bridge = (props) => {
   /*   const onConnect = useCallback((connectInfo) => {
     console.log('connected', connectInfo);
     localStorage.setItem('isWalletConnected', true);
-  }, []);
+  }, []);*/
 
   const onDisconnect = useCallback((connectInfo) => {
     console.log('disconnected', connectInfo);
+    setMetamaskAddress(null);
     localStorage.setItem('isWalletConnected', false);
-  }, []); */
+    disconnectWallet();
+    setIsListening(false);
+  }, []);
 
   //Add all metamask event listeners and remove them on unmount.
-  useEffect(() => {
-    if (window.ethereum && window.ethereum.isMetaMask) { 
-      console.log(window.ethereum);
-      // Call chain change handler first time app loads to set the metamask chain state.
+  const listenEvents = async () => {
+    if (!isListening) {
+      const providerData = await connectWallet();
+
       metamaskChainChangeHandler();
       // Listen to chain change on metamask.
-      window.ethereum.on('chainChanged', metamaskChainChangeHandler);
+      providerData.provider.on('chainChanged', metamaskChainChangeHandler);
       // listen for account changes
-      window.ethereum.on('accountsChanged', metamaskAccountChangeHandler);
-    } else {
-      console.log('Need to install Metamask wallet.');
-      displayMessage({
-        type: 'warning',
-        duration: null,
-        title: 'Metamask Not Found',
-        content: 'Please install Metamask wallet and reload.',
-        isFlashMessageALink: false,
-        flashMessageLink: '#',
-      });
+      providerData.provider.on('accountsChanged', metamaskAccountChangeHandler);
+      providerData.provider.on('disconnect', onDisconnect);
+      setIsListening(true);
     }
+  };
+
+  const removeListenEvents = async () => {
+    const providerData = await connectWallet();
+    providerData.provider.removeListener('chainChanged', metamaskChainChangeHandler);
+    providerData.provider.removeListener('disconnect', onDisconnect);
+    providerData.provider.removeListener('accountsChanged', metamaskAccountChangeHandler);
+    setIsListening(false);
+  };
+
+  useEffect(() => {
     return () => {
-      if (window.ethereum && window.ethereum.isMetaMask) {
-        window.ethereum.removeListener('chainChanged', metamaskChainChangeHandler);
-        window.ethereum.removeListener('accountsChanged', metamaskAccountChangeHandler);
+      if (localStorage?.getItem('isWalletConnected') === 'true') {
+        removeListenEvents();
       }
     };
-  }, []);
+  }, [localStorage?.getItem('isWalletConnected')]);
 
   useEffect(() => {
     if (!initialRender.current) {

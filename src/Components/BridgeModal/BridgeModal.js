@@ -153,16 +153,15 @@ const BridgeModal = (props) => {
           isFlashMessageALink: false,
           flashMessageLink: '#',
         });
-        
-          setTimeout(async () => {
-            try {
-              console.log('Changing metamask chain to ', currentChain);
-              await changeNetwork({ networkName: currentChain });
-            } catch (error) {
-              console.log(error.message);
-            }
-          }, CHANGE_NETWORK_PROMPT_DELAY);
-        
+
+        setTimeout(async () => {
+          try {
+            console.log('Changing metamask chain to ', currentChain);
+            await changeNetwork({ networkName: currentChain });
+          } catch (error) {
+            console.log(error.message);
+          }
+        }, CHANGE_NETWORK_PROMPT_DELAY);
       }
     }
   }, [currentChain, metamaskChain]);
@@ -190,8 +189,11 @@ const BridgeModal = (props) => {
       setShowMetamaskTooltip(false);
       setIsError(false);
     }
-    if(firstTimeLoading.current && metamaskAddress && walletAddress) {
-      const pendingHistoryCount = await getActionRequiredCount({ethereumAddress: metamaskAddress, tzAddress: walletAddress});
+    if (firstTimeLoading.current && metamaskAddress && walletAddress) {
+      const pendingHistoryCount = await getActionRequiredCount({
+        ethereumAddress: metamaskAddress,
+        tzAddress: walletAddress,
+      });
       //console.log(pendingHistoryCount);
       setPendingTransCount(pendingHistoryCount.count);
       setIsHistoryLoading(false);
@@ -201,7 +203,7 @@ const BridgeModal = (props) => {
 
   useEffect(async () => {
     setUserTokenBalance(null);
-    setUserBalances((prevState) => ({...prevState,[tokenIn.name]: null}));
+    setUserBalances((prevState) => ({ ...prevState, [tokenIn.name]: null }));
     console.log(tokenIn);
     if (
       tokenIn.name !== 'Token NA' &&
@@ -214,10 +216,13 @@ const BridgeModal = (props) => {
         console.log(balanceResult);
         if (balanceResult.success) {
           setUserTokenBalance(Number(balanceResult.balance) / 10 ** tokenIn.tokenData.DECIMALS);
-          setUserBalances((prevState) => ({...prevState,[tokenIn.name]: Number(balanceResult.balance) / 10 ** tokenIn.tokenData.DECIMALS}));
+          setUserBalances((prevState) => ({
+            ...prevState,
+            [tokenIn.name]: Number(balanceResult.balance) / 10 ** tokenIn.tokenData.DECIMALS,
+          }));
         } else {
           setUserTokenBalance(-1);
-          setUserBalances((prevState) => ({...prevState,[tokenIn.name]: -1}));
+          setUserBalances((prevState) => ({ ...prevState, [tokenIn.name]: -1 }));
         }
         console.log(tokenIn.tokenData.DECIMALS);
         console.log(Number(balanceResult.balance) / 10 ** tokenIn.tokenData.DECIMALS);
@@ -241,18 +246,21 @@ const BridgeModal = (props) => {
         console.log(balanceResult);
         if (balanceResult.success) {
           setUserTokenBalance(Number(balanceResult.balance));
-          setUserBalances((prevState) => ({...prevState,[tokenIn.name]: Number(balanceResult.balance)}));
+          setUserBalances((prevState) => ({
+            ...prevState,
+            [tokenIn.name]: Number(balanceResult.balance),
+          }));
           //setUserTokenBalance(Number('10'));
           console.log(Number(balanceResult.balance));
         } else {
           setUserTokenBalance(-1);
-          setUserBalances((prevState) => ({...prevState,[tokenIn.name]: -1}));
+          setUserBalances((prevState) => ({ ...prevState, [tokenIn.name]: -1 }));
         }
         console.log(BridgeConfiguration.getOutTokenUnbridgingWhole(toBridge.name, tokenIn.name));
       }
     } else {
       setUserTokenBalance(-1);
-      setUserBalances((prevState) => ({...prevState,[tokenIn.name]: -1}));
+      setUserBalances((prevState) => ({ ...prevState, [tokenIn.name]: -1 }));
     }
   }, [tokenIn, walletAddress, metamaskAddress, metamaskChain]);
   /* useEffect(() => {
@@ -265,8 +273,11 @@ const BridgeModal = (props) => {
   }, []); */
 
   useInterval(async () => {
-    if(metamaskAddress && walletAddress) {
-      const pendingHistoryCount = await getActionRequiredCount({ethereumAddress: metamaskAddress, tzAddress: walletAddress});
+    if (metamaskAddress && walletAddress) {
+      const pendingHistoryCount = await getActionRequiredCount({
+        ethereumAddress: metamaskAddress,
+        tzAddress: walletAddress,
+      });
       //console.log(pendingHistoryCount);
       setPendingTransCount(pendingHistoryCount.count);
       setIsHistoryLoading(false);
@@ -330,7 +341,7 @@ const BridgeModal = (props) => {
       } else {
         setFirstTokenAmount(input);
         // if (input > userTokenBalance) {
-          if (input > userBalances[tokenIn.name]) {
+        if (input > userBalances[tokenIn.name]) {
           setErrorMessage('Insufficient balance');
           setIsError(true);
         } else {
@@ -373,7 +384,7 @@ const BridgeModal = (props) => {
     if (firstTokenAmount === '' || isNaN(firstTokenAmount) || firstTokenAmount === 0) {
       setErrorMessage('Enter an amount to proceed');
       setIsError(true);
-    // } else if (firstTokenAmount > userTokenBalance) {
+      // } else if (firstTokenAmount > userTokenBalance) {
     } else if (firstTokenAmount > userBalances[tokenIn.name]) {
       setErrorMessage('Insufficient balance');
       setIsError(true);
@@ -393,23 +404,22 @@ const BridgeModal = (props) => {
           isFlashMessageALink: false,
           flashMessageLink: '#',
         });
-        
-          setTimeout(async () => {
-            try {
-              console.log('Changing metamask chain to ', currentChain);
-              await changeNetwork({ networkName: currentChain });
-            } catch (error) {
-              console.log(error.message);
-            }
-          }, CHANGE_NETWORK_PROMPT_DELAY);
-        
+
+        setTimeout(async () => {
+          try {
+            console.log('Changing metamask chain to ', currentChain);
+            await changeNetwork({ networkName: currentChain });
+          } catch (error) {
+            console.log(error.message);
+          }
+        }, CHANGE_NETWORK_PROMPT_DELAY);
       } else {
         SetisLoading(true);
         if (operation === 'BRIDGE') {
-          const allowanceResult = await getAllowance(tokenIn,metamaskAddress,fromBridge.name);
-          if(allowanceResult.success) {
+          const allowanceResult = await getAllowance(tokenIn, metamaskAddress, fromBridge.name);
+          if (allowanceResult.success) {
             console.log(allowanceResult.allowance);
-            if(allowanceResult.allowance >= Number(firstTokenAmount)) {
+            if (allowanceResult.allowance >= Number(firstTokenAmount)) {
               //SetCurrentProgress(1);
               setIsApproved(true);
             }
@@ -430,7 +440,6 @@ const BridgeModal = (props) => {
             });
             SetisLoading(false);
           }
-          
         } else {
           setAnimationClass('rightToLeftFadeOutAnimation-4');
           setTimeout(() => {
@@ -438,7 +447,6 @@ const BridgeModal = (props) => {
             setTransaction(3);
           }, 600);
         }
-        
       }
     }
   };
@@ -483,11 +491,6 @@ const BridgeModal = (props) => {
   //     });
   // };
 
-  const chainChangedHandler = () => {
-    // reload the page to avoid any errors with chain change mid use of application
-    window.location.reload();
-  };
-
   // listen for account changes
   //window.ethereum.on('accountsChanged', accountChangedHandler);
 
@@ -510,12 +513,11 @@ const BridgeModal = (props) => {
   const handleInputFocus = () => {
     setIsError(false);
     setIsTokenInSelected(true);
-    if(currentChain !== metamaskChain) {
+    if (currentChain !== metamaskChain) {
       setErrorMessage(`Please select ${currentChain} chain in metamask.`);
       setIsError(true);
     }
   };
-
 
   //From Bridge Related
 
@@ -529,7 +531,7 @@ const BridgeModal = (props) => {
         image: fromBridge.image,
         buttonImage: fromBridge.buttonImage,
       };
-      if(currentFrom.name !== 'TEZOS') {
+      if (currentFrom.name !== 'TEZOS') {
         setToBridge({
           name: currentFrom.name,
           image: currentFrom.image,
@@ -675,7 +677,7 @@ const BridgeModal = (props) => {
             .tokenData
         : loadedTokensList[currentTo.name].find((token) => token.name === currentTokenOut)
             .tokenData;
-    
+
     setToBridge({
       name: currentFrom.name,
       image: currentFrom.image,
@@ -687,19 +689,19 @@ const BridgeModal = (props) => {
       buttonImage: currentTo.buttonImage,
     });
     //setTimeout(() => {
-      setTokenIn({
-        name: currentTokenOut,
-        image: Object.prototype.hasOwnProperty.call(allTokens, currentTokenOut)
+    setTokenIn({
+      name: currentTokenOut,
+      image: Object.prototype.hasOwnProperty.call(allTokens, currentTokenOut)
         ? allTokens[currentTokenOut]
         : allTokens.fallback,
-        tokenData
-      });
-      setTokenOut({
-        name: currentTokenIn,
-        image: Object.prototype.hasOwnProperty.call(allTokens, currentTokenIn)
+      tokenData,
+    });
+    setTokenOut({
+      name: currentTokenIn,
+      image: Object.prototype.hasOwnProperty.call(allTokens, currentTokenIn)
         ? allTokens[currentTokenIn]
         : allTokens.fallback,
-      });
+    });
     //}, 10);
     if (operation === 'BRIDGE') {
       setOperation('UNBRIDGE');
@@ -729,27 +731,27 @@ const BridgeModal = (props) => {
                   )})`}</span>
                 )}
               </p>
-              {walletAddress && metamaskAddress && (
-                isHistoryLoading ? (
+              {walletAddress &&
+                metamaskAddress &&
+                (isHistoryLoading ? (
                   <p className={`${styles.resLoading} shimmer`}>View History</p>
                 ) : (
                   <p
-                  className={`${styles.res} ${pendingTransCount > 0 && styles.pendingHistory}`}
-                  onClick={() => {
-                    setAnimationClass('rightToLeftFadeOutAnimation-4');
-                    setTimeout(() => {
-                      setTransaction(2);
-                    }, 600);
-                  }}
-                  style={{ cursor: 'pointer' }}
-                >
-                  View History{' '}
-                  {pendingTransCount > 0 && (
-                    <span className={styles.actionRequiredCount}>{pendingTransCount}</span>
-                  )}
-                </p>
-                )
-              )}
+                    className={`${styles.res} ${pendingTransCount > 0 && styles.pendingHistory}`}
+                    onClick={() => {
+                      setAnimationClass('rightToLeftFadeOutAnimation-4');
+                      setTimeout(() => {
+                        setTransaction(2);
+                      }, 600);
+                    }}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    View History{' '}
+                    {pendingTransCount > 0 && (
+                      <span className={styles.actionRequiredCount}>{pendingTransCount}</span>
+                    )}
+                  </p>
+                ))}
             </div>
             <div className={`mb-2 ${styles.lineBottom} `}></div>
             <div className={`mt-4 ${styles.from}`}>From</div>
