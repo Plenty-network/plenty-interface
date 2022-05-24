@@ -177,7 +177,7 @@ export const getLiquidityPositionDetails = async (tokenA, tokenB, walletAddress)
     );
     // (tokenA === 'ctez' && tokenB === 'DOGA') || (tokenA === 'DOGA' && tokenB === 'ctez')
 
-    if(amm_type === 'new'){     
+    if(amm_type === 'veAMM'){     
 const tokenOneAddress =  storageResponse.data.args[0].args[2].string;
 const tokenOneID = Number(storageResponse.data.args[0].args[4].int);
 const tokenOnePool = Number(storageResponse.data.args[1].args[0].args[1].int);

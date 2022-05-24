@@ -62,7 +62,7 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
     // (tokenIn === 'ctez' && tokenOut === 'DOGA') ||
     // (tokenIn === 'DOGA' && tokenOut === 'ctez') || (tokenIn === 'USDC.e' && tokenOut === 'ctez') || (tokenIn === 'ctez' && tokenOut === 'USDC.e') || (tokenIn === 'WBTC.e' && tokenOut === 'ctez') || (tokenIn === 'ctez' && tokenOut === 'WBTC.e')
     
-    else if (amm_type === 'new') {
+    else if (amm_type === 'veAMM') {
       const connectedNetwork = CONFIG.NETWORK;
       const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
       const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
