@@ -21,6 +21,7 @@ import {
 const getPackedKey = (tokenId, address, type) => {
   const accountHex = `0x${TezosMessageUtils.writeAddress(address)}`;
   let packedKey = null;
+  // TODO : 
   if (type === 'FA2') {
     packedKey = TezosMessageUtils.encodeBigMapKey(
       // eslint-disable-next-line no-undef
@@ -857,6 +858,8 @@ export const getUserBalanceByRpc = async (identifier, address) => {
     const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
     const packedKey = getPackedKey(tokenId, address, type);
     const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
+    // console.log(identifier);
+    // console.log(url);
     const response = await axios.get(url);
 
     const balance = (() => {
@@ -1362,6 +1365,7 @@ export const getTokenPrices = async () => {
     // );
     const tokenPrice = {};
     const tokenPriceResponse = promisesResponse[0].data;
+    // TODO : Naming convention might need a change as . is included
     const tokens = [
       'PLENTY',
       'wDAI',
@@ -1392,94 +1396,102 @@ export const getTokenPrices = async () => {
       'FLAME',
       'PAUL',
       'DOGA',
+      'WBTC.e',
+      'USDC.e',
     ];
     const tokenAddress = {
-      PLENTY: {
+      'PLENTY': {
         contractAddress: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
       },
-      WRAP: {
+      'WRAP': {
         contractAddress: 'KT1LRboPna9yQY9BrjtQYDS1DVxhKESK4VVd',
       },
-      wWBTC: {
+      'wWBTC': {
         contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
       },
-      wUSDC: {
+      'wUSDC': {
         contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
       },
-      wBUSD: {
+      'wBUSD': {
         contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
       },
-      wMATIC: {
+      'wMATIC': {
         contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
       },
-      wLINK: {
+      'wLINK': {
         contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
       },
-      wWETH: {
+      'wWETH': {
         contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
       },
-      wDAI: {
+      'wDAI': {
         contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
       },
-      wUSDT: {
+      'wUSDT': {
         contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
       },
-      USDtz: {
+      'USDtz': {
         contractAddress: 'KT1LN4LPSqTMS7Sd2CJw4bbDGRkMv2t68Fy9',
       },
-      kUSD: {
+      'kUSD': {
         contractAddress: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
       },
-      hDAO: {
+      'hDAO': {
         contractAddress: 'KT1AFA2mwNUMNd4SsujE1YYp29vd8BZejyKW',
       },
-      ETHtz: {
+      'ETHtz': {
         contractAddress: 'KT19at7rQUvyjxnZ2fBv7D9zc8rkyG7gAoU8',
       },
-      QUIPU: {
+      'QUIPU': {
         contractAddress: 'KT193D4vozYnhGJQVtw7CoxxqphqUEEwK6Vb',
       },
-      UNO: {
+      'UNO': {
         contractAddress: 'KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF',
       },
-      SMAK: {
+      'SMAK': {
         contractAddress: 'KT1TwzD6zV3WeJ39ukuqxcfK2fJCnhvrdN1X',
       },
-      KALAM: {
+      'KALAM': {
         contractAddress: 'KT1A5P4ejnLix13jtadsfV9GCnXLMNnab8UT',
       },
-      tzBTC: {
+      'tzBTC': {
         contractAddress: 'KT1PWx2mnDueood7fEmfbBDKx1D9BAnnXitn',
       },
-      uUSD: {
+      'uUSD': {
         contractAddress: 'KT1XRPEPXbZK25r3Htzp2o1x7xdMMmfocKNW',
       },
-      GIF: {
+      'GIF': {
         contractAddress: 'KT1XTxpQvo7oRCqp85LikEZgAZ22uDxhbWJv',
       },
-      YOU: {
+      'YOU': {
         contractAddress: 'KT1Xobej4mc6XgEjDoJoHtTKgbD1ELMvcQuL',
       },
-      PXL: {
+      'PXL': {
         contractAddress: 'KT1F1mn2jbqQCJcsNgYKVAQjvenecNMY2oPK',
       },
-      INSTA: {
+      'INSTA': {
         contractAddress: 'KT19y6R8x53uDKiM46ahgguS6Tjqhdj2rSzZ',
       },
-      FLAME: {
+      'FLAME': {
         contractAddress: 'KT1Wa8yqRBpFCusJWgcQyjhRz7hUQAmFxW7j',
       },
-      crDAO: {
+      'crDAO': {
         contractAddress: 'KT1XPFjZqCULSnqfKaaYy8hJjeY63UNSGwXg',
       },
-      CRUNCH: {
+      'CRUNCH': {
         contractAddress: 'KT1BHCumksALJQJ8q8to2EPigPW6qpyTr7Ng',
       },
-      PAUL: {
+      'PAUL': {
         contractAddress: 'KT19DUSZw7mfeEATrbWVPHRrWNVbNnmfFAE6',
       },
-      DOGA: {
+      'DOGA': {
         contractAddress: 'KT1Ha4yFVeyzw6KRAdkzq6TxDHB97KG4pZe8',
+      },
+      'WBTC.e' : {
+        contractAddress: 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY',
+      },
+      'USDC.e': {
+        contractAddress: 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY',
       },
     };
     for (const i in tokenPriceResponse.contracts) {

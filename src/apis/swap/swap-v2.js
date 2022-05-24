@@ -11,8 +11,11 @@ import { isTokenPairStable } from '../Liquidity/Liquidity';
  * @param tokenOut - token which user wants to get, case-sensitive to CONFIG
  */
 export const loadSwapData = async (tokenIn, tokenOut) => {
+  const connectedNetwork = CONFIG.NETWORK;
+  const amm_type = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].type;
   try {
-    if ((tokenIn === 'ctez' && tokenOut === 'tez') || (tokenIn === 'tez' && tokenOut === 'ctez')) {
+    // (tokenIn === 'ctez' && tokenOut === 'tez') || (tokenIn === 'tez' && tokenOut === 'ctez')
+    if (amm_type === 'xtz') {
       const connectedNetwork = CONFIG.NETWORK;
       const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
       const dexContractAddress =
@@ -55,10 +58,11 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
         lpToken,
         target,
       };
-    } else if (
-      (tokenIn === 'ctez' && tokenOut === 'DOGA') ||
-      (tokenIn === 'DOGA' && tokenOut === 'ctez') || (tokenIn === 'USDC.e' && tokenOut === 'ctez') || (tokenIn === 'ctez' && tokenOut === 'USDC.e') || (tokenIn === 'WBTC.e' && tokenOut === 'ctez') || (tokenIn === 'ctez' && tokenOut === 'WBTC.e')
-    ) {
+    }
+    // (tokenIn === 'ctez' && tokenOut === 'DOGA') ||
+    // (tokenIn === 'DOGA' && tokenOut === 'ctez') || (tokenIn === 'USDC.e' && tokenOut === 'ctez') || (tokenIn === 'ctez' && tokenOut === 'USDC.e') || (tokenIn === 'WBTC.e' && tokenOut === 'ctez') || (tokenIn === 'ctez' && tokenOut === 'WBTC.e')
+    
+    else if (amm_type === 'new') {
       const connectedNetwork = CONFIG.NETWORK;
       const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
       const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
