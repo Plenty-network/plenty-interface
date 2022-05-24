@@ -68,19 +68,17 @@ const SwapWA = (props) => {
     if (props.walletAddress) {
       const updateBalance = async () => {
         setTokenContractInstances({});
-        //const userBalancesCopy = { ...userBalances };
+
         const tzBTCName = 'tzBTC';
         const balancePromises = [];
-        // if (!userBalancesCopy[tokenIn.name]) {
+
         tokenIn.name === tzBTCName
           ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
           : balancePromises.push(getUserBalanceByRpc(tokenIn.name, props.walletAddress));
-        // }
-        // if (!userBalancesCopy[tokenOut.name]) {
+
         tokenOut.name === tzBTCName
           ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
           : balancePromises.push(getUserBalanceByRpc(tokenOut.name, props.walletAddress));
-        //}
 
         const balanceResponse = await Promise.all(balancePromises);
 
@@ -99,29 +97,11 @@ const SwapWA = (props) => {
     }
   }, [tokenIn, tokenOut, props, balanceUpdate]);
 
-  // useEffect(() => {
-  //   if (activeTab === 'wrappedswap') {
-  //     if (
-  //       Object.prototype.hasOwnProperty.call(tokenIn, 'name') &&
-  //       Object.prototype.hasOwnProperty.call(tokenOut, 'name')
-  //     ) {
-  //       // getAllRoutes(tokenIn.name, tokenOut.name).then((response) => {
-  //       //   if (response.success) {
-  //       //     setRouteData(response);
-  //       //     setSwapData(response.bestRouteUntilNoInput.swapData);
-  //       //     setLoaderInButton(false);
-  //       //   }
-  //       // });
-  //     }
-  //   }
-  // }, [tokenIn, tokenOut, activeTab]);
-
   const handleClose = () => {
     setShow(false);
     setShowConfirmSwap(false);
     setSearchQuery('');
     setShowConfirmTransaction(false);
-    //setLoading(false);
   };
 
   const handleTokenType = (type) => {
@@ -232,18 +212,6 @@ const SwapWA = (props) => {
       tokenOut_amount: '',
     });
   };
-  // const [showRecepient, setShowRecepient] = useState(false);
-  // const handleRecepient = (elem) => {
-  //   setRecepient(elem);
-  // };
-
-  // const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
-  // const [transactionId, setTransactionId] = useState('');
-
-  // const transactionSubmitModal = (id) => {
-  //   setTransactionId(id);
-  //   setShowTransactionSubmitModal(true);
-  // };
 
   const selectToken = (token) => {
     setLoaderInButton(true);

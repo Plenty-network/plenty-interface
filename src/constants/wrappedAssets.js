@@ -18,11 +18,11 @@ import LINKe from '../assets/images/LINK.e.png';
 import DAIe from '../assets/images/DAI.e.png';
 
 export const wrappedTokens = [
-  // {
-  //   name: 'wBUSD',
-  //   image: wBUSD,
-  //   new: false,
-  // },
+  {
+    name: 'wBUSD',
+    image: wBUSD,
+    new: false,
+  },
   {
     name: 'wMATIC',
     image: wMATIC,
@@ -33,39 +33,39 @@ export const wrappedTokens = [
     image: wUSDC,
     new: false,
   },
-  // {
-  //   name: 'wUSDT',
-  //   image: wUSDT,
-  //   new: false,
-  // },
-  // {
-  //   name: 'wWBTC',
-  //   image: wWBTC,
-  //   new: false,
-  // },
-  // {
-  //   name: 'wWETH',
-  //   image: wWETH,
-  //   new: false,
-  // },
-  // {
-  //   name: 'wLINK',
-  //   image: wLINK,
-  //   new: false,
-  // },
-  // {
-  //   name: 'wDAI',
-  //   image: wDAI,
-  //   new: false,
-  // },
+  {
+    name: 'wUSDT',
+    image: wUSDT,
+    new: false,
+  },
+  {
+    name: 'wWBTC',
+    image: wWBTC,
+    new: false,
+  },
+  {
+    name: 'wWETH',
+    image: wWETH,
+    new: false,
+  },
+  {
+    name: 'wLINK',
+    image: wLINK,
+    new: false,
+  },
+  {
+    name: 'wDAI',
+    image: wDAI,
+    new: false,
+  },
 ];
 
 export const referenceTokens = [
-  // {
-  //   name: 'BUSD.e',
-  //   image: BUSDe,
-  //   new: false,
-  // },
+  {
+    name: 'BUSD.e',
+    image: BUSDe,
+    new: false,
+  },
   {
     name: 'MATIC.e',
     image: MATICe,
@@ -76,29 +76,29 @@ export const referenceTokens = [
     image: USDCe,
     new: false,
   },
-  // {
-  //   name: 'USDT.e',
-  //   image: USDTe,
-  //   new: false,
-  // },
-  // {
-  //   name: 'WBTC.e',
-  //   image: WBTCe,
-  //   new: false,
-  // },
-  // {
-  //   name: 'WETH.e',
-  //   image: WETHe,
-  //   new: false,
-  // },
-  // {
-  //   name: 'LINK.e',
-  //   image: LINKe,
-  //   new: false,
-  // },
-  // {
-  //   name: 'DAI.e',
-  //   image: DAIe,
-  //   new: false,
-  // },
+  {
+    name: 'USDT.e',
+    image: USDTe,
+    new: false,
+  },
+  {
+    name: 'WBTC.e',
+    image: WBTCe,
+    new: false,
+  },
+  {
+    name: 'WETH.e',
+    image: WETHe,
+    new: false,
+  },
+  {
+    name: 'LINK.e',
+    image: LINKe,
+    new: false,
+  },
+  {
+    name: 'DAI.e',
+    image: DAIe,
+    new: false,
+  },
 ];
