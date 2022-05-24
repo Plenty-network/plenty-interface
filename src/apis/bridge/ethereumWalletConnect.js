@@ -35,7 +35,7 @@ let web3Modal;
 
 export const connectWallet = async (setMetamaskAddress, theme) => {
   try {
-    if(theme === 'light') {
+    if (theme === 'light') {
       web3Modal = new Web3Modal({
         network: 'rinkeby',
         cacheProvider: true,
@@ -64,6 +64,7 @@ export const connectWallet = async (setMetamaskAddress, theme) => {
       address: address[0],
       web3,
       provider,
+      success: true,
     };
   } catch (e) {
     console.log('Error', e);
@@ -71,7 +72,9 @@ export const connectWallet = async (setMetamaskAddress, theme) => {
       localStorage.setItem('isWalletConnected', false);
       setMetamaskAddress(null);
     }
-    return;
+    return {
+      success: false,
+    };
   }
 };
 

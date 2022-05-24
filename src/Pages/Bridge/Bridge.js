@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import BridgeText from '../../Components/BridgeText/BridgeText';
 import BridgeModal from '../../Components/BridgeModal/BridgeModal';
 import ethereum from '../../assets/images/bridge/eth.svg';
-import {ReactComponent as ethereumButtonIcon} from '../../assets/images/bridge/ethereum_btn_icon.svg';
+import { ReactComponent as ethereumButtonIcon } from '../../assets/images/bridge/ethereum_btn_icon.svg';
 import tezos from '../../assets/images/bridge/ic_tezos.svg';
 //import { tokens } from '../../constants/swapPage';
 import { createTokensList } from '../../apis/Config/BridgeConfig';
@@ -208,8 +208,9 @@ const Bridge = (props) => {
 
     const web3 = await connectWallet(setMetamaskAddress, props.theme);
     //listenEvents();
-    metamaskChainChangeHandler();
-    if(web3) {
+
+    if (web3.success) {
+      metamaskChainChangeHandler();
       web3.provider.on('chainChanged', metamaskChainChangeHandler);
       web3.provider.on('accountsChanged', metamaskAccountChangeHandler);
       web3.provider.on('disconnect', onDisconnect);
@@ -290,7 +291,7 @@ const Bridge = (props) => {
   }; */
 
   const removeListenEvents = async () => {
-    const providerData = await connectWallet(null,props.theme);
+    const providerData = await connectWallet(null, props.theme);
     providerData.provider.removeListener('chainChanged', metamaskChainChangeHandler);
     providerData.provider.removeListener('disconnect', onDisconnect);
     providerData.provider.removeListener('accountsChanged', metamaskAccountChangeHandler);
@@ -439,7 +440,6 @@ const Bridge = (props) => {
     }
     return () => clearTimeout(timer);
   }, []);
-
 
   // Function to reset all the current states to default values
   const resetToDefaultStates = useCallback(() => {
