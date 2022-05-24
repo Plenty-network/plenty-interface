@@ -31,6 +31,8 @@ import PXL from '../assets/images/PXL.png';
 import PAUL from '../assets/images/PAUL.png';
 import tez from '../assets/images/tez.png';
 import doga from '../assets/images/doga.png';
+import usdce from '../assets/images/usdce.png';
+import wbtce from '../assets/images/wbtce.png';
 export const tokens = [
   {
     name: 'CRUNCH',
@@ -203,6 +205,16 @@ export const tokens = [
   {
     name: 'DOGA',
     image: doga,
+    new: true,
+  },
+  {
+    name: 'WBTC.e',
+    image: wbtce,
+    new: true,
+  },
+  {
+    name: 'USDC.e',
+    image: usdce,
     new: true,
   },
 ];
