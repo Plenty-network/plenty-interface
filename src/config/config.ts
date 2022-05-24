@@ -2278,7 +2278,7 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
-          'USD.e': {
+          'USDC.e': {
             contract: 'KT1Dhy1gVW3PSC9cms9QJ7xPMPPpip2V9aA6',
             property: 'token1_pool',
             liquidityToken: 'usdc.e-ctez-LP',
@@ -2705,7 +2705,6 @@ const Config: IConfig = {
           },
         },
       },
-
       'USDC.e': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY',
