@@ -206,7 +206,11 @@ const Bridge = (props) => {
       }); */
 
     const web3 = await connectWallet(setMetamaskAddress);
-    listenEvents();
+    //listenEvents();
+    metamaskChainChangeHandler();
+    web3.provider.on('chainChanged', metamaskChainChangeHandler);
+    web3.provider.on('accountsChanged', metamaskAccountChangeHandler);
+    web3.provider.on('disconnect', onDisconnect);
     console.log(web3);
   };
 
@@ -271,19 +275,16 @@ const Bridge = (props) => {
   }, []);
 
   //Add all metamask event listeners and remove them on unmount.
-  const listenEvents = async () => {
-    if (!isListening) {
-      const providerData = await connectWallet();
+  /*   const listenEvents = async () => {
+    const providerData = await connectWallet();
 
-      metamaskChainChangeHandler();
-      // Listen to chain change on metamask.
-      providerData.provider.on('chainChanged', metamaskChainChangeHandler);
-      // listen for account changes
-      providerData.provider.on('accountsChanged', metamaskAccountChangeHandler);
-      providerData.provider.on('disconnect', onDisconnect);
-      setIsListening(true);
-    }
-  };
+    // Listen to chain change on metamask.
+    providerData.provider.on('chainChanged', metamaskChainChangeHandler);
+    // listen for account changes
+    providerData.provider.on('accountsChanged', metamaskAccountChangeHandler);
+    providerData.provider.on('disconnect', onDisconnect);
+    setIsListening(true);
+  }; */
 
   const removeListenEvents = async () => {
     const providerData = await connectWallet();
@@ -299,7 +300,7 @@ const Bridge = (props) => {
         removeListenEvents();
       }
     };
-  }, [localStorage?.getItem('isWalletConnected')]);
+  }, []);
 
   useEffect(() => {
     if (!initialRender.current) {
