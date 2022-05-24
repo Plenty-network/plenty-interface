@@ -19,18 +19,18 @@ import fallbackIcon from '../assets/images/bridge/tokens/fallback_icon.svg';
 export const CHANGE_NETWORK_PROMPT_DELAY = 3000;
 
 export const bridgesList = [
-  /* {
+  {
     name: 'ETHEREUM',
     image: ethereum,
     buttonImage: ethereumButtonIcon,
     bigIcon: ethereum,
-  }, */
-  {
+  },
+  /* {
     name: 'RINKEBY',
     image: ethereum,
     buttonImage: ethereumButtonIcon,
     bigIcon: ethereum,
-  },
+  }, */
   {
     name: 'TEZOS',
     image: tezos,

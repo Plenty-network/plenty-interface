@@ -54,7 +54,7 @@ const Bridge = (props) => {
     image: '',
   });
   const [fromBridge, setFromBridge] = useState({
-    name: 'RINKEBY',
+    name: 'ETHEREUM',
     image: ethereum,
     buttonImage: ethereumButtonIcon,
   });
