@@ -931,7 +931,7 @@ export const getCurrentNetwork = async () => {
     }
   } else {
     console.log('No crypto wallet found');
-    return 'RINKEBY'; //TODO: CHANGE IT LATER
+    return 'ETHEREUM'; //TODO: CHANGE IT LATER
   }
 };
 

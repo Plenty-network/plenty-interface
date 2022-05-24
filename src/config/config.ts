@@ -4763,13 +4763,14 @@ const Config: IConfig = {
       RINKEBY: 'https://bridgeindexer.plentydefi.com/v1/configuration',
     },
     mainnet: {
-      ETHEREUM: 'https://indexer.app.tzwrap.com/v1/configuration',
+      ETHEREUM: 'https://indexer.app.tzwrap.com/v1/configuration', //TODO: Change it to ours
     },
   },
   EXPLORER_LINKS: {
     RINKEBY: 'https://rinkeby.etherscan.io/tx/',
     ETHEREUM: 'https://etherscan.io/tx/',
-    TEZOS: 'https://ithacanet.tzkt.io/',
+    TEZOS: 'https://tzkt.io/',
+    /* TEZOS: 'https://ithacanet.tzkt.io/', */
   },
 };
 

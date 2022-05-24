@@ -7,7 +7,7 @@ const providerOptions = {
   walletconnect: {
     package: WalletConnectProvider,
     options: {
-      supportedChainIds: [1, 4, 100],
+      supportedChainIds: [1, 4],
       rpc: {
         1: 'https://api.mycryptoapi.com/eth',
         4: 'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
@@ -19,7 +19,7 @@ const providerOptions = {
     options: {
       appName: 'Plenty Bridge',
       rpc: 'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
-      chainId: 4,
+      chainId: 1,
       darkMode: false,
     },
   },
@@ -37,14 +37,14 @@ export const connectWallet = async (setMetamaskAddress, theme) => {
   try {
     if (theme === 'light') {
       web3Modal = new Web3Modal({
-        network: 'rinkeby',
+        network: 'mainnet',
         cacheProvider: true,
         providerOptions,
         theme: 'light',
       });
     } else {
       web3Modal = new Web3Modal({
-        network: 'rinkeby',
+        network: 'mainnet',
         cacheProvider: true,
         providerOptions,
         theme: 'dark',
