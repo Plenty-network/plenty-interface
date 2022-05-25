@@ -123,7 +123,6 @@ const calculateHarvestValueDualEntity = async (
     const smartContractResponse = await axios.get(url);
 
     if (stakingContractAddress === 'KT1QkadMTUTDxyNiTaz587ssPXFuwmWWQzDG') {
-
       const periodFinish = smartContractResponse.data.args[1].args[1].int;
 
       const lastUpdateTime = smartContractResponse.data.args[0].args[3].int;
@@ -216,7 +215,7 @@ const calculateHarvestValueDual = async (
 ) => {
   try {
     const harvestValuePromises = [];
-    
+
     harvestValuePromises.push(
       calculateHarvestValueDualEntity(
         dualInfo.tokenFirst.rewardContract,
@@ -535,7 +534,9 @@ export const getStorageForFarms = async (isActive, tokenPricesData) => {
           key === 'CTEZ - INSTA' ||
           key === 'CTEZ - CRUNCH' ||
           key === 'CTEZ - DOGA' ||
-          key === 'CTEZ - TEZ'
+          key === 'CTEZ - TEZ' ||
+          key === 'WBTC.e - CTEZ' ||
+          key === 'USDC.e - CTEZ'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(
@@ -1119,7 +1120,7 @@ const getStakedAmountDual = async (
     const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
     const response = await axios.get(url);
 
-    if(identifier === 'CTEZ - TEZ') {
+    if (identifier === 'CTEZ - TEZ') {
       let balance = response.data.int;
       balance = parseInt(balance);
       balance = balance / Math.pow(10, decimal);
@@ -1137,8 +1138,8 @@ const getStakedAmountDual = async (
         identifier,
         address,
         singularStakes,
-      };}
-
+      };
+    }
 
     let balance = response.data.args[1].int;
     balance = parseInt(balance);
@@ -1213,7 +1214,7 @@ export const harvestAllHelper = async (
       const packedKey = await getPackedKey(0, userAddress, 'FA1.2');
       for (const key in allActiveContracts) {
         const output =
-          ((allActiveContracts[key].x === 'PLENTY - GIF') || ((allActiveContracts[key].x === 'CTEZ - TEZ')))
+          allActiveContracts[key].x === 'PLENTY - GIF' || allActiveContracts[key].x === 'CTEZ - TEZ'
             ? await calculateHarvestValueDual(
                 allActiveContracts[key].contract,
                 allActiveContracts[key].dualInfo,
@@ -1227,7 +1228,10 @@ export const harvestAllHelper = async (
                 allActiveContracts[key].mapId,
                 packedKey,
               );
-        if (allActiveContracts[key].x === 'PLENTY - GIF' || (allActiveContracts[key].x === 'CTEZ - TEZ') ) {
+        if (
+          allActiveContracts[key].x === 'PLENTY - GIF' ||
+          allActiveContracts[key].x === 'CTEZ - TEZ'
+        ) {
           if (output.totalRewards[0] > 0) {
             promises.push(await Tezos.wallet.at(allActiveContracts[key].contract));
           }

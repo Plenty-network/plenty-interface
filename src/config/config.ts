@@ -173,11 +173,35 @@ const Config: IConfig = {
           inactive: [],
         },
         //need to update details
-        'kUSD - USDC.e': {
+        // 'kUSD - USDC.e': {
+        //   active: [
+        //     {
+        //       address: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
+        //       mapId: 171836,
+        //       decimal: 18,
+        //       tokenDecimal: 5,
+        //     },
+        //   ],
+        //   inactive: [],
+        // },
+        //need to update details
+        // 'uUSD - USDC.e': {
+        //   active: [
+        //     {
+        //       address: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
+        //       mapId: 171836,
+        //       decimal: 18,
+        //       tokenDecimal: 5,
+        //     },
+        //   ],
+        //   inactive: [],
+        // },
+        //need to update details
+        'WBTC.e - CTEZ': {
           active: [
             {
-              address: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
-              mapId: 171836,
+              address: 'KT1CZkFknknf2NdV48VMRw9cp97n9T7oRApi',
+              mapId: 178082,
               decimal: 18,
               tokenDecimal: 5,
             },
@@ -185,47 +209,11 @@ const Config: IConfig = {
           inactive: [],
         },
         //need to update details
-        'uUSD - USDC.e': {
+        'USDC.e - CTEZ': {
           active: [
             {
-              address: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
-              mapId: 171836,
-              decimal: 18,
-              tokenDecimal: 5,
-            },
-          ],
-          inactive: [],
-        },
-        //need to update details
-        'tzBTC - WBTC.e': {
-          active: [
-            {
-              address: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
-              mapId: 171836,
-              decimal: 18,
-              tokenDecimal: 5,
-            },
-          ],
-          inactive: [],
-        },
-        //need to update details
-        'USD.e - CTEZ': {
-          active: [
-            {
-              address: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
-              mapId: 171836,
-              decimal: 18,
-              tokenDecimal: 5,
-            },
-          ],
-          inactive: [],
-        },
-        //need to update details
-        'tzBTC - CTEZ': {
-          active: [
-            {
-              address: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
-              mapId: 171836,
+              address: 'KT1P3MUj7ZY1pak1szf41vxtuqz7AVMgCLhj',
+              mapId: 178076,
               decimal: 18,
               tokenDecimal: 5,
             },
@@ -971,42 +959,42 @@ const Config: IConfig = {
         tokenId: 0,
       },
       //need to update details
-      'kUSD - USDC.e': {
-        address: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
-        mapId: 171789,
-        decimal: 5,
+      // 'kUSD - USDC.e': {
+      //   address: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
+      //   mapId: 171789,
+      //   decimal: 5,
+      //   type: 'FA1.2',
+      //   tokenId: 0,
+      // },
+      //need to update details
+      // 'uUSD - USDC.e': {
+      //   address: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
+      //   mapId: 171789,
+      //   decimal: 5,
+      //   type: 'FA1.2',
+      //   tokenId: 0,
+      // },
+      //need to update details
+      // 'tzBTC - WBTC.e': {
+      //   address: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
+      //   mapId: 171789,
+      //   decimal: 5,
+      //   type: 'FA1.2',
+      //   tokenId: 0,
+      // },
+      //need to update details
+      'WBTC.e - CTEZ': {
+        address: 'KT1VRAYxpCo5xHYmBLYmMAWxXoVYCVgpeuak',
+        mapId: 177398,
+        decimal: 7,
         type: 'FA1.2',
         tokenId: 0,
       },
       //need to update details
-      'uUSD - USDC.e': {
-        address: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
-        mapId: 171789,
-        decimal: 5,
-        type: 'FA1.2',
-        tokenId: 0,
-      },
-      //need to update details
-      'tzBTC - WBTC.e': {
-        address: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
-        mapId: 171789,
-        decimal: 5,
-        type: 'FA1.2',
-        tokenId: 0,
-      },
-      //need to update details
-      'tzBTC - CTEZ': {
-        address: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
-        mapId: 171789,
-        decimal: 5,
-        type: 'FA1.2',
-        tokenId: 0,
-      },
-      //need to update details
-      'USD - CTEZ': {
-        address: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
-        mapId: 171789,
-        decimal: 5,
+      'USDC.e - CTEZ': {
+        address: 'KT1XpLzv4tqqsf2aLneDZgEeNFhKkH8JBGXv',
+        mapId: 177380,
+        decimal: 6,
         type: 'FA1.2',
         tokenId: 0,
       },
@@ -1424,7 +1412,7 @@ const Config: IConfig = {
             contract: 'KT1AD4khq2R9q6DDbRY5CvUk8MXoshqsatGS',
             property: 'ctezPool',
             liquidityToken: 'ctez-XTZ-LP',
-            type : 'xtz'
+            type: 'xtz',
           },
         },
       },
@@ -1440,7 +1428,7 @@ const Config: IConfig = {
             contract: 'KT1AD4khq2R9q6DDbRY5CvUk8MXoshqsatGS',
             property: 'tezPool',
             liquidityToken: 'ctez-XTZ-LP',
-            type : 'xtz'
+            type: 'xtz',
           },
         },
       },
@@ -1469,7 +1457,7 @@ const Config: IConfig = {
             contract: 'KT1CAYNQGvYSF5UvHK21grMrKpe2563w9UcX',
             property: 'ctezPool',
             liquidityToken: 'ctez-XTZ-LP',
-            type : 'xtz'
+            type: 'xtz',
           },
         },
       },
@@ -1486,7 +1474,7 @@ const Config: IConfig = {
             contract: 'KT1CAYNQGvYSF5UvHK21grMrKpe2563w9UcX',
             property: 'tezPool',
             liquidityToken: 'ctez-XTZ-LP',
-            type : 'xtz'
+            type: 'xtz',
           },
         },
       },
@@ -1517,25 +1505,25 @@ const Config: IConfig = {
             contract: 'KT1AD4khq2R9q6DDbRY5CvUk8MXoshqsatGS',
             property: 'ctezPool',
             liquidityToken: 'ctez-XTZ-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           'DAI.e': {
             contract: 'KT1Gt8rQtPn6DSNnnZ1JGcf1CVdHA6CZhRAJ',
             property: 'token2_pool',
             liquidityToken: 'CTEZ-DAI.E-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           'BUSD.e': {
             contract: 'KT1UavMEguhWjJ8WdAujpco3tyXyXkKUYyby',
             property: 'token2_pool',
             liquidityToken: 'CTEZ-BUSD.E-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           PLENTY: {
             contract: 'KT1DWBEpG82w6VEVTDV2Z9NEWUe5Xxu9CH1G',
             property: 'token1_pool',
             liquidityToken: 'ctezPlentyLP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -1552,7 +1540,7 @@ const Config: IConfig = {
             contract: 'KT1Gt8rQtPn6DSNnnZ1JGcf1CVdHA6CZhRAJ',
             property: 'token1_pool',
             liquidityToken: 'CTEZ-DAI.E-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -1568,7 +1556,7 @@ const Config: IConfig = {
             contract: 'KT1AD4khq2R9q6DDbRY5CvUk8MXoshqsatGS',
             property: 'tezPool',
             liquidityToken: 'ctez-XTZ-LP',
-            type : 'xtz'
+            type: 'xtz',
           },
         },
       },
@@ -1585,7 +1573,7 @@ const Config: IConfig = {
             contract: 'KT1UavMEguhWjJ8WdAujpco3tyXyXkKUYyby',
             property: 'token1_pool',
             liquidityToken: 'CTEZ-BUSD.E-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -1601,31 +1589,31 @@ const Config: IConfig = {
             contract: 'KT1RG7ouxNLs5Mtdz9xKQyWDtxcC3LPuXcZF',
             property: 'token2_pool',
             liquidityToken: 'PlentyWETHLP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           wUSDC: {
             contract: 'KT1NBrkfVDM42B9q7hJcNwx1efcntwDF8fzf',
             property: 'token2_pool',
             liquidityToken: 'PlentyUSDCLP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           ctez: {
             contract: 'KT1DWBEpG82w6VEVTDV2Z9NEWUe5Xxu9CH1G',
             property: 'token2_pool',
             liquidityToken: 'ctezPlentyLP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           wDAI: {
             contract: 'KT1Qc52zbRaKi5cwCBnx8o4FSDbdxuePLqYB',
             property: 'token2_pool',
             liquidityToken: 'PltDaiLp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           WRAP: {
             contract: 'KT1HePFs4aA5u6A5BDw3ot7LuXvqa4ebqrTQ',
             property: 'token2_pool',
             liquidityToken: 'WrapLP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -1641,13 +1629,13 @@ const Config: IConfig = {
             contract: 'KT1PnFKMA2v1ngvYUh5UKtaDuM5WxskrunFm',
             property: 'token1_pool',
             liquidityToken: 'WrapDaiLp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           PLENTY: {
             contract: 'KT1HePFs4aA5u6A5BDw3ot7LuXvqa4ebqrTQ',
             property: 'token1_pool',
             liquidityToken: 'WrapLP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -1663,13 +1651,13 @@ const Config: IConfig = {
             contract: 'KT1Qc52zbRaKi5cwCBnx8o4FSDbdxuePLqYB',
             property: 'token1_pool',
             liquidityToken: 'PltDaiLp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           WRAP: {
             contract: 'KT1PnFKMA2v1ngvYUh5UKtaDuM5WxskrunFm',
             property: 'token2_pool',
             liquidityToken: 'WrapDaiLp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -1691,7 +1679,7 @@ const Config: IConfig = {
             contract: 'KT1NBrkfVDM42B9q7hJcNwx1efcntwDF8fzf',
             property: 'token1_pool',
             liquidityToken: 'PlentyUSDCLP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -1708,7 +1696,7 @@ const Config: IConfig = {
             contract: 'KT1RG7ouxNLs5Mtdz9xKQyWDtxcC3LPuXcZF',
             property: 'token1_pool',
             liquidityToken: 'PlentyWETHLP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -1800,7 +1788,7 @@ const Config: IConfig = {
             contract: 'KT1CAYNQGvYSF5UvHK21grMrKpe2563w9UcX',
             property: 'tezPool',
             liquidityToken: 'ctez-XTZ-LP',
-            type : 'xtz'
+            type: 'xtz',
           },
         },
       },
@@ -1817,133 +1805,133 @@ const Config: IConfig = {
             contract: 'KT1PuPNtDFLR6U7e7vDuxunDoKasVT6kMSkz',
             property: 'token2_pool',
             liquidityToken: 'PlentywUSDClp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           wBUSD: {
             contract: 'KT1XXAavg3tTj12W1ADvd3EEnm1pu6XTmiEF',
             property: 'token2_pool',
             liquidityToken: 'PlentywBUSDlp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           wWBTC: {
             contract: 'KT19Dskaofi6ZTkrw3Tq4pK7fUqHqCz4pTZ3',
             property: 'token2_pool',
             liquidityToken: 'PlentywWBTClp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           wMATIC: {
             contract: 'KT1VeNQa4mucRj36qAJ9rTzm4DTJKfemVaZT',
             property: 'token2_pool',
             liquidityToken: 'PlentywMaticlp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           wLINK: {
             contract: 'KT1XVrXmWY9AdVri6KpxKo4CWxizKajmgzMt',
             property: 'token2_pool',
             liquidityToken: 'Plentywlinklp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           USDtz: {
             contract: 'KT1D36ZG99YuhoCRZXLL86tQYAbv36bCq9XM',
             property: 'token2_pool',
             liquidityToken: 'Plentyusdtzlp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           hDAO: {
             contract: 'KT1XutoFJ9dXvWxT7ttG86N2tSTUEpatFVTm',
             property: 'token2_pool',
             liquidityToken: 'Plenty-hDAO-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           ETHtz: {
             contract: 'KT1AbuUaPQmYLsB8n8FdSzBrxvrsm8ctwW1V',
             property: 'token2_pool',
             liquidityToken: 'Plenty-ETHtz-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           wWETH: {
             contract: 'KT1HUnqM6xFJa51PM2xHfLs7s6ARvXungtyq',
             property: 'token2_pool',
             liquidityToken: 'Plenty-wWETH-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           kUSD: {
             contract: 'KT1UNBvCJXiwJY6tmHM7CJUVwNPew53XkSfh',
             property: 'token2_pool',
             liquidityToken: 'PLENTY-kUSD-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           QUIPU: {
             contract: 'KT1NtsnKQ1c3rYB12ZToP77XaJs8WDBvF221',
             property: 'token2_pool',
             liquidityToken: 'Plenty-QUIPU-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           WRAP: {
             contract: 'KT1C2SXoGcje3VVMJHKRVhYXuWuNmv5ztJcw',
             property: 'token2_pool',
             liquidityToken: 'Plentywraplp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           UNO: {
             contract: 'KT1Wu8fGYxX5DfxYP8P97ZUNzrXFKjsWm7dD',
             property: 'token2_pool',
             liquidityToken: 'Plenty-UNO-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           KALAM: {
             contract: 'KT1HZkD2T4uczgYkZ6fb9gm1fymeJoRuezLz',
             property: 'token2_pool',
             liquidityToken: 'Plentykalamlp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           SMAK: {
             contract: 'KT1BEC9uHmADgVLXCm3wxN52qJJ85ohrWEaU',
             property: 'token2_pool',
             liquidityToken: 'Plenty-SMAK-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           tzBTC: {
             contract: 'KT1HaDP8fRW7kavK2beST7o4RvzuvZbn5VwV',
             property: 'token2_pool',
             liquidityToken: 'PlentytzBTClp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           uUSD: {
             contract: 'KT1Cba383ZJpEearqnUyUKUMsgu5Z3TXBgeH',
             property: 'token2_pool',
             liquidityToken: 'Plenty-uUSD-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           GIF: {
             contract: 'KT1Cge8y4JG6Bi8dGKf1bUfpCAv2AiW6MjtW',
             property: 'token2_pool',
             liquidityToken: 'PlentyGiflp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           YOU: {
             contract: 'KT1EM6NjJdJXmz3Pj13pfu3MWVDwXEQnoH3N',
             property: 'token2_pool',
             liquidityToken: 'Plenty-YOU-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           wUSDT: {
             contract: 'KT1Bi4yoALg6tuP4PKaFNDtSsDdpGLrDiGAS',
             property: 'token2_pool',
             liquidityToken: 'PlentywUSDTlp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           wDAI: {
             contract: 'KT1KDmpYSDogNtEtEnEaHQLaySuqLr8aEfJW',
             property: 'token2_pool',
             liquidityToken: 'PlentywDAIlp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           ctez: {
             contract: 'KT1C9gJRfkpPbNdBn3XyYbrUHT6XgfPzZqXP',
             property: 'token2_pool',
             liquidityToken: 'PlentyCtezlp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -1960,13 +1948,13 @@ const Config: IConfig = {
             contract: 'KT1PuPNtDFLR6U7e7vDuxunDoKasVT6kMSkz',
             property: 'token1_pool',
             liquidityToken: 'PlentywUSDClp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           ctez: {
             contract: 'KT1PZpbmKtGE6ZyYeF8entfjuGGT7CRUCF5g',
             property: 'token1_pool',
             liquidityToken: 'ctez-wusdc-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           // USDtz: {
           //   contract: 'KT1EJMMismkf6TQdMzgx8hb1HpiiRVV8ZSm4',
@@ -1977,7 +1965,7 @@ const Config: IConfig = {
             contract: 'KT1JbUFVGrMCpW39UtH97dMkG2nMMrefQLLa',
             property: 'token1_pool',
             liquidityToken: 'uusd-wusdc-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -1994,13 +1982,13 @@ const Config: IConfig = {
             contract: 'KT1XXAavg3tTj12W1ADvd3EEnm1pu6XTmiEF',
             property: 'token1_pool',
             liquidityToken: 'PlentywBUSDlp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           ctez: {
             contract: 'KT1GN7PHpFsH43ypFyE2hxNMdxqTuiCGm4Pm',
             property: 'token1_pool',
             liquidityToken: 'ctez-wbusd-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2017,13 +2005,13 @@ const Config: IConfig = {
             contract: 'KT19Dskaofi6ZTkrw3Tq4pK7fUqHqCz4pTZ3',
             property: 'token1_pool',
             liquidityToken: 'PlentywWBTClp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           ctez: {
             contract: 'KT1XPUvZHc1YKTJYnGbB755V95hDgvS1qQYf',
             property: 'token1_pool',
             liquidityToken: 'ctez-wwbtc-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2040,13 +2028,13 @@ const Config: IConfig = {
             contract: 'KT1Bi4yoALg6tuP4PKaFNDtSsDdpGLrDiGAS',
             property: 'token1_pool',
             liquidityToken: 'PlentywUSDTlp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           ctez: {
             contract: 'KT1AfTwam4bNPawLv4bWqSj9GsVDPsf5F5bQ',
             property: 'token1_pool',
             liquidityToken: 'ctez-wusdt-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2063,13 +2051,13 @@ const Config: IConfig = {
             contract: 'KT1KDmpYSDogNtEtEnEaHQLaySuqLr8aEfJW',
             property: 'token1_pool',
             liquidityToken: 'PlentywDAIlp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           ctez: {
             contract: 'KT1L5qd9xPWjiEX6ZNovhaty228ASg6jCE5p',
             property: 'token1_pool',
             liquidityToken: 'ctez-wdai-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2086,7 +2074,7 @@ const Config: IConfig = {
             contract: 'KT1VeNQa4mucRj36qAJ9rTzm4DTJKfemVaZT',
             property: 'token1_pool',
             liquidityToken: 'PlentywMaticlp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2103,7 +2091,7 @@ const Config: IConfig = {
             contract: 'KT1XVrXmWY9AdVri6KpxKo4CWxizKajmgzMt',
             property: 'token1_pool',
             liquidityToken: 'Plentywlinklp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2120,13 +2108,13 @@ const Config: IConfig = {
             contract: 'KT1HUnqM6xFJa51PM2xHfLs7s6ARvXungtyq',
             property: 'token1_pool',
             liquidityToken: 'Plenty-wWETH-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           ctez: {
             contract: 'KT1WwqM2MH38PSQbECxPngBVLSbqJUHzCFAH',
             property: 'token1_pool',
             liquidityToken: 'ctez-wweth-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           // ETHtz: {
           //   contract: 'KT196bPdVJqY1DF3y7aQ9Cn5tcGQeMrrjWTp',
@@ -2148,13 +2136,13 @@ const Config: IConfig = {
             contract: 'KT1Wu8fGYxX5DfxYP8P97ZUNzrXFKjsWm7dD',
             property: 'token1_pool',
             liquidityToken: 'Plenty-UNO-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           ctez: {
             contract: 'KT1XLFZ2RS8vCUmHwBG39mq7zELhnLKn9JUz',
             property: 'token1_pool',
             liquidityToken: 'ctez-uno-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2171,31 +2159,31 @@ const Config: IConfig = {
             contract: 'KT1Cba383ZJpEearqnUyUKUMsgu5Z3TXBgeH',
             property: 'token1_pool',
             liquidityToken: 'Plenty-uUSD-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           wUSDC: {
             contract: 'KT1JbUFVGrMCpW39UtH97dMkG2nMMrefQLLa',
             property: 'token2_pool',
             liquidityToken: 'uusd-wusdc-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           YOU: {
             contract: 'KT1TnrLFrdemNZ1AnnWNfi21rXg7eknS484C',
             property: 'token2_pool',
             liquidityToken: 'uusd-you-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           uDEFI: {
             contract: 'KT1EAw8hL5zseB3SLpJhBqPQfP9aWrWh8iMW',
             property: 'token2_pool',
             liquidityToken: 'uusd-udefi-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           ctez: {
             contract: 'KT1Rx3pQzsn4FBuuYhcWsqUS7vWFx3ktqSWD',
             property: 'token1_pool',
             liquidityToken: 'ctez-uusd-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2212,7 +2200,7 @@ const Config: IConfig = {
             contract: 'KT1EAw8hL5zseB3SLpJhBqPQfP9aWrWh8iMW',
             property: 'token1_pool',
             liquidityToken: 'uusd-udefi-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2229,13 +2217,13 @@ const Config: IConfig = {
             contract: 'KT1EM6NjJdJXmz3Pj13pfu3MWVDwXEQnoH3N',
             property: 'token1_pool',
             liquidityToken: 'Plenty-YOU-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           uUSD: {
             contract: 'KT1TnrLFrdemNZ1AnnWNfi21rXg7eknS484C',
             property: 'token1_pool',
             liquidityToken: 'uusd-you-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2252,13 +2240,13 @@ const Config: IConfig = {
             contract: 'KT1D36ZG99YuhoCRZXLL86tQYAbv36bCq9XM',
             property: 'token1_pool',
             liquidityToken: 'Plentyusdtzlp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           ctez: {
             contract: 'KT1PWAXfPatPWBNJUxTHin4ECin1kYJHHnsr',
             property: 'token1_pool',
             liquidityToken: 'ctez-usdtz-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           // kUSD: {
           //   contract: 'KT1TnsQ6JqzyTz5PHMsGj28WwJyBtgc146aJ',
@@ -2285,13 +2273,13 @@ const Config: IConfig = {
             contract: 'KT1C2SXoGcje3VVMJHKRVhYXuWuNmv5ztJcw',
             property: 'token1_pool',
             liquidityToken: 'Plentywraplp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           ctez: {
             contract: 'KT19Qe4KbEVAiaVeNsgo9Tkqa6qvZho8c4W5',
             property: 'token1_pool',
             liquidityToken: 'ctez-wrap-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2308,13 +2296,13 @@ const Config: IConfig = {
             contract: 'KT1Cge8y4JG6Bi8dGKf1bUfpCAv2AiW6MjtW',
             property: 'token1_pool',
             liquidityToken: 'PlentyGiflp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           ctez: {
             contract: 'KT1VnFPwDGJRt5ufMgcWafM2WWcZCC77gpT3',
             property: 'token1_pool',
             liquidityToken: 'ctez-gif-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2337,13 +2325,13 @@ const Config: IConfig = {
             contract: 'KT1HaDP8fRW7kavK2beST7o4RvzuvZbn5VwV',
             property: 'token1_pool',
             liquidityToken: 'PlentytzBTClp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           ctez: {
             contract: 'KT1Wryxte8NnVCm569yb8dcSPmvFBVs4ufD6',
             property: 'token1_pool',
             liquidityToken: 'ctez-tzbtc-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2360,181 +2348,181 @@ const Config: IConfig = {
             contract: 'KT1Dhy1gVW3PSC9cms9QJ7xPMPPpip2V9aA6',
             property: 'token1_pool',
             liquidityToken: 'usdc.e-ctez-LP',
-            type : 'veAMM'
+            type: 'veAMM',
           },
           'WBTC.e': {
             contract: 'KT1KapPE9E65fBozpJqsuCgaLPytvKQduPvF',
             property: 'token1_pool',
             liquidityToken: 'wbtc.e-ctez-LP',
-            type : 'veAMM'
+            type: 'veAMM',
           },
           tez: {
             contract: 'KT1CAYNQGvYSF5UvHK21grMrKpe2563w9UcX',
             property: 'ctezPool',
             liquidityToken: 'ctez-XTZ-LP',
-            type : 'xtz'
+            type: 'xtz',
           },
           DOGA: {
             contract: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
             property: 'token1_pool',
             liquidityToken: 'ctez-doga-lp',
-            type : 'veAMM'
+            type: 'veAMM',
           },
           PLENTY: {
             contract: 'KT1C9gJRfkpPbNdBn3XyYbrUHT6XgfPzZqXP',
             property: 'token1_pool',
             liquidityToken: 'PlentyCtezlp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           kUSD: {
             contract: 'KT1X1nkqJDR1UHwbfpcnME5Z7agJLjUQNguB',
             property: 'token2_pool',
             liquidityToken: 'ctez-kusd-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           WRAP: {
             contract: 'KT19Qe4KbEVAiaVeNsgo9Tkqa6qvZho8c4W5',
             property: 'token2_pool',
             liquidityToken: 'ctez-wrap-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           USDtz: {
             contract: 'KT1PWAXfPatPWBNJUxTHin4ECin1kYJHHnsr',
             property: 'token2_pool',
             liquidityToken: 'ctez-usdtz-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           wWBTC: {
             contract: 'KT1XPUvZHc1YKTJYnGbB755V95hDgvS1qQYf',
             property: 'token2_pool',
             liquidityToken: 'ctez-wwbtc-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           wUSDC: {
             contract: 'KT1PZpbmKtGE6ZyYeF8entfjuGGT7CRUCF5g',
             property: 'token2_pool',
             liquidityToken: 'ctez-wusdc-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           wUSDT: {
             contract: 'KT1AfTwam4bNPawLv4bWqSj9GsVDPsf5F5bQ',
             property: 'token2_pool',
             liquidityToken: 'ctez-wusdt-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           wBUSD: {
             contract: 'KT1GN7PHpFsH43ypFyE2hxNMdxqTuiCGm4Pm',
             property: 'token2_pool',
             liquidityToken: 'ctez-wbusd-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           wDAI: {
             contract: 'KT1L5qd9xPWjiEX6ZNovhaty228ASg6jCE5p',
             property: 'token2_pool',
             liquidityToken: 'ctez-wdai-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           KALAM: {
             contract: 'KT1HuZVo3ZKRhkaHDsYXZ2fvmVfkY1FrbEDj',
             property: 'token2_pool',
             liquidityToken: 'ctez-kalam-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           GIF: {
             contract: 'KT1VnFPwDGJRt5ufMgcWafM2WWcZCC77gpT3',
             property: 'token2_pool',
             liquidityToken: 'ctez-gif-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           ETHtz: {
             contract: 'KT1GSYhwanehtwCK3NPfkMFbD1bNQmvosbqL',
             property: 'token2_pool',
             liquidityToken: 'ctez-ethtz-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           QUIPU: {
             contract: 'KT1Ss8rb1UFVqG2LYEU5g4NEbK5SqW5Xadwp',
             property: 'token2_pool',
             liquidityToken: 'ctez-quipu-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           hDAO: {
             contract: 'KT1RSxExbbRwQdYBpRHWup9vxvw1Hp25vFVM',
             property: 'token2_pool',
             liquidityToken: 'ctez-hdao-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           tzBTC: {
             contract: 'KT1Wryxte8NnVCm569yb8dcSPmvFBVs4ufD6',
             property: 'token2_pool',
             liquidityToken: 'ctez-tzbtc-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           wWETH: {
             contract: 'KT1WwqM2MH38PSQbECxPngBVLSbqJUHzCFAH',
             property: 'token2_pool',
             liquidityToken: 'ctez-wweth-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           uUSD: {
             contract: 'KT1Rx3pQzsn4FBuuYhcWsqUS7vWFx3ktqSWD',
             property: 'token2_pool',
             liquidityToken: 'ctez-uusd-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           SMAK: {
             contract: 'KT1Qg4FmXDmViQgyYLT5QkgZQSmPKvKjZbzn',
             property: 'token2_pool',
             liquidityToken: 'ctez-smak-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           UNO: {
             contract: 'KT1XLFZ2RS8vCUmHwBG39mq7zELhnLKn9JUz',
             property: 'token2_pool',
             liquidityToken: 'ctez-uno-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           CRUNCH: {
             contract: 'KT1WZztBneC9NrhVqvo9yXq8St7p8c1JVTxm',
             property: 'token2_pool',
             liquidityToken: 'ctez-crunch-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           PXL: {
             contract: 'KT1WR19YA8Go6GbTvtrMpUEEGSuQYxgz2ZVW',
             property: 'token2_pool',
             liquidityToken: 'ctez-pxl-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           INSTA: {
             contract: 'KT1EnESbHxmzd2XeENyYNege4L5TKxeatJk9',
             property: 'token2_pool',
             liquidityToken: 'ctez-insta-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           crDAO: {
             contract: 'KT1JkHBYp3Pq4TRSkFdc2CRoXFgDkJrfCqUe',
             property: 'token2_pool',
             liquidityToken: 'ctez-crdao-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           FLAME: {
             contract: 'KT1Bp3JAeeMP4GvJaspFw6zah6WydqqqHPNw',
             property: 'token2_pool',
             liquidityToken: 'ctez-flame-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           kDAO: {
             contract: 'KT1SP9WsMeLFTiHBXqEumTASYbF3CXh22aVV',
             property: 'token2_pool',
             liquidityToken: 'ctez-kdao-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           PAUL: {
             contract: 'KT1LixgLzdK4nseeD6MmmVpokuw9CvpVX9KW',
             property: 'token2_pool',
             liquidityToken: 'ctez-paul-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2551,7 +2539,7 @@ const Config: IConfig = {
             contract: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
             property: 'token2_pool',
             liquidityToken: 'ctez-doga-lp',
-            type : 'veAMM'
+            type: 'veAMM',
           },
         },
       },
@@ -2568,7 +2556,7 @@ const Config: IConfig = {
             contract: 'KT1LixgLzdK4nseeD6MmmVpokuw9CvpVX9KW',
             property: 'token1_pool',
             liquidityToken: 'ctez-paul-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2585,13 +2573,13 @@ const Config: IConfig = {
             contract: 'KT1HZkD2T4uczgYkZ6fb9gm1fymeJoRuezLz',
             property: 'token1_pool',
             liquidityToken: 'Plentykalamlp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           ctez: {
             contract: 'KT1HuZVo3ZKRhkaHDsYXZ2fvmVfkY1FrbEDj',
             property: 'token1_pool',
             liquidityToken: 'ctez-kalam-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2608,13 +2596,13 @@ const Config: IConfig = {
             contract: 'KT1UNBvCJXiwJY6tmHM7CJUVwNPew53XkSfh',
             property: 'token1_pool',
             liquidityToken: 'PLENTY-kUSD-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           ctez: {
             contract: 'KT1X1nkqJDR1UHwbfpcnME5Z7agJLjUQNguB',
             property: 'token1_pool',
             liquidityToken: 'ctez-kusd-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2631,13 +2619,13 @@ const Config: IConfig = {
             contract: 'KT1XutoFJ9dXvWxT7ttG86N2tSTUEpatFVTm',
             property: 'token1_pool',
             liquidityToken: 'Plenty-hDAO-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           ctez: {
             contract: 'KT1RSxExbbRwQdYBpRHWup9vxvw1Hp25vFVM',
             property: 'token1_pool',
             liquidityToken: 'ctez-hdao-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2654,13 +2642,13 @@ const Config: IConfig = {
             contract: 'KT1AbuUaPQmYLsB8n8FdSzBrxvrsm8ctwW1V',
             property: 'token1_pool',
             liquidityToken: 'Plenty-ETHtz-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           ctez: {
             contract: 'KT1GSYhwanehtwCK3NPfkMFbD1bNQmvosbqL',
             property: 'token1_pool',
             liquidityToken: 'ctez-ethtz-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           // wWETH: {
           //   contract: 'KT196bPdVJqY1DF3y7aQ9Cn5tcGQeMrrjWTp',
@@ -2682,13 +2670,13 @@ const Config: IConfig = {
             contract: 'KT1BEC9uHmADgVLXCm3wxN52qJJ85ohrWEaU',
             property: 'token1_pool',
             liquidityToken: 'Plenty-SMAK-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           ctez: {
             contract: 'KT1Qg4FmXDmViQgyYLT5QkgZQSmPKvKjZbzn',
             property: 'token1_pool',
             liquidityToken: 'ctez-smak-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2705,13 +2693,13 @@ const Config: IConfig = {
             contract: 'KT1NtsnKQ1c3rYB12ZToP77XaJs8WDBvF221',
             property: 'token1_pool',
             liquidityToken: 'Plenty-QUIPU-LP',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
           ctez: {
             contract: 'KT1Ss8rb1UFVqG2LYEU5g4NEbK5SqW5Xadwp',
             property: 'token1_pool',
             liquidityToken: 'ctez-quipu-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2728,7 +2716,7 @@ const Config: IConfig = {
             contract: 'KT1WZztBneC9NrhVqvo9yXq8St7p8c1JVTxm',
             property: 'token1_pool',
             liquidityToken: 'ctez-crunch-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2745,7 +2733,7 @@ const Config: IConfig = {
             contract: 'KT1Bp3JAeeMP4GvJaspFw6zah6WydqqqHPNw',
             property: 'token1_pool',
             liquidityToken: 'ctez-flame-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2762,7 +2750,7 @@ const Config: IConfig = {
             contract: 'KT1SP9WsMeLFTiHBXqEumTASYbF3CXh22aVV',
             property: 'token1_pool',
             liquidityToken: 'ctez-kdao-lp',
-            type : 'oldAMM',
+            type: 'oldAMM',
           },
         },
       },
@@ -2779,7 +2767,7 @@ const Config: IConfig = {
             contract: 'KT1EnESbHxmzd2XeENyYNege4L5TKxeatJk9',
             property: 'token1_pool',
             liquidityToken: 'ctez-insta-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2796,7 +2784,7 @@ const Config: IConfig = {
             contract: 'KT1JkHBYp3Pq4TRSkFdc2CRoXFgDkJrfCqUe',
             property: 'token1_pool',
             liquidityToken: 'ctez-crdao-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2813,7 +2801,7 @@ const Config: IConfig = {
             contract: 'KT1WR19YA8Go6GbTvtrMpUEEGSuQYxgz2ZVW',
             property: 'token1_pool',
             liquidityToken: 'ctez-pxl-lp',
-            type : 'oldAMM'
+            type: 'oldAMM',
           },
         },
       },
@@ -2830,7 +2818,7 @@ const Config: IConfig = {
             contract: 'KT1KapPE9E65fBozpJqsuCgaLPytvKQduPvF',
             property: 'token2_pool',
             liquidityToken: 'wbtc.e-ctez-LP',
-            type : 'veAMM'
+            type: 'veAMM',
           },
         },
       },
@@ -2847,7 +2835,7 @@ const Config: IConfig = {
             contract: 'KT1Dhy1gVW3PSC9cms9QJ7xPMPPpip2V9aA6',
             property: 'token2_pool',
             liquidityToken: 'usdc.e-ctez-LP',
-            type : 'veAMM'
+            type: 'veAMM',
           },
         },
       },
@@ -3743,14 +3731,60 @@ const Config: IConfig = {
         inactive: [],
       },
       //need to update details
-      'kUSD - USDC.e': {
+      // 'kUSD - USDC.e': {
+      //   active: [
+      //     {
+      //       LP_TOKEN: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
+      //       CONTRACT: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
+      //       DEX: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
+      //       TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       CARD_TYPE: 'CTEZ / DOGA LP',
+      //       TOKEN_DECIMAL: 5,
+      //       TYPE: 'FA1.2',
+      //       LP_DECIMAL: 18,
+      //       TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       DECIMAL: 18,
+      //       withdrawalFeeType: 'type2',
+      //       liquidityLink: '/liquidity/add?tokenA=ctez&tokenB=doga',
+      //       message: '😍 New farm',
+      //       bannerType: 'info',
+      //       isDualFarm: false,
+      //     },
+      //   ],
+      //   inactive: [],
+      // },
+      //need to update details
+      // 'uUSD - USDC.e': {
+      //   active: [
+      //     {
+      //       LP_TOKEN: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
+      //       CONTRACT: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
+      //       DEX: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
+      //       TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       CARD_TYPE: 'CTEZ / DOGA LP',
+      //       TOKEN_DECIMAL: 5,
+      //       TYPE: 'FA1.2',
+      //       LP_DECIMAL: 18,
+      //       TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       DECIMAL: 18,
+      //       withdrawalFeeType: 'type2',
+      //       liquidityLink: '/liquidity/add?tokenA=ctez&tokenB=doga',
+      //       message: '😍 New farm',
+      //       bannerType: 'info',
+      //       isDualFarm: false,
+      //     },
+      //   ],
+      //   inactive: [],
+      // },
+      //need to update details
+      'WBTC.e - CTEZ': {
         active: [
           {
-            LP_TOKEN: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
-            CONTRACT: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
-            DEX: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
+            LP_TOKEN: 'KT1VRAYxpCo5xHYmBLYmMAWxXoVYCVgpeuak',
+            CONTRACT: 'KT1CZkFknknf2NdV48VMRw9cp97n9T7oRApi',
+            DEX: 'KT1KapPE9E65fBozpJqsuCgaLPytvKQduPvF',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'CTEZ / DOGA LP',
+            CARD_TYPE: 'WBTC.e / CTEZ LP',
             TOKEN_DECIMAL: 5,
             TYPE: 'FA1.2',
             LP_DECIMAL: 18,
@@ -3766,21 +3800,21 @@ const Config: IConfig = {
         inactive: [],
       },
       //need to update details
-      'uUSD - USDC.e': {
+      'USDC.e - CTEZ': {
         active: [
           {
-            LP_TOKEN: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
-            CONTRACT: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
-            DEX: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
+            LP_TOKEN: 'KT1XpLzv4tqqsf2aLneDZgEeNFhKkH8JBGXv',
+            CONTRACT: 'KT1P3MUj7ZY1pak1szf41vxtuqz7AVMgCLhj',
+            DEX: 'KT1Dhy1gVW3PSC9cms9QJ7xPMPPpip2V9aA6',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'CTEZ / DOGA LP',
+            CARD_TYPE: 'USDC.e / CTEZ LP',
             TOKEN_DECIMAL: 5,
             TYPE: 'FA1.2',
             LP_DECIMAL: 18,
             TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             DECIMAL: 18,
             withdrawalFeeType: 'type2',
-            liquidityLink: '/liquidity/add?tokenA=ctez&tokenB=doga',
+            liquidityLink: '/liquidity/add?tokenA=ctez&tokenB=USDC.e',
             message: '😍 New farm',
             bannerType: 'info',
             isDualFarm: false,
@@ -3789,74 +3823,28 @@ const Config: IConfig = {
         inactive: [],
       },
       //need to update details
-      'tzBTC - WBTC.e': {
-        active: [
-          {
-            LP_TOKEN: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
-            CONTRACT: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
-            DEX: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
-            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'CTEZ / DOGA LP',
-            TOKEN_DECIMAL: 5,
-            TYPE: 'FA1.2',
-            LP_DECIMAL: 18,
-            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            DECIMAL: 18,
-            withdrawalFeeType: 'type2',
-            liquidityLink: '/liquidity/add?tokenA=ctez&tokenB=doga',
-            message: '😍 New farm',
-            bannerType: 'info',
-            isDualFarm: false,
-          },
-        ],
-        inactive: [],
-      },
-      //need to update details
-      'tzBTC - CTEZ': {
-        active: [
-          {
-            LP_TOKEN: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
-            CONTRACT: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
-            DEX: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
-            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'CTEZ / DOGA LP',
-            TOKEN_DECIMAL: 5,
-            TYPE: 'FA1.2',
-            LP_DECIMAL: 18,
-            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            DECIMAL: 18,
-            withdrawalFeeType: 'type2',
-            liquidityLink: '/liquidity/add?tokenA=ctez&tokenB=doga',
-            message: '😍 New farm',
-            bannerType: 'info',
-            isDualFarm: false,
-          },
-        ],
-        inactive: [],
-      },
-      //need to update details
-      'USD - CTEZ': {
-        active: [
-          {
-            LP_TOKEN: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
-            CONTRACT: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
-            DEX: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
-            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'CTEZ / DOGA LP',
-            TOKEN_DECIMAL: 5,
-            TYPE: 'FA1.2',
-            LP_DECIMAL: 18,
-            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            DECIMAL: 18,
-            withdrawalFeeType: 'type2',
-            liquidityLink: '/liquidity/add?tokenA=ctez&tokenB=doga',
-            message: '😍 New farm',
-            bannerType: 'info',
-            isDualFarm: false,
-          },
-        ],
-        inactive: [],
-      },
+      // 'USD - CTEZ': {
+      //   active: [
+      //     {
+      //       LP_TOKEN: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
+      //       CONTRACT: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
+      //       DEX: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
+      //       TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       CARD_TYPE: 'CTEZ / DOGA LP',
+      //       TOKEN_DECIMAL: 5,
+      //       TYPE: 'FA1.2',
+      //       LP_DECIMAL: 18,
+      //       TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       DECIMAL: 18,
+      //       withdrawalFeeType: 'type2',
+      //       liquidityLink: '/liquidity/add?tokenA=ctez&tokenB=doga',
+      //       message: '😍 New farm',
+      //       bannerType: 'info',
+      //       isDualFarm: false,
+      //     },
+      //   ],
+      //   inactive: [],
+      // },
       'KALAM - XTZ': {
         active: [],
         inactive: [

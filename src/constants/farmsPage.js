@@ -245,17 +245,17 @@ export const FARMS_CARD_TYPE_LIST = {
     isDualFarm: false,
   },
   //need to update
-  'USDC.e - CTEZ LP': {
+  'USDC.e / CTEZ LP': {
     image: dogactezLpFarm,
     harvestImg: plentyToken,
     multi: '100',
-    title: 'DOGA / CTEZ PNLP',
+    title: 'USDC.e / CTEZ PNLP',
     apr: 0,
     apy: 0,
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / DOGA LP',
+    deposit: 'USDC.e / CTEZ LP',
     liquidity: 0,
     withdrawalFee: '0%',
     balance: 0,
@@ -267,17 +267,17 @@ export const FARMS_CARD_TYPE_LIST = {
     isDualFarm: false,
   },
   //need to update
-  'WBTC.e - CTEZ LP': {
+  'WBTC.e / CTEZ LP': {
     image: dogactezLpFarm,
     harvestImg: plentyToken,
     multi: '100',
-    title: 'DOGA / CTEZ PNLP',
+    title: 'WBTC.e / CTEZ PNLP',
     apr: 0,
     apy: 0,
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'CTEZ / DOGA LP',
+    deposit: 'WBTC.e / CTEZ LP',
     liquidity: 0,
     withdrawalFee: '0%',
     balance: 0,

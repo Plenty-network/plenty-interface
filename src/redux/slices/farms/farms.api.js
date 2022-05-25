@@ -399,7 +399,11 @@ const getPriceForPlentyLpTokens = async (
         identifier,
         totalAmount,
       };
-    } else if (identifier === 'CTEZ - DOGA') {
+    } else if (
+      identifier === 'CTEZ - DOGA' ||
+      identifier === 'WBTC.e - CTEZ' ||
+      identifier === 'USDC.e - CTEZ'
+    ) {
       const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
       // token1Pool = token1Pool / Math.pow(10, 12);
       const token2Pool = parseInt(storageResponse.data.args[3].int);
@@ -697,7 +701,9 @@ export const getFarmsDataAPI = async (isActive) => {
           key === 'CTEZ - INSTA' ||
           key === 'CTEZ - CRUNCH' ||
           key === 'CTEZ - TEZ' ||
-          key === 'CTEZ - DOGA'
+          key === 'CTEZ - DOGA' ||
+          key === 'WBTC.e - CTEZ' ||
+          key === 'USDC.e - CTEZ'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(
