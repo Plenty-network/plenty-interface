@@ -30,6 +30,7 @@ import kDAO from '../assets/images/kDAO.png';
 import PXL from '../assets/images/PXL.png';
 import PAUL from '../assets/images/PAUL.png';
 import tez from '../assets/images/tez.png';
+import doga from '../assets/images/doga.png';
 export const tokens = [
   {
     name: 'CRUNCH',
@@ -198,5 +199,10 @@ export const tokens = [
     name: 'YOU',
     image: youGov,
     new: false,
+  },
+  {
+    name: 'DOGA',
+    image: doga,
+    new: true,
   },
 ];

@@ -259,7 +259,9 @@ const SwapTab = (props) => {
         maximumFractionDigits: 20,
         useGrouping: false,
       }) ?? 0;
-    handleSwapTokenInput(value, 'tokenIn');
+    props.tokenIn.name === 'tez'
+      ? handleSwapTokenInput(value - 0.02, 'tokenIn')
+      : handleSwapTokenInput(value, 'tokenIn');
   };
   useEffect(() => {
     handleSwapTokenInput(firstTokenAmount, 'tokenIn');
@@ -542,7 +544,7 @@ const SwapTab = (props) => {
 
             <div className="token-user-input-wrapper">
               <div className="input-heading">YOU PAY</div>
-              {props.routeData.success ? (
+              {props.tokenOut.name && props.userBalances[props.tokenIn.name] >= 0 ? (
                 <input
                   type="text"
                   className={clsx(
@@ -588,10 +590,6 @@ const SwapTab = (props) => {
                           ) : (
                             <div className="shimmer">0.0000</div>
                           )}{' '}
-                          {/* <img
-                            src={props.theme === 'light' ? maxlight : maxDark}
-                            className="max-swap"
-                          /> */}
                         </span>
                       </OverlayTrigger>
                     ) : (
@@ -686,12 +684,13 @@ const SwapTab = (props) => {
 
               <div className="token-user-input-wrapper">
                 <div className="input-heading receive-heading">YOU RECEIVE</div>
-                {props.routeData.success && props.tokenOut.name ? (
+                {props.userBalances[props.tokenOut.name] >= 0 && props.tokenOut.name ? (
                   <input
                     type="text"
                     className={clsx('token-user-input', secondTokenAmount && 'second-input-color')}
                     value={secondTokenAmount && fromExponential(secondTokenAmount)}
                     placeholder="0.0"
+                    disabled
                     onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenOut')}
                   />
                 ) : (

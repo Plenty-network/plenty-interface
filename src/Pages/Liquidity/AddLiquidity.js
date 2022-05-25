@@ -67,8 +67,12 @@ const AddLiquidity = (props) => {
         maximumFractionDigits: 20,
         useGrouping: false,
       }) ?? 0;
-    setFirstTokenAmount(value.substring(0, value.length));
-    handleLiquidityInput(value.substring(0, value.length));
+    props.tokenIn.name === 'tez'
+      ? setFirstTokenAmount(value - 0.02)
+      : setFirstTokenAmount(value.substring(0, value.length));
+    props.tokenIn.name === 'tez'
+      ? handleLiquidityInput(value - 0.02)
+      : handleLiquidityInput(value.substring(0, value.length));
   };
   useEffect(() => {
     setErrorMessage(false);
@@ -393,8 +397,9 @@ const AddLiquidity = (props) => {
     if (props.tokenIn.name && props.tokenOut.name) {
       if (
         props.walletAddress &&
-        firstTokenAmount &&
-        firstTokenAmount > props.userBalances[props.tokenIn.name]
+        ((firstTokenAmount && firstTokenAmount > props.userBalances[props.tokenIn.name]) ||
+          (secondTokenAmount ? secondTokenAmount : estimatedTokenAmout.otherTokenAmount) >
+            props.userBalances[props.tokenOut.name])
       ) {
         swapContentButton = (
           <Button

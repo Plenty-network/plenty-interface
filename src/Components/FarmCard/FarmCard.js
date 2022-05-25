@@ -38,22 +38,41 @@ const FarmCard = (props) => {
 
   const getReward = () => {
     if (farmData.isDualFarm) {
-      return (
-        <>
-          {`${parseInt((values?.rewardRate[0] ?? 0) * 2880)} PLENTY | ${parseInt(
-            (values?.rewardRate[1] ?? 0) * 2880,
-          )} GIF`}{' '}
-          <span
-            style={{
-              display: 'block',
-              textAlign: 'right',
-              fontSize: '10px',
-            }}
-          >
-            / DAY
-          </span>
-        </>
-      );
+      if (farmData.CARD_TYPE === 'CTEZ / TEZ Dual PNLP') {
+        return (
+          <>
+            {`${parseInt((values?.rewardRate[0] ?? 0) * 2880)} PLENTY | ${parseInt(
+              (values?.rewardRate[1] ?? 0) * 2880,
+            )} TEZ`}{' '}
+            <span
+              style={{
+                display: 'block',
+                textAlign: 'right',
+                fontSize: '10px',
+              }}
+            >
+              / DAY
+            </span>
+          </>
+        );
+      } else {
+        return (
+          <>
+            {`${parseInt((values?.rewardRate[0] ?? 0) * 2880)} PLENTY | ${parseInt(
+              (values?.rewardRate[1] ?? 0) * 2880,
+            )} GIF`}{' '}
+            <span
+              style={{
+                display: 'block',
+                textAlign: 'right',
+                fontSize: '10px',
+              }}
+            >
+              / DAY
+            </span>
+          </>
+        );
+      }
     } else if (
       farmData.CARD_TYPE === 'uUSD / YOU LP' ||
       farmData.CARD_TYPE === 'uUSD / wUSDC LP' ||
@@ -111,7 +130,11 @@ const FarmCard = (props) => {
             <div className="text-right">
               <p className={styles.title}>{properties.title}</p>
               <a
-                href={`/liquidity?tokenA=${tokens[0]}&tokenB=${tokens[1]}`}
+                href={
+                  tokens[1] === 'TEZ' && tokens[0] === 'CTEZ'
+                    ? '/liquidity?tokenA=tez&tokenB=ctez'
+                    : `/liquidity?tokenA=${tokens[0]}&tokenB=${tokens[1]}`
+                }
                 target="_blank"
                 className={clsx(
                   styles.titleBadge,

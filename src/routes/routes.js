@@ -13,8 +13,8 @@ import OtherPages from '../Pages/OtherPages';
 // * Lazy loading
 const Swap = React.lazy(() => import('../Pages/Swap'));
 const Farms = React.lazy(() => import('../Pages/Farms'));
-const Tokens = React.lazy(() => import('../Pages/Tokens/Tokens'));
-const Liquidity = React.lazy(() => import('../Pages/LiquidityPools'));
+//const Tokens = React.lazy(() => import('../Pages/Tokens/Tokens'));
+//const Liquidity = React.lazy(() => import('../Pages/LiquidityPools'));
 const LiquidityNew = React.lazy(() => import('../Pages/Liquidity'));
 const Frontpage = React.lazy(() => import('../Pages/Frontpage/Frontpage'));
 const Stake = React.lazy(() => import('../Pages/xPlenty'));
@@ -125,22 +125,22 @@ const MyRoutes = (props) => {
                 </OtherPages>
               }
             />
-            <Route
+            {/* <Route
               path="/tokens"
               element={
                 <OtherPages {...otherPageProps}>
                   <Tokens walletAddress={props.userAddress} />
                 </OtherPages>
               }
-            />
-            <Route
+            /> */}
+            {/* <Route
               path="/liquidity-pools"
               element={
                 <OtherPages {...otherPageProps}>
                   <Liquidity walletAddress={props.userAddress} />
                 </OtherPages>
               }
-            />
+            /> */}
             <Route
               path="/vote"
               element={

@@ -205,34 +205,33 @@ const Header = (props) => {
                           'selected-menu-item-active',
                         'align-self-start align-self-lg-center d-lg-flex align-items-center',
                       )}
-                      {...(isMobile ? {} : { as: Link, to: '/swap' })}
+                      {...(isMobile ? { as: Link, to: '/swap' } : { as: Link, to: '/swap' })}
                       onMouseEnter={() => setHeader(HEADER_MODAL.TRADE)}
                       onClick={() => setHeaderMobile(HEADER_MODAL.TRADE)}
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                         Trade
                       </span>
-                      <span
+                      {/* <span
                         className={clsx('material-icons', 'arrow-header', {
                           rotate:
                             selectedHeader === HEADER_MODAL.TRADE && (isMobile ? isExpanded : true),
                         })}
                       >
                         expand_more
-                      </span>
+                      </span> */}
                     </Nav.Link>
-                    {selectedHeader === HEADER_MODAL.TRADE && isMobile && (
+                    {/* {selectedHeader === HEADER_MODAL.TRADE && isMobile && (
                       <HeaderBottom
                         selectedHeader={selectedHeader}
                         isExpanded={isExpanded}
                         {...props}
                       />
-                    )}
+                    )} */}
                     <Nav.Link
                       className={clsx(
                         selectedHeader === HEADER_MODAL.EARN ? 'menu-item-active' : 'menu-item',
                         (splitLocation[1] === 'farms' ||
-                          splitLocation[1] === 'liquidity-pools' ||
                           splitLocation[1] === 'stake' ||
                           splitLocation[1] === 'liquidity' ||
                           splitLocation[1] === 'liquidityPositions') &&
@@ -425,7 +424,7 @@ const Header = (props) => {
           </Col>
         </Row>
       </Container>
-      {!isMobile && (
+      {!isMobile && selectedHeader !== HEADER_MODAL.TRADE && (
         <div onMouseLeave={() => setHeader('')}>
           <HeaderBottom
             selectedHeader={selectedHeader}

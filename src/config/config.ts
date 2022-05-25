@@ -161,6 +161,17 @@ const Config: IConfig = {
             },
           ],
         },
+        'CTEZ - DOGA': {
+          active: [
+            {
+              address: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
+              mapId: 171836,
+              decimal: 18,
+              tokenDecimal: 5,
+            },
+          ],
+          inactive: [],
+        },
         'KALAM - XTZ': {
           active: [],
           inactive: [
@@ -389,6 +400,38 @@ const Config: IConfig = {
               },
             },
           ],
+        },
+
+        'CTEZ - TEZ': {
+          active: [
+            {
+              address: 'KT1WzUmmF98aQdpKnWigkg3SnJiL1s2Fj6QQ',
+              mapId: 171752,
+              decimal: 6,
+              tokenDecimal: 6,
+              dualInfo: {
+                tokenFirst: {
+                  symbol: 'PLENTY',
+                  tokenContract: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+                  tokenDecimal: 18,
+                  tokenType: 'FA1.2',
+                  tokenId: 0,
+                  rewardContract: 'KT1QkadMTUTDxyNiTaz587ssPXFuwmWWQzDG',
+                  rewardMapId: 171750,
+                },
+                tokenSecond: {
+                  symbol: 'TEZ',
+                  tokenContract: '',
+                  tokenDecimal: 6,
+                  tokenType: 'XTZ',
+                  tokenId: 0,
+                  rewardContract: 'KT1PxZCPGoxukDXq1smJcmQcLiadTB6czjCY',
+                  rewardMapId: 171751,
+                },
+              },
+            },
+          ],
+          inactive: [],
         },
         'PLENTY - YOU': {
           active: [],
@@ -811,6 +854,13 @@ const Config: IConfig = {
         type: 'FA2',
         tokenId: 10,
       },
+      DOGA: {
+        address: 'KT1Ha4yFVeyzw6KRAdkzq6TxDHB97KG4pZe8',
+        mapId: 134335,
+        decimal: 5,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
       USDtz: {
         address: 'KT1LN4LPSqTMS7Sd2CJw4bbDGRkMv2t68Fy9',
         mapId: 36,
@@ -850,6 +900,13 @@ const Config: IConfig = {
         address: 'KT1X1LgNkQShpF9nRLYw3Dgdy4qp38MX617z',
         mapId: 3956,
         decimal: 6,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+      'CTEZ - DOGA': {
+        address: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
+        mapId: 171789,
+        decimal: 5,
         type: 'FA1.2',
         tokenId: 0,
       },
@@ -983,6 +1040,13 @@ const Config: IConfig = {
         address: 'KT1MVLRQ7K7275oHDvbtKcUzNJsPBstZGKUp',
         mapId: 17061,
         decimal: 13,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+      'CTEZ - TEZ': {
+        address: 'KT1DMnJvNrFYc8N9Ptxhw3NtqKN7AWqxCpkS',
+        mapId: 171168,
+        decimal: 6,
         type: 'FA1.2',
         tokenId: 0,
       },
@@ -1210,6 +1274,14 @@ const Config: IConfig = {
         type: 'FA1.2',
         tokenId: 0,
       },
+      // add lp here
+      'ctez - DOGA': {
+        address: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
+        mapId: 171789,
+        decimal: 5,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
       // PlentywUSDTlp: {
       //   ICON: '',
       //   TOKEN_CONTRACT: 'KT1PcM1LUqgVdkXqKvZ4CeC9aiwLgYYCEHMH',
@@ -1233,7 +1305,7 @@ const Config: IConfig = {
   },
   ROUTER: {
     // KT1QzuJg2dJZVSoDf56BmvPGMduWzjYggkf5
-    mainnet: 'KT1VDJiD3JRUsTjcpPhHmTioBB7iMhVpoi7b',
+    mainnet: 'KT1MEVCrGRCsoERXf6ahNLC4ik6J2vRH7Mm6',
     testnet: 'KT1FMZVMeyCrNFyGjJfiB6VSq3LX1ShSEzuw',
   },
   STABLESWAP: {
@@ -1291,7 +1363,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
           tez: {
-            contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
+            contract: 'KT1CAYNQGvYSF5UvHK21grMrKpe2563w9UcX',
             property: 'ctezPool',
             liquidityToken: 'ctez-XTZ-LP',
           },
@@ -1307,7 +1379,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
           ctez: {
-            contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
+            contract: 'KT1CAYNQGvYSF5UvHK21grMrKpe2563w9UcX',
             property: 'tezPool',
             liquidityToken: 'ctez-XTZ-LP',
           },
@@ -1315,8 +1387,8 @@ const Config: IConfig = {
       },
       'ctez-XTZ-LP': {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1AhTJqRFY3ABSV4kfR3RUS4B66jp1H6A1F',
-        mapId: 108017,
+        TOKEN_CONTRACT: 'KT1DMnJvNrFYc8N9Ptxhw3NtqKN7AWqxCpkS',
+        mapId: 171168,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA1.2',
         TOKEN_ID: 0,
@@ -1602,7 +1674,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
           ctez: {
-            contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
+            contract: 'KT1CAYNQGvYSF5UvHK21grMrKpe2563w9UcX',
             property: 'tezPool',
             liquidityToken: 'ctez-XTZ-LP',
           },
@@ -2100,9 +2172,14 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
           tez: {
-            contract: 'KT1BG1oEqQckYBRBCyaAcq1iQXkp8PVXhSVr',
+            contract: 'KT1CAYNQGvYSF5UvHK21grMrKpe2563w9UcX',
             property: 'ctezPool',
             liquidityToken: 'ctez-XTZ-LP',
+          },
+          DOGA: {
+            contract: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
+            property: 'token1_pool',
+            liquidityToken: 'ctez-doga-lp',
           },
           PLENTY: {
             contract: 'KT1C9gJRfkpPbNdBn3XyYbrUHT6XgfPzZqXP',
@@ -2233,6 +2310,22 @@ const Config: IConfig = {
             contract: 'KT1LixgLzdK4nseeD6MmmVpokuw9CvpVX9KW',
             property: 'token2_pool',
             liquidityToken: 'ctez-paul-lp',
+          },
+        },
+      },
+      DOGA: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1Ha4yFVeyzw6KRAdkzq6TxDHB97KG4pZe8',
+        mapId: 134335,
+        READ_TYPE: 'FA1.2',
+        CALL_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 5,
+        DEX_PAIRS: {
+          ctez: {
+            contract: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
+            property: 'token2_pool',
+            liquidityToken: 'ctez-doga-lp',
           },
         },
       },
@@ -2484,15 +2577,6 @@ const Config: IConfig = {
           },
         },
       },
-      PlentywUSDClp: {
-        ICON: '',
-        TOKEN_CONTRACT: 'KT1Gz1mx1jm7JHqU7GuMVWF6soB9RjsfLN3o',
-        mapId: 10755,
-        READ_TYPE: 'FA1.2',
-        TOKEN_ID: 0,
-        TOKEN_DECIMAL: 12,
-        CALL_TYPE: 'FA1.2',
-      },
       PlentywBUSDlp: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1UC3vcVZ4K9b39uQxaMNA2N1RuJXKLCnoA',
@@ -2500,6 +2584,15 @@ const Config: IConfig = {
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 18,
+        CALL_TYPE: 'FA1.2',
+      },
+      PlentywUSDClp: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1Gz1mx1jm7JHqU7GuMVWF6soB9RjsfLN3o',
+        mapId: 10755,
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 12,
         CALL_TYPE: 'FA1.2',
       },
       PlentywWBTClp: {
@@ -2594,8 +2687,8 @@ const Config: IConfig = {
       },
       'ctez-XTZ-LP': {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1AhTJqRFY3ABSV4kfR3RUS4B66jp1H6A1F',
-        mapId: 108017,
+        TOKEN_CONTRACT: 'KT1DMnJvNrFYc8N9Ptxhw3NtqKN7AWqxCpkS',
+        mapId: 171168,
         READ_TYPE: 'FA1.2',
         CALL_TYPE: 'FA1.2',
         TOKEN_ID: 0,
@@ -2979,6 +3072,15 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 7,
         CALL_TYPE: 'FA1.2',
       },
+      'ctez-doga-lp': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
+        mapId: 171789,
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 5,
+        CALL_TYPE: 'FA1.2',
+      },
     },
   },
   POOLS: {
@@ -3325,6 +3427,28 @@ const Config: IConfig = {
             isDualFarm: false,
           },
         ],
+      },
+      'CTEZ - DOGA': {
+        active: [
+          {
+            LP_TOKEN: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
+            CONTRACT: 'KT1E6qsUB3EKEDs4S3yQCyr39zVjsjBtFjEp',
+            DEX: 'KT1NLxs6rSYaJikjuCRVbVfg3p9ehfVuQgHC',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            CARD_TYPE: 'CTEZ / DOGA LP',
+            TOKEN_DECIMAL: 5,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 18,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+            liquidityLink: '/liquidity/add?tokenA=ctez&tokenB=doga',
+            message: '😍 New farm',
+            bannerType: 'info',
+            isDualFarm: false,
+          },
+        ],
+        inactive: [],
       },
       'KALAM - XTZ': {
         active: [],
@@ -3733,6 +3857,46 @@ const Config: IConfig = {
             isDualFarm: true,
           },
         ],
+      },
+      'CTEZ - TEZ': {
+        active: [
+          {
+            LP_TOKEN: 'KT1DMnJvNrFYc8N9Ptxhw3NtqKN7AWqxCpkS',
+            CONTRACT: 'KT1WzUmmF98aQdpKnWigkg3SnJiL1s2Fj6QQ',
+            DEX: 'KT1CAYNQGvYSF5UvHK21grMrKpe2563w9UcX',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            dualInfo: {
+              tokenFirst: {
+                symbol: 'PLENTY',
+                tokenContract: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+                tokenDecimal: 18,
+                tokenType: 'FA1.2',
+                tokenId: 0,
+                rewardContract: 'KT1QkadMTUTDxyNiTaz587ssPXFuwmWWQzDG',
+              },
+              tokenSecond: {
+                symbol: 'TEZ',
+                tokenContract: '',
+                tokenDecimal: 6,
+                tokenType: 'XTZ',
+                tokenId: 0,
+                rewardContract: 'KT1PxZCPGoxukDXq1smJcmQcLiadTB6czjCY',
+              },
+            },
+            CARD_TYPE: 'CTEZ / TEZ Dual PNLP',
+            TOKEN_DECIMAL: 6,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 12,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+            liquidityLink: '/liquidity/add?tokenA=tez',
+            isDualFarm: true,
+            message: '😍 Dual rewards when baking starts',
+            bannerType: 'info',
+          },
+        ],
+        inactive: [],
       },
       'PLENTY - YOU': {
         active: [],

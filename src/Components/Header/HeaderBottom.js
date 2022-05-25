@@ -92,8 +92,8 @@ const HeaderBottom = (props) => {
     setCurrentRPC(matchedNode);
   };
 
-  useEffect(() => {   
-    if(!setRPCRunning.current && nodeSelector) {
+  useEffect(() => {
+    if (!setRPCRunning.current && nodeSelector) {
       rpcNodeDetect();
     }
     // eslint-disable-next-line
@@ -159,7 +159,7 @@ const HeaderBottom = (props) => {
                   </div>
                 </Col>
 
-                <Col lg={12} xs={12}>
+                {/* <Col lg={12} xs={12}>
                   <div className="topics gov">
                     <Link to="/tokens" className="text-decoration-none">
                       <p className="heading">TOKENS</p>
@@ -173,7 +173,7 @@ const HeaderBottom = (props) => {
                       </div>
                     </Link>
                   </div>
-                </Col>
+                </Col> */}
               </Row>
             )}
             {props.selectedHeader === HEADER_MODAL.BRIDGE && (
@@ -258,7 +258,7 @@ const HeaderBottom = (props) => {
                     </Link>
                   </div>
                 </Col>
-                <Col xl={5} lg={6} xs={12}>
+                {/* <Col xl={5} lg={6} xs={12}>
                   <div className="topics">
                     <Link to="/liquidity-pools" className="text-decoration-none">
                       <p className="heading">POOL</p>
@@ -273,7 +273,7 @@ const HeaderBottom = (props) => {
                       </div>
                     </Link>
                   </div>
-                </Col>
+                </Col> */}
                 <Col xl={5} lg={6} xs={12}>
                   <div className="topics">
                     <Link to="/farms" className="text-decoration-none">
@@ -494,7 +494,9 @@ const HeaderBottom = (props) => {
                                   <label
                                     className={clsx(currentRPC === identifier && 'selected-border')}
                                     htmlFor={identifier}
-                                    onClick={!rpcNodeDetecting ? () => setCurrentRPC(identifier) : null}
+                                    onClick={
+                                      !rpcNodeDetecting ? () => setCurrentRPC(identifier) : null
+                                    }
                                   >
                                     <div className="check" />
                                     <input
@@ -554,8 +556,13 @@ const HeaderBottom = (props) => {
                               </li>
                             </ul>
                           </div>
-                          <Button onClick={setRPCInLS} className="button-bg w-100 mt-1 mb-2 py-1" color={rpcNodeDetecting ? 'disabled' : ''} disabled={rpcNodeDetecting}>
-                            {rpcNodeDetecting ? 'Checking RPC Node Validity..' :'Set Node'}
+                          <Button
+                            onClick={setRPCInLS}
+                            className="button-bg w-100 mt-1 mb-2 py-1"
+                            color={rpcNodeDetecting ? 'disabled' : ''}
+                            disabled={rpcNodeDetecting}
+                          >
+                            {rpcNodeDetecting ? 'Checking RPC Node Validity..' : 'Set Node'}
                           </Button>
                         </div>
                       </>

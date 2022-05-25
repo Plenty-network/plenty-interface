@@ -110,46 +110,95 @@ const calculateHarvestValueDualEntity = async (
   packedAddress,
 ) => {
   try {
+    if (stakingContractAddress === 'KT1PxZCPGoxukDXq1smJcmQcLiadTB6czjCY') {
+      return {
+        success: true,
+        totalRewards: 0,
+        address: stakingContractAddress,
+      };
+    }
+
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
     let url = `${rpcNode}chains/main/blocks/head/context/contracts/${stakingContractAddress}/storage`;
     const smartContractResponse = await axios.get(url);
 
-    const periodFinish = smartContractResponse.data.args[1].args[0].int;
+    if (stakingContractAddress === 'KT1QkadMTUTDxyNiTaz587ssPXFuwmWWQzDG') {
 
-    const lastUpdateTime = smartContractResponse.data.args[0].args[2].int;
+      const periodFinish = smartContractResponse.data.args[1].args[1].int;
 
-    const rewardRate = smartContractResponse.data.args[1].args[2].int;
+      const lastUpdateTime = smartContractResponse.data.args[0].args[3].int;
 
-    const totalSupply = smartContractResponse.data.args[4].int;
+      const rewardRate = smartContractResponse.data.args[2].int;
 
-    const rewardPerTokenStored = smartContractResponse.data.args[1].args[1].int;
+      const totalSupply = smartContractResponse.data.args[4].int;
 
-    if (totalSupply === 0) {
-      throw 'No One Staked';
+      const rewardPerTokenStored = smartContractResponse.data.args[1].args[2].int;
+
+      if (totalSupply === 0) {
+        throw 'No One Staked';
+      }
+
+      let rewardPerToken = Math.min(currentBlockLevel, parseInt(periodFinish));
+      rewardPerToken = rewardPerToken - parseInt(lastUpdateTime);
+      rewardPerToken *= parseInt(rewardRate) * Math.pow(10, DECIMAL);
+      rewardPerToken = rewardPerToken / totalSupply + parseInt(rewardPerTokenStored);
+
+      url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedAddress}`;
+      const bigMapResponse = await axios.get(url);
+      const userBalance = bigMapResponse.data.args[0].int;
+      const userRewardPaid = bigMapResponse.data.args[2].int;
+      const rewards = bigMapResponse.data.args[1].int;
+
+      let totalRewards = parseInt(userBalance) * (rewardPerToken - parseInt(userRewardPaid));
+      totalRewards = totalRewards / Math.pow(10, DECIMAL) + parseInt(rewards);
+      totalRewards = totalRewards / Math.pow(10, DECIMAL);
+
+      if (totalRewards < 0) {
+        totalRewards = 0;
+      }
+      return {
+        success: true,
+        totalRewards,
+        address: stakingContractAddress,
+      };
+    } else {
+      const periodFinish = smartContractResponse.data.args[1].args[0].int;
+
+      const lastUpdateTime = smartContractResponse.data.args[0].args[2].int;
+
+      const rewardRate = smartContractResponse.data.args[1].args[2].int;
+
+      const totalSupply = smartContractResponse.data.args[4].int;
+
+      const rewardPerTokenStored = smartContractResponse.data.args[1].args[1].int;
+
+      if (totalSupply === 0) {
+        throw 'No One Staked';
+      }
+
+      let rewardPerToken = Math.min(currentBlockLevel, parseInt(periodFinish));
+      rewardPerToken = rewardPerToken - parseInt(lastUpdateTime);
+      rewardPerToken *= parseInt(rewardRate) * Math.pow(10, DECIMAL);
+      rewardPerToken = rewardPerToken / totalSupply + parseInt(rewardPerTokenStored);
+      url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedAddress}`;
+      const bigMapResponse = await axios.get(url);
+
+      const userBalance = bigMapResponse.data.args[0].int;
+      const userRewardPaid = bigMapResponse.data.args[2].int;
+      const rewards = bigMapResponse.data.args[1].int;
+      let totalRewards = parseInt(userBalance) * (rewardPerToken - parseInt(userRewardPaid));
+      totalRewards = totalRewards / Math.pow(10, DECIMAL) + parseInt(rewards);
+      totalRewards = totalRewards / Math.pow(10, DECIMAL);
+
+      if (totalRewards < 0) {
+        totalRewards = 0;
+      }
+      return {
+        success: true,
+        totalRewards,
+        address: stakingContractAddress,
+      };
     }
-
-    let rewardPerToken = Math.min(currentBlockLevel, parseInt(periodFinish));
-    rewardPerToken = rewardPerToken - parseInt(lastUpdateTime);
-    rewardPerToken *= parseInt(rewardRate) * Math.pow(10, DECIMAL);
-    rewardPerToken = rewardPerToken / totalSupply + parseInt(rewardPerTokenStored);
-    url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedAddress}`;
-    const bigMapResponse = await axios.get(url);
-
-    const userBalance = bigMapResponse.data.args[0].int;
-    const userRewardPaid = bigMapResponse.data.args[2].int;
-    const rewards = bigMapResponse.data.args[1].int;
-    let totalRewards = parseInt(userBalance) * (rewardPerToken - parseInt(userRewardPaid));
-    totalRewards = totalRewards / Math.pow(10, DECIMAL) + parseInt(rewards);
-    totalRewards = totalRewards / Math.pow(10, DECIMAL);
-
-    if (totalRewards < 0) {
-      totalRewards = 0;
-    }
-    return {
-      success: true,
-      totalRewards,
-      address: stakingContractAddress,
-    };
   } catch (error) {
     return {
       success: false,
@@ -167,6 +216,7 @@ const calculateHarvestValueDual = async (
 ) => {
   try {
     const harvestValuePromises = [];
+    
     harvestValuePromises.push(
       calculateHarvestValueDualEntity(
         dualInfo.tokenFirst.rewardContract,
@@ -190,7 +240,7 @@ const calculateHarvestValueDual = async (
     const harvestValueResponse = await Promise.all(harvestValuePromises);
     return {
       success: true,
-      totalRewards: [harvestValueResponse[0].totalRewards, harvestValueResponse[0].totalRewards],
+      totalRewards: [harvestValueResponse[0].totalRewards, harvestValueResponse[1].totalRewards],
       address: stakingContract,
     };
   } catch (error) {
@@ -239,7 +289,7 @@ export const getHarvestValue = async (address, type, isActive) => {
       for (const i in CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
         isActive === true ? 'active' : 'inactive'
       ]) {
-        if (identifier === 'PLENTY - GIF') {
+        if (identifier === 'PLENTY - GIF' || identifier === 'CTEZ - TEZ') {
           promises.push(
             calculateHarvestValueDual(
               CONFIG.STAKING_CONTRACTS[type][CONFIG.NETWORK][identifier][
@@ -483,7 +533,9 @@ export const getStorageForFarms = async (isActive, tokenPricesData) => {
           key === 'CTEZ - tzBTC' ||
           key === 'CTEZ - PAUL' ||
           key === 'CTEZ - INSTA' ||
-          key === 'CTEZ - CRUNCH'
+          key === 'CTEZ - CRUNCH' ||
+          key === 'CTEZ - DOGA' ||
+          key === 'CTEZ - TEZ'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(
@@ -550,111 +602,239 @@ const getPriceForPlentyLpTokens = async (
   tokenPricesData,
 ) => {
   try {
-    const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
-    const url = rpcNode;
-    const initialDataPromises = [];
-    initialDataPromises.push(
-      axios.get(`${url}/chains/main/blocks/head/context/contracts/${dexAddress}/storage`),
+    const storageResponse = await axios.get(
+      CONFIG.RPC_NODES[CONFIG.NETWORK] +
+        `/chains/main/blocks/head/context/contracts/${dexAddress}/storage`,
     );
-    const initialDataResponse = await Promise.all(initialDataPromises);
-    const storageResponse = initialDataResponse[0];
-    const token1Pool = parseInt(storageResponse.data.args[1].args[1].int);
-    // token1Pool = token1Pool / Math.pow(10, 12);
-    const token2Pool = parseInt(storageResponse.data.args[4].int);
-    const lpTokenTotalSupply = parseInt(storageResponse.data.args[5].int);
+    if (identifier === 'CTEZ - TEZ') {
+      // do remodelling changes for ctez-tez
+      // token1 - tez, token2 - ctez
 
-    const token1Address = storageResponse.data.args[0].args[2].string.toString();
-    // let token1Id = parseInt(storageResponse.data.args[1].args[0].args[0].int)
-    const token1Check = storageResponse.data.args[0].args[3].prim.toString();
+      const token1Pool = parseInt(storageResponse.data.args[2].args[1].int);
 
-    const token2Address = storageResponse.data.args[1].args[2].string.toString();
-    const token2Id = parseInt(storageResponse.data.args[2].args[1].int);
-    const token2Check = storageResponse.data.args[2].args[0].prim.toString();
+      const token2Pool = parseInt(storageResponse.data.args[0].args[1].args[0].int);
 
-    // const tokenPriceResponse = initialDataResponse[1];
-    // const tokenPricesData = tokenPriceResponse.data.contracts;
-    const tokenData = {};
-    if (token2Address === 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4') {
+      const lpTokenTotalSupply = parseInt(storageResponse.data.args[0].args[4].int);
+
+      const promises = [];
+
       const ctezPriceInUSD = await getCtezPrice();
-      tokenData['token1'] = {
-        tokenName: 'ctez',
-        tokenValue: ctezPriceInUSD.ctezPriceInUSD,
-        tokenDecimal: 6,
+
+      const xtzDollarValueUrl = CONFIG.API.url;
+
+      promises.push(axios.get(xtzDollarValueUrl));
+
+      const promisesResponse = await Promise.all(promises);
+      const xtzPrice = promisesResponse[0].data.market_data.current_price.usd;
+
+      let token1Amount = (Math.pow(10, 6) * token1Pool) / lpTokenTotalSupply;
+
+      token1Amount = (token1Amount * xtzPrice) / Math.pow(10, 6);
+
+      let token2Amount = (Math.pow(10, 6) * token2Pool) / lpTokenTotalSupply;
+      token2Amount = (token2Amount * ctezPriceInUSD.ctezPriceInUSD) / Math.pow(10, 6);
+
+      const totalAmount = (token1Amount + token2Amount).toFixed(2);
+
+      return {
+        success: true,
+        identifier,
+        totalAmount,
       };
-    }
+    } else if (identifier === 'CTEZ - DOGA') {
+      const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
+      // token1Pool = token1Pool / Math.pow(10, 12);
+      const token2Pool = parseInt(storageResponse.data.args[3].int);
+      const lpTokenTotalSupply = parseInt(storageResponse.data.args[4].int);
 
-    let token1Type;
-    let token2Type;
+      const token1Address = 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4';
+      //const token1Check = 'False';
 
-    if (token1Check.match('True')) {
-      token1Type = 'fa2';
-    } else {
-      token1Type = 'fa1.2';
-    }
+      const token2Address = 'KT1Ha4yFVeyzw6KRAdkzq6TxDHB97KG4pZe8';
+      const token2Id = 0;
+      const token2Check = 'False';
 
-    if (token2Check.match('True')) {
-      token2Type = 'fa2';
-    } else {
-      token2Type = 'fa1.2';
-    }
+      const tokenData = {};
 
-    for (const i in tokenPricesData) {
-      if (
-        tokenPricesData[i].tokenAddress === token1Address &&
-        tokenPricesData[i].type === token1Type &&
-        tokenPricesData[i].symbol !== 'uBTC'
-      ) {
-        tokenData['token0'] = {
-          tokenName: tokenPricesData[i].symbol,
-          tokenValue: tokenPricesData[i].usdValue,
-          tokenDecimal: tokenPricesData[i].decimals,
+      if (token1Address === 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4') {
+        const ctezPriceInUSD = await getCtezPrice();
+        tokenData['token1'] = {
+          tokenName: 'ctez',
+          tokenValue: ctezPriceInUSD.ctezPriceInUSD,
+          tokenDecimal: 6,
         };
       }
 
-      if (token2Type === 'fa2') {
-        if (
-          tokenPricesData[i].tokenAddress === token2Address &&
-          tokenPricesData[i].type === token2Type &&
-          tokenPricesData[i].tokenId === token2Id
-        ) {
-          tokenData['token1'] = {
-            tokenName: tokenPricesData[i].symbol,
-            tokenValue: tokenPricesData[i].usdValue,
-            tokenDecimal: tokenPricesData[i].decimals,
-          };
-        }
-      } else if (token2Type === 'fa1.2') {
-        if (
-          tokenPricesData[i].tokenAddress === token2Address &&
-          tokenPricesData[i].type === token2Type
-        ) {
-          tokenData['token1'] = {
-            tokenName: tokenPricesData[i].symbol,
-            tokenValue: tokenPricesData[i].usdValue,
-            tokenDecimal: tokenPricesData[i].decimals,
-          };
+      //let token1Type;
+      let token2Type;
+
+      // if (token1Check.match('True')) {
+      //   token1Type = 'fa2';
+      // } else {
+      //   token1Type = 'fa1.2';
+      // }
+
+      if (token2Check.match('True')) {
+        token2Type = 'fa2';
+      } else {
+        token2Type = 'fa1.2';
+      }
+
+      for (const i in tokenPricesData) {
+        if (token2Type === 'fa2') {
+          if (
+            tokenPricesData[i].tokenAddress === token2Address &&
+            tokenPricesData[i].type === token2Type &&
+            tokenPricesData[i].tokenId === token2Id
+          ) {
+            tokenData['token2'] = {
+              tokenName: tokenPricesData[i].symbol,
+              tokenValue: tokenPricesData[i].usdValue,
+              tokenDecimal: tokenPricesData[i].decimals,
+            };
+          }
+        } else if (token2Type === 'fa1.2') {
+          if (
+            tokenPricesData[i].tokenAddress === token2Address &&
+            tokenPricesData[i].type === token2Type
+          ) {
+            tokenData['token2'] = {
+              tokenName: tokenPricesData[i].symbol,
+              tokenValue: tokenPricesData[i].usdValue,
+              tokenDecimal: tokenPricesData[i].decimals,
+            };
+          }
         }
       }
+
+      let token1Amount = (Math.pow(10, 5) * token1Pool) / lpTokenTotalSupply;
+      token1Amount =
+        (token1Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
+
+      let token2Amount = (Math.pow(10, 6) * token2Pool) / lpTokenTotalSupply;
+      token2Amount =
+        (token2Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
+      const totalAmount = (token1Amount + token2Amount).toFixed(2);
+
+      return {
+        success: true,
+        identifier,
+        totalAmount,
+      };
+    } else {
+      const token1Pool = parseInt(storageResponse.data.args[1].args[1].int);
+      // token1Pool = token1Pool / Math.pow(10, 12);
+      const token2Pool = parseInt(storageResponse.data.args[4].int);
+      const lpTokenTotalSupply = parseInt(storageResponse.data.args[5].int);
+
+      const token1Address = storageResponse.data.args[0].args[2].string.toString();
+      const token1Check = storageResponse.data.args[0].args[3].prim.toString();
+
+      const token2Address = storageResponse.data.args[1].args[2].string.toString();
+      const token2Id = parseInt(storageResponse.data.args[2].args[1].int);
+      const token2Check = storageResponse.data.args[2].args[0].prim.toString();
+
+      // const tokenPriceResponse = await axios.get(
+      //   'https://api.teztools.io/token/prices'
+      // );
+      // const tokenPricesData = tokenPriceResponse.data.contracts;
+
+      const tokenData = {};
+
+      if (token2Address === 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4') {
+        const ctezPriceInUSD = await getCtezPrice();
+        tokenData['token1'] = {
+          tokenName: 'ctez',
+          tokenValue: ctezPriceInUSD.ctezPriceInUSD,
+          tokenDecimal: 6,
+        };
+      }
+
+      let token1Type;
+      let token2Type;
+
+      if (token1Check.match('True')) {
+        token1Type = 'fa2';
+      } else {
+        token1Type = 'fa1.2';
+      }
+
+      if (token2Check.match('True')) {
+        token2Type = 'fa2';
+      } else {
+        token2Type = 'fa1.2';
+      }
+
+      for (const i in tokenPricesData) {
+        if (
+          tokenPricesData[i].tokenAddress === token1Address &&
+          tokenPricesData[i].type === token1Type &&
+          tokenPricesData[i].symbol !== 'uBTC'
+        ) {
+          tokenData['token0'] = {
+            tokenName: tokenPricesData[i].symbol,
+            tokenValue: tokenPricesData[i].usdValue,
+            tokenDecimal: tokenPricesData[i].decimals,
+          };
+        }
+
+        // if (
+        //   tokenPricesData[i].tokenAddress === token2Address &&
+        //   tokenPricesData[i].type === token2Type &&
+        //   tokenPricesData[i].tokenId === token2Id &&
+        //   tokenPricesData[i].tokenId === token2Id
+        // ) {
+        //   tokenData['token1'] = {
+        //     tokenName: tokenPricesData[i].symbol,
+        //     tokenValue: tokenPricesData[i].usdValue,
+        //     tokenDecimal: tokenPricesData[i].decimals,
+        //   };
+        // }
+
+        if (token2Type === 'fa2') {
+          if (
+            tokenPricesData[i].tokenAddress === token2Address &&
+            tokenPricesData[i].type === token2Type &&
+            tokenPricesData[i].tokenId === token2Id
+          ) {
+            tokenData['token1'] = {
+              tokenName: tokenPricesData[i].symbol,
+              tokenValue: tokenPricesData[i].usdValue,
+              tokenDecimal: tokenPricesData[i].decimals,
+            };
+          }
+        } else if (token2Type === 'fa1.2') {
+          if (
+            tokenPricesData[i].tokenAddress === token2Address &&
+            tokenPricesData[i].type === token2Type
+          ) {
+            tokenData['token1'] = {
+              tokenName: tokenPricesData[i].symbol,
+              tokenValue: tokenPricesData[i].usdValue,
+              tokenDecimal: tokenPricesData[i].decimals,
+            };
+          }
+        }
+      }
+      let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
+      token1Amount =
+        (token1Amount * tokenData['token0'].tokenValue) /
+        Math.pow(10, tokenData['token0'].tokenDecimal);
+
+      let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
+      token2Amount =
+        (token2Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
+      const totalAmount = (token1Amount + token2Amount).toFixed(2);
+
+      return {
+        success: true,
+        identifier,
+        totalAmount,
+      };
     }
-
-    let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
-    token1Amount =
-      (token1Amount * tokenData['token0'].tokenValue) /
-      Math.pow(10, tokenData['token0'].tokenDecimal);
-
-    let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
-    token2Amount =
-      (token2Amount * tokenData['token1'].tokenValue) /
-      Math.pow(10, tokenData['token1'].tokenDecimal);
-
-    const totalAmount = (token1Amount + token2Amount).toFixed(2);
-
-    return {
-      success: true,
-      identifier,
-      totalAmount,
-    };
   } catch (error) {
     return {
       success: false,
@@ -866,45 +1046,60 @@ export const getStorageForPonds = async (isActive, tokenPricesData) => {
   }
 };
 
-export const getStakedAmount = async (
-  mapId,
-  packedKey,
-  identifier,
-  decimal,
-  address,
-  tokenDecimal,
-) => {
+const getStakedAmount = async (mapId, packedKey, identifier, decimal, address, tokenDecimal) => {
   try {
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
     const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
     const response = await axios.get(url);
-    let balance = response.data.args[0].args[1].int;
-    balance = parseInt(balance);
-    balance = balance / Math.pow(10, decimal);
-    const singularStakes = [];
-    for (let i = 0; i < response.data.args[0].args[0].length; i++) {
-      let amount = parseInt(response.data.args[0].args[0][i].args[1].args[0].int);
-      amount = parseFloat(
-        response.data.args[0].args[0][i].args[1].args[0].int / Math.pow(10, tokenDecimal),
-      );
-      singularStakes.push({
-        mapId: response.data.args[0].args[0][i].args[0].int,
-        amount: amount,
-        block: response.data.args[0].args[0][i].args[1].args[1].int,
-      });
-    }
 
-    return {
-      success: true,
-      balance,
-      identifier,
-      address,
-      singularStakes,
-    };
+    if (identifier === 'CTEZ - TEZ') {
+      let balance = response.data.int;
+      balance = parseInt(balance);
+      balance = balance / Math.pow(10, decimal);
+
+      const singularStakes = [];
+
+      singularStakes.push({
+        mapId: 0,
+        amount: balance,
+        block: 0,
+      });
+      return {
+        success: true,
+        balance,
+        identifier,
+        address,
+        singularStakes,
+      };
+    } else {
+      let balance = response.data.args[0].args[1].int;
+      balance = parseInt(balance);
+      balance = balance / Math.pow(10, decimal);
+      const singularStakes = [];
+      for (let i = 0; i < response.data.args[0].args[0].length; i++) {
+        let amount = parseInt(response.data.args[0].args[0][i].args[1].args[0].int);
+        amount = parseFloat(
+          response.data.args[0].args[0][i].args[1].args[0].int / Math.pow(10, tokenDecimal),
+        );
+        singularStakes.push({
+          mapId: response.data.args[0].args[0][i].args[0].int,
+          amount: amount,
+          block: response.data.args[0].args[0][i].args[1].args[1].int,
+        });
+      }
+      return {
+        success: true,
+        balance,
+        identifier,
+        address,
+        singularStakes,
+      };
+    }
   } catch (error) {
     return {
       success: false,
       balance: 0,
+      address,
       identifier,
       singularStakes: [],
     };
@@ -923,6 +1118,28 @@ const getStakedAmountDual = async (
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
     const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
     const response = await axios.get(url);
+
+    if(identifier === 'CTEZ - TEZ') {
+      let balance = response.data.int;
+      balance = parseInt(balance);
+      balance = balance / Math.pow(10, decimal);
+
+      const singularStakes = [];
+
+      singularStakes.push({
+        mapId: 0,
+        amount: balance,
+        block: 0,
+      });
+      return {
+        success: true,
+        balance,
+        identifier,
+        address,
+        singularStakes,
+      };}
+
+
     let balance = response.data.args[1].int;
     balance = parseInt(balance);
     balance = balance / Math.pow(10, tokenDecimal);
@@ -996,7 +1213,7 @@ export const harvestAllHelper = async (
       const packedKey = await getPackedKey(0, userAddress, 'FA1.2');
       for (const key in allActiveContracts) {
         const output =
-          allActiveContracts[key].x === 'PLENTY - GIF'
+          ((allActiveContracts[key].x === 'PLENTY - GIF') || ((allActiveContracts[key].x === 'CTEZ - TEZ')))
             ? await calculateHarvestValueDual(
                 allActiveContracts[key].contract,
                 allActiveContracts[key].dualInfo,
@@ -1010,8 +1227,7 @@ export const harvestAllHelper = async (
                 allActiveContracts[key].mapId,
                 packedKey,
               );
-
-        if (allActiveContracts[key].x === 'PLENTY - GIF') {
+        if (allActiveContracts[key].x === 'PLENTY - GIF' || (allActiveContracts[key].x === 'CTEZ - TEZ') ) {
           if (output.totalRewards[0] > 0) {
             promises.push(await Tezos.wallet.at(allActiveContracts[key].contract));
           }
@@ -1082,7 +1298,7 @@ export const getTVLOfUserHelper = async (userAddress) => {
     const stakedAmountsFromActiveFarmsPromises = [];
     for (const key in farmActiveContracts) {
       const { mapId, identifier, decimal, contract, tokenDecimal } = farmActiveContracts[key];
-      if (identifier === 'PLENTY - GIF') {
+      if (identifier === 'PLENTY - GIF' || identifier === 'CTEZ - TEZ') {
         stakedAmountsFromActiveFarmsPromises.push(
           getStakedAmountDual(mapId, packedKey, identifier, decimal, contract, tokenDecimal),
         );
