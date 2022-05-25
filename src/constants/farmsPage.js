@@ -30,12 +30,11 @@ import ctezFarmLpIcon from '../assets/images/farms/ctezFarmLpIcon.png';
 import uUSDYOULp from '../assets/images/farms/uUSDYOULp.png';
 import uUSDwUSDC from '../assets/images/farms/uUSDwUSDCLp.png';
 import uUSDuDEFI from '../assets/images/farms/uUSDuDEFILp.png';
-
+import usdcectez from '../assets/images/farms/usdcectezlp.png';
+import wbtcectez from '../assets/images/farms/wbtcectez.png';
 import wbusd from '../assets/images/busd.png';
 import YOU from '../assets/images/you-gov.png';
-
 import PropTypes from 'prop-types';
-
 import ctezCRUNCH from '../assets/images/farms/ctez-CRUNCH.png';
 import ctezGIF from '../assets/images/farms/ctez-GIF.png';
 import ctezkUSD from '../assets/images/farms/ctez-kUSD.png';
@@ -246,7 +245,7 @@ export const FARMS_CARD_TYPE_LIST = {
   },
   //need to update
   'USDC.e / CTEZ LP': {
-    image: dogactezLpFarm,
+    image: usdcectez,
     harvestImg: plentyToken,
     multi: '100',
     title: 'USDC.e / CTEZ PNLP',
@@ -269,7 +268,7 @@ export const FARMS_CARD_TYPE_LIST = {
   },
   //need to update
   'WBTC.e / CTEZ LP': {
-    image: dogactezLpFarm,
+    image: wbtcectez,
     harvestImg: plentyToken,
     multi: '100',
     title: 'WBTC.e / CTEZ PNLP',
