@@ -514,7 +514,7 @@ const BridgeModal = (props) => {
     setIsError(false);
     setIsTokenInSelected(true);
     if (currentChain !== metamaskChain) {
-      setErrorMessage(`Please select ${currentChain} chain in metamask.`);
+      setErrorMessage(`Please select ${currentChain} chain in wallet.`);
       setIsError(true);
     }
   };
