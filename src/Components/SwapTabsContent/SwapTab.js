@@ -684,15 +684,24 @@ const SwapTab = (props) => {
 
               <div className="token-user-input-wrapper">
                 <div className="input-heading receive-heading">YOU RECEIVE</div>
-                {props.userBalances[props.tokenOut.name] >= 0 && routeDataCopy ? (
-                  <input
-                    type="text"
-                    className={clsx('token-user-input', secondTokenAmount && 'second-input-color')}
-                    value={secondTokenAmount && fromExponential(secondTokenAmount)}
-                    placeholder="0.0"
-                    disabled
-                    onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenOut')}
-                  />
+                {props.tokenOut.name ? (
+                  props.userBalances[props.tokenOut.name] >= 0 && routeDataCopy ? (
+                    <input
+                      type="text"
+                      className={clsx(
+                        'token-user-input',
+                        secondTokenAmount && 'second-input-color',
+                      )}
+                      value={secondTokenAmount && fromExponential(secondTokenAmount)}
+                      placeholder="0.0"
+                      disabled
+                      onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenOut')}
+                    />
+                  ) : (
+                    <span className="shimmer-text ml-auto">
+                      <span className="shimmer shimmer-input">0.0000</span>
+                    </span>
+                  )
                 ) : (
                   <input
                     type="text"

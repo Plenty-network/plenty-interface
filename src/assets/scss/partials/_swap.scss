@@ -1203,6 +1203,18 @@
     color: #b0b7c3;
   }
 }
+.shimmer-input {
+  text-align: right;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 24px;
+}
+.shimmer-text {
+  text-align: right;
+  display: block;
+}
 .remove-tokens {
   background: var(--theme-remove-lq);
   border-radius: 16px;
