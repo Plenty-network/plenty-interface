@@ -25,7 +25,12 @@ const providerOptions = {
   },
 };
 
-let web3Modal;
+let web3Modal = new Web3Modal({
+  network: 'rinkeby',
+  cacheProvider: true,
+  providerOptions,
+  theme: localStorage.getItem('theme'),
+});
 /* const web3Modal = new Web3Modal({
   network: 'rinkeby',
   cacheProvider: true,
