@@ -4927,7 +4927,7 @@ const Config: IConfig = {
       RINKEBY: 'https://bridgeindexer.plentydefi.com/v1/configuration',
     },
     mainnet: {
-      ETHEREUM: 'https://indexer.app.tzwrap.com/v1/configuration', //TODO: Change it to ours
+      ETHEREUM: 'https://bridgemainnetindexer.plentydefi.com/configuration', //TODO: Change it to ours
     },
   },
   EXPLORER_LINKS: {
