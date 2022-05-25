@@ -26,7 +26,7 @@ const providerOptions = {
 };
 
 let web3Modal = new Web3Modal({
-  network: 'rinkeby',
+  network: 'mainnet',
   cacheProvider: true,
   providerOptions,
   theme: localStorage.getItem('theme'),
