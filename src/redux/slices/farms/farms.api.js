@@ -353,6 +353,9 @@ const getCtezPrice = async () => {
  * @param tokenPricesData - Response from TezTools API
  * @returns {Promise<{identifier, totalAmount: string, success: boolean}|{success: boolean}>}
  */
+
+// TODO: Update Lp price fetching for .e pairs
+
 const getPriceForPlentyLpTokens = async (
   identifier,
   lpTokenDecimal,
@@ -400,9 +403,9 @@ const getPriceForPlentyLpTokens = async (
         totalAmount,
       };
     } else if (
-      identifier === 'CTEZ - DOGA' ||
-      identifier === 'WBTC.e - CTEZ' ||
-      identifier === 'USDC.e - CTEZ'
+      identifier === 'CTEZ - DOGA'
+      // identifier === 'WBTC.e - CTEZ' ||
+      // identifier === 'USDC.e - CTEZ'
     ) {
       const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
       // token1Pool = token1Pool / Math.pow(10, 12);
