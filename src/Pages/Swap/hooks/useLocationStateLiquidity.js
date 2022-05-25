@@ -25,10 +25,6 @@ export const useLocationStateInLiquidity = () => {
       });
     }
   }, [tokenIn]);
-  const [tokenOut, setTokenOut] = useState({});
-  useEffect(() => {
-    setTokenOut({ name: 'PLENTY', image: plenty });
-  }, []);
 
   const AMMExists = useMemo(() => {
     if (tokenIn.name === 'tez')
