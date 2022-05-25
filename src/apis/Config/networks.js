@@ -7,7 +7,7 @@ export const networks = {
       symbol: 'ETH',
       decimals: 18,
     },
-    rpcUrls: ['https://api.mycryptoapi.com/eth', 'https://cloudflare-eth.com'],
+    rpcUrls: ['https://mainnet.infura.io/v3/ae39eed1b9b94b47bb56ab5f8c454501', 'https://cloudflare-eth.com'],   // TODO: Change infura. Fetch from env
     blockExplorerUrls: ['https://etherscan.io/'],
   },
   RINKEBY: {
