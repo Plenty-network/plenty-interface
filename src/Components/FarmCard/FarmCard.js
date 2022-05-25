@@ -107,7 +107,6 @@ const FarmCard = (props) => {
       }),
     );
   };
-
   return (
     <>
       <div>
@@ -131,7 +130,9 @@ const FarmCard = (props) => {
               <p className={styles.title}>{properties.title}</p>
               <a
                 href={
-                  tokens[1] === 'TEZ' && tokens[0] === 'CTEZ'
+                  properties.url
+                    ? properties.url
+                    : tokens[1] === 'TEZ' && tokens[0] === 'CTEZ'
                     ? '/liquidity?tokenA=tez&tokenB=ctez'
                     : `/liquidity?tokenA=${tokens[0]}&tokenB=${tokens[1]}`
                 }

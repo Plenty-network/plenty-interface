@@ -265,6 +265,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
     isDualFarm: false,
+    url: '/liquidity/add?tokenA=ctez&tokenB=USDC.e',
   },
   //need to update
   'WBTC.e / CTEZ LP': {
@@ -287,6 +288,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
     isDualFarm: false,
+    url: '/liquidity/add?tokenA=ctez&tokenB=WBTC.e',
   },
   'KALAM / XTZ LP': {
     image: kalamXtz,
