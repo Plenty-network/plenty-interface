@@ -182,7 +182,8 @@ const MintReleaseModal = (props) => {
                   }
                   style={{ marginLeft: '2px' }}
                 >
-                  {signaturesCount}/{signaturesRequired}
+                  {signaturesCount <= signaturesRequired ? signaturesCount : signaturesRequired}/
+                  {signaturesRequired}
                 </span>
                 {confirmationsCount >= confirmationsRequired &&
                   (signaturesCount < signaturesRequired ? (

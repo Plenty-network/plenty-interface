@@ -29,7 +29,8 @@ import { FLASH_MESSAGE_DURATION } from '../../constants/global';
 import { changeNetwork } from '../../apis/bridge/bridgeAPI';
 import { CHANGE_NETWORK_PROMPT_DELAY } from '../../constants/bridges';
 import ReactTimeAgo from 'react-time-ago';
-import { filterData, sortData } from './helpers';
+import { filterData, sortData, titleCase } from './helpers';
+import fromExponential from 'from-exponential';
 
 const TransactionHistory = (props) => {
   // eslint-disable-next-line
@@ -193,7 +194,7 @@ const TransactionHistory = (props) => {
         setSavedToBridge(prevToBridge);
         setSavedOperation(prevOperation);
       }
-    }, 100);
+    }, 200);
     setSelectedId(id);
     setFee(selectedData.fee);
     SetCurrentProgress(selectedData.currentProgress);
@@ -213,8 +214,8 @@ const TransactionHistory = (props) => {
       displayMessage({
         type: 'warning',
         duration: FLASH_MESSAGE_DURATION,
-        title: 'Chain Mismatch',
-        content: `Please change wallet chain to ${selectedData.chain}.`,
+        title: 'Chain mismatch',
+        content: `Please change wallet chain to ${titleCase(selectedData.chain)}.`,
         isFlashMessageALink: false,
         flashMessageLink: '#',
       });
@@ -252,7 +253,7 @@ const TransactionHistory = (props) => {
       displayMessage({
         type: 'error',
         duration: FLASH_MESSAGE_DURATION,
-        title: 'Fetch Error',
+        title: 'Fetch error',
         content: 'Failed to fetch transaction history. Please retry after some time or make sure both wallets are connected.',
         isFlashMessageALink: false,
         flashMessageLink: '#',
@@ -386,8 +387,8 @@ const TransactionHistory = (props) => {
                           ></img>
                         </div>
                         <div>
-                          <p className={styles.value}>
-                            {Number(data.secondTokenAmount).toFixed(4)} {data.tokenOut}
+                          <p className={styles.value} title={fromExponential(data.secondTokenAmount)}>
+                            {fromExponential(Number(Number(data.secondTokenAmount).toFixed(10)))} {data.tokenOut}
                           </p>
                           <p className={styles.amt}>
                             {/* {new Date(data.timestamp).toLocaleDateString('en-GB', {

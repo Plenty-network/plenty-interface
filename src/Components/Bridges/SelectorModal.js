@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FormControl, InputGroup, Modal } from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
+import { titleCase } from '../TransactionHistory/helpers';
 import './styles/SelectorModal.scss';
 //import config from '../../config/config';
 
@@ -114,7 +115,7 @@ const SelectorModal = (props) => {
       </Modal.Header>
       <Modal.Body>
         <div className="coin-selection-table">
-          {props.tokens.length === 0 && (<h6>No Items to Show.</h6>)}
+          {props.tokens.length === 0 && (<h6>No items to show.</h6>)}
           {tokensToShow.map((token, index) => {
             return (
               <button
@@ -122,8 +123,14 @@ const SelectorModal = (props) => {
                 key={index}
                 onClick={() => props.selectToken(token)}
               >
-                <img src={token.image} className="select-token-img" alt={token.name} />
-                <span className="span-themed">{token.name}</span>
+                <img
+                  src={token.image}
+                  className="select-token-img"
+                  alt={props.selector === 'BRIDGES' ? titleCase(token.name) : token.name}
+                />
+                <span className="span-themed">
+                  {props.selector === 'BRIDGES' ? titleCase(token.name) : token.name}
+                </span>
                 {token.new ? <span className="new-badge-icon">New!</span> : null}
                 {token.extra && (
                   <a
@@ -152,6 +159,7 @@ SelectorModal.propTypes = {
   show: PropTypes.any,
   tokens: PropTypes.any,
   title: PropTypes.string,
+  selector: PropTypes.any,
 };
 
 export default SelectorModal;

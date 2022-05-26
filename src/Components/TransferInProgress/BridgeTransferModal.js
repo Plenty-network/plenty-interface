@@ -150,8 +150,8 @@ const BridgeTransferModal = (props) => {
         displayMessage({
           type: 'success',
           duration: FLASH_MESSAGE_DURATION,
-          title: `${Number(secondTokenAmount).toFixed(3)} ${tokenOut.name} minted successfully`,
-          content: 'View on explorer.',
+          title: `${Number(secondTokenAmount).toFixed(3)} ${tokenOut.name} mint successful`,
+          content: 'View on explorer',
           isFlashMessageALink: true,
           flashMessageLink: `${CONFIG.EXPLORER_LINKS.TEZOS}${mintResult.transactionHash}`,
         });
@@ -162,7 +162,7 @@ const BridgeTransferModal = (props) => {
         displayMessage({
           type: 'error',
           duration: FLASH_MESSAGE_DURATION,
-          title: 'Minting Failed',
+          title: 'Minting failed',
           content: 'Failed to mint tokens. Please try again.',
           isFlashMessageALink: false,
           flashMessageLink: '#',
@@ -182,8 +182,8 @@ const BridgeTransferModal = (props) => {
         displayMessage({
           type: 'success',
           duration: FLASH_MESSAGE_DURATION,
-          title: `${Number(secondTokenAmount).toFixed(3)} ${tokenOut.name} released successfully`,
-          content: 'View on explorer.',
+          title: `${Number(secondTokenAmount).toFixed(3)} ${tokenOut.name} release successful`,
+          content: 'View on explorer',
           isFlashMessageALink: true,
           flashMessageLink: `${CONFIG.EXPLORER_LINKS[toBridge.name]}${
             releaseResult.transactionHash
@@ -195,7 +195,7 @@ const BridgeTransferModal = (props) => {
         displayMessage({
           type: 'error',
           duration: FLASH_MESSAGE_DURATION,
-          title: 'Release Failed',
+          title: 'Release failed',
           content: 'Failed to release tokens. Please try again.',
           isFlashMessageALink: false,
           flashMessageLink: '#',

@@ -131,10 +131,10 @@ const BridgeUnbridgeModal = (props) => {
       displayMessage({
         type: 'success',
         duration: FLASH_MESSAGE_DURATION,
-        title: 'Transaction Approved',
+        title: 'Transaction approved',
         content: `${Number(firstTokenAmount).toFixed(3)} ${
           tokenIn.name
-        } are approved to the bridge.`,
+        } approved to bridge.`,
         isFlashMessageALink: false,
         flashMessageLink: '#',
       });
@@ -147,7 +147,7 @@ const BridgeUnbridgeModal = (props) => {
       displayMessage({
         type: 'error',
         duration: FLASH_MESSAGE_DURATION,
-        title: 'Approval Failed',
+        title: 'Approval failed',
         content: 'Failed to approve transaction. Please try again.',
         isFlashMessageALink: false,
         flashMessageLink: '#',

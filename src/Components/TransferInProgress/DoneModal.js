@@ -17,6 +17,8 @@ import { useDispatch } from 'react-redux';
 import { setLoader } from '../../redux/slices/settings/settings.slice';
 import Lottie from 'lottie-react';
 import loader from '../../assets/images/bridge/loaders/loader_big.json';
+import { titleCase } from '../TransactionHistory/helpers';
+import fromExponential from 'from-exponential';
 
 const DoneModal = (props) => {
   const {
@@ -126,8 +128,8 @@ const DoneModal = (props) => {
               <p className={styles.youWillReceive}>You will receive</p>
               <div className="containerwithicon">
                 <img src={tokenOut.image} />
-                <span className="value-text">
-                  {Number(secondTokenAmount).toFixed(8)} {tokenOut.name}
+                <span className="value-text" title={fromExponential(Number(secondTokenAmount))}>
+                  {Number(secondTokenAmount).toFixed(10)} {tokenOut.name}
                 </span>
               </div>
             </div>
@@ -147,8 +149,8 @@ const DoneModal = (props) => {
               <div className="containerwithicon">
                 <img src={tokenOut.image} />
                 <div className="right-div">
-                  <span className="value-text">
-                    {Number(secondTokenAmount).toFixed(8)} {tokenOut.name}
+                  <span className="value-text" title={fromExponential(Number(secondTokenAmount))}>
+                    {fromExponential(Number(Number(secondTokenAmount).toFixed(10)))} {tokenOut.name}
                   </span>
                   <span className="fromreceived success-text">Received</span>
                 </div>
@@ -165,7 +167,7 @@ const DoneModal = (props) => {
               <img src={fromBridge.image} />
               <div className="right-div">
                 <span className="fromreceived">From</span>
-                <span className="value-text">{fromBridge.name}</span>
+                <span className="value-text">{titleCase(fromBridge.name)}</span>
               </div>
             </div>
           </div>
@@ -176,7 +178,7 @@ const DoneModal = (props) => {
               <img src={toBridge.image} />
               <div className="right-div">
                 <span className="fromreceived">To</span>
-                <span className="value-text">{toBridge.name}</span>
+                <span className="value-text">{titleCase(toBridge.name)}</span>
               </div>
             </div>
           </div>
@@ -188,7 +190,7 @@ const DoneModal = (props) => {
               <div className="right-div">
                 <span className="fromreceived">Bridge fee</span>
                 <span className="value-text">
-                  {Number(transactionFees).toFixed(6)}
+                  {fromExponential(Number(Number(transactionFees).toFixed(12)))}
                   {` ${operation === 'BRIDGE' ? tokenOut.name : tokenIn.name}`}
                 </span>
               </div>

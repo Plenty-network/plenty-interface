@@ -18,6 +18,9 @@ import fallbackIcon from '../assets/images/bridge/tokens/fallback_icon.svg';
 
 export const CHANGE_NETWORK_PROMPT_DELAY = 3000;
 
+export const DEFAULT_ETHEREUM_TOKEN = 'USDC';
+export const DEFAULT_TEZOS_TOKEN = 'USDC.e';
+
 export const bridgesList = [
   {
     name: 'ETHEREUM',

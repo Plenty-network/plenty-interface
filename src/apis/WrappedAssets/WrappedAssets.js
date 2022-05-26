@@ -13,6 +13,7 @@ import {
   type5MapIds,
 } from '../../constants/global';
 import { tokens } from '../../constants/swapPage';
+import BigNumber from 'bignumber.js';
 
 /**
  * Returns packed key (expr...) which will help to fetch user specific data from bigmap directly using rpc.
@@ -80,9 +81,9 @@ export const getUserBalanceByRpc = async (identifier, address) => {
       } else {
         _balance = response.data.int;
       }
-
-      _balance = parseInt(_balance);
-      _balance = _balance / Math.pow(10, decimal);
+      _balance = new BigNumber(_balance).div(new BigNumber(10).pow(decimal)).toNumber();
+      // _balance = parseInt(_balance);
+      // _balance = _balance / Math.pow(10, decimal);
       return _balance;
     })();
 
@@ -139,7 +140,7 @@ export const swapWrappedAssets = async (
     const swapTokenAddress = CONFIG.WRAPPED_ASSETS_SWAP_CONTRACT[connectedNetwork];
     const tokenInId = CONFIG.WRAPPED_ASSETS[connectedNetwork][tokenIn].TOKEN_ID;
     const tokenInDecimal = CONFIG.WRAPPED_ASSETS[connectedNetwork][tokenIn].TOKEN_DECIMAL;
-    const tokenAmountFinal = Number(tokenAmount * 10 ** tokenInDecimal);
+    const tokenAmountFinal = new BigNumber(tokenAmount).multipliedBy(new BigNumber(10).pow(tokenInDecimal)).toNumber();
 
     const oldTokenContractInstance = await Tezos.wallet.at(oldTokenAddress);
     const swapTokenContractInstance = await Tezos.wallet.at(swapTokenAddress);
