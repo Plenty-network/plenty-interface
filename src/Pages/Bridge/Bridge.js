@@ -17,7 +17,7 @@ import { BridgeConfiguration } from '../../apis/Config/BridgeConfig';
 // import BridgeModal from '../../Components/TransferInProgress/BridgeTransferModal';
 // import ApproveModal from '../../Components/TransferInProgress/ApproveModal';
 // import MintModal from '../../Components/TransferInProgress/MintModal';
-import { allTokens } from '../../constants/bridges';
+import { allTokens, DEFAULT_ETHEREUM_TOKEN, DEFAULT_TEZOS_TOKEN } from '../../constants/bridges';
 import TransactionHistory from '../../Components/TransactionHistory/TransactionHistory';
 import BridgeTransferModal from '../../Components/TransferInProgress/BridgeTransferModal';
 import { getCurrentNetwork } from '../../apis/bridge/bridgeAPI';
@@ -240,7 +240,7 @@ const Bridge = (props) => {
       displayMessage({
         type: 'error',
         duration: FLASH_MESSAGE_DURATION,
-        title: 'Chain Change Error',
+        title: 'Chain change error',
         content: error.message,
         isFlashMessageALink: false,
         flashMessageLink: '#',
@@ -331,11 +331,16 @@ const Bridge = (props) => {
             //console.log('token list 3', loadedTokensList.current.TEZOS[toBridge.name][0]);
             setTokenList(loadedTokensList.current.TEZOS[toBridge.name]);
             if (!switchButtonPressed.current) {
-              setTokenIn(loadedTokensList.current.TEZOS[toBridge.name][0]);
+              // Load USDC.e as default token, if not available then the first token in the list.
+              const defaultToken =
+                loadedTokensList.current.TEZOS[toBridge.name].find(
+                  (token) => token.name === DEFAULT_TEZOS_TOKEN,
+                ) || loadedTokensList.current.TEZOS[toBridge.name][0];
+              setTokenIn(defaultToken);
               //Change after creating config.
               const outTokenName = BridgeConfiguration.getOutTokenUnbridging(
                 toBridge.name,
-                loadedTokensList.current.TEZOS[toBridge.name][0].name,
+                defaultToken.name,
               );
               setTokenOut({
                 name: outTokenName,
@@ -360,11 +365,16 @@ const Bridge = (props) => {
           console.log('token list 2', loadedTokensList.current[fromBridge.name][0]);
           setTokenList(loadedTokensList.current[fromBridge.name]);
           if (!switchButtonPressed.current) {
-            setTokenIn(loadedTokensList.current[fromBridge.name][0]);
+            // Load USDC as default token, if not available then the first token in the list.
+            const defaultToken =
+                loadedTokensList.current[fromBridge.name].find(
+                  (token) => token.name === DEFAULT_ETHEREUM_TOKEN,
+                ) || loadedTokensList.current[fromBridge.name][0];
+            setTokenIn(defaultToken);
             // Change after creating config.
             const outTokenName = BridgeConfiguration.getOutTokenBridging(
               fromBridge.name,
-              loadedTokensList.current[fromBridge.name][0].name,
+              defaultToken.name,
             );
             setTokenOut({
               name: outTokenName,
@@ -395,11 +405,15 @@ const Bridge = (props) => {
       loadedTokensList.current = tokensListResult.data;
       setTokenList(loadedTokensList.current[fromBridge.name]);
       console.log('token in', loadedTokensList.current[fromBridge.name][0]);
-      setTokenIn(loadedTokensList.current[fromBridge.name][0]);
+      // Load USDC as default token, if not available then the first token in the list.
+      const defaultToken =
+        loadedTokensList.current[fromBridge.name].find((token) => token.name === DEFAULT_ETHEREUM_TOKEN) ||
+        loadedTokensList.current[fromBridge.name][0];
+      setTokenIn(defaultToken);
       // Change after creating config.
       const outTokenName = BridgeConfiguration.getOutTokenBridging(
         fromBridge.name,
-        loadedTokensList.current[fromBridge.name][0].name,
+        defaultToken.name,
       );
       setTokenOut({
         name: outTokenName,

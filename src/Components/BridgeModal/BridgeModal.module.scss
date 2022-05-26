@@ -69,7 +69,7 @@
       padding: 9px 20px;
       background: var(--theme-bridge-history-btn-bg);
       border-radius: 4px;
-      color: var(--theme-bridge-history-btn-text);
+      color: var(--theme-bridge-max-btn-border-text);
       align-items: center;
       display: flex;
     }
@@ -561,11 +561,11 @@
 
 .actionRequiredCount {
   font-size: 90%;
-  background-color: #FF5A5A;
+  background-color: var(--theme-bridge-max-btn-border-text);
   /* padding: 0.2rem 0.4rem; */
   padding-top: 0.23rem;
   border-radius: 50%;
-  color: #ffffff;
+  color: var(--theme-card-bg);
   vertical-align: middle;
   text-align: center;
   margin-left: 4px;

@@ -210,14 +210,19 @@ const HeaderBottom = (props) => {
                 </Col>
                 <Col xl={5} lg={6} xs={12}>
                   <div className=" topics gov">
-                    <a className="text-decoration-none" href='https://analytics.plentydefi.com/' target='_blank' rel='noreferrer'>
-                      <p className="heading">BRIDGE ANALYTICS</p>
-                      <div className="flex   para">
+                    <a
+                      href="https://analytics.plentydefi.com/"
+                      className="text-decoration-none"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <div className="flex flex-row ">
+                        <p className="heading">BRIDGE ANALYTICS</p>
+                        <span className="ml-3 material-icons-round launch-icon">launch</span>
+                      </div>
+                      <div className="flex  para para">
                         <div className="parainside">
                           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </div>
-                        <div>
-                          <span className=" material-icons-round arrowforward">arrow_forward</span>
                         </div>
                       </div>
                     </a>

@@ -38,6 +38,9 @@ import { CHANGE_NETWORK_PROMPT_DELAY } from '../../constants/bridges';
 import { getAllowance } from '../../apis/bridge/bridgeAPI';
 import { useInterval } from '../../hooks/useInterval';
 import { getActionRequiredCount } from '../../apis/bridge/bridgeAPI';
+import { titleCase } from '../TransactionHistory/helpers';
+import fromExponential from 'from-exponential';
+import BigNumber from 'bignumber.js';
 /* import { getCurrentNetwork } from '../../apis/bridge/bridgeAPI'; */
 const BridgeModal = (props) => {
   //const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -148,8 +151,8 @@ const BridgeModal = (props) => {
         displayMessage({
           type: 'warning',
           duration: FLASH_MESSAGE_DURATION,
-          title: 'Chain Mismatch',
-          content: `Change wallet chain to ${currentChain}.`,
+          title: 'Chain mismatch',
+          content: `Change wallet chain to ${titleCase(currentChain)}.`,
           isFlashMessageALink: false,
           flashMessageLink: '#',
         });
@@ -218,7 +221,7 @@ const BridgeModal = (props) => {
           setUserTokenBalance(Number(balanceResult.balance) / 10 ** tokenIn.tokenData.DECIMALS);
           setUserBalances((prevState) => ({
             ...prevState,
-            [tokenIn.name]: Number(balanceResult.balance) / 10 ** tokenIn.tokenData.DECIMALS,
+            [tokenIn.name]: new BigNumber(balanceResult.balance).div(new BigNumber(10).pow(tokenIn.tokenData.DECIMALS)).toNumber(),
           }));
         } else {
           setUserTokenBalance(-1);
@@ -248,7 +251,7 @@ const BridgeModal = (props) => {
           setUserTokenBalance(Number(balanceResult.balance));
           setUserBalances((prevState) => ({
             ...prevState,
-            [tokenIn.name]: Number(balanceResult.balance),
+            [tokenIn.name]: new BigNumber(balanceResult.balance).toNumber(),
           }));
           //setUserTokenBalance(Number('10'));
           console.log(Number(balanceResult.balance));
@@ -341,25 +344,39 @@ const BridgeModal = (props) => {
       } else {
         setFirstTokenAmount(input);
         // if (input > userTokenBalance) {
-        if (input > userBalances[tokenIn.name]) {
+        if (new BigNumber(input).gt(new BigNumber(userBalances[tokenIn.name]))) {
           setErrorMessage('Insufficient balance');
           setIsError(true);
         } else {
           if (operation === 'BRIDGE') {
             setFee(
-              (input * BridgeConfiguration.getFeesForChain(fromBridge.name).WRAP_FEES) / 10000,
+              new BigNumber(input)
+                .multipliedBy(BridgeConfiguration.getFeesForChain(fromBridge.name).WRAP_FEES)
+                .div(10000)
+                .toNumber(),
             );
-            const outputAmount =
-              input -
-              (input * BridgeConfiguration.getFeesForChain(fromBridge.name).WRAP_FEES) / 10000;
+            const outputAmount = new BigNumber(input)
+              .minus(
+                new BigNumber(input)
+                  .multipliedBy(BridgeConfiguration.getFeesForChain(fromBridge.name).WRAP_FEES)
+                  .div(10000),
+              )
+              .toNumber();
             setSecondTokenAmount(outputAmount);
           } else {
             setFee(
-              (input * BridgeConfiguration.getFeesForChain(toBridge.name).UNWRAP_FEES) / 10000,
+              new BigNumber(input)
+                .multipliedBy(BridgeConfiguration.getFeesForChain(toBridge.name).UNWRAP_FEES)
+                .div(10000)
+                .toNumber(),
             );
-            const outputAmount =
-              input -
-              (input * BridgeConfiguration.getFeesForChain(toBridge.name).UNWRAP_FEES) / 10000;
+            const outputAmount = new BigNumber(input)
+              .minus(
+                new BigNumber(input)
+                  .multipliedBy(BridgeConfiguration.getFeesForChain(toBridge.name).UNWRAP_FEES)
+                  .div(10000),
+              )
+              .toNumber();
             setSecondTokenAmount(outputAmount);
           }
         }
@@ -385,7 +402,7 @@ const BridgeModal = (props) => {
       setErrorMessage('Enter an amount to proceed');
       setIsError(true);
       // } else if (firstTokenAmount > userTokenBalance) {
-    } else if (firstTokenAmount > userBalances[tokenIn.name]) {
+    } else if (new BigNumber(firstTokenAmount).gt(new BigNumber(userBalances[tokenIn.name]))) {
       setErrorMessage('Insufficient balance');
       setIsError(true);
     } else {
@@ -399,8 +416,8 @@ const BridgeModal = (props) => {
         displayMessage({
           type: 'warning',
           duration: FLASH_MESSAGE_DURATION,
-          title: 'Chain Mismatch',
-          content: `Change wallet chain to ${currentChain}.`,
+          title: 'Chain mismatch',
+          content: `Change wallet chain to ${titleCase(currentChain)}.`,
           isFlashMessageALink: false,
           flashMessageLink: '#',
         });
@@ -419,7 +436,7 @@ const BridgeModal = (props) => {
           const allowanceResult = await getAllowance(tokenIn, metamaskAddress, fromBridge.name);
           if (allowanceResult.success) {
             console.log(allowanceResult.allowance);
-            if (allowanceResult.allowance >= Number(firstTokenAmount)) {
+            if (new BigNumber(allowanceResult.allowance).gte(new BigNumber(firstTokenAmount))) {
               //SetCurrentProgress(1);
               setIsApproved(true);
             }
@@ -433,7 +450,7 @@ const BridgeModal = (props) => {
             displayMessage({
               type: 'error',
               duration: FLASH_MESSAGE_DURATION,
-              title: 'Allowance Error',
+              title: 'Allowance error',
               content: 'Failed to fetch allowance for user. Please try again.',
               isFlashMessageALink: false,
               flashMessageLink: '#',
@@ -514,7 +531,7 @@ const BridgeModal = (props) => {
     setIsError(false);
     setIsTokenInSelected(true);
     if (currentChain !== metamaskChain) {
-      setErrorMessage(`Please select ${currentChain} chain in wallet.`);
+      setErrorMessage(`Please select ${titleCase(currentChain)} chain in wallet.`);
       setIsError(true);
     }
   };
@@ -749,7 +766,8 @@ const BridgeModal = (props) => {
                   <p className={`${styles.resLoading} shimmer`}>View history</p>
                 ) : (
                   <p
-                    className={`${styles.res} ${pendingTransCount > 0 && styles.pendingHistory}`}
+                    // className={`${styles.res} ${pendingTransCount > 0 && styles.pendingHistory}`}
+                    className={`${styles.res}`}
                     onClick={() => {
                       setAnimationClass('rightToLeftFadeOutAnimation-4');
                       setTimeout(() => {
@@ -782,7 +800,7 @@ const BridgeModal = (props) => {
                 style={{ boxShadow: isBridgeSelected && 'none' }}
               >
                 <img src={fromBridge.image} className="button-logo" />
-                <span>{fromBridge.name} </span>
+                <span>{titleCase(fromBridge.name)} </span>
                 <span className="span-themed material-icons-round" style={{ fontSize: '20px' }}>
                   expand_more
                 </span>
@@ -897,7 +915,7 @@ const BridgeModal = (props) => {
               <div className={clsx(styles.toBridgeWrapper)}>
                 <div className={styles.toBridgeSelector}>
                   <img src={toBridge.image} className="button-logo" />
-                  <span>{toBridge.name} </span>
+                  <span>{titleCase(toBridge.name)}</span>
                 </div>
                 <div className={clsx(styles.lineVertical, 'mx-2')}></div>
                 <div className={clsx(styles.inputWrapper)}>
@@ -909,7 +927,7 @@ const BridgeModal = (props) => {
                       ) : (
                         (props) => (
                           <Tooltip className="switchTooltip token-output-tooltip" {...props}>
-                            {secondTokenAmount}
+                            {fromExponential(secondTokenAmount)}
                           </Tooltip>
                         )
                       )
@@ -920,7 +938,7 @@ const BridgeModal = (props) => {
                       type="text"
                       className={`text-left ${styles.toTokenOutput}`}
                       placeholder="0.0"
-                      value={secondTokenAmount}
+                      value={fromExponential(secondTokenAmount)}
                       disabled
                     />
                   </OverlayTrigger>
@@ -935,7 +953,7 @@ const BridgeModal = (props) => {
             <p className={clsx('mt-2', styles.feeEstimateText)}>
               Bridge fee:{' '}
               <span style={{ fontWeight: '700' }}>
-                {Number(fee) > 0 ? Number(fee).toFixed(6) : 0}
+                {Number(fee) > 0 ? fromExponential(Number(Number(fee).toFixed(16))) : 0}
                 {` ${operation === 'BRIDGE' ? tokenOut.name : tokenIn.name}`}
               </span>
             </p>
@@ -993,7 +1011,8 @@ const BridgeModal = (props) => {
         tokens={selector.current === 'BRIDGES' ? bridgesList : tokenList}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-        title={selector.current === 'BRIDGES' ? 'Select a Bridge' : 'Select a Token'}
+        title={selector.current === 'BRIDGES' ? 'Select a chain' : 'Select a token'}
+        selector={selector.current}
       />
     </div>
   );

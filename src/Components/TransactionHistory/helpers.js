@@ -74,3 +74,13 @@ export const filterData = (originalData, checkBoxesState) => {
       }
     });
   };
+
+  export const titleCase = (str) => {
+    if (typeof str === 'string') {
+      return str.toLowerCase().split(' ').map(function(word) {
+        return (word.charAt(0).toUpperCase() + word.slice(1));
+      }).join(' ');
+    } else {
+      return str;
+    }
+  };

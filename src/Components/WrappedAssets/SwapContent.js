@@ -152,12 +152,12 @@ const SwapContent = (props) => {
   };
 
   const onClickAmount = () => {
-    const value =
-      props.userBalances[props.tokenIn.name].toLocaleString('en-US', {
-        maximumFractionDigits: 20,
-        useGrouping: false,
-      }) ?? 0;
-    handleSwapTokenInput(value, 'tokenIn');
+    // const value =
+    //   props.userBalances[props.tokenIn.name].toLocaleString('en-US', {
+    //     maximumFractionDigits: 20,
+    //     useGrouping: false,
+    //   }) ?? 0;
+    handleSwapTokenInput(props.userBalances[props.tokenIn.name], 'tokenIn');
   };
 
   const setErrorMessageOnUI = (value) => {
