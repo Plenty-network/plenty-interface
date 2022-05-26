@@ -43,6 +43,14 @@ export interface IConfig {
   WALLET_NETWORK: string;
   ADMIN_ADDRESS: string;
   BURNER: string;
+  WRAPPED_ASSETS: {
+    testnet: Record<string, IWrappedToken>;
+    mainnet: Record<string, IWrappedToken>;
+  };
+  WRAPPED_ASSETS_SWAP_CONTRACT: {
+    testnet: string;
+    mainnet: string;
+  };
 }
 
 interface IApi {
