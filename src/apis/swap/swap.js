@@ -1393,8 +1393,6 @@ export const getTokenPrices = async () => {
       'FLAME',
       'PAUL',
       'DOGA',
-      'WBTC.e',
-      'USDC.e',
     ];
     const tokenAddress = {
       'PLENTY': {
@@ -1484,12 +1482,6 @@ export const getTokenPrices = async () => {
       'DOGA': {
         contractAddress: 'KT1Ha4yFVeyzw6KRAdkzq6TxDHB97KG4pZe8',
       },
-      'WBTC.e' : {
-        contractAddress: 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY',
-      },
-      'USDC.e': {
-        contractAddress: 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY',
-      },
     };
     for (const i in tokenPriceResponse.contracts) {
       if (tokens.includes(tokenPriceResponse.contracts[i].symbol)) {
@@ -1501,8 +1493,14 @@ export const getTokenPrices = async () => {
             tokenPriceResponse.contracts[i].usdValue;
         }
       }
+    } 
+    const connectedNetwork = CONFIG.NETWORK;
+    for(const x in CONFIG.WRAPPED_ASSETS[connectedNetwork]){
+      console.log(x);
+      if(x === 'DAI.e' || x === 'USDC.e' || x === 'USDT.e' || x === 'LINK.e' || x === 'MATIC.e' || x === 'BUSD.e' || x === 'WETH.e' || x === 'WBTC.e'){
+      tokenPrice[x] = tokenPrice[CONFIG.WRAPPED_ASSETS[connectedNetwork][x].REF_TOKEN];
     }
-
+  }
     tokenPrice['ctez'] = promisesResponse[1].ctezPriceInUSD;
     tokenPrice['uDEFI'] = promisesResponse[2].uDEFIinUSD;
     return {
