@@ -13,6 +13,7 @@ import { CheckIfWalletConnected } from '../wallet/wallet';
 import { BigNumber, ethers } from 'ethers';
 import { networks } from '../Config/networks';
 import { connectWallet } from './ethereumWalletConnect';
+import { BigNumber as BigNum } from 'bignumber.js';
 /* eslint-enable no-unused-vars */
 
 const fakeSigner = (account, publicKey) => ({
@@ -743,11 +744,19 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
       const unwrapsArrPromise = unwrapsMain.map(async (obj) => {
         const data = await axios.get(tzkt + '/v1/operations/' + obj.operationHash);
         const timeStamp = new Date(data.data[0].timestamp);
-        const feePercentage = BridgeConfiguration.getFeesForChain(chain).UNWRAP_FEES / 10000;
-        const outputAmount =
-          obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS;
-        const inputTokenAmount = outputAmount / (1 - feePercentage);
-        const transFee = inputTokenAmount * feePercentage;
+        const feePercentage = new BigNum(
+          BridgeConfiguration.getFeesForChain(chain).UNWRAP_FEES,
+        ).dividedBy(10000);
+        const outputAmount = new BigNum(obj.amount).div(
+          new BigNum(10).pow(BridgeConfiguration.getToken(chain, obj.token).DECIMALS),
+        );
+        const inputTokenAmount = outputAmount.div(new BigNum(1).minus(feePercentage));
+        const transFee = inputTokenAmount.multipliedBy(feePercentage);
+        // const feePercentage = BridgeConfiguration.getFeesForChain(chain).UNWRAP_FEES / 10000;
+        // const outputAmount =
+        //   obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS;
+        // const inputTokenAmount = outputAmount / (1 - feePercentage);
+        // const transFee = inputTokenAmount * feePercentage;
         // const transFee =
         //   (obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS) *
         //   (BridgeConfiguration.getFeesForChain(chain).UNWRAP_FEES / 10000);
@@ -760,10 +769,10 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
           token: BridgeConfiguration.getToken(chain, obj.token),
           tokenIn: BridgeConfiguration.getToken(chain, obj.token).WRAPPED_TOKEN.NAME,
           tokenOut: BridgeConfiguration.getToken(chain, obj.token).SYMBOL,
-          firstTokenAmount: inputTokenAmount,
+          firstTokenAmount: inputTokenAmount.toString(),
           // firstTokenAmount:
           //   obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS,
-          secondTokenAmount: outputAmount,
+          secondTokenAmount: outputAmount.toString(),
           // secondTokenAmount:
           //   obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS - transFee,
           txHash: obj.operationHash,
@@ -772,7 +781,7 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
           currentProgress: obj.status === 'finalized' ? 3 : 1,
           fromBridge: 'TEZOS',
           toBridge: chain,
-          fee: transFee,
+          fee: transFee.toString(),
           chain,
         };
       });
@@ -803,9 +812,14 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
           const block = await customHttpProvider.getBlock(tx.blockNumber);
 
           const timeStamp = new Date(block.timestamp * 1000);
-          const transFee =
-            (obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS) *
-            (BridgeConfiguration.getFeesForChain(chain).WRAP_FEES / 10000);
+          const transFee = new BigNum(obj.amount)
+            .div(new BigNum(10).pow(BridgeConfiguration.getToken(chain, obj.token).DECIMALS))
+            .multipliedBy(
+              new BigNum(BridgeConfiguration.getFeesForChain(chain).WRAP_FEES).div(10000),
+            );
+          // const transFee =
+          //   (obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS) *
+          //   (BridgeConfiguration.getFeesForChain(chain).WRAP_FEES / 10000);
           return {
             ...obj,
             isWrap: true,
@@ -814,17 +828,23 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
             token: BridgeConfiguration.getToken(chain, obj.token),
             tokenIn: BridgeConfiguration.getToken(chain, obj.token).SYMBOL,
             tokenOut: BridgeConfiguration.getToken(chain, obj.token).WRAPPED_TOKEN.NAME,
-            firstTokenAmount:
-              obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS,
-            secondTokenAmount:
-              obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS - transFee,
+            firstTokenAmount: new BigNum(obj.amount)
+              .div(new BigNum(10).pow(BridgeConfiguration.getToken(chain, obj.token).DECIMALS))
+              .toString(),
+            secondTokenAmount: new BigNum(obj.amount)
+              .div(new BigNum(10).pow(BridgeConfiguration.getToken(chain, obj.token).DECIMALS))
+              .minus(transFee),
+            // firstTokenAmount:
+            //   obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS,
+            // secondTokenAmount:
+            //   obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS - transFee,
             txHash: obj.transactionHash,
             timestamp: timeStamp,
             actionRequired: obj.status === 'finalized' ? false : true,
             currentProgress: obj.status === 'finalized' ? 3 : 1,
             fromBridge: chain,
             toBridge: 'TEZOS',
-            fee: transFee,
+            fee: transFee.toString(),
             chain,
           };
         }
@@ -950,7 +970,7 @@ export const getAllowance = async (tokenIn, userAddress, chain) => {
       .call();
     return {
       success: true,
-      allowance: allowance / 10 ** tokenIn.tokenData.DECIMALS,
+      allowance: new BigNum(allowance).div(new BigNum(10).pow(tokenIn.tokenData.DECIMALS)).toString(),
     };
   } catch (error) {
     return {
