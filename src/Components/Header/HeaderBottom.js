@@ -222,7 +222,7 @@ const HeaderBottom = (props) => {
                       </div>
                       <div className="flex  para para">
                         <div className="parainside">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                          Data analytics of the Plenty bridge.
                         </div>
                       </div>
                     </a>

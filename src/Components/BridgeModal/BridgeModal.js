@@ -221,7 +221,7 @@ const BridgeModal = (props) => {
           setUserTokenBalance(Number(balanceResult.balance) / 10 ** tokenIn.tokenData.DECIMALS);
           setUserBalances((prevState) => ({
             ...prevState,
-            [tokenIn.name]: new BigNumber(balanceResult.balance).div(new BigNumber(10).pow(tokenIn.tokenData.DECIMALS)).toNumber(),
+            [tokenIn.name]: new BigNumber(balanceResult.balance).div(new BigNumber(10).pow(tokenIn.tokenData.DECIMALS)).toString(),
           }));
         } else {
           setUserTokenBalance(-1);
@@ -251,7 +251,7 @@ const BridgeModal = (props) => {
           setUserTokenBalance(Number(balanceResult.balance));
           setUserBalances((prevState) => ({
             ...prevState,
-            [tokenIn.name]: new BigNumber(balanceResult.balance).toNumber(),
+            [tokenIn.name]: new BigNumber(balanceResult.balance).toString(),
           }));
           //setUserTokenBalance(Number('10'));
           console.log(Number(balanceResult.balance));
@@ -353,7 +353,7 @@ const BridgeModal = (props) => {
               new BigNumber(input)
                 .multipliedBy(BridgeConfiguration.getFeesForChain(fromBridge.name).WRAP_FEES)
                 .div(10000)
-                .toNumber(),
+                .toString(),
             );
             const outputAmount = new BigNumber(input)
               .minus(
@@ -361,14 +361,14 @@ const BridgeModal = (props) => {
                   .multipliedBy(BridgeConfiguration.getFeesForChain(fromBridge.name).WRAP_FEES)
                   .div(10000),
               )
-              .toNumber();
+              .toString();
             setSecondTokenAmount(outputAmount);
           } else {
             setFee(
               new BigNumber(input)
                 .multipliedBy(BridgeConfiguration.getFeesForChain(toBridge.name).UNWRAP_FEES)
                 .div(10000)
-                .toNumber(),
+                .toString(),
             );
             const outputAmount = new BigNumber(input)
               .minus(
@@ -376,7 +376,7 @@ const BridgeModal = (props) => {
                   .multipliedBy(BridgeConfiguration.getFeesForChain(toBridge.name).UNWRAP_FEES)
                   .div(10000),
               )
-              .toNumber();
+              .toString();
             setSecondTokenAmount(outputAmount);
           }
         }
@@ -856,7 +856,7 @@ const BridgeModal = (props) => {
                     Balance:{' '}
                     <span className={styles.balanceValue} onClick={onClickAmount}>
                       {/* {userTokenBalance} */}
-                      {userBalances[tokenIn.name]}
+                      {fromExponential(userBalances[tokenIn.name])}
                       {/* {theme === 'light' ? (
                         <MaxBtnIcon className={styles.maxButton} />
                       ) : (

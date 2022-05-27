@@ -13,6 +13,7 @@ import {
 } from '../../apis/WrappedAssets/WrappedAssets';
 import { setLoader } from '../../redux/slices/settings/settings.slice';
 import LpPair from '../SwapTabsContent/LpPair';
+import fromExponential from 'from-exponential';
 
 const SwapContent = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -295,7 +296,7 @@ const SwapContent = (props) => {
                           errorMessage && message === 'Insufficient balance' && 'error-text-color',
                         )}
                       >
-                        {props.userBalances[props.tokenIn.name]}
+                        {fromExponential(props.userBalances[props.tokenIn.name])}
                       </span>
                     ) : (
                       <div className="shimmer">0.0000</div>
@@ -303,7 +304,7 @@ const SwapContent = (props) => {
                   </p>
                 ) : (
                   <p className="wallet-token-balance">
-                    Balance: {props.userBalances[props.tokenIn.name]}
+                    Balance: {fromExponential(props.userBalances[props.tokenIn.name])}
                   </p>
                 )}
 
@@ -365,7 +366,7 @@ const SwapContent = (props) => {
                 <p className="wallet-token-balance">
                   Balance:{' '}
                   {props.userBalances[props.tokenOut.name] >= 0 ? (
-                    props.userBalances[props.tokenOut.name]
+                    fromExponential(props.userBalances[props.tokenOut.name])
                   ) : (
                     <div className="shimmer">0.0000</div>
                   )}
