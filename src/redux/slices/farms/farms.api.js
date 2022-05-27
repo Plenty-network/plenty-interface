@@ -402,10 +402,7 @@ const getPriceForPlentyLpTokens = async (
         identifier,
         totalAmount,
       };
-    } else if (
-      identifier === 'CTEZ - DOGA'
-
-    ) {
+    } else if (identifier === 'CTEZ - DOGA') {
       const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
       // token1Pool = token1Pool / Math.pow(10, 12);
       const token2Pool = parseInt(storageResponse.data.args[3].int);
@@ -487,10 +484,7 @@ const getPriceForPlentyLpTokens = async (
         identifier,
         totalAmount,
       };
-    }
-    else if (
-      identifier === 'USDC.e - CTEZ'
-    ) {
+    } else if (identifier === 'USDC.e - CTEZ') {
       console.log('inside identifier');
       const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
       const token2Pool = parseInt(storageResponse.data.args[3].int);
@@ -527,10 +521,10 @@ const getPriceForPlentyLpTokens = async (
       } else {
         token2Type = 'fa1.2';
       }
-      let idx=0;
-      for(const x in tokenPricesData){
-        if(tokenPricesData[x].symbol === 'wUSDC'){
-          idx=x;
+      let idx = 0;
+      for (const x in tokenPricesData) {
+        if (tokenPricesData[x].symbol === 'wUSDC') {
+          idx = x;
         }
       }
       tokenData['token2'] = {
@@ -583,11 +577,7 @@ const getPriceForPlentyLpTokens = async (
         identifier,
         totalAmount,
       };
-    }
-    
-    else if (
-      identifier === 'WBTC.e - CTEZ'
-    ) {      
+    } else if (identifier === 'WBTC.e - CTEZ') {
       const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
       const token2Pool = parseInt(storageResponse.data.args[3].int);
       const lpTokenTotalSupply = parseInt(storageResponse.data.args[4].int);
@@ -624,10 +614,10 @@ const getPriceForPlentyLpTokens = async (
       } else {
         token2Type = 'fa1.2';
       }
-      let idx=0;
-      for(const x in tokenPricesData){
-        if(tokenPricesData[x].symbol === 'wWBTC'){
-          idx=x;
+      let idx = 0;
+      for (const x in tokenPricesData) {
+        if (tokenPricesData[x].symbol === 'wWBTC') {
+          idx = x;
         }
       }
 
@@ -638,7 +628,6 @@ const getPriceForPlentyLpTokens = async (
       };
 
       console.log(tokenData);
-      
 
       // for (const i in tokenPricesData) {
       //   if (token2Type === 'fa2') {
@@ -667,7 +656,7 @@ const getPriceForPlentyLpTokens = async (
       //   }
       // }
 
-      let token1Amount = (Math.pow(10, 6) * token1Pool) / lpTokenTotalSupply;
+      let token1Amount = (Math.pow(10, 8) * token1Pool) / lpTokenTotalSupply;
       token1Amount =
         (token1Amount * tokenData['token2'].tokenValue) /
         Math.pow(10, tokenData['token2'].tokenDecimal);
@@ -683,9 +672,7 @@ const getPriceForPlentyLpTokens = async (
         identifier,
         totalAmount,
       };
-    }
-
-    else {
+    } else {
       const token1Pool = parseInt(storageResponse.data.args[1].args[1].int);
       // token1Pool = token1Pool / Math.pow(10, 12);
       const token2Pool = parseInt(storageResponse.data.args[4].int);
