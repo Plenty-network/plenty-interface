@@ -12,6 +12,8 @@ import {
   type4MapIds,
   type5MapIds,
 } from '../../constants/global';
+import BigNumber from 'bignumber.js';
+
 /**
  * Returns packed key (expr...) which will help to fetch user specific data from bigmap directly using rpc.
  * @param tokenId - Id of map from where you want to fetch data
@@ -896,6 +898,51 @@ export const getUserBalanceByRpc = async (identifier, address) => {
     };
   }
 };
+
+export const getUserBalanceByRpcWithoutDecimal = async (identifier, address) => {
+  try {
+    const token = CONFIG.AMM[CONFIG.NETWORK][identifier];
+    const mapId = token.mapId;
+    const type = token.READ_TYPE;
+    const tokenId = token.TOKEN_ID;
+    const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
+    const packedKey = getPackedKey(tokenId, address, type);
+    const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
+    const response = await axios.get(url);
+
+    const balance = (() => {
+      // IIFE
+      let _balance;
+      if (type1MapIds.includes(mapId)) {
+        _balance = response.data.args[0].args[1].int;
+      } else if (type2MapIds.includes(mapId)) {
+        _balance = response.data.args[1].int;
+      } else if (type3MapIds.includes(mapId)) {
+        _balance = response.data.args[0].int;
+      } else if (type4MapIds.includes(mapId)) {
+        _balance = response.data.int;
+      } else if (type5MapIds.includes(mapId)) {
+        _balance = response.data.args[0][0].args[1].int;
+      } else {
+        _balance = response.data.args[1].int;
+      }
+      return _balance;
+    })();
+
+    return {
+      success: true,
+      balance,
+      identifier,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      balance: 0,
+      identifier,
+      error: error,
+    };
+  }
+};
 /**
  * Perform the remove liquidity operation
  * @param tokenA - First token of selected pair, case-sensitive to CONFIG
@@ -943,6 +990,16 @@ export const removeLiquidity = async (
     Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
 
+    const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].liquidityToken, caller);
+    const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
+    const lpBal = new BigNumber(lpToken_Amount);
+    if(lpBal > balanceWithoutDecimalNumber) {
+      lpToken_Amount = balanceWithoutDecimalNumber;
+    }
+    else{
+      lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
+    }
+
     if (CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].property === 'token2_pool') {
       tokenFirst = tokenA;
       tokenFirst_Amount = Math.floor(
@@ -971,15 +1028,15 @@ export const removeLiquidity = async (
       CONFIG.AMM[connectedNetwork][
         CONFIG.AMM[connectedNetwork][tokenFirst].DEX_PAIRS[tokenSecond].liquidityToken
       ].TOKEN_DECIMAL;
-    lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
+    
     const batch = Tezos.wallet
       .batch()
       .withContractCall(
         dexContractInstanceLocal.methods.RemoveLiquidity(
           lpToken_Amount,
           caller,
-          parseInt(tokenFirst_Amount * 0.98),
-          parseInt(tokenSecond_Amount * 0.98),
+          parseInt(tokenFirst_Amount),
+          parseInt(tokenSecond_Amount),
         ),
       );
     const batchOperation = await batch.send();
