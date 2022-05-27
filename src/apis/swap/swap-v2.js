@@ -58,10 +58,7 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
         lpToken,
         target,
       };
-    }
-    // (tokenIn === 'ctez' && tokenOut === 'DOGA') ||
-    // (tokenIn === 'DOGA' && tokenOut === 'ctez') || (tokenIn === 'USDC.e' && tokenOut === 'ctez') || (tokenIn === 'ctez' && tokenOut === 'USDC.e') || (tokenIn === 'WBTC.e' && tokenOut === 'ctez') || (tokenIn === 'ctez' && tokenOut === 'WBTC.e')
-    
+    }  
     else if (amm_type === 'veAMM') {
       const connectedNetwork = CONFIG.NETWORK;
       const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
@@ -107,7 +104,53 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
         lpTokenSupply,
         lpToken,
       };
-    } else {
+    }
+    else if (amm_type === 'veStableAMM') {
+      // TODO : update storage calls for new stable amm
+      const connectedNetwork = CONFIG.NETWORK;
+      const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+      const dexContractAddress =
+        CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
+      const ctez = CONFIG.CTEZ[connectedNetwork];
+      const Tezos = new TezosToolkit(rpcNode);
+      const dexContractInstance = await Tezos.contract.at(dexContractAddress);
+      const dexStorage = await dexContractInstance.storage();
+      let tezPool = await dexStorage.tezPool;
+      let exchangeFee = await dexStorage.lpFee;
+      exchangeFee = 1 / exchangeFee;
+      tezPool = tezPool.toNumber();
+      let ctezPool = await dexStorage.ctezPool;
+      ctezPool = ctezPool.toNumber();
+      let lpTokenSupply = await dexStorage.lqtTotal;
+      lpTokenSupply = lpTokenSupply.toNumber() / 10 ** 6;
+      const lpToken =
+        CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
+      const ctezStorageUrl = `${rpcNode}chains/main/blocks/head/context/contracts/${ctez}/storage`;
+      const ctezStorage = await axios.get(ctezStorageUrl);
+      const target = ctezStorage.data.args[2].int;
+      let tokenIn_supply = 0;
+      let tokenOut_supply = 0;
+      if (tokenIn === 'ctez') {
+        tokenIn_supply = ctezPool / 10 ** 6;
+        tokenOut_supply = tezPool / 10 ** 6;
+      } else {
+        tokenIn_supply = tezPool / 10 ** 6;
+        tokenOut_supply = ctezPool / 10 ** 6;
+      }
+      return {
+        success: true,
+        tokenIn,
+        tokenIn_supply,
+        tokenOut,
+        tokenOut_supply,
+        exchangeFee,
+        tokenOutPerTokenIn: 0,
+        lpTokenSupply,
+        lpToken,
+        target,
+      };
+    }
+    else {
       const connectedNetwork = CONFIG.NETWORK;
       const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
 

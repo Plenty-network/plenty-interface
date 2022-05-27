@@ -978,8 +978,8 @@ export const removeLiquidity = async (
         dexContractInstanceLocal.methods.RemoveLiquidity(
           lpToken_Amount,
           caller,
-          tokenFirst_Amount,
-          tokenSecond_Amount,
+          parseInt(tokenFirst_Amount * 0.98),
+          parseInt(tokenSecond_Amount * 0.98),
         ),
       );
     const batchOperation = await batch.send();

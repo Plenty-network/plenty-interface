@@ -727,7 +727,6 @@ const getPriceForPlentyLpTokens = async (
         totalAmount,
       };
     } else if (identifier === 'USDC.e - CTEZ') {
-      console.log('inside identifier');
       const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
       const token2Pool = parseInt(storageResponse.data.args[3].int);
       const lpTokenTotalSupply = parseInt(storageResponse.data.args[4].int);
