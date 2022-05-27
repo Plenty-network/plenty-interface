@@ -63,9 +63,17 @@ const Swap = (props) => {
         setTokenOut({});
       }
     }
+    // if (
+    //   (tokenIn.name === 'tez' && tokenOut.name === 'ctez') ||
+    //   (tokenOut.name === 'tez' && tokenIn.name === 'ctez')
+    // ) {
+    //   setStablePair(true);
+    // } else {
+    //   setStablePair(false);
+    // }
     if (
-      (tokenIn.name === 'tez' && tokenOut.name === 'ctez') ||
-      (tokenOut.name === 'tez' && tokenIn.name === 'ctez')
+      config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'veStableAMM' ||
+      config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz'
     ) {
       setStablePair(true);
     } else {

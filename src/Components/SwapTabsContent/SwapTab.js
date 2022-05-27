@@ -25,7 +25,7 @@ import InfoModal from '../Ui/Modals/InfoModal';
 import Loader from '../loader';
 import { setLoader } from '../../redux/slices/settings/settings.slice';
 import switchImg from '../../assets/images/SwapModal/swap-switch.svg';
-
+import config from '../../config/config';
 import switchImgDark from '../../assets/images/SwapModal/swap-switch-dark.svg';
 
 const SwapTab = (props) => {
@@ -68,19 +68,25 @@ const SwapTab = (props) => {
     setSwapData(res);
   };
   useEffect(() => {
-    if (
-      (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
-      (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez')
-    ) {
-      getSwapData();
+    if (props.isStablePair) {
+      if (
+        config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+          'veStableAMM' ||
+        config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+          'xtz'
+      ) {
+        getSwapData();
+      }
     }
-  }, [props]);
+  }, [props.isStablePair]);
 
   useEffect(() => {
     setRouteDataCopy(false);
     isStableSwap.current =
-      (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
-      (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez');
+      config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+        'veStableAMM' ||
+      config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type === 'xtz';
+
     setRoutePath([]);
     setFirstTokenAmount('');
     setSecondTokenAmount('');
@@ -371,6 +377,11 @@ const SwapTab = (props) => {
           props.setLoaderMessage({});
         }, 5000);
       });
+    } else if (
+      config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+      'veStableAMM'
+    ) {
+      //call api for new stableswap
     } else {
       if (routePath.length <= 2) {
         swapTokens(
