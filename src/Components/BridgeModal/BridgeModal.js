@@ -1008,7 +1008,7 @@ const BridgeModal = (props) => {
         show={show}
         onHide={handleClose}
         selectToken={selector.current === 'BRIDGES' ? selectBridge : selectToken}
-        tokens={selector.current === 'BRIDGES' ? bridgesList : tokenList}
+        tokens={selector.current === 'BRIDGES' ? bridgesList : [...tokenList].sort((a, b) => a.name.localeCompare(b.name))}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         title={selector.current === 'BRIDGES' ? 'Select a chain' : 'Select a token'}
