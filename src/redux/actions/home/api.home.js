@@ -733,10 +733,9 @@ const getPriceForPlentyLpTokens = async (
 
       const token1Address = 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4';
       //const token1Check = 'False';
-
-      const token2Address = 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY';
-      const token2Id = 2;
-      const token2Check = 'True';
+      // const token2Address = 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY';
+      // const token2Id = 2;
+      // const token2Check = 'True';
 
       const tokenData = {};
 
@@ -749,19 +748,17 @@ const getPriceForPlentyLpTokens = async (
         };
       }
       //let token1Type;
-      let token2Type;
-
+      // let token2Type;
       // if (token1Check.match('True')) {
       //   token1Type = 'fa2';
       // } else {
       //   token1Type = 'fa1.2';
       // }
-
-      if (token2Check.match('True')) {
-        token2Type = 'fa2';
-      } else {
-        token2Type = 'fa1.2';
-      }
+      // if (token2Check.match('True')) {
+      //   token2Type = 'fa2';
+      // } else {
+      //   token2Type = 'fa1.2';
+      // }
       let idx = 0;
       for (const x in tokenPricesData) {
         if (tokenPricesData[x].symbol === 'wUSDC') {
@@ -773,7 +770,6 @@ const getPriceForPlentyLpTokens = async (
         tokenValue: tokenPricesData[idx].usdValue,
         tokenDecimal: 6,
       };
-      console.log(tokenData);
       // for (const i in tokenPricesData) {
       //   if (token2Type === 'fa2') {
       //     if (
@@ -811,8 +807,6 @@ const getPriceForPlentyLpTokens = async (
         (token2Amount * tokenData['token1'].tokenValue) /
         Math.pow(10, tokenData['token1'].tokenDecimal);
       const totalAmount = (token1Amount + token2Amount).toFixed(2);
-
-      console.log(totalAmount);
       return {
         success: true,
         identifier,
@@ -825,10 +819,9 @@ const getPriceForPlentyLpTokens = async (
 
       const token1Address = 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4';
       //const token1Check = 'False';
-
-      const token2Address = 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY';
-      const token2Id = 1;
-      const token2Check = 'True';
+      // const token2Address = 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY';
+      // const token2Id = 1;
+      // const token2Check = 'True';
 
       const tokenData = {};
 
@@ -842,19 +835,18 @@ const getPriceForPlentyLpTokens = async (
       }
 
       //let token1Type;
-      let token2Type;
+      // let token2Type;
 
       // if (token1Check.match('True')) {
       //   token1Type = 'fa2';
       // } else {
       //   token1Type = 'fa1.2';
       // }
-
-      if (token2Check.match('True')) {
-        token2Type = 'fa2';
-      } else {
-        token2Type = 'fa1.2';
-      }
+      // if (token2Check.match('True')) {
+      //   token2Type = 'fa2';
+      // } else {
+      //   token2Type = 'fa1.2';
+      // }
       let idx = 0;
       for (const x in tokenPricesData) {
         if (tokenPricesData[x].symbol === 'wWBTC') {
@@ -905,7 +897,6 @@ const getPriceForPlentyLpTokens = async (
         (token2Amount * tokenData['token1'].tokenValue) /
         Math.pow(10, tokenData['token1'].tokenDecimal);
       const totalAmount = (token1Amount + token2Amount).toFixed(2);
-      console.log(totalAmount);
       return {
         success: true,
         identifier,
