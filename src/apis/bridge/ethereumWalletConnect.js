@@ -9,7 +9,7 @@ const providerOptions = {
     options: {
       supportedChainIds: [1, 4],
       rpc: {
-        1: 'https://mainnet.infura.io/v3/ae39eed1b9b94b47bb56ab5f8c454501',  // TODO: Change infura. Fetch from env
+        1: process.env.REACT_APP_RPC_NODE,  // TODO: Change infura. Fetch from env
         4: 'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
       },
     },
@@ -18,7 +18,7 @@ const providerOptions = {
     package: CoinbaseWalletSDK,
     options: {
       appName: 'Plenty Bridge',
-      rpc: 'https://mainnet.infura.io/v3/ae39eed1b9b94b47bb56ab5f8c454501',   // TODO: Change infura. Fetch from env
+      rpc: process.env.REACT_APP_RPC_NODE,   // TODO: Change infura. Fetch from env
       chainId: 1,
       darkMode: false,
     },
