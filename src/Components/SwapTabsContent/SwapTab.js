@@ -215,15 +215,16 @@ const SwapTab = (props) => {
             setFirstTokenAmount(input);
             const res = await fetchSwapDataForGeneralStableSwap(input);
 
-            setSecondTokenAmount(res.tokenOut.toFixed(6));
+            setSecondTokenAmount(res.tokenOut_amt);
+
             setComputedData({
               success: true,
               data: {
-                tokenOutAmount: res.tokenOut.toFixed(6),
+                tokenOutAmount: res.tokenOut_amt,
                 fees: res.fee,
                 totalFees: res.fee,
-                minimumOut: res.minimumOut.toFixed(6),
-                finalMinimumOut: res.minimumOut.toFixed(6),
+                minimumOut: res.minimumOut,
+                finalMinimumOut: res.minimumOut,
                 priceImpact: res.priceImpact,
                 exchangeRate: res.exchangeRate,
               },
