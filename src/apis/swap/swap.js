@@ -1553,7 +1553,6 @@ export const getTokenPrices = async () => {
     } 
     const connectedNetwork = CONFIG.NETWORK;
     for(const x in CONFIG.WRAPPED_ASSETS[connectedNetwork]){
-      console.log(x);
       if(x === 'DAI.e' || x === 'USDC.e' || x === 'USDT.e' || x === 'LINK.e' || x === 'MATIC.e' || x === 'BUSD.e' || x === 'WETH.e' || x === 'WBTC.e'){
       tokenPrice[x] = tokenPrice[CONFIG.WRAPPED_ASSETS[connectedNetwork][x].REF_TOKEN];
     }

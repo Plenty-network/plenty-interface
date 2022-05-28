@@ -1505,24 +1505,25 @@ const Config: IConfig = {
       // }
       //},
       //},
-      // tzBTC: {
-      //   ICON: '',
-      //   TOKEN_CONTRACT: 'KT1PWx2mnDueood7fEmfbBDKx1D9BAnnXitn',
-      //   mapId: 31,
-      //   READ_TYPE: 'FA1.2',
-      //   CALL_TYPE: 'FA1.2',
-      //   TOKEN_ID: 0,
-      //   TOKEN_DECIMAL: 8,
-      //   DEX_PAIRS: {
+      // TODO : Must check read type / call type / mapId
+      tzBTC: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1PWx2mnDueood7fEmfbBDKx1D9BAnnXitn',
+        mapId: 31,
+        READ_TYPE: 'FA1.2',
+        CALL_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 8,
+        DEX_PAIRS: {
 
-      // 'WBTC.e': {
-      //   contract: 'KT1HaDP8fRW7kavK2beST7o4RvzuvZbn5VwV',
-      //   property: 'token1_pool',
-      //   liquidityToken: 'tzbtc-wbtc.e-LP',
-      //   type: 'veStableAMM',
-      // },
-      //},
-      //},
+      'WBTC.e': {
+        contract: 'KT1HaDP8fRW7kavK2beST7o4RvzuvZbn5VwV',
+        property: 'token2_pool',
+        liquidityToken: 'tzbtc-wbtc.e-LP',
+        type: 'veStableAMM',
+      },
+      },
+      },
       // kUSD: {
       //   ICON: '',
       //   TOKEN_CONTRACT: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
@@ -1540,24 +1541,24 @@ const Config: IConfig = {
       //     },
       //   },
       // },
-      // 'WBTC.e': {
-      //   ICON: '',
-      //   TOKEN_CONTRACT: 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY',
-      //   mapId: 175082,
-      //   READ_TYPE: 'FA2',
-      //   CALL_TYPE: 'FA2',
-      //   TOKEN_ID: 1,
-      //   TOKEN_DECIMAL: 8,
-      //   DEX_PAIRS: {
+      'WBTC.e': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY',
+        mapId: 175082,
+        READ_TYPE: 'FA2',
+        CALL_TYPE: 'FA2',
+        TOKEN_ID: 1,
+        TOKEN_DECIMAL: 8,
+        DEX_PAIRS: {
 
-      // tzBTC: {
-      //   contract: 'KT1KapPE9E65fBozpJqsuCgaLPytvKQduPvF',
-      //   property: 'token2_pool',
-      //   liquidityToken: 'tzbtc-wbtc.e-LP',
-      //   type: 'veStableAMM',
-      // },
-      //},
-      //},
+      tzBTC: {
+        contract: 'KT1Ws4qpXFVRKctB5mJcahFVcpcUi2WbxWM3',
+        property: 'token1_pool',
+        liquidityToken: 'tzbtc-wbtc.e-LP',
+        type: 'veStableAMM',
+      },
+      },
+      },
       // 'USDC.e': {
       //   ICON: '',
       //   TOKEN_CONTRACT: 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY',
@@ -1585,11 +1586,11 @@ const Config: IConfig = {
       //need to update
       'tzbtc-wbtc.e-LP': {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1VRAYxpCo5xHYmBLYmMAWxXoVYCVgpeuak',
-        mapId: 177398,
+        TOKEN_CONTRACT: 'KT1HJbndQjBEhAqR3Vj3NaP3RwFGudJf5YP4',
+        mapId: 179610,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
-        TOKEN_DECIMAL: 7,
+        TOKEN_DECIMAL: 8,
         CALL_TYPE: 'FA1.2',
         DEX_PAIRS: {},
       },
@@ -2459,13 +2460,12 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 8,
         DEX_PAIRS: {
-          // //need to update
-          // 'WBTC.e': {
-          //   contract: 'KT1HaDP8fRW7kavK2beST7o4RvzuvZbn5VwV',
-          //   property: 'token1_pool',
-          //   liquidityToken: 'tzbtc-wbtc.e-LP',
-          //   type: 'veStableAMM',
-          // },
+          'WBTC.e': {
+            contract: 'KT1Ws4qpXFVRKctB5mJcahFVcpcUi2WbxWM3',
+            property: 'token2_pool',
+            liquidityToken: 'tzbtc-wbtc.e-LP',
+            type: 'veStableAMM',
+          },
           PLENTY: {
             contract: 'KT1HaDP8fRW7kavK2beST7o4RvzuvZbn5VwV',
             property: 'token1_pool',
@@ -2972,13 +2972,12 @@ const Config: IConfig = {
             liquidityToken: 'wbtc.e-ctez-LP',
             type: 'veAMM',
           },
-          // need to update
-          // tzBTC: {
-          //   contract: 'KT1KapPE9E65fBozpJqsuCgaLPytvKQduPvF',
-          //   property: 'token2_pool',
-          //   liquidityToken: 'tzbtc-wbtc.e-LP',
-          //   type: 'veStableAMM',
-          // },
+          tzBTC: {
+            contract: 'KT1Ws4qpXFVRKctB5mJcahFVcpcUi2WbxWM3',
+            property: 'token1_pool',
+            liquidityToken: 'tzbtc-wbtc.e-LP',
+            type: 'veStableAMM',
+          },
         },
       },
       'USDC.e': {
@@ -3033,11 +3032,11 @@ const Config: IConfig = {
       //need to update
       'tzbtc-wbtc.e-LP': {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1VRAYxpCo5xHYmBLYmMAWxXoVYCVgpeuak',
-        mapId: 177398,
+        TOKEN_CONTRACT: 'KT1HJbndQjBEhAqR3Vj3NaP3RwFGudJf5YP4',
+        mapId: 179610,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
-        TOKEN_DECIMAL: 7,
+        TOKEN_DECIMAL: 8,
         CALL_TYPE: 'FA1.2',
       },
       //need to update
