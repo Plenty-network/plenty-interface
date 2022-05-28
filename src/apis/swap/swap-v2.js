@@ -109,7 +109,6 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
       };
     }
     else if (amm_type === 'veStableAMM') {
-      console.log('inside load swap data');
       const connectedNetwork = CONFIG.NETWORK;
       const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
       const dexContractAddress =
@@ -118,11 +117,11 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
       const dexContractInstance = await Tezos.contract.at(dexContractAddress);
       const dexStorage = await dexContractInstance.storage();
   
-      const token1_pool = await dexStorage.token1Pool;
-      const token1_precision = await dexStorage.token1Precision;
+      const token1_pool = await dexStorage.token1Pool.toNumber();
+      const token1_precision = await dexStorage.token1Precision.toNumber();
   
-      const token2_pool = await dexStorage.token2Pool;
-      const token2_precision = await dexStorage.token2Precision;
+      const token2_pool = await dexStorage.token2Pool.toNumber();
+      const token2_precision = await dexStorage.token2Precision.toNumber();
 
       let tokenIn_supply = 0;
       let tokenOut_supply = 0;
@@ -135,7 +134,7 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
       }
       const lpFee = await dexStorage.lpFee;
       const exchangeFee = lpFee.toNumber();
-      const lpTokenSupply = await dexStorage.lqtTotal;
+      const lpTokenSupply = await dexStorage.lqtTotal.toNumber();
       const lpToken = CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
       const tokenOutPerTokenIn = tokenOut_supply / tokenIn_supply;
       return {
@@ -342,7 +341,6 @@ const getRouteSwapData = async (path) => {
         ).tokenOut_amount;
       }
       else if (responses[i].amm_type === 'veStableAMM'){
-        console.log('inside getRouteSwap Data');
         tokenOutPerTokenIn= calculateTokensOutGeneralStable(
           responses[i].tokenIn_supply,
           responses[i].tokenOut_supply,
@@ -471,7 +469,8 @@ const computeTokenOutputV2 = (
   try {
   const connectedNetwork = CONFIG.NETWORK;
   const amm_type = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].type;
-    if ((tokenIn === 'ctez' && tokenOut === 'tez') || (tokenIn === 'tez' && tokenOut === 'ctez')) {
+  // (tokenIn === 'ctez' && tokenOut === 'tez') || (tokenIn === 'tez' && tokenOut === 'ctez')
+    if (amm_type === 'xtz') {
       if (tokenIn === 'ctez') {
         return calculateTokensOutStable(
           tokenOut_supply * 10 ** 6,
@@ -567,7 +566,6 @@ const computeTokenOutForRouteBaseV2Base = (inputAmount, swapData, slippage) => {
           cur.token1_precision,
           cur.token2_precision,
         );
-
         return {
           tokenOutAmount: computed.tokenOut_amount,
           fees: [...acc.fees, computed.fees],

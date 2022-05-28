@@ -69,7 +69,7 @@ export const newton_dx_to_dy = (x, y, dx, rounds) => {
  * @param target- Target price of the pair in bitwise right 48
  * @param tokenIn- TokenIn
  */
-export const calculateTokensOutGeneralStable = async (
+export const calculateTokensOutGeneralStable =  (
   tokenIn_supply,
   tokenOut_supply,
   tokenIn_amount,
@@ -86,8 +86,6 @@ export const calculateTokensOutGeneralStable = async (
         // Ask aniket why div by 2**48
         tokenIn_supply *= tokenIn_precision;
         tokenOut_supply *= tokenOut_precision;
-
-        console.log(Exchangefee);
 
         const dy = newton_dx_to_dy(tokenIn_supply , tokenOut_supply , tokenIn_amount * tokenIn_precision , 5);
         let fee  = dy / Exchangefee;
@@ -107,13 +105,17 @@ export const calculateTokensOutGeneralStable = async (
         priceImpact = priceImpact.toFixed(5);
         priceImpact = Math.abs(priceImpact);
 
+        // TODO : CHECK FEES
         tokenOut_amt = tokenOut_amt / (10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL);
         fee = fee/ (10 ** CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL);
-
+        fee=fee.toFixed(20);
+        const tokenOut_amount = tokenOut_amt;
+        const minimum_Out = minimumOut;
+        const fees = fee;
         return {
-            tokenOut_amt,
-            fee,
-            minimumOut,
+            tokenOut_amount,
+            fees,
+            minimum_Out,
             exchangeRate,
             priceImpact,
           };
