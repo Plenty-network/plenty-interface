@@ -84,23 +84,24 @@ export const calculateTokensOutGeneralStable = async (
   tokenIn_amount = tokenIn_amount * (10 ** CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL);
   try {
         // Ask aniket why div by 2**48
-
         tokenIn_supply *= tokenIn_precision;
         tokenOut_supply *= tokenOut_precision;
+
+        console.log(Exchangefee);
 
         const dy = newton_dx_to_dy(tokenIn_supply , tokenOut_supply , tokenIn_amount * tokenIn_precision , 5);
         let fee  = dy / Exchangefee;
         let tokenOut_amt = (dy - fee) / tokenOut_precision;
-        let minimumOut = tokenOut_amt - (slippage * tokenOut) / 100;
+        let minimumOut = tokenOut_amt - (slippage * tokenOut_amt) / 100;
         minimumOut = minimumOut / (10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL);
         const exchangeRate = tokenOut_amt / tokenIn_amount;
 
         const updated_tokenIn_pool = tokenIn_supply + tokenIn_amount;
         const updated_tokenOut_pool = tokenOut_supply - tokenOut_amt;
 
-        const next_dy = newton_dx_to_dy(updated_tokenIn_pool , updated_tokenOut_pool , tokenIn_amount * 1 , 5);
+        const next_dy = newton_dx_to_dy(updated_tokenIn_pool , updated_tokenOut_pool , tokenIn_amount * tokenIn_precision , 5);
         const next_fee = next_dy / Exchangefee;
-        const next_tokenOut = next_dy - next_fee;
+        const next_tokenOut = (next_dy - next_fee) / tokenOut_precision;
         let priceImpact = (tokenOut_amt - next_tokenOut) / tokenOut_amt;
         priceImpact = priceImpact * 100;
         priceImpact = priceImpact.toFixed(5);
@@ -270,7 +271,7 @@ export const loadSwapDataGeneralStable = async (tokenIn, tokenOut) => {
         tokenIn_supply = token2_pool;
       }
       const lpFee = await dexStorage.lpFee;
-      const exchangeFee = 1/lpFee;
+      const exchangeFee = lpFee.toNumber();
       const lpTokenSupply = await dexStorage.lqtTotal.toNumber();
       const lpToken = CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
       const tokenOutPerTokenIn = tokenOut_supply / tokenIn_supply;

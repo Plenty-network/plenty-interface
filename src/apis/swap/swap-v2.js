@@ -134,7 +134,7 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
         tokenIn_supply = token2_pool;
       }
       const lpFee = await dexStorage.lpFee;
-      const exchangeFee = 1/lpFee;
+      const exchangeFee = lpFee.toNumber();
       const lpTokenSupply = await dexStorage.lqtTotal;
       const lpToken = CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
       const tokenOutPerTokenIn = tokenOut_supply / tokenIn_supply;
@@ -347,7 +347,7 @@ const getRouteSwapData = async (path) => {
           responses[i].tokenIn_supply,
           responses[i].tokenOut_supply,
           tokenOutPerTokenIn,
-          1/responses[i].exchangeFee,
+          responses[i].exchangeFee,
           0,
           responses[i].tokenIn,
           responses[i].tokenOut,
@@ -495,12 +495,11 @@ const computeTokenOutputV2 = (
       }
     }
     else if (amm_type === 'veStableAMM'){
-      console.log('inside computeTokenOutputV2');
       return calculateTokensOutGeneralStable(
         tokenIn_supply,
         tokenOut_supply,
         tokenIn_amount,
-        1/exchangeFee,
+        exchangeFee,
         slippage,
         tokenIn,
         tokenOut,
