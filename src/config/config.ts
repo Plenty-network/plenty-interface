@@ -1517,7 +1517,7 @@ const Config: IConfig = {
         DEX_PAIRS: {
 
       'WBTC.e': {
-        contract: 'KT1HaDP8fRW7kavK2beST7o4RvzuvZbn5VwV',
+        contract: 'KT1Ws4qpXFVRKctB5mJcahFVcpcUi2WbxWM3',
         property: 'token2_pool',
         liquidityToken: 'tzbtc-wbtc.e-LP',
         type: 'veStableAMM',

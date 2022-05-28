@@ -42,23 +42,23 @@ export const newton_dx_to_dy = (x, y, dx, rounds) => {
   const dy = newton(x, y, dx, 0, u, rounds);
   return dy;
 };
-export const getExchangeRate = (tezSupply, ctezSupply, target) => {
-  const dy1 = newton_dx_to_dy(target * ctezSupply, tezSupply * 2 ** 48, 1 * target, 5) / 2 ** 48;
-  const fee1 = dy1 / 1000;
-  const tokenOut1 = dy1 - fee1;
-  const tezexchangeRate = tokenOut1 / 1;
+// export const getExchangeRate = (tezSupply, ctezSupply, target) => {
+//   const dy1 = newton_dx_to_dy(target * ctezSupply, tezSupply * 2 ** 48, 1 * target, 5) / 2 ** 48;
+//   const fee1 = dy1 / 1000;
+//   const tokenOut1 = dy1 - fee1;
+//   const tezexchangeRate = tokenOut1 / 1;
 
-  const dy2 = newton_dx_to_dy(tezSupply * 2 ** 48, target * ctezSupply, 1 * 2 ** 48, 5) / target;
-  const fee2 = dy2 / 1000;
-  const tokenOut2 = dy2 - fee2;
+//   const dy2 = newton_dx_to_dy(tezSupply * 2 ** 48, target * ctezSupply, 1 * 2 ** 48, 5) / target;
+//   const fee2 = dy2 / 1000;
+//   const tokenOut2 = dy2 - fee2;
 
-  const ctezexchangeRate = tokenOut2 / 1;
+//   const ctezexchangeRate = tokenOut2 / 1;
 
-  return {
-    tezexchangeRate,
-    ctezexchangeRate,
-  };
-};
+//   return {
+//     tezexchangeRate,
+//     ctezexchangeRate,
+//   };
+// };
 /**
  * Returns tokensOut from the given amountIn and pool values.
  * @param tokenIn_supply - Pool value of tokenIn
@@ -254,11 +254,11 @@ export const loadSwapDataGeneralStable = async (tokenIn, tokenOut) => {
       const dexContractInstance = await Tezos.contract.at(dexContractAddress);
       const dexStorage = await dexContractInstance.storage();
   
-      const token1_pool = await dexStorage.token1Pool;
-      const token1_precision = await dexStorage.token1Precision;
+      const token1_pool = await dexStorage.token1Pool.toNumber();
+      const token1_precision = await dexStorage.token1Precision.toNumber();
   
-      const token2_pool = await dexStorage.token2Pool;
-      const token2_precision = await dexStorage.token2Precision;
+      const token2_pool = await dexStorage.token2Pool.toNumber();
+      const token2_precision = await dexStorage.token2Precision.toNumber();
 
       let tokenIn_supply = 0;
       let tokenOut_supply = 0;
@@ -271,9 +271,10 @@ export const loadSwapDataGeneralStable = async (tokenIn, tokenOut) => {
       }
       const lpFee = await dexStorage.lpFee;
       const exchangeFee = 1/lpFee;
-      const lpTokenSupply = await dexStorage.lqtTotal;
+      const lpTokenSupply = await dexStorage.lqtTotal.toNumber();
       const lpToken = CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
       const tokenOutPerTokenIn = tokenOut_supply / tokenIn_supply;
+
       return {
         success: true,
         tokenIn,

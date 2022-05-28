@@ -73,7 +73,7 @@ const SwapTab = (props) => {
   };
   const getSwapDataGeneralStableswap = async () => {
     const res = await loadSwapDataGeneralStable(props.tokenIn.name, props.tokenOut.name);
-
+    console.log(res);
     setSwapData(res);
   };
   useEffect(() => {
