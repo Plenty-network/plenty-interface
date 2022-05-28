@@ -90,27 +90,27 @@ export const calculateTokensOutGeneralStable = async (
 
         const dy = newton_dx_to_dy(tokenIn_supply , tokenOut_supply , tokenIn_amount * tokenIn_precision , 5);
         let fee  = dy / Exchangefee;
-        let tokenOut = (dy - fee) / tokenOut_precision;
-        let minimumOut = tokenOut - (slippage * tokenOut) / 100;
+        let tokenOut_amt = (dy - fee) / tokenOut_precision;
+        let minimumOut = tokenOut_amt - (slippage * tokenOut) / 100;
         minimumOut = minimumOut / (10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL);
-        const exchangeRate = tokenOut / tokenIn_amount;
+        const exchangeRate = tokenOut_amt / tokenIn_amount;
 
         const updated_tokenIn_pool = tokenIn_supply + tokenIn_amount;
-        const updated_tokenOut_pool = tokenOut_supply - tokenOut;
+        const updated_tokenOut_pool = tokenOut_supply - tokenOut_amt;
 
         const next_dy = newton_dx_to_dy(updated_tokenIn_pool , updated_tokenOut_pool , tokenIn_amount * 1 , 5);
         const next_fee = next_dy / Exchangefee;
         const next_tokenOut = next_dy - next_fee;
-        let priceImpact = (tokenOut - next_tokenOut) / tokenOut;
+        let priceImpact = (tokenOut_amt - next_tokenOut) / tokenOut_amt;
         priceImpact = priceImpact * 100;
         priceImpact = priceImpact.toFixed(5);
         priceImpact = Math.abs(priceImpact);
 
-        tokenOut = tokenOut / (10 ** CONFIG.STABLESWAP[connectedNetwork].tokenOut.TOKEN_DECIMAL);
-        fee = fee/ (10 ** CONFIG.STABLESWAP[connectedNetwork].tokenIn.TOKEN_DECIMAL);
+        tokenOut_amt = tokenOut_amt / (10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL);
+        fee = fee/ (10 ** CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL);
 
         return {
-            tokenOut,
+            tokenOut_amt,
             fee,
             minimumOut,
             exchangeRate,
