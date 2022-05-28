@@ -27,6 +27,10 @@ import { setLoader } from '../../redux/slices/settings/settings.slice';
 import switchImg from '../../assets/images/SwapModal/swap-switch.svg';
 import config from '../../config/config';
 import switchImgDark from '../../assets/images/SwapModal/swap-switch-dark.svg';
+import {
+  calculateTokensOutGeneralStable,
+  loadSwapDataGeneralStable,
+} from '../../apis/stableswap/generalStableswap';
 
 const SwapTab = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -67,15 +71,23 @@ const SwapTab = (props) => {
 
     setSwapData(res);
   };
+  const getSwapDataGeneralStableswap = async () => {
+    const res = await loadSwapDataGeneralStable(props.tokenIn.name, props.tokenOut.name);
+
+    setSwapData(res);
+  };
   useEffect(() => {
     if (props.isStablePair) {
       if (
         config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
-          'veStableAMM' ||
-        config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
-          'xtz'
+        'xtz'
       ) {
         getSwapData();
+      } else if (
+        config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+        'veStableAMM'
+      ) {
+        getSwapDataGeneralStableswap();
       }
     }
   }, [props.isStablePair]);
@@ -147,6 +159,22 @@ const SwapTab = (props) => {
     return tokenOutResponse;
   };
 
+  const fetchSwapDataForGeneralStableSwap = async (input) => {
+    const tokenOutResponse = await calculateTokensOutGeneralStable(
+      swapData.tokenIn_supply,
+      swapData.tokenOut_supply,
+      Number(input),
+      swapData.exchangeFee,
+      props.slippage,
+      props.tokenIn.name,
+      props.tokenOut.name,
+      swapData.token1_precision,
+      swapData.token2_precision,
+    );
+
+    return tokenOutResponse;
+  };
+
   useEffect(() => {
     getXtzDollarPrice().then((res) => {
       setDolar(res);
@@ -161,22 +189,47 @@ const SwapTab = (props) => {
     } else {
       if (tokenType === 'tokenIn') {
         if (props.isStablePair) {
-          setFirstTokenAmount(input);
-          const res = await fetchSwapData(input);
+          if (
+            config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+            'xtz'
+          ) {
+            setFirstTokenAmount(input);
+            const res = await fetchSwapData(input);
 
-          setSecondTokenAmount(res.tokenOut.toFixed(6));
-          setComputedData({
-            success: true,
-            data: {
-              tokenOutAmount: res.tokenOut.toFixed(6),
-              fees: res.fee,
-              totalFees: res.fee,
-              minimumOut: res.minimumOut.toFixed(6),
-              finalMinimumOut: res.minimumOut.toFixed(6),
-              priceImpact: res.priceImpact,
-              exchangeRate: res.exchangeRate,
-            },
-          });
+            setSecondTokenAmount(res.tokenOut.toFixed(6));
+            setComputedData({
+              success: true,
+              data: {
+                tokenOutAmount: res.tokenOut.toFixed(6),
+                fees: res.fee,
+                totalFees: res.fee,
+                minimumOut: res.minimumOut.toFixed(6),
+                finalMinimumOut: res.minimumOut.toFixed(6),
+                priceImpact: res.priceImpact,
+                exchangeRate: res.exchangeRate,
+              },
+            });
+          } else if (
+            config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+            'veStableAMM'
+          ) {
+            setFirstTokenAmount(input);
+            const res = await fetchSwapDataForGeneralStableSwap(input);
+
+            setSecondTokenAmount(res.tokenOut.toFixed(6));
+            setComputedData({
+              success: true,
+              data: {
+                tokenOutAmount: res.tokenOut.toFixed(6),
+                fees: res.fee,
+                totalFees: res.fee,
+                minimumOut: res.minimumOut.toFixed(6),
+                finalMinimumOut: res.minimumOut.toFixed(6),
+                priceImpact: res.priceImpact,
+                exchangeRate: res.exchangeRate,
+              },
+            });
+          }
         } else {
           setFirstTokenAmount(input);
 
@@ -382,6 +435,26 @@ const SwapTab = (props) => {
       'veStableAMM'
     ) {
       //call api for new stableswap
+      swapTokens(
+        props.tokenIn.name,
+        props.tokenOut.name,
+        computedData.data.minimumOut,
+        recepientAddress,
+        Number(firstTokenAmount),
+        props.walletAddress,
+        transactionSubmitModal,
+        props.setShowConfirmSwap,
+        resetVal,
+        props.setShowConfirmTransaction,
+      ).then((response) => {
+        props.setShowConfirmSwap(false);
+        props.setShowConfirmTransaction(false);
+        props.setLoader(false);
+        handleSwapResponse(response.success);
+        setTimeout(() => {
+          props.setLoaderMessage({});
+        }, 5000);
+      });
     } else {
       if (routePath.length <= 2) {
         swapTokens(
