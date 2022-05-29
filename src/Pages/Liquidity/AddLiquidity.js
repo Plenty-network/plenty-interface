@@ -14,12 +14,14 @@ import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import ConfirmAddLiquidity from '../../Components/SwapTabsContent/LiquidityTabs/ConfirmAddLiquidity';
+import config from '../../config/config';
 import Button from '../../Components/Ui/Buttons/Button';
 import { setLoader } from '../../redux/slices/settings/settings.slice';
 import LiquidityInfo from '../../Components/SwapTabsContent/LiquidityTabs/LiquidityInfo';
 import { isTokenPairStable } from '../../apis/Liquidity/Liquidity';
 import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransaction';
 import Loader from '../../Components/loader';
+import { loadSwapDataGeneralStable } from '../../apis/stableswap/generalStableswap';
 
 const AddLiquidity = (props) => {
   const [estimatedTokenAmout, setEstimatedTokenAmout] = useState('');
@@ -47,14 +49,32 @@ const AddLiquidity = (props) => {
     setxtztoctez(res.ctezexchangeRate.toFixed(6));
     setcteztoxtz(res.tezexchangeRate.toFixed(6));
   };
+  // useEffect(() => {
+  //   if (isTokenPairStable(props.tokenIn.name, props.tokenOut.name)) {
+  //     fetchOutputData();
+  //     getSwapData();
+  //   }
+  // }, [props]);
   useEffect(() => {
-    if (isTokenPairStable(props.tokenIn.name, props.tokenOut.name)) {
+    if (
+      config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type === 'xtz'
+    ) {
       fetchOutputData();
       getSwapData();
+    } else if (
+      config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+      'veStableAMM'
+    ) {
+      getSwapDataGeneralStableswap();
     }
-  }, [props]);
+  }, [props.tokenOut.name, props.tokenOut.name]);
+
   const getSwapData = async () => {
     await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
+  };
+
+  const getSwapDataGeneralStableswap = async () => {
+    await loadSwapDataGeneralStable(props.tokenIn.name, props.tokenOut.name);
   };
 
   const resetAllValuesLiq = () => {

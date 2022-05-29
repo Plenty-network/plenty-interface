@@ -24,6 +24,7 @@ import LiquidityModal from '../../Components/LiquidityModal/LiquidityModal';
 import ctez from '../../assets/images/ctez.png';
 import { getUserBalanceByRpcStable, loadSwapDataStable } from '../../apis/stableswap/stableswap';
 import SettingsLiq from '../../Components/TransactionSettings/SettingsLiq';
+import { loadSwapDataGeneralStable } from '../../apis/stableswap/generalStableswap';
 
 const LiquidityNew = (props) => {
   const { activeTab, tokenIn, setTokenIn, tokenOut, setTokenOut, setActiveTab } =
@@ -215,21 +216,34 @@ const LiquidityNew = (props) => {
           : !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
 
         if (pairExists) {
-          isTokenPairStable(tokenIn.name, tokenOut.name)
-            ? loadSwapDataStable(tokenIn.name, tokenOut.name).then((data) => {
-                if (data.success) {
-                  setSwapData(data);
-                  //setLoading(false);
-                  setLoaderInButton(false);
-                }
-              })
-            : loadSwapData(tokenIn.name, tokenOut.name).then((data) => {
-                if (data.success) {
-                  setSwapData(data);
-                  //setLoading(false);
-                  setLoaderInButton(false);
-                }
-              });
+          if (config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz') {
+            loadSwapDataStable(tokenIn.name, tokenOut.name).then((data) => {
+              if (data.success) {
+                setSwapData(data);
+
+                setLoaderInButton(false);
+              }
+            });
+          } else if (
+            config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type ===
+            'veStableAMM'
+          ) {
+            loadSwapDataGeneralStable(tokenIn.name, tokenOut.name).then((data) => {
+              if (data.success) {
+                setSwapData(data);
+
+                setLoaderInButton(false);
+              }
+            });
+          } else {
+            loadSwapData(tokenIn.name, tokenOut.name).then((data) => {
+              if (data.success) {
+                setSwapData(data);
+
+                setLoaderInButton(false);
+              }
+            });
+          }
         }
       }
     }
