@@ -131,7 +131,7 @@ const LiquidityNew = (props) => {
           tokenIn.name === tzBTCName
             ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
             : balancePromises.push(
-                isTokenPairStable(tokenIn.name, tokenOut.name)
+                config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz'
                   ? getUserBalanceByRpcStable(tokenIn.name, props.walletAddress)
                   : getUserBalanceByRpc(tokenIn.name, props.walletAddress),
               );
@@ -140,13 +140,13 @@ const LiquidityNew = (props) => {
           tokenOut.name === tzBTCName
             ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
             : balancePromises.push(
-                isTokenPairStable(tokenIn.name, tokenOut.name)
+                config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz'
                   ? getUserBalanceByRpcStable(tokenOut.name, props.walletAddress)
                   : getUserBalanceByRpc(tokenOut.name, props.walletAddress),
               );
         }
         if (
-          isTokenPairStable(tokenIn.name, tokenOut.name)
+          config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz'
             ? config.STABLESWAP[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]
             : config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]
         ) {
@@ -156,7 +156,7 @@ const LiquidityNew = (props) => {
             : config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name].liquidityToken;
 
           balancePromises.push(
-            isTokenPairStable(tokenIn.name, tokenOut.name)
+            config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz'
               ? getUserBalanceByRpcStable(lpToken, props.walletAddress)
               : getUserBalanceByRpc(lpToken, props.walletAddress),
           );

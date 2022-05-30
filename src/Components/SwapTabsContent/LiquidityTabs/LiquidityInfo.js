@@ -8,6 +8,7 @@ import Stableswapwhite from '../../../assets/images/stableswapwhite.svg';
 import StableSwapDark from '../../../assets/images/lq-stableswap-dark.svg';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import useMediaQuery from '../../../hooks/mediaQuery';
+import config from '../../../config/config';
 
 const LiquidityInfo = (props) => {
   const isMobile = useMediaQuery('(max-width: 991px)');
@@ -158,8 +159,17 @@ const LiquidityInfo = (props) => {
         }
       >
         <div className={clsx(isMobile && 'order-4', 'details', isMobile && 'mt-2', 'ml-2')}>
-          {props.isStable ? '0.10' : '0.25'}% <span className="content">LP fee</span>
-          {props.isStable && (
+          {config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+            'xtz' ||
+          config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+            'veStableAMM'
+            ? '0.10'
+            : '0.25'}
+          % <span className="content">LP fee</span>
+          {(config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+            'xtz' ||
+            config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+              'veStableAMM') && (
             <>
               <span className="divider-lq mx-2"></span>
               <img src={props.theme === 'light' ? StableSwap : StableSwapDark} />

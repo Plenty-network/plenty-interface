@@ -7,7 +7,7 @@ import clsx from 'clsx';
 import fromExponential from 'from-exponential';
 import { connect } from 'react-redux';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
-
+import config from '../../config/config';
 import Button from '../../Components/Ui/Buttons/Button';
 import CONFIG from '../../config/config';
 import ConfirmRemoveLiquidity from '../../Components/SwapTabsContent/LiquidityTabs/ConfirmRemoveLiquidity';
@@ -15,6 +15,7 @@ import { setLoader } from '../../redux/slices/settings/settings.slice';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Loader from '../../Components/loader';
 import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransaction';
+import { loadSwapDataGeneralStable } from '../../apis/stableswap/generalStableswap';
 
 const RemoveLiquidity = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
@@ -27,6 +28,7 @@ const RemoveLiquidity = (props) => {
   const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
   const [xtztoctez, setxtztoctez] = useState('0.00');
   const [cteztoxtz, setcteztoxtz] = useState('0.00');
+
   const fetchOutputData = async () => {
     const res = getExchangeRate(
       props.swapData.tezPool,
@@ -38,10 +40,21 @@ const RemoveLiquidity = (props) => {
     setcteztoxtz(res.tezexchangeRate.toFixed(6));
   };
   useEffect(() => {
-    if (props.isStableSwap) {
+    if (
+      config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type === 'xtz'
+    ) {
       fetchOutputData();
+    } else if (
+      config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+      'veStableAMM'
+    ) {
+      getSwapDataGeneralStableswap();
     }
-  }, [props]);
+  }, [props.tokenOut.name, props.tokenOut.name]);
+
+  const getSwapDataGeneralStableswap = async () => {
+    await loadSwapDataGeneralStable(props.tokenIn.name, props.tokenOut.name);
+  };
 
   useEffect(() => {
     setErrorMessage(false);
@@ -243,7 +256,8 @@ const RemoveLiquidity = (props) => {
       firstTokenAmount &&
       firstTokenAmount >
         props.userBalances[
-          props.isStableSwap
+          config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+          'xtz'
             ? CONFIG.STABLESWAP[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
                 .liquidityToken
             : CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
@@ -272,7 +286,8 @@ const RemoveLiquidity = (props) => {
   const onClickAmount = () => {
     const value =
       props.userBalances[
-        props.isStableSwap
+        config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+        'xtz'
           ? CONFIG.STABLESWAP[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
               .liquidityToken
           : CONFIG.AMM[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
@@ -316,7 +331,8 @@ const RemoveLiquidity = (props) => {
                   placement="top"
                   overlay={
                     <Tooltip id="button-tooltip" {...props}>
-                      {props.isStableSwap
+                      {config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
+                        ?.type === 'xtz'
                         ? props.userBalances[
                             CONFIG.STABLESWAP[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
                               props.tokenOut.name
@@ -350,7 +366,9 @@ const RemoveLiquidity = (props) => {
                     <p className="bal" onClick={onClickAmount} style={{ cursor: 'pointer' }}>
                       Balance:{' '}
                       <span className="balance-value-liq">
-                        {props.isStableSwap ? (
+                        {config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[
+                          props.tokenOut.name
+                        ]?.type === 'xtz' ? (
                           props.userBalances[
                             CONFIG.STABLESWAP[CONFIG.NETWORK][props.tokenIn.name].DEX_PAIRS[
                               props.tokenOut.name

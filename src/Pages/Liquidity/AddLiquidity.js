@@ -18,7 +18,6 @@ import config from '../../config/config';
 import Button from '../../Components/Ui/Buttons/Button';
 import { setLoader } from '../../redux/slices/settings/settings.slice';
 import LiquidityInfo from '../../Components/SwapTabsContent/LiquidityTabs/LiquidityInfo';
-import { isTokenPairStable } from '../../apis/Liquidity/Liquidity';
 import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransaction';
 import Loader from '../../Components/loader';
 import { loadSwapDataGeneralStable } from '../../apis/stableswap/generalStableswap';
@@ -38,7 +37,6 @@ const AddLiquidity = (props) => {
   const [xtztoctez, setxtztoctez] = useState('0.00');
   const [cteztoxtz, setcteztoxtz] = useState('0.00');
   const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
-
   const fetchOutputData = async () => {
     const res = getExchangeRate(
       props.swapData.tezPool,
@@ -186,7 +184,6 @@ const AddLiquidity = (props) => {
   };
   const confirmAddLiquidity = () => {
     props.setShowConfirmAddSupply(true);
-    //props.setHideContent('content-hide');
 
     const secondTokenAmountEntered = secondTokenAmount
       ? parseFloat(secondTokenAmount)
@@ -639,7 +636,10 @@ const AddLiquidity = (props) => {
         poolShare={poolShare}
         xtztoctez={xtztoctez}
         cteztoxtz={cteztoxtz}
-        isStable={isTokenPairStable(props.tokenIn.name, props.tokenOut.name)}
+        isStable={
+          config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+          'xtz'
+        }
         theme={props.theme}
       />
 
