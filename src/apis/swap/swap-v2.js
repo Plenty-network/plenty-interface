@@ -440,7 +440,7 @@ export const getAllRoutes = async (tokenIn, tokenOut) => {
       We select the best swapRate using tokenOutPerTokenIn method
      */
     for (const i in routeDataResponses) {
-      if (routeDataResponses[i].tokenOutPerTokenIn > bestRoute.tokenOutPerTokenIn) {
+      if (Number(routeDataResponses[i].tokenOutPerTokenIn) > Number(bestRoute.tokenOutPerTokenIn)) {
         bestRoute.tokenOutPerTokenIn = routeDataResponses[i].tokenOutPerTokenIn;
         bestRoute.swapData = routeDataResponses[i].intermediateAMMData;
         bestRoute.path = routeDataResponses[i].path;
