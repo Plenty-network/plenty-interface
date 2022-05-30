@@ -1220,22 +1220,6 @@ export const removeLiquidity = async (
     Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
 
-    const lpTokenDecimal =
-      CONFIG.AMM[connectedNetwork][
-        CONFIG.AMM[connectedNetwork][tokenFirst].DEX_PAIRS[tokenSecond].liquidityToken
-      ].TOKEN_DECIMAL;
-    const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
-      CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].liquidityToken,
-      caller,
-    );
-    const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
-    const lpBal = new BigNumber(lpToken_Amount);
-    if (lpBal > balanceWithoutDecimalNumber) {
-      lpToken_Amount = balanceWithoutDecimalNumber;
-    } else {
-      lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
-    }
-
     if (CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].property === 'token2_pool') {
       tokenFirst = tokenA;
       tokenFirst_Amount = Math.floor(
@@ -1256,6 +1240,23 @@ export const removeLiquidity = async (
         tokenA_MinimumRecieve * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL),
       );
     }
+
+    const lpTokenDecimal =CONFIG.AMM[connectedNetwork][
+        CONFIG.AMM[connectedNetwork][tokenFirst].DEX_PAIRS[tokenSecond].liquidityToken
+      ].TOKEN_DECIMAL;
+    const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
+      CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].liquidityToken,
+      caller,
+    );
+    const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
+    const lpBal = new BigNumber(lpToken_Amount);
+    if (lpBal > balanceWithoutDecimalNumber) {
+      lpToken_Amount = balanceWithoutDecimalNumber;
+    } else {
+      lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
+    }
+
+
     const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].contract;
 
     const dexContractInstanceLocal = await Tezos.contract.at(dexContractAddress);
@@ -1325,23 +1326,6 @@ export const removeLiquidity_generalStable = async (
     Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
 
-    const lpTokenDecimal =
-      CONFIG.AMM[connectedNetwork][
-        CONFIG.AMM[connectedNetwork][tokenFirst].DEX_PAIRS[tokenSecond].liquidityToken
-      ].TOKEN_DECIMAL;
-
-    const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
-      CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].liquidityToken,
-      caller,
-    );
-    const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
-    const lpBal = new BigNumber(lpToken_Amount);
-    if (lpBal > balanceWithoutDecimalNumber) {
-      lpToken_Amount = balanceWithoutDecimalNumber;
-    } else {
-      lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
-    }
-
     if (CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].property === 'token2_pool') {
       tokenFirst = tokenA;
       tokenFirst_Amount = Math.floor(
@@ -1362,6 +1346,25 @@ export const removeLiquidity_generalStable = async (
         tokenA_MinimumRecieve * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL),
       );
     }
+
+    const lpTokenDecimal =
+      CONFIG.AMM[connectedNetwork][
+        CONFIG.AMM[connectedNetwork][tokenFirst].DEX_PAIRS[tokenSecond].liquidityToken
+      ].TOKEN_DECIMAL;
+
+    const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
+      CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].liquidityToken,
+      caller,
+    );
+    const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
+    const lpBal = new BigNumber(lpToken_Amount);
+    if (lpBal > balanceWithoutDecimalNumber) {
+      lpToken_Amount = balanceWithoutDecimalNumber;
+    } else {
+      lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
+    }
+
+    
     const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].contract;
 
     const dexContractInstanceLocal = await Tezos.contract.at(dexContractAddress);

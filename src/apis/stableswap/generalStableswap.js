@@ -123,7 +123,6 @@ export const calculateTokensOutGeneralStable = (
     priceImpact = priceImpact.toFixed(5);
     priceImpact = Math.abs(priceImpact);
     
-    const exchangeRate = (tokenOut_amt/tokenOut_precision) / (tokenIn_amount / tokenIn_precision);
     // TODO : CHECK FEES
     tokenOut_amt = tokenOut_amt / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL;
     fee = fee / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL;
@@ -131,7 +130,7 @@ export const calculateTokensOutGeneralStable = (
     const tokenOut_amount = tokenOut_amt;
     const minimum_Out = minimumOut;
     const fees = fee;
-    
+    const exchangeRate = (tokenOut_amount/tokenOut_precision) / (tokenIn_amount / tokenIn_precision);
     
     console.log(tokenIn , tokenOut , tokenOut_amount,
       fees,
