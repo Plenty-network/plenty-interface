@@ -23,7 +23,7 @@ import BigNumber from 'bignumber.js';
 const getPackedKey = (tokenId, address, type) => {
   const accountHex = `0x${TezosMessageUtils.writeAddress(address)}`;
   let packedKey = null;
-  // TODO : 
+  // TODO :
   if (type === 'FA2') {
     packedKey = TezosMessageUtils.encodeBigMapKey(
       // eslint-disable-next-line no-undef
@@ -990,13 +990,15 @@ export const removeLiquidity = async (
     Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
 
-    const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].liquidityToken, caller);
+    const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
+      CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].liquidityToken,
+      caller,
+    );
     const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
     const lpBal = new BigNumber(lpToken_Amount);
-    if(lpBal > balanceWithoutDecimalNumber) {
+    if (lpBal > balanceWithoutDecimalNumber) {
       lpToken_Amount = balanceWithoutDecimalNumber;
-    }
-    else{
+    } else {
       lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
     }
 
@@ -1028,7 +1030,7 @@ export const removeLiquidity = async (
       CONFIG.AMM[connectedNetwork][
         CONFIG.AMM[connectedNetwork][tokenFirst].DEX_PAIRS[tokenSecond].liquidityToken
       ].TOKEN_DECIMAL;
-    
+
     const batch = Tezos.wallet
       .batch()
       .withContractCall(
@@ -1452,91 +1454,91 @@ export const getTokenPrices = async () => {
       'DOGA',
     ];
     const tokenAddress = {
-      'PLENTY': {
+      PLENTY: {
         contractAddress: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
       },
-      'WRAP': {
+      WRAP: {
         contractAddress: 'KT1LRboPna9yQY9BrjtQYDS1DVxhKESK4VVd',
       },
-      'wWBTC': {
+      wWBTC: {
         contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
       },
-      'wUSDC': {
+      wUSDC: {
         contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
       },
-      'wBUSD': {
+      wBUSD: {
         contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
       },
-      'wMATIC': {
+      wMATIC: {
         contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
       },
-      'wLINK': {
+      wLINK: {
         contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
       },
-      'wWETH': {
+      wWETH: {
         contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
       },
-      'wDAI': {
+      wDAI: {
         contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
       },
-      'wUSDT': {
+      wUSDT: {
         contractAddress: 'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ',
       },
-      'USDtz': {
+      USDtz: {
         contractAddress: 'KT1LN4LPSqTMS7Sd2CJw4bbDGRkMv2t68Fy9',
       },
-      'kUSD': {
+      kUSD: {
         contractAddress: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
       },
-      'hDAO': {
+      hDAO: {
         contractAddress: 'KT1AFA2mwNUMNd4SsujE1YYp29vd8BZejyKW',
       },
-      'ETHtz': {
+      ETHtz: {
         contractAddress: 'KT19at7rQUvyjxnZ2fBv7D9zc8rkyG7gAoU8',
       },
-      'QUIPU': {
+      QUIPU: {
         contractAddress: 'KT193D4vozYnhGJQVtw7CoxxqphqUEEwK6Vb',
       },
-      'UNO': {
+      UNO: {
         contractAddress: 'KT1ErKVqEhG9jxXgUG2KGLW3bNM7zXHX8SDF',
       },
-      'SMAK': {
+      SMAK: {
         contractAddress: 'KT1TwzD6zV3WeJ39ukuqxcfK2fJCnhvrdN1X',
       },
-      'KALAM': {
+      KALAM: {
         contractAddress: 'KT1A5P4ejnLix13jtadsfV9GCnXLMNnab8UT',
       },
-      'tzBTC': {
+      tzBTC: {
         contractAddress: 'KT1PWx2mnDueood7fEmfbBDKx1D9BAnnXitn',
       },
-      'uUSD': {
+      uUSD: {
         contractAddress: 'KT1XRPEPXbZK25r3Htzp2o1x7xdMMmfocKNW',
       },
-      'GIF': {
+      GIF: {
         contractAddress: 'KT1XTxpQvo7oRCqp85LikEZgAZ22uDxhbWJv',
       },
-      'YOU': {
+      YOU: {
         contractAddress: 'KT1Xobej4mc6XgEjDoJoHtTKgbD1ELMvcQuL',
       },
-      'PXL': {
+      PXL: {
         contractAddress: 'KT1F1mn2jbqQCJcsNgYKVAQjvenecNMY2oPK',
       },
-      'INSTA': {
+      INSTA: {
         contractAddress: 'KT19y6R8x53uDKiM46ahgguS6Tjqhdj2rSzZ',
       },
-      'FLAME': {
+      FLAME: {
         contractAddress: 'KT1Wa8yqRBpFCusJWgcQyjhRz7hUQAmFxW7j',
       },
-      'crDAO': {
+      crDAO: {
         contractAddress: 'KT1XPFjZqCULSnqfKaaYy8hJjeY63UNSGwXg',
       },
-      'CRUNCH': {
+      CRUNCH: {
         contractAddress: 'KT1BHCumksALJQJ8q8to2EPigPW6qpyTr7Ng',
       },
-      'PAUL': {
+      PAUL: {
         contractAddress: 'KT19DUSZw7mfeEATrbWVPHRrWNVbNnmfFAE6',
       },
-      'DOGA': {
+      DOGA: {
         contractAddress: 'KT1Ha4yFVeyzw6KRAdkzq6TxDHB97KG4pZe8',
       },
     };
@@ -1550,13 +1552,22 @@ export const getTokenPrices = async () => {
             tokenPriceResponse.contracts[i].usdValue;
         }
       }
-    } 
-    const connectedNetwork = CONFIG.NETWORK;
-    for(const x in CONFIG.WRAPPED_ASSETS[connectedNetwork]){
-      if(x === 'DAI.e' || x === 'USDC.e' || x === 'USDT.e' || x === 'LINK.e' || x === 'MATIC.e' || x === 'BUSD.e' || x === 'WETH.e' || x === 'WBTC.e'){
-      tokenPrice[x] = tokenPrice[CONFIG.WRAPPED_ASSETS[connectedNetwork][x].REF_TOKEN];
     }
-  }
+    const connectedNetwork = CONFIG.NETWORK;
+    for (const x in CONFIG.WRAPPED_ASSETS[connectedNetwork]) {
+      if (
+        x === 'DAI.e' ||
+        x === 'USDC.e' ||
+        x === 'USDT.e' ||
+        x === 'LINK.e' ||
+        x === 'MATIC.e' ||
+        x === 'BUSD.e' ||
+        x === 'WETH.e' ||
+        x === 'WBTC.e'
+      ) {
+        tokenPrice[x] = tokenPrice[CONFIG.WRAPPED_ASSETS[connectedNetwork][x].REF_TOKEN];
+      }
+    }
     tokenPrice['ctez'] = promisesResponse[1].ctezPriceInUSD;
     tokenPrice['uDEFI'] = promisesResponse[2].uDEFIinUSD;
     return {
@@ -1630,7 +1641,6 @@ export const computeOutputBasedOnTokenOutAmount = (
       minimum_Out,
       priceImpact,
     };
-    // return tokenInAmount;
   } catch (error) {
     console.log(error);
     return {

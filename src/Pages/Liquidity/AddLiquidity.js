@@ -312,6 +312,21 @@ const AddLiquidity = (props) => {
         props.setShowConfirmAddSupply,
         setShowConfirmTransaction,
       ).then((data) => {
+        console.log(data);
+        console.log(
+          props.tokenIn.name,
+          props.tokenOut.name,
+          firstTokenAmount,
+          secondTokenAmountEntered,
+          props.tokenContractInstances[props.tokenIn.name],
+          props.tokenContractInstances[props.tokenOut.name],
+          props.walletAddress,
+          props.swapData.dexContractInstance,
+          transactionSubmitModal,
+          resetAllValuesLiq,
+          props.setShowConfirmAddSupply,
+          setShowConfirmTransaction,
+        );
         if (data.success) {
           props.setLoading(false);
           props.setLoader(false);
