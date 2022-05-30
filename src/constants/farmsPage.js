@@ -177,18 +177,18 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
     isDualFarm: false,
   },
-  //need to update
-  'kUSD - USDC.e LP': {
+  //need to update image
+  'kUSD / USDC.e LP': {
     image: dogactezLpFarm,
     harvestImg: plentyToken,
     multi: '100',
-    title: 'kUSD - USDC.e PNLP',
+    title: 'kUSD / USDC.e PNLP',
     apr: 0,
     apy: 0,
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'kUSD - USDC.e LP',
+    deposit: 'kUSD / USDC.e LP',
     liquidity: 0,
     withdrawalFee: '0%',
     balance: 0,
@@ -200,18 +200,18 @@ export const FARMS_CARD_TYPE_LIST = {
     isDualFarm: false,
     url: '/liquidity/add?tokenA=kUSD&tokenB=USDC.e',
   },
-  //need to update
-  'uUSD - USDC.e LP': {
+  //need to update image
+  'uUSD / USDC.e LP': {
     image: dogactezLpFarm,
     harvestImg: plentyToken,
     multi: '100',
-    title: 'uUSD - USDC.e PNLP',
+    title: 'uUSD / USDC.e PNLP',
     apr: 0,
     apy: 0,
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'uUSD - USDC.e LP',
+    deposit: 'uUSD / USDC.e LP',
     liquidity: 0,
     withdrawalFee: '0%',
     balance: 0,
@@ -223,18 +223,18 @@ export const FARMS_CARD_TYPE_LIST = {
     isDualFarm: false,
     url: '/liquidity/add?tokenA=uUSD&tokenB=USDC.e',
   },
-  //need to update
-  'tzBTC - WBTC.e LP': {
+  //need to update image
+  'tzBTC / WBTC.e LP': {
     image: dogactezLpFarm,
     harvestImg: plentyToken,
     multi: '100',
-    title: 'tzBTC - WBTC.e PNLP',
+    title: 'tzBTC / WBTC.e PNLP',
     apr: 0,
     apy: 0,
     earn: 'PLENTY',
     fee: '0%',
     earned: 0,
-    deposit: 'tzBTC - WBTC.e LP',
+    deposit: 'tzBTC / WBTC.e LP',
     liquidity: 0,
     withdrawalFee: '0%',
     balance: 0,
