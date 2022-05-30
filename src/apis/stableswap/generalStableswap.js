@@ -41,23 +41,33 @@ export const newton_dx_to_dy = (x, y, dx, rounds) => {
   const dy = newton(x, y, dx, 0, u, rounds);
   return dy;
 };
-// export const getExchangeRate = (tezSupply, ctezSupply, target) => {
-//   const dy1 = newton_dx_to_dy(target * ctezSupply, tezSupply * 2 ** 48, 1 * target, 5) / 2 ** 48;
-//   const fee1 = dy1 / 1000;
-//   const tokenOut1 = dy1 - fee1;
-//   const tezexchangeRate = tokenOut1 / 1;
+export const getGeneralExchangeRate = (tokenA_supply, tokenB_supply, tokenA_precision , tokenB_precision ) => {
 
-//   const dy2 = newton_dx_to_dy(tezSupply * 2 ** 48, target * ctezSupply, 1 * 2 ** 48, 5) / target;
-//   const fee2 = dy2 / 1000;
-//   const tokenOut2 = dy2 - fee2;
+  tokenA_supply *= tokenA_precision;
+  tokenB_supply *= tokenB_precision;
 
-//   const ctezexchangeRate = tokenOut2 / 1;
+  const dy1 = newton_dx_to_dy(
+    tokenA_supply,
+    tokenB_supply,
+    1 * tokenA_precision,
+    5,
+  );
+  const fee1 = dy1 / 1000;
 
-//   return {
-//     tezexchangeRate,
-//     ctezexchangeRate,
-//   };
-// };
+  const tokenOut1 = dy1 - fee1;
+  const tokenAexchangeRate = tokenOut1 / tokenB_precision;
+
+  const dy2 = newton_dx_to_dy(tokenB_supply, tokenA_supply, 1 * tokenB_precision, 5);
+  const fee2 = dy2 / 1000;
+  const tokenOut2 = dy2 - fee2;
+
+  const tokenBexchangeRate = tokenOut2 / tokenA_precision;
+
+  return {
+    tokenAexchangeRate,
+    tokenBexchangeRate,
+  };
+};
 /**
  * Returns tokensOut from the given amountIn and pool values.
  * @param tokenIn_supply - Pool value of tokenIn
@@ -122,15 +132,17 @@ export const calculateTokensOutGeneralStable = (
     priceImpact = priceImpact * 100;
     priceImpact = priceImpact.toFixed(5);
     priceImpact = Math.abs(priceImpact);
-    
-    // TODO : CHECK FEES
+
+
+    // TODO : CHECK FEES & EXCHANGE RATE WITH ANMOL
     tokenOut_amt = tokenOut_amt / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL;
-    fee = fee / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL;
+    fee = fee / (tokenOut_precision * 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL);
     fee = fee.toFixed(20);
     const tokenOut_amount = tokenOut_amt;
     const minimum_Out = minimumOut;
     const fees = fee;
-    const exchangeRate = (tokenOut_amount/tokenOut_precision) / (tokenIn_amount / tokenIn_precision);
+    const exchangeRate = (tokenOut_amount) / (tokenIn_amount / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+    console.log(tokenOut_amount , tokenIn_amount);
     
     console.log(tokenIn , tokenOut , tokenOut_amount,
       fees,

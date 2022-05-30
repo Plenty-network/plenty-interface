@@ -25,7 +25,7 @@ import { setLoader } from '../../redux/slices/settings/settings.slice';
 import LiquidityInfo from '../../Components/SwapTabsContent/LiquidityTabs/LiquidityInfo';
 import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransaction';
 import Loader from '../../Components/loader';
-import { loadSwapDataGeneralStable } from '../../apis/stableswap/generalStableswap';
+import { loadSwapDataGeneralStable} from '../../apis/stableswap/generalStableswap';
 
 const AddLiquidity = (props) => {
   const [estimatedTokenAmout, setEstimatedTokenAmout] = useState('');
@@ -41,6 +41,7 @@ const AddLiquidity = (props) => {
   const [xtztoctez, setxtztoctez] = useState('0.00');
   const [cteztoxtz, setcteztoxtz] = useState('0.00');
   const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
+
   const fetchOutputData = async () => {
     const res = getExchangeRate(
       props.swapData.tezPool,
