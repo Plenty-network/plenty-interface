@@ -77,6 +77,7 @@ const RemoveLiquidity = (props) => {
   const removeLiquidityInput = (input) => {
     const removeAmount = parseFloat(input);
     let computedRemoveTokens;
+   
     if (props.tokenIn.name === 'tez') {
       computedRemoveTokens = liqCalcRemove(
         removeAmount,

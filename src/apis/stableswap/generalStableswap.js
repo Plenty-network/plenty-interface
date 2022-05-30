@@ -292,12 +292,14 @@ export const loadSwapDataGeneralStable = async (tokenIn, tokenOut) => {
     }
     const lpFee = await dexStorage.lpFee;
     const exchangeFee = lpFee.toNumber();
-    const lpTokenSupply = await dexStorage.lqtTotal.toNumber();
+    let lpTokenSupply = await dexStorage.lqtTotal.toNumber();
     const lpToken = CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
+    const lpTokenDecimal = CONFIG.AMM[connectedNetwork][lpToken].TOKEN_DECIMAL;
     const tokenIn_Decimal = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL;
     const tokenOut_Decimal = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_DECIMAL;
     tokenIn_supply = tokenIn_supply / Math.pow(10, tokenIn_Decimal);
     tokenOut_supply = tokenOut_supply / Math.pow(10, tokenOut_Decimal);
+    lpTokenSupply = lpTokenSupply / Math.pow(10, lpTokenDecimal);
     const tokenOutPerTokenIn = tokenOut_supply / tokenIn_supply;
     return {
       success: true,

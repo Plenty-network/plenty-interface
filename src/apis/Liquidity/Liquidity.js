@@ -247,8 +247,6 @@ export const getLiquidityPositionDetails = async (tokenA, tokenB, walletAddress)
       const tokenTwoPool = Number(storageResponse.data.args[3].int);
       const lpTokenSupply = Number(storageResponse.data.args[0].args[0].args[2].int);
 
-      console.log(tokenOneAddress, tokenOneID, tokenOnePool, tokenTwoAddress, tokenTwoID, tokenTwoPool, lpTokenSupply);
-
       // Token pool share percentage.
       const lpTokenShare = (lpTokenBalance * 100) / lpTokenSupply;
 
@@ -426,10 +424,89 @@ export const getLiquidityPositionDetailsStable = async (tokenA, tokenB, walletAd
       CONFIG.STABLESWAP[connectedNetwork][tokenA].DEX_PAIRS[tokenB].contract;
     const tokenAContractAddress = CONFIG.STABLESWAP[connectedNetwork][tokenA].TOKEN_CONTRACT;
     const tokenADecimal = CONFIG.STABLESWAP[connectedNetwork][tokenA].TOKEN_DECIMAL;
+    const tokenAID = CONFIG.AMM[connectedNetwork][tokenA].TOKEN_ID;
     const tokenBContractAddress = CONFIG.STABLESWAP[connectedNetwork][tokenB].TOKEN_CONTRACT;
     const tokenBDecimal = CONFIG.STABLESWAP[connectedNetwork][tokenB].TOKEN_DECIMAL;
+    const tokenBID = CONFIG.AMM[connectedNetwork][tokenB].TOKEN_ID;
     const poolBalances = {};
     let lpBalance = 0;
+
+    const amm_type = CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].type;
+    if(amm_type === 'veStableAMM') {
+      const result = await getUserBalanceByRpc(liquidityToken, walletAddress);
+      if (result.success && result.balance > 0) {
+        lpBalance = result.balance;
+      } else {
+        throw new Error('Liquidity not available for the selected pair.');
+      }
+      // Convert the balance to actual value stored in storage, for calculation.
+      const lpTokenBalance = lpBalance * 10 ** lpTokenDecimal;
+  
+      const storageResponse = await axios.get(
+        `${rpcNode}chains/main/blocks/head/context/contracts/${tokenPairContract}/storage`,
+      );
+
+      const tokenOneAddress = storageResponse.data.args[0].args[2].string;
+      const tokenOneID = Number(storageResponse.data.args[0].args[4].int);
+
+      
+
+      const tokenTwoAddress = storageResponse.data.args[1].args[2].string;
+      const tokenTwoID = Number(storageResponse.data.args[2].args[1].int);
+
+      const tokenOnePool = Number(storageResponse.data.args[1].args[0].args[1].int);
+      const tokenTwoPool = Number(storageResponse.data.args[3].int);
+      const lpTokenSupply = Number(storageResponse.data.args[0].args[0].args[2].int);
+
+      // Token pool share percentage.
+      const lpTokenShare = (lpTokenBalance * 100) / lpTokenSupply;
+
+      // Check if the order of pair sent in arguments is same as order of pair stored in contract storage and calculate balance accordingly[Swap or No Swap].
+      if (
+        tokenAContractAddress === tokenOneAddress &&
+        tokenAID === tokenOneID &&
+        tokenBContractAddress === tokenTwoAddress &&
+        tokenBID === tokenTwoID
+      ) {
+        // No swap.
+        poolBalances['tokenAPoolBalance'] =
+          (lpTokenBalance * tokenOnePool) / lpTokenSupply / 10 ** tokenADecimal;
+        poolBalances['tokenBPoolBalance'] =
+          (lpTokenBalance * tokenTwoPool) / lpTokenSupply / 10 ** tokenBDecimal;
+      } else if (
+        tokenAContractAddress === tokenTwoAddress &&
+        tokenAID === tokenTwoID &&
+        tokenBContractAddress === tokenOneAddress &&
+        tokenBID === tokenOneID
+      ) {
+        // Swap.
+        poolBalances['tokenAPoolBalance'] =
+          (lpTokenBalance * tokenTwoPool) / lpTokenSupply / 10 ** tokenADecimal;
+        poolBalances['tokenBPoolBalance'] =
+          (lpTokenBalance * tokenOnePool) / lpTokenSupply / 10 ** tokenBDecimal;
+      } else {
+        throw new Error('Invalid Token Pairs');
+      }
+
+      return {
+        success: true,
+        data: {
+          tokenA,
+          tokenB,
+          tokenAPoolBalance: poolBalances.tokenAPoolBalance,
+          tokenBPoolBalance: poolBalances.tokenBPoolBalance,
+          lpBalance,
+          lpTokenShare,
+        },
+      };
+
+      // const res = await getLiquidityPositionDetails(tokenA,tokenB , walletAddress);
+      // if(res.success) {
+      //   console.log('inside stable liq pos det');
+      //   console.log(res);
+      // }
+
+    }
 
     const result = await getUserBalanceByRpcStable(liquidityToken, walletAddress);
 
