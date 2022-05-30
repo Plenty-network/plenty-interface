@@ -218,6 +218,7 @@ const LiquidityNew = (props) => {
         if (pairExists) {
           if (config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz') {
             loadSwapDataStable(tokenIn.name, tokenOut.name).then((data) => {
+              console.log(data);
               if (data.success) {
                 setSwapData(data);
 
@@ -228,7 +229,9 @@ const LiquidityNew = (props) => {
             config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type ===
             'veStableAMM'
           ) {
+            console.log('ishu');
             loadSwapDataGeneralStable(tokenIn.name, tokenOut.name).then((data) => {
+              console.log(data);
               if (data.success) {
                 setSwapData(data);
 
