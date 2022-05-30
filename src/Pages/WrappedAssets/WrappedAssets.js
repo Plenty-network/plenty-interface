@@ -39,7 +39,7 @@ const WrappedAssets = (props) => {
                     rel="noreferrer"
                   >
                     <span className="learn-more" style={{ cursor: 'pointer' }}>
-                      Learn More
+                      Learn more
                       <span className="material-icons-round launch-icon-flash">launch</span>
                     </span>
                   </a>

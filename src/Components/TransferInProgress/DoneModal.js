@@ -129,7 +129,7 @@ const DoneModal = (props) => {
               <div className="containerwithicon">
                 <img src={tokenOut.image} />
                 <span className="value-text" title={fromExponential(Number(secondTokenAmount))}>
-                  {Number(secondTokenAmount).toFixed(10)} {tokenOut.name}
+                  {fromExponential(Number(Number(secondTokenAmount).toFixed(10)))} {tokenOut.name}
                 </span>
               </div>
             </div>

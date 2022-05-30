@@ -31,6 +31,7 @@ import { CHANGE_NETWORK_PROMPT_DELAY } from '../../constants/bridges';
 import ReactTimeAgo from 'react-time-ago';
 import { filterData, sortData, titleCase } from './helpers';
 import fromExponential from 'from-exponential';
+import { useInterval } from '../../hooks/useInterval';
 
 const TransactionHistory = (props) => {
   // eslint-disable-next-line
@@ -56,6 +57,7 @@ const TransactionHistory = (props) => {
   const sortButtonRef = useRef(null);
   const filterDivisionRef = useRef(null);
   const sortDivisionRef = useRef(null);
+  const delay = useRef(5000);
 
   const {
     // eslint-disable-next-line
@@ -79,7 +81,7 @@ const TransactionHistory = (props) => {
     setOpeningFromHistory,
     walletAddress,
     metamaskAddress,
-    // currentChain,
+    currentChain,
     metamaskChain,
     loadedTokensList,
     setSavedFromBridge,
@@ -238,27 +240,69 @@ const TransactionHistory = (props) => {
     
   };
 
+  useInterval(async () => {
+    if (metamaskAddress && walletAddress) {
+      const data = await getHistory({ ethereumAddress: metamaskAddress, tzAddress: walletAddress });
+      console.log(data);
+      if (data.success) {
+        setTransactionData(data.history);
+      }
+    }
+  }, delay.current);
+
   useEffect(async () => {
-    setIsLoading(true);
-    setOpeningFromTransaction(false);
-    // const data = await getHistory({ ethereumAddress:'0xb96E3B80D52Fed6Aa53bE5aE282a4DDA06db8122', tzAddress: 'tz1QNjbsi2TZEusWyvdH3nmsCVE3T1YqD9sv' });
-    console.log(metamaskAddress,walletAddress);
-    const data = await getHistory({ ethereumAddress: metamaskAddress, tzAddress: walletAddress });
-    console.log(data);
-    if (data.success) {
-      setTransactionData(data.history);
-      setIsLoading(false);
+    if (walletAddress && metamaskAddress) {
+      setIsLoading(true);
+      setOpeningFromTransaction(false);
+      // const data = await getHistory({ ethereumAddress:'0xb96E3B80D52Fed6Aa53bE5aE282a4DDA06db8122', tzAddress: 'tz1QNjbsi2TZEusWyvdH3nmsCVE3T1YqD9sv' });
+      console.log(metamaskAddress, walletAddress);
+      const data = await getHistory({ ethereumAddress: metamaskAddress, tzAddress: walletAddress });
+      console.log(data);
+      if (data.success) {
+        setTransactionData(data.history);
+        setIsLoading(false);
+      } else {
+        setTransactionData([]);
+        displayMessage({
+          type: 'error',
+          duration: FLASH_MESSAGE_DURATION,
+          title: 'Fetch error',
+          content:
+            'Failed to fetch transaction history. Please retry after some time or make sure both wallets are connected.',
+          isFlashMessageALink: false,
+          flashMessageLink: '#',
+        });
+        setIsLoading(false);
+      }
     } else {
-      setTransactionData([]);
-      displayMessage({
-        type: 'error',
-        duration: FLASH_MESSAGE_DURATION,
-        title: 'Fetch error',
-        content: 'Failed to fetch transaction history. Please retry after some time or make sure both wallets are connected.',
-        isFlashMessageALink: false,
-        flashMessageLink: '#',
-      });
-      setIsLoading(false);
+      if (!walletAddress && !metamaskAddress) {
+        displayMessage({
+          type: 'info',
+          duration: FLASH_MESSAGE_DURATION,
+          title: 'Connect wallet',
+          content: 'Connect both the wallets.',
+          isFlashMessageALink: false,
+          flashMessageLink: '#',
+        });
+      } else if (!walletAddress && metamaskAddress) {
+        displayMessage({
+          type: 'info',
+          duration: FLASH_MESSAGE_DURATION,
+          title: 'Connect wallet',
+          content: 'Please connect to tezos wallet.',
+          isFlashMessageALink: false,
+          flashMessageLink: '#',
+        });
+      } else if (!metamaskAddress && walletAddress) {
+        displayMessage({
+          type: 'info',
+          duration: FLASH_MESSAGE_DURATION,
+          title: 'Connect wallet',
+          content: `Please connect to ${titleCase(currentChain)} wallet.`,
+          isFlashMessageALink: false,
+          flashMessageLink: '#',
+        });
+      }
     }
   }, [walletAddress, metamaskAddress]);
 

@@ -977,7 +977,7 @@ const BridgeModal = (props) => {
                       {/* <Avalanche /> */}
                       {/* <img src={connectBridgeWallet.buttonImage} /> */}
                       <connectBridgeWallet.buttonImage />
-                      <span className="ml-2">Connect to {connectBridgeWallet.name} wallet</span>
+                      <span className="ml-2">Connect to {titleCase(connectBridgeWallet.name)} wallet</span>
                     </div>
                   </div>
                 </Button>
