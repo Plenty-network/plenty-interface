@@ -29,7 +29,7 @@ import config from '../../config/config';
 import switchImgDark from '../../assets/images/SwapModal/swap-switch-dark.svg';
 import {
   calculateTokensOutGeneralStable,
-  loadSwapDataGeneralStable,
+  loadSwapDataGeneralStableWithoutDecimal,
 } from '../../apis/stableswap/generalStableswap';
 
 const SwapTab = (props) => {
@@ -72,7 +72,7 @@ const SwapTab = (props) => {
     setSwapData(res);
   };
   const getSwapDataGeneralStableswap = async () => {
-    const res = await loadSwapDataGeneralStable(props.tokenIn.name, props.tokenOut.name);
+    const res = await loadSwapDataGeneralStableWithoutDecimal(props.tokenIn.name, props.tokenOut.name);
     setSwapData(res);
   };
   useEffect(() => {

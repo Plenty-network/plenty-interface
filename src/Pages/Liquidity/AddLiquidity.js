@@ -56,14 +56,10 @@ const AddLiquidity = (props) => {
     setcteztoxtz(res.tezexchangeRate.toFixed(6));
   };
   const fetchOutputDataGeneralStable = async () => {
-    console.log(props.swapData);
     const res = getGeneralExchangeRate(
-      props.swapData.tokenA_supply,
-      props.swapData.tokenB_supply,
-      props.swapData.tokenIn_precision,
-      props.swapData.tokenOut_precision,
+      props.swapData.tokenIn_supply,
+      props.swapData.tokenOut_supply,
     );
-    console.log(res);
     settokenArate(res.tokenAexchangeRate);
     settokenBrate(res.tokenBexchangeRate);
   };
@@ -78,7 +74,6 @@ const AddLiquidity = (props) => {
       config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
       'veStableAMM'
     ) {
-      console.log(props);
       fetchOutputDataGeneralStable();
       getSwapDataGeneralStableswap();
     }

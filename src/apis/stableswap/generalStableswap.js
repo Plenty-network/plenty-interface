@@ -41,27 +41,10 @@ export const newton_dx_to_dy = (x, y, dx, rounds) => {
   const dy = newton(x, y, dx, 0, u, rounds);
   return dy;
 };
-export const getGeneralExchangeRate = (tokenA_supply, tokenB_supply, tokenA_precision , tokenB_precision ) => {
+export const getGeneralExchangeRate = (tokenA_supply, tokenB_supply ) => {
 
-  tokenA_supply *= tokenA_precision;
-  tokenB_supply *= tokenB_precision;
-
-  const dy1 = newton_dx_to_dy(
-    tokenA_supply,
-    tokenB_supply,
-    1 * tokenA_precision,
-    5,
-  );
-  const fee1 = dy1 / 1000;
-
-  const tokenOut1 = dy1 - fee1;
-  const tokenAexchangeRate = tokenOut1 / tokenB_precision;
-
-  const dy2 = newton_dx_to_dy(tokenB_supply, tokenA_supply, 1 * tokenB_precision, 5);
-  const fee2 = dy2 / 1000;
-  const tokenOut2 = dy2 - fee2;
-
-  const tokenBexchangeRate = tokenOut2 / tokenA_precision;
+  const tokenAexchangeRate = tokenA_supply / tokenB_supply;
+  const tokenBexchangeRate = tokenB_supply / tokenA_supply;
 
   return {
     tokenAexchangeRate,
@@ -88,7 +71,8 @@ export const calculateTokensOutGeneralStable = (
   tokenOut,
   tokenIn_precision,
   tokenOut_precision,
-) => {
+) => { 
+
   console.log(tokenIn_supply,
     tokenOut_supply,
     tokenIn_amount,
@@ -133,8 +117,9 @@ export const calculateTokensOutGeneralStable = (
     priceImpact = priceImpact.toFixed(5);
     priceImpact = Math.abs(priceImpact);
 
-
+    // Divide fees by output token decimal and out precision
     // TODO : CHECK FEES & EXCHANGE RATE WITH ANMOL
+    // token out * tokenin decimal / tokenin supply * tokenout decimal
     tokenOut_amt = tokenOut_amt / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL;
     fee = fee / (tokenOut_precision * 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL);
     fee = fee.toFixed(20);
@@ -142,13 +127,7 @@ export const calculateTokensOutGeneralStable = (
     const minimum_Out = minimumOut;
     const fees = fee;
     const exchangeRate = (tokenOut_amount) / (tokenIn_amount / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL);
-    console.log(tokenOut_amount , tokenIn_amount);
-    
-    console.log(tokenIn , tokenOut , tokenOut_amount,
-      fees,
-      minimum_Out,
-      exchangeRate,
-      priceImpact,);
+
 
     return {
       tokenOut_amount,
@@ -287,6 +266,75 @@ export const swapTokens = async (
 };
 
 export const loadSwapDataGeneralStable = async (tokenIn, tokenOut) => {
+  try { 
+    const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const dexContractAddress =
+      CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
+    const Tezos = new TezosToolkit(rpcNode);
+    const dexContractInstance = await Tezos.contract.at(dexContractAddress);
+    const dexStorage = await dexContractInstance.storage();
+
+    const token1_pool = await dexStorage.token1Pool.toNumber();
+    const token1_precision = await dexStorage.token1Precision.toNumber();
+
+    const token2_pool = await dexStorage.token2Pool.toNumber();
+    const token2_precision = await dexStorage.token2Precision.toNumber();
+
+    let tokenIn_supply = 0;
+    let tokenOut_supply = 0;
+    let tokenIn_precision = 0;
+    let tokenOut_precision = 0;
+    if (CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].property === 'token2_pool') {
+      tokenOut_supply = token2_pool;
+      tokenOut_precision = token2_precision;
+      tokenIn_supply = token1_pool;
+      tokenIn_precision = token1_precision;
+    } else {
+      tokenOut_supply = token1_pool;
+      tokenOut_precision = token1_precision;
+      tokenIn_supply = token2_pool;
+      tokenIn_precision = token2_precision;
+    }
+    const lpFee = await dexStorage.lpFee;
+    const exchangeFee = lpFee.toNumber();
+    const lpTokenSupply = await dexStorage.lqtTotal.toNumber();
+    const lpToken = CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
+    const tokenIn_Decimal = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL;
+    const tokenOut_Decimal = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_DECIMAL;
+    tokenIn_supply = tokenIn_supply / Math.pow(10, tokenIn_Decimal);
+    tokenOut_supply = tokenOut_supply / Math.pow(10, tokenOut_Decimal);
+    const tokenOutPerTokenIn = tokenOut_supply / tokenIn_supply;
+    return {
+      success: true,
+      tokenIn,
+      tokenIn_supply,
+      tokenOut,
+      tokenOut_supply,
+      exchangeFee,
+      tokenOutPerTokenIn,
+      lpTokenSupply,
+      lpToken,
+      tokenIn_precision,
+      tokenOut_precision,
+      dexContractInstance,
+    };
+  } catch (error) {
+    console.log({ message: 'swap data error', error });
+    return {
+      success: false,
+      tezPool: 0,
+      ctezPool: 0,
+      tokenIn,
+      tokenOut,
+      lpTokenSupply: 0,
+      lpToken: null,
+      dexContractInstance: null,
+    };
+  }
+};
+
+export const loadSwapDataGeneralStableWithoutDecimal = async (tokenIn, tokenOut) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
@@ -322,8 +370,6 @@ export const loadSwapDataGeneralStable = async (tokenIn, tokenOut) => {
     const lpTokenSupply = await dexStorage.lqtTotal.toNumber();
     const lpToken = CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
     const tokenOutPerTokenIn = tokenOut_supply / tokenIn_supply;
-    console.log('loadSwapData');
-    console.log(token1_pool , token1_precision , token2_pool , token2_precision);
     return {
       success: true,
       tokenIn,
@@ -338,33 +384,6 @@ export const loadSwapDataGeneralStable = async (tokenIn, tokenOut) => {
       tokenOut_precision,
       dexContractInstance,
     };
-    // const connectedNetwork = CONFIG.NETWORK;
-    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
-    // const dexContractAddress =
-    //   CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
-    // const Tezos = new TezosToolkit(rpcNode);
-    // const dexContractInstance = await Tezos.contract.at(dexContractAddress);
-    // const dexStorage = await dexContractInstance.storage();
-
-    // let token1_pool = await dexStorage.token1Pool;
-    // let token1_precision = await dexStorage.token1Precision;
-
-    // let token2_pool = await dexStorage.token2Pool;
-    // let token2_precision = await dexStorage.token2Precision;
-    // let lpTokenSupply = await dexStorage.lqtTotal;
-    // const lpToken = CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
-    // return {
-    //   success: true,
-    //   token1_pool,
-    //   token1_precision,
-    //   token2_pool,
-    //   token2_precision,
-    //   tokenIn,
-    //   tokenOut,
-    //   lpTokenSupply,
-    //   lpToken,
-    //   dexContractInstance,
-    // };
   } catch (error) {
     console.log({ message: 'swap data error', error });
     return {
