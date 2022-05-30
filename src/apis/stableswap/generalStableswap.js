@@ -3,7 +3,6 @@ import { BeaconWallet } from '@taquito/beacon-wallet';
 import { CheckIfWalletConnected } from '../wallet/wallet';
 import CONFIG from '../../config/config';
 
-
 const util = (x, y) => {
   const plus = x + y;
   const minus = x - y;
@@ -69,7 +68,7 @@ export const newton_dx_to_dy = (x, y, dx, rounds) => {
  * @param target- Target price of the pair in bitwise right 48
  * @param tokenIn- TokenIn
  */
-export const calculateTokensOutGeneralStable =  (
+export const calculateTokensOutGeneralStable = (
   tokenIn_supply,
   tokenOut_supply,
   tokenIn_amount,
@@ -78,47 +77,58 @@ export const calculateTokensOutGeneralStable =  (
   tokenIn,
   tokenOut,
   tokenIn_precision,
-  tokenOut_precision
+  tokenOut_precision,
 ) => {
-    const connectedNetwork = CONFIG.NETWORK;
-  tokenIn_amount = tokenIn_amount * (10 ** CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+  const connectedNetwork = CONFIG.NETWORK;
+  tokenIn_amount =
+    tokenIn_amount * 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL;
   try {
-        // Ask aniket why div by 2**48
-        tokenIn_supply *= tokenIn_precision;
-        tokenOut_supply *= tokenOut_precision;
+    // Ask aniket why div by 2**48
+    tokenIn_supply *= tokenIn_precision;
+    tokenOut_supply *= tokenOut_precision;
 
-        const dy = newton_dx_to_dy(tokenIn_supply , tokenOut_supply , tokenIn_amount * tokenIn_precision , 5);
-        let fee  = dy / Exchangefee;
-        let tokenOut_amt = (dy - fee) / tokenOut_precision;
-        let minimumOut = tokenOut_amt - (slippage * tokenOut_amt) / 100;
-        minimumOut = minimumOut / (10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL);
-        const exchangeRate = tokenOut_amt / tokenIn_amount;
+    const dy = newton_dx_to_dy(
+      tokenIn_supply,
+      tokenOut_supply,
+      tokenIn_amount * tokenIn_precision,
+      5,
+    );
+    let fee = dy / Exchangefee;
+    let tokenOut_amt = (dy - fee) / tokenOut_precision;
+    let minimumOut = tokenOut_amt - (slippage * tokenOut_amt) / 100;
+    minimumOut = minimumOut / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL;
+    const exchangeRate = tokenOut_amt / tokenIn_amount;
 
-        const updated_tokenIn_pool = tokenIn_supply + tokenIn_amount;
-        const updated_tokenOut_pool = tokenOut_supply - tokenOut_amt;
+    const updated_tokenIn_pool = tokenIn_supply + tokenIn_amount;
+    const updated_tokenOut_pool = tokenOut_supply - tokenOut_amt;
 
-        const next_dy = newton_dx_to_dy(updated_tokenIn_pool , updated_tokenOut_pool , tokenIn_amount * tokenIn_precision , 5);
-        const next_fee = next_dy / Exchangefee;
-        const next_tokenOut = (next_dy - next_fee) / tokenOut_precision;
-        let priceImpact = (tokenOut_amt - next_tokenOut) / tokenOut_amt;
-        priceImpact = priceImpact * 100;
-        priceImpact = priceImpact.toFixed(5);
-        priceImpact = Math.abs(priceImpact);
+    const next_dy = newton_dx_to_dy(
+      updated_tokenIn_pool,
+      updated_tokenOut_pool,
+      tokenIn_amount * tokenIn_precision,
+      5,
+    );
+    const next_fee = next_dy / Exchangefee;
+    const next_tokenOut = (next_dy - next_fee) / tokenOut_precision;
+    let priceImpact = (tokenOut_amt - next_tokenOut) / tokenOut_amt;
+    priceImpact = priceImpact * 100;
+    priceImpact = priceImpact.toFixed(5);
+    priceImpact = Math.abs(priceImpact);
 
-        // TODO : CHECK FEES
-        tokenOut_amt = tokenOut_amt / (10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL);
-        fee = fee/ (10 ** CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL);
-        fee=fee.toFixed(20);
-        const tokenOut_amount = tokenOut_amt;
-        const minimum_Out = minimumOut;
-        const fees = fee;
-        return {
-            tokenOut_amount,
-            fees,
-            minimum_Out,
-            exchangeRate,
-            priceImpact,
-          };
+    // TODO : CHECK FEES
+    tokenOut_amt = tokenOut_amt / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL;
+    fee = fee / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL;
+    fee = fee.toFixed(20);
+    const tokenOut_amount = tokenOut_amt;
+    const minimum_Out = minimumOut;
+    const fees = fee;
+    return {
+      tokenOut_amount,
+      fees,
+      minimum_Out,
+      exchangeRate,
+      priceImpact,
+    };
   } catch (error) {
     return {
       tokenOut_amount: 0,
@@ -160,7 +170,8 @@ export const swapTokens = async (
     const Tezos = new TezosToolkit(rpcNode);
     Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
-    const dexContractAddress = CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
+    const dexContractAddress =
+      CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
     const tokenInId = CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_ID;
     const tokenOutAddress = CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_CONTRACT;
     const tokenOutId = CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_ID;
@@ -250,48 +261,47 @@ export const swapTokens = async (
 export const loadSwapDataGeneralStable = async (tokenIn, tokenOut) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-      const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
-      const dexContractAddress =
-        CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
-      const Tezos = new TezosToolkit(rpcNode);
-      const dexContractInstance = await Tezos.contract.at(dexContractAddress);
-      const dexStorage = await dexContractInstance.storage();
-  
-      const token1_pool = await dexStorage.token1Pool.toNumber();
-      const token1_precision = await dexStorage.token1Precision.toNumber();
-  
-      const token2_pool = await dexStorage.token2Pool.toNumber();
-      const token2_precision = await dexStorage.token2Precision.toNumber();
+    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const dexContractAddress =
+      CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
+    const Tezos = new TezosToolkit(rpcNode);
+    const dexContractInstance = await Tezos.contract.at(dexContractAddress);
+    const dexStorage = await dexContractInstance.storage();
 
-      let tokenIn_supply = 0;
-      let tokenOut_supply = 0;
-      if (CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].property === 'token2_pool') {
-        tokenOut_supply = token2_pool;
-        tokenIn_supply = token1_pool;
-      } else {
-        tokenOut_supply = token1_pool;
-        tokenIn_supply = token2_pool;
-      }
-      const lpFee = await dexStorage.lpFee;
-      const exchangeFee = lpFee.toNumber();
-      const lpTokenSupply = await dexStorage.lqtTotal.toNumber();
-      const lpToken = CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
-      const tokenOutPerTokenIn = tokenOut_supply / tokenIn_supply;
+    const token1_pool = await dexStorage.token1Pool.toNumber();
+    const token1_precision = await dexStorage.token1Precision.toNumber();
 
-      return {
-        success: true,
-        tokenIn,
-        tokenIn_supply,
-        tokenOut,
-        tokenOut_supply,
-        exchangeFee,
-        tokenOutPerTokenIn,
-        lpTokenSupply,
-        lpToken,
-        token1_precision,
-        token2_precision,
-        dexContractInstance
-      };
+    const token2_pool = await dexStorage.token2Pool.toNumber();
+    const token2_precision = await dexStorage.token2Precision.toNumber();
+
+    let tokenIn_supply = 0;
+    let tokenOut_supply = 0;
+    if (CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].property === 'token2_pool') {
+      tokenOut_supply = token2_pool;
+      tokenIn_supply = token1_pool;
+    } else {
+      tokenOut_supply = token1_pool;
+      tokenIn_supply = token2_pool;
+    }
+    const lpFee = await dexStorage.lpFee;
+    const exchangeFee = lpFee.toNumber();
+    const lpTokenSupply = await dexStorage.lqtTotal.toNumber();
+    const lpToken = CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
+    const tokenOutPerTokenIn = tokenOut_supply / tokenIn_supply;
+    return {
+      success: true,
+      tokenIn,
+      tokenIn_supply,
+      tokenOut,
+      tokenOut_supply,
+      exchangeFee,
+      tokenOutPerTokenIn,
+      lpTokenSupply,
+      lpToken,
+      token1_precision,
+      token2_precision,
+      dexContractInstance,
+    };
     // const connectedNetwork = CONFIG.NETWORK;
     // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
     // const dexContractAddress =

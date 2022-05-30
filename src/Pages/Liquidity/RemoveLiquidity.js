@@ -1,6 +1,10 @@
 import PropTypes from 'prop-types';
 import BigNumber from 'bignumber.js';
-import { computeRemoveTokens, removeLiquidity } from '../../apis/swap/swap';
+import {
+  computeRemoveTokens,
+  removeLiquidity,
+  removeLiquidity_generalStable,
+} from '../../apis/swap/swap';
 import { remove_liquidity, liqCalcRemove, getExchangeRate } from '../../apis/stableswap/stableswap';
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
@@ -159,6 +163,49 @@ const RemoveLiquidity = (props) => {
           props.setLoader(false);
           props.setShowConfirmRemoveSupply(false);
           setShowConfirmTransaction(false);
+          props.resetAllValues();
+          setTimeout(() => {
+            props.setLoaderMessage({});
+          }, 5000);
+        }
+      });
+    } else if (
+      config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+      'veStableAMM'
+    ) {
+      removeLiquidity_generalStable(
+        props.tokenIn.name,
+        props.tokenOut.name,
+        new BigNumber(removableTokens.tokenFirst_Out),
+        new BigNumber(removableTokens.tokenSecond_Out),
+        new BigNumber(removableTokens.removeAmount),
+        props.walletAddress,
+        props.swapData.dexContractInstance,
+        transactionSubmitModal,
+        resetValues,
+        props.setShowConfirmRemoveSupply,
+        setShowConfirmTransaction,
+      ).then((data) => {
+        if (data.success) {
+          props.setLoading(false);
+          setShowTransactionSubmitModal(false);
+          props.handleLoaderMessage('success', 'Transaction confirmed');
+          props.setLoader(false);
+          props.setShowConfirmRemoveSupply(false);
+          setShowConfirmTransaction(false);
+
+          props.resetAllValues();
+          setTimeout(() => {
+            props.setLoaderMessage({});
+          }, 5000);
+        } else {
+          props.setLoading(false);
+          setShowTransactionSubmitModal(false);
+          props.handleLoaderMessage('error', 'Transaction failed');
+          props.setLoader(false);
+          props.setShowConfirmRemoveSupply(false);
+          setShowConfirmTransaction(false);
+
           props.resetAllValues();
           setTimeout(() => {
             props.setLoaderMessage({});

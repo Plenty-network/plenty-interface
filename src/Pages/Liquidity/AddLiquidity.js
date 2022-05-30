@@ -1,5 +1,10 @@
 import PropTypes from 'prop-types';
-import { addLiquidity, estimateOtherToken, lpTokenOutput } from '../../apis/swap/swap';
+import {
+  addLiquidity,
+  addLiquidity_generalStable,
+  estimateOtherToken,
+  lpTokenOutput,
+} from '../../apis/swap/swap';
 import {
   add_liquidity,
   liqCalc,
@@ -24,7 +29,6 @@ import { loadSwapDataGeneralStable } from '../../apis/stableswap/generalStablesw
 
 const AddLiquidity = (props) => {
   const [estimatedTokenAmout, setEstimatedTokenAmout] = useState('');
-
   const [secondTokenAmount, setSecondTokenAmount] = useState('');
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
   const [lpTokenAmount, setLpTokenAmount] = useState({});
@@ -297,6 +301,51 @@ const AddLiquidity = (props) => {
           }, 5000);
         }
       });
+    } else if (
+      config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+      'veStableAMM'
+    ) {
+      addLiquidity_generalStable(
+        props.tokenIn.name,
+        props.tokenOut.name,
+        firstTokenAmount,
+        secondTokenAmountEntered,
+        props.tokenContractInstances[props.tokenIn.name],
+        props.tokenContractInstances[props.tokenOut.name],
+        props.walletAddress,
+        props.swapData.dexContractInstance,
+        transactionSubmitModal,
+        resetAllValuesLiq,
+        props.setShowConfirmAddSupply,
+        setShowConfirmTransaction,
+      ).then((data) => {
+        if (data.success) {
+          props.setLoading(false);
+          props.setLoader(false);
+          setShowTransactionSubmitModal(false);
+          props.handleLoaderMessage('success', 'Transaction confirmed');
+          getSwapData();
+          props.setShowConfirmAddSupply(false);
+          setShowConfirmTransaction(false);
+          //props.setHideContent('');
+          resetAllValuesLiq();
+          setTimeout(() => {
+            props.setLoaderMessage({});
+          }, 5000);
+        } else {
+          props.setLoading(false);
+          props.setLoader(false);
+          setShowTransactionSubmitModal(false);
+          props.handleLoaderMessage('error', 'Transaction failed');
+          props.setShowConfirmAddSupply(false);
+          setShowConfirmTransaction(false);
+          //props.setHideContent('');
+          resetAllValuesLiq();
+          setTimeout(() => {
+            props.setLoaderMessage({});
+          }, 5000);
+        }
+      });
     } else {
       addLiquidity(
         props.tokenIn.name,
@@ -312,21 +361,6 @@ const AddLiquidity = (props) => {
         props.setShowConfirmAddSupply,
         setShowConfirmTransaction,
       ).then((data) => {
-        console.log(data);
-        console.log(
-          props.tokenIn.name,
-          props.tokenOut.name,
-          firstTokenAmount,
-          secondTokenAmountEntered,
-          props.tokenContractInstances[props.tokenIn.name],
-          props.tokenContractInstances[props.tokenOut.name],
-          props.walletAddress,
-          props.swapData.dexContractInstance,
-          transactionSubmitModal,
-          resetAllValuesLiq,
-          props.setShowConfirmAddSupply,
-          setShowConfirmTransaction,
-        );
         if (data.success) {
           props.setLoading(false);
           props.setLoader(false);
