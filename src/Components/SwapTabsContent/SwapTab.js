@@ -167,8 +167,8 @@ const SwapTab = (props) => {
       props.slippage,
       props.tokenIn.name,
       props.tokenOut.name,
-      swapData.token1_precision,
-      swapData.token2_precision,
+      swapData.tokenIn_precision,
+      swapData.tokenOut_precision,
     );
 
     return tokenOutResponse;

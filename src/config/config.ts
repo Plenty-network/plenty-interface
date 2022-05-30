@@ -1494,7 +1494,6 @@ const Config: IConfig = {
           },
         },
       },
-      // TODO : Must check read type / call type / mapId
       tzBTC: {
         ICON: '',
         TOKEN_CONTRACT: 'KT1PWx2mnDueood7fEmfbBDKx1D9BAnnXitn',

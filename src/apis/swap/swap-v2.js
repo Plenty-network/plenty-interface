@@ -125,12 +125,18 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
 
       let tokenIn_supply = 0;
       let tokenOut_supply = 0;
+      let tokenIn_precision = 0;
+      let tokenOut_precision = 0;
       if (CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].property === 'token2_pool') {
         tokenOut_supply = token2_pool;
+        tokenOut_precision = token2_precision;
         tokenIn_supply = token1_pool;
+        tokenIn_precision = token1_precision;
       } else {
         tokenOut_supply = token1_pool;
+        tokenOut_precision = token1_precision;
         tokenIn_supply = token2_pool;
+        tokenIn_precision = token2_precision;
       }
       const lpFee = await dexStorage.lpFee;
       const exchangeFee = lpFee.toNumber();
@@ -147,8 +153,8 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
         tokenOutPerTokenIn,
         lpTokenSupply,
         lpToken,
-        token1_precision,
-        token2_precision,
+        tokenIn_precision,
+        tokenOut_precision,
         amm_type,
       };
     }
@@ -349,8 +355,8 @@ const getRouteSwapData = async (path) => {
           0,
           responses[i].tokenIn,
           responses[i].tokenOut,
-          responses[i].token1_precision,
-          responses[i].token2_precision,
+          responses[i].tokenIn_precision,
+          responses[i].tokenOut_precision,
         ).tokenOut_amount;
 
       }
@@ -463,8 +469,8 @@ const computeTokenOutputV2 = (
   tokenIn,
   tokenOut,
   target,
-  token1_precision,
-  token2_precision
+  tokenIn_precision,
+  tokenOut_precision
 ) => {
   try {
   const connectedNetwork = CONFIG.NETWORK;
@@ -502,8 +508,8 @@ const computeTokenOutputV2 = (
         slippage,
         tokenIn,
         tokenOut,
-        token1_precision,
-        token2_precision,
+        tokenIn_precision,
+        tokenOut_precision,
       );
     }
     else {
@@ -563,8 +569,8 @@ const computeTokenOutForRouteBaseV2Base = (inputAmount, swapData, slippage) => {
           cur.tokenIn,
           cur.tokenOut,
           cur.target,
-          cur.token1_precision,
-          cur.token2_precision,
+          cur.tokenIn_precision,
+          cur.tokenOut_precision,
         );
         return {
           tokenOutAmount: computed.tokenOut_amount,

@@ -1220,6 +1220,10 @@ export const removeLiquidity = async (
     Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
 
+    const lpTokenDecimal =
+      CONFIG.AMM[connectedNetwork][
+        CONFIG.AMM[connectedNetwork][tokenFirst].DEX_PAIRS[tokenSecond].liquidityToken
+      ].TOKEN_DECIMAL;
     const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
       CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].liquidityToken,
       caller,
@@ -1255,11 +1259,6 @@ export const removeLiquidity = async (
     const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].contract;
 
     const dexContractInstanceLocal = await Tezos.contract.at(dexContractAddress);
-
-    const lpTokenDecimal =
-      CONFIG.AMM[connectedNetwork][
-        CONFIG.AMM[connectedNetwork][tokenFirst].DEX_PAIRS[tokenSecond].liquidityToken
-      ].TOKEN_DECIMAL;
 
     const batch = Tezos.wallet
       .batch()
@@ -1326,6 +1325,11 @@ export const removeLiquidity_generalStable = async (
     Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
 
+    const lpTokenDecimal =
+      CONFIG.AMM[connectedNetwork][
+        CONFIG.AMM[connectedNetwork][tokenFirst].DEX_PAIRS[tokenSecond].liquidityToken
+      ].TOKEN_DECIMAL;
+
     const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
       CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].liquidityToken,
       caller,
@@ -1362,10 +1366,6 @@ export const removeLiquidity_generalStable = async (
 
     const dexContractInstanceLocal = await Tezos.contract.at(dexContractAddress);
 
-    const lpTokenDecimal =
-      CONFIG.AMM[connectedNetwork][
-        CONFIG.AMM[connectedNetwork][tokenFirst].DEX_PAIRS[tokenSecond].liquidityToken
-      ].TOKEN_DECIMAL;
 
     const batch = Tezos.wallet
       .batch()
