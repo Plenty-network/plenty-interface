@@ -25,6 +25,7 @@ import ctez from '../../assets/images/ctez.png';
 import { getUserBalanceByRpcStable, loadSwapDataStable } from '../../apis/stableswap/stableswap';
 import SettingsLiq from '../../Components/TransactionSettings/SettingsLiq';
 import { loadSwapDataGeneralStable } from '../../apis/stableswap/generalStableswap';
+import CONFIG from '../../config/config';
 
 const LiquidityNew = (props) => {
   const { activeTab, tokenIn, setTokenIn, tokenOut, setTokenOut, setActiveTab } =
@@ -73,11 +74,29 @@ const LiquidityNew = (props) => {
     if (ress.isLiquidityAvailable) {
       let res;
       if (isStable) {
+        if (
+          CONFIG.AMM[CONFIG.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]?.type ===
+          'xtz'
+        ){
         res = await getLiquidityPositionDetailsStable(
           tokenIn.name,
           tokenOut.name,
           props.walletAddress,
-        );
+        );}
+        else if(
+          CONFIG.AMM[CONFIG.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]?.type ===
+          'veStableAMM'
+        ){
+          res = await getLiquidityPositionDetails(
+            tokenIn.name,
+            tokenOut.name,
+            props.walletAddress,
+          );}
+        // res = await getLiquidityPositionDetailsStable(
+        //   tokenIn.name,
+        //   tokenOut.name,
+        //   props.walletAddress,
+        // );
       } else {
         res = await getLiquidityPositionDetails(tokenIn.name, tokenOut.name, props.walletAddress);
       }

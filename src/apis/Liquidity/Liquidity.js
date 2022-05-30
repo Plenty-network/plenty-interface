@@ -233,6 +233,64 @@ export const getLiquidityPositionDetails = async (tokenA, tokenB, walletAddress)
         },
       };
     }
+    else if (amm_type === 'veStableAMM'){
+      // Add logic for stable AMM
+      const tokenOneAddress = storageResponse.data.args[0].args[2].string;
+      const tokenOneID = Number(storageResponse.data.args[0].args[4].int);
+
+      
+
+      const tokenTwoAddress = storageResponse.data.args[1].args[2].string;
+      const tokenTwoID = Number(storageResponse.data.args[2].args[1].int);
+
+      const tokenOnePool = Number(storageResponse.data.args[1].args[0].args[1].int);
+      const tokenTwoPool = Number(storageResponse.data.args[3].int);
+      const lpTokenSupply = Number(storageResponse.data.args[0].args[0].args[2].int);
+
+      console.log(tokenOneAddress, tokenOneID, tokenOnePool, tokenTwoAddress, tokenTwoID, tokenTwoPool, lpTokenSupply);
+
+      // Token pool share percentage.
+      const lpTokenShare = (lpTokenBalance * 100) / lpTokenSupply;
+
+      // Check if the order of pair sent in arguments is same as order of pair stored in contract storage and calculate balance accordingly[Swap or No Swap].
+      if (
+        tokenAContractAddress === tokenOneAddress &&
+        tokenAID === tokenOneID &&
+        tokenBContractAddress === tokenTwoAddress &&
+        tokenBID === tokenTwoID
+      ) {
+        // No swap.
+        poolBalances['tokenAPoolBalance'] =
+          (lpTokenBalance * tokenOnePool) / lpTokenSupply / 10 ** tokenADecimal;
+        poolBalances['tokenBPoolBalance'] =
+          (lpTokenBalance * tokenTwoPool) / lpTokenSupply / 10 ** tokenBDecimal;
+      } else if (
+        tokenAContractAddress === tokenTwoAddress &&
+        tokenAID === tokenTwoID &&
+        tokenBContractAddress === tokenOneAddress &&
+        tokenBID === tokenOneID
+      ) {
+        // Swap.
+        poolBalances['tokenAPoolBalance'] =
+          (lpTokenBalance * tokenTwoPool) / lpTokenSupply / 10 ** tokenADecimal;
+        poolBalances['tokenBPoolBalance'] =
+          (lpTokenBalance * tokenOnePool) / lpTokenSupply / 10 ** tokenBDecimal;
+      } else {
+        throw new Error('Invalid Token Pairs');
+      }
+
+      return {
+        success: true,
+        data: {
+          tokenA,
+          tokenB,
+          tokenAPoolBalance: poolBalances.tokenAPoolBalance,
+          tokenBPoolBalance: poolBalances.tokenBPoolBalance,
+          lpBalance,
+          lpTokenShare,
+        },
+      };
+    }
     //     else if((tokenA === 'ctez' && tokenB === 'USDC.e') || (tokenA === 'USDC.e' && tokenB === 'ctez') || (tokenA === 'ctez' && tokenB === 'WBTC.e') || (tokenA === 'WBTC.e' && tokenB === 'ctez')){
     //       const tokenOneAddress = 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY';
     //       let tokenOneID = 0;

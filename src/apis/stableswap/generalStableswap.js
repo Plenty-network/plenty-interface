@@ -61,7 +61,7 @@ export const getGeneralExchangeRate = (tokenA_supply, tokenB_supply ) => {
  * @param target- Target price of the pair in bitwise right 48
  * @param tokenIn- TokenIn
  */
-export const calculateTokensOutGeneralStable = (
+export const calculateTokensOutGeneralStable  = async (
   tokenIn_supply,
   tokenOut_supply,
   tokenIn_amount,
@@ -72,6 +72,16 @@ export const calculateTokensOutGeneralStable = (
   tokenIn_precision,
   tokenOut_precision,
 ) => { 
+  console.log(tokenIn_supply,
+    tokenOut_supply,
+    tokenIn_amount,
+    Exchangefee,
+    slippage,
+    tokenIn,
+    tokenOut,
+    tokenIn_precision,
+    tokenOut_precision,);
+
   const connectedNetwork = CONFIG.NETWORK;
   tokenIn_amount =
     tokenIn_amount * 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL;

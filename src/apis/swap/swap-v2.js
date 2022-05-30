@@ -5,7 +5,6 @@ import { BeaconWallet } from '@taquito/beacon-wallet';
 import { CheckIfWalletConnected } from '../wallet/wallet';
 import { newton_dx_to_dy } from '../stableswap/stableswap';
 import { isTokenPairStable } from '../Liquidity/Liquidity';
-import { calculateTokensOutGeneralStable } from '../stableswap/generalStableswap';
 /**
  * Loads swap related data to perform calculation using RPC
  * @param tokenIn - token which user wants to sell, case-sensitive to CONFIG
@@ -313,6 +312,76 @@ const calculateTokensOutStable = (
       fees: 0,
       minimum_Out: 0,
       priceImpact: 0,
+    };
+  }
+};
+const calculateTokensOutGeneralStable  =  (
+  tokenIn_supply,
+  tokenOut_supply,
+  tokenIn_amount,
+  Exchangefee,
+  slippage,
+  tokenIn,
+  tokenOut,
+  tokenIn_precision,
+  tokenOut_precision,
+) => { 
+  const connectedNetwork = CONFIG.NETWORK;
+  tokenIn_amount =
+    tokenIn_amount * 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL;
+  try {
+    tokenIn_supply *= tokenIn_precision;
+    tokenOut_supply *= tokenOut_precision;
+
+    const dy = newton_dx_to_dy(
+      tokenIn_supply,
+      tokenOut_supply,
+      tokenIn_amount * tokenIn_precision,
+      5,
+    );
+    let fee = dy / Exchangefee;
+    let tokenOut_amt = (dy - fee) / tokenOut_precision;
+    let minimumOut = tokenOut_amt - (slippage * tokenOut_amt) / 100;
+    minimumOut = minimumOut / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL;
+
+    const updated_tokenIn_pool = tokenIn_supply + tokenIn_amount;
+    const updated_tokenOut_pool = tokenOut_supply - tokenOut_amt;
+
+    const next_dy = newton_dx_to_dy(
+      updated_tokenIn_pool,
+      updated_tokenOut_pool,
+      tokenIn_amount * tokenIn_precision,
+      5,
+    );
+    const next_fee = next_dy / Exchangefee;
+    const next_tokenOut = (next_dy - next_fee) / tokenOut_precision;
+    let priceImpact = (tokenOut_amt - next_tokenOut) / tokenOut_amt;
+    priceImpact = priceImpact * 100;
+    priceImpact = priceImpact.toFixed(5);
+    priceImpact = Math.abs(priceImpact);
+    tokenOut_amt = tokenOut_amt / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL;
+    fee = fee / tokenOut_precision;
+    fee /= (10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL);
+    const tokenOut_amount = tokenOut_amt;
+    const minimum_Out = minimumOut;
+    const fees = fee;
+    const exchangeRate = (tokenOut_amount) / (tokenIn_amount / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+
+
+    return {
+      tokenOut_amount,
+      fees,
+      minimum_Out,
+      exchangeRate,
+      priceImpact,
+    };
+  } catch (error) {
+    return {
+      tokenOut_amount: 0,
+      fees: 0,
+      minimum_Out: 0,
+      priceImpact: 0,
+      error,
     };
   }
 };
