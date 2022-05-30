@@ -79,6 +79,15 @@ export const calculateTokensOutGeneralStable = (
   tokenIn_precision,
   tokenOut_precision,
 ) => {
+  console.log(tokenIn_supply,
+    tokenOut_supply,
+    tokenIn_amount,
+    Exchangefee,
+    slippage,
+    tokenIn,
+    tokenOut,
+    tokenIn_precision,
+    tokenOut_precision,);
   const connectedNetwork = CONFIG.NETWORK;
   tokenIn_amount =
     tokenIn_amount * 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL;
@@ -97,7 +106,6 @@ export const calculateTokensOutGeneralStable = (
     let tokenOut_amt = (dy - fee) / tokenOut_precision;
     let minimumOut = tokenOut_amt - (slippage * tokenOut_amt) / 100;
     minimumOut = minimumOut / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL;
-    const exchangeRate = tokenOut_amt / tokenIn_amount;
 
     const updated_tokenIn_pool = tokenIn_supply + tokenIn_amount;
     const updated_tokenOut_pool = tokenOut_supply - tokenOut_amt;
@@ -114,7 +122,8 @@ export const calculateTokensOutGeneralStable = (
     priceImpact = priceImpact * 100;
     priceImpact = priceImpact.toFixed(5);
     priceImpact = Math.abs(priceImpact);
-
+    
+    const exchangeRate = (tokenOut_amt/tokenOut_precision) / (tokenIn_amount / tokenIn_precision);
     // TODO : CHECK FEES
     tokenOut_amt = tokenOut_amt / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL;
     fee = fee / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL;
@@ -122,6 +131,14 @@ export const calculateTokensOutGeneralStable = (
     const tokenOut_amount = tokenOut_amt;
     const minimum_Out = minimumOut;
     const fees = fee;
+    
+    
+    console.log(tokenIn , tokenOut , tokenOut_amount,
+      fees,
+      minimum_Out,
+      exchangeRate,
+      priceImpact,);
+
     return {
       tokenOut_amount,
       fees,
@@ -276,18 +293,26 @@ export const loadSwapDataGeneralStable = async (tokenIn, tokenOut) => {
 
     let tokenIn_supply = 0;
     let tokenOut_supply = 0;
+    let tokenIn_precision = 0;
+    let tokenOut_precision = 0;
     if (CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].property === 'token2_pool') {
       tokenOut_supply = token2_pool;
+      tokenOut_precision = token2_precision;
       tokenIn_supply = token1_pool;
+      tokenIn_precision = token1_precision;
     } else {
       tokenOut_supply = token1_pool;
+      tokenOut_precision = token1_precision;
       tokenIn_supply = token2_pool;
+      tokenIn_precision = token2_precision;
     }
     const lpFee = await dexStorage.lpFee;
     const exchangeFee = lpFee.toNumber();
     const lpTokenSupply = await dexStorage.lqtTotal.toNumber();
     const lpToken = CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
     const tokenOutPerTokenIn = tokenOut_supply / tokenIn_supply;
+    console.log('loadSwapData');
+    console.log(token1_pool , token1_precision , token2_pool , token2_precision);
     return {
       success: true,
       tokenIn,
@@ -298,8 +323,8 @@ export const loadSwapDataGeneralStable = async (tokenIn, tokenOut) => {
       tokenOutPerTokenIn,
       lpTokenSupply,
       lpToken,
-      token1_precision,
-      token2_precision,
+      tokenIn_precision,
+      tokenOut_precision,
       dexContractInstance,
     };
     // const connectedNetwork = CONFIG.NETWORK;
