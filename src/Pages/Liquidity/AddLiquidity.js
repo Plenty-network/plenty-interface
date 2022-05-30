@@ -25,7 +25,10 @@ import { setLoader } from '../../redux/slices/settings/settings.slice';
 import LiquidityInfo from '../../Components/SwapTabsContent/LiquidityTabs/LiquidityInfo';
 import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransaction';
 import Loader from '../../Components/loader';
-import { loadSwapDataGeneralStable} from '../../apis/stableswap/generalStableswap';
+import {
+  getGeneralExchangeRate,
+  loadSwapDataGeneralStable,
+} from '../../apis/stableswap/generalStableswap';
 
 const AddLiquidity = (props) => {
   const [estimatedTokenAmout, setEstimatedTokenAmout] = useState('');
@@ -40,24 +43,31 @@ const AddLiquidity = (props) => {
   const [poolShare, setPoolShare] = useState('0.0');
   const [xtztoctez, setxtztoctez] = useState('0.00');
   const [cteztoxtz, setcteztoxtz] = useState('0.00');
+  const [tokenArate, settokenArate] = useState('0.00');
+  const [tokenBrate, settokenBrate] = useState('0.00');
   const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
-
   const fetchOutputData = async () => {
     const res = getExchangeRate(
       props.swapData.tezPool,
       props.swapData.ctezPool,
       props.swapData.target,
     );
-
     setxtztoctez(res.ctezexchangeRate.toFixed(6));
     setcteztoxtz(res.tezexchangeRate.toFixed(6));
   };
-  // useEffect(() => {
-  //   if (isTokenPairStable(props.tokenIn.name, props.tokenOut.name)) {
-  //     fetchOutputData();
-  //     getSwapData();
-  //   }
-  // }, [props]);
+  const fetchOutputDataGeneralStable = async () => {
+    console.log(props.swapData);
+    const res = getGeneralExchangeRate(
+      props.swapData.tokenA_supply,
+      props.swapData.tokenB_supply,
+      props.swapData.tokenIn_precision,
+      props.swapData.tokenOut_precision,
+    );
+    console.log(res);
+    settokenArate(res.tokenAexchangeRate);
+    settokenBrate(res.tokenBexchangeRate);
+  };
+
   useEffect(() => {
     if (
       config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type === 'xtz'
@@ -68,9 +78,11 @@ const AddLiquidity = (props) => {
       config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
       'veStableAMM'
     ) {
+      console.log(props);
+      fetchOutputDataGeneralStable();
       getSwapDataGeneralStableswap();
     }
-  }, [props.tokenOut.name, props.tokenOut.name]);
+  }, [props.tokenOut.name, props.tokenOut.name, props]);
 
   const getSwapData = async () => {
     await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
@@ -686,6 +698,8 @@ const AddLiquidity = (props) => {
         poolShare={poolShare}
         xtztoctez={xtztoctez}
         cteztoxtz={cteztoxtz}
+        tokenArate={tokenArate}
+        tokenBrate={tokenBrate}
         isStable={
           config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
           'xtz'
