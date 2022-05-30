@@ -72,21 +72,10 @@ export const calculateTokensOutGeneralStable = (
   tokenIn_precision,
   tokenOut_precision,
 ) => { 
-
-  console.log(tokenIn_supply,
-    tokenOut_supply,
-    tokenIn_amount,
-    Exchangefee,
-    slippage,
-    tokenIn,
-    tokenOut,
-    tokenIn_precision,
-    tokenOut_precision,);
   const connectedNetwork = CONFIG.NETWORK;
   tokenIn_amount =
     tokenIn_amount * 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL;
   try {
-    // Ask aniket why div by 2**48
     tokenIn_supply *= tokenIn_precision;
     tokenOut_supply *= tokenOut_precision;
 
@@ -116,13 +105,9 @@ export const calculateTokensOutGeneralStable = (
     priceImpact = priceImpact * 100;
     priceImpact = priceImpact.toFixed(5);
     priceImpact = Math.abs(priceImpact);
-
-    // Divide fees by output token decimal and out precision
-    // TODO : CHECK FEES & EXCHANGE RATE WITH ANMOL
-    // token out * tokenin decimal / tokenin supply * tokenout decimal
     tokenOut_amt = tokenOut_amt / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL;
-    fee = fee / (tokenOut_precision * 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL);
-    fee = fee.toFixed(20);
+    fee = fee / tokenOut_precision;
+    fee /= (10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL);
     const tokenOut_amount = tokenOut_amt;
     const minimum_Out = minimumOut;
     const fees = fee;
@@ -161,7 +146,6 @@ export const swapTokens = async (
 ) => {
   const connectedNetwork = CONFIG.NETWORK;
   const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
-  // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
   try {
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -398,174 +382,3 @@ export const loadSwapDataGeneralStableWithoutDecimal = async (tokenIn, tokenOut)
     };
   }
 };
-
-// export const liqCalc = (xtzAmount, tezpool, ctezpool, lqtTotal) => {
-//   const ctez = (Number(xtzAmount) * 10 ** 6 * ctezpool) / tezpool;
-//   const lpToken = Number((Number(xtzAmount) * 10 ** 6 * lqtTotal) / tezpool);
-//   const poolPercent = Number((lpToken / (lpToken + lqtTotal)) * 100);
-
-//   return {
-//     ctez,
-//     lpToken,
-//     poolPercent,
-//   };
-// };
-
-// export const liqCalcRev = (ctezAmount, tezpool, ctezpool, lqtTotal) => {
-//   const tez = (Number(ctezAmount) * 10 ** 6 * tezpool) / ctezpool;
-//   const lpToken = Number((Number(tez) * lqtTotal) / tezpool);
-//   const poolPercent = Number((lpToken / (lpToken + lqtTotal)) * 100);
-
-//   return {
-//     tez,
-//     lpToken,
-//     poolPercent,
-//   };
-// };
-
-// export async function add_liquidity(
-//   tokenIn,
-//   tokenOut,
-//   ctezAmount,
-//   tezAmount,
-//   recepient,
-//   transactionSubmitModal,
-//   setShowConfirmAddSupply,
-//   resetAllValues,
-//   setShowConfirmTransaction,
-// ) {
-//   try {
-//     const connectedNetwork = CONFIG.NETWORK;
-//     const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
-
-//     const network = {
-//       type: CONFIG.WALLET_NETWORK,
-//     };
-//     const options = {
-//       name: CONFIG.NAME,
-//     };
-//     const wallet = new BeaconWallet(options);
-//     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
-//     if (!WALLET_RESP.success) {
-//       throw new Error('Wallet connection failed');
-//     }
-//     const Tezos = new TezosToolkit(rpcNode);
-//     Tezos.setRpcProvider(rpcNode);
-//     Tezos.setWalletProvider(wallet);
-//     const contractAddress =
-//       CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
-//     const CTEZ = CONFIG.AMM[connectedNetwork]['ctez'].TOKEN_CONTRACT;
-//     const contract = await Tezos.wallet.at(contractAddress);
-//     const ctez_contract = await Tezos.wallet.at(CTEZ);
-//     const batch = Tezos.wallet.batch([
-//       {
-//         kind: OpKind.TRANSACTION,
-//         ...ctez_contract.methods
-//           .approve(contractAddress, Math.round(Number(ctezAmount * 10 ** 6)))
-//           .toTransferParams(),
-//       },
-//       {
-//         kind: OpKind.TRANSACTION,
-//         ...contract.methods
-//           .add_liquidity(Math.round(Number(ctezAmount * 10 ** 6)), 0, recepient)
-//           .toTransferParams({ amount: Number(tezAmount * 10 ** 6), mutez: true }),
-//       },
-//       {
-//         kind: OpKind.TRANSACTION,
-//         ...ctez_contract.methods.approve(contractAddress, 0).toTransferParams(),
-//       },
-//     ]);
-
-//     const batchOp = await batch.send();
-//     // eslint-disable-next-line no-lone-blocks
-//     {
-//       batchOp.opHash === null
-//         ? console.log('operation getting injected')
-//         : console.log('operation injected');
-//     }
-//     setShowConfirmAddSupply(false);
-//     setShowConfirmTransaction(false);
-//     resetAllValues();
-//     transactionSubmitModal(batchOp.opHash);
-
-//     await batchOp.confirmation();
-//     return {
-//       success: true,
-//       operationId: batchOp.opHash,
-//     };
-//   } catch (error) {
-//     console.log(error);
-//     return {
-//       success: false,
-//       error,
-//     };
-//   }
-// }
-
-// export const liqCalcRemove = (liqAmountInput, tezPool, ctezPool, lqtTotal) => {
-//   let tokenFirst_Out = (liqAmountInput * tezPool) / lqtTotal;
-//   let tokenSecond_Out = (liqAmountInput * ctezPool) / lqtTotal;
-//   tokenFirst_Out = parseFloat(tokenFirst_Out.toFixed(6));
-//   tokenSecond_Out = parseFloat(tokenSecond_Out.toFixed(6));
-//   return {
-//     tokenFirst_Out,
-//     tokenSecond_Out,
-//   };
-// };
-
-// export async function remove_liquidity(
-//   tokenIn,
-//   tokenOut,
-//   amount,
-//   transactionSubmitModal,
-//   setShowConfirmSwap,
-//   resetAllValues,
-//   setShowConfirmTransaction,
-// ) {
-//   try {
-//     const connectedNetwork = CONFIG.NETWORK;
-//     const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
-
-//     const network = {
-//       type: CONFIG.WALLET_NETWORK,
-//     };
-//     const options = {
-//       name: CONFIG.NAME,
-//     };
-//     const wallet = new BeaconWallet(options);
-//     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
-//     if (!WALLET_RESP.success) {
-//       throw new Error('Wallet connection failed');
-//     }
-//     const Tezos = new TezosToolkit(rpcNode);
-//     Tezos.setRpcProvider(rpcNode);
-//     Tezos.setWalletProvider(wallet);
-//     const contractAddress =
-//       CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
-
-//     const contract = await Tezos.wallet.at(contractAddress);
-//     const op = await contract.methods.remove_liquidity(Number(amount * 10 ** 6), 0, 0).send();
-//     // eslint-disable-next-line no-lone-blocks
-//     {
-//       op.opHash === null
-//         ? console.log('operation getting injected')
-//         : console.log('operation injected');
-//     }
-//     setShowConfirmSwap(false);
-//     setShowConfirmTransaction(true);
-//     resetAllValues();
-//     transactionSubmitModal(op.opHash);
-//     await op.confirmation();
-
-//     return {
-//       success: true,
-//       operationId: op.opHash,
-//     };
-//   } catch (error) {
-//     console.log(error);
-//     return {
-//       success: false,
-//       error,
-//     };
-//   }
-// }

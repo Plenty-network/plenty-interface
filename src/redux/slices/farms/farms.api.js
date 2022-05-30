@@ -428,13 +428,6 @@ const getPriceForPlentyLpTokens = async (
 
       //let token1Type;
       let token2Type;
-
-      // if (token1Check.match('True')) {
-      //   token1Type = 'fa2';
-      // } else {
-      //   token1Type = 'fa1.2';
-      // }
-
       if (token2Check.match('True')) {
         token2Type = 'fa2';
       } else {
@@ -722,8 +715,6 @@ const getPriceForPlentyLpTokens = async (
         Math.pow(10, tokenData['token2'].tokenDecimal);
 
       const totalAmount = (token1Amount + token2Amount).toFixed(2);
-
-      console.log(totalAmount);
       return {
         success: true,
         identifier,
@@ -778,8 +769,6 @@ const getPriceForPlentyLpTokens = async (
         Math.pow(10, tokenData['token2'].tokenDecimal);
 
       const totalAmount = (token1Amount + token2Amount).toFixed(2);
-
-      console.log(totalAmount);
       return {
         success: true,
         identifier,
