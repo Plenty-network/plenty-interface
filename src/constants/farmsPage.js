@@ -25,6 +25,9 @@ import wusdtLpFarm from '../assets/images/farms/wusdtLpFarm.png';
 import tez from '../assets/images/farms/tez.png';
 import cteztezlpFarm from '../assets/images/farms/ctez-tez.png';
 import dogactezLpFarm from '../assets/images/farms/dogactezLpFarm.png';
+import uUSDUSDC from '../assets/images/farms/uUSDUSDC.e.png';
+import tzBTCWBTC from '../assets/images/farms/tzBTCWBTC.e.png';
+import kUSDUSDC from '../assets/images/farms/kUSDUSDC.e.png';
 import youLpFarm from '../assets/images/farms/youLpFarm.png';
 import ctezFarmLpIcon from '../assets/images/farms/ctezFarmLpIcon.png';
 import uUSDYOULp from '../assets/images/farms/uUSDYOULp.png';
@@ -177,9 +180,9 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
     isDualFarm: false,
   },
-  //need to update image
+
   'kUSD / USDC.e LP': {
-    image: dogactezLpFarm,
+    image: kUSDUSDC,
     harvestImg: plentyToken,
     multi: '100',
     title: 'kUSD / USDC.e PNLP',
@@ -200,9 +203,9 @@ export const FARMS_CARD_TYPE_LIST = {
     isDualFarm: false,
     url: '/liquidity/add?tokenA=kUSD&tokenB=USDC.e',
   },
-  //need to update image
+
   'uUSD / USDC.e LP': {
-    image: dogactezLpFarm,
+    image: uUSDUSDC,
     harvestImg: plentyToken,
     multi: '100',
     title: 'uUSD / USDC.e PNLP',
@@ -223,9 +226,9 @@ export const FARMS_CARD_TYPE_LIST = {
     isDualFarm: false,
     url: '/liquidity/add?tokenA=uUSD&tokenB=USDC.e',
   },
-  //need to update image
+
   'tzBTC / WBTC.e LP': {
-    image: dogactezLpFarm,
+    image: tzBTCWBTC,
     harvestImg: plentyToken,
     multi: '100',
     title: 'tzBTC / WBTC.e PNLP',
