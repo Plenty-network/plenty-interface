@@ -760,7 +760,12 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
         // const transFee =
         //   (obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS) *
         //   (BridgeConfiguration.getFeesForChain(chain).UNWRAP_FEES / 10000);
-
+        if (
+          obj.status === 'asked' &&
+          obj.operationHash === localStorage.getItem('recentTransHash')
+        ) {
+          obj['status'] = 'finalized';
+        }
         return {
           ...obj,
           isWrap: false,
@@ -820,6 +825,12 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
           // const transFee =
           //   (obj.amount / 10 ** BridgeConfiguration.getToken(chain, obj.token).DECIMALS) *
           //   (BridgeConfiguration.getFeesForChain(chain).WRAP_FEES / 10000);
+          if (
+            obj.status === 'asked' &&
+            obj.transactionHash === localStorage.getItem('recentTransHash')
+          ) {
+            obj['status'] = 'finalized';
+          }
           return {
             ...obj,
             isWrap: true,
@@ -970,7 +981,9 @@ export const getAllowance = async (tokenIn, userAddress, chain) => {
       .call();
     return {
       success: true,
-      allowance: new BigNum(allowance).div(new BigNum(10).pow(tokenIn.tokenData.DECIMALS)).toString(),
+      allowance: new BigNum(allowance)
+        .div(new BigNum(10).pow(tokenIn.tokenData.DECIMALS))
+        .toString(),
     };
   } catch (error) {
     return {
@@ -1001,7 +1014,8 @@ export const getActionRequiredCount = async ({ ethereumAddress, tzAddress }) => 
       const unwrapsMain = unwraps.data.result.filter(
         (obj) =>
           obj.destination.toLowerCase() === ethereumAddress.toLowerCase() &&
-          obj.source.toLowerCase() === tzAddress.toLowerCase(),
+          obj.source.toLowerCase() === tzAddress.toLowerCase() &&
+          obj.operationHash !== localStorage.getItem('recentTransHash'),
       );
       const unwrapsCount = unwrapsMain.length;
 
@@ -1016,7 +1030,8 @@ export const getActionRequiredCount = async ({ ethereumAddress, tzAddress }) => 
       const wrapsMain = wraps.data.result.filter(
         (obj) =>
           obj.destination.toLowerCase() === tzAddress.toLowerCase() &&
-          obj.source.toLowerCase() === ethereumAddress.toLowerCase(),
+          obj.source.toLowerCase() === ethereumAddress.toLowerCase() &&
+          obj.transactionHash !== localStorage.getItem('recentTransHash'),
       );
       const wrapsCount = wrapsMain.length;
       count = count + unwrapsCount + wrapsCount;

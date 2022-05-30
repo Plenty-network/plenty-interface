@@ -155,6 +155,7 @@ const BridgeTransferModal = (props) => {
           isFlashMessageALink: true,
           flashMessageLink: `${CONFIG.EXPLORER_LINKS.TEZOS}${mintResult.transactionHash}`,
         });
+        localStorage.setItem('recentTransHash', mintUnmintOpHash);
         SetCurrentProgress((prevProgress) => prevProgress + 1);
       } else {
         console.log(mintResult.error);
@@ -189,6 +190,7 @@ const BridgeTransferModal = (props) => {
             releaseResult.transactionHash
           }`,
         });
+        localStorage.setItem('recentTransHash', mintUnmintOpHash);
         SetCurrentProgress((prevProgress) => prevProgress + 1);
       } else {
         console.log(releaseResult.error);
