@@ -289,7 +289,8 @@ export const loadSwapDataGeneralStable = async (tokenIn, tokenOut) => {
         lpTokenSupply,
         lpToken,
         token1_precision,
-        token2_precision
+        token2_precision,
+        dexContractInstance
       };
     // const connectedNetwork = CONFIG.NETWORK;
     // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
