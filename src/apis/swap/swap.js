@@ -23,7 +23,6 @@ import BigNumber from 'bignumber.js';
 const getPackedKey = (tokenId, address, type) => {
   const accountHex = `0x${TezosMessageUtils.writeAddress(address)}`;
   let packedKey = null;
-  // TODO :
   if (type === 'FA2') {
     packedKey = TezosMessageUtils.encodeBigMapKey(
       // eslint-disable-next-line no-undef
@@ -64,7 +63,6 @@ export const swapTokens = async (
 ) => {
   const connectedNetwork = CONFIG.NETWORK;
   const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
-  // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
   try {
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -182,8 +180,6 @@ export const swapTokenUsingRoute = async (
 ) => {
   const connectedNetwork = CONFIG.NETWORK;
   const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
-
-  // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
   try {
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -288,7 +284,6 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
-    // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
     const Tezos = new TezosToolkit(rpcNode);
     const dexContractInstance = await Tezos.contract.at(dexContractAddress);
@@ -1761,7 +1756,6 @@ export const getTokenPrices = async () => {
     // );
     const tokenPrice = {};
     const tokenPriceResponse = promisesResponse[0].data;
-    // TODO : Naming convention might need a change as . is included
     const tokens = [
       'PLENTY',
       'wDAI',

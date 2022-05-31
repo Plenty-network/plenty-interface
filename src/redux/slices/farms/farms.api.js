@@ -219,7 +219,6 @@ const fetchStorageOfStakingContract = async (
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const url = `${rpcNode}chains/main/blocks/head/context/contracts/${address}/storage`;
     const response = await axios.get(url);
-
     let totalSupply = response.data.args[3].int;
     if (
       identifier === 'uUSD - YOU' ||

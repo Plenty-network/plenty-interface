@@ -14,7 +14,6 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
   const connectedNetwork = CONFIG.NETWORK;
   const amm_type = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].type;
   try {
-    // (tokenIn === 'ctez' && tokenOut === 'tez') || (tokenIn === 'tez' && tokenOut === 'ctez')
     if (amm_type === 'xtz') {
       const connectedNetwork = CONFIG.NETWORK;
       const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
@@ -140,12 +139,7 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
       const lpFee = await dexStorage.lpFee;
       const exchangeFee = lpFee.toNumber();
       const lpTokenSupply = await dexStorage.lqtTotal.toNumber();
-      const lpToken = CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
-      // const tokenIn_Decimal = CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL;
-      // const tokenOut_Decimal = CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_DECIMAL;
-      // tokenIn_supply = tokenIn_supply / Math.pow(10, tokenIn_Decimal);
-      // tokenOut_supply = tokenOut_supply / Math.pow(10, tokenOut_Decimal);loadSwapDataGeneralStable
-    
+      const lpToken = CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;    
       const tokenOutPerTokenIn = tokenOut_supply / tokenIn_supply;
       return {
         success: true,
@@ -421,7 +415,6 @@ const getRouteSwapData = async (path) => {
         ).tokenOut_amount;
       }
       else if (responses[i].amm_type === 'veStableAMM'){
-        // Multiply by supply
         tokenOutPerTokenIn= calculateTokensOutGeneralStable(
           responses[i].tokenIn_supply,
           responses[i].tokenOut_supply,
@@ -550,7 +543,6 @@ const computeTokenOutputV2 = (
   try {
   const connectedNetwork = CONFIG.NETWORK;
   const amm_type = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].type;
-  // (tokenIn === 'ctez' && tokenOut === 'tez') || (tokenIn === 'tez' && tokenOut === 'ctez')
     if (amm_type === 'xtz') {
       if (tokenIn === 'ctez') {
         return calculateTokensOutStable(

@@ -179,7 +179,6 @@ export const getLiquidityPositionDetails = async (tokenA, tokenB, walletAddress)
     const storageResponse = await axios.get(
       `${rpcNode}chains/main/blocks/head/context/contracts/${tokenPairContract}/storage`,
     );
-    // (tokenA === 'ctez' && tokenB === 'DOGA') || (tokenA === 'DOGA' && tokenB === 'ctez')
 
     if (amm_type === 'veAMM') {
       const tokenOneAddress = storageResponse.data.args[0].args[2].string;
@@ -234,12 +233,8 @@ export const getLiquidityPositionDetails = async (tokenA, tokenB, walletAddress)
       };
     }
     else if (amm_type === 'veStableAMM'){
-      // Add logic for stable AMM
       const tokenOneAddress = storageResponse.data.args[0].args[2].string;
       const tokenOneID = Number(storageResponse.data.args[0].args[4].int);
-
-      
-
       const tokenTwoAddress = storageResponse.data.args[1].args[2].string;
       const tokenTwoID = Number(storageResponse.data.args[2].args[1].int);
 
@@ -289,64 +284,6 @@ export const getLiquidityPositionDetails = async (tokenA, tokenB, walletAddress)
         },
       };
     }
-    //     else if((tokenA === 'ctez' && tokenB === 'USDC.e') || (tokenA === 'USDC.e' && tokenB === 'ctez') || (tokenA === 'ctez' && tokenB === 'WBTC.e') || (tokenA === 'WBTC.e' && tokenB === 'ctez')){
-    //       const tokenOneAddress = 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY';
-    //       let tokenOneID = 0;
-    //       if(tokenA === 'USDC.e' || tokenB === 'USDC.e'){
-    //         tokenOneID = 2;
-    //       }
-    //       else if(tokenA === 'WBTC.e' || tokenB === 'WBTC.e'){
-    //         tokenOneID = 1;
-    //       }
-
-    // const tokenOnePool = Number(storageResponse.data.args[1].args[0].args[1].int);
-    // const tokenTwoAddress = 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4';
-    // const tokenTwoID = 0;
-    // const tokenTwoPool = Number(storageResponse.data.args[3].int);
-    // const lpTokenSupply = Number(storageResponse.data.args[4].int);
-
-    // // Token pool share percentage.
-    // const lpTokenShare = (lpTokenBalance * 100) / lpTokenSupply;
-
-    // // Check if the order of pair sent in arguments is same as order of pair stored in contract storage and calculate balance accordingly[Swap or No Swap].
-    // if (
-    //   tokenAContractAddress === tokenOneAddress &&
-    //   tokenAID === tokenOneID &&
-    //   tokenBContractAddress === tokenTwoAddress &&
-    //   tokenBID === tokenTwoID
-    // ) {
-    //   // No swap.
-    //   poolBalances['tokenAPoolBalance'] =
-    //     (lpTokenBalance * tokenOnePool) / lpTokenSupply / 10 ** tokenADecimal;
-    //   poolBalances['tokenBPoolBalance'] =
-    //     (lpTokenBalance * tokenTwoPool) / lpTokenSupply / 10 ** tokenBDecimal;
-    // } else if (
-    //   tokenAContractAddress === tokenTwoAddress &&
-    //   tokenAID === tokenTwoID &&
-    //   tokenBContractAddress === tokenOneAddress &&
-    //   tokenBID === tokenOneID
-    // ) {
-    //   // Swap.
-    //   poolBalances['tokenAPoolBalance'] =
-    //     (lpTokenBalance * tokenTwoPool) / lpTokenSupply / 10 ** tokenADecimal;
-    //   poolBalances['tokenBPoolBalance'] =
-    //     (lpTokenBalance * tokenOnePool) / lpTokenSupply / 10 ** tokenBDecimal;
-    // } else {
-    //   throw new Error('Invalid Token Pairs');
-    // }
-
-    // return {
-    //   success: true,
-    //   data: {
-    //     tokenA,
-    //     tokenB,
-    //     tokenAPoolBalance: poolBalances.tokenAPoolBalance,
-    //     tokenBPoolBalance: poolBalances.tokenBPoolBalance,
-    //     lpBalance,
-    //     lpTokenShare,
-    //   },
-    // };
-    //     }
     else {
       const tokenOneAddress = storageResponse.data.args[0].args[2].string;
       const tokenOneID = Number(storageResponse.data.args[1].args[0].args[0].int);
@@ -499,12 +436,6 @@ export const getLiquidityPositionDetailsStable = async (tokenA, tokenB, walletAd
           lpTokenShare,
         },
       };
-
-      // const res = await getLiquidityPositionDetails(tokenA,tokenB , walletAddress);
-      // if(res.success) {
-      //   console.log('inside stable liq pos det');
-      //   console.log(res);
-      // }
 
     }
 

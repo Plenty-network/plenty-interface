@@ -599,8 +599,6 @@ const getCtezPrice = async () => {
   }
 };
 
-// TODO: Update Lp price fetching for .e pairs
-
 const getPriceForPlentyLpTokens = async (
   identifier,
   lpTokenDecimal,
