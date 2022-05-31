@@ -176,8 +176,8 @@ const Config: IConfig = {
         'kUSD - USDC.e': {
           active: [
             {
-              address: 'KT1VczPHJvAG3ZFiNhN2gevijejgs3fbEaME',
-              mapId: 181058,
+              address: 'KT1HpncMNCYt1ZskHzZeFqHFgfM8ZEr8xd3f',
+              mapId: 181977,
               decimal: 18,
               tokenDecimal: 12,
             },
@@ -188,8 +188,8 @@ const Config: IConfig = {
         'uUSD - USDC.e': {
           active: [
             {
-              address: 'KT1PdsP2diXp8RtBoXo2mFFEwnzV4SW6bp9V',
-              mapId: 181057,
+              address: 'KT1GQ7UTHFA8gTH3uTzDnb1znDDBfJ7eXCUJ',
+              mapId: 181975,
               decimal: 18,
               tokenDecimal: 9,
             },
@@ -3896,7 +3896,7 @@ const Config: IConfig = {
         active: [
           {
             LP_TOKEN: 'KT1J5HNUXnQwonSam3kmDQ5WbhynPPpVtgdN',
-            CONTRACT: 'KT1VczPHJvAG3ZFiNhN2gevijejgs3fbEaME',
+            CONTRACT: 'KT1HpncMNCYt1ZskHzZeFqHFgfM8ZEr8xd3f',
             DEX: 'KT1HgFcDE8ZXNdT1aXXKpMbZc6GkUS2VHiPo',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             CARD_TYPE: 'kUSD / USDC.e LP',
@@ -3919,7 +3919,7 @@ const Config: IConfig = {
         active: [
           {
             LP_TOKEN: 'KT1Ah4Fe2hjcRdVCiCQDhRDZ2vDYLdYNjY51',
-            CONTRACT: 'KT1PdsP2diXp8RtBoXo2mFFEwnzV4SW6bp9V',
+            CONTRACT: 'KT1GQ7UTHFA8gTH3uTzDnb1znDDBfJ7eXCUJ',
             DEX: 'KT1Ji4hVDeQ5Ru7GW1Tna9buYSs3AppHLwj9',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             CARD_TYPE: 'uUSD / USDC.e LP',
