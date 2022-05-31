@@ -28,6 +28,8 @@ import circulatingSupplyDark from '../../assets/images/frontpage/circulatingsupp
 import plentyBlockDark from '../../assets/images/frontpage/plentyblockDark.svg';
 import amm from '../../assets/images/frontpage/trade.svg';
 import ammDark from '../../assets/images/frontpage/tradeDark.svg';
+import bridge from '../../assets/images/frontpage/ic_bridge.svg';
+import bridgeDark from '../../assets/images/frontpage/ic_bridge_dark.svg';
 import plentyBig from '../../assets/images/frontpage/plentybig.svg';
 import { ReactComponent as Medium } from '../../assets/images/frontpage/medium.svg';
 import { ReactComponent as Twitter } from '../../assets/images/frontpage/twitter.svg';
@@ -311,7 +313,7 @@ const Frontpage = ({
                 text={'Transfer your tokens from Ethereum to Tezos within five minutes.'}
                 linkTo={'/bridge'}
                 linkText={'Enter Bridge'}
-                headerIcon={theme === 'light' ? amm : ammDark}
+                headerIcon={theme === 'light' ? bridge : bridgeDark}
                 headerText={'Bridge'}
               />
             </Col>
