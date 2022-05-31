@@ -140,6 +140,7 @@ interface IAmmDexPair {
   contract: string;
   property: string;
   liquidityToken: string;
+  type: string;
 }
 
 interface IFarmContract {

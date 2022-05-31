@@ -12,6 +12,9 @@ import { numberWithCommas } from '../../utils/formatNumbers';
 import { useDispatch } from 'react-redux';
 import { FARM_PAGE_MODAL } from '../../constants/farmsPage';
 import { openCloseFarmsModal } from '../../redux/slices/farms/farms.slice';
+import { ReactComponent as StablepairIcon } from '../../assets/images/stablepair_icon.svg';
+import { isTokenPairStable } from '../../apis/Liquidity/Liquidity';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 const FarmCard = (props) => {
   const dispatch = useDispatch();
@@ -107,7 +110,6 @@ const FarmCard = (props) => {
       }),
     );
   };
-
   return (
     <>
       <div>
@@ -129,21 +131,57 @@ const FarmCard = (props) => {
             </div>
             <div className="text-right">
               <p className={styles.title}>{properties.title}</p>
-              <a
-                href={
-                  tokens[1] === 'TEZ' && tokens[0] === 'CTEZ'
-                    ? '/liquidity?tokenA=tez&tokenB=ctez'
-                    : `/liquidity?tokenA=${tokens[0]}&tokenB=${tokens[1]}`
-                }
-                target="_blank"
-                className={clsx(
-                  styles.titleBadge,
-                  properties.source === 'Plenty LP' ? styles.badgePlenty : styles.badgeOther,
-                )}
-                rel="noreferrer"
-              >
-                {properties.source}
-              </a>
+              {properties.source === 'Plenty LP' && isTokenPairStable(tokens[0], tokens[1]) ? (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    <Tooltip id="button-tooltip" {...props}>
+                      Stable LP
+                    </Tooltip>
+                  }
+                >
+                  <a
+                    href={
+                      properties.url
+                        ? properties.url
+                        : tokens[1] === 'TEZ' && tokens[0] === 'CTEZ'
+                        ? '/liquidity?tokenA=tez&tokenB=ctez'
+                        : `/liquidity?tokenA=${tokens[0]}&tokenB=${tokens[1]}`
+                    }
+                    target="_blank"
+                    className={clsx(
+                      styles.titleBadge,
+                      properties.source === 'Plenty LP' ? styles.badgePlenty : styles.badgeOther,
+                    )}
+                    rel="noreferrer"
+                  >
+                    <>
+                      <span>{properties.source} | </span>
+                      <StablepairIcon
+                        style={{ height: '14px', width: '14px', paddingBottom: '2.5px' }}
+                      />
+                    </>
+                  </a>
+                </OverlayTrigger>
+              ) : (
+                <a
+                  href={
+                    properties.url
+                      ? properties.url
+                      : tokens[1] === 'TEZ' && tokens[0] === 'CTEZ'
+                      ? '/liquidity?tokenA=tez&tokenB=ctez'
+                      : `/liquidity?tokenA=${tokens[0]}&tokenB=${tokens[1]}`
+                  }
+                  target="_blank"
+                  className={clsx(
+                    styles.titleBadge,
+                    properties.source === 'Plenty LP' ? styles.badgePlenty : styles.badgeOther,
+                  )}
+                  rel="noreferrer"
+                >
+                  {properties.source}
+                </a>
+              )}
             </div>
           </div>
           {/* * Header */}

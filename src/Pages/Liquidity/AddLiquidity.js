@@ -1,5 +1,10 @@
 import PropTypes from 'prop-types';
-import { addLiquidity, estimateOtherToken, lpTokenOutput } from '../../apis/swap/swap';
+import {
+  addLiquidity,
+  addLiquidity_generalStable,
+  estimateOtherToken,
+  lpTokenOutput,
+} from '../../apis/swap/swap';
 import {
   add_liquidity,
   liqCalc,
@@ -14,16 +19,19 @@ import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
 import ConfirmAddLiquidity from '../../Components/SwapTabsContent/LiquidityTabs/ConfirmAddLiquidity';
+import config from '../../config/config';
 import Button from '../../Components/Ui/Buttons/Button';
 import { setLoader } from '../../redux/slices/settings/settings.slice';
 import LiquidityInfo from '../../Components/SwapTabsContent/LiquidityTabs/LiquidityInfo';
-import { isTokenPairStable } from '../../apis/Liquidity/Liquidity';
 import ConfirmTransaction from '../../Components/WrappedAssets/ConfirmTransaction';
 import Loader from '../../Components/loader';
+import {
+  getGeneralExchangeRate,
+  loadSwapDataGeneralStable,
+} from '../../apis/stableswap/generalStableswap';
 
 const AddLiquidity = (props) => {
   const [estimatedTokenAmout, setEstimatedTokenAmout] = useState('');
-
   const [secondTokenAmount, setSecondTokenAmount] = useState('');
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
   const [lpTokenAmount, setLpTokenAmount] = useState({});
@@ -35,26 +43,48 @@ const AddLiquidity = (props) => {
   const [poolShare, setPoolShare] = useState('0.0');
   const [xtztoctez, setxtztoctez] = useState('0.00');
   const [cteztoxtz, setcteztoxtz] = useState('0.00');
+  const [tokenArate, settokenArate] = useState('0.00');
+  const [tokenBrate, settokenBrate] = useState('0.00');
   const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
-
   const fetchOutputData = async () => {
     const res = getExchangeRate(
       props.swapData.tezPool,
       props.swapData.ctezPool,
       props.swapData.target,
     );
-
     setxtztoctez(res.ctezexchangeRate.toFixed(6));
     setcteztoxtz(res.tezexchangeRate.toFixed(6));
   };
+  const fetchOutputDataGeneralStable = async () => {
+    const res = getGeneralExchangeRate(
+      props.swapData.tokenIn_supply,
+      props.swapData.tokenOut_supply,
+    );
+    settokenArate(res.tokenAexchangeRate);
+    settokenBrate(res.tokenBexchangeRate);
+  };
+
   useEffect(() => {
-    if (isTokenPairStable(props.tokenIn.name, props.tokenOut.name)) {
+    if (
+      config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type === 'xtz'
+    ) {
       fetchOutputData();
       getSwapData();
+    } else if (
+      config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+      'veStableAMM'
+    ) {
+      fetchOutputDataGeneralStable();
+      getSwapDataGeneralStableswap();
     }
-  }, [props]);
+  }, [props.tokenOut.name, props.tokenOut.name, props]);
+
   const getSwapData = async () => {
     await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
+  };
+
+  const getSwapDataGeneralStableswap = async () => {
+    await loadSwapDataGeneralStable(props.tokenIn.name, props.tokenOut.name);
   };
 
   const resetAllValuesLiq = () => {
@@ -166,7 +196,6 @@ const AddLiquidity = (props) => {
   };
   const confirmAddLiquidity = () => {
     props.setShowConfirmAddSupply(true);
-    //props.setHideContent('content-hide');
 
     const secondTokenAmountEntered = secondTokenAmount
       ? parseFloat(secondTokenAmount)
@@ -271,6 +300,51 @@ const AddLiquidity = (props) => {
           setShowTransactionSubmitModal(false);
           props.handleLoaderMessage('error', 'Transaction failed');
           props.setLoader(false);
+          props.setShowConfirmAddSupply(false);
+          setShowConfirmTransaction(false);
+          //props.setHideContent('');
+          resetAllValuesLiq();
+          setTimeout(() => {
+            props.setLoaderMessage({});
+          }, 5000);
+        }
+      });
+    } else if (
+      config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+      'veStableAMM'
+    ) {
+      addLiquidity_generalStable(
+        props.tokenIn.name,
+        props.tokenOut.name,
+        firstTokenAmount,
+        secondTokenAmountEntered,
+        props.tokenContractInstances[props.tokenIn.name],
+        props.tokenContractInstances[props.tokenOut.name],
+        props.walletAddress,
+        props.swapData.dexContractInstance,
+        transactionSubmitModal,
+        resetAllValuesLiq,
+        props.setShowConfirmAddSupply,
+        setShowConfirmTransaction,
+      ).then((data) => {
+        if (data.success) {
+          props.setLoading(false);
+          props.setLoader(false);
+          setShowTransactionSubmitModal(false);
+          props.handleLoaderMessage('success', 'Transaction confirmed');
+          getSwapData();
+          props.setShowConfirmAddSupply(false);
+          setShowConfirmTransaction(false);
+          //props.setHideContent('');
+          resetAllValuesLiq();
+          setTimeout(() => {
+            props.setLoaderMessage({});
+          }, 5000);
+        } else {
+          props.setLoading(false);
+          props.setLoader(false);
+          setShowTransactionSubmitModal(false);
+          props.handleLoaderMessage('error', 'Transaction failed');
           props.setShowConfirmAddSupply(false);
           setShowConfirmTransaction(false);
           //props.setHideContent('');
@@ -619,7 +693,12 @@ const AddLiquidity = (props) => {
         poolShare={poolShare}
         xtztoctez={xtztoctez}
         cteztoxtz={cteztoxtz}
-        isStable={isTokenPairStable(props.tokenIn.name, props.tokenOut.name)}
+        tokenArate={tokenArate}
+        tokenBrate={tokenBrate}
+        isStable={
+          config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+          'xtz'
+        }
         theme={props.theme}
       />
 

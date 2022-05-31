@@ -8,6 +8,7 @@ import Stableswapwhite from '../../../assets/images/stableswapwhite.svg';
 import StableSwapDark from '../../../assets/images/lq-stableswap-dark.svg';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import useMediaQuery from '../../../hooks/mediaQuery';
+import config from '../../../config/config';
 
 const LiquidityInfo = (props) => {
   const isMobile = useMediaQuery('(max-width: 991px)');
@@ -19,16 +20,26 @@ const LiquidityInfo = (props) => {
           placement="top"
           overlay={
             <Tooltip id="button-tooltip" {...props}>
-              {props.isStable ? props.xtztoctez : props.swapData.tokenOutPerTokenIn}
+              {config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
+                ?.type === 'xtz'
+                ? props.xtztoctez
+                : config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
+                    ?.type === 'veStableAMM'
+                ? props.tokenArate
+                : props.swapData.tokenOutPerTokenIn}
             </Tooltip>
           }
         >
           <div className="details">
             {(props.isStable ? !isNaN(props.xtztoctez) : props.swapData.tokenOutPerTokenIn) ? (
-              props.isStable ? (
+              config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
+                ?.type === 'xtz' ? (
                 props.xtztoctez
+              ) : config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
+                  ?.type === 'veStableAMM' ? (
+                Number(props.tokenArate).toFixed(4)
               ) : (
-                props.swapData.tokenOutPerTokenIn?.toFixed(4)
+                props.swapData.tokenOutPerTokenIn.toFixed(4)
               )
             ) : (
               <span className="shimmer">99999</span>
@@ -54,16 +65,26 @@ const LiquidityInfo = (props) => {
           placement="top"
           overlay={
             <Tooltip id="button-tooltip" {...props}>
-              {props.isStable ? props.cteztoxtz : 1 / props.swapData.tokenOutPerTokenIn}
+              {config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
+                ?.type === 'xtz'
+                ? props.cteztoxtz
+                : config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
+                    ?.type === 'veStableAMM'
+                ? props.tokenBrate
+                : 1 / props.swapData.tokenOutPerTokenIn}
             </Tooltip>
           }
         >
           <div className="details">
             {(props.isStable ? !isNaN(props.cteztoxtz) : 1 / props.swapData.tokenOutPerTokenIn) ? (
-              props.isStable ? (
+              config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
+                ?.type === 'xtz' ? (
                 props.cteztoxtz
+              ) : config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
+                  ?.type === 'veStableAMM' ? (
+                props.tokenBrate
               ) : (
-                (1 / props.swapData.tokenOutPerTokenIn).toFixed(4)
+                1 / props.swapData.tokenOutPerTokenIn
               )
             ) : (
               <span className="shimmer">99999</span>
@@ -158,8 +179,17 @@ const LiquidityInfo = (props) => {
         }
       >
         <div className={clsx(isMobile && 'order-4', 'details', isMobile && 'mt-2', 'ml-2')}>
-          {props.isStable ? '0.10' : '0.25'}% <span className="content">LP fee</span>
-          {props.isStable && (
+          {config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+            'xtz' ||
+          config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+            'veStableAMM'
+            ? '0.10'
+            : '0.25'}
+          % <span className="content">LP fee</span>
+          {(config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+            'xtz' ||
+            config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+              'veStableAMM') && (
             <>
               <span className="divider-lq mx-2"></span>
               <img src={props.theme === 'light' ? StableSwap : StableSwapDark} />
@@ -181,6 +211,8 @@ LiquidityInfo.propTypes = {
   cteztoxtz: PropTypes.any,
   isStable: PropTypes.any,
   theme: PropTypes.any,
+  tokenArate: PropTypes.any,
+  tokenBrate: PropTypes.any,
 };
 
 export default LiquidityInfo;
