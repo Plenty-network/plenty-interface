@@ -347,10 +347,13 @@ export const approveToken = async (tokenIn, chain, amount) => {
     const userAddress = provider.address;
     const wrapContractAddress = BridgeConfiguration.getWrapContract(chain);
     const tokenContract = new web3.eth.Contract(ERC20_ABI, tokenIn.tokenData.CONTRACT_ADDRESS);
-    const amountToAprove = amount * 10 ** tokenIn.tokenData.DECIMALS;
+    const amountToApproveBig = new BigNum(amount);
+    const amountToAprove = new BigNum(
+      amountToApproveBig.multipliedBy(new BigNum(10).pow(tokenIn.tokenData.DECIMALS)),
+    );
     let result;
     await tokenContract.methods
-      .approve(wrapContractAddress, amountToAprove.toString())
+      .approve(wrapContractAddress, amountToAprove.toFixed(0))
       .send({
         from: userAddress,
       })
@@ -405,11 +408,14 @@ export const wrap = async (tokenIn, chain, amount, tzAddress) => {
     console.log(wrapContractAddress);
     const tokenContractAddress = tokenIn.tokenData.CONTRACT_ADDRESS;
     console.log(tokenContractAddress);
-    const amountToWrap = amount * 10 ** tokenIn.tokenData.DECIMALS;
+    const amountBig = new BigNum(amount);
+    const amountToWrap = new BigNum(
+      amountBig.multipliedBy(new BigNum(10).pow(tokenIn.tokenData.DECIMALS)),
+    );
     const wrapContract = new web3.eth.Contract(CUSTODIAN_ABI, wrapContractAddress);
     let result;
     await wrapContract.methods
-      .wrapERC20(tokenContractAddress, amountToWrap.toString(), tzAddress)
+      .wrapERC20(tokenContractAddress, amountToWrap.toFixed(0), tzAddress)
       .send({
         from: userAddress,
       })
@@ -571,28 +577,31 @@ export const unwrap = async (chain, amount, tokenIn) => {
       throw new Error('Wallet connection failed');
     }
     const minterContractAddress = BridgeConfiguration.getTezosMinterContract(chain);
-    const fee = BridgeConfiguration.getFeesForChain(chain).UNWRAP_FEES;
+    const fee = new BigNum(BridgeConfiguration.getFeesForChain(chain).UNWRAP_FEES);
     const tokenOut = BridgeConfiguration.getOutTokenUnbridgingWhole(chain, tokenIn.name);
     const Tezos = new TezosToolkit(rpcNode);
     Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
     const contract = await Tezos.wallet.at(minterContractAddress);
-    const amountToUnwrap = amount * 10 ** tokenOut.DECIMALS;
+    const amountBig = new BigNum(amount);
+    const amountToUnwrap = new BigNum(
+      amountBig.multipliedBy(new BigNum(10).pow(tokenOut.DECIMALS)),
+    );
     const userData = await getUserAddress();
-    const fees = (amountToUnwrap / 10000) * fee;
-    const amountToUnwrapMinusFees = amountToUnwrap - fees;
+    const fees = new BigNum(amountToUnwrap.div(new BigNum(10000))).multipliedBy(fee);
+    const amountToUnwrapMinusFees = new BigNum(amountToUnwrap).minus(fees);
     console.log(
       tokenIn,
       tokenOut.CONTRACT.toLowerCase().substring(2),
-      amountToUnwrapMinusFees.toString(10),
-      fees.toString(10),
+      amountToUnwrapMinusFees.toFixed(0),
+      fees.toFixed(0),
       userData.address.toLowerCase().substring(2),
     );
     const op = await contract.methods
       .unwrap_erc20(
         tokenOut.CONTRACT.toLowerCase().substring(2),
-        amountToUnwrapMinusFees.toString(10),
-        fees.toString(10),
+        amountToUnwrapMinusFees.toFixed(0),
+        fees.toFixed(0),
         userData.address.toLowerCase().substring(2),
       )
       .send();
