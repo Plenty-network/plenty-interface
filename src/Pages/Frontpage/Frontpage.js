@@ -12,7 +12,6 @@ import dollarDark from '../../assets/images/frontpage/dollarDark.svg';
 
 import marketCap from '../../assets/images/frontpage/marketcap.svg';
 import farms from '../../assets/images/frontpage/farms.svg';
-import xplenty from '../../assets/images/frontpage/plentystake.svg';
 import liquidity from '../../assets/images/frontpage/liquidity.svg';
 import totalBurned from '../../assets/images/frontpage/totalburned.svg';
 import circulatingSupply from '../../assets/images/frontpage/circulatingsupply.svg';
@@ -21,7 +20,6 @@ import marketCapDark from '../../assets/images/frontpage/marketcapDark.svg';
 import farmsDark from '../../assets/images/frontpage/farmsDark.svg';
 import farms2Dark from '../../assets/images/frontpage/farms2Dark.svg';
 import farms2 from '../../assets/images/frontpage/farms2.svg';
-import xplentyDark from '../../assets/images/frontpage/plentystakeDark.svg';
 import liquidityDark from '../../assets/images/frontpage/liquidityDark.svg';
 import totalBurnedDark from '../../assets/images/frontpage/totalburnedDark.svg';
 import circulatingSupplyDark from '../../assets/images/frontpage/circulatingsupplyDark.svg';
