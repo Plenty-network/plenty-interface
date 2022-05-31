@@ -82,9 +82,9 @@ const LiquidityInfo = (props) => {
                 props.cteztoxtz
               ) : config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
                   ?.type === 'veStableAMM' ? (
-                props.tokenBrate
+                Number(props.tokenBrate).toFixed(4)
               ) : (
-                1 / props.swapData.tokenOutPerTokenIn
+                (1 / props.swapData.tokenOutPerTokenIn).toFixed(4)
               )
             ) : (
               <span className="shimmer">99999</span>

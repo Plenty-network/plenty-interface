@@ -13,15 +13,6 @@ export const stableSwapTokens = [
     new: true,
   },
   {
-    name: 'ctez',
-    image: ctez,
-    new: false,
-    extra: {
-      text: 'Get ctez',
-      link: 'https://ctez.app',
-    },
-  },
-  {
     name: 'WBTC.e',
     image: wbtce,
     new: true,
@@ -30,6 +21,15 @@ export const stableSwapTokens = [
     name: 'USDC.e',
     image: usdce,
     new: true,
+  },
+  {
+    name: 'ctez',
+    image: ctez,
+    new: false,
+    extra: {
+      text: 'Get ctez',
+      link: 'https://ctez.app',
+    },
   },
   {
     name: 'uUSD',
