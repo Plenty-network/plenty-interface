@@ -167,8 +167,7 @@ const Frontpage = ({
                 <h5
                   className={`mb-4 text-white text-mulish font-weight-light ${styles.textMulish}`}
                 >
-                  Trade tokens and earn interest by staking. There is plenty of DeFi to explore on
-                  Tezos.
+                  Bridge, trade, and earn. There is plenty of DeFi to explore on Tezos. 
                 </h5>
                 <Link to={'swap'} className="text-decoration-none">
                   <Button
@@ -309,6 +308,15 @@ const Frontpage = ({
           >
             <Col xs={12} md={6} xl={3} className="mb-3 d-flex">
               <LinkTile
+                text={'Transfer your tokens from Ethereum to Tezos within five minutes.'}
+                linkTo={'/bridge'}
+                linkText={'Enter Bridge'}
+                headerIcon={theme === 'light' ? amm : ammDark}
+                headerText={'Bridge'}
+              />
+            </Col>
+            <Col xs={12} md={6} xl={3} className="mb-3 d-flex">
+              <LinkTile
                 text={'Swap tokens instantly with high liquidity and audited smart contracts.'}
                 linkTo={'/swap'}
                 linkText={'Enter Exchange'}
@@ -334,15 +342,6 @@ const Frontpage = ({
                 linkText={'Enter Farms'}
                 headerIcon={theme === 'light' ? farms2 : farms2Dark}
                 headerText={'Farm'}
-              />
-            </Col>
-            <Col xs={12} md={6} xl={3} className="mb-3 d-flex">
-              <LinkTile
-                text={'Stake PLENTY, receive xPLENTY. Rewards are compounding.'}
-                linkTo={'/stake'}
-                linkText={'Enter Staking'}
-                headerIcon={theme === 'light' ? xplenty : xplentyDark}
-                headerText={'Stake'}
               />
             </Col>
           </div>
