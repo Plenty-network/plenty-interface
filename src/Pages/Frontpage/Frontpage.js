@@ -161,7 +161,7 @@ const Frontpage = ({
                 </h5>
                 <h1 className="mb-3 text-white font-weight-bold">
                   <NumericLabel params={currencyOptionsWithSymbol}>
-                    {tvl ? tvl : '2657109'}
+                    {tvl ? tvl : '0'}
                   </NumericLabel>
                 </h1>
                 <h5
@@ -208,7 +208,7 @@ const Frontpage = ({
                   homeStats.price ? (
                     <NumericLabel params={currencyOptions}>{homeStats.price}</NumericLabel>
                   ) : (
-                    '0.056'
+                    '0'
                   )
                 }
                 icon={theme === 'light' ? dollar : dollarDark}
@@ -223,7 +223,7 @@ const Frontpage = ({
                       {homeStats.marketcap.toFixed(0)}
                     </NumericLabel>
                   ) : (
-                    '1,967,696'
+                    '0'
                   )
                 }
                 icon={theme === 'light' ? marketCap : marketCapDark}
@@ -238,7 +238,7 @@ const Frontpage = ({
                       {homeStats.total_minted.toFixed(0)}
                     </NumericLabel>
                   ) : (
-                    '42,141,682'
+                    '0'
                   )
                 }
                 icon={theme === 'light' ? farms : farmsDark}
@@ -253,7 +253,7 @@ const Frontpage = ({
                       {homeStats.total_burned.toFixed(0)}
                     </NumericLabel>
                   ) : (
-                    '793,809'
+                    '0'
                   )
                 }
                 icon={theme === 'light' ? totalBurned : totalBurnedDark}
@@ -268,7 +268,7 @@ const Frontpage = ({
                       {homeStats.circulating_supply.toFixed(0)}
                     </NumericLabel>
                   ) : (
-                    '34,534,242'
+                    '0'
                   )
                 }
                 icon={theme === 'light' ? circulatingSupply : circulatingSupplyDark}
@@ -283,7 +283,7 @@ const Frontpage = ({
                       {homeStats.plenty_per_block}
                     </NumericLabel>
                   ) : (
-                    '30'
+                    '0'
                   )
                 }
                 subText={'New PLENTY/Block'}
