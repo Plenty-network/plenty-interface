@@ -970,16 +970,16 @@ const Config: IConfig = {
       },
       //crosscheck
       'kUSD - USDC.e': {
-        address: 'KT1AqFBFgQnpyyYGQBxt81z96XRfPDqV8DpJ',
-        mapId: 181037,
+        address: 'KT1J5HNUXnQwonSam3kmDQ5WbhynPPpVtgdN',
+        mapId: 181898,
         decimal: 12,
         type: 'FA1.2',
         tokenId: 0,
       },
       //cross check
       'uUSD - USDC.e': {
-        address: 'KT1VPKHmV2LmeVDSdSUvL1Qfakf2GccSibSr',
-        mapId: 181034,
+        address: 'KT1Ah4Fe2hjcRdVCiCQDhRDZ2vDYLdYNjY51',
+        mapId: 181890,
         decimal: 9,
         type: 'FA1.2',
         tokenId: 0,
@@ -1487,7 +1487,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 12,
         DEX_PAIRS: {
           'USDC.e': {
-            contract: 'KT1HwvsLfLYsxfxpxKtWD8GvXXgkXUsYYcok',
+            contract: 'KT1Ji4hVDeQ5Ru7GW1Tna9buYSs3AppHLwj9',
             property: 'token2_pool',
             liquidityToken: 'usdc.e-uusd-LP',
             type: 'veStableAMM',
@@ -1521,7 +1521,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 18,
         DEX_PAIRS: {
           'USDC.e': {
-            contract: 'KT18uPBmydfFqNkCeKR9EVBhJi2RpUZSg1RG',
+            contract: 'KT1HgFcDE8ZXNdT1aXXKpMbZc6GkUS2VHiPo',
             property: 'token2_pool',
             liquidityToken: 'usdc.e-kusd-LP',
             type: 'veStableAMM',
@@ -1555,13 +1555,13 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
           kUSD: {
-            contract: 'KT18uPBmydfFqNkCeKR9EVBhJi2RpUZSg1RG',
+            contract: 'KT1HgFcDE8ZXNdT1aXXKpMbZc6GkUS2VHiPo',
             property: 'token1_pool',
             liquidityToken: 'usdc.e-kusd-LP',
             type: 'veStableAMM',
           },
           uUSD: {
-            contract: 'KT1HwvsLfLYsxfxpxKtWD8GvXXgkXUsYYcok',
+            contract: 'KT1Ji4hVDeQ5Ru7GW1Tna9buYSs3AppHLwj9',
             property: 'token1_pool',
             liquidityToken: 'usdc.e-uusd-LP',
             type: 'veStableAMM',
@@ -1582,8 +1582,8 @@ const Config: IConfig = {
 
       'usdc.e-kusd-LP': {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1AqFBFgQnpyyYGQBxt81z96XRfPDqV8DpJ',
-        mapId: 181037,
+        TOKEN_CONTRACT: 'KT1J5HNUXnQwonSam3kmDQ5WbhynPPpVtgdN',
+        mapId: 181898,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 12,
@@ -1593,8 +1593,8 @@ const Config: IConfig = {
 
       'usdc.e-uusd-LP': {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1VPKHmV2LmeVDSdSUvL1Qfakf2GccSibSr',
-        mapId: 181034,
+        TOKEN_CONTRACT: 'KT1Ah4Fe2hjcRdVCiCQDhRDZ2vDYLdYNjY51',
+        mapId: 181890,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 9,
@@ -2269,7 +2269,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 12,
         DEX_PAIRS: {
           'USDC.e': {
-            contract: 'KT1HwvsLfLYsxfxpxKtWD8GvXXgkXUsYYcok',
+            contract: 'KT1Ji4hVDeQ5Ru7GW1Tna9buYSs3AppHLwj9',
             property: 'token2_pool',
             liquidityToken: 'usdc.e-uusd-LP',
             type: 'veStableAMM',
@@ -2702,7 +2702,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 18,
         DEX_PAIRS: {
           'USDC.e': {
-            contract: 'KT18uPBmydfFqNkCeKR9EVBhJi2RpUZSg1RG',
+            contract: 'KT1HgFcDE8ZXNdT1aXXKpMbZc6GkUS2VHiPo',
             property: 'token2_pool',
             liquidityToken: 'usdc.e-kusd-LP',
             type: 'veStableAMM',
@@ -2959,13 +2959,13 @@ const Config: IConfig = {
             type: 'veAMM',
           },
           kUSD: {
-            contract: 'KT18uPBmydfFqNkCeKR9EVBhJi2RpUZSg1RG',
+            contract: 'KT1HgFcDE8ZXNdT1aXXKpMbZc6GkUS2VHiPo',
             property: 'token1_pool',
             liquidityToken: 'usdc.e-kusd-LP',
             type: 'veStableAMM',
           },
           uUSD: {
-            contract: 'KT1HwvsLfLYsxfxpxKtWD8GvXXgkXUsYYcok',
+            contract: 'KT1Ji4hVDeQ5Ru7GW1Tna9buYSs3AppHLwj9',
             property: 'token1_pool',
             liquidityToken: 'usdc.e-uusd-LP',
             type: 'veStableAMM',
@@ -3001,8 +3001,8 @@ const Config: IConfig = {
       },
       'usdc.e-kusd-LP': {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1AqFBFgQnpyyYGQBxt81z96XRfPDqV8DpJ',
-        mapId: 181037,
+        TOKEN_CONTRACT: 'KT1J5HNUXnQwonSam3kmDQ5WbhynPPpVtgdN',
+        mapId: 181898,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 12,
@@ -3010,8 +3010,8 @@ const Config: IConfig = {
       },
       'usdc.e-uusd-LP': {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1VPKHmV2LmeVDSdSUvL1Qfakf2GccSibSr',
-        mapId: 181034,
+        TOKEN_CONTRACT: 'KT1Ah4Fe2hjcRdVCiCQDhRDZ2vDYLdYNjY51',
+        mapId: 181890,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 9,
@@ -3895,9 +3895,9 @@ const Config: IConfig = {
       'kUSD - USDC.e': {
         active: [
           {
-            LP_TOKEN: 'KT1AqFBFgQnpyyYGQBxt81z96XRfPDqV8DpJ',
+            LP_TOKEN: 'KT1J5HNUXnQwonSam3kmDQ5WbhynPPpVtgdN',
             CONTRACT: 'KT1VczPHJvAG3ZFiNhN2gevijejgs3fbEaME',
-            DEX: 'KT18uPBmydfFqNkCeKR9EVBhJi2RpUZSg1RG',
+            DEX: 'KT1HgFcDE8ZXNdT1aXXKpMbZc6GkUS2VHiPo',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             CARD_TYPE: 'kUSD / USDC.e LP',
             TOKEN_DECIMAL: 12, //lptokendecimal
@@ -3918,9 +3918,9 @@ const Config: IConfig = {
       'uUSD - USDC.e': {
         active: [
           {
-            LP_TOKEN: 'KT1VPKHmV2LmeVDSdSUvL1Qfakf2GccSibSr',
+            LP_TOKEN: 'KT1Ah4Fe2hjcRdVCiCQDhRDZ2vDYLdYNjY51',
             CONTRACT: 'KT1PdsP2diXp8RtBoXo2mFFEwnzV4SW6bp9V',
-            DEX: 'KT1HwvsLfLYsxfxpxKtWD8GvXXgkXUsYYcok',
+            DEX: 'KT1Ji4hVDeQ5Ru7GW1Tna9buYSs3AppHLwj9',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             CARD_TYPE: 'uUSD / USDC.e LP',
             TOKEN_DECIMAL: 9,
