@@ -299,7 +299,7 @@
   justify-content: center;
   align-items: center;
   display: flex;
-
+  padding-top: 0px;
   > span {
     text-overflow: ellipsis;
     overflow: hidden;
@@ -470,7 +470,7 @@
   position: fixed;
   z-index: 1112;
   width: 100%;
-  top: 84.5px;
+  top: 125.5px;
   @media screen and (min-width: 320px) and (max-width: 992px) {
     padding: 10px 20px;
     background-color: var(--theme-bg-header);
@@ -798,4 +798,20 @@ input[type='radio']:checked:after {
 }
 .vote-width {
   width: 69% !important;
+}
+
+.bridge-new-tag {
+  font-size: 10px !important;
+  font-weight: 500 !important;
+  line-height: 14px !important;
+  background-color: var(--theme-bridge-max-btn-border-text);
+  //padding-top: 0.23rem;
+  padding: 1px 6px;
+  border-radius: 12px;
+  color: var(--theme-card-bg) !important;
+  vertical-align: middle;
+  text-align: center;
+  margin-left: 4px;
+  height: 16px;
+  width: 33px;
 }

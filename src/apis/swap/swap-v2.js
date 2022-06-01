@@ -11,8 +11,10 @@ import { isTokenPairStable } from '../Liquidity/Liquidity';
  * @param tokenOut - token which user wants to get, case-sensitive to CONFIG
  */
 export const loadSwapData = async (tokenIn, tokenOut) => {
+  const connectedNetwork = CONFIG.NETWORK;
+  const amm_type = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].type;
   try {
-    if ((tokenIn === 'ctez' && tokenOut === 'tez') || (tokenIn === 'tez' && tokenOut === 'ctez')) {
+    if (amm_type === 'xtz') {
       const connectedNetwork = CONFIG.NETWORK;
       const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
       const dexContractAddress =
@@ -54,11 +56,10 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
         lpTokenSupply,
         lpToken,
         target,
+        amm_type,
       };
-    } else if (
-      (tokenIn === 'ctez' && tokenOut === 'DOGA') ||
-      (tokenIn === 'DOGA' && tokenOut === 'ctez')
-    ) {
+    }  
+    else if (amm_type === 'veAMM') {
       const connectedNetwork = CONFIG.NETWORK;
       const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
       const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
@@ -66,9 +67,6 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
       const Tezos = new TezosToolkit(rpcNode);
       const dexContractInstance = await Tezos.contract.at(dexContractAddress);
       const dexStorage = await dexContractInstance.storage();
-      // token1 == doga
-      // token2 == ctez
-
       const lpFee = await dexStorage.lpFee;
       const token1_pool = await dexStorage.token1_pool;
       const token2_pool = await dexStorage.token2_pool;
@@ -105,8 +103,60 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
         tokenOutPerTokenIn,
         lpTokenSupply,
         lpToken,
+        amm_type,
       };
-    } else {
+    }
+    else if (amm_type === 'veStableAMM') {
+      const connectedNetwork = CONFIG.NETWORK;
+      const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+      const dexContractAddress =
+        CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
+      const Tezos = new TezosToolkit(rpcNode);
+      const dexContractInstance = await Tezos.contract.at(dexContractAddress);
+      const dexStorage = await dexContractInstance.storage();
+  
+      const token1_pool = await dexStorage.token1Pool.toNumber();
+      const token1_precision = await dexStorage.token1Precision.toNumber();
+  
+      const token2_pool = await dexStorage.token2Pool.toNumber();
+      const token2_precision = await dexStorage.token2Precision.toNumber();
+
+      let tokenIn_supply = 0;
+      let tokenOut_supply = 0;
+      let tokenIn_precision = 0;
+      let tokenOut_precision = 0;
+      if (CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].property === 'token2_pool') {
+        tokenOut_supply = token2_pool;
+        tokenOut_precision = token2_precision;
+        tokenIn_supply = token1_pool;
+        tokenIn_precision = token1_precision;
+      } else {
+        tokenOut_supply = token1_pool;
+        tokenOut_precision = token1_precision;
+        tokenIn_supply = token2_pool;
+        tokenIn_precision = token2_precision;
+      }
+      const lpFee = await dexStorage.lpFee;
+      const exchangeFee = lpFee.toNumber();
+      const lpTokenSupply = await dexStorage.lqtTotal.toNumber();
+      const lpToken = CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;    
+      const tokenOutPerTokenIn = tokenOut_supply / tokenIn_supply;
+      return {
+        success: true,
+        tokenIn,
+        tokenIn_supply,
+        tokenOut,
+        tokenOut_supply,
+        exchangeFee,
+        tokenOutPerTokenIn,
+        lpTokenSupply,
+        lpToken,
+        tokenIn_precision,
+        tokenOut_precision,
+        amm_type,
+      };
+    }
+    else {
       const connectedNetwork = CONFIG.NETWORK;
       const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
 
@@ -152,6 +202,7 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
         tokenOutPerTokenIn,
         lpTokenSupply,
         lpToken,
+        amm_type,
       };
     }
   } catch (error) {
@@ -258,6 +309,76 @@ const calculateTokensOutStable = (
     };
   }
 };
+const calculateTokensOutGeneralStable  =  (
+  tokenIn_supply,
+  tokenOut_supply,
+  tokenIn_amount,
+  Exchangefee,
+  slippage,
+  tokenIn,
+  tokenOut,
+  tokenIn_precision,
+  tokenOut_precision,
+) => { 
+  const connectedNetwork = CONFIG.NETWORK;
+  tokenIn_amount =
+    tokenIn_amount * 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL;
+  try {
+    tokenIn_supply *= tokenIn_precision;
+    tokenOut_supply *= tokenOut_precision;
+
+    const dy = newton_dx_to_dy(
+      tokenIn_supply,
+      tokenOut_supply,
+      tokenIn_amount * tokenIn_precision,
+      5,
+    );
+    let fee = dy / Exchangefee;
+    let tokenOut_amt = (dy - fee) / tokenOut_precision;
+    let minimumOut = tokenOut_amt - (slippage * tokenOut_amt) / 100;
+    minimumOut = minimumOut / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL;
+
+    const updated_tokenIn_pool = tokenIn_supply + tokenIn_amount;
+    const updated_tokenOut_pool = tokenOut_supply - tokenOut_amt;
+
+    const next_dy = newton_dx_to_dy(
+      updated_tokenIn_pool,
+      updated_tokenOut_pool,
+      tokenIn_amount * tokenIn_precision,
+      5,
+    );
+    const next_fee = next_dy / Exchangefee;
+    const next_tokenOut = (next_dy - next_fee) / tokenOut_precision;
+    let priceImpact = (tokenOut_amt - next_tokenOut) / tokenOut_amt;
+    priceImpact = priceImpact * 100;
+    priceImpact = priceImpact.toFixed(5);
+    priceImpact = Math.abs(priceImpact);
+    tokenOut_amt = tokenOut_amt / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL;
+    fee = fee / tokenOut_precision;
+    fee /= (10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL);
+    const tokenOut_amount = tokenOut_amt;
+    const minimum_Out = minimumOut;
+    const fees = fee;
+    const exchangeRate = (tokenOut_amount) / (tokenIn_amount / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+
+
+    return {
+      tokenOut_amount,
+      fees,
+      minimum_Out,
+      exchangeRate,
+      priceImpact,
+    };
+  } catch (error) {
+    return {
+      tokenOut_amount: 0,
+      fees: 0,
+      minimum_Out: 0,
+      priceImpact: 0,
+      error,
+    };
+  }
+};
 /**
  * Utility function to get swap data for the complete route to get calculations
  * @param path - An array from tokenIn to tokenOut
@@ -292,7 +413,22 @@ const getRouteSwapData = async (path) => {
           responses[i].target,
           responses[i].tokenIn,
         ).tokenOut_amount;
-      } else {
+      }
+      else if (responses[i].amm_type === 'veStableAMM'){
+        tokenOutPerTokenIn= calculateTokensOutGeneralStable(
+          responses[i].tokenIn_supply,
+          responses[i].tokenOut_supply,
+          tokenOutPerTokenIn,
+          responses[i].exchangeFee,
+          0,
+          responses[i].tokenIn,
+          responses[i].tokenOut,
+          responses[i].tokenIn_precision,
+          responses[i].tokenOut_precision,
+        ).tokenOut_amount;
+
+      }
+      else {
         tokenOutPerTokenIn =
           tokenOutPerTokenIn * (responses[i].tokenOut_supply / responses[i].tokenIn_supply);
       }
@@ -366,7 +502,7 @@ export const getAllRoutes = async (tokenIn, tokenOut) => {
       We select the best swapRate using tokenOutPerTokenIn method
      */
     for (const i in routeDataResponses) {
-      if (routeDataResponses[i].tokenOutPerTokenIn > bestRoute.tokenOutPerTokenIn) {
+      if (Number(routeDataResponses[i].tokenOutPerTokenIn) > Number(bestRoute.tokenOutPerTokenIn)) {
         bestRoute.tokenOutPerTokenIn = routeDataResponses[i].tokenOutPerTokenIn;
         bestRoute.swapData = routeDataResponses[i].intermediateAMMData;
         bestRoute.path = routeDataResponses[i].path;
@@ -401,9 +537,13 @@ const computeTokenOutputV2 = (
   tokenIn,
   tokenOut,
   target,
+  tokenIn_precision,
+  tokenOut_precision
 ) => {
   try {
-    if ((tokenIn === 'ctez' && tokenOut === 'tez') || (tokenIn === 'tez' && tokenOut === 'ctez')) {
+  const connectedNetwork = CONFIG.NETWORK;
+  const amm_type = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].type;
+    if (amm_type === 'xtz') {
       if (tokenIn === 'ctez') {
         return calculateTokensOutStable(
           tokenOut_supply * 10 ** 6,
@@ -425,6 +565,19 @@ const computeTokenOutputV2 = (
           tokenIn,
         );
       }
+    }
+    else if (amm_type === 'veStableAMM'){
+      return calculateTokensOutGeneralStable(
+        tokenIn_supply,
+        tokenOut_supply,
+        tokenIn_amount,
+        exchangeFee,
+        slippage,
+        tokenIn,
+        tokenOut,
+        tokenIn_precision,
+        tokenOut_precision,
+      );
     }
     else {
       let tokenOut_amount = 0;
@@ -483,8 +636,9 @@ const computeTokenOutForRouteBaseV2Base = (inputAmount, swapData, slippage) => {
           cur.tokenIn,
           cur.tokenOut,
           cur.target,
+          cur.tokenIn_precision,
+          cur.tokenOut_precision,
         );
-
         return {
           tokenOutAmount: computed.tokenOut_amount,
           fees: [...acc.fees, computed.fees],

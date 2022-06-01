@@ -19,6 +19,8 @@ const LiquidityNew = React.lazy(() => import('../Pages/Liquidity'));
 const Frontpage = React.lazy(() => import('../Pages/Frontpage/Frontpage'));
 const Stake = React.lazy(() => import('../Pages/xPlenty'));
 const Governance = React.lazy(() => import('../Pages/Governance/Governance'));
+const WrappedAssets = React.lazy(() => import('../Pages/WrappedAssets/WrappedAssets'));
+const Bridge = React.lazy(() => import('../Pages/Bridge/Bridge'));
 
 const MyRoutes = (props) => {
   const { theme, toggleTheme } = useThemes();
@@ -98,26 +100,7 @@ const MyRoutes = (props) => {
                 </OtherPages>
               }
             />
-            <Route
-              path={'/Stableswap/*'}
-              element={
-                <OtherPages {...otherPageProps}>
-                  <Swap
-                    walletAddress={props.userAddress}
-                    connecthWallet={connectWallet}
-                    theme={otherPageProps.theme}
-                  />
-                </OtherPages>
-              }
-            />
-            <Route
-              path="/liquidityStable/*"
-              element={
-                <OtherPages {...otherPageProps}>
-                  <Swap walletAddress={props.userAddress} theme={otherPageProps.theme} />
-                </OtherPages>
-              }
-            />
+
             <Route
               path="/farms"
               element={
@@ -163,6 +146,26 @@ const MyRoutes = (props) => {
               element={
                 <OtherPages {...otherPageProps}>
                   <Governance walletAddress={props.userAddress} />
+                </OtherPages>
+              }
+            />
+            <Route
+              path="/wrappedAssets"
+              element={
+                <OtherPages {...otherPageProps}>
+                  <WrappedAssets
+                    walletAddress={props.userAddress}
+                    theme={otherPageProps.theme}
+                    connecthWallet={connectWallet}
+                  />
+                </OtherPages>
+              }
+            />
+            <Route
+              path="/bridge"
+              element={
+                <OtherPages {...otherPageProps}>
+                  <Bridge walletAddress={props.userAddress} theme={otherPageProps.theme} />
                 </OtherPages>
               }
             />
