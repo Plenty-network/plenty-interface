@@ -20,30 +20,31 @@ const LiquidityInfo = (props) => {
           placement="top"
           overlay={
             <Tooltip id="button-tooltip" {...props}>
-              {config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
+                {config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
                 ?.type === 'xtz'
-                ? props.xtztoctez
+                ? props.cteztoxtz
                 : config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
                     ?.type === 'veStableAMM'
-                ? props.tokenArate
-                : props.swapData.tokenOutPerTokenIn}
+                ? props.tokenBrate
+                : 1 / props.swapData.tokenOutPerTokenIn}
             </Tooltip>
           }
         >
           <div className="details">
-            {(props.isStable ? !isNaN(props.xtztoctez) : props.swapData.tokenOutPerTokenIn) ? (
+            {(props.isStable ? !isNaN(props.cteztoxtz) : 1 / props.swapData.tokenOutPerTokenIn) ? (
               config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
                 ?.type === 'xtz' ? (
-                props.xtztoctez
+                props.cteztoxtz
               ) : config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
                   ?.type === 'veStableAMM' ? (
-                Number(props.tokenArate).toFixed(4)
+                Number(props.tokenBrate).toFixed(4)
               ) : (
-                props.swapData.tokenOutPerTokenIn.toFixed(4)
+                (1 / props.swapData.tokenOutPerTokenIn).toFixed(4)
               )
             ) : (
               <span className="shimmer">99999</span>
-            )}{' '}
+            )}
+            {' '}
             <span className="content">
               {props.tokenIn.name === 'tez'
                 ? 'TEZ'
@@ -67,28 +68,29 @@ const LiquidityInfo = (props) => {
             <Tooltip id="button-tooltip" {...props}>
               {config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
                 ?.type === 'xtz'
-                ? props.cteztoxtz
+                ? props.xtztoctez
                 : config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
                     ?.type === 'veStableAMM'
-                ? props.tokenBrate
-                : 1 / props.swapData.tokenOutPerTokenIn}
+                ? props.tokenArate
+                : props.swapData.tokenOutPerTokenIn}
             </Tooltip>
           }
         >
           <div className="details">
-            {(props.isStable ? !isNaN(props.cteztoxtz) : 1 / props.swapData.tokenOutPerTokenIn) ? (
+            {(props.isStable ? !isNaN(props.xtztoctez) : props.swapData.tokenOutPerTokenIn) ? (
               config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
                 ?.type === 'xtz' ? (
-                props.cteztoxtz
+                props.xtztoctez
               ) : config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
                   ?.type === 'veStableAMM' ? (
-                props.tokenBrate
+                Number(props.tokenArate).toFixed(4)
               ) : (
-                1 / props.swapData.tokenOutPerTokenIn
+                props.swapData.tokenOutPerTokenIn.toFixed(4)
               )
             ) : (
               <span className="shimmer">99999</span>
-            )}{' '}
+            )}
+            {' '}
             <span className="content">
               {props.tokenOut.name === 'tez'
                 ? 'TEZ'

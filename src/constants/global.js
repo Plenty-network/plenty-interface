@@ -54,3 +54,6 @@ export const type4MapIds = [
  * balance for these type5MapIds will be present in `response.data.args[0][0].args[1].int`
  */
 export const type5MapIds = [12043];
+
+// Flash message display duration.
+export const FLASH_MESSAGE_DURATION = 5000;

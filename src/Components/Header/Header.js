@@ -2,9 +2,10 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import truncateMiddle from 'truncate-middle';
-import { Col, Container, Nav, Navbar, Row } from 'react-bootstrap';
+import { Col, Container, Nav, Navbar, Row, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import clsx from 'clsx';
 import { ReactComponent as Logo } from '../../assets/images/logo.svg';
+import { ReactComponent as BannerArrow } from '../../assets/images/banner-arrow.svg';
 import { ReactComponent as LogoWhite } from '../../assets/images/logo-white.svg';
 import { Link, useLocation } from 'react-router-dom';
 import { RPC_NODE } from '../../constants/localStorage';
@@ -26,6 +27,7 @@ const Header = (props) => {
   const [selectedHeader, setSelectedHeader] = useState('');
   const [isExpanded, toggleExpand] = useState(false);
   const [open, setOpen] = useState(false);
+  const [isBannerOpen, setBannerOpen] = useState(true);
 
   useEffect(() => {
     const RPCNodeInLS = localStorage.getItem(RPC_NODE);
@@ -42,6 +44,10 @@ const Header = (props) => {
     }
     setHeader('');
   }, [splitLocation[1]]);
+
+  const closeBanner = () => {
+    setBannerOpen(false);
+  };
 
   const connectWalletButton = () => {
     if (props.walletAddress) {
@@ -62,7 +68,7 @@ const Header = (props) => {
           <div className={clsx('connect-wallet-btn')}>
             <div className="flex flex-row align-items-center">
               <span className={clsx('mr-1', 'material-icons-round')}>add</span>
-              <span>Connect Wallet</span>
+              <span>Connect wallet</span>
             </div>
           </div>
         </Button>
@@ -98,6 +104,33 @@ const Header = (props) => {
         )}
         fluid
       >
+        {splitLocation[1] !== 'wrappedAssets' && isBannerOpen && (
+          <div className="banner" onMouseEnter={() => setHeader('')}>
+            <div className="banner-middle">
+              <span className="banner-text">
+                {isMobile
+                  ? 'Swap Wrapped Assets now'
+                  : 'Swap wAssets for the new Plenty Bridge tokens BUSD.e, MATIC.e, USDC.e, WBTC.e, WETH.e, LINK.e, and DAI.e.'}
+              </span>
+              <Link to="/wrappedAssets" className="text-decoration-none">
+                <span className="bottom-last" style={{ cursor: 'pointer' }}>
+                  Swap now
+                </span>
+                <BannerArrow className="ml-2" />
+              </Link>
+            </div>
+            <div className="banner-right">
+              <span
+                className="closebanner"
+                onClick={() => closeBanner()}
+                style={{ cursor: 'pointer' }}
+              >
+                <span className={clsx('material-icons-round', 'banner-close')}>close</span>
+              </span>
+            </div>
+          </div>
+        )}
+
         <Row className="removing-margin">
           <Col className={clsx('innerHeader')} sm={12} md={12}>
             <Navbar
@@ -228,6 +261,37 @@ const Header = (props) => {
                         {...props}
                       />
                     )}
+                    <Nav.Link
+                      className={clsx(
+                        selectedHeader === HEADER_MODAL.BRIDGE ? 'menu-item-active' : 'menu-item',
+                        splitLocation[1] === 'bridge' && 'selected-menu-item-active',
+                        'align-self-end align-self-lg-center d-lg-flex align-items-center',
+                      )}
+                      {...(isMobile ? {} : { as: Link, to: '/bridge' })}
+                      onMouseEnter={() => setHeader(HEADER_MODAL.BRIDGE)}
+                      onClick={() => setHeaderMobile(HEADER_MODAL.BRIDGE)}
+                    >
+                      <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
+                        Bridge
+                      </span>
+                      <span
+                        className={clsx('material-icons', 'arrow-header', {
+                          rotate:
+                            selectedHeader === HEADER_MODAL.BRIDGE &&
+                            (isMobile ? isExpanded : true),
+                        })}
+                      >
+                        expand_more
+                      </span>
+                    </Nav.Link>
+
+                    {selectedHeader === HEADER_MODAL.BRIDGE && isMobile && (
+                      <HeaderBottom
+                        selectedHeader={selectedHeader}
+                        isExpanded={isExpanded}
+                        {...props}
+                      />
+                    )}
 
                     <Nav.Link
                       className={clsx(
@@ -325,7 +389,19 @@ const Header = (props) => {
                   </Nav.Item>
                   <div className="col-lg-6 d-lg-flex flex-column flex-lg-row align-items-end align-items-lg-center last">
                     <Nav.Item className="ml-auto d-none d-md-block align-self-lg-end">
-                      {connectWalletButton()}
+                      {
+                        <OverlayTrigger
+                          overlay={(props) => (
+                            <Tooltip className="connect-wallet-tooltip" {...props}>
+                              Connect wallet
+                            </Tooltip>
+                          )}
+                          placement="left"
+                          show={props.connectWalletTooltip}
+                        >
+                          {connectWalletButton()}
+                        </OverlayTrigger>
+                      }
                     </Nav.Item>
                     <div className="seperator seperatorSettings"></div>
                     <Nav.Item>
@@ -354,6 +430,7 @@ const Header = (props) => {
             selectedHeader={selectedHeader}
             isExpanded={isExpanded}
             page={splitLocation[1]}
+            isBannerOpen={isBannerOpen}
             {...props}
           />
         </div>
@@ -370,6 +447,7 @@ const mapStateToProps = (state) => ({
   tokenIn: state.settings.tokenIn,
   tokenOut: state.settings.tokenOut,
   opertaionId: state.settings.opertaionId,
+  connectWalletTooltip: state.settings.connectWalletTooltip,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -384,6 +462,7 @@ Header.propTypes = {
   theme: PropTypes.string,
   toggleTheme: PropTypes.func,
   walletAddress: PropTypes.oneOf(),
+  connectWalletTooltip: PropTypes.bool,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

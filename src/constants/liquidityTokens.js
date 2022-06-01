@@ -40,6 +40,21 @@ export const liquidityTokens = [
     new: true,
   },
   {
+    name: 'DOGA',
+    image: doga,
+    new: true,
+  },
+  {
+    name: 'WBTC.e',
+    image: wbtce,
+    new: true,
+  },
+  {
+    name: 'USDC.e',
+    image: usdce,
+    new: true,
+  },
+  {
     name: 'CRUNCH',
     image: CRUNCH,
     new: false,
@@ -209,20 +224,5 @@ export const liquidityTokens = [
   {
     name: 'BUSD.e',
     image: youGov,
-  },
-  {
-    name: 'DOGA',
-    image: doga,
-    new: true,
-  },
-  {
-    name: 'WBTC.e',
-    image: wbtce,
-    new: true,
-  },
-  {
-    name: 'USDC.e',
-    image: usdce,
-    new: true,
   },
 ];

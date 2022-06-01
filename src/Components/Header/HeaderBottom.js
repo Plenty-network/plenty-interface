@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Button from '../Ui/Buttons/Button';
 import clsx from 'clsx';
 import { Col, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { HEADER_MODAL } from '../../constants/header';
 import Switch from '../Ui/Switch/Switch';
 import useMediaQuery from '../../hooks/mediaQuery';
@@ -13,6 +13,9 @@ import axios from 'axios';
 import { setNode } from '../../redux/slices/settings/settings.slice';
 
 const HeaderBottom = (props) => {
+  const location = useLocation();
+  const { pathname } = location;
+  const splitLocation = pathname.split('/');
   const [nodeSelector, setNodeSelector] = useState(false);
   const isMobile = useMediaQuery('(max-width: 991px)');
   const [open, isOpen] = useState(true);
@@ -133,6 +136,7 @@ const HeaderBottom = (props) => {
           className={clsx('headerBottom', 'topToBottomFadeInAnimation-1-header', {
             'pt-0': !props.selectedHeader,
             height: props.selectedHeader === HEADER_MODAL.SETTINGS && nodeSelector,
+            'headerBottom-banner': splitLocation[1] === 'wrappedAssets' || !props.isBannerOpen,
           })}
           onMouseLeave={() => isOpen(false)}
         >
@@ -170,6 +174,60 @@ const HeaderBottom = (props) => {
                     </Link>
                   </div>
                 </Col> */}
+              </Row>
+            )}
+            {props.selectedHeader === HEADER_MODAL.BRIDGE && (
+              <Row>
+                <Col xl={5} lg={6} xs={12}>
+                  <div className=" topics gov">
+                    <Link to="/bridge" className="text-decoration-none">
+                      <p className="heading">BRIDGE</p>
+                      <div className="flex   para">
+                        <div className="parainside">
+                          Transfer your Ethereum assets to Tezos within five minutes.
+                        </div>
+                        <div>
+                          <span className=" material-icons-round arrowforward">arrow_forward</span>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                </Col>
+                <Col xl={5} lg={6} xs={12}>
+                  <div className="topics gov">
+                    <Link to="/wrappedAssets" className="text-decoration-none">
+                      <p className="heading">MIGRATE</p>
+                      <div className="flex   para">
+                        <div className="parainside">
+                          Swap your wAssets for the new Plenty Bridge asset.e tokens.
+                        </div>
+                        <div>
+                          <span className=" material-icons-round arrowforward">arrow_forward</span>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                </Col>
+                <Col xl={5} lg={6} xs={12}>
+                  <div className=" topics gov">
+                    <a
+                      href="https://analytics.plentydefi.com/"
+                      className="text-decoration-none"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <div className="flex flex-row ">
+                        <p className="heading">BRIDGE ANALYTICS</p>
+                        <span className="ml-3 material-icons-round launch-icon">launch</span>
+                      </div>
+                      <div className="flex  para para">
+                        <div className="parainside">
+                          Data analytics of the Plenty bridge.
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </Col>
               </Row>
             )}
             {props.selectedHeader === HEADER_MODAL.EARN && (

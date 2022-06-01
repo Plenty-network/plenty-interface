@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import plenty from '../../../assets/images/logo_small.png';
 import ctez from '../../../assets/images/ctez.png';
 import config from '../../../config/config';
-import { tokens } from '../../../constants/swapPage';
+import { liquidityTokens } from '../../../constants/liquidityTokens';
 
 export const useLocationStateInLiquidity = () => {
   const [tokenParams, setTokenParams] = useSearchParams();
@@ -41,9 +41,9 @@ export const useLocationStateInLiquidity = () => {
   }, [location.pathname]);
 
   const paramKeys = useMemo(() => {
-    if (activeTab === 'swap') {
-      return { a: 'from', b: 'to' };
-    }
+    // if (activeTab === 'swap') {
+    //   return { a: 'from', b: 'to' };
+    // }
 
     return { a: 'tokenA', b: 'tokenB' };
   }, [activeTab]);
@@ -86,7 +86,7 @@ export const useLocationStateInLiquidity = () => {
     const tokenOutFromParam = tokenParams.get(paramKey.b);
 
     if (tokenInFromParam) {
-      const tokenInDatum = tokens.find((token) => token.name === tokenInFromParam);
+      const tokenInDatum = liquidityTokens.find((token) => token.name === tokenInFromParam);
 
       if (tokenInDatum) {
         setTokenIn({
@@ -97,7 +97,7 @@ export const useLocationStateInLiquidity = () => {
     }
 
     if (tokenOutFromParam) {
-      const tokenOutDatum = tokens.find((token) => token.name === tokenOutFromParam);
+      const tokenOutDatum = liquidityTokens.find((token) => token.name === tokenOutFromParam);
 
       if (tokenOutDatum) {
         setTokenOut({

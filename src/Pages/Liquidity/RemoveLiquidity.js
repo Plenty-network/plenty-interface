@@ -620,7 +620,7 @@ const RemoveLiquidity = (props) => {
             </div>
             <div className="ml-auto right">
               <div className="pool-tokens ">
-                <div className="label">Pool Tokens</div>
+                <div className="label">Pool tokens</div>
                 <OverlayTrigger
                   placement="top"
                   overlay={

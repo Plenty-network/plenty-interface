@@ -299,7 +299,7 @@
   justify-content: center;
   align-items: center;
   display: flex;
-
+  padding-top: 0px;
   > span {
     text-overflow: ellipsis;
     overflow: hidden;
@@ -470,7 +470,7 @@
   position: fixed;
   z-index: 1112;
   width: 100%;
-  top: 84.5px;
+  top: 125.5px;
   @media screen and (min-width: 320px) and (max-width: 992px) {
     padding: 10px 20px;
     background-color: var(--theme-bg-header);

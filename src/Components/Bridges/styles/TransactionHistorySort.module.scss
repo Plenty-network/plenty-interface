@@ -1,0 +1,78 @@
+.sortBox {
+  z-index: 10000;
+  position: absolute;
+  width: 224px;
+  min-height: 150px;
+  left: 20vw;
+  top: 60px;
+  background: var(--theme-card-bg);
+  border: 1px solid var(--theme-bridge-filter-border);
+  box-sizing: border-box;
+  box-shadow: 0px 5px 15px var(--theme-bridge-filter-box-shadow);
+  border-radius: 6px;
+}
+
+.sortHeading {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #8a959e;
+  margin-bottom: 2px;
+}
+
+.sortButtonsContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 9px 0px;
+  margin-bottom: 0px;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.05em;
+  color: var(--theme-bridge-filter-option-text);
+  -webkit-user-select: none;
+  user-select: none;
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    &:checked {
+      & ~ .radioOption {
+        background-image: url('../../../assets/images/bridge/check-violet.svg');
+        background-size: contain;
+        &:after {
+          display: block;
+        }
+      }
+    }
+  }
+  &:hover {
+    background-color: var(--theme-bridge-filter-option-hover);
+  }
+
+  .sortLabelText {
+    margin-left: 14px;
+  }
+}
+
+.radioOption {
+  position: absolute;
+  right: 0;
+  height: 15px;
+  width: 15px;
+  margin-right: 14px;
+  background-image: url('../../../assets/images/bridge/check-grey.svg');
+  background-size: contain;
+}
+
+.lineBottom {
+    border-bottom: 0.5px solid var(--theme-bridge-filter-lb);
+    width: 88%;
+}

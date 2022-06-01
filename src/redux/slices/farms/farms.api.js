@@ -208,7 +208,7 @@ const fetchStorageForDualStakingContract = async (
  * @param priceOfPlentyInUSD - Price of plenty as fetched from TezTools API
  * @returns {Promise<{success: boolean, error}|{identifier, roiTable: *[], APR: number, totalLiquidty: number, address, rewardRate: number | string | T | undefined | number, success: boolean, totalSupply: number | string | T | undefined | number}>}
  */
-const fetchStorageOfStakingContract = async (
+ const fetchStorageOfStakingContract = async (
   identifier,
   address,
   priceOfStakeTokenInUsd,
@@ -251,6 +251,7 @@ const fetchStorageOfStakingContract = async (
     let APR = (rewardRate * 1051200 * priceOfPlentyInUSD) / (liquidity);
     APR = APR * 100;
     const totalLiquidty = liquidity;
+
     return {
       success: true,
       identifier,

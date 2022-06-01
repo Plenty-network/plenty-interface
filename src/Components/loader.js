@@ -91,7 +91,7 @@ const Loader = (props) => {
               </div>
               <div className={clsx('floater-text', !props.onBtnClick && 'center-floater-message')}>
                 <span className="status-text">Transaction Rejected</span>
-                {props.onBtnClick && (
+                {/* {props.onBtnClick && (
                   <div
                     className="view-tezos"
                     onClick={props.onBtnClick}
@@ -100,7 +100,7 @@ const Loader = (props) => {
                     View on Block Explorer{' '}
                     <span className="material-icons-round launch-icon-flash">launch</span>
                   </div>
-                )}
+                )} */}
               </div>
               <div className="ml-auto">
                 <span

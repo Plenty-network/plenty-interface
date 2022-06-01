@@ -12,7 +12,6 @@ import dollarDark from '../../assets/images/frontpage/dollarDark.svg';
 
 import marketCap from '../../assets/images/frontpage/marketcap.svg';
 import farms from '../../assets/images/frontpage/farms.svg';
-import xplenty from '../../assets/images/frontpage/plentystake.svg';
 import liquidity from '../../assets/images/frontpage/liquidity.svg';
 import totalBurned from '../../assets/images/frontpage/totalburned.svg';
 import circulatingSupply from '../../assets/images/frontpage/circulatingsupply.svg';
@@ -21,13 +20,14 @@ import marketCapDark from '../../assets/images/frontpage/marketcapDark.svg';
 import farmsDark from '../../assets/images/frontpage/farmsDark.svg';
 import farms2Dark from '../../assets/images/frontpage/farms2Dark.svg';
 import farms2 from '../../assets/images/frontpage/farms2.svg';
-import xplentyDark from '../../assets/images/frontpage/plentystakeDark.svg';
 import liquidityDark from '../../assets/images/frontpage/liquidityDark.svg';
 import totalBurnedDark from '../../assets/images/frontpage/totalburnedDark.svg';
 import circulatingSupplyDark from '../../assets/images/frontpage/circulatingsupplyDark.svg';
 import plentyBlockDark from '../../assets/images/frontpage/plentyblockDark.svg';
 import amm from '../../assets/images/frontpage/trade.svg';
 import ammDark from '../../assets/images/frontpage/tradeDark.svg';
+import bridge from '../../assets/images/frontpage/ic_bridge.svg';
+import bridgeDark from '../../assets/images/frontpage/ic_bridge_dark.svg';
 import plentyBig from '../../assets/images/frontpage/plentybig.svg';
 import { ReactComponent as Medium } from '../../assets/images/frontpage/medium.svg';
 import { ReactComponent as Twitter } from '../../assets/images/frontpage/twitter.svg';
@@ -160,13 +160,14 @@ const Frontpage = ({
                   Total Value Locked
                 </h5>
                 <h1 className="mb-3 text-white font-weight-bold">
-                  <NumericLabel params={currencyOptionsWithSymbol}>{tvl}</NumericLabel>
+                  <NumericLabel params={currencyOptionsWithSymbol}>
+                    {tvl ? tvl : '0'}
+                  </NumericLabel>
                 </h1>
                 <h5
                   className={`mb-4 text-white text-mulish font-weight-light ${styles.textMulish}`}
                 >
-                  Trade tokens and earn interest by staking. There is plenty of DeFi to explore on
-                  Tezos.
+                  Bridge, trade, and earn. There is plenty of DeFi to explore on Tezos. 
                 </h5>
                 <Link to={'swap'} className="text-decoration-none">
                   <Button
@@ -216,10 +217,12 @@ const Frontpage = ({
             <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
               <Label
                 text={
-                  homeStats.marketcap && (
+                  homeStats.marketcap ? (
                     <NumericLabel params={currencyOptions}>
                       {homeStats.marketcap.toFixed(0)}
                     </NumericLabel>
+                  ) : (
+                    '0'
                   )
                 }
                 icon={theme === 'light' ? marketCap : marketCapDark}
@@ -229,10 +232,12 @@ const Frontpage = ({
             <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
               <Label
                 text={
-                  homeStats.total_minted && (
+                  homeStats.total_minted ? (
                     <NumericLabel params={currencyOptions}>
                       {homeStats.total_minted.toFixed(0)}
                     </NumericLabel>
+                  ) : (
+                    '0'
                   )
                 }
                 icon={theme === 'light' ? farms : farmsDark}
@@ -242,10 +247,12 @@ const Frontpage = ({
             <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
               <Label
                 text={
-                  homeStats.total_burned && (
+                  homeStats.total_burned ? (
                     <NumericLabel params={currencyOptions}>
                       {homeStats.total_burned.toFixed(0)}
                     </NumericLabel>
+                  ) : (
+                    '0'
                   )
                 }
                 icon={theme === 'light' ? totalBurned : totalBurnedDark}
@@ -255,10 +262,12 @@ const Frontpage = ({
             <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
               <Label
                 text={
-                  homeStats.circulating_supply && (
+                  homeStats.circulating_supply ? (
                     <NumericLabel params={currencyOptions}>
                       {homeStats.circulating_supply.toFixed(0)}
                     </NumericLabel>
+                  ) : (
+                    '0'
                   )
                 }
                 icon={theme === 'light' ? circulatingSupply : circulatingSupplyDark}
@@ -268,10 +277,12 @@ const Frontpage = ({
             <Col sm={6} md={4} xl={2} className="px-5 pb-2 pt-3 m-sm-auto">
               <Label
                 text={
-                  homeStats.plenty_per_block && (
+                  homeStats.plenty_per_block ? (
                     <NumericLabel params={currencyOptions}>
                       {homeStats.plenty_per_block}
                     </NumericLabel>
+                  ) : (
+                    '0'
                   )
                 }
                 subText={'New PLENTY/Block'}
@@ -295,6 +306,15 @@ const Frontpage = ({
               justifyContent: 'center',
             }}
           >
+            <Col xs={12} md={6} xl={3} className="mb-3 d-flex">
+              <LinkTile
+                text={'Transfer your tokens from Ethereum to Tezos within five minutes.'}
+                linkTo={'/bridge'}
+                linkText={'Enter Bridge'}
+                headerIcon={theme === 'light' ? bridge : bridgeDark}
+                headerText={'Bridge'}
+              />
+            </Col>
             <Col xs={12} md={6} xl={3} className="mb-3 d-flex">
               <LinkTile
                 text={'Swap tokens instantly with high liquidity and audited smart contracts.'}
@@ -322,15 +342,6 @@ const Frontpage = ({
                 linkText={'Enter Farms'}
                 headerIcon={theme === 'light' ? farms2 : farms2Dark}
                 headerText={'Farm'}
-              />
-            </Col>
-            <Col xs={12} md={6} xl={3} className="mb-3 d-flex">
-              <LinkTile
-                text={'Stake PLENTY, receive xPLENTY. Rewards are compounding.'}
-                linkTo={'/stake'}
-                linkText={'Enter Staking'}
-                headerIcon={theme === 'light' ? xplenty : xplentyDark}
-                headerText={'Stake'}
               />
             </Col>
           </div>
