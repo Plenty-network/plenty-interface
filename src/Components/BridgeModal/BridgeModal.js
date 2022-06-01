@@ -363,7 +363,7 @@ const BridgeModal = (props) => {
   const handleInputFocus = () => {
     setIsError(false);
     setIsTokenInSelected(true);
-    if (currentChain !== metamaskChain) {
+    if (walletAddress && metamaskAddress && currentChain !== metamaskChain) {
       setErrorMessage(`Please select ${titleCase(currentChain)} chain in wallet.`);
       setIsError(true);
     }
