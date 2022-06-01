@@ -172,7 +172,6 @@ const Config: IConfig = {
           ],
           inactive: [],
         },
-        //cross check once
         'kUSD - USDC.e': {
           active: [
             {
@@ -184,7 +183,6 @@ const Config: IConfig = {
           ],
           inactive: [],
         },
-        //cross check once
         'uUSD - USDC.e': {
           active: [
             {
@@ -196,7 +194,6 @@ const Config: IConfig = {
           ],
           inactive: [],
         },
-        //cross check once
         'tzBTC - WBTC.e': {
           active: [
             {
@@ -968,7 +965,6 @@ const Config: IConfig = {
         type: 'FA1.2',
         tokenId: 0,
       },
-      //crosscheck
       'kUSD - USDC.e': {
         address: 'KT1J5HNUXnQwonSam3kmDQ5WbhynPPpVtgdN',
         mapId: 181898,
@@ -976,7 +972,6 @@ const Config: IConfig = {
         type: 'FA1.2',
         tokenId: 0,
       },
-      //cross check
       'uUSD - USDC.e': {
         address: 'KT1Ah4Fe2hjcRdVCiCQDhRDZ2vDYLdYNjY51',
         mapId: 181890,
@@ -984,7 +979,6 @@ const Config: IConfig = {
         type: 'FA1.2',
         tokenId: 0,
       },
-      //cross check
       'tzBTC - WBTC.e': {
         address: 'KT1HJbndQjBEhAqR3Vj3NaP3RwFGudJf5YP4',
         mapId: 179610,
@@ -1370,7 +1364,6 @@ const Config: IConfig = {
         type: 'FA1.2',
         tokenId: 0,
       },
-      // add lp here
       'ctez - DOGA': {
         address: 'KT1DZ41c1mV12oh8YNXm54JpwUNZ2C5R6VaG',
         mapId: 171789,
@@ -1392,7 +1385,6 @@ const Config: IConfig = {
     testnet: {},
   },
   ROUTER: {
-    // KT1QzuJg2dJZVSoDf56BmvPGMduWzjYggkf5
     mainnet: 'KT1MEVCrGRCsoERXf6ahNLC4ik6J2vRH7Mm6',
     testnet: 'KT1FMZVMeyCrNFyGjJfiB6VSq3LX1ShSEzuw',
   },
@@ -3891,7 +3883,6 @@ const Config: IConfig = {
         ],
         inactive: [],
       },
-      //check lpdecimal and decimal
       'kUSD - USDC.e': {
         active: [
           {
@@ -3914,7 +3905,6 @@ const Config: IConfig = {
         ],
         inactive: [],
       },
-      //check lpdecimal and decimal
       'uUSD - USDC.e': {
         active: [
           {
@@ -3937,7 +3927,6 @@ const Config: IConfig = {
         ],
         inactive: [],
       },
-      //need to update details
       'tzBTC - WBTC.e': {
         active: [
           {
@@ -5172,8 +5161,6 @@ const Config: IConfig = {
     address: 'KT1CAeUQfyMnBVqkt4QcztmjsjAWYzK6ZPYQ',
     mapId: 55983,
   },
-  // NETWORK: 'testnet',
-  // WALLET_NETWORK: 'ithacanet',
   NETWORK: 'mainnet',
   WALLET_NETWORK: 'mainnet',
   ADMIN_ADDRESS: 'KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW',

@@ -219,7 +219,6 @@ const fetchStorageOfStakingContract = async (
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const url = `${rpcNode}chains/main/blocks/head/context/contracts/${address}/storage`;
     const response = await axios.get(url);
-
     let totalSupply = response.data.args[3].int;
     if (
       identifier === 'uUSD - YOU' ||
@@ -353,8 +352,6 @@ const getCtezPrice = async () => {
  * @param tokenPricesData - Response from TezTools API
  * @returns {Promise<{identifier, totalAmount: string, success: boolean}|{success: boolean}>}
  */
-
-// TODO: Update Lp price fetching for .e pairs
 
 const getPriceForPlentyLpTokens = async (
   identifier,
@@ -726,7 +723,6 @@ const getPriceForPlentyLpTokens = async (
       const token2Pool = parseInt(storageResponse.data.args[3].int);
       const lpTokenTotalSupply = parseInt(storageResponse.data.args[0].args[0].args[2].int); 
 
-
       const tokenData = {};
 
 
@@ -998,7 +994,7 @@ export const getFarmsDataAPI = async (isActive) => {
           key === 'USDC.e - CTEZ' ||
           key === 'kUSD - USDC.e' ||
           key === 'uUSD - USDC.e' ||
-          key === ' tzBTC - WBTC.e'
+          key === 'tzBTC - WBTC.e'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(
