@@ -220,13 +220,51 @@ const fetchStorageOfStakingContract = async (
     const url = `${rpcNode}chains/main/blocks/head/context/contracts/${address}/storage`;
     const response = await axios.get(url);
     let totalSupply = response.data.args[3].int;
+    let liquidity;
     if (
       identifier === 'uUSD - YOU' ||
       identifier === 'uUSD - wUSDC' ||
       identifier === 'uUSD - uDEFI'
     ) {
       totalSupply = (totalSupply / Math.pow(10, 12)).toFixed(2);
-    } else {
+    } else if(identifier === 'tzBTC - WBTC.e'){
+      totalSupply = parseFloat(totalSupply);
+      liquidity = totalSupply * priceOfStakeTokenInUsd;
+      liquidity = (liquidity / Math.pow(10, 18)).toFixed(2);
+      liquidity = parseFloat(liquidity);
+      let rewardRate = response.data.args[1].args[1].int;
+      rewardRate = (rewardRate / Math.pow(10, 18)).toFixed(18);
+      rewardRate = parseFloat(rewardRate);
+      let DPY = (rewardRate * 2880 * priceOfPlentyInUSD) / liquidity;
+      DPY = DPY * 100;
+
+    const intervalList = [1, 7, 30, 365];
+    const roiTable = [];
+
+    for (const interval of intervalList) {
+      roiTable.push({
+        roi: DPY * interval,
+        PlentyPer1000dollar: (10 * DPY * interval) / priceOfPlentyInUSD,
+      });
+    }
+
+    let APR = (rewardRate * 1051200 * priceOfPlentyInUSD) / (liquidity);
+    APR = APR * 100;
+    const totalLiquidty = liquidity;
+    return {
+      success: true,
+      identifier,
+      APR,
+      totalLiquidty,
+      roiTable,
+      totalSupply,
+      address,
+      rewardRate,
+    };
+      
+
+    }
+    else {
       totalSupply = (totalSupply / Math.pow(10, 18)).toFixed(2);
     }
     totalSupply = parseFloat(totalSupply);
@@ -257,7 +295,7 @@ const fetchStorageOfStakingContract = async (
 
     let APR = (rewardRate * 1051200 * priceOfPlentyInUSD) / (totalSupply * priceOfStakeTokenInUsd);
     APR = APR * 100;
-
+  
     const totalLiquidty = totalSupply * priceOfStakeTokenInUsd;
     return {
       success: true,
