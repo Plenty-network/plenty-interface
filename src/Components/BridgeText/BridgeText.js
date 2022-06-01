@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './BridgeText.module.scss';
 import Row from 'react-bootstrap/Row';
 import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';

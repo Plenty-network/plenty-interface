@@ -21,7 +21,6 @@ export const FILTER_OPTIONS = [
 
 export const TransactionHistoryFilter = (props) => {
   const checkBoxChangeHandler = (checkBoxId) => {
-    //const checkBoxId = event.target.id;
     props.setCheckBoxesState((prevState) => ({
       ...prevState,
       [checkBoxId]: !prevState[checkBoxId],
@@ -73,5 +72,3 @@ TransactionHistoryFilter.propTypes = {
   setCheckBoxesState: PropTypes.any,
   filterDivisionRef: PropTypes.any,
 };
-
-//export default TransactionHistoryFilter;

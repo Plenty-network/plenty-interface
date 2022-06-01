@@ -1,21 +1,11 @@
-/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import styles from './Transfer.module.scss';
 import Button from '../Ui/Buttons/Button';
-import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
-import { ReactComponent as FeeIcon } from '../../assets/images/bridge/fee_icon.svg';
-import GasIcon from '../../assets/images/bridge/gas_fee_icon.svg';
-import GasIconDark from '../../assets/images/bridge/gas_fee_icon_dark.svg';
-import dummyApiCall from '../../apis/dummyApiCall';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useInterval } from '../../hooks/useInterval';
 import { getMintStatus, getReleaseStatus } from '../../apis/bridge/bridgeAPI';
-import CONFIG from '../../config/config';
-import useMediaQuery from '../../hooks/mediaQuery';
-// import { PuffLoader } from 'react-spinners';
 
 const MintReleaseModal = (props) => {
-  const [isButtonLoading, SetIsButtonLoading] = useState(false);
   const [isReadyToMintRelease, setIsReadyToMintRelease] = useState(false);
   const [signaturesRequired, setSignaturesRequired] = useState(0);
   const [signaturesCount, setSignaturesCount] = useState(0);
@@ -26,30 +16,18 @@ const MintReleaseModal = (props) => {
   const dots = useRef(['.','.','.']);
 
   const {
-    description,
-    gasFees,
-    currentProgress,
     operation,
-    setTransactionData,
-    selectedId,
-    SetCurrentProgress,
     mintUnmintOpHash,
     fromBridge,
     setWrapUnwrapData,
     toBridge,
-    theme,
-    displayMessage,
     mintButtonClick,
     isMintLoading,
   } = props;
-  const isMobile = useMediaQuery('(max-width: 991px)');
 
   useInterval(async ()=>{
-    console.log('Checking mint/relese ready status..');
     if(operation === 'BRIDGE') {
       const mintingResult = await getMintStatus(mintUnmintOpHash, fromBridge.name);
-      console.log('Get Mint Status Results: ');
-      console.log(mintingResult);
       if (mintingResult.data !== null) {
         setAwaitingConfirmation(false);
         setSignaturesRequired(mintingResult.signaturesReq);
@@ -63,8 +41,6 @@ const MintReleaseModal = (props) => {
       }
     } else {
       const releaseResult = await getReleaseStatus(mintUnmintOpHash, toBridge.name);
-      console.log('Get Release Status Results: ');
-      console.log(releaseResult);
       if (releaseResult.data !== null) {
         setAwaitingConfirmation(false);
         setSignaturesRequired(releaseResult.signaturesReq);
@@ -77,27 +53,8 @@ const MintReleaseModal = (props) => {
         setAwaitingConfirmation(true);
       }
     }
-    /* setConfirmationsRequired(5);
-    setSignaturesRequired(5);
-    setAwaitingConfirmation(false);
-    dummyApiCall({ confirmationsCount: 5 }).then((res) => {
-      setConfirmationsCount(res.confirmationsCount);
-      dummyApiCall({ confirmationsCount: 5 }).then((res) => {
-        setSignaturesCount(res.confirmationsCount);
-        dummyApiCall({ confirmationsCount: 5 }).then((res) => {
-          setIsReadyToMintRelease(true);
-        });
-      });
-    }); */
-    
   }, !isReadyToMintRelease ? delay.current : null);
 
-  /* const mintButtonClick = () => {
-    //SetIsButtonLoading(true);
-    SetCurrentProgress(currentProgress + 1);
-    //console.log(`${operation === 'BRIDGE' ? 'Mint' : 'Release'}`);
-    
-  }; */
   return (
     <>
       <p className={styles.contentLabel}>{operation === 'BRIDGE' ? 'Minting' : 'Releasing'}</p>
@@ -106,20 +63,6 @@ const MintReleaseModal = (props) => {
         confirmations is reached and five out of seven signers have published their signature on
         IPFS.{' '}
       </p>
-      {/* <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
-        <a
-          href={`${
-            operation === 'BRIDGE'
-              ? CONFIG.EXPLORER_LINKS[fromBridge.name]
-              : CONFIG.EXPLORER_LINKS.TEZOS
-          }${mintUnmintOpHash}`}
-          target="_blank"
-          rel="noreferrer"
-        >
-          View on Block Explorer
-        </a>
-        <Link className="ml-2 mb-1" />
-      </p> */}
       <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
       <div className={styles.resultsHeader} style={{ alignItems: 'center' }}>
         <div className={`${styles.confirmTextWrapper}`}>
@@ -136,15 +79,6 @@ const MintReleaseModal = (props) => {
               })}
             </p>
           ) : (
-            /* confirmationsCount !== 0 && confirmationsRequired !== 0 && confirmationsCount >= confirmationsRequired ? (
-              <p>
-                Waiting for signatures <span className={styles.feeValue}>{signaturesCount}/{signaturesRequired}</span>
-              </p>
-            ) : (
-              <p>
-                Waiting for confirmations <span className={styles.feeValue}>{confirmationsCount}/{confirmationsRequired}</span>
-              </p>
-            ) */
             <>
               <p className={`${styles.processTextContainer} ${styles.processing}`}>
                 Waiting for confirmations{' '}
@@ -218,37 +152,17 @@ const MintReleaseModal = (props) => {
       </div>
       <div className={`mt-3 mb-3 ${styles.lineBottom} `}></div>
       <div className={styles.feeInfoWrapper}>
-        {/* <img
-          src={theme === 'light' ? GasIcon : GasIconDark}
-          alt="GasIcon"
-          style={{ height: '20px' }}
-        ></img> */}
-        {/* <p className={styles.bottomInfo}>Review your gas fee in your wallet</p> */}
-        {/* <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~{Number(gasFees).toFixed(6)}</p> */}
       </div>
-      {/* {isReadyToMintRelease && isMintLoading && !isMobile && (
-        <div className="loading-data-wrapper">
-          <PuffLoader color="var(--theme-primary-1)" size={36} />
-        </div>
-      )} */}
     </>
   );
 };
 
 MintReleaseModal.propTypes = {
-  description: PropTypes.any,
-  gasFees: PropTypes.any,
-  currentProgress: PropTypes.any,
   operation: PropTypes.any,
-  setTransactionData: PropTypes.any,
-  selectedId: PropTypes.any,
-  SetCurrentProgress: PropTypes.any,
   mintUnmintOpHash: PropTypes.any,
   fromBridge: PropTypes.any,
   setWrapUnwrapData: PropTypes.any,
   toBridge: PropTypes.any,
-  theme: PropTypes.any,
-  displayMessage: PropTypes.any,
   mintButtonClick: PropTypes.any,
   isMintLoading: PropTypes.any,
 };
