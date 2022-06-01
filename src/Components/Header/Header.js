@@ -141,6 +141,7 @@ const Header = (props) => {
                 ? {}
                 : { onMouseEnter: () => setHeader('') })}
             >
+              {/* {!isMobile && <span className='bridge-new-tag' style={{position: 'absolute', marginLeft: '0px', left: '30%', bottom: '60%'}}>New</span>} */}
               <Navbar.Brand as={Link} to="/" className="mx-3 mx-sm-0">
                 {props.isGradientBgPage ? (
                   <LogoWhite />
@@ -270,10 +271,12 @@ const Header = (props) => {
                       {...(isMobile ? {} : { as: Link, to: '/bridge' })}
                       onMouseEnter={() => setHeader(HEADER_MODAL.BRIDGE)}
                       onClick={() => setHeaderMobile(HEADER_MODAL.BRIDGE)}
+                      style={{position: 'relative'}}
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                         Bridge
                       </span>
+                      {isMobile && <span className='bridge-new-tag'>New</span>}
                       <span
                         className={clsx('material-icons', 'arrow-header', {
                           rotate:
@@ -283,6 +286,7 @@ const Header = (props) => {
                       >
                         expand_more
                       </span>
+                      {!isMobile && <span className='bridge-new-tag' style={{position: 'absolute', right: '-4%', bottom: '75%'}}>New</span>}
                     </Nav.Link>
 
                     {selectedHeader === HEADER_MODAL.BRIDGE && isMobile && (

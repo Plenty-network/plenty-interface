@@ -24,7 +24,7 @@ const BridgeText = () => {
           <h6 className={`${styles.question}`}>How do I use the bridge?</h6>
           <p className={`mt-1 ${styles.answer}`}>
             First select the chain and token. Enter the amount you want to bridge. After completing
-            all steps on both chains your tokens will reflect in your wallet on the other chain.
+            all steps on both chains, your tokens will reflect in your wallet on the other chain.
           </p>
           <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
             <a
