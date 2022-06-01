@@ -25,17 +25,19 @@ import wusdtLpFarm from '../assets/images/farms/wusdtLpFarm.png';
 import tez from '../assets/images/farms/tez.png';
 import cteztezlpFarm from '../assets/images/farms/ctez-tez.png';
 import dogactezLpFarm from '../assets/images/farms/dogactezLpFarm.png';
+import uUSDUSDC from '../assets/images/farms/uUSDUSDC.e.png';
+import tzBTCWBTC from '../assets/images/farms/tzBTCWBTC.e.png';
+import kUSDUSDC from '../assets/images/farms/kUSDUSDC.e.png';
 import youLpFarm from '../assets/images/farms/youLpFarm.png';
 import ctezFarmLpIcon from '../assets/images/farms/ctezFarmLpIcon.png';
 import uUSDYOULp from '../assets/images/farms/uUSDYOULp.png';
 import uUSDwUSDC from '../assets/images/farms/uUSDwUSDCLp.png';
 import uUSDuDEFI from '../assets/images/farms/uUSDuDEFILp.png';
-
+import usdcectez from '../assets/images/farms/usdcectezlp.png';
+import wbtcectez from '../assets/images/farms/wbtcectez.png';
 import wbusd from '../assets/images/busd.png';
 import YOU from '../assets/images/you-gov.png';
-
 import PropTypes from 'prop-types';
-
 import ctezCRUNCH from '../assets/images/farms/ctez-CRUNCH.png';
 import ctezGIF from '../assets/images/farms/ctez-GIF.png';
 import ctezkUSD from '../assets/images/farms/ctez-kUSD.png';
@@ -177,6 +179,119 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
     isDualFarm: false,
+  },
+
+  'kUSD / USDC.e LP': {
+    image: kUSDUSDC,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'kUSD / USDC.e PNLP',
+    apr: 0,
+    apy: 0,
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'kUSD / USDC.e LP',
+    liquidity: 0,
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
+    url: '/liquidity/add?tokenA=kUSD&tokenB=USDC.e',
+  },
+
+  'uUSD / USDC.e LP': {
+    image: uUSDUSDC,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'uUSD / USDC.e PNLP',
+    apr: 0,
+    apy: 0,
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'uUSD / USDC.e LP',
+    liquidity: 0,
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
+    url: '/liquidity/add?tokenA=uUSD&tokenB=USDC.e',
+  },
+
+  'tzBTC / WBTC.e LP': {
+    image: tzBTCWBTC,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'tzBTC / WBTC.e PNLP',
+    apr: 0,
+    apy: 0,
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'tzBTC / WBTC.e LP',
+    liquidity: 0,
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
+    url: '/liquidity/add?tokenA=tzBTC&tokenB=WBTC.e',
+  },
+  'USDC.e / CTEZ LP': {
+    image: usdcectez,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'USDC.e / CTEZ PNLP',
+    apr: 0,
+    apy: 0,
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'USDC.e / CTEZ LP',
+    liquidity: 0,
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
+    url: '/liquidity/add?tokenA=ctez&tokenB=USDC.e',
+  },
+  'WBTC.e / CTEZ LP': {
+    image: wbtcectez,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'WBTC.e / CTEZ PNLP',
+    apr: 0,
+    apy: 0,
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'WBTC.e / CTEZ LP',
+    liquidity: 0,
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
+    url: '/liquidity/add?tokenA=ctez&tokenB=WBTC.e',
   },
   'KALAM / XTZ LP': {
     image: kalamXtz,

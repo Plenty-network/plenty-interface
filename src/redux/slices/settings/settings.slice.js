@@ -11,6 +11,7 @@ export const settingsSlice = createSlice({
     tokenOut: '',
     opertaionId: '',
     loaderMessage: {},
+    connectWalletTooltip: false,
   },
   reducers: {
     setNode: (state, action) => {
@@ -37,6 +38,9 @@ export const settingsSlice = createSlice({
     setLoaderMessageFloater: (state, action) => {
       state.loaderMessage = action.payload;
     },
+    setConnectWalletTooltip: (state, action) => {
+      state.connectWalletTooltip = action.payload;
+    },
   },
 });
 
@@ -49,6 +53,7 @@ export const {
   setSecondTokenAmountFloater,
   setTokenInFloater,
   setTokenOutFloater,
+  setConnectWalletTooltip,
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

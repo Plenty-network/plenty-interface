@@ -43,7 +43,17 @@ const LpPair = (props) => {
               </div>
               <div className="floater-text">
                 <span className="status-text">
-                  {pair.tokenA.name}/{pair.tokenB.name}
+                  {pair.tokenA.name === 'tez'
+                    ? 'TEZ'
+                    : pair.tokenA.name === 'ctez'
+                    ? 'CTEZ'
+                    : pair.tokenA.name}
+                  /
+                  {pair.tokenB.name === 'tez'
+                    ? 'TEZ'
+                    : pair.tokenB.name === 'ctez'
+                    ? 'CTEZ'
+                    : pair.tokenB.name}
                 </span>
               </div>
               <div className="ml-auto ">

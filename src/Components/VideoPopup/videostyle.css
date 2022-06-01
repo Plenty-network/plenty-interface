@@ -1,0 +1,120 @@
+div.modal-video {
+    animation: modal-video .3s ease-out;
+    background-color: rgba(0, 0, 0, .3);
+    backdrop-filter: blur(5px);
+    color: #000;
+    cursor: pointer;
+    height: 100%;
+    left: 0;
+    opacity: 1;
+    position: fixed;
+    top: 0;
+    transition: opacity .3s ease-out;
+    width: 100%;
+    z-index: 1000000;
+  }
+  
+div.modal-video-body {
+    box-sizing: border-box;
+    color: #000;
+    cursor: pointer;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    margin: 0 auto;
+    max-width: 960px;
+    padding: 0 10px;
+    width: 100%;
+  }
+  
+div.modal-video-inner {
+    align-items: center;
+    color: #000;
+    cursor: pointer;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    width: 1251px;
+  }
+  
+  @media (orientation: landscape) {
+div.modal-video-inner {
+      box-sizing: border-box;
+      padding: 10px 60px;
+    }
+  }
+  
+div.modal-video-movie-wrap {
+    animation: modal-video-inner .3s ease-out;
+    background-color: #333;
+    color: #000;
+    cursor: pointer;
+    height: 0;
+    padding-bottom: 56.25%;
+    position: relative;
+    transform: translate(0,0);
+    transition: transform .3s ease-out;
+    width: 100%;
+  }
+  
+button.modal-video-close-btn {
+    background-color: transparent;
+    border-style: none;
+    color: #000;
+    cursor: default;
+    display: inline-block;
+    font-family: Arial;
+    font-size: 13.3333px;
+    height: 35px;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: -45px;
+    width: 35px;
+    z-index: 2;
+    cursor: pointer;
+  }
+  
+button.modal-video-close-btn:before {
+    background-color: #fff;
+    border-radius: 5px;
+    content: "";
+    height: 2px;
+    left: 0;
+    margin-top: -6px;
+    position: absolute;
+    top: 50%;
+    transform: rotate(45deg);
+    width: 100%;
+  }
+  
+button.modal-video-close-btn:after {
+    background-color: #fff;
+    border-radius: 5px;
+    content: "";
+    height: 2px;
+    left: 0;
+    margin-top: -6px;
+    position: absolute;
+    top: 50%;
+    transform: rotate(-45deg);
+    width: 100%;
+  }
+  
+  @media (orientation: landscape) {
+ button.modal-video-close-btn {
+      right: -45px;
+      top: 0;
+    }
+  }
+  
+ div.modal-video div.modal-video-movie-wrap iframe {
+    color: #000;
+    cursor: pointer;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }

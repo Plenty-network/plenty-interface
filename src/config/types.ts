@@ -5,6 +5,7 @@ export interface IConfig {
   TZKT_NODES: INodes;
   TOKENS_PAGE: INodes;
   CTEZ: INodes;
+  EXPLORER_LINKS: IExplorerLinks;
   STAKING_CONTRACTS: {
     POOLS: any;
     FARMS: {
@@ -51,6 +52,10 @@ export interface IConfig {
     testnet: string;
     mainnet: string;
   };
+  BRIDGES_INDEXER_LINKS: {
+    testnet: Record<string, string>;
+    mainnet: Record<string, string>;
+  };
 }
 
 interface IApi {
@@ -62,6 +67,12 @@ interface IApi {
 interface INodes {
   testnet: string;
   mainnet: string;
+}
+
+interface IExplorerLinks {
+  ETHEREUM: string;
+  TEZOS: string;
+  RINKEBY: string;
 }
 
 type TTokenType = 'FA2' | 'FA1.2' | 'XTZ';
@@ -129,6 +140,7 @@ interface IAmmDexPair {
   contract: string;
   property: string;
   liquidityToken: string;
+  type: string;
 }
 
 interface IFarmContract {

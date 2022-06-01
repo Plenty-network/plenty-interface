@@ -25,8 +25,12 @@ import InfoModal from '../Ui/Modals/InfoModal';
 import Loader from '../loader';
 import { setLoader } from '../../redux/slices/settings/settings.slice';
 import switchImg from '../../assets/images/SwapModal/swap-switch.svg';
-
+import config from '../../config/config';
 import switchImgDark from '../../assets/images/SwapModal/swap-switch-dark.svg';
+import {
+  calculateTokensOutGeneralStable,
+  loadSwapDataGeneralStableWithoutDecimal,
+} from '../../apis/stableswap/generalStableswap';
 
 const SwapTab = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -64,23 +68,39 @@ const SwapTab = (props) => {
   const isStableSwap = useRef(false);
   const getSwapData = async () => {
     const res = await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
-
+    console.log('getSwapData');
+    // console.log(res);
     setSwapData(res);
   };
+  const getSwapDataGeneralStableswap = async () => {
+    const res = await loadSwapDataGeneralStableWithoutDecimal(props.tokenIn.name, props.tokenOut.name);
+    console.log('getSwapDataGeneralStableswap');
+    setSwapData(res);
+
+  };
   useEffect(() => {
-    if (
-      (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
-      (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez')
-    ) {
-      getSwapData();
-    }
-  }, [props]);
+    // if (props.isStablePair) {
+      if (
+        config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+        'xtz'
+      ) {
+        getSwapData();
+      } else if (
+        config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+        'veStableAMM'
+      ) {
+        getSwapDataGeneralStableswap();
+      }
+    // }
+  }, [props.tokenIn , props.tokenOut]);
 
   useEffect(() => {
     setRouteDataCopy(false);
     isStableSwap.current =
-      (props.tokenIn.name === 'tez' && props.tokenOut.name === 'ctez') ||
-      (props.tokenOut.name === 'tez' && props.tokenIn.name === 'ctez');
+      config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+        'veStableAMM' ||
+      config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type === 'xtz';
+
     setRoutePath([]);
     setFirstTokenAmount('');
     setSecondTokenAmount('');
@@ -141,6 +161,22 @@ const SwapTab = (props) => {
     return tokenOutResponse;
   };
 
+  const fetchSwapDataForGeneralStableSwap = async (input) => {
+    const tokenOutResponse = await calculateTokensOutGeneralStable(
+      swapData.tokenIn_supply,
+      swapData.tokenOut_supply,
+      Number(input),
+      swapData.exchangeFee,
+      props.slippage,
+      props.tokenIn.name,
+      props.tokenOut.name,
+      swapData.tokenIn_precision,
+      swapData.tokenOut_precision,
+    );
+
+    return tokenOutResponse;
+  };
+
   useEffect(() => {
     getXtzDollarPrice().then((res) => {
       setDolar(res);
@@ -155,22 +191,48 @@ const SwapTab = (props) => {
     } else {
       if (tokenType === 'tokenIn') {
         if (props.isStablePair) {
-          setFirstTokenAmount(input);
-          const res = await fetchSwapData(input);
+          if (
+            config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+            'xtz'
+          ) {
+            setFirstTokenAmount(input);
+            const res = await fetchSwapData(input);
 
-          setSecondTokenAmount(res.tokenOut.toFixed(6));
-          setComputedData({
-            success: true,
-            data: {
-              tokenOutAmount: res.tokenOut.toFixed(6),
-              fees: res.fee,
-              totalFees: res.fee,
-              minimumOut: res.minimumOut.toFixed(6),
-              finalMinimumOut: res.minimumOut.toFixed(6),
-              priceImpact: res.priceImpact,
-              exchangeRate: res.exchangeRate,
-            },
-          });
+            setSecondTokenAmount(res.tokenOut.toFixed(6));
+            setComputedData({
+              success: true,
+              data: {
+                tokenOutAmount: res.tokenOut.toFixed(6),
+                fees: res.fee,
+                totalFees: res.fee,
+                minimumOut: res.minimumOut.toFixed(6),
+                finalMinimumOut: res.minimumOut.toFixed(6),
+                priceImpact: res.priceImpact,
+                exchangeRate: res.exchangeRate,
+              },
+            });
+          } else if (
+            config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+            'veStableAMM'
+          ) {
+            setFirstTokenAmount(input);
+            const res = await fetchSwapDataForGeneralStableSwap(input);
+
+            setSecondTokenAmount(res.tokenOut_amount);
+
+            setComputedData({
+              success: true,
+              data: {
+                tokenOutAmount: res.tokenOut_amount,
+                fees: res.fees,
+                totalFees: res.fees,
+                minimumOut: res.minimum_Out,
+                finalMinimumOut: res.minimum_Out,
+                priceImpact: res.priceImpact,
+                exchangeRate: res.exchangeRate,
+              },
+            });
+          }
         } else {
           setFirstTokenAmount(input);
 
@@ -265,7 +327,7 @@ const SwapTab = (props) => {
   };
   useEffect(() => {
     handleSwapTokenInput(firstTokenAmount, 'tokenIn');
-  }, [props.routeData]);
+  }, [routeDataCopy]);
   useEffect(() => {
     setErrorMessage(false);
   }, [props.tokenOut.name]);
@@ -358,6 +420,31 @@ const SwapTab = (props) => {
         computedData.data.minimumOut,
         recepientAddress,
         Number(firstTokenAmount),
+        transactionSubmitModal,
+        props.setShowConfirmSwap,
+        resetVal,
+        props.setShowConfirmTransaction,
+      ).then((response) => {
+        props.setShowConfirmSwap(false);
+        props.setShowConfirmTransaction(false);
+        props.setLoader(false);
+        handleSwapResponse(response.success);
+        setTimeout(() => {
+          props.setLoaderMessage({});
+        }, 5000);
+      });
+    } else if (
+      config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+      'veStableAMM'
+    ) {
+      //call api for new stableswap
+      swapTokens(
+        props.tokenIn.name,
+        props.tokenOut.name,
+        computedData.data.minimumOut,
+        recepientAddress,
+        Number(firstTokenAmount),
+        props.walletAddress,
         transactionSubmitModal,
         props.setShowConfirmSwap,
         resetVal,
@@ -684,22 +771,31 @@ const SwapTab = (props) => {
 
               <div className="token-user-input-wrapper">
                 <div className="input-heading receive-heading">YOU RECEIVE</div>
-                {props.userBalances[props.tokenOut.name] >= 0 && props.tokenOut.name ? (
-                  <input
-                    type="text"
-                    className={clsx('token-user-input', secondTokenAmount && 'second-input-color')}
-                    value={secondTokenAmount && fromExponential(secondTokenAmount)}
-                    placeholder="0.0"
-                    disabled
-                    onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenOut')}
-                  />
+                {props.tokenOut.name ? (
+                  props.userBalances[props.tokenOut.name] >= 0 && routeDataCopy ? (
+                    <input
+                      type="text"
+                      className={clsx(
+                        'token-user-input',
+                        secondTokenAmount && 'second-input-color',
+                      )}
+                      value={secondTokenAmount && fromExponential(secondTokenAmount)}
+                      placeholder="0.0"
+                      disabled
+                      onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenOut')}
+                    />
+                  ) : (
+                    <span className="shimmer-text ml-auto">
+                      <span className="shimmer shimmer-input">0.0000</span>
+                    </span>
+                  )
                 ) : (
                   <input
                     type="text"
                     className="token-user-input"
                     disabled
                     placeholder="--"
-                    value={secondTokenAmount}
+                    value="--"
                   />
                 )}
               </div>
