@@ -4011,7 +4011,8 @@ const Config: IConfig = {
         ],
       },
       'PLENTY - wBUSD': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1UC3vcVZ4K9b39uQxaMNA2N1RuJXKLCnoA',
             CONTRACT: 'KT1KJhxkCpZNwAFQURDoJ79hGqQgSC9UaWpG',
@@ -4026,12 +4027,14 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wBUSD',
             isDualFarm: false,
+            message: 'Rewards ended May 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'PLENTY - wUSDC': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1Gz1mx1jm7JHqU7GuMVWF6soB9RjsfLN3o',
             CONTRACT: 'KT1Kp3KVT4nHFmSuL8bvETkgQzseUYP3LDBy',
@@ -4046,12 +4049,14 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDC',
             isDualFarm: false,
+            message: 'Rewards ended May 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'PLENTY - wWBTC': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1La1qZiJtDRcd9ek8w5KYD47i9MQqAQHmP',
             CONTRACT: 'KT1M82a7arHVwcwaswnNUUuCnQ45xjjGKNd1',
@@ -4066,12 +4071,14 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wWBTC',
             isDualFarm: false,
+            message: 'Rewards ended May 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'PLENTY - wMATIC': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1WCGPFvy97wwGxewKfvTr1QYPvpEgUKToS',
             CONTRACT: 'KT1UP9XHQigWMqNXYp9YXaCS1hV9jJkCF4h4',
@@ -4086,12 +4093,14 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wMATIC',
             isDualFarm: false,
+            message: 'Rewards ended May 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'PLENTY - wLINK': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1Brqb3JvXNKzwjW82F8pUAxQ7ipCfApWki',
             CONTRACT: 'KT1UqnQ6b1EwQgYiKss4mDL7aktAHnkdctTQ',
@@ -4106,9 +4115,10 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wLINK',
             isDualFarm: false,
+            message: 'Rewards ended May 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'PLENTY - USDtz': {
         active: [
@@ -4171,7 +4181,8 @@ const Config: IConfig = {
         inactive: [],
       },
       'PLENTY - wWETH': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1SULRhejhoBWUmMnU53YHJrQZ3rxqsamdm',
             CONTRACT: 'KT1CBh8BKFV6xAH42hEdyhkijbwzYSKW2ZZC',
@@ -4186,9 +4197,10 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wWETH',
             isDualFarm: false,
+            message: 'Rewards ended May 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'PLENTY - kUSD': {
         active: [
@@ -4459,7 +4471,8 @@ const Config: IConfig = {
         ],
       },
       'PLENTY - wDAI': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT19vdNapeT6MALXvkvW745KiVKGXmD4AZq5',
             CONTRACT: 'KT1FJzDx9AwbuNHjhzQuUxxKUMA9BQ7DVfGn',
@@ -4474,12 +4487,14 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wDAI',
             isDualFarm: false,
+            message: 'Rewards ended May 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'PLENTY - wUSDT': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1PcM1LUqgVdkXqKvZ4CeC9aiwLgYYCEHMH',
             CONTRACT: 'KT1S4XjwGtk55TmsMqSdazEMrH4pGA3NMXhz',
@@ -4494,9 +4509,10 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
+            message: 'Rewards ended May 31',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'ctez - kUSD': {
         active: [],

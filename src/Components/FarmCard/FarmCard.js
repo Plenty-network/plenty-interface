@@ -131,7 +131,11 @@ const FarmCard = (props) => {
             </div>
             <div className="text-right">
               <p className={styles.title}>{properties.title}</p>
-              {properties.source === 'Plenty LP' && isTokenPairStable(tokens[0], tokens[1]) ? (
+              {properties.source === 'Plenty LP' &&
+              isTokenPairStable(
+                tokens[0] === 'CTEZ' || tokens[0] === 'TEZ' ? tokens[0].toLowerCase() : tokens[0],
+                tokens[1] === 'CTEZ' || tokens[1] === 'TEZ' ? tokens[1].toLowerCase() : tokens[1],
+              ) ? (
                 <OverlayTrigger
                   placement="top"
                   overlay={
