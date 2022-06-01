@@ -7,7 +7,7 @@ export const networks = {
       symbol: 'ETH',
       decimals: 18,
     },
-    rpcUrls: [process.env.REACT_APP_RPC_NODE, 'https://cloudflare-eth.com'],   // TODO: Change infura. Fetch from env
+    rpcUrls: [process.env.REACT_APP_RPC_NODE, 'https://cloudflare-eth.com'],
     blockExplorerUrls: ['https://etherscan.io/'],
   },
   RINKEBY: {

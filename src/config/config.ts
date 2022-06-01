@@ -2221,11 +2221,6 @@ const Config: IConfig = {
             liquidityToken: 'ctez-wweth-lp',
             type: 'oldAMM',
           },
-          // ETHtz: {
-          //   contract: 'KT196bPdVJqY1DF3y7aQ9Cn5tcGQeMrrjWTp',
-          //   property: 'token2_pool',
-          //   liquidityToken: 'wWETH-ETHtz-LP',
-          // },
         },
       },
       UNO: {
@@ -5468,14 +5463,13 @@ const Config: IConfig = {
       RINKEBY: 'https://bridgeindexer.plentydefi.com/v1/configuration',
     },
     mainnet: {
-      ETHEREUM: 'https://bridgemainnetindexer.plentydefi.com/configuration', //TODO: Change it to ours
+      ETHEREUM: 'https://bridgemainnetindexer.plentydefi.com/configuration',
     },
   },
   EXPLORER_LINKS: {
     RINKEBY: 'https://rinkeby.etherscan.io/tx/',
     ETHEREUM: 'https://etherscan.io/tx/',
     TEZOS: 'https://tzkt.io/',
-    /* TEZOS: 'https://ithacanet.tzkt.io/', */
   },
 };
 

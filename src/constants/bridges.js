@@ -1,6 +1,4 @@
 // Bridges
-/* import avaxRed from '../assets/images/bridge/avax_red.svg';
-import avax from '../assets/images/bridge/avax.svg'; */
 import ethereum from '../assets/images/bridge/eth.svg';
 import {ReactComponent as ethereumButtonIcon} from '../assets/images/bridge/ethereum_btn_icon.svg';
 import tezos from '../assets/images/bridge/ic_tezos.svg';
@@ -28,12 +26,6 @@ export const bridgesList = [
     buttonImage: ethereumButtonIcon,
     bigIcon: ethereum,
   },
-  /* {
-    name: 'RINKEBY',
-    image: ethereum,
-    buttonImage: ethereumButtonIcon,
-    bigIcon: ethereum,
-  }, */
   {
     name: 'TEZOS',
     image: tezos,
