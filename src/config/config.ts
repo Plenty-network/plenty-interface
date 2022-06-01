@@ -239,7 +239,8 @@ const Config: IConfig = {
           ],
         },
         'PLENTY - wBUSD': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1KJhxkCpZNwAFQURDoJ79hGqQgSC9UaWpG',
               mapId: 10768,
@@ -247,10 +248,10 @@ const Config: IConfig = {
               tokenDecimal: 18,
             },
           ],
-          inactive: [],
         },
         'PLENTY - wUSDC': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1Kp3KVT4nHFmSuL8bvETkgQzseUYP3LDBy',
               mapId: 11019,
@@ -258,10 +259,10 @@ const Config: IConfig = {
               tokenDecimal: 12,
             },
           ],
-          inactive: [],
         },
         'PLENTY - wWBTC': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1M82a7arHVwcwaswnNUUuCnQ45xjjGKNd1',
               mapId: 11057,
@@ -269,10 +270,10 @@ const Config: IConfig = {
               tokenDecimal: 13,
             },
           ],
-          inactive: [],
         },
         'PLENTY - wMATIC': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1UP9XHQigWMqNXYp9YXaCS1hV9jJkCF4h4',
               mapId: 11823,
@@ -280,10 +281,10 @@ const Config: IConfig = {
               tokenDecimal: 18,
             },
           ],
-          inactive: [],
         },
         'PLENTY - wLINK': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1UqnQ6b1EwQgYiKss4mDL7aktAHnkdctTQ',
               mapId: 11819,
@@ -291,7 +292,6 @@ const Config: IConfig = {
               tokenDecimal: 18,
             },
           ],
-          inactive: [],
         },
         'PLENTY - USDtz': {
           active: [
@@ -327,7 +327,8 @@ const Config: IConfig = {
           inactive: [],
         },
         'PLENTY - wWETH': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1CBh8BKFV6xAH42hEdyhkijbwzYSKW2ZZC',
               mapId: 13082,
@@ -335,7 +336,6 @@ const Config: IConfig = {
               tokenDecimal: 18,
             },
           ],
-          inactive: [],
         },
         'PLENTY - kUSD': {
           active: [
@@ -500,7 +500,8 @@ const Config: IConfig = {
           ],
         },
         'PLENTY - wDAI': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1FJzDx9AwbuNHjhzQuUxxKUMA9BQ7DVfGn',
               mapId: 20166,
@@ -508,10 +509,10 @@ const Config: IConfig = {
               tokenDecimal: 18,
             },
           ],
-          inactive: [],
         },
         'PLENTY - wUSDT': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1S4XjwGtk55TmsMqSdazEMrH4pGA3NMXhz',
               mapId: 20160,
@@ -519,7 +520,6 @@ const Config: IConfig = {
               tokenDecimal: 12,
             },
           ],
-          inactive: [],
         },
         'PLENTY - cTez': {
           active: [
