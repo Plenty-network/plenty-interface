@@ -1,10 +1,16 @@
 import styles from './BridgeText.module.scss';
 import Row from 'react-bootstrap/Row';
 import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
+import { useState } from 'react';
+import VideoModal from '../VideoPopup';
 
 const BridgeText = () => {
+  const [showVideoModal,setShowVideoModal]=useState(false);
+
   return (
     <div className=" row justify-content-center">
+      {showVideoModal && <VideoModal closefn={setShowVideoModal} linkString="xn-ZrWzjHR0"/>}
+
       <div className=" col-24 col-sm-20 col-md-10 col-lg-11 col-xl-11">
         <Row>
           <h2 className={styles.heading}>Plenty bridge</h2>
@@ -22,9 +28,10 @@ const BridgeText = () => {
           </p>
           <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
             <a
-              href="https://forum.plentydefi.com/t/pip-001-minting-rate-reduction/51"
+               onClick={()=>setShowVideoModal(true)}
               target="_blank"
               rel="noreferrer"
+              style={{cursor:'pointer'}}
             >
               Learn more
             </a>
