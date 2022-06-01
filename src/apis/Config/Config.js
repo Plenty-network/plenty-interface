@@ -14,9 +14,7 @@ export const loadConfiguration = async () => {
     const availableChainsObject = CONFIG.BRIDGES_INDEXER_LINKS[networkSelected];
     const availableChainsArray = Object.keys(availableChainsObject).map((chain) => ({name: chain, url: availableChainsObject[chain]}));
     const finalConfig = {};
-    //console.log(availableChainsArray);
     const results = await Promise.allSettled(availableChainsArray.map((chain) => axios.get(chain.url)));
-    //console.log(results);
     results.forEach((result, index) => {
       if(result.status === 'fulfilled') {
         const data = result.value.data;
@@ -65,10 +63,8 @@ export const loadConfiguration = async () => {
             tezosTokenName.UNWRAPPED_TOKEN.DECIMALS = token.decimals;
           }
         });
-        //console.log(data);
       }
     });
-    //console.log(finalConfig);
     return {
       success: true,
       data: finalConfig

@@ -1,52 +1,31 @@
-/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import styles from './Transfer.module.scss';
 import Button from '../Ui/Buttons/Button';
-
-import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
-import GasIcon from '../../assets/images/bridge/gas_fee_icon.svg';
-import GasIconDark from '../../assets/images/bridge/gas_fee_icon_dark.svg';
 import { useState } from 'react';
 import { wrap, unwrap, approveToken } from '../../apis/bridge/bridgeAPI';
-import CONFIG from '../../config/config';
 import { FLASH_MESSAGE_DURATION } from '../../constants/global';
-import useMediaQuery from '../../hooks/mediaQuery';
-// import { PuffLoader } from 'react-spinners';
 import { useDispatch } from 'react-redux';
 import { setLoader } from '../../redux/slices/settings/settings.slice';
 
 const BridgeUnbridgeModal = (props) => {
   const [isButtonLoading, SetIsButtonLoading] = useState(false);
   const {
-    description,
-    gasFees,
     currentProgress,
-    getTransactionListLength,
     operation,
     fromBridge,
     toBridge,
     tokenIn,
-    tokenOut,
     firstTokenAmount,
-    secondTokenAmount,
-    setTransactionData,
-    selectedId,
     SetCurrentProgress,
     walletAddress,
     setMintUnmintOpHash,
-    setSelectedId,
-    approveHash,
-    theme,
     displayMessage,
-    setBack,
     setApproveHash,
-    resetToDefaultStates,
     isApproveLoading,
     setIsApproveLoading,
     isApproved,
     setIsApproved,
   } = props;
-  const isMobile = useMediaQuery('(max-width: 991px)');
   const dispatch = useDispatch();
 
   const bridgeButtonClick = async () => {
@@ -59,8 +38,6 @@ const BridgeUnbridgeModal = (props) => {
         firstTokenAmount,
         walletAddress,
       );
-      console.log(operation + ' Results: ');
-      console.log(bridgeUnbridgeResult);
       if (bridgeUnbridgeResult.success) {
         setMintUnmintOpHash(bridgeUnbridgeResult.transactionHash);
         displayMessage({
@@ -75,7 +52,6 @@ const BridgeUnbridgeModal = (props) => {
         dispatch(setLoader(false));
         SetCurrentProgress(currentProgress + 1);
       } else {
-        console.log(bridgeUnbridgeResult.error);
         displayMessage({
           type: 'error',
           duration: FLASH_MESSAGE_DURATION,
@@ -89,8 +65,6 @@ const BridgeUnbridgeModal = (props) => {
       }
     } else {
       const bridgeUnbridgeResult = await unwrap(toBridge.name, firstTokenAmount, tokenIn);
-      console.log(operation + ' Results: ');
-      console.log(bridgeUnbridgeResult);
       if (bridgeUnbridgeResult.success) {
         setMintUnmintOpHash(bridgeUnbridgeResult.txHash);
         displayMessage({
@@ -105,7 +79,6 @@ const BridgeUnbridgeModal = (props) => {
         dispatch(setLoader(false));
         SetCurrentProgress(currentProgress + 1);
       } else {
-        console.log(bridgeUnbridgeResult.error);
         displayMessage({
           type: 'error',
           duration: FLASH_MESSAGE_DURATION,
@@ -124,8 +97,6 @@ const BridgeUnbridgeModal = (props) => {
     setIsApproveLoading(true);
     dispatch(setLoader(true));
     const approveResult = await approveToken(tokenIn, fromBridge.name, firstTokenAmount);
-    console.log('Approve Results: ');
-    console.log(approveResult);
     if (approveResult.success) {
       setApproveHash(approveResult.transactionHash);
       displayMessage({
@@ -141,9 +112,7 @@ const BridgeUnbridgeModal = (props) => {
       setIsApproveLoading(false);
       dispatch(setLoader(false));
       setIsApproved(true);
-      //SetCurrentProgress(currentProgress + 1);
     } else {
-      console.log(approveResult.error);
       displayMessage({
         type: 'error',
         duration: FLASH_MESSAGE_DURATION,
@@ -249,47 +218,23 @@ const BridgeUnbridgeModal = (props) => {
 
       <div className={`mt-4 mb-3 ${styles.lineBottom} `}></div>
       <div className={styles.feeInfoWrapper}>
-        {/* <img
-          src={theme === 'light' ? GasIcon : GasIconDark}
-          alt="GasIcon"
-          style={{ height: '20px' }}
-        ></img> */}
-        {/* <p className={styles.bottomInfo}>Review your gas fee in your wallet</p> */}
-        {/* <p className={`${styles.bottomInfo} ${styles.feeValue}`}>~{Number(gasFees).toFixed(6)}</p> */}
       </div>
-      {/* {(isApproveLoading || isButtonLoading) && !isMobile && (
-        <div className="loading-data-wrapper">
-          <PuffLoader color="var(--theme-primary-1)" size={36} />
-        </div>
-      )} */}
     </>
   );
 };
 
 BridgeUnbridgeModal.propTypes = {
-  description: PropTypes.any,
-  gasFees: PropTypes.any,
   currentProgress: PropTypes.any,
-  getTransactionListLength: PropTypes.any,
   operation: PropTypes.any,
   fromBridge: PropTypes.any,
   toBridge: PropTypes.any,
   tokenIn: PropTypes.any,
-  tokenOut: PropTypes.any,
   firstTokenAmount: PropTypes.any,
-  secondTokenAmount: PropTypes.any,
-  setTransactionData: PropTypes.any,
-  selectedId: PropTypes.any,
   SetCurrentProgress: PropTypes.any,
   walletAddress: PropTypes.any,
   setMintUnmintOpHash: PropTypes.any,
-  setSelectedId: PropTypes.any,
-  approveHash: PropTypes.any,
-  theme: PropTypes.any,
   displayMessage: PropTypes.any,
-  setBack: PropTypes.any,
   setApproveHash: PropTypes.any,
-  resetToDefaultStates: PropTypes.any,
   isApproveLoading: PropTypes.any,
   setIsApproveLoading: PropTypes.any,
   isApproved: PropTypes.any,

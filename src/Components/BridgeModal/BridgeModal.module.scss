@@ -1,5 +1,4 @@
 .border {
-  //background: var(--theme-gradient-border);
   padding: 1px;
   margin-top: 60px;
   border-radius: 8px;
@@ -27,7 +26,6 @@
 
 .bridgeModal {
   box-shadow: var(--theme-swap-boxshadow);
-  //background: var(--theme-bridge-token-sel-bg);
   background: linear-gradient(180deg, var(--theme-bridge-main-bg-1) 60%, var(--theme-bridge-main-bg-2) 0%);
   border:1px solid var(--theme-bridge-history-border);
   border-radius: 16px;
@@ -36,7 +34,6 @@
   overflow-y: auto;
   max-width: 520px;
   @media screen and (min-width: 320px) and (max-width: 767px) {
-    //max-width: 440px;
     border-radius: 0px;
     box-shadow: none;
     padding: 20px 20px;
@@ -205,10 +202,6 @@
     padding: 10px 6px;
     background-color: #ffffff;
     color: var(--theme-primary-gradient-1);
-    //
-    //&:hover {
-    //  opacity: 85%;
-    //}
   }
   > span {
     font-size: 16px;
@@ -306,10 +299,6 @@
     padding: 10px 6px;
     background-color: #ffffff;
     color: var(--theme-primary-gradient-1);
-    //
-    //&:hover {
-    //  opacity: 85%;
-    //}
   }
   > span {
     font-size: 14px;
@@ -547,7 +536,6 @@
   color:var(--theme-bridge-max-btn-border-text);
   font-weight: 700;
   cursor: pointer;
-  //vertical-align: middle;
 }
 
 .maxButton {
@@ -562,7 +550,6 @@
 .actionRequiredCount {
   font-size: 90%;
   background-color: var(--theme-bridge-max-btn-border-text);
-  /* padding: 0.2rem 0.4rem; */
   padding-top: 0.23rem;
   border-radius: 50%;
   color: var(--theme-card-bg);

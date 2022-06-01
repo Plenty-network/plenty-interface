@@ -8,7 +8,6 @@ export const filterData = (originalData, checkBoxesState) => {
     if (checkedCount === 0 || checkedCount === 3) {
       return dataToFilter;
     } else if (checkedCount === 1) {
-      // Have to add conditions if any other filters introduced in future.
       return dataToFilter.filter((transaction) => {
         if (checkBoxesState['TO_TEZOS']) {
           return transaction.operation === 'BRIDGE' && transaction.currentProgress === 3;
@@ -41,7 +40,6 @@ export const filterData = (originalData, checkBoxesState) => {
 
   export const sortData = (filteredData, radioSelected) => {
     const dataToSort = filteredData;
-    // Change the date comparison method anf format.
     return dataToSort.sort((a, b) => {
       if (radioSelected === 'MOST_RECENT') {
         if (new Date(a.timestamp).getTime() > new Date(b.timestamp).getTime()) {

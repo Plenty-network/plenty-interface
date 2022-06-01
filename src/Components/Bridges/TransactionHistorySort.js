@@ -55,5 +55,3 @@ TransactionHistorySort.propTypes = {
   setRadioButtonSelected: PropTypes.any,
   sortDivisionRef: PropTypes.any,
 };
-
-//export default TransactionHistoryFilter;

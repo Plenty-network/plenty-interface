@@ -1,5 +1,4 @@
 .sortBox {
-  //position: absolute;
   z-index: 10000;
   position: absolute;
   width: 224px;
@@ -11,7 +10,6 @@
   box-sizing: border-box;
   box-shadow: 0px 5px 15px var(--theme-bridge-filter-box-shadow);
   border-radius: 6px;
-  //padding: 20px 14px;
 }
 
 .sortHeading {
@@ -47,7 +45,6 @@
     width: 0;
     &:checked {
       & ~ .radioOption {
-        //background-color: #2196F3;
         background-image: url('../../../assets/images/bridge/check-violet.svg');
         background-size: contain;
         &:after {
@@ -58,28 +55,11 @@
   }
   &:hover {
     background-color: var(--theme-bridge-filter-option-hover);
-    // input {
-    // 	& ~ .radioOption {
-    // 		//background-color: #ccc;
-    // 	}
-    // }
   }
 
   .sortLabelText {
     margin-left: 14px;
   }
-  /* .radioOption {
-          &:after {
-              left: 5px;
-              top: 1px;
-              width: 5px;
-              height: 10px;
-              border: solid white;
-              border-width: 0 2px 2px 0;
-              -webkit-transform: rotate(45deg);
-              transform: rotate(45deg);
-          }
-      } */
 }
 
 .radioOption {
@@ -90,12 +70,6 @@
   margin-right: 14px;
   background-image: url('../../../assets/images/bridge/check-grey.svg');
   background-size: contain;
-  //background-color: #eee;
-  /* &:after {
-          content: "";
-          position: absolute;
-          display: none;
-      } */
 }
 
 .lineBottom {

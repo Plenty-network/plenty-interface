@@ -1,34 +1,12 @@
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FormControl, InputGroup, Modal } from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
 import { titleCase } from '../TransactionHistory/helpers';
 import './styles/SelectorModal.scss';
-//import config from '../../config/config';
 
 const SelectorModal = (props) => {
   const [tokensToShow, setTokensToShow] = useState([]);
-
-  /* const doesPairExist = useCallback(
-    (token) => {
-      if (props.tokenType === 'tokenOut') {
-        if (config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[token.name]) {
-          return true;
-        }
-      } else {
-        if (props.tokenOut.name) {
-          if (config.AMM[config.NETWORK][props.tokenOut.name].DEX_PAIRS[token.name]) {
-            return true;
-          }
-        } else {
-          return true;
-        }
-      }
-
-      return false;
-    },
-    [props.tokenIn.name, props.tokenOut.name, props.tokenType],
-  ); */
 
   const searchHits = useCallback(
     (token) => {
@@ -42,29 +20,6 @@ const SelectorModal = (props) => {
 
   useEffect(() => {
     const filterTokens = () => {
-      /* if (props.activeTab === 'swap') {
-        const filterTokens = props.tokens
-          .filter(searchHits)
-          .filter((token) => {
-            if (props.tokenType === 'tokenOut') {
-              return props.tokenIn.name !== token.name;
-            }
-
-            return props.tokenOut.name !== token.name;
-          })
-          .map((token) => {
-            if (doesPairExist(token)) {
-              return { ...token, routerNeeded: false };
-            }
-
-            return { ...token, routerNeeded: true };
-          });
-
-        setTokensToShow(filterTokens);
-      } else {
-        const filteredTokens = props.tokens.filter(searchHits).filter(doesPairExist);
-        setTokensToShow(filteredTokens);
-      } */
       const filteredTokens = props.tokens.filter(searchHits);
       setTokensToShow(filteredTokens);
     };
@@ -72,12 +27,7 @@ const SelectorModal = (props) => {
   }, [
     props.tokens,
     props.searchQuery,
-    //props.activeTab,
-    //props.tokenType,
-    //props.tokenIn.name,
-    //props.tokenOut.name,
     searchHits,
-    //doesPairExist,
   ]);
 
   return (
