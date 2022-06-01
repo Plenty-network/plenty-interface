@@ -123,7 +123,6 @@ const calculateHarvestValueDualEntity = async (
     const smartContractResponse = await axios.get(url);
 
     if (stakingContractAddress === 'KT1QkadMTUTDxyNiTaz587ssPXFuwmWWQzDG') {
-
       const periodFinish = smartContractResponse.data.args[1].args[1].int;
 
       const lastUpdateTime = smartContractResponse.data.args[0].args[3].int;
@@ -216,7 +215,7 @@ const calculateHarvestValueDual = async (
 ) => {
   try {
     const harvestValuePromises = [];
-    
+
     harvestValuePromises.push(
       calculateHarvestValueDualEntity(
         dualInfo.tokenFirst.rewardContract,
@@ -535,7 +534,12 @@ export const getStorageForFarms = async (isActive, tokenPricesData) => {
           key === 'CTEZ - INSTA' ||
           key === 'CTEZ - CRUNCH' ||
           key === 'CTEZ - DOGA' ||
-          key === 'CTEZ - TEZ'
+          key === 'CTEZ - TEZ' ||
+          key === 'WBTC.e - CTEZ' ||
+          key === 'USDC.e - CTEZ' ||
+          key === 'kUSD - USDC.e' ||
+          key === 'uUSD - USDC.e' ||
+          key === 'tzBTC - WBTC.e'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(
@@ -712,7 +716,7 @@ const getPriceForPlentyLpTokens = async (
         (token1Amount * tokenData['token2'].tokenValue) /
         Math.pow(10, tokenData['token2'].tokenDecimal);
 
-      let token2Amount = (Math.pow(10, 6) * token2Pool) / lpTokenTotalSupply;
+      let token2Amount = (Math.pow(10, 5) * token2Pool) / lpTokenTotalSupply;
       token2Amount =
         (token2Amount * tokenData['token1'].tokenValue) /
         Math.pow(10, tokenData['token1'].tokenDecimal);
@@ -723,7 +727,222 @@ const getPriceForPlentyLpTokens = async (
         identifier,
         totalAmount,
       };
-    } else {
+    } else if (identifier === 'USDC.e - CTEZ') {
+      const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
+      const token2Pool = parseInt(storageResponse.data.args[3].int);
+      const lpTokenTotalSupply = parseInt(storageResponse.data.args[4].int);
+      const token1Address = 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4';
+  
+      const tokenData = {};
+
+      if (token1Address === 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4') {
+        const ctezPriceInUSD = await getCtezPrice();
+        tokenData['token1'] = {
+          tokenName: 'ctez',
+          tokenValue: ctezPriceInUSD.ctezPriceInUSD,
+          tokenDecimal: 6,
+        };
+      }
+      let idx = 0;
+      for (const x in tokenPricesData) {
+        if (tokenPricesData[x].symbol === 'wUSDC') {
+          idx = x;
+        }
+      }
+      tokenData['token2'] = {
+        tokenName: 'USDC.e',
+        tokenValue: tokenPricesData[idx].usdValue,
+        tokenDecimal: 6,
+      };
+      let token1Amount = (Math.pow(10, 6) * token1Pool) / lpTokenTotalSupply;
+      token1Amount =
+        (token1Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
+
+      let token2Amount = (Math.pow(10, 6) * token2Pool) / lpTokenTotalSupply;
+      token2Amount =
+        (token2Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
+      const totalAmount = (token1Amount + token2Amount).toFixed(2);
+      return {
+        success: true,
+        identifier,
+        totalAmount,
+      };
+    } else if (identifier === 'WBTC.e - CTEZ') {
+      const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
+      const token2Pool = parseInt(storageResponse.data.args[3].int);
+      const lpTokenTotalSupply = parseInt(storageResponse.data.args[4].int);
+
+      const token1Address = 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4';
+      // const token2Check = 'True';
+
+      const tokenData = {};
+
+      if (token1Address === 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4') {
+        const ctezPriceInUSD = await getCtezPrice();
+        tokenData['token1'] = {
+          tokenName: 'ctez',
+          tokenValue: ctezPriceInUSD.ctezPriceInUSD,
+          tokenDecimal: 6,
+        };
+      }
+      let idx = 0;
+      for (const x in tokenPricesData) {
+        if (tokenPricesData[x].symbol === 'wWBTC') {
+          idx = x;
+        }
+      }
+
+      tokenData['token2'] = {
+        tokenName: 'WBTC.e',
+        tokenValue: tokenPricesData[idx].usdValue,
+        tokenDecimal: 8,
+      };
+      let token1Amount = (Math.pow(10, 7) * token1Pool) / lpTokenTotalSupply;
+      token1Amount =
+        (token1Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
+
+      let token2Amount = (Math.pow(10, 7) * token2Pool) / lpTokenTotalSupply;
+      token2Amount =
+        (token2Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
+      const totalAmount = (token1Amount + token2Amount).toFixed(2);
+      return {
+        success: true,
+        identifier,
+        totalAmount,
+      };
+    } else if (identifier === 'uUSD - USDC.e' || identifier === 'kUSD - USDC.e') {
+      const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
+      const token2Pool = parseInt(storageResponse.data.args[3].int);
+      const lpTokenTotalSupply = parseInt(storageResponse.data.args[0].args[0].args[2].int); 
+
+
+      const tokenData = {};
+
+
+      if (identifier === 'uUSD - USDC.e') {
+        let idx = 0;
+        for (const x in tokenPricesData) {
+          if (tokenPricesData[x].symbol === 'uUSD') {
+            idx = x;
+          }
+        }
+        tokenData['token1'] = {
+          tokenName: 'uUSD',
+          tokenValue: tokenPricesData[idx].usdValue,
+          tokenDecimal: 12,
+        };
+      }
+
+      else if (identifier === 'kUSD - USDC.e') {
+        let idx = 0;
+        for (const x in tokenPricesData) {
+          if (tokenPricesData[x].symbol === 'kUSD') {
+            idx = x;
+          }
+        }
+        tokenData['token1'] = {
+          tokenName: 'kUSD',
+          tokenValue: tokenPricesData[idx].usdValue,
+          tokenDecimal: 18,
+        };
+      }
+
+
+      let idx = 0;
+      for (const x in tokenPricesData) {
+        if (tokenPricesData[x].symbol === 'wUSDC') {
+          idx = x;
+        }
+      }
+
+      tokenData['token2'] = {
+        tokenName: 'USDC.e',
+        tokenValue: tokenPricesData[idx].usdValue,
+        tokenDecimal: 6,
+      };
+
+      const connectedNetwork = CONFIG.NETWORK;
+      const liquidityToken = CONFIG.AMM[connectedNetwork][tokenData['token1'].tokenName].DEX_PAIRS[tokenData['token2'].tokenName].liquidityToken;
+      const lpTokenDecimal = CONFIG.AMM[connectedNetwork][liquidityToken].TOKEN_DECIMAL;
+
+      let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
+      token1Amount =
+        (token1Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
+
+      let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
+      token2Amount =
+        (token2Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
+
+      const totalAmount = (token1Amount + token2Amount).toFixed(2);
+      return {
+        success: true,
+        identifier,
+        totalAmount,
+      };
+    }
+    else if (identifier === 'tzBTC - WBTC.e'){
+      const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
+      const token2Pool = parseInt(storageResponse.data.args[3].int);
+      const lpTokenTotalSupply = parseInt(storageResponse.data.args[0].args[0].args[2].int); 
+
+
+      const tokenData = {};
+
+
+
+      let idx = 0;
+      let idx2 = 0 ;
+      for (const x in tokenPricesData) {
+        if (tokenPricesData[x].symbol === 'tzBTC') {
+          idx = x;
+        }
+        if(tokenPricesData[x].symbol === 'wWBTC'){
+          idx2=x;
+        }
+      }
+
+      tokenData['token1'] = {
+        tokenName: 'tzBTC',
+        tokenValue: tokenPricesData[idx].usdValue,
+        tokenDecimal: 8,
+      };
+
+      tokenData['token2'] = {
+        tokenName: 'WBTC.e',
+        tokenValue: tokenPricesData[idx2].usdValue,
+        tokenDecimal: 8,
+      };
+
+      const connectedNetwork = CONFIG.NETWORK;
+      const liquidityToken = CONFIG.AMM[connectedNetwork][tokenData['token1'].tokenName].DEX_PAIRS[tokenData['token2'].tokenName].liquidityToken;
+      const lpTokenDecimal = CONFIG.AMM[connectedNetwork][liquidityToken].TOKEN_DECIMAL;
+
+      let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
+      token1Amount =
+        (token1Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
+
+      let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
+      token2Amount =
+        (token2Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
+
+      const totalAmount = (token1Amount + token2Amount).toFixed(2);
+      return {
+        success: true,
+        identifier,
+        totalAmount,
+      };
+
+    }
+    
+    else {
       const token1Pool = parseInt(storageResponse.data.args[1].args[1].int);
       // token1Pool = token1Pool / Math.pow(10, 12);
       const token2Pool = parseInt(storageResponse.data.args[4].int);
@@ -1119,7 +1338,7 @@ const getStakedAmountDual = async (
     const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
     const response = await axios.get(url);
 
-    if(identifier === 'CTEZ - TEZ') {
+    if (identifier === 'CTEZ - TEZ') {
       let balance = response.data.int;
       balance = parseInt(balance);
       balance = balance / Math.pow(10, decimal);
@@ -1137,8 +1356,8 @@ const getStakedAmountDual = async (
         identifier,
         address,
         singularStakes,
-      };}
-
+      };
+    }
 
     let balance = response.data.args[1].int;
     balance = parseInt(balance);
@@ -1213,7 +1432,7 @@ export const harvestAllHelper = async (
       const packedKey = await getPackedKey(0, userAddress, 'FA1.2');
       for (const key in allActiveContracts) {
         const output =
-          ((allActiveContracts[key].x === 'PLENTY - GIF') || ((allActiveContracts[key].x === 'CTEZ - TEZ')))
+          allActiveContracts[key].x === 'PLENTY - GIF' || allActiveContracts[key].x === 'CTEZ - TEZ'
             ? await calculateHarvestValueDual(
                 allActiveContracts[key].contract,
                 allActiveContracts[key].dualInfo,
@@ -1227,7 +1446,10 @@ export const harvestAllHelper = async (
                 allActiveContracts[key].mapId,
                 packedKey,
               );
-        if (allActiveContracts[key].x === 'PLENTY - GIF' || (allActiveContracts[key].x === 'CTEZ - TEZ') ) {
+        if (
+          allActiveContracts[key].x === 'PLENTY - GIF' ||
+          allActiveContracts[key].x === 'CTEZ - TEZ'
+        ) {
           if (output.totalRewards[0] > 0) {
             promises.push(await Tezos.wallet.at(allActiveContracts[key].contract));
           }

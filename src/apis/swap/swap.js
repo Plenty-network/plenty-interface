@@ -12,6 +12,8 @@ import {
   type4MapIds,
   type5MapIds,
 } from '../../constants/global';
+import BigNumber from 'bignumber.js';
+
 /**
  * Returns packed key (expr...) which will help to fetch user specific data from bigmap directly using rpc.
  * @param tokenId - Id of map from where you want to fetch data
@@ -61,7 +63,6 @@ export const swapTokens = async (
 ) => {
   const connectedNetwork = CONFIG.NETWORK;
   const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
-  // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
   try {
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -179,8 +180,6 @@ export const swapTokenUsingRoute = async (
 ) => {
   const connectedNetwork = CONFIG.NETWORK;
   const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
-
-  // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
   try {
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -285,7 +284,6 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
     const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
-    // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
     const Tezos = new TezosToolkit(rpcNode);
     const dexContractInstance = await Tezos.contract.at(dexContractAddress);
@@ -810,6 +808,236 @@ export const addLiquidity = async (
   }
 };
 
+export const addLiquidity_generalStable = async (
+  tokenA,
+  tokenB,
+  tokenA_Amount,
+  tokenB_Amount,
+  tokenA_Instance,
+  tokenB_Instance,
+  caller,
+  dexContractInstance,
+  transactionSubmitModal,
+  resetAllValues,
+  setShowConfirmAddSupply,
+  setShowConfirmTransaction,
+) => {
+  try {
+    const network = {
+      type: CONFIG.WALLET_NETWORK,
+    };
+    const options = {
+      name: CONFIG.NAME,
+    };
+    const wallet = new BeaconWallet(options);
+    const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
+    if (!WALLET_RESP.success) {
+      throw new Error('Wallet connection failed');
+    }
+    let tokenFirst = null;
+    let tokenSecond = null;
+    let tokenFirst_Amount = 0;
+    let tokenSecond_Amount = 0;
+    let tokenFirstInstance = null;
+    let tokenSecondInstance = null;
+
+    const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    const Tezos = new TezosToolkit(rpcNode);
+    Tezos.setRpcProvider(rpcNode);
+    Tezos.setWalletProvider(wallet);
+    if (CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].property === 'token2_pool') {
+      tokenFirst = tokenA;
+      tokenFirstInstance = tokenA_Instance;
+      tokenFirst_Amount = Math.floor(
+        tokenA_Amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL),
+      );
+      tokenSecond = tokenB;
+      tokenSecondInstance = tokenB_Instance;
+      tokenSecond_Amount = Math.floor(
+        tokenB_Amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenB].TOKEN_DECIMAL),
+      );
+    } else {
+      tokenFirst = tokenB;
+      tokenFirstInstance = tokenB_Instance;
+      tokenFirst_Amount = Math.floor(
+        tokenB_Amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenB].TOKEN_DECIMAL),
+      );
+      tokenSecond = tokenA;
+      tokenSecondInstance = tokenA_Instance;
+      tokenSecond_Amount = Math.floor(
+        tokenA_Amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL),
+      );
+    }
+    const dexContractAddress =
+      CONFIG.AMM[connectedNetwork][tokenFirst].DEX_PAIRS[tokenSecond].contract;
+    const tokenFirstAddress = CONFIG.AMM[connectedNetwork][tokenFirst].TOKEN_CONTRACT;
+    const tokenSecondAddress = CONFIG.AMM[connectedNetwork][tokenSecond].TOKEN_CONTRACT;
+    const tokenFirstId = CONFIG.AMM[connectedNetwork][tokenFirst].TOKEN_ID;
+    const tokenSecondId = CONFIG.AMM[connectedNetwork][tokenSecond].TOKEN_ID;
+
+    tokenFirstInstance = await Tezos.contract.at(tokenFirstAddress);
+    tokenSecondInstance = await Tezos.contract.at(tokenSecondAddress);
+    dexContractInstance = await Tezos.contract.at(dexContractAddress);
+
+    let batch = null;
+    if (
+      CONFIG.AMM[connectedNetwork][tokenFirst].CALL_TYPE === 'FA1.2' &&
+      CONFIG.AMM[connectedNetwork][tokenSecond].CALL_TYPE === 'FA2'
+    ) {
+      batch = Tezos.wallet
+        .batch()
+        .withContractCall(tokenFirstInstance.methods.approve(dexContractAddress, tokenFirst_Amount))
+        .withContractCall(
+          tokenSecondInstance.methods.update_operators([
+            {
+              add_operator: {
+                owner: caller,
+                operator: dexContractAddress,
+                token_id: tokenSecondId,
+              },
+            },
+          ]),
+        )
+        .withContractCall(
+          dexContractInstance.methods.add_liquidity(caller, tokenFirst_Amount, tokenSecond_Amount),
+        )
+        .withContractCall(tokenFirstInstance.methods.approve(dexContractAddress, 0))
+        .withContractCall(
+          tokenSecondInstance.methods.update_operators([
+            {
+              remove_operator: {
+                owner: caller,
+                operator: dexContractAddress,
+                token_id: tokenSecondId,
+              },
+            },
+          ]),
+        );
+    } else if (
+      CONFIG.AMM[connectedNetwork][tokenFirst].CALL_TYPE === 'FA2' &&
+      CONFIG.AMM[connectedNetwork][tokenSecond].CALL_TYPE === 'FA1.2'
+    ) {
+      batch = Tezos.wallet
+        .batch()
+        .withContractCall(
+          tokenFirstInstance.methods.update_operators([
+            {
+              add_operator: {
+                owner: caller,
+                operator: dexContractAddress,
+                token_id: tokenFirstId,
+              },
+            },
+          ]),
+        )
+        .withContractCall(
+          tokenSecondInstance.methods.approve(dexContractAddress, tokenSecond_Amount),
+        )
+        .withContractCall(
+          dexContractInstance.methods.add_liquidity(caller, tokenFirst_Amount, tokenSecond_Amount),
+        )
+        .withContractCall(
+          tokenFirstInstance.methods.update_operators([
+            {
+              remove_operator: {
+                owner: caller,
+                operator: dexContractAddress,
+                token_id: tokenFirstId,
+              },
+            },
+          ]),
+        )
+        .withContractCall(tokenSecondInstance.methods.approve(dexContractAddress, 0));
+    } else if (
+      CONFIG.AMM[connectedNetwork][tokenFirst].CALL_TYPE === 'FA2' &&
+      CONFIG.AMM[connectedNetwork][tokenSecond].CALL_TYPE === 'FA2'
+    ) {
+      batch = Tezos.wallet
+        .batch()
+        .withContractCall(
+          tokenFirstInstance.methods.update_operators([
+            {
+              add_operator: {
+                owner: caller,
+                operator: dexContractAddress,
+                token_id: tokenFirstId,
+              },
+            },
+          ]),
+        )
+        .withContractCall(
+          tokenSecondInstance.methods.update_operators([
+            {
+              add_operator: {
+                owner: caller,
+                operator: dexContractAddress,
+                token_id: tokenSecondId,
+              },
+            },
+          ]),
+        )
+        .withContractCall(
+          dexContractInstance.methods.add_liquidity(caller, tokenFirst_Amount, tokenSecond_Amount),
+        )
+        .withContractCall(
+          tokenFirstInstance.methods.update_operators([
+            {
+              remove_operator: {
+                owner: caller,
+                operator: dexContractAddress,
+                token_id: tokenFirstId,
+              },
+            },
+          ]),
+        )
+        .withContractCall(
+          tokenSecondInstance.methods.update_operators([
+            {
+              remove_operator: {
+                owner: caller,
+                operator: dexContractAddress,
+                token_id: tokenSecondId,
+              },
+            },
+          ]),
+        );
+    } else if (
+      CONFIG.AMM[connectedNetwork][tokenFirst].CALL_TYPE === 'FA1.2' &&
+      CONFIG.AMM[connectedNetwork][tokenSecond].CALL_TYPE === 'FA1.2'
+    ) {
+      batch = Tezos.wallet
+        .batch()
+        .withContractCall(tokenFirstInstance.methods.approve(dexContractAddress, tokenFirst_Amount))
+        .withContractCall(
+          tokenSecondInstance.methods.approve(dexContractAddress, tokenSecond_Amount),
+        )
+        .withContractCall(
+          dexContractInstance.methods.add_liquidity(caller, tokenFirst_Amount, tokenSecond_Amount),
+        )
+        .withContractCall(tokenFirstInstance.methods.approve(dexContractAddress, 0))
+        .withContractCall(tokenSecondInstance.methods.approve(dexContractAddress, 0));
+    }
+    const batchOperation = await batch.send();
+
+    setShowConfirmAddSupply(false);
+    setShowConfirmTransaction(false);
+    transactionSubmitModal(batchOperation.opHash);
+    resetAllValues();
+    await batchOperation.confirmation().then(() => batchOperation.opHash);
+    return {
+      success: true,
+      operationId: batchOperation.hash,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error,
+    };
+  }
+};
+
 /**
  * Helps in estimating the amount of token the user will get in exchange for LP
  * @param burnAmount - Amount of LP tokens the user wants to burn
@@ -841,6 +1069,7 @@ export const computeRemoveTokens = (
     };
   }
 };
+
 
 /**
  * Gets balance of user of a particular token using RPC
@@ -878,6 +1107,51 @@ export const getUserBalanceByRpc = async (identifier, address) => {
 
       _balance = parseInt(_balance);
       _balance = _balance / Math.pow(10, decimal);
+      return _balance;
+    })();
+
+    return {
+      success: true,
+      balance,
+      identifier,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      balance: 0,
+      identifier,
+      error: error,
+    };
+  }
+};
+
+export const getUserBalanceByRpcWithoutDecimal = async (identifier, address) => {
+  try {
+    const token = CONFIG.AMM[CONFIG.NETWORK][identifier];
+    const mapId = token.mapId;
+    const type = token.READ_TYPE;
+    const tokenId = token.TOKEN_ID;
+    const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
+    const packedKey = getPackedKey(tokenId, address, type);
+    const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
+    const response = await axios.get(url);
+
+    const balance = (() => {
+      // IIFE
+      let _balance;
+      if (type1MapIds.includes(mapId)) {
+        _balance = response.data.args[0].args[1].int;
+      } else if (type2MapIds.includes(mapId)) {
+        _balance = response.data.args[1].int;
+      } else if (type3MapIds.includes(mapId)) {
+        _balance = response.data.args[0].int;
+      } else if (type4MapIds.includes(mapId)) {
+        _balance = response.data.int;
+      } else if (type5MapIds.includes(mapId)) {
+        _balance = response.data.args[0][0].args[1].int;
+      } else {
+        _balance = response.data.args[1].int;
+      }
       return _balance;
     })();
 
@@ -962,23 +1236,35 @@ export const removeLiquidity = async (
         tokenA_MinimumRecieve * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL),
       );
     }
+
+    const lpTokenDecimal =CONFIG.AMM[connectedNetwork][
+        CONFIG.AMM[connectedNetwork][tokenFirst].DEX_PAIRS[tokenSecond].liquidityToken
+      ].TOKEN_DECIMAL;
+    const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
+      CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].liquidityToken,
+      caller,
+    );
+    const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
+    const lpBal = new BigNumber(lpToken_Amount);
+    if (lpBal > balanceWithoutDecimalNumber) {
+      lpToken_Amount = balanceWithoutDecimalNumber;
+    } else {
+      lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
+    }
+
+
     const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].contract;
 
     const dexContractInstanceLocal = await Tezos.contract.at(dexContractAddress);
 
-    const lpTokenDecimal =
-      CONFIG.AMM[connectedNetwork][
-        CONFIG.AMM[connectedNetwork][tokenFirst].DEX_PAIRS[tokenSecond].liquidityToken
-      ].TOKEN_DECIMAL;
-    lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
     const batch = Tezos.wallet
       .batch()
       .withContractCall(
         dexContractInstanceLocal.methods.RemoveLiquidity(
           lpToken_Amount,
           caller,
-          tokenFirst_Amount,
-          tokenSecond_Amount,
+          parseInt(tokenFirst_Amount * 0.98),
+          parseInt(tokenSecond_Amount * 0.98),
         ),
       );
     const batchOperation = await batch.send();
@@ -993,7 +1279,115 @@ export const removeLiquidity = async (
       operationId: batchOperation.hash,
     };
   } catch (error) {
-    console.log(error);
+    return {
+      success: false,
+      error,
+    };
+  }
+};
+
+export const removeLiquidity_generalStable = async (
+  tokenA,
+  tokenB,
+  tokenA_MinimumRecieve,
+  tokenB_MinimumRecieve,
+  lpToken_Amount,
+  caller,
+  dexContractInstance,
+  transactionSubmitModal,
+  resetAllValues,
+  setShowConfirmRemoveSupply,
+  setShowConfirmTransaction,
+) => {
+  try {
+    let tokenFirst = null;
+    let tokenSecond = null;
+    let tokenFirst_Amount = 0;
+    let tokenSecond_Amount = 0;
+    const network = {
+      type: CONFIG.WALLET_NETWORK,
+    };
+    const options = {
+      name: CONFIG.NAME,
+    };
+    const connectedNetwork = CONFIG.NETWORK;
+    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    const wallet = new BeaconWallet(options);
+    const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
+    if (!WALLET_RESP.success) {
+      throw new Error('Wallet connection failed');
+    }
+    const Tezos = new TezosToolkit(rpcNode);
+    Tezos.setRpcProvider(rpcNode);
+    Tezos.setWalletProvider(wallet);
+
+    if (CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].property === 'token2_pool') {
+      tokenFirst = tokenA;
+      tokenFirst_Amount = Math.floor(
+        tokenA_MinimumRecieve * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL),
+      );
+
+      tokenSecond = tokenB;
+      tokenSecond_Amount = Math.floor(
+        tokenB_MinimumRecieve * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenB].TOKEN_DECIMAL),
+      );
+    } else {
+      tokenFirst = tokenB;
+      tokenFirst_Amount = Math.floor(
+        tokenB_MinimumRecieve * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenB].TOKEN_DECIMAL),
+      );
+      tokenSecond = tokenA;
+      tokenSecond_Amount = Math.floor(
+        tokenA_MinimumRecieve * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenA].TOKEN_DECIMAL),
+      );
+    }
+
+    const lpTokenDecimal =
+      CONFIG.AMM[connectedNetwork][
+        CONFIG.AMM[connectedNetwork][tokenFirst].DEX_PAIRS[tokenSecond].liquidityToken
+      ].TOKEN_DECIMAL;
+
+    const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
+      CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].liquidityToken,
+      caller,
+    );
+    const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
+    const lpBal = new BigNumber(lpToken_Amount);
+    if (lpBal > balanceWithoutDecimalNumber) {
+      lpToken_Amount = balanceWithoutDecimalNumber;
+    } else {
+      lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
+    }
+
+    
+    const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].contract;
+
+    const dexContractInstanceLocal = await Tezos.contract.at(dexContractAddress);
+
+
+    const batch = Tezos.wallet
+      .batch()
+      .withContractCall(
+        dexContractInstanceLocal.methods.remove_liquidity(
+          lpToken_Amount,
+          caller,
+          parseInt(tokenFirst_Amount * 0.98),
+          parseInt(tokenSecond_Amount * 0.98),
+        ),
+      );
+    const batchOperation = await batch.send();
+
+    setShowConfirmRemoveSupply(false);
+    setShowConfirmTransaction(false);
+    transactionSubmitModal(batchOperation.opHash);
+    resetAllValues();
+    await batchOperation.confirmation().then(() => batchOperation.opHash);
+    return {
+      success: true,
+      operationId: batchOperation.hash,
+    };
+  } catch (error) {
     return {
       success: false,
       error,
@@ -1493,7 +1887,21 @@ export const getTokenPrices = async () => {
         }
       }
     }
-
+    const connectedNetwork = CONFIG.NETWORK;
+    for (const x in CONFIG.WRAPPED_ASSETS[connectedNetwork]) {
+      if (
+        x === 'DAI.e' ||
+        x === 'USDC.e' ||
+        x === 'USDT.e' ||
+        x === 'LINK.e' ||
+        x === 'MATIC.e' ||
+        x === 'BUSD.e' ||
+        x === 'WETH.e' ||
+        x === 'WBTC.e'
+      ) {
+        tokenPrice[x] = tokenPrice[CONFIG.WRAPPED_ASSETS[connectedNetwork][x].REF_TOKEN];
+      }
+    }
     tokenPrice['ctez'] = promisesResponse[1].ctezPriceInUSD;
     tokenPrice['uDEFI'] = promisesResponse[2].uDEFIinUSD;
     return {
@@ -1567,7 +1975,6 @@ export const computeOutputBasedOnTokenOutAmount = (
       minimum_Out,
       priceImpact,
     };
-    // return tokenInAmount;
   } catch (error) {
     console.log(error);
     return {

@@ -13,6 +13,7 @@ import {
 } from '../../apis/Liquidity/Liquidity';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import useMediaQuery from '../../hooks/mediaQuery';
+import CONFIG from '../../config/config';
 
 export const LiquidityPositions = (props) => {
   const isMobile = useMediaQuery('(max-width: 991px)');
@@ -42,12 +43,26 @@ export const LiquidityPositions = (props) => {
     setIndex(index);
     let ress = {};
     if (isStable) {
+      if (
+        CONFIG.AMM[CONFIG.NETWORK][value.tokenA.name].DEX_PAIRS[value.tokenB.name]?.type ===
+        'xtz'
+      ){
       ress = await getLiquidityPositionDetailsStable(
         value.tokenA.name,
         value.tokenB.name,
         props.walletAddress,
-      );
-    } else {
+      );}
+      else if(
+        CONFIG.AMM[CONFIG.NETWORK][value.tokenA.name].DEX_PAIRS[value.tokenB.name]?.type ===
+        'veStableAMM'
+      ){
+        ress = await getLiquidityPositionDetails(
+          value.tokenA.name,
+          value.tokenB.name,
+          props.walletAddress,
+        );}
+      }
+     else {
       ress = await getLiquidityPositionDetails(
         value.tokenA.name,
         value.tokenB.name,
