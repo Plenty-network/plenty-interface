@@ -283,7 +283,6 @@ const Header = (props) => {
                       >
                         expand_more
                       </span>
-                      <span className={styles.actionRequiredCount}>New</span>
                     </Nav.Link>
 
                     {selectedHeader === HEADER_MODAL.BRIDGE && isMobile && (
