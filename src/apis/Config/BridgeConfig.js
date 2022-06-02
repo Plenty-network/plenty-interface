@@ -65,9 +65,9 @@ export const BridgeConfiguration = {
   },
   getToken: (chain, address) => {
     const loadedConfig = JSON.parse(localStorage.getItem(BRIDGES_CONFIG));
-    /* eslint-disable no-unused-vars */
     if (loadedConfig) {
       let result;
+      // eslint-disable-next-line
       for (const [token, tokenData] of Object.entries(loadedConfig[chain].TOKENS)) {
         if (tokenData.CONTRACT_ADDRESS === address) {
           result = tokenData;
@@ -111,7 +111,6 @@ export const createTokensList = () => {
           });
         }
       }
-      console.log('finalTokensList', finalTokensList);
       return {
         success: true,
         data: finalTokensList,

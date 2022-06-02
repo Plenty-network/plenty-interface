@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-// import axios from 'axios';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styles from './Transaction.module.scss';
 import '../../assets/scss/animation.scss';
@@ -19,7 +18,6 @@ import filterNotSelectedDark from '../../assets/images/bridge/filter_unselected_
 import filterAppliedDark from '../../assets/images/bridge/filter_applied_dark.svg';
 import sortSelectedDark from '../../assets/images/bridge/sort_selected_dark.svg';
 import sortNotSelectedDark from '../../assets/images/bridge/sort_deselected_dark.svg';
-//import TransactionHistoryFilter from '../Bridges/TransactionHistoryFilter';
 import { FILTER_OPTIONS, TransactionHistoryFilter } from '../Bridges/TransactionHistoryFilter';
 import { TransactionHistorySort } from '../Bridges/TransactionHistorySort';
 import { bridgesList } from '../../constants/bridges';
@@ -34,7 +32,6 @@ import fromExponential from 'from-exponential';
 import { useInterval } from '../../hooks/useInterval';
 
 const TransactionHistory = (props) => {
-  // eslint-disable-next-line
   
   const [showFilter, setShowFilter] = useState(false);
   const [showSort, setShowSort] = useState(false);
@@ -49,7 +46,6 @@ const TransactionHistory = (props) => {
     }, {}),
   );
   const [checkedCount, setCheckedCount] = useState(0);
-  //Currently default sort option is by most recent transaction. Need to change this if default sort option changes.
   const [radioButtonSelected, setRadioButtonSelected] = useState('MOST_RECENT');
 
   const dummyLoadingDivisions = useRef([0, 0, 0, 0, 0, 0, 0]);
@@ -60,8 +56,6 @@ const TransactionHistory = (props) => {
   const delay = useRef(5000);
 
   const {
-    // eslint-disable-next-line
-    transaction,
     setTransaction,
     transactionData,
     setFromBridge,
@@ -73,7 +67,6 @@ const TransactionHistory = (props) => {
     setOperation,
     setTokenIn,
     setTokenOut,
-    setSelectedId,
     theme,
     setTransactionData,
     setMintUnmintOpHash,
@@ -108,7 +101,6 @@ const TransactionHistory = (props) => {
     [filteredData, radioButtonSelected],
   );
 
-  //const [filteredData, setFilteredData] = useState(transactionData);
 
   const setBack = (value) => {
     setAnimationClass('leftToRightFadeOutAnimation-4');
@@ -129,7 +121,6 @@ const TransactionHistory = (props) => {
     setShowSort((prevState) => !prevState);
   };
 
-  //CheckBox component related
   useEffect(() => {
     const countOfChecked = Object.values(checkBoxesState).filter(
       (checkBoxState) => checkBoxState,
@@ -138,8 +129,6 @@ const TransactionHistory = (props) => {
   }, [checkBoxesState]);
 
   const actionClickHandler = (id) => {
-    //console.log(id);
-    //console.log(transactionData.find((item) => item.id === Number(id)));
     const selectedData = transactionData.find((item) => item.id === id);
     const prevFromBridge = fromBridge;
     const prevToBridge = toBridge;
@@ -158,8 +147,6 @@ const TransactionHistory = (props) => {
       image: currentToBridge.bigIcon,
       buttonImage: currentToBridge.buttonImage,
     });
-    //const currentTokenIn = tokensList[currentFromBridge.name].find((token) => token.name === selectedData.tokenIn);
-    //const currentTokenOut = tokensList[currentToBridge.name].find((token) => token.name === selectedData.tokenOut);
     const currentTokenIn = {
       name: selectedData.tokenIn,
       image: Object.prototype.hasOwnProperty.call(allTokens, selectedData.tokenIn)
@@ -179,7 +166,6 @@ const TransactionHistory = (props) => {
         : loadedTokensList.TEZOS[selectedData.chain].find(
             (token) => token.name === selectedData.tokenIn,
           ).tokenData;
-    //console.log(currentTokenIn);
     setTimeout(() => {
       setTokenIn({
         name: currentTokenIn.name,
@@ -188,31 +174,21 @@ const TransactionHistory = (props) => {
       });
       setTokenOut({
         name: `${currentTokenOut.name}`,
-        image: currentTokenOut.image, //Change after creating config.
+        image: currentTokenOut.image,
       });
       if(selectedData.currentProgress === 3) {
-        console.log(prevFromBridge, prevToBridge, prevOperation);
         setSavedFromBridge(prevFromBridge);
         setSavedToBridge(prevToBridge);
         setSavedOperation(prevOperation);
       }
     }, 200);
-    setSelectedId(id);
     setFee(selectedData.fee);
     SetCurrentProgress(selectedData.currentProgress);
     setOperation(selectedData.operation);
     setMintUnmintOpHash(selectedData.txHash);
     setFinalOpHash(selectedData.txHash);
-    //if (selectedData.currentProgress === 4) {
       setOpeningFromHistory(true);
-    //}
-    // console.log(prevFromBridge, prevToBridge, prevOperation);
-    // setSavedFromBridge(prevFromBridge);
-    // setSavedToBridge(prevToBridge);
-    // setSavedOperation(prevOperation);
     if(selectedData.currentProgress !== 3 && selectedData.chain !== metamaskChain) {
-      //alert(`Chain for this operation is ${selectedData.chain} and the chain selected in metamask wallet is ${metamaskChain}. Please change the chain to ${selectedData.chain} in metamask wallet to proceed.`);
-      console.log(`Please change metamask wallet chain to ${selectedData.chain}.`);
       displayMessage({
         type: 'warning',
         duration: FLASH_MESSAGE_DURATION,
@@ -226,7 +202,14 @@ const TransactionHistory = (props) => {
           try {
             await changeNetwork({ networkName: selectedData.chain });
           } catch (error) {
-            console.log(error.message);
+            displayMessage({
+              type: 'error',
+              duration: FLASH_MESSAGE_DURATION,
+              title: 'Chain change failed',
+              content: 'Failed to force change the chain. Please change in wallet.',
+              isFlashMessageALink: false,
+              flashMessageLink: '#',
+            });
           }
         }, CHANGE_NETWORK_PROMPT_DELAY);
       
@@ -243,7 +226,6 @@ const TransactionHistory = (props) => {
   useInterval(async () => {
     if (metamaskAddress && walletAddress) {
       const data = await getHistory({ ethereumAddress: metamaskAddress, tzAddress: walletAddress });
-      console.log(data);
       if (data.success) {
         setTransactionData(data.history);
       }
@@ -254,10 +236,7 @@ const TransactionHistory = (props) => {
     if (walletAddress && metamaskAddress) {
       setIsLoading(true);
       setOpeningFromTransaction(false);
-      // const data = await getHistory({ ethereumAddress:'0xb96E3B80D52Fed6Aa53bE5aE282a4DDA06db8122', tzAddress: 'tz1QNjbsi2TZEusWyvdH3nmsCVE3T1YqD9sv' });
-      console.log(metamaskAddress, walletAddress);
       const data = await getHistory({ ethereumAddress: metamaskAddress, tzAddress: walletAddress });
-      console.log(data);
       if (data.success) {
         setTransactionData(data.history);
         setIsLoading(false);
@@ -268,7 +247,7 @@ const TransactionHistory = (props) => {
           duration: FLASH_MESSAGE_DURATION,
           title: 'Fetch error',
           content:
-            'Failed to fetch transaction history. Please retry after some time or make sure both wallets are connected.',
+            'Failed to fetch transaction history. Please retry after some time.',
           isFlashMessageALink: false,
           flashMessageLink: '#',
         });
@@ -435,13 +414,6 @@ const TransactionHistory = (props) => {
                             {fromExponential(Number(Number(data.secondTokenAmount).toFixed(10)))} {data.tokenOut}
                           </p>
                           <p className={styles.amt}>
-                            {/* {new Date(data.timestamp).toLocaleDateString('en-GB', {
-                              day: 'numeric',
-                              month: 'short',
-                              year: 'numeric',
-                            })}{' '}
-                            ; {('0' + new Date(data.timestamp).getHours()).slice(-2)}:
-                            {('0' + new Date(data.timestamp).getMinutes()).slice(-2)} */}
                             <ReactTimeAgo date={data.timestamp} locale="en-US" />
                           </p>
                         </div>
@@ -485,7 +457,6 @@ const TransactionHistory = (props) => {
 };
 
 TransactionHistory.propTypes = {
-  transaction: PropTypes.any,
   setTransaction: PropTypes.any,
   transactionData: PropTypes.any,
   setFromBridge: PropTypes.any,
@@ -497,7 +468,6 @@ TransactionHistory.propTypes = {
   setOperation: PropTypes.any,
   setTokenIn: PropTypes.any,
   setTokenOut: PropTypes.any,
-  setSelectedId: PropTypes.any,
   theme: PropTypes.any,
   setTransactionData: PropTypes.any,
   setMintUnmintOpHash: PropTypes.any,

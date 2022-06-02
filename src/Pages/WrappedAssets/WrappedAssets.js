@@ -27,7 +27,7 @@ const WrappedAssets = (props) => {
             <div className="ml-3">
               <span className="bottom-label">Swap Wrapped Assets </span>
               <p className="bottom-desc">
-                Use the latest rebranded wrapped assets, for DeFi on Tezos.
+                Swap wAssets of the deprecated Wrap Protocol for new tokens.
               </p>
 
               <>
