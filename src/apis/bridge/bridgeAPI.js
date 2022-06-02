@@ -432,7 +432,14 @@ export const wrap = async (tokenIn, chain, amount, tzAddress) => {
           error: error,
         };
       });
-    return result;
+    const customHttpProvider = new ethers.providers.JsonRpcProvider(networks[chain].rpcUrls[0]);
+    const tx = await customHttpProvider.getTransaction(result.transactionHash);
+    const block = await customHttpProvider.getBlock(tx.blockNumber);
+    const timeStamp = new Date(block.timestamp * 1000);
+    return {
+      ...result,
+      timeStamp: timeStamp,
+    };
   } catch (e) {
     return {
       success: false,
@@ -606,9 +613,14 @@ export const unwrap = async (chain, amount, tokenIn) => {
       )
       .send();
     await op.confirmation();
+    const networkSelected = CONFIG.NETWORK;
+    const tzkt = CONFIG.TZKT_NODES[networkSelected];
+    const data = await axios.get(tzkt + '/v1/operations/' + op.opHash);
+    const timeStamp = new Date(data.data[0].timestamp);
     return {
       success: true,
       txHash: op.opHash,
+      timeStamp,
     };
   } catch (e) {
     console.log(e);
