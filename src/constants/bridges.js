@@ -14,6 +14,23 @@ import weth_normal from '../assets/images/bridge/tokens/weth_icon.svg';
 import wbtc_normal from '../assets/images/bridge/tokens/wbtc_icon.svg';
 import fallbackIcon from '../assets/images/bridge/tokens/fallback_icon.svg';
 
+// Deprecated wrapped tokens
+import waave from '../assets/images/bridge/tokens/old_wrapped/wAAVE.png';
+import wcel from '../assets/images/bridge/tokens/old_wrapped/wCEL.png';
+import wcomp from '../assets/images/bridge/tokens/old_wrapped/wCOMP.png';
+import wcro from '../assets/images/bridge/tokens/old_wrapped/wCRO.png';
+import wftt from '../assets/images/bridge/tokens/old_wrapped/wFTT.png';
+import wht from '../assets/images/bridge/tokens/old_wrapped/wHT.png';
+import whusd from '../assets/images/bridge/tokens/old_wrapped/wHUSD.png';
+import wleo from '../assets/images/bridge/tokens/old_wrapped/wLEO.png';
+import wmkr from '../assets/images/bridge/tokens/old_wrapped/wMKR.png';
+import wokb from '../assets/images/bridge/tokens/old_wrapped/wOKB.png';
+import wpax from '../assets/images/bridge/tokens/old_wrapped/wPAX.png';
+import wsushi from '../assets/images/bridge/tokens/old_wrapped/wSUSHI.png';
+import wuni from '../assets/images/bridge/tokens/old_wrapped/wUNI.png';
+import wrap from '../assets/images/bridge/tokens/old_wrapped/WRAP.png';
+
+
 export const CHANGE_NETWORK_PROMPT_DELAY = 3000;
 
 export const DEFAULT_ETHEREUM_TOKEN = 'USDC';
@@ -34,109 +51,6 @@ export const bridgesList = [
   },
 ];
 
-export const tokensList = {
-  ETHEREUM: [
-    {
-      name: 'DAI',
-      image: dai_normal,
-      tinyIcon: dai_normal,
-      bigIcon: dai_normal,
-    },
-    {
-      name: 'LINK',
-      image: link_normal,
-      tinyIcon: link_normal,
-      bigIcon: link_normal,
-    },
-    {
-      name: 'MATIC',
-      image: matic_normal,
-      tinyIcon: matic_normal,
-      bigIcon: matic_normal,
-    },
-    {
-      name: 'USDT',
-      image: usdt_normal,
-      tinyIcon: usdt_normal,
-      bigIcon: usdt_normal,
-    },
-    {
-      name: 'USDC',
-      image: usdc_normal,
-      tinyIcon: usdc_normal,
-      bigIcon: usdc_normal,
-    },
-    {
-      name: 'BUSD',
-      image: busd_normal,
-      tinyIcon: busd_normal,
-      bigIcon: busd_normal,
-    },
-    {
-      name: 'WETH',
-      image: weth_normal,
-      tinyIcon: weth_normal,
-      bigIcon: weth_normal,
-    },
-    {
-      name: 'WBTC',
-      image: wbtc_normal,
-      tinyIcon: wbtc_normal,
-      bigIcon: wbtc_normal,
-    },
-  ],
-  TEZOS: [
-    {
-      name: 'DAI.e',
-      image: dai_normal,
-      tinyIcon: dai_normal,
-      bigIcon: dai_normal,
-    },
-    {
-      name: 'LINK.e',
-      image: link_normal,
-      tinyIcon: link_normal,
-      bigIcon: link_normal,
-    },
-    {
-      name: 'MATIC.e',
-      image: matic_normal,
-      tinyIcon: matic_normal,
-      bigIcon: matic_normal,
-    },
-    {
-      name: 'USDT.e',
-      image: usdt_normal,
-      tinyIcon: usdt_normal,
-      bigIcon: usdt_normal,
-    },
-    {
-      name: 'USDC.e',
-      image: usdc_normal,
-      tinyIcon: usdc_normal,
-      bigIcon: usdc_normal,
-    },
-    {
-      name: 'BUSD.e',
-      image: busd_normal,
-      tinyIcon: busd_normal,
-      bigIcon: busd_normal,
-    },
-    {
-      name: 'WETH.e',
-      image: weth_normal,
-      tinyIcon: weth_normal,
-      bigIcon: weth_normal,
-    },
-    {
-      name: 'WBTC.e',
-      image: wbtc_normal,
-      tinyIcon: wbtc_normal,
-      bigIcon: wbtc_normal,
-    },
-  ],
-};
-
 export const allTokens = {
   DAI: dai_normal,
   LINK: link_normal,
@@ -154,5 +68,19 @@ export const allTokens = {
   'BUSD.e': busd_normal,
   'WETH.e': weth_normal,
   'WBTC.e': wbtc_normal,
+  wAAVE: waave,
+  wCEL: wcel,
+  wCOMP: wcomp,
+  wCRO: wcro,
+  wFTT: wftt,
+  wHT: wht,
+  wHUSD: whusd,
+  wLEO: wleo,
+  wMKR: wmkr,
+  wOKB: wokb,
+  wPAX: wpax,
+  wSUSHI: wsushi,
+  wUNI: wuni,
+  WRAP: wrap,
   fallback: fallbackIcon,
 };
