@@ -3,6 +3,7 @@ import CONFIG from '../../config/config';
 
 // List of tokens to be filtered out while creating the local config from the main config in API.
 // Should be updated if any token needs to be added to PLENTY Bridges.
+// eslint-disable-next-line
 const TOKEN_FILTER = {
   RINKEBY: ['USDC', 'MATIC'],
   ETHEREUM: ['WBTC','WETH','BUSD','USDC','USDT','MATIC','LINK','DAI'],
@@ -38,7 +39,8 @@ export const loadConfiguration = async () => {
         const tezosTokens = chainObject.TEZOS.WRAPPED_TOKENS;
 
         data.tokens.forEach((token) => {
-          if(token.type === 'ERC20' && TOKEN_FILTER[availableChainsArray[index].name].includes(token.ethereumSymbol)) {
+          // if(token.type === 'ERC20' && TOKEN_FILTER[availableChainsArray[index].name].includes(token.ethereumSymbol)) {
+          if(token.type === 'ERC20') {
             tokens[token.ethereumSymbol] = {};
             const tokenName = tokens[token.ethereumSymbol];
             tokenName.TYPE = token.type;

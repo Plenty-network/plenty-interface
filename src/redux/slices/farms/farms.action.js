@@ -233,6 +233,7 @@ export const harvestFarmsAction = {
       operationHash: null,
       tokenPair: null,
     };
+    state.modals.snackbar = true;
   },
   clearHarvestFarmResponse: (state) => {
     state.harvestOperation = {
