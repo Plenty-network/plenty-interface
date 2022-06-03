@@ -5,6 +5,39 @@ import { getUserBalanceByRpcStable } from '../stableswap/stableswap';
 import { tokens } from '../../constants/swapPage';
 import { stableSwapTokens } from '../../constants/stableSwapPage';
 
+
+/**
+ * Function to order(swap if required) the token pair based on the pool in contract.
+ */
+const swapBasedOnPool = (tokenA, tokenB) => {
+  let finalTokenA, finalTokenB;
+  const connectedNetwork = CONFIG.NETWORK;
+  if (CONFIG.AMM[connectedNetwork][tokenA.name].DEX_PAIRS[tokenB.name].property === 'token2_pool') {
+    finalTokenA = tokenA;
+    finalTokenB = tokenB;
+  } else {
+    finalTokenA = tokenB;
+    finalTokenB = tokenA;
+  }
+  return { finalTokenA, finalTokenB };
+};
+
+/**
+ * Function to order(swap if required) the token pair based on the pool in contract for tez and ctez.
+ */
+const swapBasedOnPoolXtz = (tokenA, tokenB) => {
+  let finalTokenA, finalTokenB;
+  const connectedNetwork = CONFIG.NETWORK;
+  if (CONFIG.AMM[connectedNetwork][tokenA.name].DEX_PAIRS[tokenB.name].property === 'ctezPool') {
+    finalTokenA = tokenA;
+    finalTokenB = tokenB;
+  } else {
+    finalTokenA = tokenB;
+    finalTokenB = tokenA;
+  }
+  return { finalTokenA, finalTokenB };
+};
+
 /**
  * Iterates through all the tokens in config and returns list of token pairs for which liquidity is available for the connected wallet.
  * @param {*} tokenList - List of tokens from config file.
@@ -41,13 +74,20 @@ const getListOfPositions = async (tokenList, isStable, walletAddress) => {
           const tokenB = isStable
             ? stableSwapTokens.find((stableToken) => stableToken.name === pairedtToken)
             : tokens.find((normalToken) => normalToken.name === pairedtToken);
+
+          const { finalTokenA, finalTokenB } =
+            isStable &&
+            CONFIG.AMM[CONFIG.NETWORK][tokenA.name].DEX_PAIRS[tokenB.name]?.type === 'xtz'
+              ? swapBasedOnPoolXtz(tokenA, tokenB)
+              : swapBasedOnPool(tokenA, tokenB);
+
           tokensPromiseList.push({
-            tokenA: { name: tokenA.name, image: tokenA.image },
-            tokenB: { name: tokenB.name, image: tokenB.image },
+            tokenA: { name: finalTokenA.name, image: finalTokenA.image },
+            tokenB: { name: finalTokenB.name, image: finalTokenB.image },
             isStable,
             func:
               isStable &&
-              CONFIG.AMM[CONFIG.NETWORK][tokenA.name].DEX_PAIRS[tokenB.name]?.type === 'xtz'
+              CONFIG.AMM[CONFIG.NETWORK][finalTokenA.name].DEX_PAIRS[finalTokenB.name]?.type === 'xtz'
                 ? getUserBalanceByRpcStable
                 : getUserBalanceByRpc,
             argOne: liquidityToken,
