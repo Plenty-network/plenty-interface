@@ -57,13 +57,36 @@
 .discriptionInfo {
   color: var(--theme-governance-buttonBorder);
   width: 100%;
-
+  display: flex;
+  
   a {
     color: var(--theme-governance-buttonBorder);
+    font-size: 16px;
+    line-height: 24px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 3px 18px;
+    background-color: var(--theme-bridge-trans-detail-btn);
+    border-radius: 8px;
+    @media screen and (min-width: 320px) and (max-width: 767px) {
+      font-size: 12px;
+    }
+    &:hover{
+      background-color: var(--theme-bridge-trans-explorer-hover-bg);
+    }
   }
 }
 
 .lineBottom {
   border-bottom: 0.5px solid var(--theme-bridge-line-bottom);
   width: 100%;
+}
+
+
+.videoIcon {
+  height: 20px;
+  width: 20px;
 }

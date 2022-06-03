@@ -1,15 +1,16 @@
 import styles from './BridgeText.module.scss';
 import Row from 'react-bootstrap/Row';
-import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
+import { ReactComponent as VideoIcon } from '../../assets/images/bridge/video_icon.svg';
 import { useState } from 'react';
 import VideoModal from '../VideoPopup';
 
 const BridgeText = () => {
   const [showVideoModal,setShowVideoModal]=useState(false);
+  const [videoLink, setVideoLink] = useState('');
 
   return (
     <div className=" row justify-content-center">
-      {showVideoModal && <VideoModal closefn={setShowVideoModal} linkString="xn-ZrWzjHR0"/>}
+      {showVideoModal && <VideoModal closefn={setShowVideoModal} linkString={videoLink} />}
 
       <div className=" col-24 col-sm-20 col-md-10 col-lg-11 col-xl-11">
         <Row>
@@ -28,14 +29,28 @@ const BridgeText = () => {
           </p>
           <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
             <a
-               onClick={()=>setShowVideoModal(true)}
+              onClick={() => {
+                setVideoLink('xn-ZrWzjHR0');
+                setShowVideoModal(true);
+              }}
               target="_blank"
               rel="noreferrer"
-              style={{cursor:'pointer'}}
             >
-              Learn more
+              Bridge to Tezos
+              <VideoIcon className={`ml-2 ${styles.videoIcon}`} />
             </a>
-            <Link className="ml-2 mb-1" />
+            <a
+              onClick={() => {
+                setVideoLink('1FtDG-R8y2g');
+                setShowVideoModal(true);
+              }}
+              target="_blank"
+              rel="noreferrer"
+              style={{ marginLeft: '12px' }}
+            >
+              Bridge from Tezos
+              <VideoIcon className={`ml-2 ${styles.videoIcon}`} />
+            </a>
           </p>
         </Row>
       </div>

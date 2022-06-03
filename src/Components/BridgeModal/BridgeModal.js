@@ -469,33 +469,45 @@ const BridgeModal = (props) => {
         : loadedTokensList[currentTo.name].find((token) => token.name === currentTokenOut)
             .tokenData;
 
-    setToBridge({
-      name: currentFrom.name,
-      image: currentFrom.image,
-      buttonImage: currentFrom.buttonImage,
-    });
-    setFromBridge({
-      name: currentTo.name,
-      image: currentTo.image,
-      buttonImage: currentTo.buttonImage,
-    });
-    setTokenIn({
-      name: currentTokenOut,
-      image: Object.prototype.hasOwnProperty.call(allTokens, currentTokenOut)
-        ? allTokens[currentTokenOut]
-        : allTokens.fallback,
-      tokenData,
-    });
-    setTokenOut({
-      name: currentTokenIn,
-      image: Object.prototype.hasOwnProperty.call(allTokens, currentTokenIn)
-        ? allTokens[currentTokenIn]
-        : allTokens.fallback,
-    });
-    if (operation === 'BRIDGE') {
-      setOperation('UNBRIDGE');
+    if(tokenIn.tokenData.deprecated) {
+      displayMessage({
+        type: 'warning',
+        duration: FLASH_MESSAGE_DURATION,
+        title: 'Deprecated token selected',
+        content: 'Bridging not allowed for deprecated token. Please select non deprecated token to switch.',
+        isFlashMessageALink: false,
+        flashMessageLink: '#',
+      });
+      setSwitchButtonPressed(false);
     } else {
-      setOperation('BRIDGE');
+      setToBridge({
+        name: currentFrom.name,
+        image: currentFrom.image,
+        buttonImage: currentFrom.buttonImage,
+      });
+      setFromBridge({
+        name: currentTo.name,
+        image: currentTo.image,
+        buttonImage: currentTo.buttonImage,
+      });
+      setTokenIn({
+        name: currentTokenOut,
+        image: Object.prototype.hasOwnProperty.call(allTokens, currentTokenOut)
+          ? allTokens[currentTokenOut]
+          : allTokens.fallback,
+        tokenData,
+      });
+      setTokenOut({
+        name: currentTokenIn,
+        image: Object.prototype.hasOwnProperty.call(allTokens, currentTokenIn)
+          ? allTokens[currentTokenIn]
+          : allTokens.fallback,
+      });
+      if (operation === 'BRIDGE') {
+        setOperation('UNBRIDGE');
+      } else {
+        setOperation('BRIDGE');
+      }
     }
   };
 
@@ -512,10 +524,7 @@ const BridgeModal = (props) => {
                 {metamaskAddress && (
                   <OverlayTrigger
                     overlay={(props) => (
-                      <Tooltip
-                        className="connect-wallet-tooltip wallet-message-tooltip"
-                        {...props}
-                      >
+                      <Tooltip className="connect-wallet-tooltip wallet-message-tooltip" {...props}>
                         Disconnect Ethereum wallets through wallet.
                       </Tooltip>
                     )}
@@ -711,7 +720,9 @@ const BridgeModal = (props) => {
                   <div className={clsx('connect-wallet-btn')}>
                     <div className="flex flex-row align-items-center">
                       <connectBridgeWallet.buttonImage />
-                      <span className="ml-2">Connect to {titleCase(connectBridgeWallet.name)} wallet</span>
+                      <span className="ml-2">
+                        Connect to {titleCase(connectBridgeWallet.name)} wallet
+                      </span>
                     </div>
                   </div>
                 </Button>
@@ -719,7 +730,14 @@ const BridgeModal = (props) => {
             ) : (
               <>
                 <Button
-                  className={clsx('px-md-3', 'mt-3', 'w-100', 'connect-wallet-btn', 'button-bg', firstTokenAmount === '' ? styles.disabledProceedButton : '')}
+                  className={clsx(
+                    'px-md-3',
+                    'mt-3',
+                    'w-100',
+                    'connect-wallet-btn',
+                    'button-bg',
+                    firstTokenAmount === '' ? styles.disabledProceedButton : '',
+                  )}
                   onClick={handelClickWithMetaAddedBtn}
                   loading={isLoading}
                 >
@@ -738,7 +756,20 @@ const BridgeModal = (props) => {
         show={show}
         onHide={handleClose}
         selectToken={selector.current === 'BRIDGES' ? selectBridge : selectToken}
-        tokens={selector.current === 'BRIDGES' ? bridgesList : [...tokenList].sort((a, b) => a.name.localeCompare(b.name))}
+        tokens={
+          selector.current === 'BRIDGES'
+            ? bridgesList
+            : operation === 'UNBRIDGE'
+            ? [...tokenList]
+                .filter((token) => token.name !== 'WRAP')
+                .sort(
+                  (a, b) =>
+                    a.tokenData.deprecated - b.tokenData.deprecated || a.name.localeCompare(b.name),
+                )
+            : [...tokenList]
+                .filter((token) => !token.tokenData.deprecated)
+                .sort((a, b) => a.name.localeCompare(b.name))
+        }
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         title={selector.current === 'BRIDGES' ? 'Select a chain' : 'Select a token'}
