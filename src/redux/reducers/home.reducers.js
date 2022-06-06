@@ -176,6 +176,9 @@ const homeReducer = (state = initState, action) => {
           loading: false,
           batchOperation: action.payload,
         },
+        modals: {
+          snackbar: true,
+        },
       };
     case actions.USER_TVL_FETCH:
       return {
