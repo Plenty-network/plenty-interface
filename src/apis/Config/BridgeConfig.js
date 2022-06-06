@@ -1,6 +1,36 @@
 import { BRIDGES_CONFIG } from '../../constants/localStorage';
 import { allTokens } from '../../constants/bridges';
 
+const DEPRECATED_TOKENS = [
+  'wAAVE',
+  'wLEO',
+  'wCEL',
+  'wCOMP',
+  'wCRO',
+  'wFTT',
+  'wHUSD',
+  'wHT',
+  'wMKR',
+  'wOKB',
+  'wPAX',
+  'wSUSHI',
+  'wUNI',
+  'AAVE',
+  'LEO',
+  'CEL',
+  'COMP',
+  'CRO',
+  'FTT',
+  'HUSD',
+  'HT',
+  'MKR',
+  'OKB',
+  'PAX',
+  'SUSHI',
+  'UNI',
+  'WRAP'
+];
+
 export const BridgeConfiguration = {
   getConfig: () => JSON.parse(localStorage.getItem(BRIDGES_CONFIG)),
   getConfigForChain: (chain) => {
@@ -95,19 +125,23 @@ export const createTokensList = () => {
         finalTokensList[chain] = [];
         finalTokensList['TEZOS'][chain] = [];
         for (const [token, tokenData] of Object.entries(chainData.TOKENS)) {
+          const chainTokenData = {...tokenData};
+          const tezosTokenData = {...tokenData.WRAPPED_TOKEN};
+          chainTokenData.deprecated = DEPRECATED_TOKENS.includes(token) ? true : false;
+          tezosTokenData.deprecated = DEPRECATED_TOKENS.includes(tokenData.WRAPPED_TOKEN.NAME) ? true : false;
           finalTokensList[chain].push({
             name: token,
             image: Object.prototype.hasOwnProperty.call(allTokens, token)
               ? allTokens[token]
               : allTokens.fallback,
-            tokenData: tokenData,
+            tokenData: chainTokenData,
           });
           finalTokensList['TEZOS'][chain].push({
             name: tokenData.WRAPPED_TOKEN.NAME,
             image: Object.prototype.hasOwnProperty.call(allTokens, tokenData.WRAPPED_TOKEN.NAME)
               ? allTokens[tokenData.WRAPPED_TOKEN.NAME]
               : allTokens.fallback,
-            tokenData: tokenData.WRAPPED_TOKEN,
+            tokenData: tezosTokenData,
           });
         }
       }
