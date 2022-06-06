@@ -81,7 +81,7 @@ const SelectorModal = (props) => {
                 <span className="span-themed">
                   {props.selector === 'BRIDGES' ? titleCase(token.name) : token.name}
                 </span>
-                {token.tokenData?.deprecated ? <span className="new-badge-icon">Deprecated!</span> : null}
+                {token.tokenData?.deprecated ? <span className="deprecated-badge-icon">Deprecated!</span> : null}
                 {token.extra && (
                   <a
                     className="extra-text"
