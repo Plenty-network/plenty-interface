@@ -77,7 +77,7 @@ const RemoveLiquidity = (props) => {
   const removeLiquidityInput = (input) => {
     const removeAmount = parseFloat(input);
     let computedRemoveTokens;
-   
+
     if (props.tokenIn.name === 'tez') {
       computedRemoveTokens = liqCalcRemove(
         removeAmount,
@@ -353,7 +353,7 @@ const RemoveLiquidity = (props) => {
           <div className="input-lq-remove  ">
             <div className="d-flex  align-items-center ">
               <div className="input-width-liq">
-                {props.userBalances[props.tokenIn.name] ? (
+                {props.userBalances[props.tokenIn.name] >= 0 ? (
                   <input
                     type="text"
                     className="token-user-input-lq"
