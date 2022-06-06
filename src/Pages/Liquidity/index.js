@@ -74,29 +74,17 @@ const LiquidityNew = (props) => {
     if (ress.isLiquidityAvailable) {
       let res;
       if (isStable) {
-        if (
-          CONFIG.AMM[CONFIG.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]?.type ===
-          'xtz'
-        ){
-        res = await getLiquidityPositionDetailsStable(
-          tokenIn.name,
-          tokenOut.name,
-          props.walletAddress,
-        );}
-        else if(
-          CONFIG.AMM[CONFIG.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]?.type ===
-          'veStableAMM'
-        ){
-          res = await getLiquidityPositionDetails(
+        if (CONFIG.AMM[CONFIG.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]?.type === 'xtz') {
+          res = await getLiquidityPositionDetailsStable(
             tokenIn.name,
             tokenOut.name,
             props.walletAddress,
-          );}
-        // res = await getLiquidityPositionDetailsStable(
-        //   tokenIn.name,
-        //   tokenOut.name,
-        //   props.walletAddress,
-        // );
+          );
+        } else if (
+          CONFIG.AMM[CONFIG.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]?.type === 'veStableAMM'
+        ) {
+          res = await getLiquidityPositionDetails(tokenIn.name, tokenOut.name, props.walletAddress);
+        }
       } else {
         res = await getLiquidityPositionDetails(tokenIn.name, tokenOut.name, props.walletAddress);
       }
@@ -106,12 +94,10 @@ const LiquidityNew = (props) => {
   }, [tokenIn, tokenOut, props]);
 
   useEffect(() => {
-    //setLoading(true);
     setLoaderInButton(true);
 
     getTokenPrices().then((tokenPrice) => {
       setGetTokenPrice(tokenPrice);
-      //setLoading(false);
     });
   }, []);
 
@@ -134,9 +120,7 @@ const LiquidityNew = (props) => {
     setShowConfirmAddSupply(false);
     setShowConfirmRemoveSupply(false);
     setShowConfirmTransaction(false);
-    //setHideContent('');
     setSearchQuery('');
-    //setLoading(false);
   };
 
   useEffect(() => {
@@ -201,8 +185,6 @@ const LiquidityNew = (props) => {
     setLoaderInButton(true);
 
     setSwapData({});
-
-    //setLoading(true);
 
     if (tokenType === 'tokenIn') {
       setTokenIn({
@@ -270,7 +252,6 @@ const LiquidityNew = (props) => {
   }, [tokenIn, tokenOut, activeTab, splitLocation[1]]);
 
   const handleTokenType = (type) => {
-    //setHideContent('content-hide');
     setShow(true);
     setTokenType(type);
     setLoading(false);
@@ -289,7 +270,6 @@ const LiquidityNew = (props) => {
   };
 
   const resetAllValues = () => {
-    // setSlippage(0.5);
     setRecepient('');
     setTokenType('tokenIn');
   };
@@ -310,13 +290,6 @@ const LiquidityNew = (props) => {
 
     value ? setActiveTab('liquidityPositions') : setActiveTab('liquidity');
   };
-
-  // useEffect(() => {
-  //   splitLocation[1] === 'liquidityPositions'
-  //     ? setLiquidityPosition(true)
-  //     : setLiquidityPosition(false);
-  //   splitLocation[1] === 'liquidity' && setActiveTab('liquidity');
-  // }, [splitLocation[1]]);
 
   useEffect(() => {
     const tokenAFromParam = searchParams.get('tokenA');
@@ -369,7 +342,7 @@ const LiquidityNew = (props) => {
         </p>
       )}
       {isLiquidityPosition && <div className="liq-label">Position overview</div>}
-      {/* <div className="liq-label">{isLiquidityPosition ? 'Liquidity Positions' : 'Liquidity'}</div> */}
+
       {!isLiquidityPosition ? (
         <Col
           sm={8}
@@ -426,50 +399,50 @@ const LiquidityNew = (props) => {
                   {...props}
                 />
               </Tab>
-              {isPositionAvailable ? (
-                <Tab eventKey="remove" title="Remove">
-                  <RemoveLiquidity
-                    theme={props.theme}
-                    walletAddress={props.walletAddress}
-                    connecthWallet={props.connecthWallet}
-                    tokenIn={tokenIn}
-                    tokenOut={tokenOut}
-                    handleTokenType={handleTokenType}
-                    swapData={swapData}
-                    userBalances={userBalances}
-                    tokenContractInstances={tokenContractInstances}
-                    getTokenPrice={getTokenPrice}
-                    setSlippage={setSlippage}
-                    setRecepient={setRecepient}
-                    recepient={recepient}
-                    slippage={slippage}
-                    loading={loading}
-                    setLoading={setLoading}
-                    handleLoaderMessage={handleLoaderMessage}
-                    loaderMessage={loaderMessage}
-                    handleClose={handleClose}
-                    showConfirmAddSupply={showConfirmAddSupply}
-                    setShowConfirmAddSupply={setShowConfirmAddSupply}
-                    showConfirmRemoveSupply={showConfirmRemoveSupply}
-                    setShowConfirmRemoveSupply={setShowConfirmRemoveSupply}
-                    setLoaderMessage={setLoaderMessage}
-                    resetAllValues={resetAllValues}
-                    fetchUserWalletBalance={fetchUserWalletBalance}
-                    setTokenIn={setTokenIn}
-                    setTokenOut={setTokenOut}
-                    tokens={liquidityTokens}
-                    loaderInButton={loaderInButton}
-                    setLoaderInButton={setLoaderInButton}
-                    isStableSwap={isTokenPairStable(tokenIn.name, tokenOut.name)}
-                    setShowConfirmTransaction={setShowConfirmTransaction}
-                    showConfirmTransaction={showConfirmTransaction}
-                    positionDetails={positionDetails}
-                    setPositionAvailable={setPositionAvailable}
-                    isPositionAvailable={isPositionAvailable}
-                    setPositionDetails={setPositionDetails}
-                  />
-                </Tab>
-              ) : null}
+              {/* {isPositionAvailable ? ( */}
+              <Tab eventKey="remove" title="Remove">
+                <RemoveLiquidity
+                  theme={props.theme}
+                  walletAddress={props.walletAddress}
+                  connecthWallet={props.connecthWallet}
+                  tokenIn={tokenIn}
+                  tokenOut={tokenOut}
+                  handleTokenType={handleTokenType}
+                  swapData={swapData}
+                  userBalances={userBalances}
+                  tokenContractInstances={tokenContractInstances}
+                  getTokenPrice={getTokenPrice}
+                  setSlippage={setSlippage}
+                  setRecepient={setRecepient}
+                  recepient={recepient}
+                  slippage={slippage}
+                  loading={loading}
+                  setLoading={setLoading}
+                  handleLoaderMessage={handleLoaderMessage}
+                  loaderMessage={loaderMessage}
+                  handleClose={handleClose}
+                  showConfirmAddSupply={showConfirmAddSupply}
+                  setShowConfirmAddSupply={setShowConfirmAddSupply}
+                  showConfirmRemoveSupply={showConfirmRemoveSupply}
+                  setShowConfirmRemoveSupply={setShowConfirmRemoveSupply}
+                  setLoaderMessage={setLoaderMessage}
+                  resetAllValues={resetAllValues}
+                  fetchUserWalletBalance={fetchUserWalletBalance}
+                  setTokenIn={setTokenIn}
+                  setTokenOut={setTokenOut}
+                  tokens={liquidityTokens}
+                  loaderInButton={loaderInButton}
+                  setLoaderInButton={setLoaderInButton}
+                  isStableSwap={isTokenPairStable(tokenIn.name, tokenOut.name)}
+                  setShowConfirmTransaction={setShowConfirmTransaction}
+                  showConfirmTransaction={showConfirmTransaction}
+                  positionDetails={positionDetails}
+                  setPositionAvailable={setPositionAvailable}
+                  isPositionAvailable={isPositionAvailable}
+                  setPositionDetails={setPositionDetails}
+                />
+              </Tab>
+              {/* ) : null} */}
             </Tabs>
             <div className="settings-liq">
               <SettingsLiq
