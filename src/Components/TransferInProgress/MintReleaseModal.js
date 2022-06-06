@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import styles from './Transfer.module.scss';
 import Button from '../Ui/Buttons/Button';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useInterval } from '../../hooks/useInterval';
 import { getMintStatus, getReleaseStatus } from '../../apis/bridge/bridgeAPI';
 
@@ -24,6 +24,36 @@ const MintReleaseModal = (props) => {
     mintButtonClick,
     isMintLoading,
   } = props;
+
+  useEffect(async () => {
+    if(operation === 'BRIDGE') {
+      const mintingResult = await getMintStatus(mintUnmintOpHash, fromBridge.name);
+      if (mintingResult.data !== null) {
+        setAwaitingConfirmation(false);
+        setSignaturesRequired(mintingResult.signaturesReq);
+        setSignaturesCount(mintingResult.signaturesCount);
+        setConfirmationsRequired(mintingResult.confirmationsRequired);
+        setConfirmationsCount(mintingResult.confirmations);
+        setWrapUnwrapData(mintingResult.data);
+        setIsReadyToMintRelease(mintingResult.readyToMint);
+      } else {
+        setAwaitingConfirmation(true);
+      }
+    } else {
+      const releaseResult = await getReleaseStatus(mintUnmintOpHash, toBridge.name);
+      if (releaseResult.data !== null) {
+        setAwaitingConfirmation(false);
+        setSignaturesRequired(releaseResult.signaturesReq);
+        setSignaturesCount(releaseResult.signaturesCount);
+        setConfirmationsRequired(releaseResult.confirmationsRequired);
+        setConfirmationsCount(releaseResult.confirmations);
+        setWrapUnwrapData(releaseResult.data);
+        setIsReadyToMintRelease(releaseResult.readyToRelease);
+      } else {
+        setAwaitingConfirmation(true);
+      }
+    }
+  }, []);
 
   useInterval(async ()=>{
     if(operation === 'BRIDGE') {

@@ -133,3 +133,20 @@
   text-align: center;
   padding: 4px 10px;
 }
+
+.deprecated-badge-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--theme-quipuswap-badge-bg);
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+  letter-spacing: -0.4px;
+  color: var(--theme-quipuswap-badge-text);
+  text-align: center;
+  padding: 4px 10px;
+}
