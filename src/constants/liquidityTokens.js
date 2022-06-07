@@ -33,6 +33,8 @@ import PAUL from '../assets/images/PAUL.png';
 import doga from '../assets/images/doga.png';
 import usdce from '../assets/images/usdce.png';
 import wbtce from '../assets/images/wbtce.png';
+import weth_normal from '../assets/images/bridge/tokens/weth_icon.svg';
+import dai_normal from '../assets/images/bridge/tokens/dai_icon.svg';
 export const liquidityTokens = [
   {
     name: 'tez',
@@ -52,6 +54,16 @@ export const liquidityTokens = [
   {
     name: 'USDC.e',
     image: usdce,
+    new: true,
+  },
+  {
+    name: 'DAI.e',
+    image: dai_normal,
+    new: true,
+  },
+  {
+    name: 'WETH.e',
+    image: weth_normal,
     new: true,
   },
   {
