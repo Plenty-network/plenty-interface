@@ -1244,15 +1244,16 @@ export const removeLiquidity = async (
       CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].liquidityToken,
       caller,
     );
+
     const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
-    const lpBal = new BigNumber(lpToken_Amount);
+    const lpBal = new BigNumber(lpToken_Amount * Math.pow(10, lpTokenDecimal));
+
     if (lpBal > balanceWithoutDecimalNumber) {
       lpToken_Amount = balanceWithoutDecimalNumber;
-    } else {
+    }
+    else {
       lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
     }
-
-
     const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].contract;
 
     const dexContractInstanceLocal = await Tezos.contract.at(dexContractAddress);
@@ -1353,7 +1354,8 @@ export const removeLiquidity_generalStable = async (
       caller,
     );
     const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
-    const lpBal = new BigNumber(lpToken_Amount);
+    const lpBal = new BigNumber(lpToken_Amount * Math.pow(10, lpTokenDecimal));
+
     if (lpBal > balanceWithoutDecimalNumber) {
       lpToken_Amount = balanceWithoutDecimalNumber;
     } else {
