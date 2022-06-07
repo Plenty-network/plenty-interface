@@ -969,13 +969,13 @@ const getPriceForPlentyLpTokens = async (
 
       let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
       token1Amount =
-        (token1Amount * tokenData['token1'].tokenValue) /
-        Math.pow(10, tokenData['token1'].tokenDecimal);
+        (token1Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
 
       let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
       token2Amount =
-        (token2Amount * tokenData['token2'].tokenValue) /
-        Math.pow(10, tokenData['token2'].tokenDecimal);
+        (token2Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
 
       const totalAmount = (token1Amount + token2Amount).toFixed(2);
 
@@ -1072,13 +1072,13 @@ const getPriceForPlentyLpTokens = async (
 
       let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
       token1Amount =
-        (token1Amount * tokenData['token1'].tokenValue) /
-        Math.pow(10, tokenData['token1'].tokenDecimal);
+        (token1Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
 
       let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
       token2Amount =
-        (token2Amount * tokenData['token2'].tokenValue) /
-        Math.pow(10, tokenData['token2'].tokenDecimal);
+        (token2Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
 
       const totalAmount = (token1Amount + token2Amount).toFixed(2);
 
@@ -1149,13 +1149,13 @@ const getPriceForPlentyLpTokens = async (
 
       let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
       token1Amount =
-        (token1Amount * tokenData['token1'].tokenValue) /
-        Math.pow(10, tokenData['token1'].tokenDecimal);
+        (token1Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
 
       let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
       token2Amount =
-        (token2Amount * tokenData['token2'].tokenValue) /
-        Math.pow(10, tokenData['token2'].tokenDecimal);
+        (token2Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
 
       const totalAmount = (token1Amount + token2Amount).toFixed(2);
 
