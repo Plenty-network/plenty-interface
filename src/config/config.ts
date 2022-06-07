@@ -205,6 +205,28 @@ const Config: IConfig = {
           ],
           inactive: [],
         },
+        // 'DAI.e - USDC.e': {
+        //   active: [
+        //     {
+        //       address: 'KT1SzTf3uBZAx1DnPbNTg29H7dVPbuzkGJNo',
+        //       mapId: 181060,
+        //       decimal: 18,
+        //       tokenDecimal: 8,
+        //     },
+        //   ],
+        //   inactive: [],
+        // },
+        // 'ETHtz - WETH.e': {
+        //   active: [
+        //     {
+        //       address: 'KT1SzTf3uBZAx1DnPbNTg29H7dVPbuzkGJNo',
+        //       mapId: 181060,
+        //       decimal: 18,
+        //       tokenDecimal: 8,
+        //     },
+        //   ],
+        //   inactive: [],
+        // },
         'WBTC.e - CTEZ': {
           active: [
             {
@@ -227,6 +249,39 @@ const Config: IConfig = {
           ],
           inactive: [],
         },
+        // 'WETH.e - CTEZ': {
+        //   active: [
+        //     {
+        //       address: 'KT1P3MUj7ZY1pak1szf41vxtuqz7AVMgCLhj',
+        //       mapId: 178076,
+        //       decimal: 18,
+        //       tokenDecimal: 6,
+        //     },
+        //   ],
+        //   inactive: [],
+        // },
+        // 'MATIC.e - CTEZ': {
+        //   active: [
+        //     {
+        //       address: 'KT1P3MUj7ZY1pak1szf41vxtuqz7AVMgCLhj',
+        //       mapId: 178076,
+        //       decimal: 18,
+        //       tokenDecimal: 6,
+        //     },
+        //   ],
+        //   inactive: [],
+        // },
+        // 'LINK.e - CTEZ': {
+        //   active: [
+        //     {
+        //       address: 'KT1P3MUj7ZY1pak1szf41vxtuqz7AVMgCLhj',
+        //       mapId: 178076,
+        //       decimal: 18,
+        //       tokenDecimal: 6,
+        //     },
+        //   ],
+        //   inactive: [],
+        // },
         'KALAM - XTZ': {
           active: [],
           inactive: [
@@ -986,6 +1041,20 @@ const Config: IConfig = {
         type: 'FA1.2',
         tokenId: 0,
       },
+      // 'DAI.e - USDC.e': {
+      //   address: 'KT1HJbndQjBEhAqR3Vj3NaP3RwFGudJf5YP4',
+      //   mapId: 179610,
+      //   decimal: 8,
+      //   type: 'FA1.2',
+      //   tokenId: 0,
+      // },
+      // 'ETHtz - WETH.e': {
+      //   address: 'KT1HJbndQjBEhAqR3Vj3NaP3RwFGudJf5YP4',
+      //   mapId: 179610,
+      //   decimal: 8,
+      //   type: 'FA1.2',
+      //   tokenId: 0,
+      // },
       'WBTC.e - CTEZ': {
         address: 'KT1VRAYxpCo5xHYmBLYmMAWxXoVYCVgpeuak',
         mapId: 177398,
@@ -1000,6 +1069,28 @@ const Config: IConfig = {
         type: 'FA1.2',
         tokenId: 0,
       },
+      // 'WETH.e - CTEZ': {
+      //   address: 'KT1XpLzv4tqqsf2aLneDZgEeNFhKkH8JBGXv',
+      //   mapId: 177380,
+      //   decimal: 6,
+      //   type: 'FA1.2',
+      //   tokenId: 0,
+      // },
+      // 'MATIC.e - CTEZ': {
+      //   address: 'KT1XpLzv4tqqsf2aLneDZgEeNFhKkH8JBGXv',
+      //   mapId: 177380,
+      //   decimal: 6,
+      //   type: 'FA1.2',
+      //   tokenId: 0,
+      // },
+      // 'LINK.e - CTEZ': {
+      //   address: 'KT1XpLzv4tqqsf2aLneDZgEeNFhKkH8JBGXv',
+      //   mapId: 177380,
+      //   decimal: 6,
+      //   type: 'FA1.2',
+      //   tokenId: 0,
+      // },
+      
       'KALAM - XTZ': {
         address: 'KT1J3wTYb4xk5BsSBkg6ML55bX1xq7desS34',
         mapId: 4353,
@@ -4190,6 +4281,50 @@ const Config: IConfig = {
         ],
         inactive: [],
       },
+      // 'DAI.e - USDC.e': {
+      //   active: [
+      //     {
+      //       LP_TOKEN: 'KT1HJbndQjBEhAqR3Vj3NaP3RwFGudJf5YP4',
+      //       CONTRACT: 'KT1SzTf3uBZAx1DnPbNTg29H7dVPbuzkGJNo',
+      //       DEX: 'KT1Ws4qpXFVRKctB5mJcahFVcpcUi2WbxWM3',
+      //       TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       CARD_TYPE: 'tzBTC / WBTC.e LP',
+      //       TOKEN_DECIMAL: 8,
+      //       TYPE: 'FA1.2',
+      //       LP_DECIMAL: 18,
+      //       TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       DECIMAL: 18,
+      //       withdrawalFeeType: 'type2',
+      //       liquidityLink: '/liquidity/add?tokenA=tzBTC&tokenB=WBTC.e',
+      //       message: '😍 New farm',
+      //       bannerType: 'info',
+      //       isDualFarm: false,
+      //     },
+      //   ],
+      //   inactive: [],
+      // },
+      // 'ETHtz - WETH.e': {
+      //   active: [
+      //     {
+      //       LP_TOKEN: 'KT1HJbndQjBEhAqR3Vj3NaP3RwFGudJf5YP4',
+      //       CONTRACT: 'KT1SzTf3uBZAx1DnPbNTg29H7dVPbuzkGJNo',
+      //       DEX: 'KT1Ws4qpXFVRKctB5mJcahFVcpcUi2WbxWM3',
+      //       TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       CARD_TYPE: 'tzBTC / WBTC.e LP',
+      //       TOKEN_DECIMAL: 8,
+      //       TYPE: 'FA1.2',
+      //       LP_DECIMAL: 18,
+      //       TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       DECIMAL: 18,
+      //       withdrawalFeeType: 'type2',
+      //       liquidityLink: '/liquidity/add?tokenA=tzBTC&tokenB=WBTC.e',
+      //       message: '😍 New farm',
+      //       bannerType: 'info',
+      //       isDualFarm: false,
+      //     },
+      //   ],
+      //   inactive: [],
+      // },
       'WBTC.e - CTEZ': {
         active: [
           {
@@ -4234,6 +4369,72 @@ const Config: IConfig = {
         ],
         inactive: [],
       },
+      // 'WETH.e - CTEZ': {
+      //   active: [
+      //     {
+      //       LP_TOKEN: 'KT1XpLzv4tqqsf2aLneDZgEeNFhKkH8JBGXv',
+      //       CONTRACT: 'KT1P3MUj7ZY1pak1szf41vxtuqz7AVMgCLhj',
+      //       DEX: 'KT1Dhy1gVW3PSC9cms9QJ7xPMPPpip2V9aA6',
+      //       TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       CARD_TYPE: 'WETH.e / CTEZ LP',
+      //       TOKEN_DECIMAL: 6,
+      //       TYPE: 'FA1.2',
+      //       LP_DECIMAL: 6,
+      //       TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       DECIMAL: 18,
+      //       withdrawalFeeType: 'type2',
+      //       liquidityLink: '/liquidity/add?tokenA=ctez&tokenB=USDC.e',
+      //       message: '😍 New farm',
+      //       bannerType: 'info',
+      //       isDualFarm: false,
+      //     },
+      //   ],
+      //   inactive: [],
+      // },
+      // 'MATIC.e - CTEZ': {
+      //   active: [
+      //     {
+      //       LP_TOKEN: 'KT1XpLzv4tqqsf2aLneDZgEeNFhKkH8JBGXv',
+      //       CONTRACT: 'KT1P3MUj7ZY1pak1szf41vxtuqz7AVMgCLhj',
+      //       DEX: 'KT1Dhy1gVW3PSC9cms9QJ7xPMPPpip2V9aA6',
+      //       TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       CARD_TYPE: 'USDC.e / CTEZ LP',
+      //       TOKEN_DECIMAL: 6,
+      //       TYPE: 'FA1.2',
+      //       LP_DECIMAL: 6,
+      //       TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       DECIMAL: 18,
+      //       withdrawalFeeType: 'type2',
+      //       liquidityLink: '/liquidity/add?tokenA=ctez&tokenB=USDC.e',
+      //       message: '😍 New farm',
+      //       bannerType: 'info',
+      //       isDualFarm: false,
+      //     },
+      //   ],
+      //   inactive: [],
+      // },
+      // 'LINK.e - CTEZ': {
+      //   active: [
+      //     {
+      //       LP_TOKEN: 'KT1XpLzv4tqqsf2aLneDZgEeNFhKkH8JBGXv',
+      //       CONTRACT: 'KT1P3MUj7ZY1pak1szf41vxtuqz7AVMgCLhj',
+      //       DEX: 'KT1Dhy1gVW3PSC9cms9QJ7xPMPPpip2V9aA6',
+      //       TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       CARD_TYPE: 'USDC.e / CTEZ LP',
+      //       TOKEN_DECIMAL: 6,
+      //       TYPE: 'FA1.2',
+      //       LP_DECIMAL: 6,
+      //       TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       DECIMAL: 18,
+      //       withdrawalFeeType: 'type2',
+      //       liquidityLink: '/liquidity/add?tokenA=ctez&tokenB=USDC.e',
+      //       message: '😍 New farm',
+      //       bannerType: 'info',
+      //       isDualFarm: false,
+      //     },
+      //   ],
+      //   inactive: [],
+      // },
       'KALAM - XTZ': {
         active: [],
         inactive: [
