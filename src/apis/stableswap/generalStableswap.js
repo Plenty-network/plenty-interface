@@ -72,15 +72,7 @@ export const calculateTokensOutGeneralStable  = async (
   tokenIn_precision,
   tokenOut_precision,
 ) => { 
-  console.log(tokenIn_supply,
-    tokenOut_supply,
-    tokenIn_amount,
-    Exchangefee,
-    slippage,
-    tokenIn,
-    tokenOut,
-    tokenIn_precision,
-    tokenOut_precision,);
+  
 
   const connectedNetwork = CONFIG.NETWORK;
   tokenIn_amount =

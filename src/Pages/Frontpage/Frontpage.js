@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './frontpage.module.scss';
 import Button from '../../Components/Ui/Buttons/Button';
 import Label from '../../Components/Ui/Label/Label';
@@ -78,6 +78,7 @@ const Frontpage = ({
   setLoader,
 }) => {
   const [showConfirmTransaction, setShowConfirmTransaction] = useState(false);
+  const [loaderMessage, setLoaderMessage] = useState({});
   useEffect(() => {
     const getAllData = () => {
       getHomeStats();
@@ -103,16 +104,19 @@ const Frontpage = ({
     setLoader(true);
     !!wallet && harvestAll(wallet, setShowConfirmTransaction, setLoader);
   };
-
-  const loaderMessage = useMemo(() => {
+  useEffect(() => {
     if (harvestAllOperations.completed || harvestAllOperations.failed) {
       setLoader(false);
-      return {
+      setLoaderMessage({
         message: harvestAllOperations.completed ? 'Transaction confirmed' : 'Transaction failed',
         type: harvestAllOperations.completed ? 'success' : 'error',
-      };
+      });
+      setTimeout(() => {
+        setLoaderMessage({});
+      }, 5000);
+    } else {
+      setLoaderMessage({});
     }
-    return {};
   }, [harvestAllOperations]);
 
   return (
@@ -160,14 +164,12 @@ const Frontpage = ({
                   Total Value Locked
                 </h5>
                 <h1 className="mb-3 text-white font-weight-bold">
-                  <NumericLabel params={currencyOptionsWithSymbol}>
-                    {tvl ? tvl : '0'}
-                  </NumericLabel>
+                  <NumericLabel params={currencyOptionsWithSymbol}>{tvl ? tvl : '0'}</NumericLabel>
                 </h1>
                 <h5
                   className={`mb-4 text-white text-mulish font-weight-light ${styles.textMulish}`}
                 >
-                  Bridge, trade, and earn. There is plenty of DeFi to explore on Tezos. 
+                  Bridge, trade, and earn. There is plenty of DeFi to explore on Tezos.
                 </h5>
                 <Link to={'swap'} className="text-decoration-none">
                   <Button
@@ -573,6 +575,7 @@ const Frontpage = ({
         <Loader
           loading={harvestAllOperations.processing}
           loaderMessage={loaderMessage}
+          setLoaderMessage={setLoaderMessage}
           content={'Harvest tokens'}
           theme={theme}
           onBtnClick={
