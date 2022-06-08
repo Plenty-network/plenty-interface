@@ -35,6 +35,8 @@ import usdce from '../assets/images/usdce.png';
 import wbtce from '../assets/images/wbtce.png';
 import weth_normal from '../assets/images/bridge/tokens/weth_icon.svg';
 import dai_normal from '../assets/images/bridge/tokens/dai_icon.svg';
+import link_normal from '../assets/images/bridge/tokens/link_icon.svg';
+import matic_normal from '../assets/images/bridge/tokens/matic_icon.svg';
 export const tokens = [
   {
     name: 'DOGA',
@@ -59,6 +61,16 @@ export const tokens = [
   {
     name: 'WETH.e',
     image: weth_normal,
+    new: true,
+  },
+  {
+    name: 'LINK.e',
+    image: link_normal,
+    new: true,
+  },
+  {
+    name: 'MATIC.e',
+    image: matic_normal,
     new: true,
   },
   {
