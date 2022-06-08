@@ -1592,7 +1592,7 @@ export const stakeFarmAPI = async (
           position
         ].LP_TOKEN,
       );
-      const tokenAmount =
+      let tokenAmount =
         amount *
         Math.pow(
           10,
@@ -1601,6 +1601,7 @@ export const stakeFarmAPI = async (
             position
           ].TOKEN_DECIMAL,
         );
+        tokenAmount = parseInt(tokenAmount);
       let batch = null;
       if (
         //CONFIG.CONTRACT[connectedNetwork].FARMS[farmIdentifier].TYPE === 'FA1.2'
