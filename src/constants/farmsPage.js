@@ -200,6 +200,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
     isDualFarm: false,
+    url: '/liquidity/add?tokenA=ctez&tokenB=WETH.e',
   },
   'MATIC.e / CTEZ LP': {
     image: dogactezLpFarm,
@@ -221,6 +222,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
     isDualFarm: false,
+    url: '/liquidity/add?tokenA=ctez&tokenB=MATIC.e',
   },
   'LINK.e / CTEZ LP': {
     image: dogactezLpFarm,
@@ -242,6 +244,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
     isDualFarm: false,
+    url: '/liquidity/add?tokenA=ctez&tokenB=LINK.e',
   },
   'DAI.e / USDC.e LP': {
     image: dogactezLpFarm,
@@ -263,6 +266,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
     isDualFarm: false,
+    url: '/liquidity/add?tokenA=DAI.e&tokenB=USDC.e',
   },
   'ETHtz / WETH.e LP': {
     image: dogactezLpFarm,
@@ -284,6 +288,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
     isDualFarm: false,
+    url: '/liquidity/add?tokenA=ETHtz&tokenB=WETH.e',
   },
   'kUSD / USDC.e LP': {
     image: kUSDUSDC,

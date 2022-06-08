@@ -4310,7 +4310,7 @@ const Config: IConfig = {
             DEX: 'KT1BKcLyaaNf2SHfAivBFBqdFoYTjuc78Aff',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             CARD_TYPE: 'ETHtz / WETH.e LP',
-            TOKEN_DECIMAL: 8,
+            TOKEN_DECIMAL: 18,
             TYPE: 'FA1.2',
             LP_DECIMAL: 18,
             TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
