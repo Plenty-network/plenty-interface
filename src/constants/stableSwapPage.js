@@ -1,5 +1,6 @@
 import ctez from '../assets/images/ctez.png';
 import xtz from '../assets/images/tez.png';
+import ETHtz from '../assets/images/ethtz.png';
 import tzBTC from '../assets/images/tzbtc-swap.png';
 import uUSD from '../assets/images/uUSD.png';
 import kusd from '../assets/images/kusd.png';
@@ -32,6 +33,11 @@ export const stableSwapTokens = [
   {
     name: 'WETH.e',
     image: weth_normal,
+    new: true,
+  },
+  {
+    name: 'ETHtz',
+    image: ETHtz,
     new: true,
   },
   {

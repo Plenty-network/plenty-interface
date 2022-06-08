@@ -37,6 +37,7 @@ import weth_normal from '../assets/images/bridge/tokens/weth_icon.svg';
 import dai_normal from '../assets/images/bridge/tokens/dai_icon.svg';
 import link_normal from '../assets/images/bridge/tokens/link_icon.svg';
 import matic_normal from '../assets/images/bridge/tokens/matic_icon.svg';
+import busd_normal from '../assets/images/bridge/tokens/busd_icon.svg';
 export const liquidityTokens = [
   {
     name: 'tez',
@@ -242,11 +243,7 @@ export const liquidityTokens = [
     new: false,
   },
   {
-    name: 'DAI.e',
-    image: youGov,
-  },
-  {
     name: 'BUSD.e',
-    image: youGov,
+    image: busd_normal,
   },
 ];

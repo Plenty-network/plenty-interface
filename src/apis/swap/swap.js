@@ -1070,7 +1070,6 @@ export const computeRemoveTokens = (
   }
 };
 
-
 /**
  * Gets balance of user of a particular token using RPC
  * @param identifier - Name of token, case-sensitive to CONFIG
@@ -1237,7 +1236,8 @@ export const removeLiquidity = async (
       );
     }
 
-    const lpTokenDecimal =CONFIG.AMM[connectedNetwork][
+    const lpTokenDecimal =
+      CONFIG.AMM[connectedNetwork][
         CONFIG.AMM[connectedNetwork][tokenFirst].DEX_PAIRS[tokenSecond].liquidityToken
       ].TOKEN_DECIMAL;
     const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
@@ -1250,8 +1250,7 @@ export const removeLiquidity = async (
 
     if (lpBal > balanceWithoutDecimalNumber) {
       lpToken_Amount = balanceWithoutDecimalNumber;
-    }
-    else {
+    } else {
       lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
     }
     const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].contract;
@@ -1362,11 +1361,9 @@ export const removeLiquidity_generalStable = async (
       lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
     }
 
-    
     const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].contract;
 
     const dexContractInstanceLocal = await Tezos.contract.at(dexContractAddress);
-
 
     const batch = Tezos.wallet
       .batch()
