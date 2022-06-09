@@ -952,9 +952,10 @@ export const swapTokenUsingRouteV3 = async (
     console.log(balanceWithoutDecimalNumber, lpBal);
 
     if (lpBal > balanceWithoutDecimalNumber) {
+      console.log('inside if');
       swapAmount = balanceWithoutDecimalNumber;
     } else {
-      swapAmount = amount * Math.pow(10, CONFIG.AMM[connectedNetwork][path[0]].TOKEN_DECIMAL);
+      swapAmount = lpBal;
     }
     swapAmount = parseInt(swapAmount);
     console.log('final amt', swapAmount);
