@@ -756,10 +756,6 @@ const getPriceForPlentyLpTokens = async (
       //   }
       // }
 
-      const connectedNetwork = CONFIG.NETWORK;
-      const liquidityToken = CONFIG.AMM[connectedNetwork][tokenData['token1'].tokenName].DEX_PAIRS[tokenData['token2'].tokenName].liquidityToken;
-      const lpTokenDecimal = CONFIG.AMM[connectedNetwork][liquidityToken].TOKEN_DECIMAL;
-
       let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
       token1Amount =
         (token1Amount * tokenData['token2'].tokenValue) /
@@ -859,9 +855,6 @@ const getPriceForPlentyLpTokens = async (
       //   }
       // }
 
-      const connectedNetwork = CONFIG.NETWORK;
-      const liquidityToken = CONFIG.AMM[connectedNetwork][tokenData['token1'].tokenName].DEX_PAIRS[tokenData['token2'].tokenName].liquidityToken;
-      const lpTokenDecimal = CONFIG.AMM[connectedNetwork][liquidityToken].TOKEN_DECIMAL;
 
       let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
       token1Amount =
@@ -968,7 +961,6 @@ const getPriceForPlentyLpTokens = async (
         totalAmount,
       };
     } 
-    
     else if (identifier === 'uUSD - USDC.e' || identifier === 'kUSD - USDC.e') {
       const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
       const token2Pool = parseInt(storageResponse.data.args[3].int);
@@ -1020,10 +1012,6 @@ const getPriceForPlentyLpTokens = async (
         tokenDecimal: 6,
       };
 
-      const connectedNetwork = CONFIG.NETWORK;
-      const liquidityToken = CONFIG.AMM[connectedNetwork][tokenData['token1'].tokenName].DEX_PAIRS[tokenData['token2'].tokenName].liquidityToken;
-      const lpTokenDecimal = CONFIG.AMM[connectedNetwork][liquidityToken].TOKEN_DECIMAL;
-
       let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
       token1Amount =
         (token1Amount * tokenData['token1'].tokenValue) /
@@ -1073,10 +1061,6 @@ const getPriceForPlentyLpTokens = async (
         tokenDecimal: 8,
       };
 
-      const connectedNetwork = CONFIG.NETWORK;
-      const liquidityToken = CONFIG.AMM[connectedNetwork][tokenData['token1'].tokenName].DEX_PAIRS[tokenData['token2'].tokenName].liquidityToken;
-      const lpTokenDecimal = CONFIG.AMM[connectedNetwork][liquidityToken].TOKEN_DECIMAL;
-
       let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
       token1Amount =
         (token1Amount * tokenData['token1'].tokenValue) /
@@ -1124,10 +1108,6 @@ const getPriceForPlentyLpTokens = async (
         tokenValue: tokenPricesData[idx].usdValue,
         tokenDecimal: 18,
       };
-
-      const connectedNetwork = CONFIG.NETWORK;
-      const liquidityToken = CONFIG.AMM[connectedNetwork][tokenData['token1'].tokenName].DEX_PAIRS[tokenData['token2'].tokenName].liquidityToken;
-      const lpTokenDecimal = CONFIG.AMM[connectedNetwork][liquidityToken].TOKEN_DECIMAL;
 
       let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
       token1Amount =
@@ -1179,10 +1159,6 @@ const getPriceForPlentyLpTokens = async (
         tokenDecimal: 18,
       };
 
-      const connectedNetwork = CONFIG.NETWORK;
-      const liquidityToken = CONFIG.AMM[connectedNetwork][tokenData['token1'].tokenName].DEX_PAIRS[tokenData['token2'].tokenName].liquidityToken;
-      const lpTokenDecimal = CONFIG.AMM[connectedNetwork][liquidityToken].TOKEN_DECIMAL;
-
       let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
       token1Amount =
         (token1Amount * tokenData['token1'].tokenValue) /
@@ -1200,8 +1176,7 @@ const getPriceForPlentyLpTokens = async (
         totalAmount,
       };
 
-    }
-    
+    }   
     else {
       const token1Pool = parseInt(storageResponse.data.args[1].args[1].int);
       // token1Pool = token1Pool / Math.pow(10, 12);

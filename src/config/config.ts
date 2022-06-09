@@ -4087,6 +4087,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended March 14',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4109,6 +4110,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended January 28',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4131,6 +4133,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended March 14',
             bannerType: 'alert',
+            farmType : 'oldAMM',
           },
         ],
       },
@@ -4150,6 +4153,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=ctez',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
         inactive: [],
@@ -4171,6 +4175,7 @@ const Config: IConfig = {
             liquidityLink:
               'https://quipuswap.com/invest/add-liquidity/KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
         inactive: [
@@ -4189,6 +4194,7 @@ const Config: IConfig = {
             message: 'Rewards ended June 9',
             bannerType: 'alert',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4210,6 +4216,7 @@ const Config: IConfig = {
             message: '😍 New farm',
             bannerType: 'info',
             isDualFarm: false,
+            farmType : 'veAMM'
           },
         ],
         inactive: [],
@@ -4232,6 +4239,7 @@ const Config: IConfig = {
             message: '😍 New farm',
             bannerType: 'info',
             isDualFarm: false,
+            farmType : 'veStableAMM'
           },
         ],
         inactive: [],
@@ -4254,6 +4262,7 @@ const Config: IConfig = {
             message: '😍 New farm',
             bannerType: 'info',
             isDualFarm: false,
+            farmType : 'veStableAMM'
           },
         ],
         inactive: [],
@@ -4276,6 +4285,7 @@ const Config: IConfig = {
             message: '😍 New farm',
             bannerType: 'info',
             isDualFarm: false,
+            farmType : 'veStableAMM'
           },
         ],
         inactive: [],
@@ -4298,6 +4308,7 @@ const Config: IConfig = {
             message: '😍 New farm',
             bannerType: 'info',
             isDualFarm: false,
+            farmType : 'veStableAMM'
           },
         ],
         inactive: [],
@@ -4320,6 +4331,7 @@ const Config: IConfig = {
             message: '😍 New farm',
             bannerType: 'info',
             isDualFarm: false,
+            farmType : 'veStableAMM'
           },
         ],
         inactive: [],
@@ -4342,6 +4354,7 @@ const Config: IConfig = {
             message: '😍 New farm',
             bannerType: 'info',
             isDualFarm: false,
+            farmType : 'veAMM'
           },
         ],
         inactive: [],
@@ -4364,6 +4377,7 @@ const Config: IConfig = {
             message: '😍 New farm',
             bannerType: 'info',
             isDualFarm: false,
+            farmType : 'veAMM'
           },
         ],
         inactive: [],
@@ -4386,6 +4400,7 @@ const Config: IConfig = {
             message: '😍 New farm',
             bannerType: 'info',
             isDualFarm: false,
+            farmType : 'veAMM'
           },
         ],
         inactive: [],
@@ -4408,6 +4423,7 @@ const Config: IConfig = {
             message: '😍 New farm',
             bannerType: 'info',
             isDualFarm: false,
+            farmType : 'veAMM'
           },
         ],
         inactive: [],
@@ -4430,6 +4446,7 @@ const Config: IConfig = {
             message: '😍 New farm',
             bannerType: 'info',
             isDualFarm: false,
+            farmType : 'veAMM'
           },
         ],
         inactive: [],
@@ -4453,6 +4470,7 @@ const Config: IConfig = {
             message: 'Rewards ended June 22',
             bannerType: 'alert',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4475,6 +4493,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended May 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4497,6 +4516,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended May 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4519,6 +4539,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended May 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4541,6 +4562,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended May 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4563,6 +4585,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended May 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4582,6 +4605,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=USDtz',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
         inactive: [],
@@ -4602,6 +4626,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=hDAO',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
         inactive: [],
@@ -4622,6 +4647,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=ETHtz',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
         inactive: [],
@@ -4645,6 +4671,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended May 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4664,6 +4691,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=kUSD',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
         inactive: [],
@@ -4687,6 +4715,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=QUIPU',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4706,6 +4735,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=WRAP',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
         inactive: [],
@@ -4729,6 +4759,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=UNO',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4751,6 +4782,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=SMAK',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4770,6 +4802,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=KALAM',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
         inactive: [],
@@ -4790,6 +4823,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=tzBTC',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
         inactive: [],
@@ -4810,6 +4844,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=uUSD',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
         inactive: [],
@@ -4851,6 +4886,7 @@ const Config: IConfig = {
             bannerType: 'alert',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=GIF',
             isDualFarm: true,
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4890,6 +4926,7 @@ const Config: IConfig = {
             isDualFarm: true,
             message: '😍 Dual rewards when baking starts',
             bannerType: 'info',
+            farmType : 'veStableAMM'
           },
         ],
         inactive: [],
@@ -4913,6 +4950,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 23',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4935,6 +4973,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended May 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4957,6 +4996,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended May 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4979,6 +5019,7 @@ const Config: IConfig = {
             bannerType: 'alert',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5001,6 +5042,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5023,6 +5065,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5045,6 +5088,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5067,6 +5111,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5089,6 +5134,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5111,6 +5157,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5133,6 +5180,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5155,6 +5203,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5177,6 +5226,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5199,6 +5249,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5221,6 +5272,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5243,6 +5295,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5265,6 +5318,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5287,6 +5341,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5309,6 +5364,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5331,6 +5387,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5353,6 +5410,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5375,6 +5433,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5397,6 +5456,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5419,6 +5479,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5441,6 +5502,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5463,6 +5525,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5485,6 +5548,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5507,6 +5571,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
