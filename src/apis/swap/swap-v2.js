@@ -939,26 +939,21 @@ export const swapTokenUsingRouteV3 = async (
 
     const DataMap = MichelsonMap.fromLiteral(DataLiteral);
 
-    const swapAmount = Math.floor(
-      amount * Math.pow(10, CONFIG.AMM[connectedNetwork][path[0]].TOKEN_DECIMAL),
-    );
-    // console.log('amt', amount);
-    // let swapAmount = amount * Math.pow(10, CONFIG.AMM[connectedNetwork][path[0]].TOKEN_DECIMAL);
-    // const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal([path[0]], caller);
+    // const swapAmount = Math.floor(
+    //   amount * Math.pow(10, CONFIG.AMM[connectedNetwork][path[0]].TOKEN_DECIMAL),
+    // );
+    let swapAmount = amount * Math.pow(10, CONFIG.AMM[connectedNetwork][path[0]].TOKEN_DECIMAL);
+    const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal([path[0]], caller);
 
-    // const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
-    // const lpBal = new BigNumber(swapAmount);
+    const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
+    const lpBal = new BigNumber(swapAmount);
 
-    // console.log(balanceWithoutDecimalNumber, lpBal);
-
-    // if (lpBal > balanceWithoutDecimalNumber) {
-    //   console.log('inside if');
-    //   swapAmount = balanceWithoutDecimalNumber;
-    // } else {
-    //   swapAmount = lpBal;
-    // }
-    // swapAmount = parseInt(swapAmount);
-    // console.log('final amt', swapAmount);
+    if (lpBal.isGreaterThan(balanceWithoutDecimalNumber) && (tokenInCallType !== 'XTZ') ) {
+      swapAmount = balanceWithoutDecimalNumber;
+    } else {
+      swapAmount = lpBal;
+    }
+    swapAmount = parseInt(swapAmount);
     //  else if call type == xtz then direct send no approve
     let batch;
     if (tokenInCallType === 'XTZ') {
