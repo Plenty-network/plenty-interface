@@ -4926,7 +4926,7 @@ const Config: IConfig = {
             isDualFarm: true,
             message: '😍 Dual rewards when baking starts',
             bannerType: 'info',
-            farmType : 'veStableAMM'
+            farmType : 'xtz'
           },
         ],
         inactive: [],
