@@ -1287,7 +1287,7 @@ export const removeLiquidity = async (
     const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
     const lpBal = new BigNumber(lpToken_Amount * Math.pow(10, lpTokenDecimal));
 
-    if (lpBal > balanceWithoutDecimalNumber) {
+    if (lpBal.isGreaterThan(balanceWithoutDecimalNumber)) {
       lpToken_Amount = balanceWithoutDecimalNumber;
     } else {
       lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
@@ -1394,7 +1394,7 @@ export const removeLiquidity_generalStable = async (
     const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
     const lpBal = new BigNumber(lpToken_Amount * Math.pow(10, lpTokenDecimal));
 
-    if (lpBal > balanceWithoutDecimalNumber) {
+    if (lpBal.isGreaterThan(balanceWithoutDecimalNumber)) {
       lpToken_Amount = balanceWithoutDecimalNumber;
     } else {
       lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
