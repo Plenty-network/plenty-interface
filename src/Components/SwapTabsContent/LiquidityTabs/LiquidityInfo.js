@@ -20,7 +20,7 @@ const LiquidityInfo = (props) => {
           placement="top"
           overlay={
             <Tooltip id="button-tooltip" {...props}>
-                {config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
+              {config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
                 ?.type === 'xtz'
                 ? props.cteztoxtz
                 : config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]
@@ -43,8 +43,7 @@ const LiquidityInfo = (props) => {
               )
             ) : (
               <span className="shimmer">99999</span>
-            )}
-            {' '}
+            )}{' '}
             <span className="content">
               {props.tokenIn.name === 'tez'
                 ? 'TEZ'
@@ -89,8 +88,7 @@ const LiquidityInfo = (props) => {
               )
             ) : (
               <span className="shimmer">99999</span>
-            )}
-            {' '}
+            )}{' '}
             <span className="content">
               {props.tokenOut.name === 'tez'
                 ? 'TEZ'
