@@ -2,6 +2,8 @@ import { TezosToolkit } from '@taquito/taquito';
 import { BeaconWallet } from '@taquito/beacon-wallet';
 import { CheckIfWalletConnected } from '../wallet/wallet';
 import CONFIG from '../../config/config';
+import BigNumber from 'bignumber.js';
+import { getUserBalanceByRpcWithoutDecimal} from '../swap/swap';
 
 const util = (x, y) => {
   const plus = x + y;
@@ -172,8 +174,20 @@ export const swapTokens = async (
     const tokenInInstance = await Tezos.contract.at(tokenInAddress);
     const dexContractInstance = await Tezos.contract.at(dexContractAddress);
 
-    tokenInAmount =
-      tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+    const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
+      tokenIn,
+      caller,
+    );
+    const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
+    const lpBal = new BigNumber(tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL));
+
+    if (lpBal > balanceWithoutDecimalNumber) {
+      tokenInAmount = balanceWithoutDecimalNumber;
+    } else {
+      tokenInAmount = tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+    }
+    // tokenInAmount =
+    //   tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
     minimumTokenOut =
       minimumTokenOut * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_DECIMAL);
     minimumTokenOut = Math.floor(minimumTokenOut);

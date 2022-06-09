@@ -5,6 +5,8 @@ import { BeaconWallet } from '@taquito/beacon-wallet';
 import { CheckIfWalletConnected } from '../wallet/wallet';
 import { newton_dx_to_dy } from '../stableswap/stableswap';
 import { isTokenPairStable } from '../Liquidity/Liquidity';
+import { getUserBalanceByRpcWithoutDecimal} from '../swap/swap';
+import BigNumber from 'bignumber.js';
 /**
  * Loads swap related data to perform calculation using RPC
  * @param tokenIn - token which user wants to sell, case-sensitive to CONFIG
@@ -941,9 +943,22 @@ export const swapTokenUsingRouteV3 = async (
 
     const DataMap = MichelsonMap.fromLiteral(DataLiteral);
 
-    const swapAmount = Math.floor(
-      amount * Math.pow(10, CONFIG.AMM[connectedNetwork][path[0]].TOKEN_DECIMAL),
+    // const swapAmount = Math.floor(
+    //   amount * Math.pow(10, CONFIG.AMM[connectedNetwork][path[0]].TOKEN_DECIMAL),
+    // );
+    let swapAmount = amount * Math.pow(10, CONFIG.AMM[connectedNetwork][path[0]].TOKEN_DECIMAL);
+    const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
+      [path[0]],
+      caller,
     );
+    const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
+    const lpBal = new BigNumber(swapAmount);
+
+    if (lpBal > balanceWithoutDecimalNumber) {
+      swapAmount = balanceWithoutDecimalNumber;
+    } else {
+      swapAmount = amount * Math.pow(10, CONFIG.AMM[connectedNetwork][path[0]].TOKEN_DECIMAL);
+    }
     //  else if call type == xtz then direct send no approve
     let batch;
     if (tokenInCallType === 'XTZ') {
