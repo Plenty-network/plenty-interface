@@ -137,9 +137,9 @@ export const FARM_SORT_OPTIONS = {
 
 export const FARM_TAB = {
   CTEZ: '🔥 Ctez Extravaganza 🔥',
-  YOU: 'My Farms',
-  ALL: 'All Farms',
-  NEW: 'New Farms',
+  YOU: 'My farms',
+  ALL: 'All farms',
+  NEW: 'New farms',
   STABLE: 'Flat curve farms',
 };
 
