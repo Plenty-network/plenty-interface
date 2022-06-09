@@ -86,8 +86,20 @@ export const swapTokens = async (
     const tokenInInstance = await Tezos.contract.at(tokenInAddress);
     const dexContractInstance = await Tezos.contract.at(dexContractAddress);
 
-    tokenInAmount =
-      tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+    const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
+      tokenIn,
+      caller,
+    );
+    const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
+    const lpBal = new BigNumber(tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL));
+
+    if (lpBal > balanceWithoutDecimalNumber) {
+      tokenInAmount = balanceWithoutDecimalNumber;
+    } else {
+      tokenInAmount = tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+    }
+    // tokenInAmount =
+    //   tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
     minimumTokenOut =
       minimumTokenOut * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_DECIMAL);
     minimumTokenOut = Math.floor(minimumTokenOut);
@@ -243,9 +255,23 @@ export const swapTokenUsingRoute = async (
         requiredTokenId: tokenOutId,
       },
     });
-    const swapAmount = Math.floor(
-      amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL),
+    // const swapAmount = Math.floor(
+    //   amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL),
+    // );
+
+    let swapAmount = amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+    const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
+      tokenIn,
+      caller,
     );
+    const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
+    const lpBal = new BigNumber(swapAmount);
+
+    if (lpBal > balanceWithoutDecimalNumber) {
+      swapAmount = balanceWithoutDecimalNumber;
+    } else {
+      swapAmount = amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+    }
 
     let batch = null;
     if (tokenInCallType === 'FA1.2') {
@@ -1104,11 +1130,12 @@ export const getUserBalanceByRpc = async (identifier, address) => {
         _balance = response.data.args[1].int;
       }
 
-      _balance = parseInt(_balance);
-      _balance = _balance / Math.pow(10, decimal);
-      return _balance;
+      _balance = new BigNumber(_balance);
+      // _balance = parseInt(_balance);
+      _balance = _balance.dividedBy(10 ** decimal);
+      _balance = _balance.toFixed(decimal);
+      return Number(_balance);
     })();
-
     return {
       success: true,
       balance,
