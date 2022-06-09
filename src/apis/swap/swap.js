@@ -86,21 +86,21 @@ export const swapTokens = async (
     const tokenInInstance = await Tezos.contract.at(tokenInAddress);
     const dexContractInstance = await Tezos.contract.at(dexContractAddress);
 
-    const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
-      tokenIn,
-      caller,
-    );
-    const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
-    const lpBal = new BigNumber(tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL));
+    // const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
+    //   tokenIn,
+    //   caller,
+    // );
+    // const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
+    // const lpBal = new BigNumber(tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL));
 
-    if (lpBal > balanceWithoutDecimalNumber) {
-      tokenInAmount = balanceWithoutDecimalNumber;
-    } else {
-      tokenInAmount = tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
-    }
-    console.log(tokenInAmount);
-    // tokenInAmount =
-    //   tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+    // if (lpBal > balanceWithoutDecimalNumber) {
+    //   tokenInAmount = balanceWithoutDecimalNumber;
+    // } else {
+    //   tokenInAmount = tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+    // }
+    // console.log(tokenInAmount);
+    tokenInAmount =
+      tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
     minimumTokenOut =
       minimumTokenOut * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_DECIMAL);
     minimumTokenOut = Math.floor(minimumTokenOut);
@@ -256,24 +256,24 @@ export const swapTokenUsingRoute = async (
         requiredTokenId: tokenOutId,
       },
     });
-    // const swapAmount = Math.floor(
-    //   amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL),
-    // );
-
-    let swapAmount = amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
-    const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
-      tokenIn,
-      caller,
+    const swapAmount = Math.floor(
+      amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL),
     );
-    const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
-    const lpBal = new BigNumber(swapAmount);
 
-    if (lpBal > balanceWithoutDecimalNumber) {
-      swapAmount = balanceWithoutDecimalNumber;
-    } else {
-      swapAmount = amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
-    }
-    console.log(swapAmount);
+    // let swapAmount = amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+    // const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
+    //   tokenIn,
+    //   caller,
+    // );
+    // const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
+    // const lpBal = new BigNumber(swapAmount);
+
+    // if (lpBal > balanceWithoutDecimalNumber) {
+    //   swapAmount = balanceWithoutDecimalNumber;
+    // } else {
+    //   swapAmount = amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+    // }
+    // console.log(swapAmount);
     let batch = null;
     if (tokenInCallType === 'FA1.2') {
       batch = Tezos.wallet
