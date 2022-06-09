@@ -180,12 +180,14 @@ export const swapTokens = async (
     );
     const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
     const lpBal = new BigNumber(tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL));
-
+    
     if (lpBal > balanceWithoutDecimalNumber) {
       tokenInAmount = balanceWithoutDecimalNumber;
     } else {
       tokenInAmount = tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
     }
+
+    console.log(tokenInAmount);
     // tokenInAmount =
     //   tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
     minimumTokenOut =

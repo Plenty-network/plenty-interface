@@ -946,19 +946,25 @@ export const swapTokenUsingRouteV3 = async (
     // const swapAmount = Math.floor(
     //   amount * Math.pow(10, CONFIG.AMM[connectedNetwork][path[0]].TOKEN_DECIMAL),
     // );
+    console.log('amt',amount);
     let swapAmount = amount * Math.pow(10, CONFIG.AMM[connectedNetwork][path[0]].TOKEN_DECIMAL);
-    const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
+    let balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
       [path[0]],
       caller,
     );
+
     const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
     const lpBal = new BigNumber(swapAmount);
+    
+    console.log(balanceWithoutDecimalNumber , lpBal);
 
     if (lpBal > balanceWithoutDecimalNumber) {
       swapAmount = balanceWithoutDecimalNumber;
     } else {
       swapAmount = amount * Math.pow(10, CONFIG.AMM[connectedNetwork][path[0]].TOKEN_DECIMAL);
     }
+    swapAmount= parseInt(swapAmount);
+    console.log('final amt' , swapAmount);
     //  else if call type == xtz then direct send no approve
     let batch;
     if (tokenInCallType === 'XTZ') {
