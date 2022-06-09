@@ -1326,17 +1326,15 @@ const getPriceForPlentyLpTokens = async (
           idx2=x;
         }
       }
-
       tokenData['token1'] = {
-        tokenName: 'DAI.e',
-        tokenValue: tokenPricesData[idx].usdValue,
-        tokenDecimal: 18,
-      };
-
-      tokenData['token2'] = {
         tokenName: 'USDC.e',
         tokenValue: tokenPricesData[idx2].usdValue,
         tokenDecimal: 6,
+      };
+      tokenData['token2'] = {
+        tokenName: 'DAI.e',
+        tokenValue: tokenPricesData[idx].usdValue,
+        tokenDecimal: 18,
       };
 
       const connectedNetwork = CONFIG.NETWORK;

@@ -1114,17 +1114,15 @@ const getPriceForPlentyLpTokens = async (
           idx2=x;
         }
       }
-
       tokenData['token1'] = {
-        tokenName: 'DAI.e',
-        tokenValue: tokenPricesData[idx].usdValue,
-        tokenDecimal: 18,
-      };
-
-      tokenData['token2'] = {
         tokenName: 'USDC.e',
         tokenValue: tokenPricesData[idx2].usdValue,
         tokenDecimal: 6,
+      };
+      tokenData['token2'] = {
+        tokenName: 'DAI.e',
+        tokenValue: tokenPricesData[idx].usdValue,
+        tokenDecimal: 18,
       };
 
       const connectedNetwork = CONFIG.NETWORK;
@@ -1592,7 +1590,7 @@ export const stakeFarmAPI = async (
           position
         ].LP_TOKEN,
       );
-      const tokenAmount =
+      let tokenAmount =
         amount *
         Math.pow(
           10,
@@ -1601,6 +1599,7 @@ export const stakeFarmAPI = async (
             position
           ].TOKEN_DECIMAL,
         );
+        tokenAmount = parseInt(tokenAmount);
       let batch = null;
       if (
         //CONFIG.CONTRACT[connectedNetwork].FARMS[farmIdentifier].TYPE === 'FA1.2'
