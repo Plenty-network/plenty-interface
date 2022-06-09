@@ -35,6 +35,11 @@ import uUSDwUSDC from '../assets/images/farms/uUSDwUSDCLp.png';
 import uUSDuDEFI from '../assets/images/farms/uUSDuDEFILp.png';
 import usdcectez from '../assets/images/farms/usdcectezlp.png';
 import wbtcectez from '../assets/images/farms/wbtcectez.png';
+import WETHeCTEZ from '../assets/images/farms/WETH.eCTEZ.png';
+import MATICeCTEZ from '../assets/images/farms/MATIC.eCTEZ.png';
+import LINKeCTEZ from '../assets/images/farms/LINK.eCTEZ.png';
+import ETHtzWETHe from '../assets/images/farms/ETHtzWETH.e.png';
+import DAIeUSDCe from '../assets/images/farms/DAI.eUSDC.e.png';
 import wbusd from '../assets/images/busd.png';
 import YOU from '../assets/images/you-gov.png';
 import PropTypes from 'prop-types';
@@ -181,7 +186,7 @@ export const FARMS_CARD_TYPE_LIST = {
     isDualFarm: false,
   },
   'WETH.e / CTEZ LP': {
-    image: dogactezLpFarm,
+    image: WETHeCTEZ,
     harvestImg: plentyToken,
     multi: '100',
     title: 'WETH.e / CTEZ PNLP',
@@ -203,7 +208,7 @@ export const FARMS_CARD_TYPE_LIST = {
     url: '/liquidity/add?tokenA=ctez&tokenB=WETH.e',
   },
   'MATIC.e / CTEZ LP': {
-    image: dogactezLpFarm,
+    image: MATICeCTEZ,
     harvestImg: plentyToken,
     multi: '100',
     title: 'MATIC.e / CTEZ PNLP',
@@ -225,7 +230,7 @@ export const FARMS_CARD_TYPE_LIST = {
     url: '/liquidity/add?tokenA=ctez&tokenB=MATIC.e',
   },
   'LINK.e / CTEZ LP': {
-    image: dogactezLpFarm,
+    image: LINKeCTEZ,
     harvestImg: plentyToken,
     multi: '100',
     title: 'LINK.e / CTEZ PNLP',
@@ -247,7 +252,7 @@ export const FARMS_CARD_TYPE_LIST = {
     url: '/liquidity/add?tokenA=ctez&tokenB=LINK.e',
   },
   'DAI.e / USDC.e LP': {
-    image: dogactezLpFarm,
+    image: DAIeUSDCe,
     harvestImg: plentyToken,
     multi: '100',
     title: 'DAI.e / USDC.e PNLP',
@@ -269,7 +274,7 @@ export const FARMS_CARD_TYPE_LIST = {
     url: '/liquidity/add?tokenA=DAI.e&tokenB=USDC.e',
   },
   'ETHtz / WETH.e LP': {
-    image: dogactezLpFarm,
+    image: ETHtzWETHe,
     harvestImg: plentyToken,
     multi: '100',
     title: 'ETHtz / WETH.e PNLP',
