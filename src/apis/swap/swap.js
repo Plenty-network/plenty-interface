@@ -98,6 +98,7 @@ export const swapTokens = async (
     } else {
       tokenInAmount = tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
     }
+    console.log(tokenInAmount);
     // tokenInAmount =
     //   tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
     minimumTokenOut =
@@ -272,7 +273,7 @@ export const swapTokenUsingRoute = async (
     } else {
       swapAmount = amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
     }
-
+    console.log(swapAmount);
     let batch = null;
     if (tokenInCallType === 'FA1.2') {
       batch = Tezos.wallet

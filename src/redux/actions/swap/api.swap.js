@@ -50,6 +50,7 @@ export const swapTokens = async (
     } else {
       tokenInAmount = tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
     }
+    console.log(tokenInAmount);
     // tokenInAmount =
     //   tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
     minimumTokenOut =
