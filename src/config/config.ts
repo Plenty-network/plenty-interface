@@ -205,6 +205,28 @@ const Config: IConfig = {
           ],
           inactive: [],
         },
+        'DAI.e - USDC.e': {
+          active: [
+            {
+              address: 'KT1Kx45mQaZMEtFrbd6ap814NoH7cQTqo33j',
+              mapId: 188325,
+              decimal: 18,
+              tokenDecimal: 12,
+            },
+          ],
+          inactive: [],
+        },
+        'ETHtz - WETH.e': {
+          active: [
+            {
+              address: 'KT18qMYMqPv8J17wNoQigD1C66eyhf9b5s2e',
+              mapId: 188326,
+              decimal: 18,
+              tokenDecimal: 18,
+            },
+          ],
+          inactive: [],
+        },
         'WBTC.e - CTEZ': {
           active: [
             {
@@ -223,6 +245,39 @@ const Config: IConfig = {
               mapId: 178076,
               decimal: 18,
               tokenDecimal: 6,
+            },
+          ],
+          inactive: [],
+        },
+        'WETH.e - CTEZ': {
+          active: [
+            {
+              address: 'KT1U36NnQrpQ2vVHde6PtTPKEpNXHrEZ84ek',
+              mapId: 188312,
+              decimal: 18,
+              tokenDecimal: 12,
+            },
+          ],
+          inactive: [],
+        },
+        'MATIC.e - CTEZ': {
+          active: [
+            {
+              address: 'KT1RvJGhrRf3D5ymy1jkof6wvqE57u2qc6J1',
+              mapId: 188313,
+              decimal: 18,
+              tokenDecimal: 12,
+            },
+          ],
+          inactive: [],
+        },
+        'LINK.e - CTEZ': {
+          active: [
+            {
+              address: 'KT1CGj3hNZniZELy2VREDYyTpYEfvJsqKQ6a',
+              mapId: 188314,
+              decimal: 18,
+              tokenDecimal: 12,
             },
           ],
           inactive: [],
@@ -986,6 +1041,20 @@ const Config: IConfig = {
         type: 'FA1.2',
         tokenId: 0,
       },
+      'DAI.e - USDC.e': {
+        address: 'KT1TupjqgajsoArMKK3ifmNveKhU2XpTJrH8',
+        mapId: 187493,
+        decimal: 12,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+      'ETHtz - WETH.e': {
+        address: 'KT19ga4Vz26GRBdn8oibR4WFF7aDF4oE9Ch3',
+        mapId: 187480,
+        decimal: 18,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
       'WBTC.e - CTEZ': {
         address: 'KT1VRAYxpCo5xHYmBLYmMAWxXoVYCVgpeuak',
         mapId: 177398,
@@ -1000,6 +1069,28 @@ const Config: IConfig = {
         type: 'FA1.2',
         tokenId: 0,
       },
+      'WETH.e - CTEZ': {
+        address: 'KT1SDugcNjEbNQe55TdQppiRP1wVDbmxHuF1',
+        mapId: 188174,
+        decimal: 12,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+      'MATIC.e - CTEZ': {
+        address: 'KT18rVWWn2LMo2Hpy6KNhkhGgks21g11dxVv',
+        mapId: 188159,
+        decimal: 12,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+      'LINK.e - CTEZ': {
+        address: 'KT1WcS1cdwcbT3yyuYA6uzsYdZxBax5cGjdR',
+        mapId: 188165,
+        decimal: 12,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+
       'KALAM - XTZ': {
         address: 'KT1J3wTYb4xk5BsSBkg6ML55bX1xq7desS34',
         mapId: 4353,
@@ -1558,7 +1649,89 @@ const Config: IConfig = {
             liquidityToken: 'usdc.e-uusd-LP',
             type: 'veStableAMM',
           },
+          'DAI.e': {
+            contract: 'KT1Hxn43imdKTWXEZsLVdoUsS1R4hWTSXgDs',
+            property: 'token2_pool',
+            liquidityToken: 'dai.e-usdc.e-LP',
+            type: 'veStableAMM',
+          },
         },
+      },
+
+      'DAI.e': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY',
+        mapId: 175082,
+        READ_TYPE: 'FA2',
+        CALL_TYPE: 'FA2',
+        TOKEN_ID: 6,
+        TOKEN_DECIMAL: 18,
+        DEX_PAIRS: {
+          'USDC.e': {
+            contract: 'KT1Hxn43imdKTWXEZsLVdoUsS1R4hWTSXgDs',
+            property: 'token1_pool',
+            liquidityToken: 'dai.e-usdc.e-LP',
+            type: 'veStableAMM',
+          },
+        },
+      },
+
+      ETHtz: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT19at7rQUvyjxnZ2fBv7D9zc8rkyG7gAoU8',
+        mapId: 199,
+        READ_TYPE: 'FA1.2',
+        CALL_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 18,
+        DEX_PAIRS: {
+          'WETH.e': {
+            contract: 'KT1BKcLyaaNf2SHfAivBFBqdFoYTjuc78Aff',
+            property: 'token2_pool',
+            liquidityToken: 'ethtz-weth.e-LP',
+            type: 'veStableAMM',
+          },
+        },
+      },
+
+      'WETH.e': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY',
+        mapId: 175082,
+        READ_TYPE: 'FA2',
+        CALL_TYPE: 'FA2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 18,
+        DEX_PAIRS: {
+          ETHtz: {
+            contract: 'KT1BKcLyaaNf2SHfAivBFBqdFoYTjuc78Aff',
+            property: 'token1_pool',
+            liquidityToken: 'ethtz-weth.e-LP',
+            type: 'veStableAMM',
+          },
+        },
+      },
+
+      'dai.e-usdc.e-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1TupjqgajsoArMKK3ifmNveKhU2XpTJrH8',
+        mapId: 187493,
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 12,
+        CALL_TYPE: 'FA1.2',
+        DEX_PAIRS: {},
+      },
+
+      'ethtz-weth.e-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT19ga4Vz26GRBdn8oibR4WFF7aDF4oE9Ch3',
+        mapId: 187480,
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 18,
+        CALL_TYPE: 'FA1.2',
+        DEX_PAIRS: {},
       },
 
       'tzbtc-wbtc.e-LP': {
@@ -2452,6 +2625,24 @@ const Config: IConfig = {
             liquidityToken: 'wbtc.e-ctez-LP',
             type: 'veAMM',
           },
+          'WETH.e': {
+            contract: 'KT1Qs52cCz1gLK8LYi6cZJm7YjExg6MYLdkG',
+            property: 'token1_pool',
+            liquidityToken: 'weth.e-ctez-LP',
+            type: 'veAMM',
+          },
+          'MATIC.e': {
+            contract: 'KT1DiaHKX1jveXp1HGLE8X3MdxA13SLDRT7S',
+            property: 'token1_pool',
+            liquidityToken: 'matic.e-ctez-LP',
+            type: 'veAMM',
+          },
+          'LINK.e': {
+            contract: 'KT1GGaeBoJNxD3ieHtRiJhmcMguVLroksBGn',
+            property: 'token1_pool',
+            liquidityToken: 'link.e-ctez-LP',
+            type: 'veAMM',
+          },
           tez: {
             contract: 'KT1CAYNQGvYSF5UvHK21grMrKpe2563w9UcX',
             property: 'ctezPool',
@@ -2752,6 +2943,12 @@ const Config: IConfig = {
             liquidityToken: 'ctez-ethtz-lp',
             type: 'oldAMM',
           },
+          'WETH.e': {
+            contract: 'KT1BKcLyaaNf2SHfAivBFBqdFoYTjuc78Aff',
+            property: 'token2_pool',
+            liquidityToken: 'ethtz-weth.e-LP',
+            type: 'veStableAMM',
+          },
           // wWETH: {
           //   contract: 'KT196bPdVJqY1DF3y7aQ9Cn5tcGQeMrrjWTp',
           //   property: 'token1_pool',
@@ -2957,8 +3154,147 @@ const Config: IConfig = {
             liquidityToken: 'usdc.e-uusd-LP',
             type: 'veStableAMM',
           },
+          'DAI.e': {
+            contract: 'KT1Hxn43imdKTWXEZsLVdoUsS1R4hWTSXgDs',
+            property: 'token2_pool',
+            liquidityToken: 'dai.e-usdc.e-LP',
+            type: 'veStableAMM',
+          },
         },
       },
+      'LINK.e': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY',
+        mapId: 175082,
+        READ_TYPE: 'FA2',
+        CALL_TYPE: 'FA2',
+        TOKEN_ID: 5,
+        TOKEN_DECIMAL: 18,
+        DEX_PAIRS: {
+          ctez: {
+            contract: 'KT1GGaeBoJNxD3ieHtRiJhmcMguVLroksBGn',
+            property: 'token2_pool',
+            liquidityToken: 'link.e-ctez-LP',
+            type: 'veAMM',
+          },
+        },
+      },
+
+      'MATIC.e': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY',
+        mapId: 175082,
+        READ_TYPE: 'FA2',
+        CALL_TYPE: 'FA2',
+        TOKEN_ID: 4,
+        TOKEN_DECIMAL: 18,
+        DEX_PAIRS: {
+          ctez: {
+            contract: 'KT1DiaHKX1jveXp1HGLE8X3MdxA13SLDRT7S',
+            property: 'token2_pool',
+            liquidityToken: 'matic.e-ctez-LP',
+            type: 'veAMM',
+          },
+        },
+      },
+
+      'DAI.e': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY',
+        mapId: 175082,
+        READ_TYPE: 'FA2',
+        CALL_TYPE: 'FA2',
+        TOKEN_ID: 6,
+        TOKEN_DECIMAL: 18,
+        DEX_PAIRS: {
+          'USDC.e': {
+            contract: 'KT1Hxn43imdKTWXEZsLVdoUsS1R4hWTSXgDs',
+            property: 'token1_pool',
+            liquidityToken: 'dai.e-usdc.e-LP',
+            type: 'veStableAMM',
+          },
+        },
+      },
+
+      'WETH.e': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY',
+        mapId: 175082,
+        READ_TYPE: 'FA2',
+        CALL_TYPE: 'FA2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 18,
+        DEX_PAIRS: {
+          ETHtz: {
+            contract: 'KT1BKcLyaaNf2SHfAivBFBqdFoYTjuc78Aff',
+            property: 'token1_pool',
+            liquidityToken: 'ethtz-weth.e-LP',
+            type: 'veStableAMM',
+          },
+          ctez: {
+            contract: 'KT1Qs52cCz1gLK8LYi6cZJm7YjExg6MYLdkG',
+            property: 'token2_pool',
+            liquidityToken: 'weth.e-ctez-LP',
+            type: 'veAMM',
+          },
+        },
+      },
+
+      'dai.e-usdc.e-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1TupjqgajsoArMKK3ifmNveKhU2XpTJrH8',
+        mapId: 187493,
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 12,
+        CALL_TYPE: 'FA1.2',
+        DEX_PAIRS: {},
+      },
+
+      'ethtz-weth.e-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT19ga4Vz26GRBdn8oibR4WFF7aDF4oE9Ch3',
+        mapId: 187480,
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 18,
+        CALL_TYPE: 'FA1.2',
+        DEX_PAIRS: {},
+      },
+
+      'weth.e-ctez-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1SDugcNjEbNQe55TdQppiRP1wVDbmxHuF1',
+        mapId: 188174,
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 12,
+        CALL_TYPE: 'FA1.2',
+        DEX_PAIRS: {},
+      },
+
+      'matic.e-ctez-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT18rVWWn2LMo2Hpy6KNhkhGgks21g11dxVv',
+        mapId: 188159,
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 12,
+        CALL_TYPE: 'FA1.2',
+        DEX_PAIRS: {},
+      },
+
+      'link.e-ctez-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1WcS1cdwcbT3yyuYA6uzsYdZxBax5cGjdR',
+        mapId: 188165,
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 12,
+        CALL_TYPE: 'FA1.2',
+        DEX_PAIRS: {},
+      },
+
       'usdc.e-ctez-LP': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1XpLzv4tqqsf2aLneDZgEeNFhKkH8JBGXv',
@@ -3751,6 +4087,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended March 14',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -3773,6 +4110,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended January 28',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -3795,6 +4133,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended March 14',
             bannerType: 'alert',
+            farmType : 'oldAMM',
           },
         ],
       },
@@ -3814,6 +4153,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=ctez',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
         inactive: [],
@@ -3835,6 +4175,7 @@ const Config: IConfig = {
             liquidityLink:
               'https://quipuswap.com/invest/add-liquidity/KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
         inactive: [
@@ -3853,6 +4194,7 @@ const Config: IConfig = {
             message: 'Rewards ended June 9',
             bannerType: 'alert',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -3874,6 +4216,7 @@ const Config: IConfig = {
             message: '😍 New farm',
             bannerType: 'info',
             isDualFarm: false,
+            farmType : 'veAMM'
           },
         ],
         inactive: [],
@@ -3896,6 +4239,7 @@ const Config: IConfig = {
             message: '😍 New farm',
             bannerType: 'info',
             isDualFarm: false,
+            farmType : 'veStableAMM'
           },
         ],
         inactive: [],
@@ -3918,6 +4262,7 @@ const Config: IConfig = {
             message: '😍 New farm',
             bannerType: 'info',
             isDualFarm: false,
+            farmType : 'veStableAMM'
           },
         ],
         inactive: [],
@@ -3940,6 +4285,53 @@ const Config: IConfig = {
             message: '😍 New farm',
             bannerType: 'info',
             isDualFarm: false,
+            farmType : 'veStableAMM'
+          },
+        ],
+        inactive: [],
+      },
+      'DAI.e - USDC.e': {
+        active: [
+          {
+            LP_TOKEN: 'KT1TupjqgajsoArMKK3ifmNveKhU2XpTJrH8',
+            CONTRACT: 'KT1Kx45mQaZMEtFrbd6ap814NoH7cQTqo33j',
+            DEX: 'KT1Hxn43imdKTWXEZsLVdoUsS1R4hWTSXgDs',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            CARD_TYPE: 'DAI.e / USDC.e LP',
+            TOKEN_DECIMAL: 12,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 12,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+            liquidityLink: '/liquidity/add?tokenA=DAI.e&tokenB=USDC.e',
+            message: '😍 New farm',
+            bannerType: 'info',
+            isDualFarm: false,
+            farmType : 'veStableAMM'
+          },
+        ],
+        inactive: [],
+      },
+      'ETHtz - WETH.e': {
+        active: [
+          {
+            LP_TOKEN: 'KT19ga4Vz26GRBdn8oibR4WFF7aDF4oE9Ch3',
+            CONTRACT: 'KT18qMYMqPv8J17wNoQigD1C66eyhf9b5s2e',
+            DEX: 'KT1BKcLyaaNf2SHfAivBFBqdFoYTjuc78Aff',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            CARD_TYPE: 'ETHtz / WETH.e LP',
+            TOKEN_DECIMAL: 18,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 18,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+            liquidityLink: '/liquidity/add?tokenA=ETHtz&tokenB=WETH.e',
+            message: '😍 New farm',
+            bannerType: 'info',
+            isDualFarm: false,
+            farmType : 'veStableAMM'
           },
         ],
         inactive: [],
@@ -3962,6 +4354,7 @@ const Config: IConfig = {
             message: '😍 New farm',
             bannerType: 'info',
             isDualFarm: false,
+            farmType : 'veAMM'
           },
         ],
         inactive: [],
@@ -3984,6 +4377,76 @@ const Config: IConfig = {
             message: '😍 New farm',
             bannerType: 'info',
             isDualFarm: false,
+            farmType : 'veAMM'
+          },
+        ],
+        inactive: [],
+      },
+      'WETH.e - CTEZ': {
+        active: [
+          {
+            LP_TOKEN: 'KT1SDugcNjEbNQe55TdQppiRP1wVDbmxHuF1',
+            CONTRACT: 'KT1U36NnQrpQ2vVHde6PtTPKEpNXHrEZ84ek',
+            DEX: 'KT1Qs52cCz1gLK8LYi6cZJm7YjExg6MYLdkG',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            CARD_TYPE: 'WETH.e / CTEZ LP',
+            TOKEN_DECIMAL: 12,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 12,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+            liquidityLink: '/liquidity/add?tokenA=ctez&tokenB=USDC.e',
+            message: '😍 New farm',
+            bannerType: 'info',
+            isDualFarm: false,
+            farmType : 'veAMM'
+          },
+        ],
+        inactive: [],
+      },
+      'MATIC.e - CTEZ': {
+        active: [
+          {
+            LP_TOKEN: 'KT18rVWWn2LMo2Hpy6KNhkhGgks21g11dxVv',
+            CONTRACT: 'KT1RvJGhrRf3D5ymy1jkof6wvqE57u2qc6J1',
+            DEX: 'KT1DiaHKX1jveXp1HGLE8X3MdxA13SLDRT7S',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            CARD_TYPE: 'MATIC.e / CTEZ LP',
+            TOKEN_DECIMAL: 12,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 12,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+            liquidityLink: '/liquidity/add?tokenA=ctez&tokenB=MATIC.e',
+            message: '😍 New farm',
+            bannerType: 'info',
+            isDualFarm: false,
+            farmType : 'veAMM'
+          },
+        ],
+        inactive: [],
+      },
+      'LINK.e - CTEZ': {
+        active: [
+          {
+            LP_TOKEN: 'KT1WcS1cdwcbT3yyuYA6uzsYdZxBax5cGjdR',
+            CONTRACT: 'KT1CGj3hNZniZELy2VREDYyTpYEfvJsqKQ6a',
+            DEX: 'KT1GGaeBoJNxD3ieHtRiJhmcMguVLroksBGn',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            CARD_TYPE: 'LINK.e / CTEZ LP',
+            TOKEN_DECIMAL: 12,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 12,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+            liquidityLink: '/liquidity/add?tokenA=ctez&tokenB=LINK.e',
+            message: '😍 New farm',
+            bannerType: 'info',
+            isDualFarm: false,
+            farmType : 'veAMM'
           },
         ],
         inactive: [],
@@ -4007,6 +4470,7 @@ const Config: IConfig = {
             message: 'Rewards ended June 22',
             bannerType: 'alert',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4029,6 +4493,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended May 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4051,6 +4516,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended May 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4073,6 +4539,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended May 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4095,6 +4562,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended May 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4117,6 +4585,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended May 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4136,6 +4605,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=USDtz',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
         inactive: [],
@@ -4156,6 +4626,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=hDAO',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
         inactive: [],
@@ -4176,6 +4647,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=ETHtz',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
         inactive: [],
@@ -4199,6 +4671,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended May 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4218,6 +4691,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=kUSD',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
         inactive: [],
@@ -4241,6 +4715,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=QUIPU',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4260,6 +4735,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=WRAP',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
         inactive: [],
@@ -4283,6 +4759,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=UNO',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4305,6 +4782,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=SMAK',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4324,6 +4802,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=KALAM',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
         inactive: [],
@@ -4344,6 +4823,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=tzBTC',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
         inactive: [],
@@ -4364,6 +4844,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=uUSD',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
         inactive: [],
@@ -4405,6 +4886,7 @@ const Config: IConfig = {
             bannerType: 'alert',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=GIF',
             isDualFarm: true,
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4444,6 +4926,7 @@ const Config: IConfig = {
             isDualFarm: true,
             message: '😍 Dual rewards when baking starts',
             bannerType: 'info',
+            farmType : 'xtz'
           },
         ],
         inactive: [],
@@ -4467,6 +4950,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 23',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4489,6 +4973,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended May 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4511,6 +4996,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended May 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4533,6 +5019,7 @@ const Config: IConfig = {
             bannerType: 'alert',
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=wUSDT',
             isDualFarm: false,
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4555,6 +5042,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4577,6 +5065,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4599,6 +5088,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4621,6 +5111,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4643,6 +5134,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4665,6 +5157,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4687,6 +5180,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4709,6 +5203,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4731,6 +5226,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4753,6 +5249,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4775,6 +5272,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4797,6 +5295,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4819,6 +5318,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4841,6 +5341,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4863,6 +5364,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4885,6 +5387,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4907,6 +5410,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4929,6 +5433,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4951,6 +5456,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4973,6 +5479,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -4995,6 +5502,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5017,6 +5525,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5039,6 +5548,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },
@@ -5061,6 +5571,7 @@ const Config: IConfig = {
             isDualFarm: false,
             message: 'Rewards ended December 31',
             bannerType: 'alert',
+            farmType : 'oldAMM'
           },
         ],
       },

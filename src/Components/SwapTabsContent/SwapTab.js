@@ -316,14 +316,14 @@ const SwapTab = (props) => {
   };
   const onClickAmount = () => {
     setSecondTokenAmount('');
-    const value =
-      props.userBalances[props.tokenIn.name].toLocaleString('en-US', {
-        maximumFractionDigits: 20,
-        useGrouping: false,
-      }) ?? 0;
+    // const value =
+    //   props.userBalances[props.tokenIn.name].toLocaleString('en-US', {
+    //     maximumFractionDigits: 20,
+    //     useGrouping: false,
+    //   }) ?? 0;
     props.tokenIn.name === 'tez'
-      ? handleSwapTokenInput(value - 0.02, 'tokenIn')
-      : handleSwapTokenInput(value, 'tokenIn');
+      ? handleSwapTokenInput(props.userBalances[props.tokenIn.name] - 0.02, 'tokenIn')
+      : handleSwapTokenInput(props.userBalances[props.tokenIn.name], 'tokenIn');
   };
   useEffect(() => {
     handleSwapTokenInput(firstTokenAmount, 'tokenIn');

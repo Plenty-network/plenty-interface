@@ -37,8 +37,34 @@ export const swapTokens = async (
     const tokenInInstance = await Tezos.wallet.at(tokenInAddress);
 
     const dexContractInstance = await Tezos.wallet.at(dexContractAddress);
-    tokenInAmount =
-      tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+
+    // const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
+    //   tokenIn,
+    //   caller,
+    // );
+    // const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
+    // const lpBal = new BigNumber(tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL));
+
+    // if (lpBal > balanceWithoutDecimalNumber) {
+    //   tokenInAmount = balanceWithoutDecimalNumber;
+    // } else {
+    //   tokenInAmount = tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+    // }
+    // console.log(tokenInAmount);
+    // tokenInAmount =
+    //   tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+    let tokenInAmount = tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+      const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal([tokenIn], caller);
+  
+      const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
+      const lpBal = new BigNumber(tokenInAmount);
+  
+      if (lpBal.isGreaterThan(balanceWithoutDecimalNumber)) {
+        tokenInAmount = balanceWithoutDecimalNumber;
+      } else {
+        tokenInAmount = lpBal;
+      }
+      tokenInAmount = parseInt(tokenInAmount);
     minimumTokenOut =
       minimumTokenOut * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_DECIMAL);
     minimumTokenOut = Math.floor(minimumTokenOut);
