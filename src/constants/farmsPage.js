@@ -140,6 +140,7 @@ export const FARM_TAB = {
   YOU: 'My Farms',
   ALL: 'All Farms',
   NEW: 'New Farms',
+  STABLE: 'Flat curve Farms',
 };
 
 export const FARMS_CARD_TYPE_LIST = {
