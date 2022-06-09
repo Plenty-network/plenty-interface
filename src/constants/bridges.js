@@ -1,6 +1,6 @@
 // Bridges
 import ethereum from '../assets/images/bridge/eth.svg';
-import {ReactComponent as ethereumButtonIcon} from '../assets/images/bridge/ethereum_btn_icon.svg';
+import { ReactComponent as ethereumButtonIcon } from '../assets/images/bridge/ethereum_btn_icon.svg';
 import tezos from '../assets/images/bridge/ic_tezos.svg';
 
 // Tokens
@@ -29,7 +29,6 @@ import wpax from '../assets/images/bridge/tokens/old_wrapped/wPAX.png';
 import wsushi from '../assets/images/bridge/tokens/old_wrapped/wSUSHI.png';
 import wuni from '../assets/images/bridge/tokens/old_wrapped/wUNI.png';
 import wrap from '../assets/images/bridge/tokens/old_wrapped/WRAP.png';
-
 
 export const CHANGE_NETWORK_PROMPT_DELAY = 3000;
 
