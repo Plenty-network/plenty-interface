@@ -953,7 +953,7 @@ export const swapTokenUsingRouteV3 = async (
     } else {
       swapAmount = lpBal;
     }
-    swapAmount = parseInt(swapAmount);
+    // swapAmount = parseInt(swapAmount);
     //  else if call type == xtz then direct send no approve
     let batch;
     if (tokenInCallType === 'XTZ') {
