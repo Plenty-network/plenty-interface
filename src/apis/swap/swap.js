@@ -102,7 +102,7 @@ export const swapTokens = async (
     // tokenInAmount =
     //   tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
 
-    let tokenInAmount = tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+    tokenInAmount = tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
       const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal([tokenIn], caller);
   
       const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
@@ -113,7 +113,7 @@ export const swapTokens = async (
       } else {
         tokenInAmount = lpBal;
       }
-      tokenInAmount = parseInt(tokenInAmount);
+      // tokenInAmount = parseInt(tokenInAmount);
     minimumTokenOut =
       minimumTokenOut * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_DECIMAL);
     minimumTokenOut = Math.floor(minimumTokenOut);
@@ -284,7 +284,7 @@ export const swapTokenUsingRoute = async (
     } else {
       swapAmount = lpBal;
     }
-    swapAmount = parseInt(swapAmount);
+    // swapAmount = parseInt(swapAmount);
     let batch = null;
     if (tokenInCallType === 'FA1.2') {
       batch = Tezos.wallet
