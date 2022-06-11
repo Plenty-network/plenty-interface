@@ -9,7 +9,7 @@ const Config: IConfig = {
   },
   RPC_NODES: {
     testnet: 'https://ithacanet.smartpy.io/',
-    mainnet: 'https://tezos-prod.cryptonomic-infra.tech/',
+    mainnet: 'https://mifx20dfsr.windmill.tools/',
   },
   TZKT_NODES: {
     mainnet: 'https://api.tzkt.io',
