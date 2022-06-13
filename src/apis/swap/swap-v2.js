@@ -7,6 +7,7 @@ import { newton_dx_to_dy } from '../stableswap/stableswap';
 import { isTokenPairStable } from '../Liquidity/Liquidity';
 import { getUserBalanceByRpcWithoutDecimal } from '../swap/swap';
 import BigNumber from 'bignumber.js';
+import { RPC_NODE } from '../../constants/localStorage';
 /**
  * Loads swap related data to perform calculation using RPC
  * @param tokenIn - token which user wants to sell, case-sensitive to CONFIG
@@ -18,7 +19,8 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
   try {
     if (amm_type === 'xtz') {
       const connectedNetwork = CONFIG.NETWORK;
-      const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+      // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+      const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
       const dexContractAddress =
         CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
       const ctez = CONFIG.CTEZ[connectedNetwork];
@@ -62,7 +64,8 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
       };
     } else if (amm_type === 'veAMM') {
       const connectedNetwork = CONFIG.NETWORK;
-      const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+      // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+      const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
       const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
 
       const Tezos = new TezosToolkit(rpcNode);
@@ -108,7 +111,8 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
       };
     } else if (amm_type === 'veStableAMM') {
       const connectedNetwork = CONFIG.NETWORK;
-      const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+      // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+      const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
       const dexContractAddress =
         CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
       const Tezos = new TezosToolkit(rpcNode);
@@ -158,7 +162,8 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
       };
     } else {
       const connectedNetwork = CONFIG.NETWORK;
-      const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+      // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+      const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
 
       const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
 
@@ -897,7 +902,8 @@ export const swapTokenUsingRouteV3 = async (
 ) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const network = {
       type: CONFIG.WALLET_NETWORK,
     };

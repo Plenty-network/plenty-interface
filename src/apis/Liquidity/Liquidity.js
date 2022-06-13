@@ -4,6 +4,7 @@ import { getUserBalanceByRpc } from '../swap/swap';
 import { getUserBalanceByRpcStable } from '../stableswap/stableswap';
 import { tokens } from '../../constants/swapPage';
 import { stableSwapTokens } from '../../constants/stableSwapPage';
+import { RPC_NODE } from '../../constants/localStorage';
 
 /**
  * Function to order(swap if required) the token pair based on the pool in contract.
@@ -192,7 +193,8 @@ export const getLpTokenBalanceForPair = async (tokenA, tokenB, walletAddress) =>
 export const getLiquidityPositionDetails = async (tokenA, tokenB, walletAddress) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const liquidityToken = CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].liquidityToken;
     const lpTokenDecimal = CONFIG.AMM[connectedNetwork][liquidityToken].TOKEN_DECIMAL;
     const tokenPairContract = CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].contract;
@@ -390,7 +392,8 @@ export const getLiquidityPositionDetails = async (tokenA, tokenB, walletAddress)
 export const getLiquidityPositionDetailsStable = async (tokenA, tokenB, walletAddress) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const liquidityToken =
       CONFIG.STABLESWAP[connectedNetwork][tokenA].DEX_PAIRS[tokenB].liquidityToken;
     const lpTokenDecimal = CONFIG.STABLESWAP[connectedNetwork][liquidityToken].TOKEN_DECIMAL;
