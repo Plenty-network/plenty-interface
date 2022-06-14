@@ -25,6 +25,7 @@ const BridgeUnbridgeModal = (props) => {
     setIsApproveLoading,
     isApproved,
     setIsApproved,
+    setTransactionTime,
   } = props;
   const dispatch = useDispatch();
 
@@ -40,6 +41,7 @@ const BridgeUnbridgeModal = (props) => {
       );
       if (bridgeUnbridgeResult.success) {
         setMintUnmintOpHash(bridgeUnbridgeResult.transactionHash);
+        setTransactionTime(bridgeUnbridgeResult.timeStamp);
         displayMessage({
           type: 'success',
           duration: FLASH_MESSAGE_DURATION,
@@ -67,6 +69,7 @@ const BridgeUnbridgeModal = (props) => {
       const bridgeUnbridgeResult = await unwrap(toBridge.name, firstTokenAmount, tokenIn);
       if (bridgeUnbridgeResult.success) {
         setMintUnmintOpHash(bridgeUnbridgeResult.txHash);
+        setTransactionTime(bridgeUnbridgeResult.timeStamp);
         displayMessage({
           type: 'success',
           duration: FLASH_MESSAGE_DURATION,
@@ -239,6 +242,7 @@ BridgeUnbridgeModal.propTypes = {
   setIsApproveLoading: PropTypes.any,
   isApproved: PropTypes.any,
   setIsApproved: PropTypes.any,
+  setTransactionTime: PropTypes.any,
 };
 
 export default BridgeUnbridgeModal;
