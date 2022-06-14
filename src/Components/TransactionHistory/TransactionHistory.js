@@ -53,7 +53,7 @@ const TransactionHistory = (props) => {
   const sortButtonRef = useRef(null);
   const filterDivisionRef = useRef(null);
   const sortDivisionRef = useRef(null);
-  const delay = useRef(5000);
+  const delay = useRef(10000);
 
   const {
     setTransaction,
