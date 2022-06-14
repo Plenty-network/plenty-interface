@@ -102,6 +102,7 @@ export interface IFarm {
   isDualFarm: boolean;
   message?: string;
   bannerType?: string;
+  farmType : string;
   dualInfo?: Record<'tokenFirst' | 'tokenSecond', IDualToken>;
 }
 

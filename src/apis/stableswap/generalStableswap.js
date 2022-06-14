@@ -2,6 +2,9 @@ import { TezosToolkit } from '@taquito/taquito';
 import { BeaconWallet } from '@taquito/beacon-wallet';
 import { CheckIfWalletConnected } from '../wallet/wallet';
 import CONFIG from '../../config/config';
+import BigNumber from 'bignumber.js';
+import { getUserBalanceByRpcWithoutDecimal} from '../swap/swap';
+import { RPC_NODE } from '../../constants/localStorage';
 
 const util = (x, y) => {
   const plus = x + y;
@@ -72,15 +75,7 @@ export const calculateTokensOutGeneralStable  = async (
   tokenIn_precision,
   tokenOut_precision,
 ) => { 
-  console.log(tokenIn_supply,
-    tokenOut_supply,
-    tokenIn_amount,
-    Exchangefee,
-    slippage,
-    tokenIn,
-    tokenOut,
-    tokenIn_precision,
-    tokenOut_precision,);
+  
 
   const connectedNetwork = CONFIG.NETWORK;
   tokenIn_amount =
@@ -155,7 +150,8 @@ export const swapTokens = async (
   setShowConfirmTransaction,
 ) => {
   const connectedNetwork = CONFIG.NETWORK;
-  const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+  // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+  const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
   try {
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -180,8 +176,33 @@ export const swapTokens = async (
     const tokenInInstance = await Tezos.contract.at(tokenInAddress);
     const dexContractInstance = await Tezos.contract.at(dexContractAddress);
 
-    tokenInAmount =
-      tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+    // const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
+    //   tokenIn,
+    //   caller,
+    // );
+    // const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
+    // const lpBal = new BigNumber(tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL));
+    
+    // if (lpBal > balanceWithoutDecimalNumber) {
+    //   tokenInAmount = balanceWithoutDecimalNumber;
+    // } else {
+    //   tokenInAmount = tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+    // }
+
+    // tokenInAmount =
+    //   tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+
+      tokenInAmount = tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+      const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal([tokenIn], caller);
+  
+      const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
+      const lpBal = new BigNumber(tokenInAmount);
+  
+      if (lpBal.isGreaterThan(balanceWithoutDecimalNumber)) {
+        tokenInAmount = balanceWithoutDecimalNumber;
+      } else {
+        tokenInAmount = lpBal;
+      }
     minimumTokenOut =
       minimumTokenOut * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_DECIMAL);
     minimumTokenOut = Math.floor(minimumTokenOut);
@@ -262,7 +283,8 @@ export const swapTokens = async (
 export const loadSwapDataGeneralStable = async (tokenIn, tokenOut) => {
   try { 
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const dexContractAddress =
       CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
     const Tezos = new TezosToolkit(rpcNode);
@@ -333,7 +355,8 @@ export const loadSwapDataGeneralStable = async (tokenIn, tokenOut) => {
 export const loadSwapDataGeneralStableWithoutDecimal = async (tokenIn, tokenOut) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const dexContractAddress =
       CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
     const Tezos = new TezosToolkit(rpcNode);
