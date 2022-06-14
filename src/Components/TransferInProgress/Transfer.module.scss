@@ -329,6 +329,22 @@
   color: var(--theme-bridge-max-btn-border-text) !important;
 }
 
+.twitterInfo {
+  color: #1C9BEF;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0px;
+}
+
+.twitterIcon {
+  height: auto !important;
+}
+
 
 
 //Loading spinner related styles

@@ -68,6 +68,11 @@ const Bridge = (props) => {
   const [flashMessageContent, setFlashMessageContent] = useState('Message');
   const [isFlashMessageALink, setIsFlashMessageALink] = useState(false);
   const flashMessageLink = useRef('#');
+  const transactionTime = useRef(null);
+
+  const setTransactionTime = (value) => {
+    transactionTime.current = value;
+  };
 
   const setOperation = (value) => {
     operation.current = value;
@@ -394,6 +399,7 @@ const Bridge = (props) => {
                 setSwitchButtonPressed={setSwitchButtonPressed}
                 connectWalletHandler={connectWalletHandler}
                 setIsApproved={setIsApproved}
+                setTransactionTime={setTransactionTime}
               />
             )}
             {transaction === 2 && (
@@ -429,6 +435,7 @@ const Bridge = (props) => {
                 displayMessage={displayMessage}
                 openingFromTransaction={openingFromTransaction.current}
                 setOpeningFromTransaction={setOpeningFromTransaction}
+                setTransactionTime={setTransactionTime}
               />
             )}
             {transaction === 3 && (
@@ -457,6 +464,8 @@ const Bridge = (props) => {
                 isApproved={isApproved}
                 setIsApproved={setIsApproved}
                 setOpeningFromTransaction={setOpeningFromTransaction}
+                transactionTime={transactionTime.current}
+                setTransactionTime={setTransactionTime}
               />
             )}
           </Col>

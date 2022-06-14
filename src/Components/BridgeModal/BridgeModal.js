@@ -75,6 +75,7 @@ const BridgeModal = (props) => {
     setSwitchButtonPressed,
     connectWalletHandler,
     setIsApproved,
+    setTransactionTime,
   } = props;
 
   const [connectBridgeWallet, setConnectBrigeWallet] = useState({
@@ -122,6 +123,7 @@ const BridgeModal = (props) => {
   useEffect(() => {
     setOpeningFromHistory(false);
     setIsApproved(false);
+    setTransactionTime(null);
   }, []);
 
   useEffect(() => {
@@ -810,6 +812,7 @@ BridgeModal.propTypes = {
   setSwitchButtonPressed: PropTypes.any,
   connectWalletHandler: PropTypes.any,
   setIsApproved: PropTypes.any,
+  setTransactionTime: PropTypes.any,
 };
 
 export default BridgeModal;
