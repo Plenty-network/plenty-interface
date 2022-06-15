@@ -1,7 +1,6 @@
 import SimpleModal from './SimpleModal';
 import PropTypes from 'prop-types';
 import Button from '../Buttons/Button';
-
 import styles from './modal.module.scss';
 import clsx from 'clsx';
 import React, { useEffect, useMemo, useState } from 'react';

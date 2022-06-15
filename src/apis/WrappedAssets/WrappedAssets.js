@@ -14,6 +14,7 @@ import {
 } from '../../constants/global';
 import { tokens } from '../../constants/swapPage';
 import BigNumber from 'bignumber.js';
+import { RPC_NODE } from '../../constants/localStorage';
 
 /**
  * Returns packed key (expr...) which will help to fetch user specific data from bigmap directly using rpc.
@@ -119,7 +120,8 @@ export const swapWrappedAssets = async (
 ) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
 
     const network = {
       type: CONFIG.WALLET_NETWORK,

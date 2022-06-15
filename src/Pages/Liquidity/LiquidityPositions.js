@@ -44,25 +44,24 @@ export const LiquidityPositions = (props) => {
     let ress = {};
     if (isStable) {
       if (
-        CONFIG.AMM[CONFIG.NETWORK][value.tokenA.name].DEX_PAIRS[value.tokenB.name]?.type ===
-        'xtz'
-      ){
-      ress = await getLiquidityPositionDetailsStable(
-        value.tokenA.name,
-        value.tokenB.name,
-        props.walletAddress,
-      );}
-      else if(
+        CONFIG.AMM[CONFIG.NETWORK][value.tokenA.name].DEX_PAIRS[value.tokenB.name]?.type === 'xtz'
+      ) {
+        ress = await getLiquidityPositionDetailsStable(
+          value.tokenA.name,
+          value.tokenB.name,
+          props.walletAddress,
+        );
+      } else if (
         CONFIG.AMM[CONFIG.NETWORK][value.tokenA.name].DEX_PAIRS[value.tokenB.name]?.type ===
         'veStableAMM'
-      ){
+      ) {
         ress = await getLiquidityPositionDetails(
           value.tokenA.name,
           value.tokenB.name,
           props.walletAddress,
-        );}
+        );
       }
-     else {
+    } else {
       ress = await getLiquidityPositionDetails(
         value.tokenA.name,
         value.tokenB.name,

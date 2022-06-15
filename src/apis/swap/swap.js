@@ -13,6 +13,7 @@ import {
   type5MapIds,
 } from '../../constants/global';
 import BigNumber from 'bignumber.js';
+import { RPC_NODE } from '../../constants/localStorage';
 
 /**
  * Returns packed key (expr...) which will help to fetch user specific data from bigmap directly using rpc.
@@ -62,7 +63,8 @@ export const swapTokens = async (
   setShowConfirmTransaction,
 ) => {
   const connectedNetwork = CONFIG.NETWORK;
-  const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+  // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+  const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
   try {
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -86,8 +88,34 @@ export const swapTokens = async (
     const tokenInInstance = await Tezos.contract.at(tokenInAddress);
     const dexContractInstance = await Tezos.contract.at(dexContractAddress);
 
-    tokenInAmount =
-      tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+    // const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
+    //   tokenIn,
+    //   caller,
+    // );
+    // const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
+    // const lpBal = new BigNumber(tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL));
+
+    // if (lpBal > balanceWithoutDecimalNumber) {
+    //   tokenInAmount = balanceWithoutDecimalNumber;
+    // } else {
+    //   tokenInAmount = tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+    // }
+    // console.log(tokenInAmount);
+    // tokenInAmount =
+    //   tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+
+    tokenInAmount = tokenInAmount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+      const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal([tokenIn], caller);
+  
+      const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
+      const lpBal = new BigNumber(tokenInAmount);
+  
+      if (lpBal.isGreaterThan(balanceWithoutDecimalNumber) ) {
+        tokenInAmount = balanceWithoutDecimalNumber;
+      } else {
+        tokenInAmount = lpBal;
+      }
+      // tokenInAmount = parseInt(tokenInAmount);
     minimumTokenOut =
       minimumTokenOut * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenOut].TOKEN_DECIMAL);
     minimumTokenOut = Math.floor(minimumTokenOut);
@@ -179,7 +207,8 @@ export const swapTokenUsingRoute = async (
   middleToken,
 ) => {
   const connectedNetwork = CONFIG.NETWORK;
-  const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+  // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+  const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
   try {
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -243,10 +272,22 @@ export const swapTokenUsingRoute = async (
         requiredTokenId: tokenOutId,
       },
     });
-    const swapAmount = Math.floor(
-      amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL),
-    );
+    // const swapAmount = Math.floor(
+    //   amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL),
+    // );
 
+    let swapAmount = amount * Math.pow(10, CONFIG.AMM[connectedNetwork][tokenIn].TOKEN_DECIMAL);
+    const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal([tokenIn], caller);
+
+    const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
+    const lpBal = new BigNumber(swapAmount);
+
+    if (lpBal.isGreaterThan(balanceWithoutDecimalNumber) && (tokenInCallType !== 'XTZ') ) {
+      swapAmount = balanceWithoutDecimalNumber;
+    } else {
+      swapAmount = lpBal;
+    }
+    // swapAmount = parseInt(swapAmount);
     let batch = null;
     if (tokenInCallType === 'FA1.2') {
       batch = Tezos.wallet
@@ -283,7 +324,8 @@ export const swapTokenUsingRoute = async (
 export const loadSwapData = async (tokenIn, tokenOut) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
     const Tezos = new TezosToolkit(rpcNode);
     const dexContractInstance = await Tezos.contract.at(dexContractAddress);
@@ -612,8 +654,8 @@ export const addLiquidity = async (
     let tokenSecondInstance = null;
 
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
-    // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const Tezos = new TezosToolkit(rpcNode);
     Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
@@ -842,8 +884,8 @@ export const addLiquidity_generalStable = async (
     let tokenSecondInstance = null;
 
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
-    // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const Tezos = new TezosToolkit(rpcNode);
     Tezos.setRpcProvider(rpcNode);
     Tezos.setWalletProvider(wallet);
@@ -1070,7 +1112,6 @@ export const computeRemoveTokens = (
   }
 };
 
-
 /**
  * Gets balance of user of a particular token using RPC
  * @param identifier - Name of token, case-sensitive to CONFIG
@@ -1104,12 +1145,11 @@ export const getUserBalanceByRpc = async (identifier, address) => {
       } else {
         _balance = response.data.args[1].int;
       }
-
-      _balance = parseInt(_balance);
-      _balance = _balance / Math.pow(10, decimal);
-      return _balance;
+      _balance = new BigNumber(_balance);
+      _balance = _balance.dividedBy(10 ** decimal);
+      _balance = _balance.toFixed(decimal);
+      return Number(_balance);
     })();
-
     return {
       success: true,
       balance,
@@ -1205,8 +1245,8 @@ export const removeLiquidity = async (
       name: CONFIG.NAME,
     };
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
-    // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const wallet = new BeaconWallet(options);
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (!WALLET_RESP.success) {
@@ -1237,22 +1277,23 @@ export const removeLiquidity = async (
       );
     }
 
-    const lpTokenDecimal =CONFIG.AMM[connectedNetwork][
+    const lpTokenDecimal =
+      CONFIG.AMM[connectedNetwork][
         CONFIG.AMM[connectedNetwork][tokenFirst].DEX_PAIRS[tokenSecond].liquidityToken
       ].TOKEN_DECIMAL;
     const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal(
       CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].liquidityToken,
       caller,
     );
+
     const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
-    const lpBal = new BigNumber(lpToken_Amount);
-    if (lpBal > balanceWithoutDecimalNumber) {
+    const lpBal = new BigNumber(lpToken_Amount * Math.pow(10, lpTokenDecimal));
+
+    if (lpBal.isGreaterThan(balanceWithoutDecimalNumber)) {
       lpToken_Amount = balanceWithoutDecimalNumber;
     } else {
       lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
     }
-
-
     const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].contract;
 
     const dexContractInstanceLocal = await Tezos.contract.at(dexContractAddress);
@@ -1311,8 +1352,8 @@ export const removeLiquidity_generalStable = async (
       name: CONFIG.NAME,
     };
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
-    // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const wallet = new BeaconWallet(options);
     const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
     if (!WALLET_RESP.success) {
@@ -1353,18 +1394,17 @@ export const removeLiquidity_generalStable = async (
       caller,
     );
     const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
-    const lpBal = new BigNumber(lpToken_Amount);
-    if (lpBal > balanceWithoutDecimalNumber) {
+    const lpBal = new BigNumber(lpToken_Amount * Math.pow(10, lpTokenDecimal));
+
+    if (lpBal.isGreaterThan(balanceWithoutDecimalNumber)) {
       lpToken_Amount = balanceWithoutDecimalNumber;
     } else {
       lpToken_Amount = Math.floor(lpToken_Amount * Math.pow(10, lpTokenDecimal));
     }
 
-    
     const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].contract;
 
     const dexContractInstanceLocal = await Tezos.contract.at(dexContractAddress);
-
 
     const batch = Tezos.wallet
       .batch()
@@ -1403,8 +1443,8 @@ export const fetchtzBTCBalance = async (addressOfUser) => {
   try {
     const tokenContractAddress = 'KT1PWx2mnDueood7fEmfbBDKx1D9BAnnXitn';
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
-    // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const Tezos = new TezosToolkit(rpcNode);
     Tezos.setProvider(rpcNode);
     const contract = await Tezos.contract.at(tokenContractAddress);
@@ -1455,8 +1495,8 @@ export const fetchWalletBalance = async (
 ) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
-    // const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const Tezos = new TezosToolkit(rpcNode);
     Tezos.setProvider(rpcNode);
     const contract = await Tezos.contract.at(tokenContractAddress);
