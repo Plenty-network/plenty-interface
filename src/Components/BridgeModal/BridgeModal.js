@@ -25,6 +25,7 @@ import { getActionRequiredCount } from '../../apis/bridge/bridgeAPI';
 import { titleCase } from '../TransactionHistory/helpers';
 import fromExponential from 'from-exponential';
 import BigNumber from 'bignumber.js';
+import selectbridge from '../../assets/images/bridge/selectbridge.svg';
 const BridgeModal = (props) => {
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState(null);
@@ -83,7 +84,7 @@ const BridgeModal = (props) => {
     image: fromBridge.image,
     buttonImage: fromBridge.buttonImage,
   });
-  
+
   useEffect(() => {
     if (currentChain !== metamaskChain && transaction === 1) {
       if (metamaskChain !== null) {
@@ -162,7 +163,9 @@ const BridgeModal = (props) => {
         if (balanceResult.success) {
           setUserBalances((prevState) => ({
             ...prevState,
-            [tokenIn.name]: new BigNumber(balanceResult.balance).div(new BigNumber(10).pow(tokenIn.tokenData.DECIMALS)).toString(),
+            [tokenIn.name]: new BigNumber(balanceResult.balance)
+              .div(new BigNumber(10).pow(tokenIn.tokenData.DECIMALS))
+              .toString(),
           }));
         } else {
           setUserBalances((prevState) => ({ ...prevState, [tokenIn.name]: -1 }));
@@ -361,7 +364,7 @@ const BridgeModal = (props) => {
     setIsBridgeClicked(false);
     setSearchQuery('');
   };
-  
+
   const handleInputFocus = () => {
     setIsError(false);
     setIsTokenInSelected(true);
@@ -514,10 +517,7 @@ const BridgeModal = (props) => {
                 {metamaskAddress && (
                   <OverlayTrigger
                     overlay={(props) => (
-                      <Tooltip
-                        className="connect-wallet-tooltip wallet-message-tooltip"
-                        {...props}
-                      >
+                      <Tooltip className="connect-wallet-tooltip wallet-message-tooltip" {...props}>
                         Disconnect Ethereum wallets through wallet.
                       </Tooltip>
                     )}
@@ -555,11 +555,18 @@ const BridgeModal = (props) => {
                 ))}
             </div>
             <div className={`mb-2 ${styles.lineBottom} `}></div>
-            <div className={`mt-4 ${styles.from}`}>From</div>
+            {/* <div className={`mt-4 ${styles.from}`}>From</div> */}
             <div className={`mt-2 ${styles.fromBridgeSelectBox}`}>
-              <div>
-                <p className={`mb-1 ${styles.fromLabelTop}`}>Select blockchain </p>
-                <p className={`mb-0 ${styles.fromLabelBottom}`}>Start the bridge process</p>
+              <div className="flex">
+                <div className={`${styles.selectBridgeIcon}`}>
+                  <img
+                    className={`${styles.selectBridgeIconSvg}`}
+                    src={selectbridge}
+                    alt={'select-bridge'}
+                  />
+                </div>
+                <div className={`mb-1 ml-2 ${styles.fromLabelTop}`}>Select bridge: </div>
+                {/* <p className={`mb-0 ${styles.fromLabelBottom}`}>Start the bridge process</p> */}
               </div>
               <div
                 className={clsx(
@@ -578,7 +585,7 @@ const BridgeModal = (props) => {
               </div>
             </div>
             <div className={`my-3 ${styles.lineMid} `}></div>
-            <p className={styles.midLabel}>Select your token and enter the amount</p>
+            <p className={styles.midLabel}>Choose your token and enter the amount</p>
             <div
               className={`mt-2 ${styles.tokenSelectBox} ${
                 isTokenInSelected && styles.tokenInSelected
@@ -644,7 +651,7 @@ const BridgeModal = (props) => {
               </div>
             </OverlayTrigger>
 
-            <div className={`mt-2 ${styles.to}`}>To</div>
+            {/* <div className={`mt-2 ${styles.to}`}>To</div> */}
             <div
               className={`mt-2 ${styles.toBridgeSelectBox} ${styles.inputSelectBox} ${
                 isTokenInSelected ? styles.toBridgeSelected : null
@@ -713,7 +720,9 @@ const BridgeModal = (props) => {
                   <div className={clsx('connect-wallet-btn')}>
                     <div className="flex flex-row align-items-center">
                       <connectBridgeWallet.buttonImage />
-                      <span className="ml-2">Connect to {titleCase(connectBridgeWallet.name)} wallet</span>
+                      <span className="ml-2">
+                        Connect to {titleCase(connectBridgeWallet.name)} wallet
+                      </span>
                     </div>
                   </div>
                 </Button>
@@ -721,7 +730,14 @@ const BridgeModal = (props) => {
             ) : (
               <>
                 <Button
-                  className={clsx('px-md-3', 'mt-3', 'w-100', 'connect-wallet-btn', 'button-bg', firstTokenAmount === '' ? styles.disabledProceedButton : '')}
+                  className={clsx(
+                    'px-md-3',
+                    'mt-3',
+                    'w-100',
+                    'connect-wallet-btn',
+                    'button-bg',
+                    firstTokenAmount === '' ? styles.disabledProceedButton : '',
+                  )}
                   onClick={handelClickWithMetaAddedBtn}
                   loading={isLoading}
                 >
@@ -740,7 +756,11 @@ const BridgeModal = (props) => {
         show={show}
         onHide={handleClose}
         selectToken={selector.current === 'BRIDGES' ? selectBridge : selectToken}
-        tokens={selector.current === 'BRIDGES' ? bridgesList : [...tokenList].sort((a, b) => a.name.localeCompare(b.name))}
+        tokens={
+          selector.current === 'BRIDGES'
+            ? bridgesList
+            : [...tokenList].sort((a, b) => a.name.localeCompare(b.name))
+        }
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         title={selector.current === 'BRIDGES' ? 'Select a chain' : 'Select a token'}

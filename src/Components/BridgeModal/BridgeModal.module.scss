@@ -26,8 +26,12 @@
 
 .bridgeModal {
   box-shadow: var(--theme-swap-boxshadow);
-  background: linear-gradient(180deg, var(--theme-bridge-main-bg-1) 60%, var(--theme-bridge-main-bg-2) 0%);
-  border:1px solid var(--theme-bridge-history-border);
+  background: linear-gradient(
+    180deg,
+    var(--theme-bridge-main-bg-1) 60%,
+    var(--theme-bridge-main-bg-2) 0%
+  );
+  border: 1px solid var(--theme-bridge-history-border);
   border-radius: 16px;
   padding: 24px 24px;
   margin: auto;
@@ -72,7 +76,7 @@
     }
     .pendingHistory {
       background: rgba(255, 157, 157, 0.1);
-      color: #FF5A5A;
+      color: #ff5a5a;
     }
   }
   .heading {
@@ -180,7 +184,7 @@
   @media screen and (min-width: 320px) and (max-width: 767px) {
     width: 42px;
     height: 42px;
-    >img {
+    > img {
       width: 30px;
       height: 30px;
     }
@@ -262,7 +266,16 @@
   box-sizing: border-box;
   border-radius: 8px;
 }
-
+.selectBridgeIcon {
+  width: 22px;
+  height: 22px;
+  background: #eee2ff;
+  border-radius: 27.5px;
+}
+.selectBridgeIconSvg {
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
 .fromLabelTop {
   font-weight: 500;
   font-size: 14px;
@@ -293,8 +306,8 @@
   cursor: pointer;
 }
 
-.bridgeSelector, .toTokenSelector {
-  
+.bridgeSelector,
+.toTokenSelector {
   &.not-selected {
     padding: 10px 6px;
     background-color: #ffffff;
@@ -326,7 +339,7 @@
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
-  color: #FF5A43;
+  color: #ff5a43;
   margin: 10px 0 0;
 }
 
@@ -351,7 +364,7 @@
   color: var(--theme-text-1);
   padding: 11px 12px;
 
-  >img {
+  > img {
     margin-right: 4px;
     height: 18px;
     width: 18px;
@@ -397,7 +410,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
-  background-color:  var(--theme-bridge-to-ip-bg);
+  background-color: var(--theme-bridge-to-ip-bg);
   mix-blend-mode: normal;
   padding: 15px;
   border: 1px solid var(--theme-bridge-to-ip-border);
@@ -426,7 +439,7 @@
     font-weight: 700;
     font-size: 24px;
     line-height: 31px;
-    color:var(--theme-bridge-max-btn-border-text);
+    color: var(--theme-bridge-max-btn-border-text);
   }
   @media screen and (min-width: 320px) and (max-width: 767px) {
     width: 102px;
@@ -451,7 +464,7 @@
     background-color: var(--theme-tooltip-bg) !important;
   }
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 50%;
     right: 100%;
@@ -465,7 +478,7 @@
 .toTokenSelector {
   height: 40px;
   padding: 8px 14px;
-  >img {
+  > img {
     margin-right: 4px;
     height: 18px;
     width: 18px;
@@ -487,20 +500,20 @@
 
 .inputError {
   background: rgba(255, 90, 67, 0.05);
-  border: 0.734783px solid #FF5A43;
+  border: 0.734783px solid #ff5a43;
   &:hover {
     background: rgba(255, 90, 67, 0.05);
-    border: 0.734783px solid #FF5A43;
+    border: 0.734783px solid #ff5a43;
   }
   .tokenUserInput {
     color: rgba(255, 90, 67, 0.5);
-    &::placeholder{
+    &::placeholder {
       color: rgba(255, 90, 67, 0.5);
     }
   }
 }
 
-.bridgeSelector{
+.bridgeSelector {
   height: 60px;
   font-size: 16px;
   line-height: 21px;
@@ -508,7 +521,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  >img {
+  > img {
     margin-right: 4px;
     height: 24px;
     width: 24px;
@@ -533,7 +546,7 @@
 }
 
 .balanceValue {
-  color:var(--theme-bridge-max-btn-border-text);
+  color: var(--theme-bridge-max-btn-border-text);
   font-weight: 700;
   cursor: pointer;
 }
@@ -543,7 +556,7 @@
   margin-bottom: 2px;
 }
 
-.toBridgeSelected { 
+.toBridgeSelected {
   box-shadow: var(--theme-bridge-main-to-box-shadow);
 }
 
@@ -563,5 +576,3 @@
 .disabledProceedButton {
   background-color: var(--theme-swap-disable-button) !important;
 }
-
-
