@@ -255,16 +255,50 @@
 }
 
 .fromBridgeSelectBox {
-  min-height: 54px;
+  min-height: 56px;
   display: flex;
-  justify-content: space-between;
+  //justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
-  background-color: var(--theme-bridge-from-ip-bg);
   mix-blend-mode: normal;
-  padding: 8px 12px 8px 20px;
+  border: 0.803667px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 4px 9px rgba(39, 59, 74, 0.06);
+  padding-left: 12px;
+  padding-right: 12px;
   box-sizing: border-box;
-  border-radius: 8px;
+  border-radius: 16px;
+}
+.dividerSelectBridge {
+  height: 56px;
+  border-right: 0.803667px solid rgba(0, 0, 0, 0.08);
+  margin-left: 12px;
+  margin-right: 12px;
+}
+.tokenimageWrapper {
+  background: #f6f6f6;
+  border-radius: 16px;
+  padding: 8px 12px;
+  color: #201c41;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0em;
+}
+.expandMoreWrapper {
+  background: #f2f2f2;
+  border-radius: 30px;
+  height: 32px;
+  width: 32px;
+  padding: 8px, 17px, 8px, 17px;
+}
+.expandMoreSelectBridge {
+  position: relative;
+  top: 6px;
+  left: 6px;
+}
+.buttonLogo {
+  width: 22px;
+  margin-right: 4px;
 }
 .selectBridgeIcon {
   width: 22px;

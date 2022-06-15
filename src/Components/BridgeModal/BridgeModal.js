@@ -26,6 +26,8 @@ import { titleCase } from '../TransactionHistory/helpers';
 import fromExponential from 'from-exponential';
 import BigNumber from 'bignumber.js';
 import selectbridge from '../../assets/images/bridge/selectbridge.svg';
+import arrowbridge from '../../assets/images/bridge/arrowbridge.svg';
+import SelectorModalBridge from '../Bridges/SelectorModalBridge';
 const BridgeModal = (props) => {
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState(null);
@@ -33,6 +35,7 @@ const BridgeModal = (props) => {
   const [showMetamaskTooltip, setShowMetamaskTooltip] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [show, setShow] = useState(false);
+  const [showChain, setShowChain] = useState(false);
   const [userBalances, setUserBalances] = useState({});
   const [isLoading, SetisLoading] = useState(false);
   const [isTokenInSelected, setIsTokenInSelected] = useState(false);
@@ -361,6 +364,7 @@ const BridgeModal = (props) => {
 
   const handleClose = () => {
     setShow(false);
+    setShowChain(false);
     setIsBridgeClicked(false);
     setSearchQuery('');
   };
@@ -375,10 +379,11 @@ const BridgeModal = (props) => {
   };
 
   const selectBridge = (bridge) => {
+    console.log(bridge);
     setFirstTokenAmount('');
     setSecondTokenAmount('');
     setFee(0);
-    if (bridge.name === 'TEZOS') {
+    if (bridge.name1 === 'TEZOS') {
       const currentFrom = {
         name: fromBridge.name,
         image: fromBridge.image,
@@ -403,7 +408,7 @@ const BridgeModal = (props) => {
         setOperation('BRIDGE');
       }
     }
-    setFromBridge({ name: bridge.name, image: bridge.image, buttonImage: bridge.buttonImage });
+    setFromBridge({ name: bridge.name1, image: bridge.image1, buttonImage: bridge.buttonImage1 });
     setIsBridgeSelected(true);
     handleClose();
   };
@@ -411,7 +416,7 @@ const BridgeModal = (props) => {
   const handleBridgeSelect = () => {
     selector.current = 'BRIDGES';
     setIsBridgeClicked(true);
-    setShow(true);
+    setShowChain(true);
   };
 
   const selectToken = (token) => {
@@ -555,8 +560,8 @@ const BridgeModal = (props) => {
                 ))}
             </div>
             <div className={`mb-2 ${styles.lineBottom} `}></div>
-            {/* <div className={`mt-4 ${styles.from}`}>From</div> */}
-            <div className={`mt-2 ${styles.fromBridgeSelectBox}`}>
+
+            <div className={` ${styles.fromBridgeSelectBox}`}>
               <div className="flex">
                 <div className={`${styles.selectBridgeIcon}`}>
                   <img
@@ -565,23 +570,40 @@ const BridgeModal = (props) => {
                     alt={'select-bridge'}
                   />
                 </div>
-                <div className={`mb-1 ml-2 ${styles.fromLabelTop}`}>Select bridge: </div>
-                {/* <p className={`mb-0 ${styles.fromLabelBottom}`}>Start the bridge process</p> */}
+                <div className={` ml-2 ${styles.fromLabelTop}`}>Select bridge: </div>
               </div>
+              <div className={`${styles.dividerSelectBridge}`}></div>
               <div
                 className={clsx(
-                  styles.bridgeSelector,
-                  styles.selector,
                   isBridgeClicked && styles.fromBridgeClicked,
+                  'd-flex align-items-center justify-content-around',
                 )}
                 onClick={handleBridgeSelect}
                 style={{ boxShadow: isBridgeSelected && 'none' }}
               >
-                <img src={fromBridge.image} className="button-logo" />
-                <span>{titleCase(fromBridge.name)} </span>
-                <span className="span-themed material-icons-round" style={{ fontSize: '20px' }}>
-                  expand_more
-                </span>
+                <div className={`${styles.tokenimageWrapper}`}>
+                  <img src={fromBridge.image} className={styles.buttonLogo} />
+                  <span>{titleCase(fromBridge.name)} </span>
+                </div>
+                <div>
+                  <img
+                    className={`${styles.arrowBridgeSvg}`}
+                    src={arrowbridge}
+                    alt={'arrow-bridge'}
+                  />
+                </div>
+                <div className={`${styles.tokenimageWrapper}`}>
+                  <img src={toBridge.image} className={styles.buttonLogo} />
+                  <span>{titleCase(toBridge.name)} </span>
+                </div>
+                <div className={`${styles.expandMoreWrapper} ml-auto`}>
+                  <span
+                    className={`span-themed material-icons-round ${styles.expandMoreSelectBridge}`}
+                    style={{ fontSize: '20px' }}
+                  >
+                    expand_more
+                  </span>
+                </div>
               </div>
             </div>
             <div className={`my-3 ${styles.lineMid} `}></div>
@@ -755,7 +777,7 @@ const BridgeModal = (props) => {
       <SelectorModal
         show={show}
         onHide={handleClose}
-        selectToken={selector.current === 'BRIDGES' ? selectBridge : selectToken}
+        selectToken={selectToken}
         tokens={
           selector.current === 'BRIDGES'
             ? bridgesList
@@ -763,7 +785,19 @@ const BridgeModal = (props) => {
         }
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-        title={selector.current === 'BRIDGES' ? 'Select a chain' : 'Select a token'}
+        title={'Select a token'}
+        selector={selector.current}
+      />
+      <SelectorModalBridge
+        show={showChain}
+        onHide={handleClose}
+        selectBridge={selectBridge}
+        tokens={
+          selector.current === 'BRIDGES'
+            ? bridgesList
+            : [...tokenList].sort((a, b) => a.name.localeCompare(b.name))
+        }
+        title={'Select a bridge'}
         selector={selector.current}
       />
     </div>
