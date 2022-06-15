@@ -426,6 +426,24 @@ const getAllActiveContractAddresses = async () => {
   return contracts;
 };
 
+const getAllInactiveContractAddresses = async () => {
+  const contracts = [];
+  const connectedNetwork = CONFIG.NETWORK;
+  for (const x in CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork]) {
+    if (CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][x]['inactive'].length > 0) {
+      for (const y in CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][x]['inactive']) {
+        contracts.push({
+          contract: CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][x]['inactive'][y]['address'],
+          mapId: CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][x]['inactive'][y]['mapId'],
+          dualInfo: CONFIG.STAKING_CONTRACTS.FARMS[connectedNetwork][x]['inactive'][y]['dualInfo'],
+          x: x,
+        });
+      }
+    }
+  }
+  return contracts;
+};
+
 const getLpPriceFromDex = async (identifier, dexAddress) => {
   try {
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
@@ -1917,10 +1935,12 @@ export const harvestAllHelper = async (
     initialDataPromises.push(getAllActiveContractAddresses());
     initialDataPromises.push(getCurrentBlockLevel());
     initialDataPromises.push(CheckIfWalletConnected(wallet, network.type));
+    initialDataPromises.push(getAllInactiveContractAddresses());
     const initialDataResponse = await Promise.all(initialDataPromises);
     const allActiveContracts = initialDataResponse[0];
     const blockLevel = initialDataResponse[1];
     const WALLET_RESP = initialDataResponse[2];
+    const allInactiveContracts = initialDataResponse[3];
     if (WALLET_RESP.success) {
       const Tezos = new TezosToolkit(rpcNode);
       Tezos.setRpcProvider(rpcNode);
@@ -1953,6 +1973,35 @@ export const harvestAllHelper = async (
         } else {
           if (output.totalRewards > 0) {
             promises.push(await Tezos.wallet.at(allActiveContracts[key].contract));
+          }
+        }
+      }
+      for (const key in allInactiveContracts) {
+        const output =
+        allInactiveContracts[key].x === 'PLENTY - GIF' || allInactiveContracts[key].x === 'CTEZ - TEZ'
+            ? await calculateHarvestValueDual(
+              allInactiveContracts[key].contract,
+              allInactiveContracts[key].dualInfo,
+                blockLevel,
+                packedKey,
+              )
+            : await calculateHarvestValue(
+              allInactiveContracts[key].contract,
+                18,
+                blockLevel,
+                allInactiveContracts[key].mapId,
+                packedKey,
+              );
+        if (
+          allInactiveContracts[key].x === 'PLENTY - GIF' ||
+          allInactiveContracts[key].x === 'CTEZ - TEZ'
+        ) {
+          if (output.totalRewards[0] > 0) {
+            promises.push(await Tezos.wallet.at(allInactiveContracts[key].contract));
+          }
+        } else {
+          if (output.totalRewards > 0) {
+            promises.push(await Tezos.wallet.at(allInactiveContracts[key].contract));
           }
         }
       }
