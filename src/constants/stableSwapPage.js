@@ -8,6 +8,8 @@ import usdce from '../assets/images/usdce.png';
 import wbtce from '../assets/images/wbtce.png';
 import weth_normal from '../assets/images/bridge/tokens/weth_icon.svg';
 import dai_normal from '../assets/images/bridge/tokens/dai_icon.svg';
+import usdtz from '../assets/images/usdtz.png';
+import busd_normal from '../assets/images/bridge/tokens/busd_icon.svg';
 
 export const stableSwapTokens = [
   {
@@ -62,6 +64,16 @@ export const stableSwapTokens = [
   {
     name: 'tzBTC',
     image: tzBTC,
+    new: false,
+  },
+  {
+    name: 'USDtz',
+    image: usdtz,
+    new: false,
+  },
+  {
+    name: 'BUSD.e',
+    image: busd_normal,
     new: false,
   },
 ];
