@@ -379,7 +379,6 @@ const BridgeModal = (props) => {
   };
 
   const selectBridge = (bridge) => {
-    console.log(bridge);
     setFirstTokenAmount('');
     setSecondTokenAmount('');
     setFee(0);
@@ -399,9 +398,9 @@ const BridgeModal = (props) => {
       setOperation('UNBRIDGE');
     } else {
       setConnectBrigeWallet({
-        name: bridge.name,
-        image: bridge.image,
-        buttonImage: bridge.buttonImage,
+        name: bridge.name1,
+        image: bridge.image1,
+        buttonImage: bridge.buttonImage1,
       });
       if (operation === 'UNBRIDGE') {
         setToBridge({ name: 'TEZOS', image: tezos, buttonImage: '' });
@@ -536,6 +535,11 @@ const BridgeModal = (props) => {
                     )})`}</span>
                   </OverlayTrigger>
                 )}
+                {metamaskAddress && (
+                  <span>
+                    <img src={connectBridgeWallet.image} className={`ml-2 ${styles.walletIcon}`} />
+                  </span>
+                )}
               </p>
               {walletAddress &&
                 metamaskAddress &&
@@ -559,7 +563,7 @@ const BridgeModal = (props) => {
                   </p>
                 ))}
             </div>
-            <div className={`mb-2 ${styles.lineBottom} `}></div>
+            <div className={`mb-3 ${styles.lineBottom} `}></div>
 
             <div className={` ${styles.fromBridgeSelectBox}`}>
               <div className="flex">
@@ -585,7 +589,7 @@ const BridgeModal = (props) => {
                   <img src={fromBridge.image} className={styles.buttonLogo} />
                   <span>{titleCase(fromBridge.name)} </span>
                 </div>
-                <div>
+                <div className="px-2">
                   <img
                     className={`${styles.arrowBridgeSvg}`}
                     src={arrowbridge}
@@ -596,7 +600,7 @@ const BridgeModal = (props) => {
                   <img src={toBridge.image} className={styles.buttonLogo} />
                   <span>{titleCase(toBridge.name)} </span>
                 </div>
-                <div className={`${styles.expandMoreWrapper} ml-auto`}>
+                <div className={`${styles.expandMoreWrapper} float-right `}>
                   <span
                     className={`span-themed material-icons-round ${styles.expandMoreSelectBridge}`}
                     style={{ fontSize: '20px' }}

@@ -42,9 +42,9 @@ export const bridgesList = [
   },
   {
     name: 'POLYGON',
-    image: ethereum,
-    buttonImage: ethereumButtonIcon,
-    bigIcon: ethereum,
+    image: matic_normal,
+    buttonImage: matic_normal,
+    bigIcon: matic_normal,
   },
 ];
 

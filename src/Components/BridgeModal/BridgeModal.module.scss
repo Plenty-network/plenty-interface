@@ -28,7 +28,7 @@
   box-shadow: var(--theme-swap-boxshadow);
   background: linear-gradient(
     180deg,
-    var(--theme-bridge-main-bg-1) 60%,
+    var(--theme-bridge-main-bg-1) 58.5%,
     var(--theme-bridge-main-bg-2) 0%
   );
   border: 1px solid var(--theme-bridge-history-border);
@@ -289,7 +289,8 @@
   border-radius: 30px;
   height: 32px;
   width: 32px;
-  padding: 8px, 17px, 8px, 17px;
+  right: -9px;
+  position: relative;
 }
 .expandMoreSelectBridge {
   position: relative;
@@ -316,7 +317,9 @@
   line-height: 17px;
   color: var(--theme-bridge-chain-sel-text);
 }
-
+.walletIcon {
+  width: 20px;
+}
 .fromLabelBottom {
   font-weight: 500;
   font-size: 12px;

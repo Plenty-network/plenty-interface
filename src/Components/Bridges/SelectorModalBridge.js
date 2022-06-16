@@ -4,6 +4,7 @@ import './styles/SelectorModal.scss';
 import eth from '../../assets/images/bridge/eth.svg';
 import tezos from '../../assets/images/bridge/ic_tezos.svg';
 import { bridgesList } from '../../constants/bridges';
+import matic_normal from '../../assets/images/bridge/tokens/matic_icon.svg';
 
 const SelectorModalBridge = (props) => {
   const chainSelection = [
@@ -27,7 +28,7 @@ const SelectorModalBridge = (props) => {
     },
     {
       name: 'Polygon to Tezos',
-      image1: eth,
+      image1: matic_normal,
       name1: 'POLYGON',
       token2: tezos,
       name2: 'TEZOS',
@@ -38,7 +39,7 @@ const SelectorModalBridge = (props) => {
       name: 'Tezos to Polygon',
       image1: tezos,
       name1: 'TEZOS',
-      token2: eth,
+      token2: matic_normal,
       name2: 'POLYGON',
       buttonImage1: bridgesList[0].buttonImage,
       buttonImage2: bridgesList[1].buttonImage,
