@@ -346,7 +346,8 @@ const getPackedKey = (tokenId, address, type) => {
 export const getxtzBalance = async (identifier, address) => {
   const token = CONFIG.STABLESWAP[CONFIG.NETWORK][identifier];
 
-  const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
+  const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
+  // const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
   const type = token.READ_TYPE;
   const decimal = token.TOKEN_DECIMAL;
   const options = {
@@ -388,7 +389,8 @@ export const getUserBalanceByRpcStable = async (identifier, address) => {
 
     const token = CONFIG.STABLESWAP[CONFIG.NETWORK][identifier];
     const mapId = token.mapId;
-    const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
+    // const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
     const type = token.READ_TYPE;
     const decimal = token.TOKEN_DECIMAL;
     const network = {
