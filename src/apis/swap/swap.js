@@ -1124,7 +1124,8 @@ export const getUserBalanceByRpc = async (identifier, address) => {
     const type = token.READ_TYPE;
     const decimal = token.TOKEN_DECIMAL;
     const tokenId = token.TOKEN_ID;
-    const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
+    // const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
     const packedKey = getPackedKey(tokenId, address, type);
     const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
     const response = await axios.get(url);
@@ -1171,7 +1172,8 @@ export const getUserBalanceByRpcWithoutDecimal = async (identifier, address) => 
     const mapId = token.mapId;
     const type = token.READ_TYPE;
     const tokenId = token.TOKEN_ID;
-    const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
+    // const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
     const packedKey = getPackedKey(tokenId, address, type);
     const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
     const response = await axios.get(url);
