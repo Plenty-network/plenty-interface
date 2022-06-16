@@ -41,7 +41,6 @@ const BridgeModal = (props) => {
   const [isTokenInSelected, setIsTokenInSelected] = useState(false);
   const [isBridgeSelected, setIsBridgeSelected] = useState(false);
   const [isTokenSelected, setIsTokenSelected] = useState(false);
-  const [isBridgeClicked, setIsBridgeClicked] = useState(false);
   const [pendingTransCount, setPendingTransCount] = useState(0);
   const [animationClass, setAnimationClass] = useState('leftToRightFadeInAnimation-4-bridge');
   const [isHistoryLoading, setIsHistoryLoading] = useState(true);
@@ -365,7 +364,6 @@ const BridgeModal = (props) => {
   const handleClose = () => {
     setShow(false);
     setShowChain(false);
-    setIsBridgeClicked(false);
     setSearchQuery('');
   };
 
@@ -418,7 +416,6 @@ const BridgeModal = (props) => {
 
   const handleBridgeSelect = () => {
     selector.current = 'BRIDGES';
-    setIsBridgeClicked(true);
     setShowChain(true);
   };
 
@@ -570,7 +567,7 @@ const BridgeModal = (props) => {
             <div className={`mb-3 ${styles.lineBottom} `}></div>
 
             <div className={` ${styles.fromBridgeSelectBox}`}>
-              <div className="flex">
+              <div className="flex align-items-center">
                 <div className={`${styles.selectBridgeIcon}`}>
                   <img
                     className={`${styles.selectBridgeIconSvg}`}
@@ -582,9 +579,9 @@ const BridgeModal = (props) => {
               </div>
               <div className={`${styles.dividerSelectBridge}`}></div>
               <div
-                className={clsx('d-flex align-items-center justify-content-around')}
+                className={clsx('d-flex align-items-center justify-content-between')}
                 onClick={handleBridgeSelect}
-                style={{ boxShadow: isBridgeSelected && 'none' }}
+                style={{ boxShadow: isBridgeSelected && 'none', width: '67%', cursor: 'pointer' }}
               >
                 <div className={`${styles.tokenimageWrapper}`}>
                   <img src={fromBridge.image} className={styles.buttonLogo} />
@@ -601,7 +598,7 @@ const BridgeModal = (props) => {
                   <img src={toBridge.image} className={styles.buttonLogo} />
                   <span>{titleCase(toBridge.name)} </span>
                 </div>
-                <div className={`${styles.expandMoreWrapper} float-right `}>
+                <div className={`${styles.expandMoreWrapper}`}>
                   <span
                     className={`span-themed material-icons-round ${styles.expandMoreSelectBridge}`}
                     style={{ fontSize: '20px' }}
@@ -680,7 +677,7 @@ const BridgeModal = (props) => {
 
             {/* <div className={`mt-2 ${styles.to}`}>To</div> */}
             <div
-              className={`mt-2 ${styles.toBridgeSelectBox} ${styles.inputSelectBox} ${
+              className={`mt-3 ${styles.toBridgeSelectBox} ${styles.inputSelectBox} ${
                 isTokenInSelected ? styles.toBridgeSelected : null
               }`}
             >
