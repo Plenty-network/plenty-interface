@@ -382,7 +382,7 @@ const BridgeModal = (props) => {
     setFirstTokenAmount('');
     setSecondTokenAmount('');
     setFee(0);
-    if (bridge.name1 === 'TEZOS') {
+    if (bridge.fromTokenName === 'TEZOS') {
       const currentFrom = {
         name: fromBridge.name,
         image: fromBridge.image,
@@ -398,8 +398,8 @@ const BridgeModal = (props) => {
       setOperation('UNBRIDGE');
     } else {
       setConnectBrigeWallet({
-        name: bridge.name1,
-        image: bridge.image1,
+        name: bridge.fromTokenName,
+        image: bridge.fromTokenImage,
         buttonImage: bridge.buttonImage1,
       });
       if (operation === 'UNBRIDGE') {
@@ -407,7 +407,11 @@ const BridgeModal = (props) => {
         setOperation('BRIDGE');
       }
     }
-    setFromBridge({ name: bridge.name1, image: bridge.image1, buttonImage: bridge.buttonImage1 });
+    setFromBridge({
+      name: bridge.fromTokenName,
+      image: bridge.fromTokenImage,
+      buttonImage: bridge.buttonImage1,
+    });
     setIsBridgeSelected(true);
     handleClose();
   };
@@ -578,10 +582,7 @@ const BridgeModal = (props) => {
               </div>
               <div className={`${styles.dividerSelectBridge}`}></div>
               <div
-                className={clsx(
-                  isBridgeClicked && styles.fromBridgeClicked,
-                  'd-flex align-items-center justify-content-around',
-                )}
+                className={clsx('d-flex align-items-center justify-content-around')}
                 onClick={handleBridgeSelect}
                 style={{ boxShadow: isBridgeSelected && 'none' }}
               >
@@ -782,11 +783,7 @@ const BridgeModal = (props) => {
         show={show}
         onHide={handleClose}
         selectToken={selectToken}
-        tokens={
-          selector.current === 'BRIDGES'
-            ? bridgesList
-            : [...tokenList].sort((a, b) => a.name.localeCompare(b.name))
-        }
+        tokens={[...tokenList].sort((a, b) => a.name.localeCompare(b.name))}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         title={'Select a token'}
@@ -796,11 +793,7 @@ const BridgeModal = (props) => {
         show={showChain}
         onHide={handleClose}
         selectBridge={selectBridge}
-        tokens={
-          selector.current === 'BRIDGES'
-            ? bridgesList
-            : [...tokenList].sort((a, b) => a.name.localeCompare(b.name))
-        }
+        tokens={bridgesList}
         title={'Select a bridge'}
         selector={selector.current}
       />

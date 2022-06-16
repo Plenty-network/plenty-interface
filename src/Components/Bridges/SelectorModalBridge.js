@@ -10,37 +10,37 @@ const SelectorModalBridge = (props) => {
   const chainSelection = [
     {
       name: 'Ethereum to Tezos',
-      image1: eth,
-      name1: 'RINKEBY',
-      token2: tezos,
-      name2: 'TEZOS',
+      fromTokenImage: eth,
+      fromTokenName: 'RINKEBY',
+      toTokenImage: tezos,
+      toTokenName: 'TEZOS',
       buttonImage1: bridgesList[0].buttonImage,
       buttonImage2: bridgesList[1].buttonImage,
     },
     {
       name: 'Tezos to Ethereum',
-      image1: tezos,
-      name1: 'TEZOS',
-      token2: eth,
-      name2: 'RINKEBY',
+      fromTokenImage: tezos,
+      fromTokenName: 'TEZOS',
+      toTokenImage: eth,
+      toTokenName: 'RINKEBY',
       buttonImage1: bridgesList[1].buttonImage,
       buttonImage2: bridgesList[0].buttonImage,
     },
     {
       name: 'Polygon to Tezos',
-      image1: matic_normal,
-      name1: 'POLYGON',
-      token2: tezos,
-      name2: 'TEZOS',
+      fromTokenImage: matic_normal,
+      fromTokenName: 'POLYGON',
+      toTokenImage: tezos,
+      toTokenName: 'TEZOS',
       buttonImage1: bridgesList[0].buttonImage,
       buttonImage2: bridgesList[1].buttonImage,
     },
     {
       name: 'Tezos to Polygon',
-      image1: tezos,
-      name1: 'TEZOS',
-      token2: matic_normal,
-      name2: 'POLYGON',
+      fromTokenImage: tezos,
+      fromTokenName: 'TEZOS',
+      toTokenImage: matic_normal,
+      toTokenName: 'POLYGON',
       buttonImage1: bridgesList[0].buttonImage,
       buttonImage2: bridgesList[1].buttonImage,
     },
@@ -83,7 +83,7 @@ const SelectorModalBridge = (props) => {
             <span className=" selectionAlignment">Tezos to Ethereum</span>
           </button>
           <button className="token-select-btn">
-            <img src={tezos} className="select-token-img-bridge" alt={'tezos'} />
+            <img src={matic_normal} className="select-token-img-bridge" alt={'matic_normal'} />
             <span className="chain-topic">Polygon</span>
           </button>
 
