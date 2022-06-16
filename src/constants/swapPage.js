@@ -37,6 +37,7 @@ import weth_normal from '../assets/images/bridge/tokens/weth_icon.svg';
 import dai_normal from '../assets/images/bridge/tokens/dai_icon.svg';
 import link_normal from '../assets/images/bridge/tokens/link_icon.svg';
 import matic_normal from '../assets/images/bridge/tokens/matic_icon.svg';
+import busd_normal from '../assets/images/bridge/tokens/busd_icon.svg';
 export const tokens = [
   {
     name: 'DOGA',
@@ -71,6 +72,11 @@ export const tokens = [
   {
     name: 'MATIC.e',
     image: matic_normal,
+    new: true,
+  },
+  {
+    name: 'BUSD.e',
+    image: busd_normal,
     new: true,
   },
   {

@@ -4,6 +4,7 @@ import { CheckIfWalletConnected } from '../wallet/wallet';
 import CONFIG from '../../config/config';
 import BigNumber from 'bignumber.js';
 import { getUserBalanceByRpcWithoutDecimal} from '../swap/swap';
+import { RPC_NODE } from '../../constants/localStorage';
 
 const util = (x, y) => {
   const plus = x + y;
@@ -149,7 +150,8 @@ export const swapTokens = async (
   setShowConfirmTransaction,
 ) => {
   const connectedNetwork = CONFIG.NETWORK;
-  const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+  // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+  const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
   try {
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -281,7 +283,8 @@ export const swapTokens = async (
 export const loadSwapDataGeneralStable = async (tokenIn, tokenOut) => {
   try { 
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const dexContractAddress =
       CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
     const Tezos = new TezosToolkit(rpcNode);
@@ -352,7 +355,8 @@ export const loadSwapDataGeneralStable = async (tokenIn, tokenOut) => {
 export const loadSwapDataGeneralStableWithoutDecimal = async (tokenIn, tokenOut) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const dexContractAddress =
       CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
     const Tezos = new TezosToolkit(rpcNode);
