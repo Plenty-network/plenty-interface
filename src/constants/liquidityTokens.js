@@ -80,6 +80,11 @@ export const liquidityTokens = [
     new: true,
   },
   {
+    name: 'BUSD.e',
+    image: busd_normal,
+    new: true,
+  },
+  {
     name: 'CRUNCH',
     image: CRUNCH,
     new: false,
@@ -241,9 +246,5 @@ export const liquidityTokens = [
     name: 'YOU',
     image: youGov,
     new: false,
-  },
-  {
-    name: 'BUSD.e',
-    image: busd_normal,
   },
 ];
