@@ -68,6 +68,7 @@ import ctezhDAO from '../assets/images/farms/ctez-hDAO.png';
 import ctezKALAM from '../assets/images/farms/ctez-KALAM.png';
 import cteztzBTC from '../assets/images/farms/ctez-tzBTC.png';
 import ctezSMAK from '../assets/images/farms/ctez-SMAK.png';
+import USDtzUSDCe from '../assets/images/farms/USDtzUSDCe.png';
 
 export const FARMS_CARD_DATA_PROPTYPES = PropTypes.shape({
   farmData: PropTypes.shape({
@@ -407,6 +408,28 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
     isDualFarm: false,
     url: '/liquidity/add?tokenA=ctez&tokenB=WBTC.e',
+  },
+  'USDtz / USDC.e LP': {
+    image: USDtzUSDCe,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'USDtz / USDC.e PNLP',
+    apr: 0,
+    apy: 0,
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'USDtz / USDC.e LP',
+    liquidity: '5000',
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
+    url: '/liquidity/add?tokenA=USDtz&tokenB=USDC.e',
   },
   'KALAM / XTZ LP': {
     image: kalamXtz,
