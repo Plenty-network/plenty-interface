@@ -26,7 +26,9 @@ import { titleCase } from '../TransactionHistory/helpers';
 import fromExponential from 'from-exponential';
 import BigNumber from 'bignumber.js';
 import selectbridge from '../../assets/images/bridge/selectbridge.svg';
+import selectbridgeDark from '../../assets/images/bridge/selectbridgeDark.svg';
 import arrowbridge from '../../assets/images/bridge/arrowbridge.svg';
+import arrowbridgeDark from '../../assets/images/bridge/arrowbridgedark.svg';
 import SelectorModalBridge from '../Bridges/SelectorModalBridge';
 const BridgeModal = (props) => {
   const dispatch = useDispatch();
@@ -567,30 +569,33 @@ const BridgeModal = (props) => {
             <div className={`mb-3 ${styles.lineBottom} `}></div>
 
             <div className={` ${styles.fromBridgeSelectBox}`}>
-              <div className="flex align-items-center">
+              <div className={`${styles.selectTokenWrapper} align-items-center`}>
                 <div className={`${styles.selectBridgeIcon}`}>
                   <img
                     className={`${styles.selectBridgeIconSvg}`}
-                    src={selectbridge}
+                    src={theme === 'light' ? selectbridge : selectbridgeDark}
                     alt={'select-bridge'}
                   />
                 </div>
-                <div className={` ml-2 ${styles.fromLabelTop}`}>Select bridge: </div>
+                <div className={` ${styles.fromLabelTop}`}>Select bridge: </div>
               </div>
               <div className={`${styles.dividerSelectBridge}`}></div>
               <div
-                className={clsx('d-flex align-items-center justify-content-between')}
+                className={clsx(
+                  'd-flex align-items-center justify-content-between',
+                  styles.selectBridgeTop,
+                )}
                 onClick={handleBridgeSelect}
-                style={{ boxShadow: isBridgeSelected && 'none', width: '67%', cursor: 'pointer' }}
+                style={{ boxShadow: isBridgeSelected && 'none', cursor: 'pointer' }}
               >
                 <div className={`${styles.tokenimageWrapper}`}>
                   <img src={fromBridge.image} className={styles.buttonLogo} />
                   <span>{titleCase(fromBridge.name)} </span>
                 </div>
-                <div className="px-2">
+                <div>
                   <img
                     className={`${styles.arrowBridgeSvg}`}
-                    src={arrowbridge}
+                    src={theme === 'light' ? arrowbridge : arrowbridgeDark}
                     alt={'arrow-bridge'}
                   />
                 </div>

@@ -168,5 +168,8 @@ export const allTokens = {
   'BUSD.e': busd_normal,
   'WETH.e': weth_normal,
   'WBTC.e': wbtc_normal,
+  'WETH.p': weth_normal,
+  'WMATIC.p': matic_normal,
+  WMATIC: matic_normal,
   fallback: fallbackIcon,
 };
