@@ -10,6 +10,7 @@ import weth_normal from '../assets/images/bridge/tokens/weth_icon.svg';
 import dai_normal from '../assets/images/bridge/tokens/dai_icon.svg';
 import usdtz from '../assets/images/usdtz.png';
 import busd_normal from '../assets/images/bridge/tokens/busd_icon.svg';
+import usdt_normal from '../assets/images/bridge/tokens/usdt_icon.svg';
 
 export const stableSwapTokens = [
   {
@@ -40,6 +41,11 @@ export const stableSwapTokens = [
   {
     name: 'ETHtz',
     image: ETHtz,
+    new: true,
+  },
+  {
+    name: 'USDT.e',
+    image: usdt_normal,
     new: true,
   },
   {
