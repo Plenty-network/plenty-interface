@@ -38,6 +38,7 @@ import dai_normal from '../assets/images/bridge/tokens/dai_icon.svg';
 import link_normal from '../assets/images/bridge/tokens/link_icon.svg';
 import matic_normal from '../assets/images/bridge/tokens/matic_icon.svg';
 import busd_normal from '../assets/images/bridge/tokens/busd_icon.svg';
+import usdt_normal from '../assets/images/bridge/tokens/usdt_icon.svg';
 export const tokens = [
   {
     name: 'DOGA',
@@ -77,6 +78,11 @@ export const tokens = [
   {
     name: 'BUSD.e',
     image: busd_normal,
+    new: true,
+  },
+  {
+    name: 'USDT.e',
+    image: usdt_normal,
     new: true,
   },
   {
