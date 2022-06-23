@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
-import { useCallback, useEffect, useState } from 'react';
-import { FormControl, InputGroup, Modal } from 'react-bootstrap';
-import { BsSearch } from 'react-icons/bs';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Modal } from 'react-bootstrap';
+import SearchTokenInput from '../SearchTokenInput';
 import { titleCase } from '../TransactionHistory/helpers';
 import './styles/SelectorModal.scss';
 
 const SelectorModal = (props) => {
+  const searchTokenEl = useRef(null);
   const [tokensToShow, setTokensToShow] = useState([]);
 
   const searchHits = useCallback(
@@ -31,7 +32,12 @@ const SelectorModal = (props) => {
   ]);
 
   return (
-    <Modal show={props.show} onHide={props.onHide} className="selector-modal modal-themed">
+    <Modal
+      show={props.show}
+      onHide={props.onHide}
+      onEntered={() => searchTokenEl.current.focus()}
+      className="selector-modal modal-themed"
+    >
       <Modal.Header className="border-bottom-themed flex-column">
         <div className="flex flex-row w-100">
           <Modal.Title className="flex align-items-center">
@@ -47,21 +53,11 @@ const SelectorModal = (props) => {
             </span>
           </Modal.Title>
         </div>
-        <div className="mt-1 flex flex-row w-100">
-          <InputGroup>
-            <InputGroup.Prepend>
-              <InputGroup.Text className="search-icon border-right-0">
-                <BsSearch />
-              </InputGroup.Text>
-            </InputGroup.Prepend>
-            <FormControl
-              placeholder="Search"
-              className={'shadow-none border-left-0 search-box'}
-              value={props.searchQuery}
-              onChange={(ev) => props.setSearchQuery(ev.target.value)}
-            />
-          </InputGroup>
-        </div>
+        <SearchTokenInput
+          inputRef={searchTokenEl}
+          value={props.searchQuery}
+          onChange={(ev) => props.setSearchQuery(ev.target.value)}
+        />
       </Modal.Header>
       <Modal.Body>
         <div className="coin-selection-table">
