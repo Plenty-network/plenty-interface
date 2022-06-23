@@ -4761,6 +4761,7 @@ const Config: IConfig = {
   BRIDGES_INDEXER_LINKS: {
     testnet: {
       RINKEBY: 'https://bridgeindexer.plentydefi.com/v1/configuration',
+      MUMBAI: 'https://bridgepolygontestnetindexer.plentydefi.com/configuration',
     },
     mainnet: {
       ETHEREUM: 'https://indexer.app.tzwrap.com/v1/configuration',
@@ -4770,6 +4771,7 @@ const Config: IConfig = {
     RINKEBY: 'https://rinkeby.etherscan.io/tx/',
     ETHEREUM: 'https://etherscan.io/tx/',
     TEZOS: 'https://ithacanet.tzkt.io/',
+    MUMBAI: 'https://mumbai.polygonscan.com/',
   },
 };
 

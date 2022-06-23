@@ -5,7 +5,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import truncateMiddle from 'truncate-middle';
 import styles from './BridgeModal.module.scss';
 import Button from '../Ui/Buttons/Button';
-import tezos from '../../assets/images/bridge/tezos.svg';
+// import tezos from '../../assets/images/bridge/tezos.svg';
 import '../../assets/scss/animation.scss';
 import switchImg from '../../assets/images/bridge/bridge-switch.svg';
 import switchImgDark from '../../assets/images/bridge/bridge-switch-dark.svg';
@@ -382,7 +382,7 @@ const BridgeModal = (props) => {
     setFirstTokenAmount('');
     setSecondTokenAmount('');
     setFee(0);
-    if (bridge.fromTokenName === 'TEZOS') {
+    /* if (bridge.fromTokenName === 'TEZOS') {
       const currentFrom = {
         name: fromBridge.name,
         image: fromBridge.image,
@@ -406,7 +406,27 @@ const BridgeModal = (props) => {
         setToBridge({ name: 'TEZOS', image: tezos, buttonImage: '' });
         setOperation('BRIDGE');
       }
+    } */
+    if (bridge.fromTokenName === 'TEZOS') {
+      setOperation('UNBRIDGE');
+      setConnectBrigeWallet({
+        name: bridge.toTokenName,
+        image: bridge.toTokenImage,
+        buttonImage: bridge.buttonImage,
+      });
+    } else {
+      setOperation('BRIDGE');
+      setConnectBrigeWallet({
+        name: bridge.fromTokenName,
+        image: bridge.fromTokenImage,
+        buttonImage: bridge.buttonImage,
+      });
     }
+    setToBridge({
+      name: bridge.toTokenName,
+      image: bridge.toTokenImage,
+      buttonImage: bridge.buttonImage2,
+    });
     setFromBridge({
       name: bridge.fromTokenName,
       image: bridge.fromTokenImage,
