@@ -499,6 +499,16 @@ export const getAllRoutes = async (tokenIn, tokenOut) => {
         routeDataPromises.push(getRouteSwapData(path));
       }
     });
+
+    if(routeDataPromises.length === 0 ){
+      paths.forEach((path) => {
+        // Adding length 5 for accomodating cases where swap is impossible with 4
+        if (path.length <= 5) {
+          routeDataPromises.push(getRouteSwapData(path));
+        }
+      });
+    }
+    // Do not combine the above loops as changing path length to 5 for all pairs will yield exponential results
     const routeDataResponses = await Promise.all(routeDataPromises);
     /*
       When there is no input, but we need to show swap rate
