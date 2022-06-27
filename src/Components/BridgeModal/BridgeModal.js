@@ -560,7 +560,7 @@ const BridgeModal = (props) => {
                 )}
                 {metamaskAddress && (
                   <span>
-                    <img src={connectBridgeWallet.image} className={`ml-2 ${styles.walletIcon}`} />
+                    <img src={operation === 'UNBRIDGE' ? toBridge.image : fromBridge.image} className={`ml-2 ${styles.walletIcon}`} />
                   </span>
                 )}
               </p>
