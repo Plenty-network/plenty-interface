@@ -28,7 +28,7 @@ const WrappedRoute = (props) => {
         localStorage.setItem(BRIDGES_CONFIG, JSON.stringify(bridgeConfig.data));
         localStorage.setItem(
           BRIDGES_CONFIG_EXPIRY_TIME,
-          JSON.stringify(new Date().getTime() + 1000 * 60 * 60 * 24),
+          JSON.stringify(new Date().getTime() + 1000 * 60 * 60 * 12),
         );
       } else {
         console.log(`Failed to load bridge config - ${bridgeConfig.error}.`);
