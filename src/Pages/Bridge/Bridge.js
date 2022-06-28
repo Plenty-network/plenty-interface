@@ -179,6 +179,7 @@ const Bridge = (props) => {
         setMetamaskAddress(newAccount[0]);
         localStorage.setItem('isWalletConnected', true);
       } else {
+        console.log('acc change handler disconnect');
         setMetamaskAddress(null);
         localStorage.setItem('isWalletConnected', false);
         disconnectWallet();
@@ -188,6 +189,7 @@ const Bridge = (props) => {
   );
   // eslint-disable-next-line
   const onDisconnect = useCallback((connectInfo) => {
+    console.log('disconnect handler disconnect.');
     setMetamaskAddress(null);
     localStorage.setItem('isWalletConnected', false);
     disconnectWallet();
