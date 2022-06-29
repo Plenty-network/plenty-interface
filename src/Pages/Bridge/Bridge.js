@@ -28,7 +28,7 @@ const Bridge = (props) => {
   const initialRender = useRef(true);
   const [transaction, setTransaction] = useState(1);
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
-  const [secondTokenAmount, setSecondTokenAmount] = useState(''); 
+  const [secondTokenAmount, setSecondTokenAmount] = useState('');
   const [tokenIn, setTokenIn] = useState({
     name: '',
     image: '',
@@ -190,9 +190,12 @@ const Bridge = (props) => {
   // eslint-disable-next-line
   const onDisconnect = useCallback((connectInfo) => {
     console.log('disconnect handler disconnect.');
-    setMetamaskAddress(null);
-    localStorage.setItem('isWalletConnected', false);
-    disconnectWallet();
+    console.log(connectInfo);
+    if (connectInfo === 1000) {
+      setMetamaskAddress(null);
+      localStorage.setItem('isWalletConnected', false);
+      disconnectWallet();
+    }
   }, []);
 
   const removeListenEvents = async () => {
@@ -238,7 +241,7 @@ const Bridge = (props) => {
                   (token) => token.name === DEFAULT_TEZOS_TOKEN,
                 ) || loadedTokensList.current.TEZOS[toBridge.name][0];
               setTokenIn(defaultToken);
-              
+
               const outTokenName = BridgeConfiguration.getOutTokenUnbridging(
                 toBridge.name,
                 defaultToken.name,
@@ -266,11 +269,11 @@ const Bridge = (props) => {
           if (!switchButtonPressed.current) {
             // Load USDC as default token, if not available then the first token in the list.
             const defaultToken =
-                loadedTokensList.current[fromBridge.name].find(
-                  (token) => token.name === DEFAULT_ETHEREUM_TOKEN,
-                ) || loadedTokensList.current[fromBridge.name][0];
+              loadedTokensList.current[fromBridge.name].find(
+                (token) => token.name === DEFAULT_ETHEREUM_TOKEN,
+              ) || loadedTokensList.current[fromBridge.name][0];
             setTokenIn(defaultToken);
-            
+
             const outTokenName = BridgeConfiguration.getOutTokenBridging(
               fromBridge.name,
               defaultToken.name,
@@ -305,10 +308,11 @@ const Bridge = (props) => {
       setTokenList(loadedTokensList.current[fromBridge.name]);
       // Load USDC as default token, if not available then the first token in the list.
       const defaultToken =
-        loadedTokensList.current[fromBridge.name].find((token) => token.name === DEFAULT_ETHEREUM_TOKEN) ||
-        loadedTokensList.current[fromBridge.name][0];
+        loadedTokensList.current[fromBridge.name].find(
+          (token) => token.name === DEFAULT_ETHEREUM_TOKEN,
+        ) || loadedTokensList.current[fromBridge.name][0];
       setTokenIn(defaultToken);
-      
+
       const outTokenName = BridgeConfiguration.getOutTokenBridging(
         fromBridge.name,
         defaultToken.name,
@@ -326,7 +330,7 @@ const Bridge = (props) => {
         image: '',
         tokenData: null,
       });
-      
+
       setTokenOut({
         name: 'Token NA',
         image: '',
