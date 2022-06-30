@@ -33,6 +33,9 @@ import tez from '../assets/images/tez.png';
 import doga from '../assets/images/doga.png';
 import usdce from '../assets/images/usdce.png';
 import wbtce from '../assets/images/wbtce.png';
+
+import eurl from '../assets/images/eurl.png';
+import ageure from '../assets/images/ageure.png';
 import weth_normal from '../assets/images/bridge/tokens/weth_icon.svg';
 import dai_normal from '../assets/images/bridge/tokens/dai_icon.svg';
 import link_normal from '../assets/images/bridge/tokens/link_icon.svg';
@@ -40,6 +43,16 @@ import matic_normal from '../assets/images/bridge/tokens/matic_icon.svg';
 import busd_normal from '../assets/images/bridge/tokens/busd_icon.svg';
 import usdt_normal from '../assets/images/bridge/tokens/usdt_icon.svg';
 export const tokens = [
+  {
+    name: 'EURL ',
+    image: eurl,
+    new: true,
+  },
+  {
+    name: 'agEUR.e ',
+    image: ageure,
+    new: true,
+  },
   {
     name: 'DOGA',
     image: doga,
