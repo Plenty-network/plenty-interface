@@ -1789,7 +1789,7 @@ const getuDEFIPrice = async () => {
  * Deprecate when token is listed on Tezos exchanges
  */
 
-const getagEURePrice = async () => {
+export const getagEURePrice = async () => {
   try {
   
     const url = 'https://api.angle.money/v1/prices';
