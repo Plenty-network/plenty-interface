@@ -1783,6 +1783,41 @@ const getuDEFIPrice = async () => {
     };
   }
 };
+
+/**
+ * Gets price of agEUR.e from Ethereum chain 
+ * Deprecate when token is listed on Tezos exchanges
+ */
+
+const getagEURePrice = async () => {
+  try {
+  
+    const url = 'https://api.angle.money/v1/prices';
+    const APIpriceResponse = await axios.get(url);
+    const dataObject = APIpriceResponse.data[4];
+
+    let agEUReInUSD = 0;
+    if(dataObject.token === 'agEUR'){
+      agEUReInUSD = dataObject.rate;
+      parseFloat(agEUReInUSD);
+      return {agEUReInUSD : agEUReInUSD};
+    }
+    else{
+      for(const x in APIpriceResponse.data){
+        if(APIpriceResponse.data[x].token === 'agEUR'){
+          agEUReInUSD = APIpriceResponse.data[x].rate;
+          parseFloat(agEUReInUSD);
+          return {agEUReInUSD : agEUReInUSD};
+        }
+      }
+    }
+  } catch (err) {
+    console.log({ err });
+    return {
+      agEUReInUSD: 0,
+    };
+  }
+};
 /**
  * Gets price of tokens to show during trade
  */
@@ -1792,6 +1827,7 @@ export const getTokenPrices = async () => {
     promises.push(axios.get('https://api.teztools.io/token/prices'));
     promises.push(getCtezPrice());
     promises.push(getuDEFIPrice());
+    promises.push(getagEURePrice());
     const promisesResponse = await Promise.all(promises);
     // let tokenPriceResponse = await axios.get(
     //   'https://api.teztools.io/token/prices'
@@ -1828,6 +1864,7 @@ export const getTokenPrices = async () => {
       'FLAME',
       'PAUL',
       'DOGA',
+      'EURL',
     ];
     const tokenAddress = {
       PLENTY: {
@@ -1917,6 +1954,9 @@ export const getTokenPrices = async () => {
       DOGA: {
         contractAddress: 'KT1Ha4yFVeyzw6KRAdkzq6TxDHB97KG4pZe8',
       },
+      EURL: {
+        contractAddress: 'KT1JBNFcB5tiycHNdYGYCtR3kk6JaJysUCi8',
+      },
     };
     for (const i in tokenPriceResponse.contracts) {
       if (tokens.includes(tokenPriceResponse.contracts[i].symbol)) {
@@ -1929,6 +1969,7 @@ export const getTokenPrices = async () => {
         }
       }
     }
+    // Depracate once the new tokens come on exchanges
     const connectedNetwork = CONFIG.NETWORK;
     for (const x in CONFIG.WRAPPED_ASSETS[connectedNetwork]) {
       if (
@@ -1946,6 +1987,7 @@ export const getTokenPrices = async () => {
     }
     tokenPrice['ctez'] = promisesResponse[1].ctezPriceInUSD;
     tokenPrice['uDEFI'] = promisesResponse[2].uDEFIinUSD;
+    tokenPrice['agEUR.e'] = promisesResponse[3].agEUReInUSD;
     return {
       success: true,
       tokenPrice,
