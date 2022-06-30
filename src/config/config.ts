@@ -205,6 +205,17 @@ const Config: IConfig = {
           ],
           inactive: [],
         },
+        // 'EURL - agEUR.e': {
+        //   active: [
+        //     {
+        //       address: 'KT1BUqUTY4r8ByQ5psHeQS46zuXu7JUvvWHH',
+        //       mapId: 193664,
+        //       decimal: 18,
+        //       tokenDecimal: 6,
+        //     },
+        //   ],
+        //   inactive: [],
+        // },
         'USDT.e - USDC.e': {
           active: [
             {
@@ -1063,6 +1074,15 @@ const Config: IConfig = {
         type: 'FA1.2',
         tokenId: 0,
       },
+
+      // 'EURL - agEUR.e': {
+      //   address: 'KT1P9GyfYrW9EZ8m3jej2cMu49fpmEbYa2h5',
+      //   mapId: 193185,
+      //   decimal: 6,
+      //   type: 'FA1.2',
+      //   tokenId: 0,
+      // },
+
       'USDT.e - USDC.e': {
         address: 'KT1CDeAxaiqbA5aMkPMmqqYXxqgfFwocJHza',
         mapId: 198730,
@@ -1819,6 +1839,53 @@ const Config: IConfig = {
           },
         },
       },
+
+      // 'agEUR.e': {
+      //   ICON: '',
+      //   TOKEN_CONTRACT: 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY',
+      //   mapId: 175082,
+      //   READ_TYPE: 'FA2',
+      //   CALL_TYPE: 'FA2',
+      //   TOKEN_ID: 8,
+      //   TOKEN_DECIMAL: 18,
+      //   DEX_PAIRS: {
+      //     EURL: {
+      //       contract: 'KT1BKcLyaaNf2SHfAivBFBqdFoYTjuc78Aff',
+      //       property: 'token1_pool',
+      //       liquidityToken: 'eurl-agEUR.e-LP',
+      //       type: 'veStableAMM',
+      //     },
+      //   },
+      // },
+
+      // EURL: {
+      //   ICON: '',
+      //   TOKEN_CONTRACT: 'KT1JBNFcB5tiycHNdYGYCtR3kk6JaJysUCi8',
+      //   mapId: 44140,
+      //   READ_TYPE: 'FA2',
+      //   CALL_TYPE: 'FA2',
+      //   TOKEN_ID: 0,
+      //   TOKEN_DECIMAL: 6,
+      //   DEX_PAIRS: {
+      //     'agEUR.e': {
+      //       contract: 'KT1BKcLyaaNf2SHfAivBFBqdFoYTjuc78Aff',
+      //       property: 'token1_pool',
+      //       liquidityToken: 'eurl-agEUR.e-LP',
+      //       type: 'veStableAMM',
+      //     },
+      //   },
+      // },
+
+      // 'eurl-agEUR.e-LP': {
+      //   ICON: '',
+      //   TOKEN_CONTRACT: 'KT1CDeAxaiqbA5aMkPMmqqYXxqgfFwocJHza',
+      //   mapId: 198730,
+      //   READ_TYPE: 'FA1.2',
+      //   TOKEN_ID: 0,
+      //   TOKEN_DECIMAL: 6,
+      //   CALL_TYPE: 'FA1.2',
+      //   DEX_PAIRS: {},
+      // },
 
       'usdt.e-usdc.e-LP': {
         ICON: '',
@@ -3440,6 +3507,53 @@ const Config: IConfig = {
         },
       },
 
+      // 'agEUR.e': {
+      //   ICON: '',
+      //   TOKEN_CONTRACT: 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY',
+      //   mapId: 175082,
+      //   READ_TYPE: 'FA2',
+      //   CALL_TYPE: 'FA2',
+      //   TOKEN_ID: 8,
+      //   TOKEN_DECIMAL: 18,
+      //   DEX_PAIRS: {
+      //     EURL: {
+      //       contract: 'KT1BKcLyaaNf2SHfAivBFBqdFoYTjuc78Aff',
+      //       property: 'token1_pool',
+      //       liquidityToken: 'eurl-agEUR.e-LP',
+      //       type: 'veStableAMM',
+      //     },
+      //   },
+      // },
+
+      // EURL: {
+      //   ICON: '',
+      //   TOKEN_CONTRACT: 'KT1JBNFcB5tiycHNdYGYCtR3kk6JaJysUCi8',
+      //   mapId: 44140,
+      //   READ_TYPE: 'FA2',
+      //   CALL_TYPE: 'FA2',
+      //   TOKEN_ID: 0,
+      //   TOKEN_DECIMAL: 6,
+      //   DEX_PAIRS: {
+      //     'agEUR.e': {
+      //       contract: 'KT1BKcLyaaNf2SHfAivBFBqdFoYTjuc78Aff',
+      //       property: 'token1_pool',
+      //       liquidityToken: 'eurl-agEUR.e-LP',
+      //       type: 'veStableAMM',
+      //     },
+      //   },
+      // },
+
+      // 'eurl-agEUR.e-LP': {
+      //   ICON: '',
+      //   TOKEN_CONTRACT: 'KT1CDeAxaiqbA5aMkPMmqqYXxqgfFwocJHza',
+      //   mapId: 198730,
+      //   READ_TYPE: 'FA1.2',
+      //   TOKEN_ID: 0,
+      //   TOKEN_DECIMAL: 6,
+      //   CALL_TYPE: 'FA1.2',
+      //   DEX_PAIRS: {},
+      // },
+
       'usdt.e-usdc.e-LP': {
         ICON: '',
         TOKEN_CONTRACT: 'KT1CDeAxaiqbA5aMkPMmqqYXxqgfFwocJHza',
@@ -4522,6 +4636,32 @@ const Config: IConfig = {
         ],
         inactive: [],
       },
+
+      // 'EURL - agEUR.e': {
+      //   active: [
+      //     {
+      //       LP_TOKEN: 'KT1P9GyfYrW9EZ8m3jej2cMu49fpmEbYa2h5',
+      //       CONTRACT: 'KT1BUqUTY4r8ByQ5psHeQS46zuXu7JUvvWHH',
+      //       DEX: 'KT1995R6hTYzXjV52mGtf6MboPRhzbJBJe6q',
+      //       TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       CARD_TYPE: 'USDtz / USDC.e LP',
+      //       TOKEN_DECIMAL: 6,
+      //       TYPE: 'FA1.2',
+      //       LP_DECIMAL: 18,
+      //       TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       DECIMAL: 18,
+      //       withdrawalFeeType: 'type2',
+      //       liquidityLink: '/liquidity/add?tokenA=USDtz&tokenB=USDC.e',
+      //       message: '😍 New farm',
+      //       bannerType: 'info',
+      //       isDualFarm: false,
+      //       farmType : 'veStableAMM'
+      //     },
+      //   ],
+      //   inactive: [],
+      // },
+
+
       'USDT.e - USDC.e': {
         active: [
           {
