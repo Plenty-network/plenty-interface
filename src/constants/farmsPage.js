@@ -70,6 +70,7 @@ import cteztzBTC from '../assets/images/farms/ctez-tzBTC.png';
 import ctezSMAK from '../assets/images/farms/ctez-SMAK.png';
 import USDtzUSDCe from '../assets/images/farms/USDtzUSDCe.png';
 import usdteusdce from '../assets/images/farms/usdteusdce.png';
+import EURlagEURe from '../assets/images/farms/EURlagEURe.png';
 
 export const FARMS_CARD_DATA_PROPTYPES = PropTypes.shape({
   farmData: PropTypes.shape({
@@ -189,7 +190,7 @@ export const FARMS_CARD_TYPE_LIST = {
     isDualFarm: false,
   },
   'EURL / agEUR.e LP': {
-    image: dogactezLpFarm,
+    image: EURlagEURe,
     harvestImg: plentyToken,
     multi: '100',
     title: 'EURL / agEUR.e PNLP',
