@@ -21,7 +21,7 @@ const LiquidityModal = (props) => {
         if (props.tokenOut.name) {
           if (config.AMM[config.NETWORK][props.tokenOut.name].DEX_PAIRS[token.name]) {
             return true;
-          } else if (token.name === 'tez') {
+          } else if (token.name === 'tez' || token.name === 'EURL' || token.name === 'agEUR.e') {
             return true;
           }
         } else {

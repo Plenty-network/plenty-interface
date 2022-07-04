@@ -181,6 +181,12 @@ const LiquidityNew = (props) => {
     updateBalance();
   }, [tokenIn, tokenOut, props]);
 
+  const AMMExists = (tokenIn, tokenOut) => {
+    if (tokenIn.name === 'tez')
+      return !!config.STABLESWAP[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
+    else return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
+  };
+
   const selectToken = (token) => {
     setLoaderInButton(true);
 
@@ -191,11 +197,16 @@ const LiquidityNew = (props) => {
         name: token.name,
         image: token.image,
       });
+
       if (token.name === 'tez') {
         setTokenOut({
           name: 'ctez',
           image: ctez,
         });
+      }
+      console.log(AMMExists(token, tokenOut));
+      if (!AMMExists) {
+        setTokenOut({});
       }
     } else {
       setTokenOut({

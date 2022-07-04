@@ -44,12 +44,12 @@ import busd_normal from '../assets/images/bridge/tokens/busd_icon.svg';
 import usdt_normal from '../assets/images/bridge/tokens/usdt_icon.svg';
 export const tokens = [
   {
-    name: 'EURL ',
+    name: 'EURL',
     image: eurl,
     new: true,
   },
   {
-    name: 'agEUR.e ',
+    name: 'agEUR.e',
     image: ageure,
     new: true,
   },

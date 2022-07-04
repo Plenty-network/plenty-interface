@@ -73,26 +73,27 @@ const SwapTab = (props) => {
     setSwapData(res);
   };
   const getSwapDataGeneralStableswap = async () => {
-    const res = await loadSwapDataGeneralStableWithoutDecimal(props.tokenIn.name, props.tokenOut.name);
+    const res = await loadSwapDataGeneralStableWithoutDecimal(
+      props.tokenIn.name,
+      props.tokenOut.name,
+    );
     console.log('getSwapDataGeneralStableswap');
     setSwapData(res);
-
   };
   useEffect(() => {
     // if (props.isStablePair) {
-      if (
-        config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
-        'xtz'
-      ) {
-        getSwapData();
-      } else if (
-        config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
-        'veStableAMM'
-      ) {
-        getSwapDataGeneralStableswap();
-      }
+    if (
+      config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type === 'xtz'
+    ) {
+      getSwapData();
+    } else if (
+      config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+      'veStableAMM'
+    ) {
+      getSwapDataGeneralStableswap();
+    }
     // }
-  }, [props.tokenIn , props.tokenOut]);
+  }, [props.tokenIn, props.tokenOut]);
 
   useEffect(() => {
     setRouteDataCopy(false);
