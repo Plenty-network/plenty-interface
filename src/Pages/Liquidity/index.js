@@ -56,14 +56,14 @@ const LiquidityNew = (props) => {
   const [positionDetails, setPositionDetails] = useState({});
   const [isPositionAvailable, setPositionAvailable] = useState(false);
 
-  useEffect(() => {
-    if (tokenIn.name === 'tez') {
-      setTokenOut({
-        name: 'ctez',
-        image: ctez,
-      });
-    }
-  }, [tokenIn]);
+  // useEffect(() => {
+  //   if (tokenIn.name === 'tez') {
+  //     setTokenOut({
+  //       name: 'ctez',
+  //       image: ctez,
+  //     });
+  //   }
+  // }, [tokenIn]);
 
   useEffect(async () => {
     const isStable = isTokenPairStable(tokenIn.name, tokenOut.name);
@@ -181,12 +181,6 @@ const LiquidityNew = (props) => {
     updateBalance();
   }, [tokenIn, tokenOut, props]);
 
-  const AMMExists = (tokenIn, tokenOut) => {
-    if (tokenIn.name === 'tez')
-      return !!config.STABLESWAP[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
-    else return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
-  };
-
   const selectToken = (token) => {
     setLoaderInButton(true);
 
@@ -203,10 +197,16 @@ const LiquidityNew = (props) => {
           name: 'ctez',
           image: ctez,
         });
-      }
-      console.log(AMMExists(token, tokenOut));
-      if (!AMMExists) {
-        setTokenOut({});
+      } else if (token.name === 'EURL') {
+        setTokenOut({
+          name: 'agEUR.e',
+          image: ctez,
+        });
+      } else if (token.name === 'agEUR.e') {
+        setTokenOut({
+          name: 'EURL',
+          image: ctez,
+        });
       }
     } else {
       setTokenOut({
@@ -230,7 +230,6 @@ const LiquidityNew = (props) => {
         if (pairExists) {
           if (config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz') {
             loadSwapDataStable(tokenIn.name, tokenOut.name).then((data) => {
-              console.log(data);
               if (data.success) {
                 setSwapData(data);
 

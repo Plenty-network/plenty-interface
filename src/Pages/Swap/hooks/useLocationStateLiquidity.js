@@ -18,9 +18,19 @@ export const useLocationStateInLiquidity = () => {
     setTokenOut({ name: 'PLENTY', image: plenty });
   }, []);
   useEffect(() => {
-    if (tokenIn.name === 'tez' || tokenIn.name === 'EURL') {
+    if (tokenIn.name === 'tez') {
       setTokenOut({
         name: 'ctez',
+        image: ctez,
+      });
+    } else if (tokenIn.name === 'EURL') {
+      setTokenOut({
+        name: 'agEUR.e',
+        image: ctez,
+      });
+    } else if (tokenIn.name === 'agEUR.e') {
+      setTokenOut({
+        name: 'EURL',
         image: ctez,
       });
     }
