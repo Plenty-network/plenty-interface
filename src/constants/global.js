@@ -41,13 +41,13 @@ export const type2MapIds = [3943];
 /**
  * balance for these type3MapIds will be present in `response.data.args[0].int`
  */
-export const type3MapIds = [199, 36, 6901];
+export const type3MapIds = [199, 36, 6901 ,44140];
 
 /**
  * balance for these type4MapIds will be present in `response.data.int`
  */
 export const type4MapIds = [
-  1777, 1772, 515, 4178, 18153, 10978, 7706, 7715, 7654, 20920, 2809, 7250, 13802, 4666, 21182,134335,175082,44140,
+  1777, 1772, 515, 4178, 18153, 10978, 7706, 7715, 7654, 20920, 2809, 7250, 13802, 4666, 21182,134335,175082,
 ];
 
 /**

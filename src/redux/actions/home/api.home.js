@@ -1467,13 +1467,21 @@ const getPriceForPlentyLpTokens = async (
 
       const tokenData = {};
 
+      let idx;
+      for (const x in tokenPricesData) {
+        if (tokenPricesData[x].symbol === 'EURL') {
+          idx = x;
+        }
+      }
+
       tokenData['token1'] = {
         tokenName: 'EURL',
-        tokenValue: tokenPricesData['EURL'].usdValue,
+        tokenValue: tokenPricesData[idx].usdValue,
         tokenDecimal: 6,
       };
 
       const agEure = await getagEURePrice();
+
 
       tokenData['token2'] = {
         tokenName: 'agEUR.e',
@@ -1481,7 +1489,6 @@ const getPriceForPlentyLpTokens = async (
         tokenDecimal: 18,
       };
 
-      console.log(tokenData);
 
       let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
       token1Amount =
@@ -1494,8 +1501,6 @@ const getPriceForPlentyLpTokens = async (
         Math.pow(10, tokenData['token2'].tokenDecimal);
 
       const totalAmount = (token1Amount + token2Amount).toFixed(2);
-
-      console.log(totalAmount);
       return {
         success: true,
         identifier,
