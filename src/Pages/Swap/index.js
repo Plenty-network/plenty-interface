@@ -23,8 +23,6 @@ import {
   getxtzBalance,
   loadSwapDataStable,
 } from '../../apis/stableswap/stableswap';
-import eurl from '../../assets/images/eurl.png';
-import ageure from '../../assets/images/ageure.png';
 
 const Swap = (props) => {
   const { activeTab, tokenIn, setTokenIn, tokenOut, setTokenOut } = useLocationStateInSwap();
@@ -318,23 +316,6 @@ const Swap = (props) => {
         name: token.name,
         image: token.image,
       });
-      if (
-        (tokenIn.name === 'EURL' || tokenIn.name === 'agEUR.e') &&
-        (tokenOut.name !== 'EURL' || tokenIn.name === 'agEUR.e')
-      ) {
-        setTokenOut({});
-      }
-      if (token.name === 'EURL') {
-        setTokenOut({
-          name: 'agEUR.e',
-          image: ageure,
-        });
-      } else if (token.name === 'agEUR.e') {
-        setTokenOut({
-          name: 'EURL',
-          image: eurl,
-        });
-      }
     } else {
       setTokenOut({
         name: token.name,

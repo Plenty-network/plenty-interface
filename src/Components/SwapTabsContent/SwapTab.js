@@ -31,6 +31,7 @@ import {
   calculateTokensOutGeneralStable,
   loadSwapDataGeneralStableWithoutDecimal,
 } from '../../apis/stableswap/generalStableswap';
+import { ERRORMESSAGESWAP } from '../../constants/global';
 
 const SwapTab = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -117,7 +118,20 @@ const SwapTab = (props) => {
     firstTokenAmount && setFirstAmount(firstTokenAmount);
     secondTokenAmount && setSecondAmount(secondTokenAmount);
     if (props.walletAddress) {
-      if (firstTokenAmount > props.userBalances[props.tokenIn.name]) {
+      if (
+        (props.tokenIn.name === 'EURL' && props.tokenOut.name !== 'agEUR.e') ||
+        (props.tokenOut.name === 'EURL' && props.tokenIn.name !== 'agEUR.e') ||
+        (props.tokenIn.name === 'agEUR.e' && props.tokenOut.name !== 'EURL') ||
+        (props.tokenOut.name === 'agEUR.e' && props.tokenIn.name !== 'EURL')
+      ) {
+        setErrorMessageOnUI(ERRORMESSAGESWAP);
+      } else if (
+        (props.tokenIn.name === 'EURL' || props.tokenIn.name === 'agEUR.e') &&
+        (props.tokenOut.name === 'EURL' || props.tokenOut.name === 'agEUR.e')
+      ) {
+        setErrorMessage(false);
+        setMessage('');
+      } else if (firstTokenAmount > props.userBalances[props.tokenIn.name]) {
         setErrorMessageOnUI('Insufficient balance');
       } else {
         setErrorMessage(false);
@@ -516,6 +530,20 @@ const SwapTab = (props) => {
 
   const swapContentButton = useMemo(() => {
     if (props.walletAddress) {
+      if (props.tokenOut.name && message === ERRORMESSAGESWAP) {
+        console.log(message);
+        return (
+          <Button
+            onClick={() => setErrorMessageOnUI(ERRORMESSAGESWAP)}
+            color={'disabled'}
+            className={
+              'mt-4 w-100 flex align-items-center justify-content-center disable-button-swap'
+            }
+          >
+            Swap
+          </Button>
+        );
+      }
       if (props.tokenOut.name && firstTokenAmount) {
         if (Number(firstTokenAmount) === 0 || Number(secondTokenAmount) === 0) {
           return (
@@ -642,6 +670,7 @@ const SwapTab = (props) => {
                   placeholder="0.0"
                   value={fromExponential(firstTokenAmount)}
                   onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenIn')}
+                  disabled={message === ERRORMESSAGESWAP}
                 />
               ) : (
                 <input type="text" className="token-user-input" placeholder="--" disabled />
