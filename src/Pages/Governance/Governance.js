@@ -9,6 +9,8 @@ import Loader from '../../Components/loader';
 import VoteText from '../../Components/VoteText/VoteText';
 import VoteText10 from '../../Components/VoteText/VoteText-1.0';
 import VoteModalResults10 from '../../Components/VoteModal/VoteModalResults-1.0';
+import VoteText20 from '../../Components/VoteText/VoteText-2.0';
+import VoteModalResults20 from '../../Components/VoteModal/VoteModalResults-2.0';
 import VoteModal from '../../Components/VoteModal/VoteModal';
 import VoteModalResults from '../../Components/VoteModal/VoteModalResults';
 import { connect } from 'react-redux';
@@ -34,7 +36,7 @@ const Governance = (props) => {
     // ? voting results modal will be displayed, until next proposal comes up,
     if (date.getDate()) {
       props.getResults();
-      setVoteEnded(true);
+      setVoteEnded(false);
     }
   }, []);
   useEffect(() => {
@@ -141,7 +143,18 @@ const Governance = (props) => {
         }
       />
       <Loader loading={props.loading} loaderMessage={loaderMessage} />
-
+      {/* static Governance */}
+      <Container className={` ${styles.govContainerr}`} fluid>
+        <Row className={clsx('row justify-content-center', !isMobile && styles.govContainerInner)}>
+          <Col xs={20} sm={8} md={10} lg={6} xl={6}>
+            <VoteText20 />
+          </Col>
+          <Col xs={20} sm={5} md={10} lg={6} xl={5}>
+            {!isMobile && <VoteModalResults20 />}
+          </Col>
+        </Row>
+      </Container>
+      {/* end of static governance */}
       {/* static Governance */}
       <Container className={` ${styles.govContainer}`} fluid>
         <Row className={clsx('row justify-content-center', !isMobile && styles.govContainerInner)}>

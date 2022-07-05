@@ -1,12 +1,10 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import styles from './voteText.module.scss';
 import Row from 'react-bootstrap/Row';
 import Table from '../../assets/images/imagepip-2.png';
 import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
 import useMediaQuery from '../../hooks/mediaQuery';
-import VoteModal from '../VoteModal/VoteModal';
-import VoteModalResults from '../VoteModal/VoteModalResults';
+import VoteModalResults from '../VoteModal/VoteModalResults-2.0';
+import styles from './voteText.module.scss';
 
 const VoteText = (props) => {
   const isMobile = useMediaQuery('(max-width: 991px)');
@@ -15,44 +13,18 @@ const VoteText = (props) => {
     <div className=" row justify-content-center">
       <div className=" col-24 col-sm-20 col-md-10 col-lg-10 col-xl-10">
         <Row className={styles.firstRow}>
-          <h6 className={styles.proposalHeading}>Proposal #2 • PIP-003</h6>
-          <h2 className={`mt-3 ${styles.govHeading}`}>More flat CFMMs + farms, including USDT pairs</h2>
+          <h6 className={styles.proposalHeading}>Proposal #2 • PIP-002</h6>
+          <h2 className={`mt-3 ${styles.govHeading}`}>Reallocating rewards from wAsset farms</h2>
 
           <p className={`mt-1  ${styles.proposalInfo}`}>
-          <p>The team proposes to introduce the following:</p>
-          <ol>
-          <li>New CPMM &amp; flat CFMM pairs and farms that include “.e” tokens from the Ethereum bridge.</li>
-          <li>New CPMM &amp; flat CFMM pairs and farms that include “.p” tokens from the Polygon bridge.</li>
-          <li>New CPMM &amp; flat CFMM pairs and farms that include Tezos native USDT.</li>
-          <li>Reduce the reward rate of existing farms to make PLENTY available for new farms.</li>
-          <li>Close farms attached to liquidity pools with low activity.</li>
-          </ol>
-          <p>
-          All new CPMM and flat CFMM liquidity pools are compatible with the new vote escrow (“ve”) system of the Plenty Network. The goal is to attract liquidity in trading pairs compatible with the new Plenty Network before launch of the “ve” system.
-          </p>
+            The dev team proposes to end the farms that include wrapped assets of the Wrap Protocol
+            because of the rebrand from wASSET to ASSET.e. At the same time we propose to use the
+            unused emissions for incentivization of liquidity pools that will be compatible with the
+            new Plenty Network.
           </p>
           {isMobile &&
-            (props.voteEnded ? (
-              <VoteModalResults
-                gov={props.gov}
-                loading={props.loading}
-                modalData={props.modalData}
-                alreadyVoted={props.alreadyVoted}
-                walletAddress={props.walletAddress}
-                connectWallet={props.connectWallet}
-                getVote={props.getVote}
-              />
-            ) : (
-              <VoteModal
-                gov={props.gov}
-                loading={props.loading}
-                modalData={props.modalData}
-                alreadyVoted={props.alreadyVoted}
-                walletAddress={props.walletAddress}
-                connectWallet={props.connectWallet}
-                getVote={props.getVote}
-              />
-            ))}
+             <VoteModalResults/>
+            }
           {isMobile && <div className={`mt-2 mx-3 ${styles.lineBottom} `}></div>}
         </Row>
 
@@ -201,18 +173,3 @@ const VoteText = (props) => {
   );
 };
 export default VoteText;
-
-VoteText.propTypes = {
-  voteEnded: PropTypes.any,
-  connectWallet: PropTypes.any,
-  disconnectWallet: PropTypes.any,
-  gov: PropTypes.any,
-  modalData: PropTypes.any,
-  postResults: PropTypes.any,
-  getVote: PropTypes.any,
-  getResults: PropTypes.any,
-  loading: PropTypes.any,
-  getAlreadyVoted: PropTypes.any,
-  walletAddress: PropTypes.any,
-  alreadyVoted: PropTypes.any,
-};
