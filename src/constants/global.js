@@ -61,4 +61,4 @@ export const FLASH_MESSAGE_DURATION = 5000;
 
 //error message for new tokens
 export const ERRORMESSAGESWAP =
-  'Oops! There is no route for the selected pair. agEur.e can only be swapped with EURL.';
+  'Oops! There is no route for the selected pair. agEUR.e can only be swapped with EURL.';
