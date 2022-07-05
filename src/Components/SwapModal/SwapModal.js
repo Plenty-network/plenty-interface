@@ -11,7 +11,9 @@ const SwapModal = (props) => {
   const doesPairExist = useCallback(
     (token) => {
       if (props.tokenType === 'tokenOut') {
-        if (config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[token.name]) {
+        if (token.name === 'EURL' || token.name === 'agEUR.e') {
+          return false;
+        } else if (config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[token.name]) {
           return true;
         }
       } else {
@@ -57,10 +59,13 @@ const SwapModal = (props) => {
             .filter(searchHits)
             .filter((token) => {
               if (props.tokenType === 'tokenOut') {
+                if (token.name === 'EURL' || token.name === 'agEUR.e') {
+                  return false;
+                }
                 return props.tokenIn.name !== token.name;
               }
 
-              return props.tokenOut.name !== token.name;
+              return token.name;
             })
             .map((token) => {
               if (doesPairExist(token)) {

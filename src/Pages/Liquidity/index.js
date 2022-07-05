@@ -26,6 +26,8 @@ import { getUserBalanceByRpcStable, loadSwapDataStable } from '../../apis/stable
 import SettingsLiq from '../../Components/TransactionSettings/SettingsLiq';
 import { loadSwapDataGeneralStable } from '../../apis/stableswap/generalStableswap';
 import CONFIG from '../../config/config';
+import eurl from '../../assets/images/eurl.png';
+import ageure from '../../assets/images/ageure.png';
 
 const LiquidityNew = (props) => {
   const { activeTab, tokenIn, setTokenIn, tokenOut, setTokenOut, setActiveTab } =
@@ -200,12 +202,12 @@ const LiquidityNew = (props) => {
       } else if (token.name === 'EURL') {
         setTokenOut({
           name: 'agEUR.e',
-          image: ctez,
+          image: ageure,
         });
       } else if (token.name === 'agEUR.e') {
         setTokenOut({
           name: 'EURL',
-          image: ctez,
+          image: eurl,
         });
       }
     } else {

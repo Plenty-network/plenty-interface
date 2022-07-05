@@ -3,6 +3,8 @@ import { useEffect, useMemo, useState } from 'react';
 import ctez from '../../../assets/images/ctez.png';
 import config from '../../../config/config';
 import { tokens } from '../../../constants/swapPage';
+import eurl from '../../../assets/images/eurl.png';
+import ageure from '../../../assets/images/ageure.png';
 
 export const useLocationStateInSwap = () => {
   const [tokenParams, setTokenParams] = useSearchParams();
@@ -18,6 +20,25 @@ export const useLocationStateInSwap = () => {
   const AMMExists = useMemo(() => {
     return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
   }, [tokenIn, tokenOut]);
+  useEffect(() => {
+    if (
+      (tokenIn.name === 'EURL' || tokenIn.name === 'agEUR.e') &&
+      (tokenOut.name !== 'EURL' || tokenIn.name === 'agEUR.e')
+    ) {
+      setTokenOut({});
+    }
+    if (tokenIn.name === 'EURL') {
+      setTokenOut({
+        name: 'agEUR.e',
+        image: ageure,
+      });
+    } else if (tokenIn.name === 'agEUR.e') {
+      setTokenOut({
+        name: 'EURL',
+        image: eurl,
+      });
+    }
+  }, [tokenIn]);
 
   const activeTab = useMemo(() => {
     if (location.pathname === '/swap') {
