@@ -60,7 +60,7 @@ const SwapModal = (props) => {
                 return props.tokenIn.name !== token.name;
               }
 
-              return props.tokenOut.name !== token.name;
+              return token.name;
             })
             .map((token) => {
               if (doesPairExist(token)) {

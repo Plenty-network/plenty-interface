@@ -4,6 +4,8 @@ import plenty from '../../../assets/images/logo_small.png';
 import ctez from '../../../assets/images/ctez.png';
 import config from '../../../config/config';
 import { liquidityTokens } from '../../../constants/liquidityTokens';
+import eurl from '../../../assets/images/eurl.png';
+import ageure from '../../../assets/images/ageure.png';
 
 export const useLocationStateInLiquidity = () => {
   const [tokenParams, setTokenParams] = useSearchParams();
@@ -22,6 +24,16 @@ export const useLocationStateInLiquidity = () => {
       setTokenOut({
         name: 'ctez',
         image: ctez,
+      });
+    } else if (tokenIn.name === 'EURL') {
+      setTokenOut({
+        name: 'agEUR.e',
+        image: ageure,
+      });
+    } else if (tokenIn.name === 'agEUR.e') {
+      setTokenOut({
+        name: 'EURL',
+        image: eurl,
       });
     }
   }, [tokenIn]);
