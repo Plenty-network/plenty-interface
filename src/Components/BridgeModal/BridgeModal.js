@@ -761,13 +761,13 @@ const BridgeModal = (props) => {
             ? bridgesList
             : operation === 'UNBRIDGE'
             ? [...tokenList]
-                .filter((token) => token.name !== 'WRAP' && token.name !== 'agEUR.e')   // TODO: Remove && condition to allow agEUR.e
+                .filter((token) => token.name !== 'WRAP')
                 .sort(
                   (a, b) =>
                     a.tokenData.deprecated - b.tokenData.deprecated || a.name.localeCompare(b.name),
                 )
             : [...tokenList]
-                .filter((token) => !token.tokenData.deprecated && token.name !== 'agEUR')   // TODO: Remove && condition to allow agEUR
+                .filter((token) => !token.tokenData.deprecated)
                 .sort((a, b) => a.name.localeCompare(b.name))
         }
         searchQuery={searchQuery}

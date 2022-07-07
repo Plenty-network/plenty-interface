@@ -11,8 +11,20 @@ import dai_normal from '../assets/images/bridge/tokens/dai_icon.svg';
 import usdtz from '../assets/images/usdtz.png';
 import busd_normal from '../assets/images/bridge/tokens/busd_icon.svg';
 import usdt_normal from '../assets/images/bridge/tokens/usdt_icon.svg';
+import eurl from '../assets/images/eurl.png';
+import ageure from '../assets/images/ageure.png';
 
 export const stableSwapTokens = [
+  {
+    name: 'EURL',
+    image: eurl,
+    new: true,
+  },
+  {
+    name: 'agEUR.e',
+    image: ageure,
+    new: true,
+  },
   {
     name: 'tez',
     image: xtz,
