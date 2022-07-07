@@ -70,6 +70,7 @@ import cteztzBTC from '../assets/images/farms/ctez-tzBTC.png';
 import ctezSMAK from '../assets/images/farms/ctez-SMAK.png';
 import USDtzUSDCe from '../assets/images/farms/USDtzUSDCe.png';
 import usdteusdce from '../assets/images/farms/usdteusdce.png';
+import EURlagEURe from '../assets/images/farms/EURlagEURe.png';
 
 export const FARMS_CARD_DATA_PROPTYPES = PropTypes.shape({
   farmData: PropTypes.shape({
@@ -178,6 +179,27 @@ export const FARMS_CARD_TYPE_LIST = {
     fee: '0%',
     earned: 0,
     deposit: 'CTEZ / DOGA LP',
+    liquidity: 0,
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
+  },
+  'EURL / agEUR.e LP': {
+    image: EURlagEURe,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'EURL / agEUR.e PNLP',
+    apr: 0,
+    apy: 0,
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'EURL / agEUR.e LP',
     liquidity: 0,
     withdrawalFee: '0%',
     balance: 0,

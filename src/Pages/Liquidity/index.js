@@ -26,6 +26,8 @@ import { getUserBalanceByRpcStable, loadSwapDataStable } from '../../apis/stable
 import SettingsLiq from '../../Components/TransactionSettings/SettingsLiq';
 import { loadSwapDataGeneralStable } from '../../apis/stableswap/generalStableswap';
 import CONFIG from '../../config/config';
+import eurl from '../../assets/images/eurl.png';
+import ageure from '../../assets/images/ageure.png';
 
 const LiquidityNew = (props) => {
   const { activeTab, tokenIn, setTokenIn, tokenOut, setTokenOut, setActiveTab } =
@@ -56,14 +58,7 @@ const LiquidityNew = (props) => {
   const [positionDetails, setPositionDetails] = useState({});
   const [isPositionAvailable, setPositionAvailable] = useState(false);
 
-  useEffect(() => {
-    if (tokenIn.name === 'tez') {
-      setTokenOut({
-        name: 'ctez',
-        image: ctez,
-      });
-    }
-  }, [tokenIn]);
+  const [balanceUpdate, setBalanceUpdate] = useState(false);
 
   useEffect(async () => {
     const isStable = isTokenPairStable(tokenIn.name, tokenOut.name);
@@ -127,27 +122,26 @@ const LiquidityNew = (props) => {
     const updateBalance = async () => {
       if (props.walletAddress) {
         setTokenContractInstances({});
-        const userBalancesCopy = { ...userBalances };
+
         const tzBTCName = 'tzBTC';
         const balancePromises = [];
-        if (!userBalancesCopy[tokenIn.name]) {
-          tokenIn.name === tzBTCName
-            ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
-            : balancePromises.push(
-                config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz'
-                  ? getUserBalanceByRpcStable(tokenIn.name, props.walletAddress)
-                  : getUserBalanceByRpc(tokenIn.name, props.walletAddress),
-              );
-        }
-        if (!userBalancesCopy[tokenOut.name]) {
-          tokenOut.name === tzBTCName
-            ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
-            : balancePromises.push(
-                config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz'
-                  ? getUserBalanceByRpcStable(tokenOut.name, props.walletAddress)
-                  : getUserBalanceByRpc(tokenOut.name, props.walletAddress),
-              );
-        }
+
+        tokenIn.name === tzBTCName
+          ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
+          : balancePromises.push(
+              config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz'
+                ? getUserBalanceByRpcStable(tokenIn.name, props.walletAddress)
+                : getUserBalanceByRpc(tokenIn.name, props.walletAddress),
+            );
+
+        tokenOut.name === tzBTCName
+          ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
+          : balancePromises.push(
+              config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz'
+                ? getUserBalanceByRpcStable(tokenOut.name, props.walletAddress)
+                : getUserBalanceByRpc(tokenOut.name, props.walletAddress),
+            );
+
         if (
           config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz'
             ? config.STABLESWAP[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]
@@ -179,7 +173,7 @@ const LiquidityNew = (props) => {
       }
     };
     updateBalance();
-  }, [tokenIn, tokenOut, props]);
+  }, [tokenIn, tokenOut, props, balanceUpdate]);
 
   const selectToken = (token) => {
     setLoaderInButton(true);
@@ -191,10 +185,21 @@ const LiquidityNew = (props) => {
         name: token.name,
         image: token.image,
       });
+
       if (token.name === 'tez') {
         setTokenOut({
           name: 'ctez',
           image: ctez,
+        });
+      } else if (token.name === 'EURL') {
+        setTokenOut({
+          name: 'agEUR.e',
+          image: ageure,
+        });
+      } else if (token.name === 'agEUR.e') {
+        setTokenOut({
+          name: 'EURL',
+          image: eurl,
         });
       }
     } else {
@@ -219,7 +224,6 @@ const LiquidityNew = (props) => {
         if (pairExists) {
           if (config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz') {
             loadSwapDataStable(tokenIn.name, tokenOut.name).then((data) => {
-              console.log(data);
               if (data.success) {
                 setSwapData(data);
 
@@ -252,6 +256,7 @@ const LiquidityNew = (props) => {
   }, [tokenIn, tokenOut, activeTab, splitLocation[1]]);
 
   const handleTokenType = (type) => {
+    setBalanceUpdate(false);
     setShow(true);
     setTokenType(type);
     setLoading(false);
@@ -396,6 +401,8 @@ const LiquidityNew = (props) => {
                   isPositionAvailable={isPositionAvailable}
                   setPositionDetails={setPositionDetails}
                   theme={props.theme}
+                  setBalanceUpdate={setBalanceUpdate}
+                  balanceUpdate={balanceUpdate}
                   {...props}
                 />
               </Tab>
