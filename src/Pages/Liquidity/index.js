@@ -122,27 +122,26 @@ const LiquidityNew = (props) => {
     const updateBalance = async () => {
       if (props.walletAddress) {
         setTokenContractInstances({});
-        const userBalancesCopy = { ...userBalances };
+
         const tzBTCName = 'tzBTC';
         const balancePromises = [];
-        if (!userBalancesCopy[tokenIn.name]) {
-          tokenIn.name === tzBTCName
-            ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
-            : balancePromises.push(
-                config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz'
-                  ? getUserBalanceByRpcStable(tokenIn.name, props.walletAddress)
-                  : getUserBalanceByRpc(tokenIn.name, props.walletAddress),
-              );
-        }
-        if (!userBalancesCopy[tokenOut.name]) {
-          tokenOut.name === tzBTCName
-            ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
-            : balancePromises.push(
-                config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz'
-                  ? getUserBalanceByRpcStable(tokenOut.name, props.walletAddress)
-                  : getUserBalanceByRpc(tokenOut.name, props.walletAddress),
-              );
-        }
+
+        tokenIn.name === tzBTCName
+          ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
+          : balancePromises.push(
+              config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz'
+                ? getUserBalanceByRpcStable(tokenIn.name, props.walletAddress)
+                : getUserBalanceByRpc(tokenIn.name, props.walletAddress),
+            );
+
+        tokenOut.name === tzBTCName
+          ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
+          : balancePromises.push(
+              config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz'
+                ? getUserBalanceByRpcStable(tokenOut.name, props.walletAddress)
+                : getUserBalanceByRpc(tokenOut.name, props.walletAddress),
+            );
+
         if (
           config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz'
             ? config.STABLESWAP[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]
