@@ -58,14 +58,7 @@ const LiquidityNew = (props) => {
   const [positionDetails, setPositionDetails] = useState({});
   const [isPositionAvailable, setPositionAvailable] = useState(false);
 
-  // useEffect(() => {
-  //   if (tokenIn.name === 'tez') {
-  //     setTokenOut({
-  //       name: 'ctez',
-  //       image: ctez,
-  //     });
-  //   }
-  // }, [tokenIn]);
+  const [balanceUpdate, setBalanceUpdate] = useState(false);
 
   useEffect(async () => {
     const isStable = isTokenPairStable(tokenIn.name, tokenOut.name);
@@ -181,7 +174,7 @@ const LiquidityNew = (props) => {
       }
     };
     updateBalance();
-  }, [tokenIn, tokenOut, props]);
+  }, [tokenIn, tokenOut, props, balanceUpdate]);
 
   const selectToken = (token) => {
     setLoaderInButton(true);
@@ -264,6 +257,7 @@ const LiquidityNew = (props) => {
   }, [tokenIn, tokenOut, activeTab, splitLocation[1]]);
 
   const handleTokenType = (type) => {
+    setBalanceUpdate(false);
     setShow(true);
     setTokenType(type);
     setLoading(false);
@@ -408,6 +402,8 @@ const LiquidityNew = (props) => {
                   isPositionAvailable={isPositionAvailable}
                   setPositionDetails={setPositionDetails}
                   theme={props.theme}
+                  setBalanceUpdate={setBalanceUpdate}
+                  balanceUpdate={balanceUpdate}
                   {...props}
                 />
               </Tab>

@@ -371,6 +371,7 @@ const AddLiquidity = (props) => {
       ).then((data) => {
         if (data.success) {
           props.setLoading(false);
+          props.setBalanceUpdate(true);
           props.setLoader(false);
           setShowTransactionSubmitModal(false);
           props.handleLoaderMessage('success', 'Transaction confirmed');
@@ -385,6 +386,7 @@ const AddLiquidity = (props) => {
         } else {
           props.setLoading(false);
           props.setLoader(false);
+          props.setBalanceUpdate(true);
           setShowTransactionSubmitModal(false);
           props.handleLoaderMessage('error', 'Transaction failed');
           props.setShowConfirmAddSupply(false);
@@ -921,4 +923,6 @@ AddLiquidity.propTypes = {
   setSwapData: PropTypes.func,
   positionDetails: PropTypes.any,
   isPositionAvailable: PropTypes.any,
+  balanceUpdate: PropTypes.any,
+  setBalanceUpdate: PropTypes.any,
 };
