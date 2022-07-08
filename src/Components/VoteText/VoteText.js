@@ -179,7 +179,7 @@ const VoteText = (props) => {
 
           <p className={`${styles.discriptionInfo}`}>
             <a
-              href="https://ipfs.io/ipfs/bafkreie3m2fgehpmqlpegdsrpmfyykudls553xhpzj7xgx3oqf7vdvqgwu"
+              href="https://ipfs.io/ipfs/bafkreif367u3jofj7m7ks32oz643bhcxmwtr43gcbsv4wloda4fm6nhyr4"
               target="_blank"
               rel="noreferrer"
             >
