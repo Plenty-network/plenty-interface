@@ -2,12 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styles from './voteText.module.scss';
 import Row from 'react-bootstrap/Row';
-import Table from '../../assets/images/imagepip-2.png';
+import Table from '../../assets/images/pip2-image.jpeg';
 import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
 import useMediaQuery from '../../hooks/mediaQuery';
 import VoteModal from '../VoteModal/VoteModal';
 import VoteModalResults from '../VoteModal/VoteModalResults';
-
 const VoteText = (props) => {
   const isMobile = useMediaQuery('(max-width: 991px)');
 
@@ -15,21 +14,11 @@ const VoteText = (props) => {
     <div className=" row justify-content-center">
       <div className=" col-24 col-sm-20 col-md-10 col-lg-10 col-xl-10">
         <Row className={styles.firstRow}>
-          <h6 className={styles.proposalHeading}>Proposal #2 • PIP-003</h6>
-          <h2 className={`mt-3 ${styles.govHeading}`}>More flat CFMMs + farms, including USDT pairs</h2>
+          <h6 className={styles.proposalHeading}>Proposal #3 • PIP-003</h6>
+          <h2 className={`mt-3 ${styles.govHeading}`}>More flat CFMM farms, including USDT</h2>
 
           <p className={`mt-1  ${styles.proposalInfo}`}>
-          <p>The team proposes to introduce the following:</p>
-          <ol>
-          <li>New CPMM &amp; flat CFMM pairs and farms that include “.e” tokens from the Ethereum bridge.</li>
-          <li>New CPMM &amp; flat CFMM pairs and farms that include “.p” tokens from the Polygon bridge.</li>
-          <li>New CPMM &amp; flat CFMM pairs and farms that include Tezos native USDT.</li>
-          <li>Reduce the reward rate of existing farms to make PLENTY available for new farms.</li>
-          <li>Close farms attached to liquidity pools with low activity.</li>
-          </ol>
-          <p>
-          All new CPMM and flat CFMM liquidity pools are compatible with the new vote escrow (“ve”) system of the Plenty Network. The goal is to attract liquidity in trading pairs compatible with the new Plenty Network before launch of the “ve” system.
-          </p>
+          Introduce farms that include “.e” tokens from Ethereum and “.p” tokens from Polygon and introduce farms that include Tezos native USDT. Reduce rewards of existing farms and close farms attached to liquidity pools with low activity.
           </p>
           {isMobile &&
             (props.voteEnded ? (
@@ -59,123 +48,127 @@ const VoteText = (props) => {
         <Row className={`${styles.secondRow}`}>
           <h4 className={` ${styles.plentyHeading}`}>Background</h4>
           <p className={`mt-1 ${styles.discription}`}>
-            The assets bridged from Ethereum will be rebranded from wASSET to ASSET.e. This process
-            requires users to actively swap their wrapped assets. This migration will take place
-            early May 2022.
+          All new CPMM and flat CFMM liquidity pools are compatible with the new vote escrow (“ve”) system of the Plenty Network. The goal is to attract liquidity in trading pairs compatible with the new Plenty Network before launch of the “ve” system.
           </p>
           <p className={styles.discription}>
-            The goal is to grow liquidity in liquidity pools compatible with the new Plenty Network
-            before launch. Being compatible with the new Plenty Network means that before the launch
-            of the PLY & vePLY NFT system the trading fees accumulate in the liquidity pool. After
-            relaunch the trading fees will be added to the attached gauges and are allocated to
-            vePLY NFT voters.
+          Being compatible with the new Plenty Network means that before the launch of the new vote escrow (“ve”) system trading fees accumulate in the liquidity pool. After the launch of the new “ve” system trading fees will be added to the attached gauges and are allocated to vePLY NFT voters.
           </p>
           <h4 className={` ${styles.plentyHeading}`}>Motivation</h4>
           <p className={styles.discription}>
-            The wrapped asset rebrand gives us the opportunity to redirect PLENTY emissions from the
-            following farms that are required to close due to the rebrand of the wrapped assets:
+            Stablecoin liquidity is important for the Tezos ecosystem. Stableswap pairs + farms with Tezos native USDT paired with either of the two leading algorihmic stablecoins on Tezos <em>-kUSD by Kolibri or uUSD by Youves-</em> are pairs that will attract liquidity.
           </p>
-          <ul>
-            <li>PLENTY - wUSDC LP</li>
-            <li>PLENTY - wBUSD LP</li>
-            <li>PLENTY - wUSDT LP</li>
-            <li>PLENTY - wDAI LP</li>
-            <li>PLENTY - wWBTC LP</li>
-            <li>PLENTY - wWETH LP</li>
-            <li>PLENTY - wLINK LP</li>
-            <li>PLENTY - wMATIC LP</li>
-          </ul>
           <p className={styles.discription}>
-            The goal is to attract liquidity in trading pairs compatible with the new Plenty Network
-            before launch. Trading pairs that are expected to attract liquidity, volume and
-            emissions after relaunch:
+            The stablecoin BUSD.e is the second most liquid stablecoin of the Plenty bridge. The previous proposal, PIP-002, didnt include a BUSD.e farm.
           </p>
-          <div>
+          <p className={styles.discription}>
+            With the launch of the Polygon bridge we can introduce both flat CFMM &amp; CPMM liquidity pools +farms with “.p” tokens.
+          </p>
+          <p className={styles.discription}>
+            We would like to continue with the push of ctez liquidity by pairing ctez with most new tokens.
+          </p>
+          <p className={styles.discription}>
+            After conversations with Euro stablecoin teams Lugh (EURL) and Angle Protocol (agEUR) we propose three different liquidity pools + farms, including one stable CFMM + farm between the two euro stablecoins.
+          </p>
+        
+        <div>
+          <div >
+          <h4 className={` ${styles.plentyHeading}`}>new farms</h4>
             <div>
               <p className={styles.discription}>
-                <strong>Flat curve AMM farms:</strong>
+                <strong>Flat CFMMs</strong>
               </p>
               <ul>
-                <li>USDT.e - USDC.e LP</li>
-                <li>DAI.e - USDC.e LP</li>
-                <li>kUSD - USDC.e LP</li>
-                <li>uUSD - USDC.e LP</li>
-                <li>USDtz - USDC.e LP</li>
-                <li>ETHtz - WETH.e LP</li>
-                <li>tzBTC - WBTC.e LP</li>
-                <li>EURL - agEUR.e</li>
-                <li>TEZ - CTEZ LP</li>
+              <li>BUSD.e - USDC.e</li>
+              <li>kUSD - USDT</li>
+              <li>uUSD - USDT</li>
+              <li>uXAU - PAXG.e</li>
+              <li>WMATIC.p - MATIC.e</li>
+              <li>WETH.p - WETH.e</li>
               </ul>
             </div>
             <div>
               <p className={styles.discription}>
-                <strong>Regular curve AMM farms:</strong>
+                <strong>CPMMs</strong>
               </p>
               <ul>
-                <li>USDC.e - CTEZ LP</li>
-                <li>WBTC.e - CTEZ LP</li>
-                <li>WETH.e - CTEZ LP</li>
-                <li>LINK.e - CTEZ LP</li>
-                <li>MATIC.e - CTEZ LP</li>
-                <li>DOGA - CTEZ LP</li>
-                <li>EURL - USDC.e LP</li>
+              <li>USDT - CTEZ</li>
+              <li>EURL - CTEZ</li>
+              <li>PAXG.e - CTEZ</li>
+              <li>WETH.p - CTEZ</li>
+              <li>WMATIC.p - CTEZ</li>
+              <li>agEUR.e - USDC.e</li>
               </ul>
             </div>
           </div>
-          <p className={styles.discription}>
-            These liquidity pools will be compatible with the new Plenty Network. This means that
-            before the relaunch of Plenty the trading fees accumulate in the liquidity pool. After
-            relaunch trading fees will be added to the attached gauges and are allocated to vePLY
-            NFT voters.
-          </p>
 
           <div>
+          <h4 className={` ${styles.plentyHeading}`}>Farms reducing</h4>
             <div>
               <p className={styles.discription}>
-                <strong>
-                  Besides adding new farms we also propose to reduce the reward rates for the
-                  following farms:
-                </strong>
+                <strong>Flat CFMMs</strong>
               </p>
               <ul>
-                <li>tzBTC - PLENTY LP</li>
-                <li>USDtz - PLENTY LP</li>
-                <li>kUSD - PLENTY LP</li>
-                <li>uUSD - PLENTY LP</li>
-                <li>hDAO - PLENTY LP</li>
+              <li>USDT.e - USDC.e</li>
               </ul>
             </div>
             <div>
               <p className={styles.discription}>
-                <strong>And increase the reward rate for:</strong>
+                <strong>CPMMs</strong>
               </p>
               <ul>
-                <li>PLENTY - CTEZ LP</li>
-                <li>xPLENTY</li>
+              <li>uUSD - PLENTY</li>
+              <li>kUSD - PLENTY</li>
+              <li>USDtz - PLENTY</li>
+              <li>tzBTC - PLENTY</li>
+              <li>DOGA - CTEZ</li>
+              <li>LINK.e - CTEZ</li>
+              <li>MATIC.e - CTEZ</li>
               </ul>
             </div>
           </div>
+
+          <div>
+          <h4 className={` ${styles.plentyHeading}`}>Farms closing</h4>
+            <div>
+            <ul>
+            <li>KALAM - PLENTY</li>
+            <li>hDAO - PLENTY</li>
+            <li>WRAP - PLENTY</li>
+            <li>ETHtz - PLENTY</li>
+            <li>EURL - USDC.e (EURL preferes pairing with CTEZ)</li>
+            </ul>
+            </div>
+          </div>
+          </div>
+         <div>
           <h4 className={` ${styles.plentyHeading}`}>Specification</h4>
           <p className={`mt-1 ${styles.discription}`}>
-            Deploy Plenty Network compatible liquidity pools and temporary farms. View the proposed
-            reward rates below.
+            Deploy Plenty Network compatible CPMM and flat CFMM liquidity pools and temporary farms. Adjust the reward rates of the different farms as proposed below.
           </p>
           <div>
             <img src={Table} className={styles.table} />
           </div>
+         
           <h4 className={`mt-3  ${styles.plentyHeading}`}>Vote</h4>
 
           <p className={` mt-1 ${styles.discription}`}>
             To be eligible to vote, a user must hold xPLENTY at the time of the deployment of the
             Plenty Improvement Proposal (PIP).
           </p>
+
+          <h4 className={`mt-3  ${styles.plentyHeading}`}>Execution</h4>
+
+          <p className={` mt-1 ${styles.discription}`}>
+          The proposal will be implemented on a rolling basis.
+          </p>
+          </div>
           <div>
             <h4 className={`mt-2 ${styles.plentyHeading}`}>More information</h4>
           </div>
 
           <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
             <a
-              href="https://forum.plentydefi.com/t/pip-002-reallocating-rewards-from-wasset-farms/136"
+              href="https://forum.plentydefi.com/t/pip-003-more-flat-cfmm-farms-including-usdt/143"
               target="_blank"
               rel="noreferrer"
             >

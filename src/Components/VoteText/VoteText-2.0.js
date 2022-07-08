@@ -6,7 +6,7 @@ import useMediaQuery from '../../hooks/mediaQuery';
 import VoteModalResults from '../VoteModal/VoteModalResults-2.0';
 import styles from './voteText.module.scss';
 
-const VoteText = (props) => {
+const VoteText = () => {
   const isMobile = useMediaQuery('(max-width: 991px)');
 
   return (
