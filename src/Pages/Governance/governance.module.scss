@@ -28,10 +28,10 @@
     background: var(--theme-governance-mobileBg);
   }
   @media screen and (min-width: 1068px) and (max-width: 1185px) {
-    background: var(--theme-governance-bg-1);
+    background: var(--theme-governance-bg-2);
   }
   @media screen and (min-width: 1186px) {
-    background: linear-gradient(180deg, #7028e4 13.5%, #ffffff 13.5%);
+    background: var( --theme-governance-bg-2-2);
   }
  
   .gov {
