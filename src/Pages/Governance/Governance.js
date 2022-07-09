@@ -27,7 +27,7 @@ import InfoModal from '../../Components/Ui/Modals/InfoModal';
 const Governance = (props) => {
   const isMobile = useMediaQuery('(max-width: 991px)');
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [voteEnded, setVoteEnded] = useState(true);
+  const [voteEnded, setVoteEnded] = useState(false);
   const [loaderMessage, setLoaderMessage] = useState({});
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const date = new Date();
