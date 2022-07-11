@@ -4455,7 +4455,7 @@ const Config: IConfig = {
     mapId: 55983,
   },
   NETWORK: 'testnet',
-  WALLET_NETWORK: 'ithacanet',
+  WALLET_NETWORK: 'ghostnet',
   // NETWORK: 'mainnet',
   // WALLET_NETWORK: 'mainnet',
   ADMIN_ADDRESS: 'KT1GpTEq4p2XZ8w9p5xM7Wayyw5VR7tb3UaW',
