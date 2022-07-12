@@ -299,6 +299,10 @@ const fetchStorageForDualStakingContract = async (
     APR = APR * 100;
   
     const totalLiquidty = totalSupply * priceOfStakeTokenInUsd;
+
+    if (identifier === 'EURL - agEUR.e')
+    console.log(totalLiquidty  , totalSupply  , priceOfStakeTokenInUsd);
+
     return {
       success: true,
       identifier,
