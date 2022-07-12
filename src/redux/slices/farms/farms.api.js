@@ -299,6 +299,7 @@ const fetchStorageForDualStakingContract = async (
     APR = APR * 100;
   
     const totalLiquidty = totalSupply * priceOfStakeTokenInUsd;
+
     return {
       success: true,
       identifier,
@@ -1231,7 +1232,7 @@ const getPriceForPlentyLpTokens = async (
       const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
       const token2Pool = parseInt(storageResponse.data.args[3].int);
       const lpTokenTotalSupply = parseInt(storageResponse.data.args[0].args[0].args[2].int); 
-
+      
       const tokenData = {};
 
       let idx;
@@ -1256,13 +1257,14 @@ const getPriceForPlentyLpTokens = async (
         tokenDecimal: 18,
       };
 
-
       let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
+
       token1Amount =
         (token1Amount * tokenData['token1'].tokenValue) /
         Math.pow(10, tokenData['token1'].tokenDecimal);
 
       let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
+
       token2Amount =
         (token2Amount * tokenData['token2'].tokenValue) /
         Math.pow(10, tokenData['token2'].tokenDecimal);
