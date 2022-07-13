@@ -111,17 +111,51 @@ const calculateHarvestValueDualEntity = async (
   packedAddress,
 ) => {
   try {
-    if (stakingContractAddress === 'KT1PxZCPGoxukDXq1smJcmQcLiadTB6czjCY') {
-      return {
-        success: true,
-        totalRewards: 0,
-        address: stakingContractAddress,
-      };
-    }
 
     const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
     let url = `${rpcNode}chains/main/blocks/head/context/contracts/${stakingContractAddress}/storage`;
     const smartContractResponse = await axios.get(url);
+    if (stakingContractAddress === 'KT1PxZCPGoxukDXq1smJcmQcLiadTB6czjCY') {
+
+      const periodFinish = smartContractResponse.data.args[1].args[1].int;
+
+      const lastUpdateTime = smartContractResponse.data.args[0].args[2].int;
+
+      const rewardRate = smartContractResponse.data.args[3].int;
+
+      const totalSupply = smartContractResponse.data.args[4].int;
+
+      const rewardPerTokenStored = smartContractResponse.data.args[2].int;
+
+      if (totalSupply === 0) {
+        throw 'No One Staked';
+      }
+
+      let rewardPerToken = Math.min(currentBlockLevel, parseInt(periodFinish));
+      rewardPerToken = rewardPerToken - parseInt(lastUpdateTime);
+      rewardPerToken *= parseInt(rewardRate) * Math.pow(10, 6);
+      rewardPerToken = rewardPerToken / totalSupply + parseInt(rewardPerTokenStored);
+
+      url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedAddress}`;
+      const bigMapResponse = await axios.get(url);
+      const userBalance = bigMapResponse.data.args[0].int;
+      const userRewardPaid = bigMapResponse.data.args[2].int;
+      const rewards = bigMapResponse.data.args[1].int;
+
+      let totalRewards = parseInt(userBalance) * (rewardPerToken - parseInt(userRewardPaid));
+      totalRewards = totalRewards / Math.pow(10, 6) + parseInt(rewards);
+      totalRewards = totalRewards / Math.pow(10, 6);
+
+
+      if (totalRewards < 0) {
+        totalRewards = 0;
+      }
+      return {
+        success: true,
+        totalRewards: totalRewards,
+        address: stakingContractAddress,
+      };
+    }
 
     if (stakingContractAddress === 'KT1QkadMTUTDxyNiTaz587ssPXFuwmWWQzDG') {
       const periodFinish = smartContractResponse.data.args[1].args[1].int;
@@ -237,7 +271,9 @@ const calculateHarvestValueDual = async (
       ),
     );
 
+
     const harvestValueResponse = await Promise.all(harvestValuePromises);
+    console.log(harvestValueResponse);
     return {
       success: true,
       totalRewards: [harvestValueResponse[0].totalRewards, harvestValueResponse[1].totalRewards],
