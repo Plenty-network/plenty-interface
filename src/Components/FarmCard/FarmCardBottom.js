@@ -15,7 +15,6 @@ const FarmCardBottom = (props) => {
   const { properties, farmData, values } = props.farmCardData;
   const [isExpanded, toggleExpand] = useState(false);
   const target = useRef(null);
-
   const onWithdrawalFeeClick = () => {
     dispatch(
       openCloseFarmsModal({
