@@ -301,8 +301,6 @@ const fetchStorageForDualStakingContract = async (
   
     const totalLiquidty = totalSupply * priceOfStakeTokenInUsd;
 
-  
-
     return {
       success: true,
       identifier,
@@ -1473,7 +1471,6 @@ export const getFarmsDataAPI = async (isActive) => {
         priceOfPlenty === 0
       ) {
         priceOfPlenty = tokenPricesData[i].usdValue;
-        priceOfPlenty *= Math.pow(10 , 12);
       }
       if (
         tokenPricesData[i].symbol === 'YOU' &&
