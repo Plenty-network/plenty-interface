@@ -1484,12 +1484,6 @@ export const getFarmsDataAPI = async (isActive) => {
       }
     }
 
-    // To circumvent Teztools API's wrong data : Deprecate after it's fixed 
-    const awsAPI = await axios.get(CONFIG.SERVERLESS_BASE_URL[CONFIG.NETWORK] + CONFIG.SERVERLESS_REQUEST[CONFIG.NETWORK]['PLENTY-STATS']);
-    const awsAPIres = awsAPI.data.body;
-    priceOfPlenty = awsAPIres.price;
-
-
     for (const key in CONFIG.FARMS[CONFIG.NETWORK]) {
       for (const i in CONFIG.FARMS[CONFIG.NETWORK][key][
         isActive === true ? 'active' : 'inactive'
