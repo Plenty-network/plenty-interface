@@ -301,8 +301,6 @@ const fetchStorageForDualStakingContract = async (
   
     const totalLiquidty = totalSupply * priceOfStakeTokenInUsd;
 
-  
-
     return {
       success: true,
       identifier,
@@ -1473,7 +1471,6 @@ export const getFarmsDataAPI = async (isActive) => {
         priceOfPlenty === 0
       ) {
         priceOfPlenty = tokenPricesData[i].usdValue;
-        priceOfPlenty *= Math.pow(10 , 12);
       }
       if (
         tokenPricesData[i].symbol === 'YOU' &&
@@ -1483,12 +1480,6 @@ export const getFarmsDataAPI = async (isActive) => {
         priceOfYou = tokenPricesData[i].usdValue;
       }
     }
-
-    // To circumvent Teztools API's wrong data : Deprecate after it's fixed 
-    const awsAPI = await axios.get(CONFIG.SERVERLESS_BASE_URL[CONFIG.NETWORK] + CONFIG.SERVERLESS_REQUEST[CONFIG.NETWORK]['PLENTY-STATS']);
-    const awsAPIres = awsAPI.data.body;
-    priceOfPlenty = awsAPIres.price;
-
 
     for (const key in CONFIG.FARMS[CONFIG.NETWORK]) {
       for (const i in CONFIG.FARMS[CONFIG.NETWORK][key][
