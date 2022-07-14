@@ -238,7 +238,6 @@ const fetchStorageForDualStakingContract = async (
       rewardRate = parseFloat(rewardRate);
       let DPY = (rewardRate * 2880 * priceOfPlentyInUSD) / liquidity;
       DPY = DPY * 100;
-
     const intervalList = [1, 7, 30, 365];
     const roiTable = [];
 
@@ -252,6 +251,8 @@ const fetchStorageForDualStakingContract = async (
     let APR = (rewardRate * 1051200 * priceOfPlentyInUSD) / (liquidity);
     APR = APR * 100;
     const totalLiquidty = liquidity;
+
+
 
     return {
       success: true,
@@ -299,6 +300,8 @@ const fetchStorageForDualStakingContract = async (
     APR = APR * 100;
   
     const totalLiquidty = totalSupply * priceOfStakeTokenInUsd;
+
+  
 
     return {
       success: true,
@@ -1459,7 +1462,6 @@ export const getFarmsDataAPI = async (isActive) => {
     //const xtzPriceResponse = await axios.get(CONFIG.API.url);
     const xtzPriceResponse = initialDataResponse[0];
     const xtzPriceInUsd = xtzPriceResponse.data.market_data.current_price.usd;
-    //const tokenPrices = await axios.get(CONFIG.API.tezToolTokenPrice);
     const tokenPrices = initialDataResponse[1];
     const tokenPricesData = tokenPrices.data.contracts;
     let priceOfPlenty = 0;
@@ -1467,17 +1469,28 @@ export const getFarmsDataAPI = async (isActive) => {
     for (const i in tokenPricesData) {
       if (
         tokenPricesData[i].symbol === 'PLENTY' &&
-        tokenPricesData[i].tokenAddress === 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b'
+        tokenPricesData[i].tokenAddress === 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b' &&
+        priceOfPlenty === 0
       ) {
         priceOfPlenty = tokenPricesData[i].usdValue;
+        priceOfPlenty *= Math.pow(10 , 12);
+        console.log(priceOfPlenty);
       }
       if (
         tokenPricesData[i].symbol === 'YOU' &&
-        tokenPricesData[i].tokenAddress === 'KT1Xobej4mc6XgEjDoJoHtTKgbD1ELMvcQuL'
+        tokenPricesData[i].tokenAddress === 'KT1Xobej4mc6XgEjDoJoHtTKgbD1ELMvcQuL' &&
+        priceOfYou===0
       ) {
         priceOfYou = tokenPricesData[i].usdValue;
       }
     }
+
+    // To circumvent Teztools API's wrong data : Deprecate after it's fixed 
+    const awsAPI = await axios.get(CONFIG.SERVERLESS_BASE_URL[CONFIG.NETWORK] + CONFIG.SERVERLESS_REQUEST[CONFIG.NETWORK]['PLENTY-STATS']);
+    const awsAPIres = awsAPI.data.body;
+    priceOfPlenty = awsAPIres.price;
+
+
     for (const key in CONFIG.FARMS[CONFIG.NETWORK]) {
       for (const i in CONFIG.FARMS[CONFIG.NETWORK][key][
         isActive === true ? 'active' : 'inactive'
