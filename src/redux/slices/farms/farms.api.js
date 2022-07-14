@@ -1474,7 +1474,6 @@ export const getFarmsDataAPI = async (isActive) => {
       ) {
         priceOfPlenty = tokenPricesData[i].usdValue;
         priceOfPlenty *= Math.pow(10 , 12);
-        console.log(priceOfPlenty);
       }
       if (
         tokenPricesData[i].symbol === 'YOU' &&
