@@ -27,7 +27,7 @@ import InfoModal from '../../Components/Ui/Modals/InfoModal';
 const Governance = (props) => {
   const isMobile = useMediaQuery('(max-width: 991px)');
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [voteEnded, setVoteEnded] = useState(false);
+  const [voteEnded, setVoteEnded] = useState(true);
   const [loaderMessage, setLoaderMessage] = useState({});
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const date = new Date();
@@ -36,7 +36,7 @@ const Governance = (props) => {
     // ? voting results modal will be displayed, until next proposal comes up,
     if (date.getDate()) {
       props.getResults();
-      setVoteEnded(false);
+      setVoteEnded(true);
     }
   }, []);
   useEffect(() => {
