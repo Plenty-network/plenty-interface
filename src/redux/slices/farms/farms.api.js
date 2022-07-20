@@ -1868,13 +1868,13 @@ export const unstakeAPI = async (
       } else {
         const unstakeBatch = stakesToUnstake.map((stake) => {
           amount =
-            stake.amount *
+            Math.floor(stake.amount *
             Math.pow(
               10,
               CONFIG.FARMS[connectedNetwork][farmIdentifier][
                 isActive === true ? 'active' : 'inactive'
               ][position].TOKEN_DECIMAL,
-            );
+            ));
           return {
             kind: OpKind.TRANSACTION,
             ...contractInstance.methods.unstake(amount, stake.mapId).toTransferParams(),
