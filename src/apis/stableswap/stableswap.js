@@ -219,7 +219,7 @@ export async function ctez_to_tez(
       .withContractCall(
         contract.methods.ctez_to_tez(
           Number(tokenInAmount * 10 ** tokenInDecimals),
-          minimumTokenOut * 10 ** tokenOutDecimals,
+          Math.floor(minimumTokenOut * 10 ** tokenOutDecimals),
           recipent,
         ),
       )
@@ -292,7 +292,7 @@ export async function tez_to_ctez(
       {
         kind: OpKind.TRANSACTION,
         ...contract.methods
-          .tez_to_ctez(minimumTokenOut * 10 ** tokenOutDecimals, recipent)
+          .tez_to_ctez(Math.floor(minimumTokenOut * 10 ** tokenOutDecimals), recipent)
           .toTransferParams({ amount: Number(tokenInAmount * 10 ** tokenInDecimals), mutez: true }),
       },
     ]);
