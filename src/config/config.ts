@@ -393,7 +393,8 @@ const Config: IConfig = {
           inactive: [],
         },
         'PLENTY - hDAO': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1W3DtcPXbD7MMmtUdk3F352G6CYFSpwUUS',
               mapId: 13080,
@@ -401,10 +402,10 @@ const Config: IConfig = {
               tokenDecimal: 12,
             },
           ],
-          inactive: [],
         },
         'PLENTY - ETHtz': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1EVfYFoSpte3PnE4tPoWuj1DhNPVQwrW5Y',
               mapId: 13081,
@@ -412,7 +413,6 @@ const Config: IConfig = {
               tokenDecimal: 18,
             },
           ],
-          inactive: [],
         },
         'PLENTY - wWETH': {
           active: [],
@@ -448,7 +448,8 @@ const Config: IConfig = {
           ],
         },
         'PLENTY - WRAP': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1K9kLuhq9AJjDAgbJdKGBiP9927WsRnjP6',
               mapId: 14292,
@@ -456,7 +457,6 @@ const Config: IConfig = {
               tokenDecimal: 13,
             },
           ],
-          inactive: [],
         },
         'PLENTY - UNO': {
           active: [],
@@ -481,7 +481,8 @@ const Config: IConfig = {
           ],
         },
         'PLENTY - KALAM': {
-          active: [
+          active: [],
+          inactive: [
             {
               address: 'KT1UTvMuyRggQe9q1hrh7YLh7vxffX2egtS6',
               mapId: 14295,
@@ -489,7 +490,6 @@ const Config: IConfig = {
               tokenDecimal: 14,
             },
           ],
-          inactive: [],
         },
         'PLENTY - tzBTC': {
           active: [
@@ -4655,7 +4655,7 @@ const Config: IConfig = {
             message: '😍 New farm',
             bannerType: 'info',
             isDualFarm: false,
-            farmType : 'veStableAMM'
+            farmType: 'veStableAMM',
           },
         ],
         inactive: [],
@@ -5028,7 +5028,8 @@ const Config: IConfig = {
         inactive: [],
       },
       'PLENTY - hDAO': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1B2SzTBtb7PgTePbDLV5BmUZQ2PC1sdSHZ',
             CONTRACT: 'KT1W3DtcPXbD7MMmtUdk3F352G6CYFSpwUUS',
@@ -5044,12 +5045,14 @@ const Config: IConfig = {
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=hDAO',
             isDualFarm: false,
             farmType: 'oldAMM',
+            message: 'Rewards ended July 20',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'PLENTY - ETHtz': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1VvcbAjMWHVUbhLENpiVBejbzXYDt3PusE',
             CONTRACT: 'KT1EVfYFoSpte3PnE4tPoWuj1DhNPVQwrW5Y',
@@ -5065,9 +5068,10 @@ const Config: IConfig = {
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=ETHtz',
             isDualFarm: false,
             farmType: 'oldAMM',
+            message: 'Rewards ended July 20',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'PLENTY - wWETH': {
         active: [],
@@ -5137,7 +5141,8 @@ const Config: IConfig = {
         ],
       },
       'PLENTY - WRAP': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1AHndbp9xVpaJrfTHfYzSXKHDVHMdKxcW2',
             CONTRACT: 'KT1K9kLuhq9AJjDAgbJdKGBiP9927WsRnjP6',
@@ -5153,9 +5158,10 @@ const Config: IConfig = {
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=WRAP',
             isDualFarm: false,
             farmType: 'oldAMM',
+            message: 'Rewards ended July 20',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'PLENTY - UNO': {
         active: [],
@@ -5204,7 +5210,8 @@ const Config: IConfig = {
         ],
       },
       'PLENTY - KALAM': {
-        active: [
+        active: [],
+        inactive: [
           {
             LP_TOKEN: 'KT1G3QTnrpWNhZr9x3Prprw3GH6gAMqV113D',
             CONTRACT: 'KT1UTvMuyRggQe9q1hrh7YLh7vxffX2egtS6',
@@ -5220,9 +5227,10 @@ const Config: IConfig = {
             liquidityLink: '/liquidity/add?tokenA=PLENTY&tokenB=KALAM',
             isDualFarm: false,
             farmType: 'oldAMM',
+            message: 'Rewards ended July 20',
+            bannerType: 'alert',
           },
         ],
-        inactive: [],
       },
       'PLENTY - tzBTC': {
         active: [
