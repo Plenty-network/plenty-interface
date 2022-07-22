@@ -13,7 +13,7 @@ import busd_normal from '../assets/images/bridge/tokens/busd_icon.svg';
 import usdt_normal from '../assets/images/bridge/tokens/usdt_icon.svg';
 import eurl from '../assets/images/eurl.png';
 import ageure from '../assets/images/ageure.png';
-import usdt from '../assets/images/bridge/tokens/usdt.png';
+import usdt from '../assets/images/usdt.png'; 
 
 export const stableSwapTokens = [
   {
