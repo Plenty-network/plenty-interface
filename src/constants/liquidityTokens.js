@@ -45,7 +45,7 @@ import usdt_normal from '../assets/images/bridge/tokens/usdt_icon.svg';
 import usdt from '../assets/images/bridge/tokens/usdt.png';
 export const liquidityTokens = [
   {
-    name: 'USDT',
+    name: 'USDt',
     image: usdt,
     new: true,
   },

@@ -46,7 +46,7 @@ import usdt from '../assets/images/bridge/tokens/usdt.png';
 
 export const tokens = [
   {
-    name: 'USDT',
+    name: 'USDt',
     image: usdt,
     new: true,
   },
