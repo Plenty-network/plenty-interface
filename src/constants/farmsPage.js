@@ -72,6 +72,10 @@ import USDtzUSDCe from '../assets/images/farms/USDtzUSDCe.png';
 import usdteusdce from '../assets/images/farms/usdteusdce.png';
 import EURlagEURe from '../assets/images/farms/EURlagEURe.png';
 
+import uusdusdt from '../assets/images/farms/uUSDUSDT.png';
+
+import kusdusdt from '../assets/images/farms/kUSDUSDT.png';
+
 export const FARMS_CARD_DATA_PROPTYPES = PropTypes.shape({
   farmData: PropTypes.shape({
     LP_TOKEN: PropTypes.string,
@@ -190,7 +194,7 @@ export const FARMS_CARD_TYPE_LIST = {
     isDualFarm: false,
   },
   'kUSD / USDt LP': {
-    image: dogactezLpFarm,
+    image: kusdusdt,
     harvestImg: plentyToken,
     multi: '100',
     title: 'kUSD / USDt PNLP',
@@ -211,7 +215,7 @@ export const FARMS_CARD_TYPE_LIST = {
     isDualFarm: false,
   },
   'uUSD / USDt LP': {
-    image: dogactezLpFarm,
+    image: uusdusdt,
     harvestImg: plentyToken,
     multi: '100',
     title: 'uUSD / USDt PNLP',
