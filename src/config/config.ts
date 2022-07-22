@@ -1669,12 +1669,12 @@ const Config: IConfig = {
             liquidityToken: 'usdc.e-uusd-LP',
             type: 'veStableAMM',
           },
-          // USDt: {
-          //   contract: 'KT1HgFcDE8ZXNdT1aXXKpMbZc6GkUS2VHiPo',
-          //   property: 'token2_pool',
-          //   liquidityToken: 'usdc.e-kusd-LP',
-          //   type: 'veStableAMM',
-          // },
+          USDt: {
+            contract: 'KT19XPttmgtKtnpKXbcn41AqbcUqX7cweAmu',
+            property: 'token2_pool',
+            liquidityToken: 'uUSD-USDt-LP',
+            type: 'veStableAMM',
+          },
         },
       },
       tzBTC: {
@@ -1709,12 +1709,12 @@ const Config: IConfig = {
             liquidityToken: 'usdc.e-kusd-LP',
             type: 'veStableAMM',
           },
-          // 'USDt': {
-          //   contract: 'KT1HgFcDE8ZXNdT1aXXKpMbZc6GkUS2VHiPo',
-          //   property: 'token2_pool',
-          //   liquidityToken: 'usdc.e-kusd-LP',
-          //   type: 'veStableAMM',
-          // },
+          USDt: {
+            contract: 'KT1XfZi2K6gVM3wXDyeCwMhaT88JueVEAB8r',
+            property: 'token2_pool',
+            liquidityToken: 'kUSD-USDt-LP',
+            type: 'veStableAMM',
+          },
         },
       },
       'WBTC.e': {
@@ -1926,51 +1926,51 @@ const Config: IConfig = {
         },
       },
 
-      // USDt: {
-      //   ICON: '',
-      //   TOKEN_CONTRACT: 'KT1XnTn74bUtxHfDtBmm2bGZAQfhPbvKWR8o',
-      //   mapId: 198031,
-      //   READ_TYPE: 'FA2',
-      //   CALL_TYPE: 'FA2',
-      //   TOKEN_ID: 0,
-      //   TOKEN_DECIMAL: 6,
-      //   DEX_PAIRS: {
-      //     'kUSD': {
-      //       contract: 'KT1Nrbzh6WqwDgJ513qTEQqnmJTPpRv6ZKr5',
-      //       property: 'token2_pool',
-      //       liquidityToken: 'eurl-agEUR.e-LP',
-      //       type: 'veStableAMM',
-      //     },
-      // 'uUSD': {
-        //       contract: 'KT1Nrbzh6WqwDgJ513qTEQqnmJTPpRv6ZKr5',
-        //       property: 'token2_pool',
-        //       liquidityToken: 'eurl-agEUR.e-LP',
-        //       type: 'veStableAMM',
-        //     },
-      //   },
-      // },
+      USDt: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1XnTn74bUtxHfDtBmm2bGZAQfhPbvKWR8o',
+        mapId: 198031,
+        READ_TYPE: 'FA2',
+        CALL_TYPE: 'FA2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 6,
+        DEX_PAIRS: {
+          'kUSD': {
+            contract: 'KT1XfZi2K6gVM3wXDyeCwMhaT88JueVEAB8r',
+            property: 'token1_pool',
+            liquidityToken: 'kUSD-USDt-LP',
+            type: 'veStableAMM',
+          },
+          'uUSD': {
+            contract: 'KT19XPttmgtKtnpKXbcn41AqbcUqX7cweAmu',
+            property: 'token1_pool',
+            liquidityToken: 'uUSD-USDt-LP',
+            type: 'veStableAMM',
+          },
+        },
+      },
 
-      // 'kUSD-USDt-LP': {
-      //   ICON: '',
-      //   TOKEN_CONTRACT: 'KT1X4fkZ1f3uCpBqC1HZemsSNFbqm6bkpgfb',
-      //   mapId: 210417,
-      //   READ_TYPE: 'FA1.2',
-      //   TOKEN_ID: 0,
-      //   TOKEN_DECIMAL: 12,
-      //   CALL_TYPE: 'FA1.2',
-      //   DEX_PAIRS: {},
-      // },
+      'kUSD-USDt-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1JaYzZooZmq9JP9FScjLShbUco8Pn8Ckct',
+        mapId: 231140,
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 12,
+        CALL_TYPE: 'FA1.2',
+        DEX_PAIRS: {},
+      },
 
-      // 'uUSD-USDt-LP': {
-      //   ICON: '',
-      //   TOKEN_CONTRACT: 'KT1X4fkZ1f3uCpBqC1HZemsSNFbqm6bkpgfb',
-      //   mapId: 210417,
-      //   READ_TYPE: 'FA1.2',
-      //   TOKEN_ID: 0,
-      //   TOKEN_DECIMAL: 12,
-      //   CALL_TYPE: 'FA1.2',
-      //   DEX_PAIRS: {},
-      // },
+      'uUSD-USDt-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1Doix5iZZsQzKY3ANDkoca6GfCtJbXY9sk',
+        mapId: 231143,
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 9,
+        CALL_TYPE: 'FA1.2',
+        DEX_PAIRS: {},
+      },
 
 
       'eurl-agEUR.e-LP': {
@@ -2768,12 +2768,12 @@ const Config: IConfig = {
             liquidityToken: 'ctez-uusd-lp',
             type: 'oldAMM',
           },
-          // USDt: {
-          //   contract: 'KT1HgFcDE8ZXNdT1aXXKpMbZc6GkUS2VHiPo',
-          //   property: 'token2_pool',
-          //   liquidityToken: 'usdc.e-kusd-LP',
-          //   type: 'veStableAMM',
-          // },
+          USDt: {
+            contract: 'KT19XPttmgtKtnpKXbcn41AqbcUqX7cweAmu',
+            property: 'token2_pool',
+            liquidityToken: 'uUSD-USDt-LP',
+            type: 'veStableAMM',
+          },
         },
       },
       uDEFI: {
@@ -3213,12 +3213,12 @@ const Config: IConfig = {
             liquidityToken: 'ctez-kusd-lp',
             type: 'oldAMM',
           },
-          // USDt: {
-          //   contract: 'KT1HgFcDE8ZXNdT1aXXKpMbZc6GkUS2VHiPo',
-          //   property: 'token2_pool',
-          //   liquidityToken: 'usdc.e-kusd-LP',
-          //   type: 'veStableAMM',
-          // },
+          USDt: {
+            contract: 'KT1XfZi2K6gVM3wXDyeCwMhaT88JueVEAB8r',
+            property: 'token2_pool',
+            liquidityToken: 'kUSD-USDt-LP',
+            type: 'veStableAMM',
+          },
         },
       },
       hDAO: {
@@ -3652,51 +3652,51 @@ const Config: IConfig = {
         },
       },
 
-      // USDt: {
-      //   ICON: '',
-      //   TOKEN_CONTRACT: 'KT1XnTn74bUtxHfDtBmm2bGZAQfhPbvKWR8o',
-      //   mapId: 198031,
-      //   READ_TYPE: 'FA2',
-      //   CALL_TYPE: 'FA2',
-      //   TOKEN_ID: 0,
-      //   TOKEN_DECIMAL: 6,
-      //   DEX_PAIRS: {
-      //     'kUSD': {
-      //       contract: 'KT1Nrbzh6WqwDgJ513qTEQqnmJTPpRv6ZKr5',
-      //       property: 'token2_pool',
-      //       liquidityToken: 'eurl-agEUR.e-LP',
-      //       type: 'veStableAMM',
-      //     },
-      // 'uUSD': {
-        //       contract: 'KT1Nrbzh6WqwDgJ513qTEQqnmJTPpRv6ZKr5',
-        //       property: 'token2_pool',
-        //       liquidityToken: 'eurl-agEUR.e-LP',
-        //       type: 'veStableAMM',
-        //     },
-      //   },
-      // },
+      USDt: {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1XnTn74bUtxHfDtBmm2bGZAQfhPbvKWR8o',
+        mapId: 198031,
+        READ_TYPE: 'FA2',
+        CALL_TYPE: 'FA2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 6,
+        DEX_PAIRS: {
+          'kUSD': {
+            contract: 'KT1XfZi2K6gVM3wXDyeCwMhaT88JueVEAB8r',
+            property: 'token1_pool',
+            liquidityToken: 'kUSD-USDt-LP',
+            type: 'veStableAMM',
+          },
+          'uUSD': {
+            contract: 'KT19XPttmgtKtnpKXbcn41AqbcUqX7cweAmu',
+            property: 'token1_pool',
+            liquidityToken: 'uUSD-USDt-LP',
+            type: 'veStableAMM',
+          },
+        },
+      },
 
-      // 'kUSD-USDt-LP': {
-      //   ICON: '',
-      //   TOKEN_CONTRACT: 'KT1X4fkZ1f3uCpBqC1HZemsSNFbqm6bkpgfb',
-      //   mapId: 210417,
-      //   READ_TYPE: 'FA1.2',
-      //   TOKEN_ID: 0,
-      //   TOKEN_DECIMAL: 12,
-      //   CALL_TYPE: 'FA1.2',
-      //   DEX_PAIRS: {},
-      // },
+      'kUSD-USDt-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1JaYzZooZmq9JP9FScjLShbUco8Pn8Ckct',
+        mapId: 231140,
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 12,
+        CALL_TYPE: 'FA1.2',
+        DEX_PAIRS: {},
+      },
 
-      // 'uUSD-USDt-LP': {
-      //   ICON: '',
-      //   TOKEN_CONTRACT: 'KT1X4fkZ1f3uCpBqC1HZemsSNFbqm6bkpgfb',
-      //   mapId: 210417,
-      //   READ_TYPE: 'FA1.2',
-      //   TOKEN_ID: 0,
-      //   TOKEN_DECIMAL: 12,
-      //   CALL_TYPE: 'FA1.2',
-      //   DEX_PAIRS: {},
-      // },
+      'uUSD-USDt-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1Doix5iZZsQzKY3ANDkoca6GfCtJbXY9sk',
+        mapId: 231143,
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 9,
+        CALL_TYPE: 'FA1.2',
+        DEX_PAIRS: {},
+      },
 
       'eurl-agEUR.e-LP': {
         ICON: '',
