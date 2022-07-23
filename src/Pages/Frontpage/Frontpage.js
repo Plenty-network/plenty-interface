@@ -254,7 +254,7 @@ const Frontpage = ({
                       {homeStats.total_burned.toFixed(0)}
                     </NumericLabel>
                   ) : (
-                    '793809'
+                    '793,809'
                   )
                 }
                 icon={theme === 'light' ? totalBurned : totalBurnedDark}
@@ -269,7 +269,7 @@ const Frontpage = ({
                       {homeStats.circulating_supply.toFixed(0)}
                     </NumericLabel>
                   ) : (
-                    '37972993'
+                    '37,972,993'
                   )
                 }
                 icon={theme === 'light' ? circulatingSupply : circulatingSupplyDark}
