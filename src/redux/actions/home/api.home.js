@@ -2315,6 +2315,7 @@ export const getTVLOfUserHelper = async (userAddress) => {
     const farmResponsesActive = await Promise.all(stakedAmountsFromActiveFarmsPromises);
     for (const key in farmResponsesActive) {
       if (farmResponsesActive[key].success) {
+
         tvlOfUser +=
           farmResponsesActive[key].balance *
           farmTokenDataActive[farmResponsesActive[key].identifier];

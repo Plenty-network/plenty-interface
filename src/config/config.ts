@@ -216,6 +216,28 @@ const Config: IConfig = {
           ],
           inactive: [],
         },
+        // 'USDt - ctez': {
+        //   active: [
+        //     {
+        //       address: 'KT1Ne85tY7r6HuyRExQNb2V5zzE9u4ppts6m',
+        //       mapId: 210601,
+        //       decimal: 18,
+        //       tokenDecimal: 12,
+        //     },
+        //   ],
+        //   inactive: [],
+        // },
+        // 'BUSD.e - USDC.e': {
+        //   active: [
+        //     {
+        //       address: 'KT1Ne85tY7r6HuyRExQNb2V5zzE9u4ppts6m',
+        //       mapId: 210601,
+        //       decimal: 18,
+        //       tokenDecimal: 12,
+        //     },
+        //   ],
+        //   inactive: [],
+        // },
         'kUSD - USDt': {
           active: [
             {
@@ -1120,6 +1142,21 @@ const Config: IConfig = {
         type: 'FA1.2',
         tokenId: 0,
       },
+
+      // 'USDt - ctez': {
+      //   address: 'KT1X4fkZ1f3uCpBqC1HZemsSNFbqm6bkpgfb',
+      //   mapId: 210417,
+      //   decimal: 12,
+      //   type: 'FA1.2',
+      //   tokenId: 0,
+      // },
+      // 'BUSD.e - USDC.e': {
+      //   address: 'KT1X4fkZ1f3uCpBqC1HZemsSNFbqm6bkpgfb',
+      //   mapId: 210417,
+      //   decimal: 12,
+      //   type: 'FA1.2',
+      //   tokenId: 0,
+      // },
 
       'USDT.e - USDC.e': {
         address: 'KT1CDeAxaiqbA5aMkPMmqqYXxqgfFwocJHza',
@@ -2929,6 +2966,12 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
+          // USDt: {
+          //   contract: 'KT1LixgLzdK4nseeD6MmmVpokuw9CvpVX9KW',
+          //   property: 'token2_pool',
+          //   liquidityToken: 'ctez-paul-lp',
+          //   type: 'oldAMM',
+          // },
           'USDC.e': {
             contract: 'KT1Dhy1gVW3PSC9cms9QJ7xPMPPpip2V9aA6',
             property: 'token1_pool',
@@ -3673,6 +3716,12 @@ const Config: IConfig = {
             liquidityToken: 'uUSD-USDt-LP',
             type: 'veStableAMM',
           },
+          // ctez: {
+          //   contract: 'KT19XPttmgtKtnpKXbcn41AqbcUqX7cweAmu',
+          //   property: 'token1_pool',
+          //   liquidityToken: 'uUSD-USDt-LP',
+          //   type: 'veStableAMM',
+          // },
         },
       },
 
@@ -4815,6 +4864,54 @@ const Config: IConfig = {
         ],
         inactive: [],
       },
+
+      // 'USDt - ctez': {
+      //   active: [
+      //     {
+      //       LP_TOKEN: 'KT1X4fkZ1f3uCpBqC1HZemsSNFbqm6bkpgfb',
+      //       CONTRACT: 'KT1Ne85tY7r6HuyRExQNb2V5zzE9u4ppts6m',
+      //       DEX: 'KT1Nrbzh6WqwDgJ513qTEQqnmJTPpRv6ZKr5',
+      //       TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       CARD_TYPE: 'EURL / agEUR.e LP',
+      //       TOKEN_DECIMAL: 12,
+      //       TYPE: 'FA1.2',
+      //       LP_DECIMAL: 12,
+      //       TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       DECIMAL: 18,
+      //       withdrawalFeeType: 'type2',
+      //       liquidityLink: '/liquidity/add?tokenA=EURL&tokenB=agEUR.e',
+      //       message: '😍 New farm',
+      //       bannerType: 'info',
+      //       isDualFarm: false,
+      //       farmType: 'veStableAMM',
+      //     },
+      //   ],
+      //   inactive: [],
+      // },
+
+      // 'BUSD.e - USDC.e': {
+      //   active: [
+      //     {
+      //       LP_TOKEN: 'KT1X4fkZ1f3uCpBqC1HZemsSNFbqm6bkpgfb',
+      //       CONTRACT: 'KT1Ne85tY7r6HuyRExQNb2V5zzE9u4ppts6m',
+      //       DEX: 'KT1Nrbzh6WqwDgJ513qTEQqnmJTPpRv6ZKr5',
+      //       TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       CARD_TYPE: 'EURL / agEUR.e LP',
+      //       TOKEN_DECIMAL: 12,
+      //       TYPE: 'FA1.2',
+      //       LP_DECIMAL: 12,
+      //       TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+      //       DECIMAL: 18,
+      //       withdrawalFeeType: 'type2',
+      //       liquidityLink: '/liquidity/add?tokenA=EURL&tokenB=agEUR.e',
+      //       message: '😍 New farm',
+      //       bannerType: 'info',
+      //       isDualFarm: false,
+      //       farmType: 'veStableAMM',
+      //     },
+      //   ],
+      //   inactive: [],
+      // },
 
       'kUSD - USDt': {
         active: [
