@@ -219,8 +219,8 @@ const Config: IConfig = {
         'USDt - ctez': {
           active: [
             {
-              address: 'KT1AvR3rU3WUPvXnasWbX7BbZAXeBVsPyQBh',
-              mapId: 123456789,
+              address: 'KT1DkNdbMDy3bZcFwJQi71B6Lb6H3VmSjAx5',
+              mapId: 245046,
               decimal: 18,
               tokenDecimal: 6,
             },
@@ -4880,7 +4880,7 @@ const Config: IConfig = {
         active: [
           {
             LP_TOKEN: 'KT1BaGrWEPYsEyQEftyegLrGEqY2psAJh5GX',
-            CONTRACT: 'KT1AvR3rU3WUPvXnasWbX7BbZAXeBVsPyQBh',
+            CONTRACT: 'KT1DkNdbMDy3bZcFwJQi71B6Lb6H3VmSjAx5',
             DEX: 'KT1D1NcffeDR3xQ75fUFoJXZzD6WQp96Je3L',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             CARD_TYPE: 'USDt / ctez LP',
