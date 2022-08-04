@@ -72,6 +72,8 @@ import USDtzUSDCe from '../assets/images/farms/USDtzUSDCe.png';
 import usdteusdce from '../assets/images/farms/usdteusdce.png';
 import EURlagEURe from '../assets/images/farms/EURlagEURe.png';
 
+import busdeusdce from '../assets/images/farms/BUSD.eUSDC.e.png';
+import usdtctez from '../assets/images/farms/USDtctez.png';
 import uusdusdt from '../assets/images/farms/uUSDUSDT.png';
 
 import kusdusdt from '../assets/images/farms/kUSDUSDT.png';
@@ -194,7 +196,7 @@ export const FARMS_CARD_TYPE_LIST = {
     isDualFarm: false,
   },
   'BUSD.e / USDC.e PNLP': {
-    image: dogactezLpFarm,
+    image: busdeusdce,
     harvestImg: plentyToken,
     multi: '100',
     title: 'BUSD.e / USDC.e PNLP',
@@ -216,7 +218,7 @@ export const FARMS_CARD_TYPE_LIST = {
     url: '/liquidity/add?tokenA=BUSD.e&tokenB=USDC.e',
   },
   'USDt / CTEZ PNLP': {
-    image: dogactezLpFarm,
+    image: usdtctez,
     harvestImg: plentyToken,
     multi: '100',
     title: 'USDt / CTEZ PNLP',
