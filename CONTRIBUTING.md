@@ -47,7 +47,7 @@ Pull requests are the best way to propose changes to the codebase. We actively w
 
 ## Any contributions you make will be under the MIT License
 
-In short, when you submit code changes, your submissions will be understood under the same MIT [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
+In short, when you submit code changes, your submissions will be understood under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
 
 ## Report bugs using Github's [issues](https://github.com/Plenty-DeFi/plenty-v2/issues)
 
