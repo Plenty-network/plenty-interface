@@ -1972,13 +1972,13 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
-          'kUSD': {
+          kUSD: {
             contract: 'KT1XfZi2K6gVM3wXDyeCwMhaT88JueVEAB8r',
             property: 'token1_pool',
             liquidityToken: 'kUSD-USDt-LP',
             type: 'veStableAMM',
           },
-          'uUSD': {
+          uUSD: {
             contract: 'KT19XPttmgtKtnpKXbcn41AqbcUqX7cweAmu',
             property: 'token1_pool',
             liquidityToken: 'uUSD-USDt-LP',
@@ -2008,7 +2008,6 @@ const Config: IConfig = {
         CALL_TYPE: 'FA1.2',
         DEX_PAIRS: {},
       },
-
 
       'eurl-agEUR.e-LP': {
         ICON: '',
@@ -3704,13 +3703,13 @@ const Config: IConfig = {
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 6,
         DEX_PAIRS: {
-          'kUSD': {
+          kUSD: {
             contract: 'KT1XfZi2K6gVM3wXDyeCwMhaT88JueVEAB8r',
             property: 'token1_pool',
             liquidityToken: 'kUSD-USDt-LP',
             type: 'veStableAMM',
           },
-          'uUSD': {
+          uUSD: {
             contract: 'KT19XPttmgtKtnpKXbcn41AqbcUqX7cweAmu',
             property: 'token1_pool',
             liquidityToken: 'uUSD-USDt-LP',
@@ -4883,7 +4882,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1DkNdbMDy3bZcFwJQi71B6Lb6H3VmSjAx5',
             DEX: 'KT1D1NcffeDR3xQ75fUFoJXZzD6WQp96Je3L',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'USDt / ctez LP',
+            CARD_TYPE: 'USDt / CTEZ PNLP',
             TOKEN_DECIMAL: 6,
             TYPE: 'FA1.2',
             LP_DECIMAL: 6,
@@ -4907,7 +4906,7 @@ const Config: IConfig = {
             CONTRACT: 'KT1HK91NY9uWa685DAYRH8ywNMaN52D8Z8NS',
             DEX: 'KT1LutmpUK8TDkA19tLCQNr7Eh7kbEsP3uiP',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-            CARD_TYPE: 'BUSD.e / USDC.e LP',
+            CARD_TYPE: 'BUSD.e / USDC.e PNLP',
             TOKEN_DECIMAL: 12,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,

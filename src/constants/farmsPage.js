@@ -193,7 +193,7 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
     isDualFarm: false,
   },
-  'BUSD.e / USDC.e LP': {
+  'BUSD.e / USDC.e PNLP': {
     image: dogactezLpFarm,
     harvestImg: plentyToken,
     multi: '100',
@@ -215,7 +215,7 @@ export const FARMS_CARD_TYPE_LIST = {
     isDualFarm: false,
     url: '/liquidity/add?tokenA=BUSD.e&tokenB=USDC.e',
   },
-  'USDt / CTEZ LP': {
+  'USDt / CTEZ PNLP': {
     image: dogactezLpFarm,
     harvestImg: plentyToken,
     multi: '100',
