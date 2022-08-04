@@ -47,26 +47,13 @@ Pull requests are the best way to propose changes to the codebase. We actively w
 
 ## Any contributions you make will be under the GPL-3.0 License
 
-In short, when you submit code changes, your submissions will be understood under the same [GPL-3.0 License](./LICENSE) that covers the project. Feel free to contact the maintainers if that's a concern.
+In short, when you submit code changes, your submissions will be understood under the same MIT [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
 
 ## Report bugs using Github's [issues](https://github.com/Plenty-DeFi/plenty-v2/issues)
 
 Report a bug by [opening a new issue](https://github.com/Plenty-DeFi/plenty-v2/issues/new); it's that easy!
 
 ## You can also report bugs using our [Discord Server](https://discord.gg/H4Xrv2uYrS)
-
-You can track them in Notion
-
-**Great Bug Reports** tend to have:
-
-- A quick summary and/or background
-- Steps to reproduce
-  - Be specific!
-- What you expected would happen
-- What actually happens
-- Notes (possibly including why you think this might be happening, or stuff you tried that didn't work)
-
-People _love_ thorough bug reports. I'm not even kidding.
 
 ## License
 
