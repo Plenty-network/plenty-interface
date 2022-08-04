@@ -9,8 +9,6 @@ We love your input! We want to make contributing to this project as easy and tra
 
 # Project setup
 
-# Development
-
 Before running anything, you'll need to install the dependencies:
 
 ```
