@@ -55,6 +55,8 @@ Report a bug by [opening a new issue](https://github.com/Plenty-DeFi/plenty-v2/i
 
 ## You can also report bugs using our [Discord Server](https://discord.gg/H4Xrv2uYrS)
 
+Feel free to contact [us](https://discord.gg/H4Xrv2uYrS) if thats a concern
+
 ## License
 
 By contributing, you agree that your contributions will be licensed under its [MIT license](./LICENSE).
