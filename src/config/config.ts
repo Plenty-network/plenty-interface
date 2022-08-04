@@ -2968,7 +2968,7 @@ const Config: IConfig = {
           USDt: {
             contract: 'KT1D1NcffeDR3xQ75fUFoJXZzD6WQp96Je3L',
             property: 'token1_pool',
-            liquidityToken: 'usdt-ctez-lp',
+            liquidityToken: 'usdt-ctez-LP',
             type: 'veAMM',
           },
           'USDC.e': {

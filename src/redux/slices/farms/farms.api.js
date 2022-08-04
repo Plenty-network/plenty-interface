@@ -512,8 +512,6 @@ const getPriceForPlentyLpTokens = async (
         Math.pow(10, tokenData['token1'].tokenDecimal);
       const totalAmount = (token1Amount + token2Amount).toFixed(2);
 
-      console.log(totalAmount);
-
       return {
         success: true,
         identifier,
@@ -1384,7 +1382,7 @@ const getPriceForPlentyLpTokens = async (
       const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
       const token2Pool = parseInt(storageResponse.data.args[3].int);
       const lpTokenTotalSupply = parseInt(storageResponse.data.args[4].int);
-      
+
       const tokenData = {};
 
       let idx;
