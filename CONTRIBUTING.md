@@ -45,7 +45,7 @@ Pull requests are the best way to propose changes to the codebase. We actively w
 6. Issue that pull request to `development`!
 7. Make sure the PR has a description (It's important to provide as much useful information and a rationale for why you're making this pull request in the first place.)
 
-## Any contributions you make will be under the GPL-3.0 License
+## Any contributions you make will be under the MIT License
 
 In short, when you submit code changes, your submissions will be understood under the same MIT [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
 
