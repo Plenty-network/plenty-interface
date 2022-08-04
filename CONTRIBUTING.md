@@ -29,12 +29,6 @@ The interface should automatically open. If it does not, navigate to [http://loc
 yarn build
 ```
 
-## Lint and fixes files
-
-```
-yarn lint
-```
-
 ## We Develop with Github
 
 We use github to host code, to track issues and feature requests, as well as accept pull requests.
@@ -73,11 +67,6 @@ You can track them in Notion
 - Notes (possibly including why you think this might be happening, or stuff you tried that didn't work)
 
 People _love_ thorough bug reports. I'm not even kidding.
-
-## Use a Consistent Coding Style
-
-- We use prettier for styling and eslint for linting
-- You can try running `npm run lint` for style unification
 
 ## License
 
