@@ -1,4 +1,4 @@
-# Contributing to Plenty V2
+# Contributing to Plenty Interface
 
 We love your input! We want to make contributing to this project as easy and transparent as possible, whether it's:
 
@@ -7,16 +7,34 @@ We love your input! We want to make contributing to this project as easy and tra
 - Submitting a fix
 - Proposing new features
 
-## Development
+# Project setup
 
-### Running the interface locally
+# Development
 
-```bash
+Before running anything, you'll need to install the dependencies:
+
+```
 yarn install
 ```
 
-```bash
+## Running the interface locally
+
+```
 yarn start
+```
+
+The interface should automatically open. If it does not, navigate to [http://localhost:3000].
+
+## Creating a production build
+
+```
+yarn build
+```
+
+## Lint and fixes files
+
+```
+yarn lint
 ```
 
 ## We Develop with Github
@@ -65,4 +83,4 @@ People _love_ thorough bug reports. I'm not even kidding.
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under its [GPL-3.0 License](./LICENSE).
+By contributing, you agree that your contributions will be licensed under its [MIT license](./LICENSE).
