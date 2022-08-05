@@ -17,7 +17,7 @@ or visit [Plenty DeFi](https://plentydefi.com/).
 
 # Project setup
 
-Before running anything, you'll need to install the dependencies:
+To install the dependencies:
 
 ```
 yarn install
