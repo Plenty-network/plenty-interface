@@ -67,7 +67,6 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
       // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
       const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
       const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
-
       const Tezos = new TezosToolkit(rpcNode);
       const dexContractInstance = await Tezos.contract.at(dexContractAddress);
       const dexStorage = await dexContractInstance.storage();
@@ -92,6 +91,7 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
         CONFIG.AMM[connectedNetwork][
           CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken
         ].TOKEN_DECIMAL;
+
       tokenIn_supply = tokenIn_supply / Math.pow(10, tokenIn_Decimal);
       tokenOut_supply = tokenOut_supply / Math.pow(10, tokenOut_Decimal);
       lpTokenSupply = lpTokenSupply / Math.pow(10, liquidityToken_Decimal);
