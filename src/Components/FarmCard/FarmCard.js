@@ -44,9 +44,7 @@ const FarmCard = (props) => {
       if (farmData.CARD_TYPE === 'CTEZ / TEZ Dual PNLP') {
         return (
           <>
-            {`${parseInt((values?.rewardRate[0] ?? 0) * 2880)} PLENTY | ${parseInt(
-              (values?.rewardRate[1] ?? 0) * 2880,
-            )} TEZ`}{' '}
+            {`${parseInt((values?.rewardRate[0] ?? 0) * 2880)} PLENTY | 15 TEZ  `}{' '}
             <span
               style={{
                 display: 'block',
@@ -54,7 +52,7 @@ const FarmCard = (props) => {
                 fontSize: '10px',
               }}
             >
-              / DAY
+              {'/DAY  |  /CYCLE'}
             </span>
           </>
         );

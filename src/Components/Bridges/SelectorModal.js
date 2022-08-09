@@ -25,11 +25,7 @@ const SelectorModal = (props) => {
       setTokensToShow(filteredTokens);
     };
     filterTokens();
-  }, [
-    props.tokens,
-    props.searchQuery,
-    searchHits,
-  ]);
+  }, [props.tokens, props.searchQuery, searchHits]);
 
   return (
     <Modal
@@ -61,7 +57,7 @@ const SelectorModal = (props) => {
       </Modal.Header>
       <Modal.Body>
         <div className="coin-selection-table">
-          {props.tokens.length === 0 && (<h6>No items to show.</h6>)}
+          {props.tokens.length === 0 && <h6>No items to show.</h6>}
           {tokensToShow.map((token, index) => {
             return (
               <button
@@ -77,7 +73,12 @@ const SelectorModal = (props) => {
                 <span className="span-themed">
                   {props.selector === 'BRIDGES' ? titleCase(token.name) : token.name}
                 </span>
-                {token.tokenData?.deprecated ? <span className="deprecated-badge-icon">Deprecated!</span> : null}
+                {token.tokenData?.deprecated ? (
+                  <span className="deprecated-badge-icon">Deprecated!</span>
+                ) : null}
+                {(token.name === 'agEUR' || token.name === 'agEUR.e') && (
+                  <span className="new-badge-icon">New!</span>
+                )}
                 {token.extra && (
                   <a
                     className="extra-text"
