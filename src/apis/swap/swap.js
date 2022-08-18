@@ -1992,6 +1992,7 @@ export const getTokenPrices = async () => {
     tokenPrice['ctez'] = promisesResponse[1].ctezPriceInUSD;
     tokenPrice['uDEFI'] = promisesResponse[2].uDEFIinUSD;
     tokenPrice['agEUR.e'] = promisesResponse[3].agEUReInUSD;
+
     return {
       success: true,
       tokenPrice,

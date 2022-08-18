@@ -40,6 +40,12 @@ const fetchStorageForDualStakingContract = async (
         }
       }
 
+      // TODO : Remove Plenty price once api is fixed
+
+      const plentyPrice = await axios.get('https://w0sujgfj39.execute-api.us-east-2.amazonaws.com/v1/homestats');
+      tokenFirstPrice = plentyPrice.data.body.price;
+
+
       const promises = [];
 
       const xtzDollarValueUrl = CONFIG.API.url;
@@ -77,6 +83,7 @@ const fetchStorageForDualStakingContract = async (
 
       let APR = APRFirst + APRSecond;
       APR = APR * 100;
+
 
       const DPYFirst =
         (rewardRateFirst * 2880 * tokenFirstPrice) / (totalSupply * priceOfStakeTokenInUsd);
@@ -1652,6 +1659,7 @@ export const getFarmsDataAPI = async (isActive) => {
     const initialDataPromises = [];
     initialDataPromises.push(axios.get(CONFIG.API.url));
     initialDataPromises.push(axios.get(CONFIG.API.tezToolTokenPrice));
+    initialDataPromises.push(axios.get('https://w0sujgfj39.execute-api.us-east-2.amazonaws.com/v1/homestats'));
     const initialDataResponse = await Promise.all(initialDataPromises);
     //const xtzPriceResponse = await axios.get(CONFIG.API.url);
     const xtzPriceResponse = initialDataResponse[0];
@@ -1664,9 +1672,13 @@ export const getFarmsDataAPI = async (isActive) => {
       if (
         tokenPricesData[i].symbol === 'PLENTY' &&
         tokenPricesData[i].tokenAddress === 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b' &&
-        priceOfPlenty === 0
+        priceOfPlenty === 0 
       ) {
-        priceOfPlenty = tokenPricesData[i].usdValue;
+        // TODO : confirm price
+        // priceOfPlenty = tokenPricesData[i].usdValue;
+        // priceOfPlenty = 0.024;
+        // console.log(tokenPricesData[i].usdValue);
+        priceOfPlenty = initialDataResponse[2].data.body.price;
       }
       if (
         tokenPricesData[i].symbol === 'YOU' &&
