@@ -15,6 +15,28 @@ To access the PlentyDeFi Interface, use link from the
 [latest release](https://github.com/Plenty-DeFi/plenty-v2),
 or visit [Plenty DeFi](https://plentydefi.com/).
 
+# Project setup
+
+To install the dependencies:
+
+```
+yarn install
+```
+
+## Running the interface locally
+
+```
+yarn start
+```
+
+The interface should automatically open. If it does not, navigate to [http://localhost:3000].
+
+## Creating a production build
+
+```
+yarn build
+```
+
 ## Contributions
 
 For steps on local deployment, development, and code contribution, please see [CONTRIBUTING](./CONTRIBUTING.md).

@@ -32,6 +32,8 @@ import { populateFarmsWithoutData } from '../utils/farmsPageUtils';
 import { FARM_SORT_OPTIONS, FARM_TAB } from '../constants/farmsPage';
 import ConfirmTransaction from '../Components/WrappedAssets/ConfirmTransaction';
 import { setLoader } from '../redux/slices/settings/settings.slice';
+import { ReactComponent as StableswapGrey } from '../assets/images/SwapModal/Stableswap-grey.svg';
+import { ReactComponent as StableswapImg } from '../assets/images/SwapModal/stableswap.svg';
 
 const Farms = (props) => {
   const [sortValue, setSortValue] = useState(FARM_SORT_OPTIONS.APR);
@@ -112,6 +114,11 @@ const Farms = (props) => {
       if (tabChange === FARM_TAB.NEW) {
         return farm.farmData.bannerType?.includes('info');
       }
+      if (tabChange === FARM_TAB.STABLE) {
+        return (
+          farm.farmData.farmType?.includes('veStableAMM') || farm.farmData.farmType?.includes('xtz')
+        );
+      }
       if (tabChange === FARM_TAB.YOU) {
         return props.userStakes[farm.farmData.CONTRACT]?.stakedAmount > 0;
       }
@@ -163,6 +170,15 @@ const Farms = (props) => {
             >
               <Tab eventKey={FARM_TAB.ALL} title={FARM_TAB.ALL} />
               <Tab eventKey={FARM_TAB.NEW} title={FARM_TAB.NEW} />
+              <Tab
+                eventKey={FARM_TAB.STABLE}
+                title={
+                  <span>
+                    <span className="mr-2">{FARM_TAB.STABLE}</span>
+                    {tabChange === FARM_TAB.STABLE ? <StableswapImg /> : <StableswapGrey />}
+                  </span>
+                }
+              />
               <Tab eventKey={FARM_TAB.YOU} title={FARM_TAB.YOU} />
             </Tabs>
 

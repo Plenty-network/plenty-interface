@@ -10,6 +10,7 @@ import { ethers } from 'ethers';
 import { networks } from '../Config/networks';
 import { connectWallet } from './ethereumWalletConnect';
 import { BigNumber as BigNum } from 'bignumber.js';
+import { RPC_NODE } from '../../constants/localStorage';
 
 const fakeSigner = (account, publicKey) => ({
   publicKey() {
@@ -66,7 +67,8 @@ tokenDecimals: decimals of the token
 export const getBalanceTez = async (tokenContract, tokenId, userAddress, tokenDecimals) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
 
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -266,7 +268,8 @@ takes in data from getMintStatus and mints the tokens
 export const mintTokens = async (wrapData, chain, setMintReleaseSubmitted) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
 
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -327,7 +330,8 @@ return a tx hash which will be used to fetch unwrap status
 export const unwrap = async (chain, amount, tokenIn) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
 
     const network = {
       type: CONFIG.WALLET_NETWORK,

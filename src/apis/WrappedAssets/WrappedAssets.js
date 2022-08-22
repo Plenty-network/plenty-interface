@@ -14,6 +14,7 @@ import {
 } from '../../constants/global';
 import { tokens } from '../../constants/swapPage';
 import BigNumber from 'bignumber.js';
+import { RPC_NODE } from '../../constants/localStorage';
 
 /**
  * Returns packed key (expr...) which will help to fetch user specific data from bigmap directly using rpc.
@@ -61,7 +62,8 @@ export const getUserBalanceByRpc = async (identifier, address) => {
     const type = token.READ_TYPE;
     const decimal = token.TOKEN_DECIMAL;
     const tokenId = token.TOKEN_ID;
-    const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
+    // const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
     const packedKey = getPackedKey(tokenId, address, type);
     const url = `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${packedKey}`;
     const response = await axios.get(url);
@@ -119,7 +121,8 @@ export const swapWrappedAssets = async (
 ) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
 
     const network = {
       type: CONFIG.WALLET_NETWORK,

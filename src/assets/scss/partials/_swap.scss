@@ -10,7 +10,7 @@
     content: '';
     position: absolute;
     top: 100%;
-    left: 50%;
+    left: 38%;
     opacity: 1 !important;
     border-width: 5px;
     border-style: solid;
@@ -849,6 +849,13 @@
   left: 72%;
   right: 0;
   top: 103px;
+  @media screen and (min-width: 320px) and (max-width: 1167px) {
+    background: linear-gradient(
+      180deg,
+      transparent 78%,
+      var(--theme-swap-revamp-second-border) 50%
+    );
+  }
 }
 
 .token-selector-balance-wrapper-swap {

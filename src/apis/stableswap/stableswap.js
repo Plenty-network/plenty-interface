@@ -4,6 +4,7 @@ import { CheckIfWalletConnected } from '../wallet/wallet';
 import CONFIG from '../../config/config';
 import axios from 'axios';
 import { TezosMessageUtils, TezosParameterFormat } from 'conseiljs';
+import { RPC_NODE } from '../../constants/localStorage';
 
 const util = (x, y) => {
   const plus = x + y;
@@ -181,7 +182,8 @@ export async function ctez_to_tez(
 ) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
 
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -217,7 +219,7 @@ export async function ctez_to_tez(
       .withContractCall(
         contract.methods.ctez_to_tez(
           Number(tokenInAmount * 10 ** tokenInDecimals),
-          minimumTokenOut * 10 ** tokenOutDecimals,
+          Math.floor(minimumTokenOut * 10 ** tokenOutDecimals),
           recipent,
         ),
       )
@@ -264,7 +266,8 @@ export async function tez_to_ctez(
 ) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
 
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -289,7 +292,7 @@ export async function tez_to_ctez(
       {
         kind: OpKind.TRANSACTION,
         ...contract.methods
-          .tez_to_ctez(minimumTokenOut * 10 ** tokenOutDecimals, recipent)
+          .tez_to_ctez(Math.floor(minimumTokenOut * 10 ** tokenOutDecimals), recipent)
           .toTransferParams({ amount: Number(tokenInAmount * 10 ** tokenInDecimals), mutez: true }),
       },
     ]);
@@ -343,7 +346,8 @@ const getPackedKey = (tokenId, address, type) => {
 export const getxtzBalance = async (identifier, address) => {
   const token = CONFIG.STABLESWAP[CONFIG.NETWORK][identifier];
 
-  const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
+  const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
+  // const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
   const type = token.READ_TYPE;
   const decimal = token.TOKEN_DECIMAL;
   const options = {
@@ -385,7 +389,8 @@ export const getUserBalanceByRpcStable = async (identifier, address) => {
 
     const token = CONFIG.STABLESWAP[CONFIG.NETWORK][identifier];
     const mapId = token.mapId;
-    const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
+    // const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
     const type = token.READ_TYPE;
     const decimal = token.TOKEN_DECIMAL;
     const network = {
@@ -453,7 +458,8 @@ export const getUserBalanceByRpcStable = async (identifier, address) => {
 export const loadSwapDataStable = async (tokenIn, tokenOut) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const dexContractAddress =
       CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
     const Tezos = new TezosToolkit(rpcNode);
@@ -543,7 +549,8 @@ export async function add_liquidity(
 ) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
 
     const network = {
       type: CONFIG.WALLET_NETWORK,
@@ -631,7 +638,8 @@ export async function remove_liquidity(
 ) {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
 
     const network = {
       type: CONFIG.WALLET_NETWORK,

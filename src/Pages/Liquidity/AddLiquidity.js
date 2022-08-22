@@ -286,6 +286,7 @@ const AddLiquidity = (props) => {
         if (data.success) {
           props.setLoading(false);
           setShowTransactionSubmitModal(false);
+
           props.handleLoaderMessage('success', 'Transaction confirmed');
           props.setLoader(false);
           props.setShowConfirmAddSupply(false);
@@ -295,9 +296,11 @@ const AddLiquidity = (props) => {
           setTimeout(() => {
             props.setLoaderMessage({});
           }, 5000);
+          props.setBalanceUpdate(true);
         } else {
           props.setLoading(false);
           setShowTransactionSubmitModal(false);
+
           props.handleLoaderMessage('error', 'Transaction failed');
           props.setLoader(false);
           props.setShowConfirmAddSupply(false);
@@ -307,6 +310,7 @@ const AddLiquidity = (props) => {
           setTimeout(() => {
             props.setLoaderMessage({});
           }, 5000);
+          props.setBalanceUpdate(true);
         }
       });
     } else if (
@@ -331,6 +335,7 @@ const AddLiquidity = (props) => {
           props.setLoading(false);
           props.setLoader(false);
           setShowTransactionSubmitModal(false);
+
           props.handleLoaderMessage('success', 'Transaction confirmed');
           getSwapData();
           props.setShowConfirmAddSupply(false);
@@ -340,10 +345,12 @@ const AddLiquidity = (props) => {
           setTimeout(() => {
             props.setLoaderMessage({});
           }, 5000);
+          props.setBalanceUpdate(true);
         } else {
           props.setLoading(false);
           props.setLoader(false);
           setShowTransactionSubmitModal(false);
+
           props.handleLoaderMessage('error', 'Transaction failed');
           props.setShowConfirmAddSupply(false);
           setShowConfirmTransaction(false);
@@ -352,6 +359,7 @@ const AddLiquidity = (props) => {
           setTimeout(() => {
             props.setLoaderMessage({});
           }, 5000);
+          props.setBalanceUpdate(true);
         }
       });
     } else {
@@ -371,6 +379,7 @@ const AddLiquidity = (props) => {
       ).then((data) => {
         if (data.success) {
           props.setLoading(false);
+
           props.setLoader(false);
           setShowTransactionSubmitModal(false);
           props.handleLoaderMessage('success', 'Transaction confirmed');
@@ -382,9 +391,11 @@ const AddLiquidity = (props) => {
           setTimeout(() => {
             props.setLoaderMessage({});
           }, 5000);
+          props.setBalanceUpdate(true);
         } else {
           props.setLoading(false);
           props.setLoader(false);
+
           setShowTransactionSubmitModal(false);
           props.handleLoaderMessage('error', 'Transaction failed');
           props.setShowConfirmAddSupply(false);
@@ -394,6 +405,7 @@ const AddLiquidity = (props) => {
           setTimeout(() => {
             props.setLoaderMessage({});
           }, 5000);
+          props.setBalanceUpdate(true);
         }
       });
     }
@@ -869,6 +881,7 @@ const AddLiquidity = (props) => {
       <Loader
         loading={props.loading}
         loaderMessage={props.loaderMessage}
+        setLoaderMessage={props.setLoaderMessage}
         content={`Mint ${Number(localStorage.getItem('liqinput')).toFixed(
           6,
         )} ${localStorage.getItem('tokeninliq')} / ${localStorage.getItem('tokenoutliq')} LP `}
@@ -920,4 +933,6 @@ AddLiquidity.propTypes = {
   setSwapData: PropTypes.func,
   positionDetails: PropTypes.any,
   isPositionAvailable: PropTypes.any,
+  balanceUpdate: PropTypes.any,
+  setBalanceUpdate: PropTypes.any,
 };

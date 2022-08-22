@@ -4,7 +4,7 @@ import { getUserBalanceByRpc } from '../swap/swap';
 import { getUserBalanceByRpcStable } from '../stableswap/stableswap';
 import { tokens } from '../../constants/swapPage';
 import { stableSwapTokens } from '../../constants/stableSwapPage';
-
+import { RPC_NODE } from '../../constants/localStorage';
 
 /**
  * Function to order(swap if required) the token pair based on the pool in contract.
@@ -74,7 +74,6 @@ const getListOfPositions = async (tokenList, isStable, walletAddress) => {
           const tokenB = isStable
             ? stableSwapTokens.find((stableToken) => stableToken.name === pairedtToken)
             : tokens.find((normalToken) => normalToken.name === pairedtToken);
-
           const { finalTokenA, finalTokenB } =
             isStable &&
             CONFIG.AMM[CONFIG.NETWORK][tokenA.name].DEX_PAIRS[tokenB.name]?.type === 'xtz'
@@ -87,7 +86,8 @@ const getListOfPositions = async (tokenList, isStable, walletAddress) => {
             isStable,
             func:
               isStable &&
-              CONFIG.AMM[CONFIG.NETWORK][finalTokenA.name].DEX_PAIRS[finalTokenB.name]?.type === 'xtz'
+              CONFIG.AMM[CONFIG.NETWORK][finalTokenA.name].DEX_PAIRS[finalTokenB.name]?.type ===
+                'xtz'
                 ? getUserBalanceByRpcStable
                 : getUserBalanceByRpc,
             argOne: liquidityToken,
@@ -193,7 +193,8 @@ export const getLpTokenBalanceForPair = async (tokenA, tokenB, walletAddress) =>
 export const getLiquidityPositionDetails = async (tokenA, tokenB, walletAddress) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const liquidityToken = CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].liquidityToken;
     const lpTokenDecimal = CONFIG.AMM[connectedNetwork][liquidityToken].TOKEN_DECIMAL;
     const tokenPairContract = CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].contract;
@@ -271,10 +272,9 @@ export const getLiquidityPositionDetails = async (tokenA, tokenB, walletAddress)
           lpTokenShare,
         },
       };
-    }
-    else if (amm_type === 'veStableAMM'){
+    } else if (amm_type === 'veStableAMM') {
       const tokenOneAddress = storageResponse.data.args[0].args[2].string;
-      const tokenOneID = Number(storageResponse.data.args[0].args[4].int);
+      const tokenOneID = Number(storageResponse.data.args[1].args[0].args[0].int);
       const tokenTwoAddress = storageResponse.data.args[1].args[2].string;
       const tokenTwoID = Number(storageResponse.data.args[2].args[1].int);
 
@@ -323,8 +323,7 @@ export const getLiquidityPositionDetails = async (tokenA, tokenB, walletAddress)
           lpTokenShare,
         },
       };
-    }
-    else {
+    } else {
       const tokenOneAddress = storageResponse.data.args[0].args[2].string;
       const tokenOneID = Number(storageResponse.data.args[1].args[0].args[0].int);
       const tokenOnePool = Number(storageResponse.data.args[1].args[1].int);
@@ -393,7 +392,8 @@ export const getLiquidityPositionDetails = async (tokenA, tokenB, walletAddress)
 export const getLiquidityPositionDetailsStable = async (tokenA, tokenB, walletAddress) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const liquidityToken =
       CONFIG.STABLESWAP[connectedNetwork][tokenA].DEX_PAIRS[tokenB].liquidityToken;
     const lpTokenDecimal = CONFIG.STABLESWAP[connectedNetwork][liquidityToken].TOKEN_DECIMAL;
@@ -409,7 +409,7 @@ export const getLiquidityPositionDetailsStable = async (tokenA, tokenB, walletAd
     let lpBalance = 0;
 
     const amm_type = CONFIG.AMM[connectedNetwork][tokenA].DEX_PAIRS[tokenB].type;
-    if(amm_type === 'veStableAMM') {
+    if (amm_type === 'veStableAMM') {
       const result = await getUserBalanceByRpc(liquidityToken, walletAddress);
       if (result.success && result.balance > 0) {
         lpBalance = result.balance;
@@ -418,15 +418,13 @@ export const getLiquidityPositionDetailsStable = async (tokenA, tokenB, walletAd
       }
       // Convert the balance to actual value stored in storage, for calculation.
       const lpTokenBalance = lpBalance * 10 ** lpTokenDecimal;
-  
+
       const storageResponse = await axios.get(
         `${rpcNode}chains/main/blocks/head/context/contracts/${tokenPairContract}/storage`,
       );
 
       const tokenOneAddress = storageResponse.data.args[0].args[2].string;
       const tokenOneID = Number(storageResponse.data.args[0].args[4].int);
-
-      
 
       const tokenTwoAddress = storageResponse.data.args[1].args[2].string;
       const tokenTwoID = Number(storageResponse.data.args[2].args[1].int);
@@ -476,7 +474,6 @@ export const getLiquidityPositionDetailsStable = async (tokenA, tokenB, walletAd
           lpTokenShare,
         },
       };
-
     }
 
     const result = await getUserBalanceByRpcStable(liquidityToken, walletAddress);

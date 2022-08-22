@@ -31,6 +31,7 @@ import {
   calculateTokensOutGeneralStable,
   loadSwapDataGeneralStableWithoutDecimal,
 } from '../../apis/stableswap/generalStableswap';
+import { ERRORMESSAGESWAP } from '../../constants/global';
 
 const SwapTab = (props) => {
   const [firstTokenAmount, setFirstTokenAmount] = useState();
@@ -68,31 +69,31 @@ const SwapTab = (props) => {
   const isStableSwap = useRef(false);
   const getSwapData = async () => {
     const res = await loadSwapDataStable(props.tokenIn.name, props.tokenOut.name);
-    console.log('getSwapData');
-    // console.log(res);
+
     setSwapData(res);
   };
   const getSwapDataGeneralStableswap = async () => {
-    const res = await loadSwapDataGeneralStableWithoutDecimal(props.tokenIn.name, props.tokenOut.name);
-    console.log('getSwapDataGeneralStableswap');
-    setSwapData(res);
+    const res = await loadSwapDataGeneralStableWithoutDecimal(
+      props.tokenIn.name,
+      props.tokenOut.name,
+    );
 
+    setSwapData(res);
   };
   useEffect(() => {
     // if (props.isStablePair) {
-      if (
-        config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
-        'xtz'
-      ) {
-        getSwapData();
-      } else if (
-        config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
-        'veStableAMM'
-      ) {
-        getSwapDataGeneralStableswap();
-      }
+    if (
+      config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type === 'xtz'
+    ) {
+      getSwapData();
+    } else if (
+      config.AMM[config.NETWORK][props.tokenIn.name].DEX_PAIRS[props.tokenOut.name]?.type ===
+      'veStableAMM'
+    ) {
+      getSwapDataGeneralStableswap();
+    }
     // }
-  }, [props.tokenIn , props.tokenOut]);
+  }, [props.tokenIn, props.tokenOut]);
 
   useEffect(() => {
     setRouteDataCopy(false);
@@ -116,7 +117,22 @@ const SwapTab = (props) => {
     firstTokenAmount && setFirstAmount(firstTokenAmount);
     secondTokenAmount && setSecondAmount(secondTokenAmount);
     if (props.walletAddress) {
-      if (firstTokenAmount > props.userBalances[props.tokenIn.name]) {
+      if (Object.keys(props.tokenOut).length !== 0) {
+        if (
+          (props.tokenIn.name === 'EURL' && props.tokenOut.name !== 'agEUR.e') ||
+          (props.tokenOut.name === 'EURL' && props.tokenIn.name !== 'agEUR.e') ||
+          (props.tokenIn.name === 'agEUR.e' && props.tokenOut.name !== 'EURL') ||
+          (props.tokenOut.name === 'agEUR.e' && props.tokenIn.name !== 'EURL')
+        ) {
+          setErrorMessageOnUI(ERRORMESSAGESWAP);
+        } else if (
+          (props.tokenIn.name === 'EURL' || props.tokenIn.name === 'agEUR.e') &&
+          (props.tokenOut.name === 'EURL' || props.tokenOut.name === 'agEUR.e')
+        ) {
+          setErrorMessage(false);
+          setMessage('');
+        }
+      } else if (firstTokenAmount > props.userBalances[props.tokenIn.name]) {
         setErrorMessageOnUI('Insufficient balance');
       } else {
         setErrorMessage(false);
@@ -316,14 +332,14 @@ const SwapTab = (props) => {
   };
   const onClickAmount = () => {
     setSecondTokenAmount('');
-    const value =
-      props.userBalances[props.tokenIn.name].toLocaleString('en-US', {
-        maximumFractionDigits: 20,
-        useGrouping: false,
-      }) ?? 0;
+    // const value =
+    //   props.userBalances[props.tokenIn.name].toLocaleString('en-US', {
+    //     maximumFractionDigits: 20,
+    //     useGrouping: false,
+    //   }) ?? 0;
     props.tokenIn.name === 'tez'
-      ? handleSwapTokenInput(value - 0.02, 'tokenIn')
-      : handleSwapTokenInput(value, 'tokenIn');
+      ? handleSwapTokenInput(props.userBalances[props.tokenIn.name] - 0.02, 'tokenIn')
+      : handleSwapTokenInput(props.userBalances[props.tokenIn.name], 'tokenIn');
   };
   useEffect(() => {
     handleSwapTokenInput(firstTokenAmount, 'tokenIn');
@@ -515,6 +531,19 @@ const SwapTab = (props) => {
 
   const swapContentButton = useMemo(() => {
     if (props.walletAddress) {
+      if (props.tokenOut.name && message === ERRORMESSAGESWAP) {
+        return (
+          <Button
+            onClick={() => setErrorMessageOnUI(ERRORMESSAGESWAP)}
+            color={'disabled'}
+            className={
+              'mt-4 w-100 flex align-items-center justify-content-center disable-button-swap'
+            }
+          >
+            Swap
+          </Button>
+        );
+      }
       if (props.tokenOut.name && firstTokenAmount) {
         if (Number(firstTokenAmount) === 0 || Number(secondTokenAmount) === 0) {
           return (
@@ -641,6 +670,7 @@ const SwapTab = (props) => {
                   placeholder="0.0"
                   value={fromExponential(firstTokenAmount)}
                   onChange={(e) => handleSwapTokenInput(e.target.value, 'tokenIn')}
+                  disabled={message === ERRORMESSAGESWAP}
                 />
               ) : (
                 <input type="text" className="token-user-input" placeholder="--" disabled />

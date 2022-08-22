@@ -59,7 +59,7 @@ const VoteModal = (props) => {
             <p className={styles.voteHeading}>Vote</p>
             <p className={styles.res}>Open</p>
           </div>
-          <span className={styles.postedInfo}>Posted on April 18, 2022</span>
+          <span className={styles.postedInfo}>Posted on July 8, 2022</span>
 
           <div
             className={clsx(
@@ -270,7 +270,7 @@ const VoteModal = (props) => {
           <div className="mt-3">
             <Clock />
             <span className={`ml-2 ${styles.poll}`}>
-              Voting closes on <b>April 25, 2022</b>
+              Voting closes on <b>July 16, 2022</b>
             </span>
           </div>
           <div className={`my-4 ${styles.line} `}></div>

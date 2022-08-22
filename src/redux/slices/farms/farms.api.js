@@ -5,6 +5,7 @@ import store from '../../store/store';
 import axios from 'axios';
 import CONFIG from '../../../config/config';
 import { RPC_NODE } from '../../../constants/localStorage';
+import { getagEURePrice } from '../../../apis/swap/swap';
 
 /**
  * Fetches storage of farm contract which is Dual in nature to show farm specific data
@@ -237,7 +238,6 @@ const fetchStorageForDualStakingContract = async (
       rewardRate = parseFloat(rewardRate);
       let DPY = (rewardRate * 2880 * priceOfPlentyInUSD) / liquidity;
       DPY = DPY * 100;
-
     const intervalList = [1, 7, 30, 365];
     const roiTable = [];
 
@@ -251,6 +251,8 @@ const fetchStorageForDualStakingContract = async (
     let APR = (rewardRate * 1051200 * priceOfPlentyInUSD) / (liquidity);
     APR = APR * 100;
     const totalLiquidty = liquidity;
+
+
 
     return {
       success: true,
@@ -298,6 +300,7 @@ const fetchStorageForDualStakingContract = async (
     APR = APR * 100;
   
     const totalLiquidty = totalSupply * priceOfStakeTokenInUsd;
+
     return {
       success: true,
       identifier,
@@ -427,6 +430,7 @@ const getPriceForPlentyLpTokens = async (
       let token1Amount = (Math.pow(10, 6) * token1Pool) / lpTokenTotalSupply;
 
       token1Amount = (token1Amount * xtzPrice) / Math.pow(10, 6);
+
 
       let token2Amount = (Math.pow(10, 6) * token2Pool) / lpTokenTotalSupply;
       token2Amount = (token2Amount * ctezPriceInUSD.ctezPriceInUSD) / Math.pow(10, 6);
@@ -685,7 +689,283 @@ const getPriceForPlentyLpTokens = async (
         identifier,
         totalAmount,
       };
-    } else if (identifier === 'uUSD - USDC.e' || identifier === 'kUSD - USDC.e') {
+    }else if (identifier === 'WETH.e - CTEZ') {
+      const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
+      const token2Pool = parseInt(storageResponse.data.args[3].int);
+      const lpTokenTotalSupply = parseInt(storageResponse.data.args[4].int);
+
+      const token1Address = 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4';
+      // const token2Check = 'True';
+
+      const tokenData = {};
+
+      if (token1Address === 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4') {
+        const ctezPriceInUSD = await getCtezPrice();
+        tokenData['token1'] = {
+          tokenName: 'ctez',
+          tokenValue: ctezPriceInUSD.ctezPriceInUSD,
+          tokenDecimal: 6,
+        };
+      }
+
+      //let token1Type;
+      // let token2Type;
+
+      // if (token1Check.match('True')) {
+      //   token1Type = 'fa2';
+      // } else {
+      //   token1Type = 'fa1.2';
+      // }
+      // if (token2Check.match('True')) {
+      //   token2Type = 'fa2';
+      // } else {
+      //   token2Type = 'fa1.2';
+      // }
+      let idx = 0;
+      for (const x in tokenPricesData) {
+        if (tokenPricesData[x].symbol === 'wWETH') {
+          idx = x;
+        }
+      }
+
+      tokenData['token2'] = {
+        tokenName: 'WETH.e',
+        tokenValue: tokenPricesData[idx].usdValue,
+        tokenDecimal: 18,
+      };
+      // for (const i in tokenPricesData) {
+      //   if (token2Type === 'fa2') {
+      //     if (
+      //       tokenPricesData[i].tokenAddress === token2Address &&
+      //       tokenPricesData[i].type === token2Type &&
+      //       tokenPricesData[i].tokenId === token2Id
+      //     ) {
+      //       tokenData['token2'] = {
+      //         tokenName: tokenPricesData[i].symbol,
+      //         tokenValue: tokenPricesData[i].usdValue,
+      //         tokenDecimal: tokenPricesData[i].decimals,
+      //       };
+      //     }
+      //   } else if (token2Type === 'fa1.2') {
+      //     if (
+      //       tokenPricesData[i].tokenAddress === token2Address &&
+      //       tokenPricesData[i].type === token2Type
+      //     ) {
+      //       tokenData['token2'] = {
+      //         tokenName: tokenPricesData[i].symbol,
+      //         tokenValue: tokenPricesData[i].usdValue,
+      //         tokenDecimal: tokenPricesData[i].decimals,
+      //       };
+      //     }
+      //   }
+      // }
+
+      let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
+      token1Amount =
+        (token1Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
+
+      let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
+      token2Amount =
+        (token2Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
+
+      const totalAmount = (token1Amount + token2Amount).toFixed(2);
+
+      // let token1Amount = (Math.pow(10, 7) * token1Pool) / lpTokenTotalSupply;
+      // token1Amount =
+      //   (token1Amount * tokenData['token2'].tokenValue) /
+      //   Math.pow(10, tokenData['token2'].tokenDecimal);
+
+      // let token2Amount = (Math.pow(10, 7) * token2Pool) / lpTokenTotalSupply;
+      // token2Amount =
+      //   (token2Amount * tokenData['token1'].tokenValue) /
+      //   Math.pow(10, tokenData['token1'].tokenDecimal);
+      // const totalAmount = (token1Amount + token2Amount).toFixed(2);
+      return {
+        success: true,
+        identifier,
+        totalAmount,
+      };
+    } 
+    else if (identifier === 'MATIC.e - CTEZ') {
+      const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
+      const token2Pool = parseInt(storageResponse.data.args[3].int);
+      const lpTokenTotalSupply = parseInt(storageResponse.data.args[4].int);
+
+      const token1Address = 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4';
+      // const token2Check = 'True';
+
+      const tokenData = {};
+
+      if (token1Address === 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4') {
+        const ctezPriceInUSD = await getCtezPrice();
+        tokenData['token1'] = {
+          tokenName: 'ctez',
+          tokenValue: ctezPriceInUSD.ctezPriceInUSD,
+          tokenDecimal: 6,
+        };
+      }
+
+      //let token1Type;
+      // let token2Type;
+
+      // if (token1Check.match('True')) {
+      //   token1Type = 'fa2';
+      // } else {
+      //   token1Type = 'fa1.2';
+      // }
+      // if (token2Check.match('True')) {
+      //   token2Type = 'fa2';
+      // } else {
+      //   token2Type = 'fa1.2';
+      // }
+      let idx = 0;
+      for (const x in tokenPricesData) {
+        if (tokenPricesData[x].symbol === 'wMATIC') {
+          idx = x;
+        }
+      }
+
+      tokenData['token2'] = {
+        tokenName: 'MATIC.e',
+        tokenValue: tokenPricesData[idx].usdValue,
+        tokenDecimal: 18,
+      };
+      // for (const i in tokenPricesData) {
+      //   if (token2Type === 'fa2') {
+      //     if (
+      //       tokenPricesData[i].tokenAddress === token2Address &&
+      //       tokenPricesData[i].type === token2Type &&
+      //       tokenPricesData[i].tokenId === token2Id
+      //     ) {
+      //       tokenData['token2'] = {
+      //         tokenName: tokenPricesData[i].symbol,
+      //         tokenValue: tokenPricesData[i].usdValue,
+      //         tokenDecimal: tokenPricesData[i].decimals,
+      //       };
+      //     }
+      //   } else if (token2Type === 'fa1.2') {
+      //     if (
+      //       tokenPricesData[i].tokenAddress === token2Address &&
+      //       tokenPricesData[i].type === token2Type
+      //     ) {
+      //       tokenData['token2'] = {
+      //         tokenName: tokenPricesData[i].symbol,
+      //         tokenValue: tokenPricesData[i].usdValue,
+      //         tokenDecimal: tokenPricesData[i].decimals,
+      //       };
+      //     }
+      //   }
+      // }
+
+
+      let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
+      token1Amount =
+        (token1Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
+
+      let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
+      token2Amount =
+        (token2Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
+
+      const totalAmount = (token1Amount + token2Amount).toFixed(2);
+
+      // let token1Amount = (Math.pow(10, 7) * token1Pool) / lpTokenTotalSupply;
+      // token1Amount =
+      //   (token1Amount * tokenData['token2'].tokenValue) /
+      //   Math.pow(10, tokenData['token2'].tokenDecimal);
+
+      // let token2Amount = (Math.pow(10, 7) * token2Pool) / lpTokenTotalSupply;
+      // token2Amount =
+      //   (token2Amount * tokenData['token1'].tokenValue) /
+      //   Math.pow(10, tokenData['token1'].tokenDecimal);
+      // const totalAmount = (token1Amount + token2Amount).toFixed(2);
+      return {
+        success: true,
+        identifier,
+        totalAmount,
+      };
+    } 
+    else if (identifier === 'LINK.e - CTEZ') {
+      const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
+      const token2Pool = parseInt(storageResponse.data.args[3].int);
+      const lpTokenTotalSupply = parseInt(storageResponse.data.args[4].int);
+
+      const token1Address = 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4';
+      // const token2Check = 'True';
+
+      const tokenData = {};
+
+      if (token1Address === 'KT1SjXiUX63QvdNMcM2m492f7kuf8JxXRLp4') {
+        const ctezPriceInUSD = await getCtezPrice();
+        tokenData['token1'] = {
+          tokenName: 'ctez',
+          tokenValue: ctezPriceInUSD.ctezPriceInUSD,
+          tokenDecimal: 6,
+        };
+      }
+
+      //let token1Type;
+      // let token2Type;
+
+      // if (token1Check.match('True')) {
+      //   token1Type = 'fa2';
+      // } else {
+      //   token1Type = 'fa1.2';
+      // }
+      // if (token2Check.match('True')) {
+      //   token2Type = 'fa2';
+      // } else {
+      //   token2Type = 'fa1.2';
+      // }
+      let idx = 0;
+      for (const x in tokenPricesData) {
+        if (tokenPricesData[x].symbol === 'wLINK') {
+          idx = x;
+        }
+      }
+
+      tokenData['token2'] = {
+        tokenName: 'LINK.e',
+        tokenValue: tokenPricesData[idx].usdValue,
+        tokenDecimal: 18,
+      };
+
+      const connectedNetwork = CONFIG.NETWORK;
+      const liquidityToken = CONFIG.AMM[connectedNetwork][tokenData['token1'].tokenName].DEX_PAIRS[tokenData['token2'].tokenName].liquidityToken;
+      const lpTokenDecimal = CONFIG.AMM[connectedNetwork][liquidityToken].TOKEN_DECIMAL;
+
+      let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
+      token1Amount =
+        (token1Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
+
+      let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
+      token2Amount =
+        (token2Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
+
+      const totalAmount = (token1Amount + token2Amount).toFixed(2);
+
+      // let token1Amount = (Math.pow(10, 7) * token1Pool) / lpTokenTotalSupply;
+      // token1Amount =
+      //   (token1Amount * tokenData['token2'].tokenValue) /
+      //   Math.pow(10, tokenData['token2'].tokenDecimal);
+
+      // let token2Amount = (Math.pow(10, 7) * token2Pool) / lpTokenTotalSupply;
+      // token2Amount =
+      //   (token2Amount * tokenData['token1'].tokenValue) /
+      //   Math.pow(10, tokenData['token1'].tokenDecimal);
+      // const totalAmount = (token1Amount + token2Amount).toFixed(2);
+      return {
+        success: true,
+        identifier,
+        totalAmount,
+      };
+    } 
+    else if (identifier === 'uUSD - USDC.e' || identifier === 'kUSD - USDC.e') {
       const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
       const token2Pool = parseInt(storageResponse.data.args[3].int);
       const lpTokenTotalSupply = parseInt(storageResponse.data.args[0].args[0].args[2].int); 
@@ -736,10 +1016,6 @@ const getPriceForPlentyLpTokens = async (
         tokenDecimal: 6,
       };
 
-      const connectedNetwork = CONFIG.NETWORK;
-      const liquidityToken = CONFIG.AMM[connectedNetwork][tokenData['token1'].tokenName].DEX_PAIRS[tokenData['token2'].tokenName].liquidityToken;
-      const lpTokenDecimal = CONFIG.AMM[connectedNetwork][liquidityToken].TOKEN_DECIMAL;
-
       let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
       token1Amount =
         (token1Amount * tokenData['token1'].tokenValue) /
@@ -789,9 +1065,53 @@ const getPriceForPlentyLpTokens = async (
         tokenDecimal: 8,
       };
 
-      const connectedNetwork = CONFIG.NETWORK;
-      const liquidityToken = CONFIG.AMM[connectedNetwork][tokenData['token1'].tokenName].DEX_PAIRS[tokenData['token2'].tokenName].liquidityToken;
-      const lpTokenDecimal = CONFIG.AMM[connectedNetwork][liquidityToken].TOKEN_DECIMAL;
+      let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
+      token1Amount =
+        (token1Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
+
+      let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
+      token2Amount =
+        (token2Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
+
+      const totalAmount = (token1Amount + token2Amount).toFixed(2);
+      return {
+        success: true,
+        identifier,
+        totalAmount,
+      };
+
+    }
+    else if (identifier === 'DAI.e - USDC.e'){
+      const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
+      const token2Pool = parseInt(storageResponse.data.args[3].int);
+      const lpTokenTotalSupply = parseInt(storageResponse.data.args[0].args[0].args[2].int); 
+
+      const tokenData = {};
+
+
+
+      let idx = 0;
+      let idx2 = 0 ;
+      for (const x in tokenPricesData) {
+        if (tokenPricesData[x].symbol === 'wDAI') {
+          idx = x;
+        }
+        if(tokenPricesData[x].symbol === 'wUSDC'){
+          idx2=x;
+        }
+      }
+      tokenData['token1'] = {
+        tokenName: 'USDC.e',
+        tokenValue: tokenPricesData[idx2].usdValue,
+        tokenDecimal: 6,
+      };
+      tokenData['token2'] = {
+        tokenName: 'DAI.e',
+        tokenValue: tokenPricesData[idx].usdValue,
+        tokenDecimal: 18,
+      };
 
       let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
       token1Amount =
@@ -811,7 +1131,397 @@ const getPriceForPlentyLpTokens = async (
       };
 
     }
-    
+    else if (identifier === 'ETHtz - WETH.e'){
+      const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
+      const token2Pool = parseInt(storageResponse.data.args[3].int);
+      const lpTokenTotalSupply = parseInt(storageResponse.data.args[0].args[0].args[2].int); 
+
+      const tokenData = {};
+
+
+
+      let idx = 0;
+      let idx2 = 0 ;
+      for (const x in tokenPricesData) {
+        if (tokenPricesData[x].symbol === 'ETHtz') {
+          idx = x;
+        }
+        if(tokenPricesData[x].symbol === 'wWETH'){
+          idx2=x;
+        }
+      }
+
+      tokenData['token1'] = {
+        tokenName: 'ETHtz',
+        tokenValue: tokenPricesData[idx].usdValue,
+        tokenDecimal: 18,
+      };
+
+      tokenData['token2'] = {
+        tokenName: 'WETH.e',
+        tokenValue: tokenPricesData[idx2].usdValue,
+        tokenDecimal: 18,
+      };
+
+      let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
+      token1Amount =
+        (token1Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
+
+      let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
+      token2Amount =
+        (token2Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
+
+      const totalAmount = (token1Amount + token2Amount).toFixed(2);
+      return {
+        success: true,
+        identifier,
+        totalAmount,
+      };
+
+    }   
+    else if (identifier === 'USDtz - USDC.e'){
+      const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
+      const token2Pool = parseInt(storageResponse.data.args[3].int);
+      const lpTokenTotalSupply = parseInt(storageResponse.data.args[0].args[0].args[2].int); 
+
+      const tokenData = {};
+
+
+
+      let idx = 0;
+      let idx2 = 0 ;
+      for (const x in tokenPricesData) {
+        if (tokenPricesData[x].symbol === 'USDtz') {
+          idx = x;
+        }
+        if(tokenPricesData[x].symbol === 'wUSDC'){
+          idx2=x;
+        }
+      }
+
+      tokenData['token1'] = {
+        tokenName: 'USDtz',
+        tokenValue: tokenPricesData[idx].usdValue,
+        tokenDecimal: 6,
+      };
+
+      tokenData['token2'] = {
+        tokenName: 'USDC.e',
+        tokenValue: tokenPricesData[idx2].usdValue,
+        tokenDecimal: 6,
+      };
+
+      let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
+      token1Amount =
+        (token1Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
+
+      let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
+      token2Amount =
+        (token2Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
+
+      const totalAmount = (token1Amount + token2Amount).toFixed(2);
+      return {
+        success: true,
+        identifier,
+        totalAmount,
+      };
+    }
+    else if (identifier === 'EURL - agEUR.e'){
+      const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
+      const token2Pool = parseInt(storageResponse.data.args[3].int);
+      const lpTokenTotalSupply = parseInt(storageResponse.data.args[0].args[0].args[2].int); 
+      
+      const tokenData = {};
+
+      let idx;
+      for (const x in tokenPricesData) {
+        if (tokenPricesData[x].symbol === 'EURL') {
+          idx = x;
+        }
+      }
+
+      tokenData['token1'] = {
+        tokenName: 'EURL',
+        tokenValue: tokenPricesData[idx].usdValue,
+        tokenDecimal: 6,
+      };
+
+      const agEure = await getagEURePrice();
+
+
+      tokenData['token2'] = {
+        tokenName: 'agEUR.e',
+        tokenValue: agEure.agEUReInUSD,
+        tokenDecimal: 18,
+      };
+
+      let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
+
+      token1Amount =
+        (token1Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
+
+      let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
+
+      token2Amount =
+        (token2Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
+
+      const totalAmount = (token1Amount + token2Amount).toFixed(2);
+      return {
+        success: true,
+        identifier,
+        totalAmount,
+      };
+    }
+    else if (identifier === 'kUSD - USDt'){
+      const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
+      const token2Pool = parseInt(storageResponse.data.args[3].int);
+      const lpTokenTotalSupply = parseInt(storageResponse.data.args[0].args[0].args[2].int); 
+      
+      const tokenData = {};
+
+      let idx;
+      let idx2;
+      for (const x in tokenPricesData) {
+        if (tokenPricesData[x].symbol === 'kUSD') {
+          idx = x;
+        }
+        if (tokenPricesData[x].symbol === 'USDt') {
+          idx2 = x;
+        }
+        
+      }
+
+      tokenData['token1'] = {
+        tokenName: 'kUSD',
+        tokenValue: tokenPricesData[idx].usdValue,
+        tokenDecimal: 18,
+      };
+
+      tokenData['token2'] = {
+        tokenName: 'USDt',
+        tokenValue: tokenPricesData[idx2].usdValue,
+        tokenDecimal: 6,
+      };
+
+      let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
+
+      token1Amount =
+        (token1Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
+
+      let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
+
+      token2Amount =
+        (token2Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
+
+      const totalAmount = (token1Amount + token2Amount).toFixed(2);
+      return {
+        success: true,
+        identifier,
+        totalAmount,
+      };
+    }
+    else if (identifier === 'uUSD - USDt'){
+      const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
+      const token2Pool = parseInt(storageResponse.data.args[3].int);
+      const lpTokenTotalSupply = parseInt(storageResponse.data.args[0].args[0].args[2].int); 
+      
+      const tokenData = {};
+
+      let idx;
+      let idx2;
+      for (const x in tokenPricesData) {
+        if (tokenPricesData[x].symbol === 'uUSD') {
+          idx = x;
+        }
+        if (tokenPricesData[x].symbol === 'USDt') {
+          idx2 = x;
+        }
+        
+      }
+
+      tokenData['token1'] = {
+        tokenName: 'uUSD',
+        tokenValue: tokenPricesData[idx].usdValue,
+        tokenDecimal: 12,
+      };
+
+      tokenData['token2'] = {
+        tokenName: 'USDt',
+        tokenValue: tokenPricesData[idx2].usdValue,
+        tokenDecimal: 6,
+      };
+
+      let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
+
+      token1Amount =
+        (token1Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
+
+      let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
+
+      token2Amount =
+        (token2Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
+
+      const totalAmount = (token1Amount + token2Amount).toFixed(2);
+      return {
+        success: true,
+        identifier,
+        totalAmount,
+      };
+    }
+    else if (identifier === 'USDt - ctez'){
+      const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
+      const token2Pool = parseInt(storageResponse.data.args[3].int);
+      const lpTokenTotalSupply = parseInt(storageResponse.data.args[4].int);
+
+      const tokenData = {};
+
+      let idx;
+      for (const x in tokenPricesData) {
+        if (tokenPricesData[x].symbol === 'USDt') {
+          idx = x;
+        }
+      }
+
+      const ctezPrice = await getCtezPrice();
+
+      tokenData['token1'] = {
+        tokenName: 'USDt',
+        tokenValue: tokenPricesData[idx].usdValue,
+        tokenDecimal: 6,
+      };
+
+      tokenData['token2'] = {
+        tokenName: 'ctez',
+        tokenValue: ctezPrice.ctezPriceInUSD,
+        tokenDecimal: 6,
+      };
+
+      let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
+
+      token1Amount =
+        (token1Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
+
+      let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
+
+      token2Amount =
+        (token2Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
+
+      const totalAmount = (token1Amount + token2Amount).toFixed(2);
+      return {
+        success: true,
+        identifier,
+        totalAmount,
+      };
+    }
+    else if (identifier === 'BUSD.e - USDC.e'){
+      const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
+      const token2Pool = parseInt(storageResponse.data.args[3].int);
+      const lpTokenTotalSupply = parseInt(storageResponse.data.args[0].args[0].args[2].int); 
+
+      const tokenData = {};
+
+
+
+      let idx = 0;
+      let idx2 = 0 ;
+      for (const x in tokenPricesData) {
+        if (tokenPricesData[x].symbol === 'wBUSD') {
+          idx = x;
+        }
+        if(tokenPricesData[x].symbol === 'wUSDC'){
+          idx2=x;
+        }
+      }
+      tokenData['token1'] = {
+        tokenName: 'BUSD.e',
+        tokenValue: tokenPricesData[idx].usdValue,
+        tokenDecimal: 18,
+      };
+      tokenData['token2'] = {
+        tokenName: 'USDC.e',
+        tokenValue: tokenPricesData[idx2].usdValue,
+        tokenDecimal: 6,
+      };
+
+      let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
+      token1Amount =
+        (token1Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
+
+      let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
+      token2Amount =
+        (token2Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
+
+      const totalAmount = (token1Amount + token2Amount).toFixed(2);
+      return {
+        success: true,
+        identifier,
+        totalAmount,
+      };
+
+    }
+    else if (identifier === 'USDT.e - USDC.e'){
+      const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
+      const token2Pool = parseInt(storageResponse.data.args[3].int);
+      const lpTokenTotalSupply = parseInt(storageResponse.data.args[0].args[0].args[2].int); 
+
+      const tokenData = {};
+
+
+
+      let idx = 0;
+      let idx2 = 0 ;
+      for (const x in tokenPricesData) {
+        if (tokenPricesData[x].symbol === 'wUSDT') {
+          idx = x;
+        }
+        if(tokenPricesData[x].symbol === 'wUSDC'){
+          idx2=x;
+        }
+      }
+
+      tokenData['token1'] = {
+        tokenName: 'USDT.e',
+        tokenValue: tokenPricesData[idx].usdValue,
+        tokenDecimal: 6,
+      };
+
+      tokenData['token2'] = {
+        tokenName: 'USDC.e',
+        tokenValue: tokenPricesData[idx2].usdValue,
+        tokenDecimal: 6,
+      };
+
+      let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
+      token1Amount =
+        (token1Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
+
+      let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
+      token2Amount =
+        (token2Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
+
+      const totalAmount = (token1Amount + token2Amount).toFixed(2);
+      return {
+        success: true,
+        identifier,
+        totalAmount,
+      };
+    }
     else {
       const token1Pool = parseInt(storageResponse.data.args[1].args[1].int);
       // token1Pool = token1Pool / Math.pow(10, 12);
@@ -946,7 +1656,6 @@ export const getFarmsDataAPI = async (isActive) => {
     //const xtzPriceResponse = await axios.get(CONFIG.API.url);
     const xtzPriceResponse = initialDataResponse[0];
     const xtzPriceInUsd = xtzPriceResponse.data.market_data.current_price.usd;
-    //const tokenPrices = await axios.get(CONFIG.API.tezToolTokenPrice);
     const tokenPrices = initialDataResponse[1];
     const tokenPricesData = tokenPrices.data.contracts;
     let priceOfPlenty = 0;
@@ -954,17 +1663,20 @@ export const getFarmsDataAPI = async (isActive) => {
     for (const i in tokenPricesData) {
       if (
         tokenPricesData[i].symbol === 'PLENTY' &&
-        tokenPricesData[i].tokenAddress === 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b'
+        tokenPricesData[i].tokenAddress === 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b' &&
+        priceOfPlenty === 0
       ) {
         priceOfPlenty = tokenPricesData[i].usdValue;
       }
       if (
         tokenPricesData[i].symbol === 'YOU' &&
-        tokenPricesData[i].tokenAddress === 'KT1Xobej4mc6XgEjDoJoHtTKgbD1ELMvcQuL'
+        tokenPricesData[i].tokenAddress === 'KT1Xobej4mc6XgEjDoJoHtTKgbD1ELMvcQuL' &&
+        priceOfYou===0
       ) {
         priceOfYou = tokenPricesData[i].usdValue;
       }
     }
+
     for (const key in CONFIG.FARMS[CONFIG.NETWORK]) {
       for (const i in CONFIG.FARMS[CONFIG.NETWORK][key][
         isActive === true ? 'active' : 'inactive'
@@ -1002,38 +1714,50 @@ export const getFarmsDataAPI = async (isActive) => {
           key === 'uUSD - YOU' ||
           key === 'uUSD - uDEFI' ||
           key === 'uUSD - wUSDC' ||
-          key === 'CTEZ - kUSD' ||
-          key === 'CTEZ - USDtz' ||
-          key === 'CTEZ - wUSDT' ||
-          key === 'CTEZ - wBUSD' ||
-          key === 'CTEZ - wUSDC' ||
-          key === 'CTEZ - wDAI' ||
-          key === 'CTEZ - KALAM' ||
-          key === 'CTEZ - GIF' ||
-          key === 'CTEZ - ETHtz' ||
-          key === 'CTEZ - QUIPU' ||
-          key === 'CTEZ - hDAO' ||
-          key === 'CTEZ - kDAO' ||
-          key === 'CTEZ - wWETH' ||
-          key === 'CTEZ - uUSD' ||
-          key === 'CTEZ - FLAME' ||
-          key === 'CTEZ - SMAK' ||
-          key === 'CTEZ - crDAO' ||
-          key === 'CTEZ - PXL' ||
-          key === 'CTEZ - UNO' ||
-          key === 'CTEZ - WRAP' ||
-          key === 'CTEZ - wWBTC' ||
-          key === 'CTEZ - tzBTC' ||
-          key === 'CTEZ - PAUL' ||
-          key === 'CTEZ - INSTA' ||
-          key === 'CTEZ - CRUNCH' ||
+          key === 'ctez - kUSD' ||
+          key === 'ctez - USDtz' ||
+          key === 'ctez - wUSDT' ||
+          key === 'ctez - wBUSD' ||
+          key === 'ctez - wUSDC' ||
+          key === 'ctez - wDAI' ||
+          key === 'ctez - KALAM' ||
+          key === 'ctez - GIF' ||
+          key === 'ctez - ETHtz' ||
+          key === 'ctez - QUIPU' ||
+          key === 'ctez - hDAO' ||
+          key === 'ctez - kDAO' ||
+          key === 'ctez - wWETH' ||
+          key === 'ctez - uUSD' ||
+          key === 'ctez - FLAME' ||
+          key === 'ctez - SMAK' ||
+          key === 'ctez - crDAO' ||
+          key === 'ctez - PXL' ||
+          key === 'ctez - UNO' ||
+          key === 'ctez - WRAP' ||
+          key === 'ctez - wWBTC' ||
+          key === 'ctez - tzBTC' ||
+          key === 'ctez - PAUL' ||
+          key === 'ctez - INSTA' ||
+          key === 'ctez - CRUNCH' ||
           key === 'CTEZ - TEZ' ||
           key === 'CTEZ - DOGA' ||
           key === 'WBTC.e - CTEZ' ||
           key === 'USDC.e - CTEZ' ||
           key === 'kUSD - USDC.e' ||
           key === 'uUSD - USDC.e' ||
-          key === 'tzBTC - WBTC.e'
+          key === 'tzBTC - WBTC.e' ||
+          key === 'DAI.e - USDC.e' ||
+          key === 'ETHtz - WETH.e' ||
+          key === 'MATIC.e - CTEZ' ||
+          key === 'WETH.e - CTEZ' ||
+          key === 'LINK.e - CTEZ' ||
+          key === 'USDtz - USDC.e' ||
+          key === 'USDT.e - USDC.e' ||
+          key === 'EURL - agEUR.e' ||
+          key === 'uUSD - USDt' ||
+          key === 'kUSD - USDt' ||
+          key === 'BUSD.e - USDC.e' ||
+          key === 'USDt - ctez'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(
@@ -1195,7 +1919,7 @@ export const stakeFarmAPI = async (
           position
         ].LP_TOKEN,
       );
-      const tokenAmount =
+      let tokenAmount =
         amount *
         Math.pow(
           10,
@@ -1204,6 +1928,7 @@ export const stakeFarmAPI = async (
             position
           ].TOKEN_DECIMAL,
         );
+        tokenAmount = parseInt(tokenAmount);
       let batch = null;
       if (
         //CONFIG.CONTRACT[connectedNetwork].FARMS[farmIdentifier].TYPE === 'FA1.2'
@@ -1343,13 +2068,13 @@ export const unstakeAPI = async (
       } else {
         const unstakeBatch = stakesToUnstake.map((stake) => {
           amount =
-            stake.amount *
+            Math.floor(stake.amount *
             Math.pow(
               10,
               CONFIG.FARMS[connectedNetwork][farmIdentifier][
                 isActive === true ? 'active' : 'inactive'
               ][position].TOKEN_DECIMAL,
-            );
+            ));
           return {
             kind: OpKind.TRANSACTION,
             ...contractInstance.methods.unstake(amount, stake.mapId).toTransferParams(),

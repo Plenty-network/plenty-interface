@@ -5,6 +5,9 @@ import { BeaconWallet } from '@taquito/beacon-wallet';
 import { CheckIfWalletConnected } from '../wallet/wallet';
 import { newton_dx_to_dy } from '../stableswap/stableswap';
 import { isTokenPairStable } from '../Liquidity/Liquidity';
+import { getUserBalanceByRpcWithoutDecimal } from '../swap/swap';
+import BigNumber from 'bignumber.js';
+import { RPC_NODE } from '../../constants/localStorage';
 /**
  * Loads swap related data to perform calculation using RPC
  * @param tokenIn - token which user wants to sell, case-sensitive to CONFIG
@@ -16,7 +19,8 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
   try {
     if (amm_type === 'xtz') {
       const connectedNetwork = CONFIG.NETWORK;
-      const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+      // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+      const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
       const dexContractAddress =
         CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
       const ctez = CONFIG.CTEZ[connectedNetwork];
@@ -58,12 +62,11 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
         target,
         amm_type,
       };
-    }  
-    else if (amm_type === 'veAMM') {
+    } else if (amm_type === 'veAMM') {
       const connectedNetwork = CONFIG.NETWORK;
-      const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+      // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+      const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
       const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
-
       const Tezos = new TezosToolkit(rpcNode);
       const dexContractInstance = await Tezos.contract.at(dexContractAddress);
       const dexStorage = await dexContractInstance.storage();
@@ -88,6 +91,7 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
         CONFIG.AMM[connectedNetwork][
           CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken
         ].TOKEN_DECIMAL;
+
       tokenIn_supply = tokenIn_supply / Math.pow(10, tokenIn_Decimal);
       tokenOut_supply = tokenOut_supply / Math.pow(10, tokenOut_Decimal);
       lpTokenSupply = lpTokenSupply / Math.pow(10, liquidityToken_Decimal);
@@ -105,19 +109,19 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
         lpToken,
         amm_type,
       };
-    }
-    else if (amm_type === 'veStableAMM') {
+    } else if (amm_type === 'veStableAMM') {
       const connectedNetwork = CONFIG.NETWORK;
-      const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+      // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+      const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
       const dexContractAddress =
         CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
       const Tezos = new TezosToolkit(rpcNode);
       const dexContractInstance = await Tezos.contract.at(dexContractAddress);
       const dexStorage = await dexContractInstance.storage();
-  
+
       const token1_pool = await dexStorage.token1Pool.toNumber();
       const token1_precision = await dexStorage.token1Precision.toNumber();
-  
+
       const token2_pool = await dexStorage.token2Pool.toNumber();
       const token2_precision = await dexStorage.token2Precision.toNumber();
 
@@ -139,7 +143,8 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
       const lpFee = await dexStorage.lpFee;
       const exchangeFee = lpFee.toNumber();
       const lpTokenSupply = await dexStorage.lqtTotal.toNumber();
-      const lpToken = CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;    
+      const lpToken =
+        CONFIG.STABLESWAP[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].liquidityToken;
       const tokenOutPerTokenIn = tokenOut_supply / tokenIn_supply;
       return {
         success: true,
@@ -155,10 +160,10 @@ export const loadSwapData = async (tokenIn, tokenOut) => {
         tokenOut_precision,
         amm_type,
       };
-    }
-    else {
+    } else {
       const connectedNetwork = CONFIG.NETWORK;
-      const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+      // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+      const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
 
       const dexContractAddress = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].contract;
 
@@ -309,7 +314,7 @@ const calculateTokensOutStable = (
     };
   }
 };
-const calculateTokensOutGeneralStable  =  (
+const calculateTokensOutGeneralStable = (
   tokenIn_supply,
   tokenOut_supply,
   tokenIn_amount,
@@ -319,7 +324,7 @@ const calculateTokensOutGeneralStable  =  (
   tokenOut,
   tokenIn_precision,
   tokenOut_precision,
-) => { 
+) => {
   const connectedNetwork = CONFIG.NETWORK;
   tokenIn_amount =
     tokenIn_amount * 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL;
@@ -355,12 +360,13 @@ const calculateTokensOutGeneralStable  =  (
     priceImpact = Math.abs(priceImpact);
     tokenOut_amt = tokenOut_amt / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL;
     fee = fee / tokenOut_precision;
-    fee /= (10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL);
+    fee /= 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenOut].TOKEN_DECIMAL;
     const tokenOut_amount = tokenOut_amt;
     const minimum_Out = minimumOut;
     const fees = fee;
-    const exchangeRate = (tokenOut_amount) / (tokenIn_amount / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL);
-
+    const exchangeRate =
+      tokenOut_amount /
+      (tokenIn_amount / 10 ** CONFIG.STABLESWAP[connectedNetwork][tokenIn].TOKEN_DECIMAL);
 
     return {
       tokenOut_amount,
@@ -413,9 +419,8 @@ const getRouteSwapData = async (path) => {
           responses[i].target,
           responses[i].tokenIn,
         ).tokenOut_amount;
-      }
-      else if (responses[i].amm_type === 'veStableAMM'){
-        tokenOutPerTokenIn= calculateTokensOutGeneralStable(
+      } else if (responses[i].amm_type === 'veStableAMM') {
+        tokenOutPerTokenIn = calculateTokensOutGeneralStable(
           responses[i].tokenIn_supply,
           responses[i].tokenOut_supply,
           tokenOutPerTokenIn,
@@ -426,9 +431,7 @@ const getRouteSwapData = async (path) => {
           responses[i].tokenIn_precision,
           responses[i].tokenOut_precision,
         ).tokenOut_amount;
-
-      }
-      else {
+      } else {
         tokenOutPerTokenIn =
           tokenOutPerTokenIn * (responses[i].tokenOut_supply / responses[i].tokenIn_supply);
       }
@@ -496,6 +499,16 @@ export const getAllRoutes = async (tokenIn, tokenOut) => {
         routeDataPromises.push(getRouteSwapData(path));
       }
     });
+
+    if(routeDataPromises.length === 0 ){
+      paths.forEach((path) => {
+        // Adding length 5 for accomodating cases where swap is impossible with 4
+        if (path.length <= 5) {
+          routeDataPromises.push(getRouteSwapData(path));
+        }
+      });
+    }
+    // Do not combine the above loops as changing path length to 5 for all pairs will yield exponential results
     const routeDataResponses = await Promise.all(routeDataPromises);
     /*
       When there is no input, but we need to show swap rate
@@ -538,11 +551,11 @@ const computeTokenOutputV2 = (
   tokenOut,
   target,
   tokenIn_precision,
-  tokenOut_precision
+  tokenOut_precision,
 ) => {
   try {
-  const connectedNetwork = CONFIG.NETWORK;
-  const amm_type = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].type;
+    const connectedNetwork = CONFIG.NETWORK;
+    const amm_type = CONFIG.AMM[connectedNetwork][tokenIn].DEX_PAIRS[tokenOut].type;
     if (amm_type === 'xtz') {
       if (tokenIn === 'ctez') {
         return calculateTokensOutStable(
@@ -565,8 +578,7 @@ const computeTokenOutputV2 = (
           tokenIn,
         );
       }
-    }
-    else if (amm_type === 'veStableAMM'){
+    } else if (amm_type === 'veStableAMM') {
       return calculateTokensOutGeneralStable(
         tokenIn_supply,
         tokenOut_supply,
@@ -578,8 +590,7 @@ const computeTokenOutputV2 = (
         tokenIn_precision,
         tokenOut_precision,
       );
-    }
-    else {
+    } else {
       let tokenOut_amount = 0;
       tokenOut_amount = (1 - exchangeFee) * tokenOut_supply * tokenIn_amount;
       tokenOut_amount /= tokenIn_supply + (1 - exchangeFee) * tokenIn_amount;
@@ -696,7 +707,9 @@ export const computeTokenOutForRouteBaseV2 = (input, allRoutes, slippage) => {
     bestRoute.path = computeResponses[0].path;
     // Checking for best route among all routes based on maximum tokenOutAmount
     computeResponses.forEach((route) => {
-      if (Number(route.computations.tokenOutAmount) > Number(bestRoute.computations.tokenOutAmount)) {
+      if (
+        Number(route.computations.tokenOutAmount) > Number(bestRoute.computations.tokenOutAmount)
+      ) {
         bestRoute.computations = route.computations;
         bestRoute.path = route.path;
       }
@@ -899,7 +912,8 @@ export const swapTokenUsingRouteV3 = async (
 ) => {
   try {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
     const network = {
       type: CONFIG.WALLET_NETWORK,
     };
@@ -941,9 +955,21 @@ export const swapTokenUsingRouteV3 = async (
 
     const DataMap = MichelsonMap.fromLiteral(DataLiteral);
 
-    const swapAmount = Math.floor(
-      amount * Math.pow(10, CONFIG.AMM[connectedNetwork][path[0]].TOKEN_DECIMAL),
-    );
+    // const swapAmount = Math.floor(
+    //   amount * Math.pow(10, CONFIG.AMM[connectedNetwork][path[0]].TOKEN_DECIMAL),
+    // );
+    let swapAmount = amount * Math.pow(10, CONFIG.AMM[connectedNetwork][path[0]].TOKEN_DECIMAL);
+    const balanceWithoutDecimal = await getUserBalanceByRpcWithoutDecimal([path[0]], caller);
+
+    const balanceWithoutDecimalNumber = new BigNumber(balanceWithoutDecimal.balance);
+    const lpBal = new BigNumber(swapAmount);
+
+    if (lpBal.isGreaterThan(balanceWithoutDecimalNumber) && (tokenInCallType !== 'XTZ') ) {
+      swapAmount = balanceWithoutDecimalNumber;
+    } else {
+      swapAmount = lpBal;
+    }
+    // swapAmount = parseInt(swapAmount);
     //  else if call type == xtz then direct send no approve
     let batch;
     if (tokenInCallType === 'XTZ') {
@@ -1022,7 +1048,8 @@ export const swapTokenUsingRouteV3 = async (
 export const getxtzBalance = async (identifier, address) => {
   const token = CONFIG.STABLESWAP[CONFIG.NETWORK][identifier];
 
-  const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
+  // const rpcNode = CONFIG.RPC_NODES[CONFIG.NETWORK];
+  const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[CONFIG.NETWORK];
   const type = token.READ_TYPE;
   const decimal = token.TOKEN_DECIMAL;
   const options = {

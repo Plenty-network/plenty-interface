@@ -26,6 +26,8 @@ import { getUserBalanceByRpcStable, loadSwapDataStable } from '../../apis/stable
 import SettingsLiq from '../../Components/TransactionSettings/SettingsLiq';
 import { loadSwapDataGeneralStable } from '../../apis/stableswap/generalStableswap';
 import CONFIG from '../../config/config';
+import eurl from '../../assets/images/eurl.png';
+import ageure from '../../assets/images/ageure.png';
 
 const LiquidityNew = (props) => {
   const { activeTab, tokenIn, setTokenIn, tokenOut, setTokenOut, setActiveTab } =
@@ -56,14 +58,7 @@ const LiquidityNew = (props) => {
   const [positionDetails, setPositionDetails] = useState({});
   const [isPositionAvailable, setPositionAvailable] = useState(false);
 
-  useEffect(() => {
-    if (tokenIn.name === 'tez') {
-      setTokenOut({
-        name: 'ctez',
-        image: ctez,
-      });
-    }
-  }, [tokenIn]);
+  const [balanceUpdate, setBalanceUpdate] = useState(false);
 
   useEffect(async () => {
     const isStable = isTokenPairStable(tokenIn.name, tokenOut.name);
@@ -74,29 +69,17 @@ const LiquidityNew = (props) => {
     if (ress.isLiquidityAvailable) {
       let res;
       if (isStable) {
-        if (
-          CONFIG.AMM[CONFIG.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]?.type ===
-          'xtz'
-        ){
-        res = await getLiquidityPositionDetailsStable(
-          tokenIn.name,
-          tokenOut.name,
-          props.walletAddress,
-        );}
-        else if(
-          CONFIG.AMM[CONFIG.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]?.type ===
-          'veStableAMM'
-        ){
-          res = await getLiquidityPositionDetails(
+        if (CONFIG.AMM[CONFIG.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]?.type === 'xtz') {
+          res = await getLiquidityPositionDetailsStable(
             tokenIn.name,
             tokenOut.name,
             props.walletAddress,
-          );}
-        // res = await getLiquidityPositionDetailsStable(
-        //   tokenIn.name,
-        //   tokenOut.name,
-        //   props.walletAddress,
-        // );
+          );
+        } else if (
+          CONFIG.AMM[CONFIG.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]?.type === 'veStableAMM'
+        ) {
+          res = await getLiquidityPositionDetails(tokenIn.name, tokenOut.name, props.walletAddress);
+        }
       } else {
         res = await getLiquidityPositionDetails(tokenIn.name, tokenOut.name, props.walletAddress);
       }
@@ -106,12 +89,10 @@ const LiquidityNew = (props) => {
   }, [tokenIn, tokenOut, props]);
 
   useEffect(() => {
-    //setLoading(true);
     setLoaderInButton(true);
 
     getTokenPrices().then((tokenPrice) => {
       setGetTokenPrice(tokenPrice);
-      //setLoading(false);
     });
   }, []);
 
@@ -134,36 +115,33 @@ const LiquidityNew = (props) => {
     setShowConfirmAddSupply(false);
     setShowConfirmRemoveSupply(false);
     setShowConfirmTransaction(false);
-    //setHideContent('');
     setSearchQuery('');
-    //setLoading(false);
   };
 
   useEffect(() => {
     const updateBalance = async () => {
       if (props.walletAddress) {
         setTokenContractInstances({});
-        const userBalancesCopy = { ...userBalances };
+
         const tzBTCName = 'tzBTC';
         const balancePromises = [];
-        if (!userBalancesCopy[tokenIn.name]) {
-          tokenIn.name === tzBTCName
-            ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
-            : balancePromises.push(
-                config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz'
-                  ? getUserBalanceByRpcStable(tokenIn.name, props.walletAddress)
-                  : getUserBalanceByRpc(tokenIn.name, props.walletAddress),
-              );
-        }
-        if (!userBalancesCopy[tokenOut.name]) {
-          tokenOut.name === tzBTCName
-            ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
-            : balancePromises.push(
-                config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz'
-                  ? getUserBalanceByRpcStable(tokenOut.name, props.walletAddress)
-                  : getUserBalanceByRpc(tokenOut.name, props.walletAddress),
-              );
-        }
+
+        tokenIn.name === tzBTCName
+          ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
+          : balancePromises.push(
+              config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz'
+                ? getUserBalanceByRpcStable(tokenIn.name, props.walletAddress)
+                : getUserBalanceByRpc(tokenIn.name, props.walletAddress),
+            );
+
+        tokenOut.name === tzBTCName
+          ? balancePromises.push(fetchtzBTCBalance(props.walletAddress))
+          : balancePromises.push(
+              config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz'
+                ? getUserBalanceByRpcStable(tokenOut.name, props.walletAddress)
+                : getUserBalanceByRpc(tokenOut.name, props.walletAddress),
+            );
+
         if (
           config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz'
             ? config.STABLESWAP[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name]
@@ -195,24 +173,33 @@ const LiquidityNew = (props) => {
       }
     };
     updateBalance();
-  }, [tokenIn, tokenOut, props]);
+  }, [tokenIn, tokenOut, props, balanceUpdate]);
 
   const selectToken = (token) => {
     setLoaderInButton(true);
 
     setSwapData({});
 
-    //setLoading(true);
-
     if (tokenType === 'tokenIn') {
       setTokenIn({
         name: token.name,
         image: token.image,
       });
+
       if (token.name === 'tez') {
         setTokenOut({
           name: 'ctez',
           image: ctez,
+        });
+      } else if (token.name === 'EURL') {
+        setTokenOut({
+          name: 'agEUR.e',
+          image: ageure,
+        });
+      } else if (token.name === 'agEUR.e') {
+        setTokenOut({
+          name: 'EURL',
+          image: eurl,
         });
       }
     } else {
@@ -237,7 +224,6 @@ const LiquidityNew = (props) => {
         if (pairExists) {
           if (config.AMM[config.NETWORK][tokenIn.name]?.DEX_PAIRS[tokenOut.name]?.type === 'xtz') {
             loadSwapDataStable(tokenIn.name, tokenOut.name).then((data) => {
-              console.log(data);
               if (data.success) {
                 setSwapData(data);
 
@@ -270,7 +256,7 @@ const LiquidityNew = (props) => {
   }, [tokenIn, tokenOut, activeTab, splitLocation[1]]);
 
   const handleTokenType = (type) => {
-    //setHideContent('content-hide');
+    setBalanceUpdate(false);
     setShow(true);
     setTokenType(type);
     setLoading(false);
@@ -289,7 +275,6 @@ const LiquidityNew = (props) => {
   };
 
   const resetAllValues = () => {
-    // setSlippage(0.5);
     setRecepient('');
     setTokenType('tokenIn');
   };
@@ -310,13 +295,6 @@ const LiquidityNew = (props) => {
 
     value ? setActiveTab('liquidityPositions') : setActiveTab('liquidity');
   };
-
-  // useEffect(() => {
-  //   splitLocation[1] === 'liquidityPositions'
-  //     ? setLiquidityPosition(true)
-  //     : setLiquidityPosition(false);
-  //   splitLocation[1] === 'liquidity' && setActiveTab('liquidity');
-  // }, [splitLocation[1]]);
 
   useEffect(() => {
     const tokenAFromParam = searchParams.get('tokenA');
@@ -369,7 +347,7 @@ const LiquidityNew = (props) => {
         </p>
       )}
       {isLiquidityPosition && <div className="liq-label">Position overview</div>}
-      {/* <div className="liq-label">{isLiquidityPosition ? 'Liquidity Positions' : 'Liquidity'}</div> */}
+
       {!isLiquidityPosition ? (
         <Col
           sm={8}
@@ -423,53 +401,55 @@ const LiquidityNew = (props) => {
                   isPositionAvailable={isPositionAvailable}
                   setPositionDetails={setPositionDetails}
                   theme={props.theme}
+                  setBalanceUpdate={setBalanceUpdate}
+                  balanceUpdate={balanceUpdate}
                   {...props}
                 />
               </Tab>
-              {isPositionAvailable ? (
-                <Tab eventKey="remove" title="Remove">
-                  <RemoveLiquidity
-                    theme={props.theme}
-                    walletAddress={props.walletAddress}
-                    connecthWallet={props.connecthWallet}
-                    tokenIn={tokenIn}
-                    tokenOut={tokenOut}
-                    handleTokenType={handleTokenType}
-                    swapData={swapData}
-                    userBalances={userBalances}
-                    tokenContractInstances={tokenContractInstances}
-                    getTokenPrice={getTokenPrice}
-                    setSlippage={setSlippage}
-                    setRecepient={setRecepient}
-                    recepient={recepient}
-                    slippage={slippage}
-                    loading={loading}
-                    setLoading={setLoading}
-                    handleLoaderMessage={handleLoaderMessage}
-                    loaderMessage={loaderMessage}
-                    handleClose={handleClose}
-                    showConfirmAddSupply={showConfirmAddSupply}
-                    setShowConfirmAddSupply={setShowConfirmAddSupply}
-                    showConfirmRemoveSupply={showConfirmRemoveSupply}
-                    setShowConfirmRemoveSupply={setShowConfirmRemoveSupply}
-                    setLoaderMessage={setLoaderMessage}
-                    resetAllValues={resetAllValues}
-                    fetchUserWalletBalance={fetchUserWalletBalance}
-                    setTokenIn={setTokenIn}
-                    setTokenOut={setTokenOut}
-                    tokens={liquidityTokens}
-                    loaderInButton={loaderInButton}
-                    setLoaderInButton={setLoaderInButton}
-                    isStableSwap={isTokenPairStable(tokenIn.name, tokenOut.name)}
-                    setShowConfirmTransaction={setShowConfirmTransaction}
-                    showConfirmTransaction={showConfirmTransaction}
-                    positionDetails={positionDetails}
-                    setPositionAvailable={setPositionAvailable}
-                    isPositionAvailable={isPositionAvailable}
-                    setPositionDetails={setPositionDetails}
-                  />
-                </Tab>
-              ) : null}
+              {/* {isPositionAvailable ? ( */}
+              <Tab eventKey="remove" title="Remove">
+                <RemoveLiquidity
+                  theme={props.theme}
+                  walletAddress={props.walletAddress}
+                  connecthWallet={props.connecthWallet}
+                  tokenIn={tokenIn}
+                  tokenOut={tokenOut}
+                  handleTokenType={handleTokenType}
+                  swapData={swapData}
+                  userBalances={userBalances}
+                  tokenContractInstances={tokenContractInstances}
+                  getTokenPrice={getTokenPrice}
+                  setSlippage={setSlippage}
+                  setRecepient={setRecepient}
+                  recepient={recepient}
+                  slippage={slippage}
+                  loading={loading}
+                  setLoading={setLoading}
+                  handleLoaderMessage={handleLoaderMessage}
+                  loaderMessage={loaderMessage}
+                  handleClose={handleClose}
+                  showConfirmAddSupply={showConfirmAddSupply}
+                  setShowConfirmAddSupply={setShowConfirmAddSupply}
+                  showConfirmRemoveSupply={showConfirmRemoveSupply}
+                  setShowConfirmRemoveSupply={setShowConfirmRemoveSupply}
+                  setLoaderMessage={setLoaderMessage}
+                  resetAllValues={resetAllValues}
+                  fetchUserWalletBalance={fetchUserWalletBalance}
+                  setTokenIn={setTokenIn}
+                  setTokenOut={setTokenOut}
+                  tokens={liquidityTokens}
+                  loaderInButton={loaderInButton}
+                  setLoaderInButton={setLoaderInButton}
+                  isStableSwap={isTokenPairStable(tokenIn.name, tokenOut.name)}
+                  setShowConfirmTransaction={setShowConfirmTransaction}
+                  showConfirmTransaction={showConfirmTransaction}
+                  positionDetails={positionDetails}
+                  setPositionAvailable={setPositionAvailable}
+                  isPositionAvailable={isPositionAvailable}
+                  setPositionDetails={setPositionDetails}
+                />
+              </Tab>
+              {/* ) : null} */}
             </Tabs>
             <div className="settings-liq">
               <SettingsLiq
