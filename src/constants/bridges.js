@@ -2,6 +2,7 @@
 import ethereum from '../assets/images/bridge/eth.svg';
 import { ReactComponent as ethereumButtonIcon } from '../assets/images/bridge/ethereum_btn_icon.svg';
 import tezos from '../assets/images/bridge/ic_tezos.svg';
+import { ReactComponent as polygonButtonIcon } from '../assets/images/bridge/tokens/matic_icon.svg';
 
 // Tokens
 import dai_normal from '../assets/images/bridge/tokens/dai_icon.svg';
@@ -49,6 +50,12 @@ export const bridgesList = [
     buttonImage: tezos,
     bigIcon: tezos,
   },
+  {
+    name: 'MUMBAI',
+    image: matic_normal,
+    buttonImage: polygonButtonIcon,
+    bigIcon: matic_normal,
+  },
 ];
 
 export const allTokens = {
@@ -84,5 +91,8 @@ export const allTokens = {
   wSUSHI: wsushi,
   wUNI: wuni,
   WRAP: wrap,
+  'WETH.p': weth_normal,
+  'WMATIC.p': matic_normal,
+  WMATIC: matic_normal,
   fallback: fallbackIcon,
 };
