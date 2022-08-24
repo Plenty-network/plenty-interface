@@ -1828,6 +1828,7 @@ export const getTokenPrices = async () => {
     promises.push(getCtezPrice());
     promises.push(getuDEFIPrice());
     promises.push(getagEURePrice());
+    promises.push(axios.get(CONFIG.API.indexerPrice));
     const promisesResponse = await Promise.all(promises);
     // let tokenPriceResponse = await axios.get(
     //   'https://api.teztools.io/token/prices'
@@ -1962,6 +1963,20 @@ export const getTokenPrices = async () => {
         contractAddress: 'KT1XnTn74bUtxHfDtBmm2bGZAQfhPbvKWR8o',
       },
     };
+    const indexerPricesData = promisesResponse[4].data;
+
+    // update tokenPricesData
+    for(const i in tokenPriceResponse.contracts){
+      for(const j in indexerPricesData){
+        if(tokenPriceResponse.contracts[i].symbol === indexerPricesData[j].token){
+          if(tokenPriceResponse.contracts[i].symbol === 'EURL' || tokenPriceResponse.contracts[i].symbol === 'agEUR.e')
+          continue;
+          tokenPriceResponse.contracts[i].usdValue = indexerPricesData[j].price.value;
+        }
+      }
+    }
+
+
     for (const i in tokenPriceResponse.contracts) {
       if (tokens.includes(tokenPriceResponse.contracts[i].symbol)) {
         if (

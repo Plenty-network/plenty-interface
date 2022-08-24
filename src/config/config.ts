@@ -6,6 +6,7 @@ const Config: IConfig = {
     url: 'https://api.coingecko.com/api/v3/coins/tezos?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false',
     API_KEY: '4824FE50-DB6E-4316-B099-72283C964891',
     tezToolTokenPrice: 'https://api.teztools.io/token/prices',
+    indexerPrice : 'https://62d80fa990883139358a3999.mockapi.io/api/v1/price',
   },
   RPC_NODES: {
     testnet: 'https://ithacanet.smartpy.io/',

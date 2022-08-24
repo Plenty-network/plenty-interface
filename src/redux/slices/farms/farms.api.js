@@ -42,8 +42,8 @@ const fetchStorageForDualStakingContract = async (
 
       // TODO : Remove Plenty price once api is fixed
 
-      const plentyPrice = await axios.get('https://w0sujgfj39.execute-api.us-east-2.amazonaws.com/v1/homestats');
-      tokenFirstPrice = plentyPrice.data.body.price;
+      // const plentyPrice = await axios.get('https://w0sujgfj39.execute-api.us-east-2.amazonaws.com/v1/homestats');
+      // tokenFirstPrice = plentyPrice.data.body.price;
 
 
       const promises = [];
@@ -1660,12 +1660,26 @@ export const getFarmsDataAPI = async (isActive) => {
     initialDataPromises.push(axios.get(CONFIG.API.url));
     initialDataPromises.push(axios.get(CONFIG.API.tezToolTokenPrice));
     initialDataPromises.push(axios.get('https://w0sujgfj39.execute-api.us-east-2.amazonaws.com/v1/homestats'));
+    initialDataPromises.push(axios.get(CONFIG.API.indexerPrice));
     const initialDataResponse = await Promise.all(initialDataPromises);
     //const xtzPriceResponse = await axios.get(CONFIG.API.url);
     const xtzPriceResponse = initialDataResponse[0];
     const xtzPriceInUsd = xtzPriceResponse.data.market_data.current_price.usd;
     const tokenPrices = initialDataResponse[1];
     const tokenPricesData = tokenPrices.data.contracts;
+    const indexerPricesData = initialDataResponse[3].data;
+
+    // update tokenPricesData
+    for(const i in tokenPricesData){
+      for(const j in indexerPricesData){
+        if(tokenPricesData[i].symbol === indexerPricesData[j].token){
+          if(tokenPricesData[i].symbol === 'EURL' || tokenPricesData[i].symbol === 'agEUR.e')
+          continue;
+          tokenPricesData[i].usdValue = indexerPricesData[j].price.value;
+        }
+      }
+    }
+
     let priceOfPlenty = 0;
     let priceOfYou = 0;
     for (const i in tokenPricesData) {
@@ -1675,10 +1689,10 @@ export const getFarmsDataAPI = async (isActive) => {
         priceOfPlenty === 0 
       ) {
         // TODO : confirm price
-        // priceOfPlenty = tokenPricesData[i].usdValue;
-        // priceOfPlenty = 0.024;
+        priceOfPlenty = tokenPricesData[i].usdValue;
+        // priceOfPlenty = 0;
         // console.log(tokenPricesData[i].usdValue);
-        priceOfPlenty = initialDataResponse[2].data.body.price;
+        // priceOfPlenty = initialDataResponse[2].data.body.price;
       }
       if (
         tokenPricesData[i].symbol === 'YOU' &&
