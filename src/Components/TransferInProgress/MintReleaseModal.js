@@ -4,7 +4,6 @@ import Button from '../Ui/Buttons/Button';
 import { useEffect, useRef, useState } from 'react';
 import { useInterval } from '../../hooks/useInterval';
 import { getMintStatus, getReleaseStatus } from '../../apis/bridge/bridgeAPI';
-import GasInformationPopup from '../Bridges/GasInformationPopup';
 
 const MintReleaseModal = (props) => {
   const [isReadyToMintRelease, setIsReadyToMintRelease] = useState(false);
@@ -13,8 +12,6 @@ const MintReleaseModal = (props) => {
   const [confirmationsRequired, setConfirmationsRequired] = useState(0);
   const [confirmationsCount, setConfirmationsCount] = useState(0);
   const [awaitingConfirmation, setAwaitingConfirmation] = useState(true);
-  const [displayPopup, setDisplayPopup] = useState(false);
-  const [isPopupViewed, setIsPopupViewed] = useState(false);
   const delay = useRef(5000);
   const dots = useRef(['.','.','.']);
 
@@ -87,15 +84,6 @@ const MintReleaseModal = (props) => {
       }
     }
   }, !isReadyToMintRelease ? delay.current : null);
-
-  const showPopup = () => {
-    setDisplayPopup(true);
-  };
-
-  const hidePopup = () => {
-    setDisplayPopup(false);
-    setIsPopupViewed(true);
-  };
 
   return (
     <>
@@ -183,15 +171,7 @@ const MintReleaseModal = (props) => {
           <Button
             color={'primary'}
             className={`xplenty-btn flex align-items-center justify-content-center ${styles.progressButtons}`}
-            onClick={
-              isReadyToMintRelease
-                ? operation === 'BRIDGE'
-                  ? mintButtonClick
-                  : toBridge.name === 'ETHEREUM' && !isPopupViewed
-                  ? showPopup
-                  : mintButtonClick
-                : null
-            }
+            onClick={isReadyToMintRelease ? mintButtonClick : null}
             style={{ cursor: !isReadyToMintRelease ? 'not-allowed' : 'pointer' }}
             disabled={!isReadyToMintRelease}
             loading={isReadyToMintRelease && isMintLoading}
@@ -201,8 +181,8 @@ const MintReleaseModal = (props) => {
         </div>
       </div>
       <div className={`mt-3 mb-3 ${styles.lineBottom} `}></div>
-      <div className={styles.feeInfoWrapper}></div>
-      <GasInformationPopup show={displayPopup} onHide={hidePopup} />
+      <div className={styles.feeInfoWrapper}>
+      </div>
     </>
   );
 };
