@@ -1669,6 +1669,9 @@ export const getFarmsDataAPI = async (isActive) => {
     const tokenPricesData = tokenPrices.data.contracts;
     const indexerPricesData = initialDataResponse[3].data;
 
+    console.log(tokenPricesData);
+    console.log(indexerPricesData);
+
     // update tokenPricesData
     for(const i in tokenPricesData){
       for(const j in indexerPricesData){
