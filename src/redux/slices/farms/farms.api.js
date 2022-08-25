@@ -1878,6 +1878,7 @@ export const getFarmsDataAPI = async (isActive) => {
       response: farmsData,
     };
   } catch (error) {
+    console.log(error);
     return {
       success: false,
       response: {},
