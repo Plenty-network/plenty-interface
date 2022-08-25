@@ -1659,7 +1659,7 @@ export const getFarmsDataAPI = async (isActive) => {
     const initialDataPromises = [];
     initialDataPromises.push(axios.get(CONFIG.API.url));
     initialDataPromises.push(axios.get(CONFIG.API.tezToolTokenPrice));
-    initialDataPromises.push(axios.get('https://w0sujgfj39.execute-api.us-east-2.amazonaws.com/v1/homestats'));
+    // initialDataPromises.push(axios.get('https://w0sujgfj39.execute-api.us-east-2.amazonaws.com/v1/homestats'));
     initialDataPromises.push(axios.get(CONFIG.API.indexerPrice));
     const initialDataResponse = await Promise.all(initialDataPromises);
     //const xtzPriceResponse = await axios.get(CONFIG.API.url);
@@ -1667,7 +1667,7 @@ export const getFarmsDataAPI = async (isActive) => {
     const xtzPriceInUsd = xtzPriceResponse.data.market_data.current_price.usd;
     const tokenPrices = initialDataResponse[1];
     const tokenPricesData = tokenPrices.data.contracts;
-    const indexerPricesData = initialDataResponse[3].data;
+    const indexerPricesData = initialDataResponse[2].data;
 
     console.log(tokenPricesData);
     console.log(indexerPricesData);
