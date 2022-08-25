@@ -1675,7 +1675,9 @@ export const getFarmsDataAPI = async (isActive) => {
         if(tokenPricesData[i].symbol === indexerPricesData[j].token){
           if(tokenPricesData[i].symbol === 'EURL' || tokenPricesData[i].symbol === 'agEUR.e')
           continue;
+          console.log('early' , tokenPricesData[i].usdValue );
           tokenPricesData[i].usdValue = indexerPricesData[j].price.value;
+          console.log('late' , tokenPricesData[i].usdValue );
         }
       }
     }
