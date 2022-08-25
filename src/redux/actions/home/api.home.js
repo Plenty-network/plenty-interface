@@ -2368,6 +2368,21 @@ export const getTVLOfUserHelper = async (userAddress) => {
     let tvlOfUser = 0;
     const tokenPrices = await axios.get(CONFIG.API.tezToolTokenPrice);
     const tokenPricesData = tokenPrices.data.contracts;
+
+    const indexerPrice = await axios.get(CONFIG.API.indexerPrice);
+    const indexerPricesData = indexerPrice.data;
+
+    // update tokenPricesData
+    for(const i in tokenPricesData){
+      for(const j in indexerPricesData){
+        if(tokenPricesData[i].symbol === indexerPricesData[j].token){
+          if(tokenPricesData[i].symbol === 'EURL' || tokenPricesData[i].symbol === 'agEUR.e')
+          continue;
+          tokenPricesData[i].usdValue = indexerPricesData[j].price.value;
+        }
+      }
+    }
+
     const initialDataResponse = await Promise.all([
       getAllFarmsContracts(),
       getAllPoolsContracts(),

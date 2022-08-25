@@ -809,29 +809,29 @@ export const fetchAllWalletBalance = async (addressOfUser) => {
 //     };
 //   }
 // };
-export const getTokenPrices = async () => {
-  try {
-    let tokenPriceResponse = await axios.get('https://api.teztools.io/token/prices');
-    const tokenPrice = {};
-    tokenPriceResponse = tokenPriceResponse.data;
-    const tokens = ['PLENTY', 'KALAM', 'wDAI', 'WRAP'];
-    for (const i in tokenPriceResponse.contracts) {
-      if (tokens.includes(tokenPriceResponse.contracts[i].symbol)) {
-        tokenPrice[tokenPriceResponse.contracts[i].symbol] =
-          tokenPriceResponse.contracts[i].usdValue;
-      }
-    }
-    return {
-      success: true,
-      tokenPrice,
-    };
-  } catch (error) {
-    return {
-      success: false,
-      tokenPrice: {},
-    };
-  }
-};
+// export const getTokenPrices = async () => {
+//   try {
+//     let tokenPriceResponse = await axios.get('https://api.teztools.io/token/prices');
+//     const tokenPrice = {};
+//     tokenPriceResponse = tokenPriceResponse.data;
+//     const tokens = ['PLENTY', 'KALAM', 'wDAI', 'WRAP'];
+//     for (const i in tokenPriceResponse.contracts) {
+//       if (tokens.includes(tokenPriceResponse.contracts[i].symbol)) {
+//         tokenPrice[tokenPriceResponse.contracts[i].symbol] =
+//           tokenPriceResponse.contracts[i].usdValue;
+//       }
+//     }
+//     return {
+//       success: true,
+//       tokenPrice,
+//     };
+//   } catch (error) {
+//     return {
+//       success: false,
+//       tokenPrice: {},
+//     };
+//   }
+// };
 export const lpTokenOutput = (
   tokenIn_amount,
   tokenOut_amount,
