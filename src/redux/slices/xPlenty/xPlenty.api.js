@@ -76,12 +76,27 @@ export const xPlentyComputations = async () => {
     // Teztools
     axiosPromises.push(Axios.get('https://api.teztools.io/token/prices'));
 
+    axiosPromises.push(Axios.get(CONFIG.API.indexerPrice));
+
     const axiosResponse = await Promise.all(axiosPromises);
     const xPlentyPlentyBalanceResponse = axiosResponse[0];
     const currentBlockLevel = axiosResponse[1];
     const rewardManagerStorageResponse = axiosResponse[2];
     const xPlentyCurveStorageResponse = axiosResponse[3];
     const tokenPricesData = axiosResponse[4].data;
+    const indexerPricesData = axiosResponse[5].data;
+
+    // update tokenPricesData
+    for(const i in tokenPricesData.contracts){
+      for(const j in indexerPricesData){
+        if(tokenPricesData.contracts[i].symbol === indexerPricesData[j].token){
+          if(tokenPricesData.contracts[i].symbol === 'EURL' || tokenPricesData.contracts[i].symbol === 'agEUR.e')
+          continue;
+          tokenPricesData.contracts[i].usdValue = indexerPricesData[j].price.value;
+        }
+      }
+    }
+
 
     let plentyBalance = parseInt(xPlentyPlentyBalanceResponse.data.args[1].int);
 
