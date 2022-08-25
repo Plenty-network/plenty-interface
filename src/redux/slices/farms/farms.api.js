@@ -1669,18 +1669,13 @@ export const getFarmsDataAPI = async (isActive) => {
     const tokenPricesData = tokenPrices.data.contracts;
     const indexerPricesData = initialDataResponse[2].data;
 
-    console.log(tokenPricesData);
-    console.log(indexerPricesData);
-
     // update tokenPricesData
     for(const i in tokenPricesData){
       for(const j in indexerPricesData){
         if(tokenPricesData[i].symbol === indexerPricesData[j].token){
           if(tokenPricesData[i].symbol === 'EURL' || tokenPricesData[i].symbol === 'agEUR.e')
           continue;
-          console.log('early' , tokenPricesData[i].usdValue );
           tokenPricesData[i].usdValue = indexerPricesData[j].price.value;
-          console.log('late' , tokenPricesData[i].usdValue );
         }
       }
     }
@@ -1878,7 +1873,6 @@ export const getFarmsDataAPI = async (isActive) => {
       response: farmsData,
     };
   } catch (error) {
-    console.log(error);
     return {
       success: false,
       response: {},
