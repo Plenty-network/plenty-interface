@@ -4,6 +4,7 @@ import Button from '../Ui/Buttons/Button';
 import { useEffect, useRef, useState } from 'react';
 import { useInterval } from '../../hooks/useInterval';
 import { getMintStatus, getReleaseStatus } from '../../apis/bridge/bridgeAPI';
+import BlueWarningIcon from '../../assets/images/StatusIcons/blue_info_icon.svg';
 
 const MintReleaseModal = (props) => {
   const [isReadyToMintRelease, setIsReadyToMintRelease] = useState(false);
@@ -181,7 +182,13 @@ const MintReleaseModal = (props) => {
         </div>
       </div>
       <div className={`mt-3 mb-3 ${styles.lineBottom} `}></div>
-      <div className={styles.feeInfoWrapper}>
+      <div className={styles.feeInfoWrapper} style={{alignItems: 'center'}}>
+        {operation === 'UNBRIDGE' && (
+          <>
+            <img src={BlueWarningIcon} className={styles.releaseWarningIcon}></img>
+            <span className={styles.releaseWarningText}>{'Don\'t reduce the gas fee manually on the wallet. Your funds can get locked otherwise.'}</span>
+          </>
+        )}
       </div>
     </>
   );
