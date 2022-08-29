@@ -109,8 +109,8 @@ const Header = (props) => {
             <div className="banner-middle">
               <span className="banner-text">
                 {isMobile
-                  ? 'Swap Wrapped Assets now'
-                  : 'A proposal is submitted to the Tezos blockchain – time to vote.. Cast your votes now'}
+                  ? 'Note: Ethereum Bridge is under maintainance on Tuesday 30th Aug (UTC time zone). Sorry for the inconvinience!'
+                  : 'Note: Ethereum Bridge is under maintainance on Tuesday 30th Aug (UTC time zone). Sorry for the inconvinience!'}
               </span>
             </div>
             <div className="banner-right">
