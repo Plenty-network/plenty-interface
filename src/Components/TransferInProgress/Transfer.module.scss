@@ -466,3 +466,19 @@ $spinner_inner_bg_2: var(--theme-bridge-selector-bg);
     transform: rotate(-360deg);
   }
 }
+
+.releaseWarningIcon {
+  height: 40px;
+  width: 40px;
+}
+
+.releaseWarningText {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: #2C7DF7;
+  margin-left: 12px;
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    font-size: 13px;
+  }
+}

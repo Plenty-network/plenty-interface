@@ -62,6 +62,7 @@ interface IApi {
   url: string;
   API_KEY: string;
   tezToolTokenPrice: string;
+  indexerPrice: string;
 }
 
 interface INodes {
