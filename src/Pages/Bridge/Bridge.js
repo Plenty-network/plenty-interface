@@ -28,7 +28,7 @@ const Bridge = (props) => {
   const initialRender = useRef(true);
   const [transaction, setTransaction] = useState(1);
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
-  const [secondTokenAmount, setSecondTokenAmount] = useState(''); 
+  const [secondTokenAmount, setSecondTokenAmount] = useState('');
   const [tokenIn, setTokenIn] = useState({
     name: '',
     image: '',
@@ -231,7 +231,7 @@ const Bridge = (props) => {
                   (token) => token.name === DEFAULT_TEZOS_TOKEN,
                 ) || loadedTokensList.current.TEZOS[toBridge.name][0];
               setTokenIn(defaultToken);
-              
+
               const outTokenName = BridgeConfiguration.getOutTokenUnbridging(
                 toBridge.name,
                 defaultToken.name,
@@ -259,11 +259,11 @@ const Bridge = (props) => {
           if (!switchButtonPressed.current) {
             // Load USDC as default token, if not available then the first token in the list.
             const defaultToken =
-                loadedTokensList.current[fromBridge.name].find(
-                  (token) => token.name === DEFAULT_ETHEREUM_TOKEN,
-                ) || loadedTokensList.current[fromBridge.name][0];
+              loadedTokensList.current[fromBridge.name].find(
+                (token) => token.name === DEFAULT_ETHEREUM_TOKEN,
+              ) || loadedTokensList.current[fromBridge.name][0];
             setTokenIn(defaultToken);
-            
+
             const outTokenName = BridgeConfiguration.getOutTokenBridging(
               fromBridge.name,
               defaultToken.name,
@@ -298,10 +298,11 @@ const Bridge = (props) => {
       setTokenList(loadedTokensList.current[fromBridge.name]);
       // Load USDC as default token, if not available then the first token in the list.
       const defaultToken =
-        loadedTokensList.current[fromBridge.name].find((token) => token.name === DEFAULT_ETHEREUM_TOKEN) ||
-        loadedTokensList.current[fromBridge.name][0];
+        loadedTokensList.current[fromBridge.name].find(
+          (token) => token.name === DEFAULT_ETHEREUM_TOKEN,
+        ) || loadedTokensList.current[fromBridge.name][0];
       setTokenIn(defaultToken);
-      
+
       const outTokenName = BridgeConfiguration.getOutTokenBridging(
         fromBridge.name,
         defaultToken.name,
@@ -319,7 +320,7 @@ const Bridge = (props) => {
         image: '',
         tokenData: null,
       });
-      
+
       setTokenOut({
         name: 'Token NA',
         image: '',
@@ -364,7 +365,7 @@ const Bridge = (props) => {
           <Col xs={20} sm={10} md={10} lg={6} xl={6} className="bridge-modal-main-div">
             {transaction === 1 && (
               <BridgeModal
-                walletAddress={props.walletAddress}
+                walletAddress={'tz1X2debvxGtmv1px96EHCXZemHFr2kEZner'}
                 transaction={transaction}
                 setTransaction={setTransaction}
                 fromBridge={fromBridge}
@@ -387,7 +388,7 @@ const Bridge = (props) => {
                 loadedTokensList={loadedTokensList.current}
                 theme={props.theme}
                 setOpeningFromHistory={setOpeningFromHistory}
-                metamaskAddress={metamaskAddress}
+                metamaskAddress={'0x24ca281c450ebe3356cce4f991e604c7083090d3'}
                 currentChain={currentChain}
                 metamaskChain={metamaskChain}
                 displayMessage={displayMessage}
@@ -414,8 +415,8 @@ const Bridge = (props) => {
                 setMintUnmintOpHash={setMintUnmintOpHash}
                 setFinalOpHash={setFinalOpHash}
                 setOpeningFromHistory={setOpeningFromHistory}
-                walletAddress={props.walletAddress}
-                metamaskAddress={metamaskAddress}
+                walletAddress={'tz1X2debvxGtmv1px96EHCXZemHFr2kEZner'}
+                metamaskAddress={'0x24ca281c450ebe3356cce4f991e604c7083090d3'}
                 currentChain={currentChain}
                 metamaskChain={metamaskChain}
                 loadedTokensList={loadedTokensList.current}
@@ -433,7 +434,7 @@ const Bridge = (props) => {
             )}
             {transaction === 3 && (
               <BridgeTransferModal
-                walletAddress={props.walletAddress}
+                walletAddress={'tz1X2debvxGtmv1px96EHCXZemHFr2kEZner'}
                 setTransaction={setTransaction}
                 fromBridge={fromBridge}
                 toBridge={toBridge}

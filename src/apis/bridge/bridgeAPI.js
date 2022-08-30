@@ -92,7 +92,7 @@ export const getBalanceTez = async (tokenContract, tokenId, userAddress, tokenDe
     const [{ balance }] = await contract.views
       .balance_of([{ owner: userAddress, token_id: tokenId }])
       .read();
-    
+
     return {
       success: true,
       balance: balance.div(10 ** tokenDecimals).toString(),
@@ -492,7 +492,7 @@ export const mintTokens = async (wrapData, chain, setMintReleaseSubmitted) => {
     Tezos.setWalletProvider(wallet);
     const contract = await Tezos.wallet.at(quorumContractAddress);
     const [blockHash, logIndex] = wrapData.id.split(':');
-    
+
     const batch = Tezos.wallet.batch([
       {
         kind: OpKind.TRANSACTION,
@@ -561,7 +561,7 @@ export const unwrap = async (chain, amount, tokenIn) => {
     const userData = await getUserAddress();
     const fees = new BigNum(amountToUnwrap.div(new BigNum(10000))).multipliedBy(fee);
     const amountToUnwrapMinusFees = new BigNum(amountToUnwrap).minus(fees);
-    
+
     const op = await contract.methods
       .unwrap_erc20(
         tokenOut.CONTRACT.toLowerCase().substring(2),
@@ -648,7 +648,7 @@ export const releaseTokens = async (unwrapData, chain, setMintReleaseSubmitted) 
       unwrapData.amount,
     ]);
     let result;
-    
+
     await wrapContract.methods
       .execTransaction(
         unwrapData.token,
@@ -701,14 +701,10 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
           type: 'ERC20',
         },
       });
-      const unwrapsMain = unwraps.data.result.filter(
-        (obj) =>
-          obj.destination.toLowerCase() === ethereumAddress.toLowerCase() &&
-          obj.source.toLowerCase() === tzAddress.toLowerCase(),
-      );
+      const unwrapsMain = unwraps.data.result;
       const unwrapsArrPromise = unwrapsMain.map(async (obj) => {
-        const data = await axios.get(tzkt + '/v1/operations/' + obj.operationHash);
-        const timeStamp = new Date(data.data[0].timestamp);
+        //const data = await axios.get(tzkt + '/v1/operations/' + obj.operationHash);
+        const timeStamp = new Date();
         const feePercentage = new BigNum(
           BridgeConfiguration.getFeesForChain(chain).UNWRAP_FEES,
         ).dividedBy(10000);
@@ -762,14 +758,14 @@ export const getHistory = async ({ ethereumAddress, tzAddress }) => {
           obj.destination.toLowerCase() === tzAddress.toLowerCase() &&
           obj.source.toLowerCase() === ethereumAddress.toLowerCase()
         ) {
-          const customHttpProvider = new ethers.providers.JsonRpcProvider(
+          /*           const customHttpProvider = new ethers.providers.JsonRpcProvider(
             networks[chain].rpcUrls[0],
           );
           const tx = await customHttpProvider.getTransaction(obj.transactionHash);
 
-          const block = await customHttpProvider.getBlock(tx.blockNumber);
+          const block = await customHttpProvider.getBlock(tx.blockNumber); */
 
-          const timeStamp = new Date(block.timestamp * 1000);
+          const timeStamp = new Date();
           const transFee = new BigNum(obj.amount)
             .div(new BigNum(10).pow(BridgeConfiguration.getToken(chain, obj.token).DECIMALS))
             .multipliedBy(

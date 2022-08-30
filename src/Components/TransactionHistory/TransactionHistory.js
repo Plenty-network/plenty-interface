@@ -32,7 +32,6 @@ import fromExponential from 'from-exponential';
 import { useInterval } from '../../hooks/useInterval';
 
 const TransactionHistory = (props) => {
-  
   const [showFilter, setShowFilter] = useState(false);
   const [showSort, setShowSort] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -89,7 +88,9 @@ const TransactionHistory = (props) => {
     setOpeningFromTransaction,
   } = props;
 
-  const [animationClass, setAnimationClass] = useState(openingFromTransaction ? 'leftToRightFadeInAnimation-4-bridge' : 'rightToLeftFadeInAnimation-4');
+  const [animationClass, setAnimationClass] = useState(
+    openingFromTransaction ? 'leftToRightFadeInAnimation-4-bridge' : 'rightToLeftFadeInAnimation-4',
+  );
 
   const filteredData = useMemo(
     () => filterData(transactionData, checkBoxesState),
@@ -100,7 +101,6 @@ const TransactionHistory = (props) => {
     () => sortData(filteredData, radioButtonSelected),
     [filteredData, radioButtonSelected],
   );
-
 
   const setBack = (value) => {
     setAnimationClass('leftToRightFadeOutAnimation-4');
@@ -176,7 +176,7 @@ const TransactionHistory = (props) => {
         name: `${currentTokenOut.name}`,
         image: currentTokenOut.image,
       });
-      if(selectedData.currentProgress === 3) {
+      if (selectedData.currentProgress === 3) {
         setSavedFromBridge(prevFromBridge);
         setSavedToBridge(prevToBridge);
         setSavedOperation(prevOperation);
@@ -187,40 +187,13 @@ const TransactionHistory = (props) => {
     setOperation(selectedData.operation);
     setMintUnmintOpHash(selectedData.txHash);
     setFinalOpHash(selectedData.txHash);
-      setOpeningFromHistory(true);
-    if(selectedData.currentProgress !== 3 && selectedData.chain !== metamaskChain) {
-      displayMessage({
-        type: 'warning',
-        duration: FLASH_MESSAGE_DURATION,
-        title: 'Chain mismatch',
-        content: `Please change wallet chain to ${titleCase(selectedData.chain)}.`,
-        isFlashMessageALink: false,
-        flashMessageLink: '#',
-      });
-      
-        setTimeout(async () => {
-          try {
-            await changeNetwork({ networkName: selectedData.chain });
-          } catch (error) {
-            displayMessage({
-              type: 'error',
-              duration: FLASH_MESSAGE_DURATION,
-              title: 'Chain change failed',
-              content: 'Failed to force change the chain. Please change in wallet.',
-              isFlashMessageALink: false,
-              flashMessageLink: '#',
-            });
-          }
-        }, CHANGE_NETWORK_PROMPT_DELAY);
-      
-      resetToDefaultStates();
-    } else {
+    setOpeningFromHistory(true);
+    {
       setAnimationClass('rightToLeftFadeOutAnimation-4');
       setTimeout(() => {
         setTransaction(3);
       }, 600);
     }
-    
   };
 
   useInterval(async () => {
@@ -246,8 +219,7 @@ const TransactionHistory = (props) => {
           type: 'error',
           duration: FLASH_MESSAGE_DURATION,
           title: 'Fetch error',
-          content:
-            'Failed to fetch transaction history. Please retry after some time.',
+          content: 'Failed to fetch transaction history. Please retry after some time.',
           isFlashMessageALink: false,
           flashMessageLink: '#',
         });
@@ -288,10 +260,20 @@ const TransactionHistory = (props) => {
   // Handle closing of filter and sort components on clicking of outside of them.
   useEffect(() => {
     function handleClickOutsideDiv(event) {
-      if (filterButtonRef.current && filterDivisionRef.current && !filterButtonRef.current.contains(event.target) && !filterDivisionRef.current.contains(event.target)) {
+      if (
+        filterButtonRef.current &&
+        filterDivisionRef.current &&
+        !filterButtonRef.current.contains(event.target) &&
+        !filterDivisionRef.current.contains(event.target)
+      ) {
         setShowFilter((prevState) => (prevState ? !prevState : prevState));
       }
-      if (sortButtonRef.current && sortDivisionRef.current && !sortButtonRef.current.contains(event.target) && !sortDivisionRef.current.contains(event.target)) {
+      if (
+        sortButtonRef.current &&
+        sortDivisionRef.current &&
+        !sortButtonRef.current.contains(event.target) &&
+        !sortDivisionRef.current.contains(event.target)
+      ) {
         setShowSort((prevState) => (prevState ? !prevState : prevState));
       }
     }
@@ -307,9 +289,7 @@ const TransactionHistory = (props) => {
     >
       <div className={styles.border}>
         <div className={` ${styles.bridgeModal}`}>
-          <div
-            className={`flex flex-row justify-content-between mb-3 ${styles.topWrapper} `}
-          >
+          <div className={`flex flex-row justify-content-between mb-3 ${styles.topWrapper} `}>
             <div className={`flex ${styles.headingWrapper}`}>
               <p
                 className={styles.arrowback}
@@ -373,9 +353,7 @@ const TransactionHistory = (props) => {
               />
             ) : null}
           </div>
-          <div
-            className={`mb-3 ${styles.lineBottom} ${styles.width}`}
-          ></div>
+          <div className={`mb-3 ${styles.lineBottom} ${styles.width}`}></div>
           <div className={`${styles.transactionDataWrapper}`}>
             {isLoading ? (
               dummyLoadingDivisions.current.map((box, index) => {
@@ -410,8 +388,12 @@ const TransactionHistory = (props) => {
                           ></img>
                         </div>
                         <div>
-                          <p className={styles.value} title={fromExponential(data.secondTokenAmount)}>
-                            {fromExponential(Number(Number(data.secondTokenAmount).toFixed(10)))} {data.tokenOut}
+                          <p
+                            className={styles.value}
+                            title={fromExponential(data.secondTokenAmount)}
+                          >
+                            {fromExponential(Number(Number(data.secondTokenAmount).toFixed(10)))}{' '}
+                            {data.tokenOut}
                           </p>
                           <p className={styles.amt}>
                             <ReactTimeAgo date={data.timestamp} locale="en-US" />
