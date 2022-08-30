@@ -21,7 +21,6 @@ import '../Bridge/bridge.scss';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import { connectWallet, disconnectWallet } from '../../apis/bridge/ethereumWalletConnect';
-import DownTimeInfoModal from '../../Components/Bridges/DownTimeInfoModal';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -130,7 +129,7 @@ const Bridge = (props) => {
           localStorage.setItem('isWalletConnected', false);
           disconnectWallet();
         } else {
-          // connectWalletHandler();
+          connectWalletHandler();
         }
       } catch (ex) {
         localStorage.setItem('isWalletConnected', false);
@@ -189,17 +188,17 @@ const Bridge = (props) => {
     disconnectWallet();
   }, []);
 
-  /* const removeListenEvents = async () => {
+  const removeListenEvents = async () => {
     const providerData = await connectWallet(null, props.theme);
     providerData.provider.removeListener('chainChanged', metamaskChainChangeHandler);
     providerData.provider.removeListener('disconnect', onDisconnect);
     providerData.provider.removeListener('accountsChanged', metamaskAccountChangeHandler);
-  }; */
+  };
 
   useEffect(() => {
     return () => {
       if (localStorage?.getItem('isWalletConnected') === 'true') {
-        // removeListenEvents();
+        removeListenEvents();
       }
     };
   }, []);
@@ -483,8 +482,6 @@ const Bridge = (props) => {
           )}
         </p>
       </FlashMessage>
-      {/* // TODO: Remove after maintenance */}
-      <DownTimeInfoModal show={true} />
     </>
   );
 };
