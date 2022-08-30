@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import Routes from './routes';
 import FirstTimeDisclaimer from '../Pages/FirstTimeDisclaimer/FirstTimeDisclaimer';
-import { FIRST_TIME_DISCLAIMER, BRIDGES_CONFIG, BRIDGES_CONFIG_EXPIRY_TIME } from '../constants/localStorage';
+import { FIRST_TIME_DISCLAIMER, BRIDGES_CONFIG, BRIDGES_CONFIG_EXPIRY_TIME, BRIDGES_CONFIG_FIRST_LOAD } from '../constants/localStorage';
 import { loadConfiguration } from '../apis/Config/Config';
 
 const WrappedRoute = (props) => {
@@ -20,7 +20,9 @@ const WrappedRoute = (props) => {
     // Load only if not found in localStorage or if the TTL has expired.
     if (
       !localStorage.getItem(BRIDGES_CONFIG) ||
-      new Date().getTime() > JSON.parse(localStorage.getItem(BRIDGES_CONFIG_EXPIRY_TIME))
+      new Date().getTime() > JSON.parse(localStorage.getItem(BRIDGES_CONFIG_EXPIRY_TIME)) ||
+      !localStorage.getItem(BRIDGES_CONFIG_FIRST_LOAD) ||
+      localStorage.getItem(BRIDGES_CONFIG_FIRST_LOAD) !== 'true'
     ) {
       const bridgeConfig = await loadConfiguration();
       if (bridgeConfig.success) {
@@ -30,6 +32,7 @@ const WrappedRoute = (props) => {
           BRIDGES_CONFIG_EXPIRY_TIME,
           JSON.stringify(new Date().getTime() + 1000 * 60 * 60 * 12),
         );
+        localStorage.setItem(BRIDGES_CONFIG_FIRST_LOAD, JSON.stringify(true));
       } else {
         console.log(`Failed to load bridge config - ${bridgeConfig.error}.`);
       }
