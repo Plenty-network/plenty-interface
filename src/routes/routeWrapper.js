@@ -30,7 +30,7 @@ const WrappedRoute = (props) => {
         localStorage.setItem(BRIDGES_CONFIG, JSON.stringify(bridgeConfig.data));
         localStorage.setItem(
           BRIDGES_CONFIG_EXPIRY_TIME,
-          JSON.stringify(new Date().getTime() + 1000 * 60 * 60 * 12),
+          JSON.stringify(new Date().getTime() + 1000 * 60 * 60 * 1),
         );
         localStorage.setItem(BRIDGES_CONFIG_FIRST_LOAD, JSON.stringify(true));
       } else {
