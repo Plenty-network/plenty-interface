@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { TezosToolkit, OpKind } from '@taquito/taquito';
+import { TezosToolkit, OpKind, MichelsonMap } from '@taquito/taquito';
 import CONFIG from '../../config/config';
 import { BridgeConfiguration } from '../Config/BridgeConfig';
 import ERC20_ABI from '../../abi/erc20.ts';
@@ -302,7 +302,7 @@ export const mintTokens = async (wrapData, chain, setMintReleaseSubmitted) => {
             wrapData.destination,
             wrapData.amount,
             minterContractAddress,
-            Object.entries(wrapData.signatures),
+            MichelsonMap.fromLiteral(wrapData.signatures),
           )
           .toTransferParams({}),
       },
