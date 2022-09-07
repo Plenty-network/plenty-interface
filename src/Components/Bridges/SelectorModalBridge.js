@@ -11,34 +11,34 @@ const SelectorModalBridge = (props) => {
     {
       name: 'Ethereum to Tezos',
       fromTokenImage: eth,
-      fromTokenName: 'RINKEBY',
+      fromTokenName: 'ETHEREUM',
       toTokenImage: tezos,
       toTokenName: 'TEZOS',
-      buttonImage: bridgesList.find((bridge) => bridge.name === 'RINKEBY').buttonImage,
+      buttonImage: bridgesList.find((bridge) => bridge.name === 'ETHEREUM').buttonImage,
     },
     {
       name: 'Tezos to Ethereum',
       fromTokenImage: tezos,
       fromTokenName: 'TEZOS',
       toTokenImage: eth,
-      toTokenName: 'RINKEBY',
-      buttonImage: bridgesList.find((bridge) => bridge.name === 'RINKEBY').buttonImage,
+      toTokenName: 'ETHEREUM',
+      buttonImage: bridgesList.find((bridge) => bridge.name === 'ETHEREUM').buttonImage,
     },
     {
       name: 'Polygon to Tezos',
       fromTokenImage: matic_normal,
-      fromTokenName: 'MUMBAI',
+      fromTokenName: 'POLYGON',
       toTokenImage: tezos,
       toTokenName: 'TEZOS',
-      buttonImage: bridgesList.find((bridge) => bridge.name === 'MUMBAI').buttonImage,
+      buttonImage: bridgesList.find((bridge) => bridge.name === 'POLYGON').buttonImage,
     },
     {
       name: 'Tezos to Polygon',
       fromTokenImage: tezos,
       fromTokenName: 'TEZOS',
       toTokenImage: matic_normal,
-      toTokenName: 'MUMBAI',
-      buttonImage: bridgesList.find((bridge) => bridge.name === 'MUMBAI').buttonImage,
+      toTokenName: 'POLYGON',
+      buttonImage: bridgesList.find((bridge) => bridge.name === 'POLYGON').buttonImage,
     },
   ];
   return (
@@ -70,13 +70,13 @@ const SelectorModalBridge = (props) => {
             className="token-select-btn"
             onClick={() => props.selectBridge(chainSelection[0])}
           >
-            <span className="selectionAlignment">Rinkeby to Tezos</span>
+            <span className="selectionAlignment">Ethereum to Tezos</span>
           </button>
           <button
             className="token-select-btn"
             onClick={() => props.selectBridge(chainSelection[1])}
           >
-            <span className=" selectionAlignment">Tezos to Rinkeby</span>
+            <span className=" selectionAlignment">Tezos to Ethereum</span>
           </button>
           <button className="token-select-btn">
             <img src={matic_normal} className="select-token-img-bridge" alt={'matic_normal'} />
@@ -87,13 +87,13 @@ const SelectorModalBridge = (props) => {
             className="token-select-btn"
             onClick={() => props.selectBridge(chainSelection[2])}
           >
-            <span className=" selectionAlignment">Mumbai to Tezos</span>
+            <span className=" selectionAlignment">Polygon to Tezos</span>
           </button>
           <button
             className="token-select-btn"
             onClick={() => props.selectBridge(chainSelection[3])}
           >
-            <span className="selectionAlignment">Tezos to Mumbai</span>
+            <span className="selectionAlignment">Tezos to Polygon</span>
           </button>
         </div>
       </Modal.Body>

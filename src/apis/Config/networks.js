@@ -32,4 +32,15 @@ export const networks = {
     rpcUrls: ['https://rpc-mumbai.maticvigil.com/v1/f4d21a1974e4ed58212a0047ebda2058d80e5ec1'],
     blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
   },
+  POLYGON: {
+    chainId: `0x${Number(137).toString(16)}`,
+    chainName: 'Polygon',
+    nativeCurrency: {
+      name: 'MATIC',
+      symbol: 'MATIC',
+      decimals: 18,
+    },
+    rpcUrls: [process.env.REACT_APP_POLYGON_RPC],
+    blockExplorerUrls: ['https://polygonscan.com/'],
+  },
 };

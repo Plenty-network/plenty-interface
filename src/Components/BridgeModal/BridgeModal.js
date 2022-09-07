@@ -425,12 +425,12 @@ const BridgeModal = (props) => {
     setToBridge({
       name: bridge.toTokenName,
       image: bridge.toTokenImage,
-      buttonImage: bridge.buttonImage2,
+      buttonImage: bridge.buttonImage,
     });
     setFromBridge({
       name: bridge.fromTokenName,
       image: bridge.fromTokenImage,
-      buttonImage: bridge.buttonImage1,
+      buttonImage: bridge.buttonImage,
     });
     setIsBridgeSelected(true);
     handleClose();

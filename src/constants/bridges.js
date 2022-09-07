@@ -51,7 +51,7 @@ export const bridgesList = [
     bigIcon: tezos,
   },
   {
-    name: 'MUMBAI',
+    name: 'POLYGON',
     image: matic_normal,
     buttonImage: polygonButtonIcon,
     bigIcon: matic_normal,

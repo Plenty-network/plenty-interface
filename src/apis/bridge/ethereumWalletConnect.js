@@ -7,11 +7,12 @@ const providerOptions = {
   walletconnect: {
     package: WalletConnectProvider,
     options: {
-      supportedChainIds: [1, 4, 80001],
+      supportedChainIds: [1, 4, 80001, 137],
       rpc: {
         1: process.env.REACT_APP_RPC_NODE,
         4: 'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
         80001: 'https://rpc-mumbai.maticvigil.com/v1/f4d21a1974e4ed58212a0047ebda2058d80e5ec1',
+        137: process.env.REACT_APP_POLYGON_RPC,
       },
     },
   },

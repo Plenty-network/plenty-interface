@@ -6735,6 +6735,7 @@ const Config: IConfig = {
     ETHEREUM: 'https://etherscan.io/tx/',
     TEZOS: 'https://tzkt.io/',
     MUMBAI: 'https://mumbai.polygonscan.com/',
+    POLYGON: 'https://polygonscan.com/',
   },
 };
 
