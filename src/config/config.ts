@@ -6,7 +6,7 @@ const Config: IConfig = {
     url: 'https://api.coingecko.com/api/v3/coins/tezos?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false',
     API_KEY: '4824FE50-DB6E-4316-B099-72283C964891',
     tezToolTokenPrice: 'https://api.teztools.io/token/prices',
-    indexerPrice : 'https://networkanalyticsindexer.plentydefi.com/analytics/tokens',
+    indexerPrice: 'https://networkanalyticsindexer.plentydefi.com/analytics/tokens',
   },
   RPC_NODES: {
     testnet: 'https://ithacanet.smartpy.io/',
@@ -3206,7 +3206,7 @@ const Config: IConfig = {
             liquidityToken: 'ctez-paul-lp',
             type: 'oldAMM',
           },
-          EURL : {
+          EURL: {
             contract: 'KT1LqEgLikLE2obnyzgPJA6vMtnnG5agXVCn',
             property: 'token1_pool',
             liquidityToken: 'eurl-ctez-LP',
@@ -5199,7 +5199,7 @@ const Config: IConfig = {
       //       CONTRACT: 'KT1P3MUj7ZY1pak1szf41vxtuqz7AVMgCLhj',
       //       DEX: 'KT1Dhy1gVW3PSC9cms9QJ7xPMPPpip2V9aA6',
       //       TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-      //       CARD_TYPE: 'EURL / CTEZ LP',
+      //       CARD_TYPE: 'EURL / CTEZ PNLP',
       //       TOKEN_DECIMAL: 6,
       //       TYPE: 'FA1.2',
       //       LP_DECIMAL: 6,
@@ -5223,7 +5223,7 @@ const Config: IConfig = {
       //       CONTRACT: 'KT1P3MUj7ZY1pak1szf41vxtuqz7AVMgCLhj',
       //       DEX: 'KT1Dhy1gVW3PSC9cms9QJ7xPMPPpip2V9aA6',
       //       TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-      //       CARD_TYPE: 'EURL / CTEZ LP',
+      //       CARD_TYPE: 'agEUR.e / USDC.e PNLP',
       //       TOKEN_DECIMAL: 6,
       //       TYPE: 'FA1.2',
       //       LP_DECIMAL: 6,
