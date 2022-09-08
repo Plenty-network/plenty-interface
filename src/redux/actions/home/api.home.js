@@ -1750,12 +1750,7 @@ const getPriceForPlentyLpTokens = async (
 
       const tokenData = {};
 
-      let idx;
-      for (const x in tokenPricesData) {
-        if (tokenPricesData[x].symbol === 'agEUR.e') {
-          idx = x;
-        }
-      }
+      const agEURPrice = await getagEURePrice();
 
       let idx2;
       for (const x in tokenPricesData) {
@@ -1766,7 +1761,7 @@ const getPriceForPlentyLpTokens = async (
 
       tokenData['token1'] = {
         tokenName: 'agEUR.e',
-        tokenValue: tokenPricesData[idx].usdValue,
+        tokenValue: agEURPrice.agEUReInUSD,
         tokenDecimal: 18,
       };
 
