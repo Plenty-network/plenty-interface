@@ -112,7 +112,7 @@ const Farms = (props) => {
         return farm.farmData.CARD_TYPE.toLowerCase().includes('ctez');
       }
       if (tabChange === FARM_TAB.NEW) {
-        return farm.farmData.bannerType?.includes('info');
+        return farm.farmData.message?.includes('New farm');
       }
       if (tabChange === FARM_TAB.STABLE) {
         return (
