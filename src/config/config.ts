@@ -327,28 +327,28 @@ const Config: IConfig = {
           ],
           inactive: [],
         },
-        // 'EURL - CTEZ': {
-        //   active: [
-        //     {
-        //       address: 'KT1P3MUj7ZY1pak1szf41vxtuqz7AVMgCLhj',
-        //       mapId: 178076,
-        //       decimal: 18,
-        //       tokenDecimal: 6,
-        //     },
-        //   ],
-        //   inactive: [],
-        // },
-        // 'agEUR.e - USDC.e': {
-        //   active: [
-        //     {
-        //       address: 'KT1P3MUj7ZY1pak1szf41vxtuqz7AVMgCLhj',
-        //       mapId: 178076,
-        //       decimal: 18,
-        //       tokenDecimal: 6,
-        //     },
-        //   ],
-        //   inactive: [],
-        // },
+        'EURL - CTEZ': {
+          active: [
+            {
+              address: 'KT1XaHdsQAh4EZkjgvwRFBkXpqh6rFAP2cXM',
+              mapId: 281319,
+              decimal: 18,
+              tokenDecimal: 6,
+            },
+          ],
+          inactive: [],
+        },
+        'agEUR.e - USDC.e': {
+          active: [
+            {
+              address: 'KT1JZPj4AwDSNNfmjWNJU3qqxobdAwt1KS1b',
+              mapId: 281326,
+              decimal: 18,
+              tokenDecimal: 12,
+            },
+          ],
+          inactive: [],
+        },
         'WETH.e - CTEZ': {
           active: [
             {
@@ -1223,20 +1223,20 @@ const Config: IConfig = {
         type: 'FA1.2',
         tokenId: 0,
       },
-      // 'EURL - CTEZ': {
-      //   address: 'KT1XpLzv4tqqsf2aLneDZgEeNFhKkH8JBGXv',
-      //   mapId: 177380,
-      //   decimal: 6,
-      //   type: 'FA1.2',
-      //   tokenId: 0,
-      // },
-      // 'agEUR.e - USDC.e': {
-      //   address: 'KT1XpLzv4tqqsf2aLneDZgEeNFhKkH8JBGXv',
-      //   mapId: 177380,
-      //   decimal: 6,
-      //   type: 'FA1.2',
-      //   tokenId: 0,
-      // },
+      'EURL - CTEZ': {
+        address: 'KT1HFMKcdrLBH5RjC4waPVNprn8aywDEgwog',
+        mapId: 280368,
+        decimal: 6,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+      'agEUR.e - USDC.e': {
+        address: 'KT1CDK8VMGy94sH4Mb6YzMmJX7HTsFqYTFee',
+        mapId: 280378,
+        decimal: 12,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
       'WETH.e - CTEZ': {
         address: 'KT1SDugcNjEbNQe55TdQppiRP1wVDbmxHuF1',
         mapId: 188174,
@@ -5192,53 +5192,53 @@ const Config: IConfig = {
         ],
         inactive: [],
       },
-      // 'EURL - CTEZ': {
-      //   active: [
-      //     {
-      //       LP_TOKEN: 'KT1XpLzv4tqqsf2aLneDZgEeNFhKkH8JBGXv',
-      //       CONTRACT: 'KT1P3MUj7ZY1pak1szf41vxtuqz7AVMgCLhj',
-      //       DEX: 'KT1Dhy1gVW3PSC9cms9QJ7xPMPPpip2V9aA6',
-      //       TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-      //       CARD_TYPE: 'EURL / CTEZ PNLP',
-      //       TOKEN_DECIMAL: 6,
-      //       TYPE: 'FA1.2',
-      //       LP_DECIMAL: 6,
-      //       TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-      //       DECIMAL: 18,
-      //       withdrawalFeeType: 'type2',
-      //       liquidityLink: '/liquidity/add?tokenA=ctez&tokenB=USDC.e',
-      //       message: '😍 New farm',
-      //       bannerType: 'info',
-      //       isDualFarm: false,
-      //       farmType: 'veAMM',
-      //     },
-      //   ],
-      //   inactive: [],
-      // },
+      'EURL - CTEZ': {
+        active: [
+          {
+            LP_TOKEN: 'KT1HFMKcdrLBH5RjC4waPVNprn8aywDEgwog',
+            CONTRACT: 'KT1XaHdsQAh4EZkjgvwRFBkXpqh6rFAP2cXM',
+            DEX: 'KT1LqEgLikLE2obnyzgPJA6vMtnnG5agXVCn',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            CARD_TYPE: 'EURL / CTEZ PNLP',
+            TOKEN_DECIMAL: 6,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 6,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+            liquidityLink: '/liquidity/add?tokenA=EURL&tokenB=ctez',
+            message: '😍 New farm',
+            bannerType: 'info',
+            isDualFarm: false,
+            farmType: 'veAMM',
+          },
+        ],
+        inactive: [],
+      },
 
-      // 'agEUR.e - USDC.e': {
-      //   active: [
-      //     {
-      //       LP_TOKEN: 'KT1XpLzv4tqqsf2aLneDZgEeNFhKkH8JBGXv',
-      //       CONTRACT: 'KT1P3MUj7ZY1pak1szf41vxtuqz7AVMgCLhj',
-      //       DEX: 'KT1Dhy1gVW3PSC9cms9QJ7xPMPPpip2V9aA6',
-      //       TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-      //       CARD_TYPE: 'agEUR.e / USDC.e PNLP',
-      //       TOKEN_DECIMAL: 6,
-      //       TYPE: 'FA1.2',
-      //       LP_DECIMAL: 6,
-      //       TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
-      //       DECIMAL: 18,
-      //       withdrawalFeeType: 'type2',
-      //       liquidityLink: '/liquidity/add?tokenA=ctez&tokenB=USDC.e',
-      //       message: '😍 New farm',
-      //       bannerType: 'info',
-      //       isDualFarm: false,
-      //       farmType: 'veAMM',
-      //     },
-      //   ],
-      //   inactive: [],
-      // },
+      'agEUR.e - USDC.e': {
+        active: [
+          {
+            LP_TOKEN: 'KT1CDK8VMGy94sH4Mb6YzMmJX7HTsFqYTFee',
+            CONTRACT: 'KT1JZPj4AwDSNNfmjWNJU3qqxobdAwt1KS1b',
+            DEX: 'KT1KZ93C79SqZw5CLUwwbLPxA5CwVGyKD365',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            CARD_TYPE: 'agEUR.e / USDC.e PNLP',
+            TOKEN_DECIMAL: 12,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 12,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+            liquidityLink: '/liquidity/add?tokenA=agEUR.e&tokenB=USDC.e',
+            message: '😍 New farm',
+            bannerType: 'info',
+            isDualFarm: false,
+            farmType: 'veAMM',
+          },
+        ],
+        inactive: [],
+      },
 
       'WETH.e - CTEZ': {
         active: [
