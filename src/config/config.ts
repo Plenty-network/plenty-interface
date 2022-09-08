@@ -5760,7 +5760,7 @@ const Config: IConfig = {
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=tez',
             isDualFarm: true,
-            message: '😍 Dual rewards when baking starts',
+            message: '😍 Dual rewards',
             bannerType: 'info',
             farmType: 'xtz',
           },
