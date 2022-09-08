@@ -1768,7 +1768,7 @@ const getPriceForPlentyLpTokens = async (
       tokenData['token2'] = {
         tokenName: 'USDC.e',
         tokenValue: tokenPricesData[idx2].usdValue,
-        tokenDecimal: 18,
+        tokenDecimal: 6,
       };
 
       let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
@@ -1809,7 +1809,7 @@ const getPriceForPlentyLpTokens = async (
       tokenData['token1'] = {
         tokenName: 'EURL',
         tokenValue: tokenPricesData[idx].usdValue,
-        tokenDecimal: 18,
+        tokenDecimal: 6,
       };
 
       tokenData['token2'] = {
