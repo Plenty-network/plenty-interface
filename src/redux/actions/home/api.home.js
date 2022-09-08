@@ -605,7 +605,9 @@ export const getStorageForFarms = async (isActive, tokenPricesData) => {
           key === 'uUSD - USDt' ||
           key === 'kUSD - USDt' ||
           key === 'BUSD.e - USDC.e' ||
-          key === 'USDt - ctez'
+          key === 'USDt - ctez' ||
+          key === 'EURL - CTEZ' ||
+          key === 'agEUR.e - USDC.e'
         ) {
           dexPromises.push(
             getPriceForPlentyLpTokens(
@@ -1719,6 +1721,100 @@ const getPriceForPlentyLpTokens = async (
       tokenData['token2'] = {
         tokenName: 'USDt',
         tokenValue: tokenPricesData[idx2].usdValue,
+        tokenDecimal: 6,
+      };
+
+      let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
+
+      token1Amount =
+        (token1Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
+
+      let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
+
+      token2Amount =
+        (token2Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
+
+      const totalAmount = (token1Amount + token2Amount).toFixed(2);
+      return {
+        success: true,
+        identifier,
+        totalAmount,
+      };
+    }
+    else if (identifier === 'agEUR.e - USDC.e'){
+      const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
+      const token2Pool = parseInt(storageResponse.data.args[3].int);
+      const lpTokenTotalSupply = parseInt(storageResponse.data.args[4].int);
+
+      const tokenData = {};
+
+      const agEURPrice = await getagEURePrice();
+
+      let idx2;
+      for (const x in tokenPricesData) {
+        if (tokenPricesData[x].symbol === 'wUSDC') {
+          idx2 = x;
+        }
+      }
+
+      tokenData['token1'] = {
+        tokenName: 'agEUR.e',
+        tokenValue: agEURPrice.agEUReInUSD,
+        tokenDecimal: 18,
+      };
+
+      tokenData['token2'] = {
+        tokenName: 'USDC.e',
+        tokenValue: tokenPricesData[idx2].usdValue,
+        tokenDecimal: 6,
+      };
+
+      let token1Amount = (Math.pow(10, lpTokenDecimal) * token1Pool) / lpTokenTotalSupply;
+
+      token1Amount =
+        (token1Amount * tokenData['token1'].tokenValue) /
+        Math.pow(10, tokenData['token1'].tokenDecimal);
+
+      let token2Amount = (Math.pow(10, lpTokenDecimal) * token2Pool) / lpTokenTotalSupply;
+
+      token2Amount =
+        (token2Amount * tokenData['token2'].tokenValue) /
+        Math.pow(10, tokenData['token2'].tokenDecimal);
+
+      const totalAmount = (token1Amount + token2Amount).toFixed(2);
+      return {
+        success: true,
+        identifier,
+        totalAmount,
+      };
+    }
+    else if (identifier === 'EURL - CTEZ'){
+      const token1Pool = parseInt(storageResponse.data.args[1].args[0].args[1].int);
+      const token2Pool = parseInt(storageResponse.data.args[3].int);
+      const lpTokenTotalSupply = parseInt(storageResponse.data.args[4].int);
+
+      const tokenData = {};
+
+      let idx;
+      for (const x in tokenPricesData) {
+        if (tokenPricesData[x].symbol === 'EURL') {
+          idx = x;
+        }
+      }
+
+      const ctezPrice = await getCtezPrice();
+      
+      tokenData['token1'] = {
+        tokenName: 'EURL',
+        tokenValue: tokenPricesData[idx].usdValue,
+        tokenDecimal: 6,
+      };
+
+      tokenData['token2'] = {
+        tokenName: 'ctez',
+        tokenValue: ctezPrice.ctezPriceInUSD,
         tokenDecimal: 6,
       };
 
