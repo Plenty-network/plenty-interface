@@ -293,6 +293,9 @@
   line-height: 22px;
   letter-spacing: 0px;
   color: var(--theme-primary-button-bg);
+  :hover {
+    color: var(--theme-primary-button-bg);
+  }
   .learn-more {
     color: var(--theme-primary-button-bg);
   }
