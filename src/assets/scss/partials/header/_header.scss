@@ -39,7 +39,7 @@
   line-height: 18px;
   letter-spacing: 0em;
   color: var(--theme-banner-text);
-  margin-right: 24px;
+  margin-right: 12px;
   @media screen and (min-width: 320px) and (max-width: 992px) {
     margin-right: 12px;
   }
@@ -476,8 +476,8 @@
   position: fixed;
   z-index: 1112;
   width: 100%;
-  // top: 125.5px;
-  top: 84.5px;
+  top: 125.5px;
+  //top: 84.5px;
   @media screen and (min-width: 320px) and (max-width: 992px) {
     padding: 10px 20px;
     background-color: var(--theme-bg-header);
