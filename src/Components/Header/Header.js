@@ -444,7 +444,7 @@ const Header = (props) => {
             selectedHeader={selectedHeader}
             isExpanded={isExpanded}
             page={splitLocation[1]}
-            // isBannerOpen={isBannerOpen}
+            isBannerOpen={isBannerOpen}
             {...props}
           />
         </div>

@@ -136,7 +136,7 @@ const HeaderBottom = (props) => {
           className={clsx('headerBottom', 'topToBottomFadeInAnimation-1-header', {
             'pt-0': !props.selectedHeader,
             height: props.selectedHeader === HEADER_MODAL.SETTINGS && nodeSelector,
-            // 'headerBottom-banner': splitLocation[1] === 'wrappedAssets' || !props.isBannerOpen,
+            'headerBottom-banner': !props.isBannerOpen,
           })}
           onMouseLeave={() => isOpen(false)}
         >
@@ -221,9 +221,7 @@ const HeaderBottom = (props) => {
                         <span className="ml-3 material-icons-round launch-icon">launch</span>
                       </div>
                       <div className="flex  para para">
-                        <div className="parainside">
-                          Data analytics of the Plenty bridge.
-                        </div>
+                        <div className="parainside">Data analytics of the Plenty bridge.</div>
                       </div>
                     </a>
                   </div>
@@ -600,6 +598,6 @@ HeaderBottom.propTypes = {
   setLoaderMessage: PropTypes.func.isRequired,
   setNode: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
-  // isBannerOpen: PropTypes.any,
+  isBannerOpen: PropTypes.any,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderBottom);
