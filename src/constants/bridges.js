@@ -13,6 +13,7 @@ import busd_normal from '../assets/images/bridge/tokens/busd_icon.svg';
 import weth_normal from '../assets/images/bridge/tokens/weth_icon.svg';
 import wbtc_normal from '../assets/images/bridge/tokens/wbtc_icon.svg';
 import ageur_normal from '../assets/images/bridge/tokens/agEUR_icon.svg';
+import paxg_normal from '../assets/images/bridge/tokens/paxg_icon.svg';
 import fallbackIcon from '../assets/images/bridge/tokens/fallback_icon.svg';
 
 // Deprecated wrapped tokens
@@ -61,6 +62,7 @@ export const allTokens = {
   WETH: weth_normal,
   WBTC: wbtc_normal,
   agEUR: ageur_normal,
+  PAXG: paxg_normal,
   'DAI.e': dai_normal,
   'LINK.e': link_normal,
   'MATIC.e': matic_normal,
@@ -70,6 +72,7 @@ export const allTokens = {
   'WETH.e': weth_normal,
   'WBTC.e': wbtc_normal,
   'agEUR.e': ageur_normal,
+  'PAXG.e': paxg_normal,
   wAAVE: waave,
   wCEL: wcel,
   wCOMP: wcomp,
