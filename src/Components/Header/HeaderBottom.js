@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Button from '../Ui/Buttons/Button';
 import clsx from 'clsx';
 import { Col, Row } from 'react-bootstrap';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { HEADER_MODAL } from '../../constants/header';
 import Switch from '../Ui/Switch/Switch';
 import useMediaQuery from '../../hooks/mediaQuery';
@@ -13,9 +13,9 @@ import axios from 'axios';
 import { setNode } from '../../redux/slices/settings/settings.slice';
 
 const HeaderBottom = (props) => {
-  const location = useLocation();
+  /* const location = useLocation();
   const { pathname } = location;
-  const splitLocation = pathname.split('/');
+  const splitLocation = pathname.split('/'); */
   const [nodeSelector, setNodeSelector] = useState(false);
   const isMobile = useMediaQuery('(max-width: 991px)');
   const [open, isOpen] = useState(true);
@@ -136,7 +136,7 @@ const HeaderBottom = (props) => {
           className={clsx('headerBottom', 'topToBottomFadeInAnimation-1-header', {
             'pt-0': !props.selectedHeader,
             height: props.selectedHeader === HEADER_MODAL.SETTINGS && nodeSelector,
-            'headerBottom-banner': splitLocation[1] === 'wrappedAssets' || !props.isBannerOpen,
+            'headerBottom-banner': !props.isBannerOpen,
           })}
           onMouseLeave={() => isOpen(false)}
         >
@@ -221,9 +221,7 @@ const HeaderBottom = (props) => {
                         <span className="ml-3 material-icons-round launch-icon">launch</span>
                       </div>
                       <div className="flex  para para">
-                        <div className="parainside">
-                          Data analytics of the Plenty bridge.
-                        </div>
+                        <div className="parainside">Data analytics of the Plenty bridge.</div>
                       </div>
                     </a>
                   </div>

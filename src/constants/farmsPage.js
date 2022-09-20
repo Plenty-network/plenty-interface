@@ -18,6 +18,10 @@ import tzbtcLpFarm from '../assets/images/farms/plenty-tzbtc.png';
 import unoLpFarm from '../assets/images/farms/plenty-uno.png';
 import wrapLpFarm from '../assets/images/farms/plenty-wrap.png';
 import uusdLpFarm from '../assets/images/farms/uusdLpFarm.png';
+
+import EURLCTEZ from '../assets/images/farms/EURLCTEZ.png';
+
+import agEUReUSDCe from '../assets/images/farms/agEUReUSDCe.png';
 import gifDualLpFarm from '../assets/images/plenty-gif-dual-lp.png';
 import gifIcon from '../assets/images/gif-dao-token.png';
 import wdaiLpFarm from '../assets/images/farms/wdaiLpFarm.png';
@@ -194,6 +198,50 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
     isDualFarm: false,
+  },
+  'EURL / CTEZ PNLP': {
+    image: EURLCTEZ,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'EURL / CTEZ PNLP',
+    apr: 0,
+    apy: 0,
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'EURL / CTEZ LP',
+    liquidity: 0,
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
+    url: '/liquidity/add?tokenA=  EURL&tokenB=ctez',
+  },
+  'agEUR.e / USDC.e PNLP': {
+    image: agEUReUSDCe,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'agEUR.e / USDC.e PNLP',
+    apr: 0,
+    apy: 0,
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'agEUR.e / USDC.e LP',
+    liquidity: 0,
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
+    url: '/liquidity/add?tokenA=agEUR.e&tokenB=USDC.e',
   },
   'BUSD.e / USDC.e PNLP': {
     image: busdeusdce,

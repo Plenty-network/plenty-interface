@@ -1,6 +1,6 @@
 import Web3 from 'web3';
 import axios from 'axios';
-import { TezosToolkit, OpKind } from '@taquito/taquito';
+import { TezosToolkit, OpKind, MichelsonMap } from '@taquito/taquito';
 import CONFIG from '../../config/config';
 import { BridgeConfiguration } from '../Config/BridgeConfig';
 import ERC20_ABI from '../../abi/erc20.ts';
@@ -92,7 +92,7 @@ export const getBalanceTez = async (tokenContract, tokenId, userAddress, tokenDe
     const [{ balance }] = await contract.views
       .balance_of([{ owner: userAddress, token_id: tokenId }])
       .read();
-    
+
     return {
       success: true,
       balance: balance.div(10 ** tokenDecimals).toString(),
@@ -492,7 +492,7 @@ export const mintTokens = async (wrapData, chain, setMintReleaseSubmitted) => {
     Tezos.setWalletProvider(wallet);
     const contract = await Tezos.wallet.at(quorumContractAddress);
     const [blockHash, logIndex] = wrapData.id.split(':');
-    
+
     const batch = Tezos.wallet.batch([
       {
         kind: OpKind.TRANSACTION,
@@ -505,7 +505,7 @@ export const mintTokens = async (wrapData, chain, setMintReleaseSubmitted) => {
             wrapData.destination,
             wrapData.amount,
             minterContractAddress,
-            Object.entries(wrapData.signatures),
+            MichelsonMap.fromLiteral(wrapData.signatures),
           )
           .toTransferParams({}),
       },
@@ -561,7 +561,7 @@ export const unwrap = async (chain, amount, tokenIn) => {
     const userData = await getUserAddress();
     const fees = new BigNum(amountToUnwrap.div(new BigNum(10000))).multipliedBy(fee);
     const amountToUnwrapMinusFees = new BigNum(amountToUnwrap).minus(fees);
-    
+
     const op = await contract.methods
       .unwrap_erc20(
         tokenOut.CONTRACT.toLowerCase().substring(2),
@@ -648,7 +648,7 @@ export const releaseTokens = async (unwrapData, chain, setMintReleaseSubmitted) 
       unwrapData.amount,
     ]);
     let result;
-    
+
     await wrapContract.methods
       .execTransaction(
         unwrapData.token,

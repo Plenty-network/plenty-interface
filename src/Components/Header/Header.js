@@ -104,20 +104,23 @@ const Header = (props) => {
         )}
         fluid
       >
-        {splitLocation[1] !== 'wrappedAssets' && isBannerOpen && (
+        {isBannerOpen && (
           <div className="banner" onMouseEnter={() => setHeader('')}>
             <div className="banner-middle">
               <span className="banner-text">
-                {isMobile
-                  ? 'Swap Wrapped Assets now'
-                  : 'Swap wAssets for the new Plenty Bridge tokens BUSD.e, MATIC.e, USDC.e, WBTC.e, WETH.e, LINK.e, and DAI.e.'}
+                {isMobile ? 'Check out the new plenty.network' : 'Check out the new plenty.network'}
               </span>
-              <Link to="/wrappedAssets" className="text-decoration-none">
+              <a
+                className="bottom-last text-decoration-none"
+                href={'https://plenty.network/'}
+                target="_blank"
+                rel="noreferrer"
+              >
                 <span className="bottom-last" style={{ cursor: 'pointer' }}>
-                  Swap now
+                  Explore
                 </span>
                 <BannerArrow className="ml-2" />
-              </Link>
+              </a>
             </div>
             <div className="banner-right">
               <span
@@ -271,12 +274,12 @@ const Header = (props) => {
                       {...(isMobile ? {} : { as: Link, to: '/bridge' })}
                       onMouseEnter={() => setHeader(HEADER_MODAL.BRIDGE)}
                       onClick={() => setHeaderMobile(HEADER_MODAL.BRIDGE)}
-                      style={{position: 'relative'}}
+                      style={{ position: 'relative' }}
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                         Bridge
                       </span>
-                      {isMobile && <span className='bridge-new-tag'>New</span>}
+                      {isMobile && <span className="bridge-new-tag">New</span>}
                       <span
                         className={clsx('material-icons', 'arrow-header', {
                           rotate:
@@ -286,7 +289,14 @@ const Header = (props) => {
                       >
                         expand_more
                       </span>
-                      {!isMobile && <span className='bridge-new-tag' style={{position: 'absolute', right: '-4%', bottom: '75%'}}>New</span>}
+                      {!isMobile && (
+                        <span
+                          className="bridge-new-tag"
+                          style={{ position: 'absolute', right: '-4%', bottom: '75%' }}
+                        >
+                          New
+                        </span>
+                      )}
                     </Nav.Link>
 
                     {selectedHeader === HEADER_MODAL.BRIDGE && isMobile && (
