@@ -1633,7 +1633,7 @@ const Config: IConfig = {
     },
   },
   SERVERLESS_BASE_URL: {
-    mainnet: 'https://w0sujgfj39.execute-api.us-east-2.amazonaws.com/v1',
+    mainnet: 'https://6vst806xp9.execute-api.us-east-2.amazonaws.com/',
     testnet: 'https://testnet.dummy-api.us-east-10.amazonaws.com/v1',
   },
   SERVERLESS_REQUEST: {
