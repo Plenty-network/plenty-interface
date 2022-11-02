@@ -95,7 +95,7 @@ export const allTokens = {
   wUNI: wuni,
   WRAP: wrap,
   'WETH.p': weth_normal,
-  'WMATIC.p': matic_normal,
-  WMATIC: matic_normal,
+  'MATIC.p': matic_normal,
+  // WMATIC: matic_normal,
   fallback: fallbackIcon,
 };

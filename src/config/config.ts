@@ -6828,6 +6828,7 @@ const Config: IConfig = {
     },
     mainnet: {
       ETHEREUM: 'https://bridgemainnetindexer.plentydefi.com/configuration',
+      POLYGON: 'https://polygon-bridge.indexer.plenty.network/v1/configuration'
     },
   },
   EXPLORER_LINKS: {
