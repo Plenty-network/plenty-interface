@@ -5,7 +5,7 @@ import truncateMiddle from 'truncate-middle';
 import { Col, Container, Nav, Navbar, Row, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import clsx from 'clsx';
 import { ReactComponent as Logo } from '../../assets/images/logo.svg';
-// import { ReactComponent as BannerArrow } from '../../assets/images/banner-arrow.svg';
+import { ReactComponent as BannerArrow } from '../../assets/images/banner-arrow.svg';
 import { ReactComponent as LogoWhite } from '../../assets/images/logo-white.svg';
 import { Link, useLocation } from 'react-router-dom';
 import { RPC_NODE } from '../../constants/localStorage';
@@ -27,7 +27,7 @@ const Header = (props) => {
   const [selectedHeader, setSelectedHeader] = useState('');
   const [isExpanded, toggleExpand] = useState(false);
   const [open, setOpen] = useState(false);
-  // const [isBannerOpen, setBannerOpen] = useState(true);
+  const [isBannerOpen, setBannerOpen] = useState(true);
 
   useEffect(() => {
     const RPCNodeInLS = localStorage.getItem(RPC_NODE);
@@ -45,9 +45,9 @@ const Header = (props) => {
     setHeader('');
   }, [splitLocation[1]]);
 
-  // const closeBanner = () => {
-  //   setBannerOpen(false);
-  // };
+  const closeBanner = () => {
+    setBannerOpen(false);
+  };
 
   const connectWalletButton = () => {
     if (props.walletAddress) {
@@ -104,14 +104,23 @@ const Header = (props) => {
         )}
         fluid
       >
-        {/* {isBannerOpen && (
+        {isBannerOpen && (
           <div className="banner" onMouseEnter={() => setHeader('')}>
             <div className="banner-middle">
               <span className="banner-text">
-                {isMobile
-                  ? 'Note: Ethereum Bridge is under maintainance on Tuesday 30th Aug (UTC time zone). Sorry for the inconvinience!'
-                  : 'Note: Ethereum Bridge is under maintainance on Tuesday 30th Aug (UTC time zone). Sorry for the inconvinience!'}
+                {isMobile ? 'Check out the new plenty.network' : 'Check out the new plenty.network'}
               </span>
+              <a
+                className="bottom-last text-decoration-none"
+                href={'https://plenty.network/'}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span className="bottom-last" style={{ cursor: 'pointer' }}>
+                  Explore
+                </span>
+                <BannerArrow className="ml-2" />
+              </a>
             </div>
             <div className="banner-right">
               <span
@@ -123,7 +132,7 @@ const Header = (props) => {
               </span>
             </div>
           </div>
-        )} */}
+        )}
 
         <Row className="removing-margin">
           <Col className={clsx('innerHeader')} sm={12} md={12}>
@@ -435,7 +444,7 @@ const Header = (props) => {
             selectedHeader={selectedHeader}
             isExpanded={isExpanded}
             page={splitLocation[1]}
-            // isBannerOpen={isBannerOpen}
+            isBannerOpen={isBannerOpen}
             {...props}
           />
         </div>

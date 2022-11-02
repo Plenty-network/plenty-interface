@@ -118,24 +118,26 @@ const SwapTab = (props) => {
     secondTokenAmount && setSecondAmount(secondTokenAmount);
     if (props.walletAddress) {
       if (Object.keys(props.tokenOut).length !== 0) {
-        if (
-          (props.tokenIn.name === 'EURL' && props.tokenOut.name !== 'agEUR.e') ||
-          (props.tokenOut.name === 'EURL' && props.tokenIn.name !== 'agEUR.e') ||
-          (props.tokenIn.name === 'agEUR.e' && props.tokenOut.name !== 'EURL') ||
-          (props.tokenOut.name === 'agEUR.e' && props.tokenIn.name !== 'EURL')
-        ) {
-          setErrorMessageOnUI(ERRORMESSAGESWAP);
-        } else if (
-          (props.tokenIn.name === 'EURL' || props.tokenIn.name === 'agEUR.e') &&
-          (props.tokenOut.name === 'EURL' || props.tokenOut.name === 'agEUR.e')
-        ) {
+        //   if (
+        //     (props.tokenIn.name === 'EURL' && props.tokenOut.name !== 'agEUR.e') ||
+        //     (props.tokenOut.name === 'EURL' && props.tokenIn.name !== 'agEUR.e') ||
+        //     (props.tokenIn.name === 'agEUR.e' && props.tokenOut.name !== 'EURL') ||
+        //     (props.tokenOut.name === 'agEUR.e' && props.tokenIn.name !== 'EURL')
+        //   ) {
+        //     setErrorMessageOnUI(ERRORMESSAGESWAP);
+        //   } else if (
+        //     (props.tokenIn.name === 'EURL' || props.tokenIn.name === 'agEUR.e') &&
+        //     (props.tokenOut.name === 'EURL' || props.tokenOut.name === 'agEUR.e')
+        //   ) {
+        //     setErrorMessage(false);
+        //     setMessage('');
+        //   }
+        // } else
+        if (firstTokenAmount > props.userBalances[props.tokenIn.name]) {
+          setErrorMessageOnUI('Insufficient balance');
+        } else {
           setErrorMessage(false);
-          setMessage('');
         }
-      } else if (firstTokenAmount > props.userBalances[props.tokenIn.name]) {
-        setErrorMessageOnUI('Insufficient balance');
-      } else {
-        setErrorMessage(false);
       }
     }
   }, [
