@@ -16,6 +16,7 @@ import wbtc_normal from '../assets/images/bridge/tokens/wbtc_icon.svg';
 import ageur_normal from '../assets/images/bridge/tokens/agEUR_icon.svg';
 import paxg_normal from '../assets/images/bridge/tokens/paxg_icon.svg';
 import aleph_normal from '../assets/images/bridge/tokens/aleph_icon.svg';
+import wmatic_normal from '../assets/images/bridge/tokens/wmatic_icon.svg';
 import fallbackIcon from '../assets/images/bridge/tokens/fallback_icon.svg';
 
 // Deprecated wrapped tokens
@@ -72,6 +73,7 @@ export const allTokens = {
   agEUR: ageur_normal,
   PAXG: paxg_normal,
   ALEPH: aleph_normal,
+  WMATIC: wmatic_normal,
   'DAI.e': dai_normal,
   'LINK.e': link_normal,
   'MATIC.e': matic_normal,
@@ -98,7 +100,6 @@ export const allTokens = {
   wUNI: wuni,
   WRAP: wrap,
   'WETH.p': weth_normal,
-  'MATIC.p': matic_normal,
-  // WMATIC: matic_normal,
+  'WMATIC.p': wmatic_normal,
   fallback: fallbackIcon,
 };
