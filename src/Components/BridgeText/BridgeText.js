@@ -16,7 +16,7 @@ const BridgeText = () => {
         <Row>
           <h2 className={styles.heading}>Plenty bridge</h2>
           <h6 className={`mt-3 ${styles.description}`}>
-            Transfer your tokens from Ethereum to Tezos within five minutes.
+            Transfer your tokens from Ethereum & Polygon to Tezos easily.
           </h6>
           <div className={`mt-2  ${styles.lineBottom} `}></div>
         </Row>
