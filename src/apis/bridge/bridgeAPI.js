@@ -137,13 +137,11 @@ export const approveToken = async (tokenIn, chain, amount) => {
       .approve(wrapContractAddress, amountToAprove.toFixed(0)).estimateGas({from: userAddress},function(error, gasAmount){
         if(!error) {
           gasEstimate = gasAmount;
-          console.log(gasAmount);
         } else {
           console.log(error);
         }
       });
       gasPrice = await web3.eth.getGasPrice();
-      console.log(gasPrice);
     }
     let result;
     await tokenContract.methods
@@ -219,7 +217,6 @@ export const wrap = async (tokenIn, chain, amount, tzAddress) => {
       .wrapERC20(tokenContractAddress, amountToWrap.toFixed(0), tzAddress).estimateGas({from: userAddress},function(error, gasAmount){
         if(!error) {
           gasEstimate = gasAmount;
-          console.log(gasAmount);
         } else {
           console.log(error);
         }
@@ -507,7 +504,6 @@ export const releaseTokens = async (unwrapData, chain, setMintReleaseSubmitted) 
       ).estimateGas({from: userAddress},function(error, gasAmount){
         if(!error) {
           gasEstimate = gasAmount;
-          console.log(gasAmount);
         } else {
           console.log(error);
         }
