@@ -134,7 +134,7 @@ export const approveToken = async (tokenIn, chain, amount) => {
     let gasPrice = undefined;
     if(chain === 'POLYGON'){
       await tokenContract.methods
-      .approve(wrapContractAddress, amountToAprove).estimateGas({from: userAddress},function(error, gasAmount){
+      .approve(wrapContractAddress, amountToAprove.toFixed(0)).estimateGas({from: userAddress},function(error, gasAmount){
         if(!error) {
           gasEstimate = gasAmount;
           console.log(gasAmount);
@@ -148,20 +148,16 @@ export const approveToken = async (tokenIn, chain, amount) => {
     let result;
     await tokenContract.methods
       .approve(wrapContractAddress, amountToAprove.toFixed(0))
-      .send(
-        gasEstimate && gasPrice && chain === 'POLYGON'
-          ? {
-              from: userAddress,
-              gasPrice: web3.utils.toHex(
-                new BigNum(gasPrice).multipliedBy(11).dividedBy(10).toString(),
-              ),
-              gas: Number(gasEstimate),
-              // value: web3.utils.toWei(amountToAprove.toFixed(0), 'matic'),
-            }
-          : {
-              from: userAddress,
-            },
-      )
+      .send(gasEstimate && gasPrice && chain==='POLYGON'? {
+        from: userAddress,
+        gasPrice: web3.utils.toHex(web3.utils.toBN(gasPrice)
+        .mul(web3.utils.toBN(11))
+        .div(web3.utils.toBN(10))),
+        gas: Number(gasEstimate),
+        // value: web3.utils.toWei(amountToAprove.toFixed(0), 'matic'),
+      } : {
+        from: userAddress,
+      })
       .on('receipt', function (receipt) {
         result = {
           success: true,
