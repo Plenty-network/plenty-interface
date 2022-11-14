@@ -143,6 +143,7 @@ export const approveToken = async (tokenIn, chain, amount) => {
         }
       });
       gasPrice = await web3.eth.getGasPrice();
+      console.log(gasPrice);
     }
     let result;
     await tokenContract.methods
