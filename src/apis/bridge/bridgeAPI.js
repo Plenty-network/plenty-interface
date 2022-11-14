@@ -134,10 +134,9 @@ export const approveToken = async (tokenIn, chain, amount) => {
     let gasPrice = undefined;
     if(chain === 'POLYGON'){
       await tokenContract.methods
-      .approve(wrapContractAddress, amountToAprove).estimateGas({from: userAddress},function(error, gasAmount){
+      .approve(wrapContractAddress, amountToAprove.toFixed(0)).estimateGas({from: userAddress},function(error, gasAmount){
         if(!error) {
           gasEstimate = gasAmount;
-          console.log(gasAmount);
         } else {
           console.log(error);
         }
@@ -165,6 +164,7 @@ export const approveToken = async (tokenIn, chain, amount) => {
         };
       })
       .on('error', function (error) {
+        console.log(error);
         result = {
           success: false,
           error: error,
@@ -173,6 +173,7 @@ export const approveToken = async (tokenIn, chain, amount) => {
 
     return result;
   } catch (e) {
+    console.log(e);
     return {
       success: false,
       error: e,
@@ -216,7 +217,6 @@ export const wrap = async (tokenIn, chain, amount, tzAddress) => {
       .wrapERC20(tokenContractAddress, amountToWrap.toFixed(0), tzAddress).estimateGas({from: userAddress},function(error, gasAmount){
         if(!error) {
           gasEstimate = gasAmount;
-          console.log(gasAmount);
         } else {
           console.log(error);
         }
@@ -504,7 +504,6 @@ export const releaseTokens = async (unwrapData, chain, setMintReleaseSubmitted) 
       ).estimateGas({from: userAddress},function(error, gasAmount){
         if(!error) {
           gasEstimate = gasAmount;
-          console.log(gasAmount);
         } else {
           console.log(error);
         }
