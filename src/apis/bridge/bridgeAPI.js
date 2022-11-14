@@ -131,22 +131,29 @@ export const approveToken = async (tokenIn, chain, amount) => {
       amountToApproveBig.multipliedBy(new BigNum(10).pow(tokenIn.tokenData.DECIMALS)),
     );
     let gasEstimate = undefined;
+    let gasPrice = undefined;
     if(chain === 'POLYGON'){
       await tokenContract.methods
       .approve(wrapContractAddress, amountToAprove).estimateGas({from: userAddress},function(error, gasAmount){
         if(!error) {
           gasEstimate = gasAmount;
+          console.log(gasAmount);
         } else {
           console.log(error);
         }
       });
+      gasPrice = await web3.eth.getGasPrice();
     }
     let result;
     await tokenContract.methods
       .approve(wrapContractAddress, amountToAprove.toFixed(0))
-      .send(gasEstimate ? {
+      .send(gasEstimate && gasPrice && chain==='POLYGON'? {
         from: userAddress,
-        gasPrice: String(gasEstimate),
+        gasPrice: web3.utils.toHex(web3.utils.toBN(gasPrice)
+        .mul(web3.utils.toBN(11))
+        .div(web3.utils.toBN(10))),
+        gas: Number(gasEstimate),
+        // value: web3.utils.toWei(amountToAprove.toFixed(0), 'matic'),
       } : {
         from: userAddress,
       })
@@ -202,10 +209,31 @@ export const wrap = async (tokenIn, chain, amount, tzAddress) => {
       amountBig.multipliedBy(new BigNum(10).pow(tokenIn.tokenData.DECIMALS)),
     );
     const wrapContract = new web3.eth.Contract(CUSTODIAN_ABI, wrapContractAddress);
+    let gasEstimate = undefined;
+    let gasPrice = undefined;
+    if(chain === 'POLYGON'){
+      await wrapContract.methods
+      .wrapERC20(tokenContractAddress, amountToWrap.toFixed(0), tzAddress).estimateGas({from: userAddress},function(error, gasAmount){
+        if(!error) {
+          gasEstimate = gasAmount;
+          console.log(gasAmount);
+        } else {
+          console.log(error);
+        }
+      });
+      gasPrice = await web3.eth.getGasPrice();
+    }
     let result;
     await wrapContract.methods
       .wrapERC20(tokenContractAddress, amountToWrap.toFixed(0), tzAddress)
-      .send({
+      .send(gasEstimate && gasPrice && chain==='POLYGON'? {
+        from: userAddress,
+        gasPrice: web3.utils.toHex(web3.utils.toBN(gasPrice)
+        .mul(web3.utils.toBN(11))
+        .div(web3.utils.toBN(10))),
+        gas: Number(gasEstimate),
+        // value: amountToWrap.toFixed(0),
+      } : {
         from: userAddress,
       })
       .on('receipt', function (receipt) {
@@ -463,6 +491,26 @@ export const releaseTokens = async (unwrapData, chain, setMintReleaseSubmitted) 
       unwrapData.destination,
       unwrapData.amount,
     ]);
+    let gasEstimate = undefined;
+    let gasPrice = undefined;
+    if(chain === 'POLYGON'){
+      await wrapContract.methods
+      .execTransaction(
+        unwrapData.token,
+        0,
+        data,
+        unwrapData.id,
+        buildFullSignature(unwrapData.signatures),
+      ).estimateGas({from: userAddress},function(error, gasAmount){
+        if(!error) {
+          gasEstimate = gasAmount;
+          console.log(gasAmount);
+        } else {
+          console.log(error);
+        }
+      });
+      gasPrice = await web3.eth.getGasPrice();
+    }
     let result;
 
     await wrapContract.methods
@@ -473,7 +521,14 @@ export const releaseTokens = async (unwrapData, chain, setMintReleaseSubmitted) 
         unwrapData.id,
         buildFullSignature(unwrapData.signatures),
       )
-      .send({
+      .send(gasEstimate && gasPrice && chain==='POLYGON'? {
+        from: userAddress,
+        gasPrice: web3.utils.toHex(web3.utils.toBN(gasPrice)
+        .mul(web3.utils.toBN(11))
+        .div(web3.utils.toBN(10))),
+        gas: Number(gasEstimate),
+        // value: amountToWrap.toFixed(0),
+      } : {
         from: userAddress,
       })
       // eslint-disable-next-line
