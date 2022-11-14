@@ -165,6 +165,7 @@ export const approveToken = async (tokenIn, chain, amount) => {
         };
       })
       .on('error', function (error) {
+        console.log(error);
         result = {
           success: false,
           error: error,
@@ -173,6 +174,7 @@ export const approveToken = async (tokenIn, chain, amount) => {
 
     return result;
   } catch (e) {
+    console.log(e);
     return {
       success: false,
       error: e,
