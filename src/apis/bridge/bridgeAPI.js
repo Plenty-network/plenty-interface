@@ -130,10 +130,24 @@ export const approveToken = async (tokenIn, chain, amount) => {
     const amountToAprove = new BigNum(
       amountToApproveBig.multipliedBy(new BigNum(10).pow(tokenIn.tokenData.DECIMALS)),
     );
+    let gasEstimate = undefined;
+    if(chain === 'POLYGON'){
+      await tokenContract.methods
+      .approve(wrapContractAddress, amountToAprove).estimateGas({from: userAddress},function(error, gasAmount){
+        if(!error) {
+          gasEstimate = gasAmount;
+        } else {
+          console.log(error);
+        }
+      });
+    }
     let result;
     await tokenContract.methods
       .approve(wrapContractAddress, amountToAprove.toFixed(0))
-      .send({
+      .send(gasEstimate ? {
+        from: userAddress,
+        gasPrice: String(gasEstimate),
+      } : {
         from: userAddress,
       })
       .on('receipt', function (receipt) {
