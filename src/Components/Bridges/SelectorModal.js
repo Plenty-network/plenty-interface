@@ -76,7 +76,7 @@ const SelectorModal = (props) => {
                 {token.tokenData?.deprecated ? (
                   <span className="deprecated-badge-icon">Deprecated!</span>
                 ) : null}
-                {(token.name === 'agEUR' || token.name === 'agEUR.e') && (
+                {(token.name === 'ALEPH' || token.name === 'ALEPH.e') && (
                   <span className="new-badge-icon">New!</span>
                 )}
                 {token.extra && (
