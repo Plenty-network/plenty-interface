@@ -76,9 +76,10 @@ const SelectorModal = (props) => {
                 {token.tokenData?.deprecated ? (
                   <span className="deprecated-badge-icon">Deprecated!</span>
                 ) : null}
-                {(token.name === 'ALEPH' || token.name === 'ALEPH.e') && (
-                  <span className="new-badge-icon">New!</span>
-                )}
+                {(token.name === 'ALEPH' ||
+                  token.name === 'ALEPH.e' ||
+                  token.name === 'PAXG' ||
+                  token.name === 'PAXG.e') && <span className="new-badge-icon">New!</span>}
                 {token.extra && (
                   <a
                     className="extra-text"
