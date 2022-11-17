@@ -13,9 +13,22 @@ import busd_normal from '../assets/images/bridge/tokens/busd_icon.svg';
 import usdt_normal from '../assets/images/bridge/tokens/usdt_icon.svg';
 import eurl from '../assets/images/eurl.png';
 import ageure from '../assets/images/ageure.png';
-import usdt from '../assets/images/usdt.png'; 
+import usdt from '../assets/images/usdt.png';
+import matic_normal from '../assets/images/bridge/tokens/matic_icon.svg';
+
+import wmaticp from '../assets/images/wmaticP.png';
 
 export const stableSwapTokens = [
+  {
+    name: 'wMATIC.p',
+    image: wmaticp,
+    new: true,
+  },
+  {
+    name: 'MATIC.e',
+    image: matic_normal,
+    new: true,
+  },
   {
     name: 'USDt',
     image: usdt,
