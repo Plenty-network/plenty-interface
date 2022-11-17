@@ -734,6 +734,11 @@ export const getCurrentNetwork = async () => {
     try {
       if (!provider) throw new Error('No crypto wallet found');
       const chainId = await provider.request({ method: 'eth_chainId' });
+      console.log(chainId);
+      console.log(Number(chainId));
+      if (provider.isMetaMask || provider.isWalletLink) {
+        console.log('hello');
+      }
       let networkName;
       if (provider.isMetaMask || provider.isWalletLink)
         networkName = Object.keys(networks).find((key) => networks[key].chainId === chainId);
@@ -741,6 +746,7 @@ export const getCurrentNetwork = async () => {
         networkName = Object.keys(networks).find(
           (key) => networks[key].chainId === `0x${Number(chainId).toString(16)}`,
         );
+      console.log(networkName);
       return networkName;
     } catch (err) {
       console.log(err);
