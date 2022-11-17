@@ -47,7 +47,7 @@ import wmaticp from '../assets/images/wmaticP.png';
 
 export const tokens = [
   {
-    name: 'wMATIC.p',
+    name: 'WMATIC.p',
     image: wmaticp,
     new: true,
   },

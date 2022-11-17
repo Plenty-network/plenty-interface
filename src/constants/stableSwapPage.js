@@ -20,7 +20,7 @@ import wmaticp from '../assets/images/wmaticP.png';
 
 export const stableSwapTokens = [
   {
-    name: 'wMATIC.p',
+    name: 'WMATIC.p',
     image: wmaticp,
     new: true,
   },
