@@ -75,7 +75,8 @@ import ctezSMAK from '../assets/images/farms/ctez-SMAK.png';
 import USDtzUSDCe from '../assets/images/farms/USDtzUSDCe.png';
 import usdteusdce from '../assets/images/farms/usdteusdce.png';
 import EURlagEURe from '../assets/images/farms/EURlagEURe.png';
-
+import WMATICpctez from '../assets/images/farms/WMATICpctez.png';
+import WMATICpMATICe from '../assets/images/farms/WMATICpMATICe.png';
 import busdeusdce from '../assets/images/farms/BUSD.eUSDC.e.png';
 import usdtctez from '../assets/images/farms/USDtctez.png';
 import uusdusdt from '../assets/images/farms/uUSDUSDT.png';
@@ -220,6 +221,50 @@ export const FARMS_CARD_TYPE_LIST = {
     rewards: '1000 PLENTY / DAY',
     isDualFarm: false,
     url: '/liquidity/add?tokenA=  EURL&tokenB=ctez',
+  },
+  'WMATIC.p / CTEZ PNLP': {
+    image: WMATICpctez,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'WMATIC.p / CTEZ PNLP',
+    apr: 0,
+    apy: 0,
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'WMATIC.p / CTEZ LP',
+    liquidity: 0,
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
+    url: '/liquidity/add?tokenA=WMATIC.p&tokenB=ctez',
+  },
+  'WMATIC.p / MATIC.e PNLP': {
+    image: WMATICpMATICe,
+    harvestImg: plentyToken,
+    multi: '100',
+    title: 'WMATIC.p / MATIC.e PNLP',
+    apr: 0,
+    apy: 0,
+    earn: 'PLENTY',
+    fee: '0%',
+    earned: 0,
+    deposit: 'WMATIC.p / MATIC.e LP',
+    liquidity: 0,
+    withdrawalFee: '0%',
+    balance: 0,
+    userBalance: 0,
+    URL: '',
+    active: true,
+    source: 'Plenty LP',
+    rewards: '1000 PLENTY / DAY',
+    isDualFarm: false,
+    url: '/liquidity/add?tokenA=WMATIC.p&tokenB=MATIC.e',
   },
   'agEUR.e / USDC.e PNLP': {
     image: agEUReUSDCe,
