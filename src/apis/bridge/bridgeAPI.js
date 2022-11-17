@@ -739,10 +739,11 @@ export const getCurrentNetwork = async () => {
         networkName = Object.keys(networks).find((key) => networks[key].chainId === chainId);
       else
         networkName = Object.keys(networks).find(
-          (key) => networks[key].chainId === `0x${chainId.toString(16)}`,
+          (key) => networks[key].chainId === `0x${Number(chainId).toString(16)}`,
         );
       return networkName;
     } catch (err) {
+      console.log(err);
       throw new Error(err.message);
     }
   } else {
@@ -829,3 +830,14 @@ export const getActionRequiredCount = async ({ ethereumAddress, tzAddress }) => 
     };
   }
 };
+
+
+function isHexadecimal(str) {
+  const regexp = /^[0-9a-fA-F]+$/;
+
+  if (regexp.test(str)) {
+    return true;
+  } else {
+    return false;
+  }
+}
