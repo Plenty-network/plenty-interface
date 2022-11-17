@@ -30,7 +30,7 @@ const BridgeText = () => {
           <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
             <a
               onClick={() => {
-                setVideoLink('xn-ZrWzjHR0');
+                setVideoLink('Uuvly8mASFc');
                 setShowVideoModal(true);
               }}
               target="_blank"
@@ -41,7 +41,7 @@ const BridgeText = () => {
             </a>
             <a
               onClick={() => {
-                setVideoLink('1FtDG-R8y2g');
+                setVideoLink('y7cU9nuYzDc');
                 setShowVideoModal(true);
               }}
               target="_blank"
