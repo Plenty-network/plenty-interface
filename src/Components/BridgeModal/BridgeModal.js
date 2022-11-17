@@ -557,7 +557,7 @@ const BridgeModal = (props) => {
                   <OverlayTrigger
                     overlay={(props) => (
                       <Tooltip className="connect-wallet-tooltip wallet-message-tooltip" {...props}>
-                        Disconnect Ethereum wallets through wallet.
+                        Disconnect Ethereum & Polygon accounts through your wallet.
                       </Tooltip>
                     )}
                     placement="top"
