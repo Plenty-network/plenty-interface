@@ -5135,7 +5135,8 @@ const Config: IConfig = {
             DECIMAL: 18,
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=WMATIC.p&tokenB=ctez',
-
+            message: '😍 New farm',
+            bannerType: 'info',
             isDualFarm: false,
             farmType: 'veAMM',
           },
@@ -5157,7 +5158,8 @@ const Config: IConfig = {
             DECIMAL: 18,
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=WMATIC.p&tokenB=MATIC.e',
-
+            message: '😍 New farm',
+            bannerType: 'info',
             isDualFarm: false,
             farmType: 'veStableAMM',
           },
