@@ -9,7 +9,7 @@ const Config: IConfig = {
     indexerPrice: 'https://analytics-indexer.plenty.network/analytics/tokens',
   },
   RPC_NODES: {
-    testnet: 'https://ithacanet.smartpy.io/',
+    testnet: 'https://ghostnet.smartpy.io/',
     mainnet: 'https://mifx20dfsr.windmill.tools/',
   },
   TZKT_NODES: {
@@ -228,6 +228,30 @@ const Config: IConfig = {
           ],
           inactive: [],
         },
+
+        'WMATIC.p - ctez': {
+          active: [
+            {
+              address: 'KT1XAPCdjYzt5Q1SRrUqM8ZC4fekasgbEnju',
+              mapId: 331110,
+              decimal: 18,
+              tokenDecimal: 12,
+            },
+          ],
+          inactive: [],
+        },
+        'WMATIC.p - MATIC.e': {
+          active: [
+            {
+              address: 'KT1Eq23cXLKnaGPPkR7hdMHV44GHX356L9Xj',
+              mapId: 331109,
+              decimal: 18,
+              tokenDecimal: 18,
+            },
+          ],
+          inactive: [],
+        },
+
         'BUSD.e - USDC.e': {
           active: [
             {
@@ -1173,6 +1197,22 @@ const Config: IConfig = {
         type: 'FA1.2',
         tokenId: 0,
       },
+      'WMATIC.p - ctez': {
+        address: 'KT1FCXZu12H6G5Ujw8jPdektkuW5kWHEn49D',
+        mapId: 331071,
+        decimal: 12,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+      'WMATIC.p - MATIC.e': {
+        address: 'KT1VBQbNYvD5VGRRMfgovNehtoevXeTMyQWm',
+        mapId: 331074,
+        decimal: 18,
+        type: 'FA1.2',
+        tokenId: 0,
+      },
+
+
       'BUSD.e - USDC.e': {
         address: 'KT1G76qEBDqmAXLCCVg4ZuNbrENsxFe8aECe',
         mapId: 193188,
@@ -2022,6 +2062,53 @@ const Config: IConfig = {
             type: 'veStableAMM',
           },
         },
+      },
+
+      'MATIC.e': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY',
+        mapId: 175082,
+        READ_TYPE: 'FA2',
+        CALL_TYPE: 'FA2',
+        TOKEN_ID: 4,
+        TOKEN_DECIMAL: 18,
+        DEX_PAIRS: {
+          'WMATIC.p': {
+            contract: 'KT1WvoCeiWbSMHJLBGXw4q5W1i1U876GqjAe',
+            property: 'token2_pool',
+            liquidityToken: 'WMATIC.p-MATIC.e-LP',
+            type: 'veStableAMM',
+          },
+        },
+      },
+
+      'WMATIC.p': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1CNyTPmBJ5hcqDPbPkFtoe76LifXyHUvqc',
+        mapId: 331060,
+        READ_TYPE: 'FA2',
+        CALL_TYPE: 'FA2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 18,
+        DEX_PAIRS: {
+          'MATIC.e': {
+            contract: 'KT1WvoCeiWbSMHJLBGXw4q5W1i1U876GqjAe',
+            property: 'token1_pool',
+            liquidityToken: 'WMATIC.p-MATIC.e-LP',
+            type: 'veStableAMM',
+          },
+        },
+      },
+
+      'WMATIC.p-MATIC.e-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1VBQbNYvD5VGRRMfgovNehtoevXeTMyQWm',
+        mapId: 331074,
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 18,
+        CALL_TYPE: 'FA1.2',
+        DEX_PAIRS: {},
       },
 
       'kUSD-USDt-LP': {
@@ -3032,6 +3119,12 @@ const Config: IConfig = {
             liquidityToken: 'matic.e-ctez-LP',
             type: 'veAMM',
           },
+          'WMATIC.p': {
+            contract: 'KT1SmLuyw2gfKme6EkUnEQpamCGMr1mDQVeK',
+            property: 'token1_pool',
+            liquidityToken: 'wmatic.p-ctez-LP',
+            type: 'veAMM',
+          },
           'LINK.e': {
             contract: 'KT1GGaeBoJNxD3ieHtRiJhmcMguVLroksBGn',
             property: 'token1_pool',
@@ -3626,6 +3719,12 @@ const Config: IConfig = {
             liquidityToken: 'matic.e-ctez-LP',
             type: 'veAMM',
           },
+          'WMATIC.p': {
+            contract: 'KT1WvoCeiWbSMHJLBGXw4q5W1i1U876GqjAe',
+            property: 'token2_pool',
+            liquidityToken: 'WMATIC.p-MATIC.e-LP',
+            type: 'veStableAMM',
+          },
         },
       },
 
@@ -3783,6 +3882,52 @@ const Config: IConfig = {
             type: 'veAMM',
           },
         },
+      },
+
+      'WMATIC.p': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1CNyTPmBJ5hcqDPbPkFtoe76LifXyHUvqc',
+        mapId: 331060,
+        READ_TYPE: 'FA2',
+        CALL_TYPE: 'FA2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 18,
+        DEX_PAIRS: {
+          'MATIC.e': {
+            contract: 'KT1WvoCeiWbSMHJLBGXw4q5W1i1U876GqjAe',
+            property: 'token1_pool',
+            liquidityToken: 'WMATIC.p-MATIC.e-LP',
+            type: 'veStableAMM',
+          },
+          ctez: {
+            contract: 'KT1SmLuyw2gfKme6EkUnEQpamCGMr1mDQVeK',
+            property: 'token2_pool',
+            liquidityToken: 'wmatic.p-ctez-LP',
+            type: 'veAMM',
+          },
+        },
+      },
+
+      'wmatic.p-ctez-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1FCXZu12H6G5Ujw8jPdektkuW5kWHEn49D',
+        mapId: 331071,
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 12,
+        CALL_TYPE: 'FA1.2',
+        DEX_PAIRS: {},
+      },
+
+      'WMATIC.p-MATIC.e-LP': {
+        ICON: '',
+        TOKEN_CONTRACT: 'KT1VBQbNYvD5VGRRMfgovNehtoevXeTMyQWm',
+        mapId: 331074,
+        READ_TYPE: 'FA1.2',
+        TOKEN_ID: 0,
+        TOKEN_DECIMAL: 18,
+        CALL_TYPE: 'FA1.2',
+        DEX_PAIRS: {},
       },
 
       'eurl-ctez-LP': {
@@ -4971,6 +5116,52 @@ const Config: IConfig = {
 
             isDualFarm: false,
             farmType: 'veAMM',
+          },
+        ],
+        inactive: [],
+      },
+      'WMATIC.p - ctez': {
+        active: [
+          {
+            LP_TOKEN: 'KT1FCXZu12H6G5Ujw8jPdektkuW5kWHEn49D',
+            CONTRACT: 'KT1XAPCdjYzt5Q1SRrUqM8ZC4fekasgbEnju',
+            DEX: 'KT1SmLuyw2gfKme6EkUnEQpamCGMr1mDQVeK',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            CARD_TYPE: 'WMATIC.p / CTEZ PNLP',
+            TOKEN_DECIMAL: 18,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 12,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+            liquidityLink: '/liquidity/add?tokenA=WMATIC.p&tokenB=ctez',
+            message: '😍 New farm',
+            bannerType: 'info',
+            isDualFarm: false,
+            farmType: 'veAMM',
+          },
+        ],
+        inactive: [],
+      },
+      'WMATIC.p - MATIC.e': {
+        active: [
+          {
+            LP_TOKEN: 'KT1VBQbNYvD5VGRRMfgovNehtoevXeTMyQWm',
+            CONTRACT: 'KT1Eq23cXLKnaGPPkR7hdMHV44GHX356L9Xj',
+            DEX: 'KT1WvoCeiWbSMHJLBGXw4q5W1i1U876GqjAe',
+            TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            CARD_TYPE: 'WMATIC.p / MATIC.e PNLP',
+            TOKEN_DECIMAL: 18,
+            TYPE: 'FA1.2',
+            LP_DECIMAL: 18,
+            TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
+            DECIMAL: 18,
+            withdrawalFeeType: 'type2',
+            liquidityLink: '/liquidity/add?tokenA=WMATIC.p&tokenB=MATIC.e',
+            message: '😍 New farm',
+            bannerType: 'info',
+            isDualFarm: false,
+            farmType: 'veStableAMM',
           },
         ],
         inactive: [],
@@ -6824,15 +7015,19 @@ const Config: IConfig = {
   BRIDGES_INDEXER_LINKS: {
     testnet: {
       RINKEBY: 'https://bridgeindexer.plentydefi.com/v1/configuration',
+      MUMBAI: 'https://bridgepolygontestnetindexer.plentydefi.com/configuration',
     },
     mainnet: {
       ETHEREUM: 'https://bridgemainnetindexer.plentydefi.com/configuration',
+      POLYGON: 'https://polygon-bridge.indexer.plenty.network/v1/configuration'
     },
   },
   EXPLORER_LINKS: {
     RINKEBY: 'https://rinkeby.etherscan.io/tx/',
     ETHEREUM: 'https://etherscan.io/tx/',
     TEZOS: 'https://tzkt.io/',
+    MUMBAI: 'https://mumbai.polygonscan.com/',
+    POLYGON: 'https://polygonscan.com/',
   },
 };
 

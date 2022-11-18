@@ -42,9 +42,15 @@ import link_normal from '../assets/images/bridge/tokens/link_icon.svg';
 import matic_normal from '../assets/images/bridge/tokens/matic_icon.svg';
 import busd_normal from '../assets/images/bridge/tokens/busd_icon.svg';
 import usdt_normal from '../assets/images/bridge/tokens/usdt_icon.svg';
-import usdt from '../assets/images/usdt.png'; 
+import usdt from '../assets/images/usdt.png';
+import wmaticp from '../assets/images/wmaticP.png';
 
 export const tokens = [
+  {
+    name: 'WMATIC.p',
+    image: wmaticp,
+    new: true,
+  },
   {
     name: 'USDt',
     image: usdt,
