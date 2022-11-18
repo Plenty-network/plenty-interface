@@ -5128,7 +5128,7 @@ const Config: IConfig = {
             DEX: 'KT1SmLuyw2gfKme6EkUnEQpamCGMr1mDQVeK',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             CARD_TYPE: 'WMATIC.p / CTEZ PNLP',
-            TOKEN_DECIMAL: 18,
+            TOKEN_DECIMAL: 12,
             TYPE: 'FA1.2',
             LP_DECIMAL: 12,
             TEMP_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
