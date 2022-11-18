@@ -16,7 +16,7 @@ const BridgeText = () => {
         <Row>
           <h2 className={styles.heading}>Plenty bridge</h2>
           <h6 className={`mt-3 ${styles.description}`}>
-            Transfer your tokens from Ethereum to Tezos within five minutes.
+            Transfer your tokens from Ethereum & Polygon to Tezos easily.
           </h6>
           <div className={`mt-2  ${styles.lineBottom} `}></div>
         </Row>
@@ -30,7 +30,7 @@ const BridgeText = () => {
           <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
             <a
               onClick={() => {
-                setVideoLink('xn-ZrWzjHR0');
+                setVideoLink('Uuvly8mASFc');
                 setShowVideoModal(true);
               }}
               target="_blank"
@@ -41,7 +41,7 @@ const BridgeText = () => {
             </a>
             <a
               onClick={() => {
-                setVideoLink('1FtDG-R8y2g');
+                setVideoLink('y7cU9nuYzDc');
                 setShowVideoModal(true);
               }}
               target="_blank"
