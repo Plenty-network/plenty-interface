@@ -136,13 +136,13 @@ const TransactionHistory = (props) => {
     const prevOperation = operation;
     setFirstTokenAmount(selectedData.firstTokenAmount);
     setSecondTokenAmount(selectedData.secondTokenAmount);
-    const currentFromBridge = bridgesList.find((bridge) => bridge.name === selectedData.fromBridge);
+    const currentFromBridge = bridgesList[selectedData.fromBridge];
     setFromBridge({
       name: currentFromBridge.name,
       image: currentFromBridge.bigIcon,
       buttonImage: currentFromBridge.buttonImage,
     });
-    const currentToBridge = bridgesList.find((bridge) => bridge.name === selectedData.toBridge);
+    const currentToBridge = bridgesList[selectedData.toBridge];
     setToBridge({
       name: currentToBridge.name,
       image: currentToBridge.bigIcon,
