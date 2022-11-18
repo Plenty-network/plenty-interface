@@ -218,7 +218,8 @@ const Bridge = (props) => {
       // Check if the tokens list is loaded for the loaded config and if the loaded tokens list has the items for the selected chain. Display NA if no.
       if (
         !loadedTokensList.current ||
-        !Object.prototype.hasOwnProperty.call(loadedTokensList.current, fromBridge.name)
+        !Object.prototype.hasOwnProperty.call(loadedTokensList.current, fromBridge.name) ||
+        loadedTokensList.current[fromBridge.name].length <= 0
       ) {
         setTokenList([]);
         setTokenIn({
@@ -232,7 +233,7 @@ const Bridge = (props) => {
       } else {
         if (fromBridge.name === 'TEZOS') {
           // Check if the tokens list created and config has reference tokens for selected 'TO' chain when 'FROM' is tezos.
-          if (Object.prototype.hasOwnProperty.call(loadedTokensList.current.TEZOS, toBridge.name)) {
+          if (Object.prototype.hasOwnProperty.call(loadedTokensList.current.TEZOS, toBridge.name) && loadedTokensList.current.TEZOS[toBridge.name].length > 0) {
             setTokenList(loadedTokensList.current.TEZOS[toBridge.name]);
             if (!switchButtonPressed.current) {
               // Load USDC.e as default token, if not available then the first token in the list.
