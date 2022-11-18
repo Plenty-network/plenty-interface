@@ -2084,8 +2084,8 @@ const Config: IConfig = {
 
       'WMATIC.p': {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1B8W99p3ep3WjDKkBKanYacFNSuXtD2qxH',
-        mapId: 326083,
+        TOKEN_CONTRACT: 'KT1CNyTPmBJ5hcqDPbPkFtoe76LifXyHUvqc',
+        mapId: 331060,
         READ_TYPE: 'FA2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 0,
@@ -3886,8 +3886,8 @@ const Config: IConfig = {
 
       'WMATIC.p': {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1B8W99p3ep3WjDKkBKanYacFNSuXtD2qxH',
-        mapId: 326083,
+        TOKEN_CONTRACT: 'KT1CNyTPmBJ5hcqDPbPkFtoe76LifXyHUvqc',
+        mapId: 331060,
         READ_TYPE: 'FA2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 0,
