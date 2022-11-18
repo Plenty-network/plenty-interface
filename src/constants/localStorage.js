@@ -7,3 +7,6 @@ export const SWAP_PAGE_ACTIVE_TAB = 'swapPageActiveTab';
 export const BRIDGES_CONFIG = 'bridgesConfig';
 export const BRIDGES_CONFIG_EXPIRY_TIME = 'bridgesConfigExpTime'; 
 export const BRIDGES_CONFIG_POLYGON_LOAD = 'bridgesConfigPolygonLoad';
+export const BRIDGES_FROM_BRIDGE = 'bridgesFromBridge';
+export const BRIDGES_TO_BRIDGE = 'bridgesToBridge';
+export const BRIDGES_CURRENT_CHAIN = 'bridgesCurrentChain';

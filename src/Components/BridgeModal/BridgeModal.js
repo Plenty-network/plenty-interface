@@ -84,9 +84,9 @@ const BridgeModal = (props) => {
   } = props;
 
   const [connectBridgeWallet, setConnectBrigeWallet] = useState({
-    name: fromBridge.name,
-    image: fromBridge.image,
-    buttonImage: fromBridge.buttonImage,
+    name: fromBridge.name === 'TEZOS' ? toBridge.name : fromBridge.name,
+    image: fromBridge.name === 'TEZOS' ? toBridge.image : fromBridge.image,
+    buttonImage: fromBridge.name === 'TEZOS' ? toBridge.buttonImage : fromBridge.buttonImage,
   });
 
   useEffect(() => {
@@ -838,7 +838,7 @@ const BridgeModal = (props) => {
         show={showChain}
         onHide={handleClose}
         selectBridge={selectBridge}
-        tokens={bridgesList}
+        tokens={Object.values(bridgesList)}
         title={'Select a bridge'}
         selector={selector.current}
       />

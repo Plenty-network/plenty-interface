@@ -11,7 +11,7 @@ import { ReactComponent as ethereumButtonIcon } from '../../assets/images/bridge
 import tezos from '../../assets/images/bridge/ic_tezos.svg';
 import { createTokensList } from '../../apis/Config/BridgeConfig';
 import { BridgeConfiguration } from '../../apis/Config/BridgeConfig';
-import { allTokens, DEFAULT_ETHEREUM_TOKEN, DEFAULT_TEZOS_TOKEN } from '../../constants/bridges';
+import { allTokens, bridgesList, DEFAULT_ETHEREUM_TOKEN, DEFAULT_TEZOS_TOKEN } from '../../constants/bridges';
 import TransactionHistory from '../../Components/TransactionHistory/TransactionHistory';
 import BridgeTransferModal from '../../Components/TransferInProgress/BridgeTransferModal';
 import { getCurrentNetwork } from '../../apis/bridge/bridgeAPI';
@@ -21,6 +21,7 @@ import '../Bridge/bridge.scss';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import { connectWallet, disconnectWallet } from '../../apis/bridge/ethereumWalletConnect';
+import { BRIDGES_FROM_BRIDGE, BRIDGES_TO_BRIDGE } from '../../constants/localStorage';
 
 TimeAgo.addDefaultLocale(en);
 
@@ -37,22 +38,40 @@ const Bridge = (props) => {
     name: '',
     image: '',
   });
-  const [fromBridge, setFromBridge] = useState({
-    name: 'ETHEREUM',
-    image: ethereum,
-    buttonImage: ethereumButtonIcon,
-  });
-  const [toBridge, setToBridge] = useState({ name: 'TEZOS', image: tezos, buttonImage: '' });
+  const [fromBridge, setFromBridge] = useState(
+    localStorage.getItem(BRIDGES_FROM_BRIDGE) &&
+      bridgesList[localStorage.getItem(BRIDGES_FROM_BRIDGE)]
+      ? {
+          name: bridgesList[localStorage.getItem(BRIDGES_FROM_BRIDGE)].name,
+          image: bridgesList[localStorage.getItem(BRIDGES_FROM_BRIDGE)].image,
+          buttonImage: bridgesList[localStorage.getItem(BRIDGES_FROM_BRIDGE)].buttonImage,
+        }
+      : {
+          name: 'ETHEREUM',
+          image: ethereum,
+          buttonImage: ethereumButtonIcon,
+        },
+  );
+  const [toBridge, setToBridge] = useState(
+    localStorage.getItem(BRIDGES_TO_BRIDGE) &&
+    bridgesList[localStorage.getItem(BRIDGES_TO_BRIDGE)]
+      ? {
+          name: bridgesList[localStorage.getItem(BRIDGES_TO_BRIDGE)].name,
+          image: bridgesList[localStorage.getItem(BRIDGES_TO_BRIDGE)].image,
+          buttonImage: bridgesList[localStorage.getItem(BRIDGES_TO_BRIDGE)].buttonImage,
+        }
+      : { name: 'TEZOS', image: tezos, buttonImage: '' },
+  );
   const [fee, setFee] = useState(0);
   const [currentProgress, SetCurrentProgress] = useState(0);
   const [transactionData, setTransactionData] = useState([]);
   const [isApproved, setIsApproved] = useState(false);
   const [metamaskAddress, setMetamaskAddress] = useState(null);
-  const [currentChain, setCurrentChain] = useState(fromBridge.name);
+  const [currentChain, setCurrentChain] = useState(fromBridge.name === 'TEZOS' ? toBridge.name : fromBridge.name);
   const [metamaskChain, setMetamaskChain] = useState(null);
   const loadedTokensList = useRef(null);
   const switchButtonPressed = useRef(false);
-  const operation = useRef('BRIDGE');
+  const operation = useRef(fromBridge.name === 'TEZOS' ? 'UNBRIDGE' : 'BRIDGE');
   const [tokenList, setTokenList] = useState([]);
   const savedFromBridge = useRef(fromBridge);
   const savedToBridge = useRef(toBridge);
@@ -293,6 +312,8 @@ const Bridge = (props) => {
       savedToBridge.current = toBridge;
       savedOperation.current = operation.current;
       setSwitchButtonPressed(false);
+      localStorage.setItem(BRIDGES_FROM_BRIDGE,fromBridge.name);
+      localStorage.setItem(BRIDGES_TO_BRIDGE, toBridge.name);
     } else {
       initialRender.current = false;
     }
@@ -303,19 +324,31 @@ const Bridge = (props) => {
     const tokensListResult = createTokensList();
     if (
       tokensListResult.success &&
-      Object.prototype.hasOwnProperty.call(tokensListResult.data, fromBridge.name)
+      Object.prototype.hasOwnProperty.call(tokensListResult.data, currentChain) &&
+      tokensListResult.data[currentChain].length > 0
     ) {
       loadedTokensList.current = tokensListResult.data;
-      setTokenList(loadedTokensList.current[fromBridge.name]);
+      setTokenList(
+        fromBridge.name === 'TEZOS'
+          ? loadedTokensList.current.TEZOS[toBridge.name]
+          : loadedTokensList.current[fromBridge.name],
+      );
       // Load USDC as default token, if not available then the first token in the list.
       const defaultToken =
-        loadedTokensList.current[fromBridge.name].find(
-          (token) => token.name === DEFAULT_ETHEREUM_TOKEN,
-        ) || loadedTokensList.current[fromBridge.name][0];
+        fromBridge.name === 'TEZOS'
+          ? loadedTokensList.current.TEZOS[toBridge.name].find(
+              (token) => token.name === DEFAULT_TEZOS_TOKEN,
+            ) || loadedTokensList.current.TEZOS[toBridge.name][0]
+          : loadedTokensList.current[fromBridge.name].find(
+              (token) => token.name === DEFAULT_ETHEREUM_TOKEN,
+            ) || loadedTokensList.current[fromBridge.name][0];
       setTokenIn(defaultToken);
 
-      const outTokenName = BridgeConfiguration.getOutTokenBridging(
-        fromBridge.name,
+      const outTokenName = fromBridge.name === 'TEZOS' ? BridgeConfiguration.getOutTokenUnbridging(
+        currentChain,
+        defaultToken.name,
+      ) : BridgeConfiguration.getOutTokenBridging(
+        currentChain,
         defaultToken.name,
       );
       setTokenOut({
