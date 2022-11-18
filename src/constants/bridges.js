@@ -2,6 +2,7 @@
 import ethereum from '../assets/images/bridge/eth.svg';
 import { ReactComponent as ethereumButtonIcon } from '../assets/images/bridge/ethereum_btn_icon.svg';
 import tezos from '../assets/images/bridge/ic_tezos.svg';
+import { ReactComponent as polygonButtonIcon } from '../assets/images/bridge/tokens/matic_icon.svg';
 
 // Tokens
 import dai_normal from '../assets/images/bridge/tokens/dai_icon.svg';
@@ -15,6 +16,7 @@ import wbtc_normal from '../assets/images/bridge/tokens/wbtc_icon.svg';
 import ageur_normal from '../assets/images/bridge/tokens/agEUR_icon.svg';
 import paxg_normal from '../assets/images/bridge/tokens/paxg_icon.svg';
 import aleph_normal from '../assets/images/bridge/tokens/aleph_icon.svg';
+import wmatic_normal from '../assets/images/bridge/tokens/wmatic_icon.svg';
 import fallbackIcon from '../assets/images/bridge/tokens/fallback_icon.svg';
 
 // Deprecated wrapped tokens
@@ -38,20 +40,26 @@ export const CHANGE_NETWORK_PROMPT_DELAY = 3000;
 export const DEFAULT_ETHEREUM_TOKEN = 'USDC';
 export const DEFAULT_TEZOS_TOKEN = 'USDC.e';
 
-export const bridgesList = [
-  {
+export const bridgesList = {
+  ETHEREUM: {
     name: 'ETHEREUM',
     image: ethereum,
     buttonImage: ethereumButtonIcon,
     bigIcon: ethereum,
   },
-  {
+  TEZOS: {
     name: 'TEZOS',
     image: tezos,
     buttonImage: tezos,
     bigIcon: tezos,
   },
-];
+  POLYGON: {
+    name: 'POLYGON',
+    image: matic_normal,
+    buttonImage: polygonButtonIcon,
+    bigIcon: matic_normal,
+  },
+};
 
 export const allTokens = {
   DAI: dai_normal,
@@ -65,6 +73,7 @@ export const allTokens = {
   agEUR: ageur_normal,
   PAXG: paxg_normal,
   ALEPH: aleph_normal,
+  WMATIC: wmatic_normal,
   'DAI.e': dai_normal,
   'LINK.e': link_normal,
   'MATIC.e': matic_normal,
@@ -90,5 +99,7 @@ export const allTokens = {
   wSUSHI: wsushi,
   wUNI: wuni,
   WRAP: wrap,
+  'WETH.p': weth_normal,
+  'WMATIC.p': wmatic_normal,
   fallback: fallbackIcon,
 };
