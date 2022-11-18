@@ -297,7 +297,7 @@ const BridgeModal = (props) => {
 
   const handelClickWithMetaAddedBtn = async () => {
     setIsError(false);
-    if (firstTokenAmount === '' || isNaN(firstTokenAmount) || firstTokenAmount === 0) {
+    if (firstTokenAmount === '' || isNaN(firstTokenAmount) || new BigNumber(firstTokenAmount).isLessThanOrEqualTo(0)) {
       setErrorMessage('Enter an amount to proceed');
       setIsError(true);
     } else if (new BigNumber(firstTokenAmount).gt(new BigNumber(userBalances[tokenIn.name]))) {
