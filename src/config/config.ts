@@ -232,8 +232,8 @@ const Config: IConfig = {
         'WMATIC.p - ctez': {
           active: [
             {
-              address: 'KT1TVnQFLykNWb3cBp5YW2geibWQEY8LRqjT',
-              mapId: 330528,
+              address: 'KT1XAPCdjYzt5Q1SRrUqM8ZC4fekasgbEnju',
+              mapId: 331110,
               decimal: 18,
               tokenDecimal: 12,
             },
@@ -243,8 +243,8 @@ const Config: IConfig = {
         'WMATIC.p - MATIC.e': {
           active: [
             {
-              address: 'KT1PzuaGUtfMBaeoUwCNHjhADMENt1RePwk4',
-              mapId: 330527,
+              address: 'KT1Eq23cXLKnaGPPkR7hdMHV44GHX356L9Xj',
+              mapId: 331109,
               decimal: 18,
               tokenDecimal: 18,
             },
@@ -1198,15 +1198,15 @@ const Config: IConfig = {
         tokenId: 0,
       },
       'WMATIC.p - ctez': {
-        address: 'KT1NG3fdbX5Nyd74D4QCPhffKY2L7jF4CD4d',
-        mapId: 330492,
+        address: 'KT1FCXZu12H6G5Ujw8jPdektkuW5kWHEn49D',
+        mapId: 331071,
         decimal: 12,
         type: 'FA1.2',
         tokenId: 0,
       },
       'WMATIC.p - MATIC.e': {
-        address: 'KT1N8G1TepAwhoK7kR6aMQTwVNhNKPNzftvn',
-        mapId: 330511,
+        address: 'KT1VBQbNYvD5VGRRMfgovNehtoevXeTMyQWm',
+        mapId: 331074,
         decimal: 18,
         type: 'FA1.2',
         tokenId: 0,
@@ -2074,7 +2074,7 @@ const Config: IConfig = {
         TOKEN_DECIMAL: 18,
         DEX_PAIRS: {
           'WMATIC.p': {
-            contract: 'KT1M6y7hXAFfyDWSwfhFWNVQDWYBdgsKFE3t',
+            contract: 'KT1WvoCeiWbSMHJLBGXw4q5W1i1U876GqjAe',
             property: 'token2_pool',
             liquidityToken: 'WMATIC.p-MATIC.e-LP',
             type: 'veStableAMM',
@@ -2084,15 +2084,15 @@ const Config: IConfig = {
 
       'WMATIC.p': {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1B8W99p3ep3WjDKkBKanYacFNSuXtD2qxH',
-        mapId: 326083,
+        TOKEN_CONTRACT: 'KT1CNyTPmBJ5hcqDPbPkFtoe76LifXyHUvqc',
+        mapId: 331060,
         READ_TYPE: 'FA2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 18,
         DEX_PAIRS: {
           'MATIC.e': {
-            contract: 'KT1M6y7hXAFfyDWSwfhFWNVQDWYBdgsKFE3t',
+            contract: 'KT1WvoCeiWbSMHJLBGXw4q5W1i1U876GqjAe',
             property: 'token1_pool',
             liquidityToken: 'WMATIC.p-MATIC.e-LP',
             type: 'veStableAMM',
@@ -2102,8 +2102,8 @@ const Config: IConfig = {
 
       'WMATIC.p-MATIC.e-LP': {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1N8G1TepAwhoK7kR6aMQTwVNhNKPNzftvn',
-        mapId: 330511,
+        TOKEN_CONTRACT: 'KT1VBQbNYvD5VGRRMfgovNehtoevXeTMyQWm',
+        mapId: 331074,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 18,
@@ -3120,7 +3120,7 @@ const Config: IConfig = {
             type: 'veAMM',
           },
           'WMATIC.p': {
-            contract: 'KT1JEidRSv6wkHuRpnqpiwebxdJYsxibgjic',
+            contract: 'KT1SmLuyw2gfKme6EkUnEQpamCGMr1mDQVeK',
             property: 'token1_pool',
             liquidityToken: 'wmatic.p-ctez-LP',
             type: 'veAMM',
@@ -3720,7 +3720,7 @@ const Config: IConfig = {
             type: 'veAMM',
           },
           'WMATIC.p': {
-            contract: 'KT1M6y7hXAFfyDWSwfhFWNVQDWYBdgsKFE3t',
+            contract: 'KT1WvoCeiWbSMHJLBGXw4q5W1i1U876GqjAe',
             property: 'token2_pool',
             liquidityToken: 'WMATIC.p-MATIC.e-LP',
             type: 'veStableAMM',
@@ -3886,21 +3886,21 @@ const Config: IConfig = {
 
       'WMATIC.p': {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1B8W99p3ep3WjDKkBKanYacFNSuXtD2qxH',
-        mapId: 326083,
+        TOKEN_CONTRACT: 'KT1CNyTPmBJ5hcqDPbPkFtoe76LifXyHUvqc',
+        mapId: 331060,
         READ_TYPE: 'FA2',
         CALL_TYPE: 'FA2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 18,
         DEX_PAIRS: {
           'MATIC.e': {
-            contract: 'KT1M6y7hXAFfyDWSwfhFWNVQDWYBdgsKFE3t',
+            contract: 'KT1WvoCeiWbSMHJLBGXw4q5W1i1U876GqjAe',
             property: 'token1_pool',
             liquidityToken: 'WMATIC.p-MATIC.e-LP',
             type: 'veStableAMM',
           },
           ctez: {
-            contract: 'KT1JEidRSv6wkHuRpnqpiwebxdJYsxibgjic',
+            contract: 'KT1SmLuyw2gfKme6EkUnEQpamCGMr1mDQVeK',
             property: 'token2_pool',
             liquidityToken: 'wmatic.p-ctez-LP',
             type: 'veAMM',
@@ -3910,8 +3910,8 @@ const Config: IConfig = {
 
       'wmatic.p-ctez-LP': {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1NG3fdbX5Nyd74D4QCPhffKY2L7jF4CD4d',
-        mapId: 330492,
+        TOKEN_CONTRACT: 'KT1FCXZu12H6G5Ujw8jPdektkuW5kWHEn49D',
+        mapId: 331071,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 12,
@@ -3921,8 +3921,8 @@ const Config: IConfig = {
 
       'WMATIC.p-MATIC.e-LP': {
         ICON: '',
-        TOKEN_CONTRACT: 'KT1N8G1TepAwhoK7kR6aMQTwVNhNKPNzftvn',
-        mapId: 330511,
+        TOKEN_CONTRACT: 'KT1VBQbNYvD5VGRRMfgovNehtoevXeTMyQWm',
+        mapId: 331074,
         READ_TYPE: 'FA1.2',
         TOKEN_ID: 0,
         TOKEN_DECIMAL: 18,
@@ -5123,9 +5123,9 @@ const Config: IConfig = {
       'WMATIC.p - ctez': {
         active: [
           {
-            LP_TOKEN: 'KT1NG3fdbX5Nyd74D4QCPhffKY2L7jF4CD4d',
-            CONTRACT: 'KT1TVnQFLykNWb3cBp5YW2geibWQEY8LRqjT',
-            DEX: 'KT1JEidRSv6wkHuRpnqpiwebxdJYsxibgjic',
+            LP_TOKEN: 'KT1FCXZu12H6G5Ujw8jPdektkuW5kWHEn49D',
+            CONTRACT: 'KT1XAPCdjYzt5Q1SRrUqM8ZC4fekasgbEnju',
+            DEX: 'KT1SmLuyw2gfKme6EkUnEQpamCGMr1mDQVeK',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             CARD_TYPE: 'WMATIC.p / CTEZ PNLP',
             TOKEN_DECIMAL: 18,
@@ -5146,9 +5146,9 @@ const Config: IConfig = {
       'WMATIC.p - MATIC.e': {
         active: [
           {
-            LP_TOKEN: 'KT1N8G1TepAwhoK7kR6aMQTwVNhNKPNzftvn',
-            CONTRACT: 'KT1PzuaGUtfMBaeoUwCNHjhADMENt1RePwk4',
-            DEX: 'KT1M6y7hXAFfyDWSwfhFWNVQDWYBdgsKFE3t',
+            LP_TOKEN: 'KT1VBQbNYvD5VGRRMfgovNehtoevXeTMyQWm',
+            CONTRACT: 'KT1Eq23cXLKnaGPPkR7hdMHV44GHX356L9Xj',
+            DEX: 'KT1WvoCeiWbSMHJLBGXw4q5W1i1U876GqjAe',
             TOKEN_ADDRESS: 'KT1GRSvLoikDsXujKgZPsGLX8k8VvR2Tq95b',
             CARD_TYPE: 'WMATIC.p / MATIC.e PNLP',
             TOKEN_DECIMAL: 18,
