@@ -706,7 +706,7 @@ const BridgeModal = (props) => {
             >
               <div
                 className={`mx-auto flex justify-content-center align-items-center ${styles.arrowSwap}`}
-                onClick={switchHandler}
+                onClick={tokenIn.name !== 'Token NA' ? switchHandler : null}
               >
                 <img src={theme === 'light' ? switchImg : switchImgDark} alt={'switch-image'} />
               </div>
