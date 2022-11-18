@@ -14,7 +14,7 @@ const SelectorModalBridge = (props) => {
       fromTokenName: 'ETHEREUM',
       toTokenImage: tezos,
       toTokenName: 'TEZOS',
-      buttonImage: bridgesList.find((bridge) => bridge.name === 'ETHEREUM').buttonImage,
+      buttonImage: bridgesList['ETHEREUM'].buttonImage,
     },
     {
       name: 'Tezos to Ethereum',
@@ -22,7 +22,7 @@ const SelectorModalBridge = (props) => {
       fromTokenName: 'TEZOS',
       toTokenImage: eth,
       toTokenName: 'ETHEREUM',
-      buttonImage: bridgesList.find((bridge) => bridge.name === 'ETHEREUM').buttonImage,
+      buttonImage: bridgesList['ETHEREUM'].buttonImage,
     },
     {
       name: 'Polygon to Tezos',
@@ -30,7 +30,7 @@ const SelectorModalBridge = (props) => {
       fromTokenName: 'POLYGON',
       toTokenImage: tezos,
       toTokenName: 'TEZOS',
-      buttonImage: bridgesList.find((bridge) => bridge.name === 'POLYGON').buttonImage,
+      buttonImage: bridgesList['POLYGON'].buttonImage,
     },
     {
       name: 'Tezos to Polygon',
@@ -38,7 +38,7 @@ const SelectorModalBridge = (props) => {
       fromTokenName: 'TEZOS',
       toTokenImage: matic_normal,
       toTokenName: 'POLYGON',
-      buttonImage: bridgesList.find((bridge) => bridge.name === 'POLYGON').buttonImage,
+      buttonImage: bridgesList['POLYGON'].buttonImage,
     },
   ];
   return (

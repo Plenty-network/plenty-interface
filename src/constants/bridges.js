@@ -40,26 +40,26 @@ export const CHANGE_NETWORK_PROMPT_DELAY = 3000;
 export const DEFAULT_ETHEREUM_TOKEN = 'USDC';
 export const DEFAULT_TEZOS_TOKEN = 'USDC.e';
 
-export const bridgesList = [
-  {
+export const bridgesList = {
+  ETHEREUM: {
     name: 'ETHEREUM',
     image: ethereum,
     buttonImage: ethereumButtonIcon,
     bigIcon: ethereum,
   },
-  {
+  TEZOS: {
     name: 'TEZOS',
     image: tezos,
     buttonImage: tezos,
     bigIcon: tezos,
   },
-  {
+  POLYGON: {
     name: 'POLYGON',
     image: matic_normal,
     buttonImage: polygonButtonIcon,
     bigIcon: matic_normal,
   },
-];
+};
 
 export const allTokens = {
   DAI: dai_normal,
