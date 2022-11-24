@@ -24,6 +24,7 @@ const BridgeTransferModal = (props) => {
   const [isMintLoading, setIsMintLoading] = useState(false);
   const [isApproveLoading, setIsApproveLoading] = useState(false);
   const [mintReleaseSubmitted, setMintReleaseSubmitted] = useState(false);
+  const [showTwitter, setShowTwitter] = useState(false);
   const approveHash = useRef(null);
   const wrappedUnwrappedData = useRef(null);
   const dispatch = useDispatch();
@@ -71,6 +72,8 @@ const BridgeTransferModal = (props) => {
     isApproved,
     setIsApproved,
     setOpeningFromTransaction,
+    transactionTime,
+    setTransactionTime,
   } = props;
 
   const setBack = (value) => {
@@ -88,6 +91,10 @@ const BridgeTransferModal = (props) => {
     if (operation === 'BRIDGE') {
       const mintResult = await mintTokens(wrappedUnwrappedData.current, fromBridge.name, setMintReleaseSubmitted);
       if (mintResult.success) {
+        if(transactionTime !== null) {
+          const bridgingTime = new Date().getTime() - new Date(transactionTime).getTime();
+          bridgingTime <= 300000 ? setShowTwitter(true) : setShowTwitter(false);
+        }
         setFinalOpHash(mintResult.transactionHash);
         setOpeningFromHistory(false);
         displayMessage({
@@ -117,6 +124,10 @@ const BridgeTransferModal = (props) => {
     } else {
       const releaseResult = await releaseTokens(wrappedUnwrappedData.current, toBridge.name, setMintReleaseSubmitted);
       if (releaseResult.success) {
+        if(transactionTime !== null) {
+          const bridgingTime = new Date().getTime() - new Date(transactionTime).getTime();
+          bridgingTime <= 300000 ? setShowTwitter(true) : setShowTwitter(false);
+        }
         setFinalOpHash(releaseResult.transactionHash);
         setOpeningFromHistory(false);
         displayMessage({
@@ -297,6 +308,7 @@ const BridgeTransferModal = (props) => {
                 setIsApproveLoading={setIsApproveLoading}
                 isApproved={isApproved}
                 setIsApproved={setIsApproved}
+                setTransactionTime={setTransactionTime}
               />
             )}
             {currentProgress === 1 && (
@@ -323,6 +335,7 @@ const BridgeTransferModal = (props) => {
                 finalOpHash={finalOpHash}
                 openingFromHistory={openingFromHistory}
                 tokenIn={tokenIn}
+                showTwitter={showTwitter}
               />
             )}
           </div>
@@ -357,6 +370,8 @@ BridgeTransferModal.propTypes = {
   isApproved: PropTypes.any,
   setIsApproved: PropTypes.any,
   setOpeningFromTransaction: PropTypes.any,
+  transactionTime: PropTypes.any,
+  setTransactionTime: PropTypes.any,
 };
 
 export default BridgeTransferModal;

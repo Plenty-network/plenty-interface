@@ -1,4 +1,3 @@
-import Web3 from 'web3';
 import axios from 'axios';
 import { TezosToolkit, OpKind, MichelsonMap } from '@taquito/taquito';
 import CONFIG from '../../config/config';
@@ -7,7 +6,7 @@ import ERC20_ABI from '../../abi/erc20.ts';
 import CUSTODIAN_ABI from '../../abi/custodianContract.ts';
 import { BeaconWallet } from '@taquito/beacon-wallet';
 import { CheckIfWalletConnected } from '../wallet/wallet';
-import { BigNumber, ethers } from 'ethers';
+import { ethers } from 'ethers';
 import { networks } from '../Config/networks';
 import { connectWallet } from './ethereumWalletConnect';
 import { BigNumber as BigNum } from 'bignumber.js';
@@ -105,215 +104,6 @@ export const getBalanceTez = async (tokenContract, tokenId, userAddress, tokenDe
   }
 };
 
-export const getApproveTxCost = async (tokenIn, chain, amount) => {
-  const web3 = new Web3(window.ethereum);
-  const userData = await getUserAddress();
-  if (userData.success && userData.address) {
-    const userAddress = userData.address;
-    const wrapContractAddress = BridgeConfiguration.getWrapContract(chain);
-    const tokenContract = new web3.eth.Contract(ERC20_ABI, tokenIn.tokenData.CONTRACT_ADDRESS);
-    const amountToAprove = amount * 10 ** tokenIn.tokenData.DECIMALS;
-    const gas = BigNumber.from(
-      (
-        await tokenContract.methods
-          .approve(wrapContractAddress, amountToAprove.toString())
-          .estimateGas({ from: userAddress })
-      ).toString(),
-    );
-    const gasPrice = BigNumber.from((await web3.eth.getGasPrice()).toString());
-    const txCost = ethers.utils.formatEther(gas.mul(gasPrice));
-    return {
-      success: true,
-      txCost: txCost,
-    };
-  } else {
-    return {
-      success: false,
-      txCost: 0,
-      error: userData.error,
-    };
-  }
-};
-
-export const getWrapTxCost = async (tokenIn, chain, amount, tzAddress) => {
-  const userData = await getUserAddress();
-  if (userData.success && userData.address) {
-    const web3 = new Web3(window.ethereum);
-    const tokenContractAddress = tokenIn.tokenData.CONTRACT_ADDRESS;
-    const wrapContractAddress = BridgeConfiguration.getWrapContract(chain);
-    const wrapContract = new web3.eth.Contract(CUSTODIAN_ABI, wrapContractAddress);
-    const amountToAprove = amount * 10 ** tokenIn.tokenData.DECIMALS;
-    const gas = BigNumber.from(
-      (
-        await wrapContract.methods
-          .wrapERC20(tokenContractAddress, amountToAprove.toString(), tzAddress)
-          .estimateGas({ from: userData.address })
-      ).toString(),
-    );
-    const gasPrice = BigNumber.from((await web3.eth.getGasPrice()).toString());
-    const txCost = ethers.utils.formatEther(gas.mul(gasPrice));
-    return {
-      success: true,
-      txCost: txCost,
-      unit: 'ETH',
-    };
-  } else {
-    return {
-      success: false,
-      txCost: 0,
-      error: userData.error,
-    };
-  }
-};
-
-export const getReleaseTxCost = async (unwrapData, chain) => {
-  const web3 = new Web3(window.ethereum);
-  const userData = await getUserAddress();
-  if (userData.success && userData.address) {
-    const wrapContractAddress = BridgeConfiguration.getWrapContract(chain);
-    const wrapContract = new web3.eth.Contract(CUSTODIAN_ABI, wrapContractAddress);
-    const erc20Interface = new ethers.utils.Interface(ERC20_ABI);
-    const data = erc20Interface.encodeFunctionData('transfer', [
-      unwrapData.destination,
-      unwrapData.amount,
-    ]);
-
-    const gas = BigNumber.from(
-      (
-        await wrapContract.methods
-          .execTransaction(
-            unwrapData.token,
-            0,
-            data,
-            unwrapData.id,
-            buildFullSignature(unwrapData.signatures),
-          )
-          .estimateGas({ from: userData.address })
-      ).toString(),
-    );
-    const gasPrice = BigNumber.from((await web3.eth.getGasPrice()).toString());
-    const txCost = ethers.utils.formatEther(gas.mul(gasPrice));
-    return {
-      success: true,
-      txCost: txCost,
-      unit: 'ETH',
-    };
-  } else {
-    return {
-      success: false,
-      txCost: 0,
-      error: userData.error,
-    };
-  }
-};
-
-export const getMintTxCost = async (wrapData, chain) => {
-  try {
-    const connectedNetwork = CONFIG.NETWORK;
-    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
-    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
-
-    const network = {
-      type: CONFIG.WALLET_NETWORK,
-    };
-    const options = {
-      name: CONFIG.NAME,
-    };
-    const wallet = new BeaconWallet(options);
-    const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
-    if (!WALLET_RESP.success) {
-      throw new Error('Wallet connection failed');
-    }
-    const minterContractAddress = BridgeConfiguration.getTezosMinterContract(chain);
-    const quorumContractAddress = BridgeConfiguration.getTezosQourumContract(chain);
-    const Tezos = new TezosToolkit(rpcNode);
-    Tezos.setRpcProvider(rpcNode);
-    Tezos.setWalletProvider(wallet);
-    const contract = await Tezos.wallet.at(quorumContractAddress);
-    const [blockHash, logIndex] = wrapData.id.split(':');
-
-    const op = contract.methods
-      .minter(
-        'mint_erc20',
-        wrapData.token.toLowerCase().substring(2),
-        blockHash.substring(2),
-        logIndex,
-        wrapData.destination,
-        wrapData.amount,
-        minterContractAddress,
-        Object.entries(wrapData.signatures),
-      )
-      .toTransferParams({});
-    const estimate = await Tezos.estimate.transfer(op);
-    const txCost = estimate.totalCost / 10 ** 6;
-    return {
-      txCost: txCost,
-      success: true,
-      unit: 'Tez',
-    };
-  } catch (e) {
-    return {
-      success: false,
-      txCost: 0,
-      error: e,
-    };
-  }
-};
-
-export const getUnwrapTxCost = async (chain, amount, tokenIn) => {
-  try {
-    const connectedNetwork = CONFIG.NETWORK;
-    // const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
-    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
-
-    const network = {
-      type: CONFIG.WALLET_NETWORK,
-    };
-    const options = {
-      name: CONFIG.NAME,
-    };
-    const wallet = new BeaconWallet(options);
-    const WALLET_RESP = await CheckIfWalletConnected(wallet, network.type);
-    if (!WALLET_RESP.success) {
-      throw new Error('Wallet connection failed');
-    }
-    const minterContractAddress = BridgeConfiguration.getTezosMinterContract(chain);
-    const fee = BridgeConfiguration.getFeesForChain(chain).UNWRAP_FEES;
-    const tokenOut = BridgeConfiguration.getOutTokenUnbridgingWhole(chain, tokenIn.name);
-    const Tezos = new TezosToolkit(rpcNode);
-    Tezos.setRpcProvider(rpcNode);
-    Tezos.setWalletProvider(wallet);
-    const contract = await Tezos.wallet.at(minterContractAddress);
-    const amountToUnwrap = amount * 10 ** tokenOut.DECIMALS;
-    const userData = await getUserAddress();
-    const fees = (amountToUnwrap / 10000) * fee;
-    const amountToUnwrapMinusFees = amountToUnwrap - fees;
-
-    const op = contract.methods
-      .unwrap_erc20(
-        tokenOut.CONTRACT.toLowerCase().substring(2),
-        amountToUnwrapMinusFees.toString(10),
-        fees.toString(10),
-        userData.address.toLowerCase().substring(2),
-      )
-      .toTransferParams({});
-
-    const estimate = await Tezos.estimate.transfer(op);
-    const txCost = estimate.totalCost / 10 ** 6;
-    return {
-      txCost: txCost,
-      success: true,
-      unit: 'Tez',
-    };
-  } catch (e) {
-    return {
-      success: false,
-      txCost: 0,
-      error: e,
-    };
-  }
-};
-
 /* Approve a token for wrapping, first step of wrapping
 tokenIn: tokenIn Object
 {
@@ -340,10 +130,30 @@ export const approveToken = async (tokenIn, chain, amount) => {
     const amountToAprove = new BigNum(
       amountToApproveBig.multipliedBy(new BigNum(10).pow(tokenIn.tokenData.DECIMALS)),
     );
+    let gasEstimate = undefined;
+    let gasPrice = undefined;
+    if(chain === 'POLYGON'){
+      await tokenContract.methods
+      .approve(wrapContractAddress, amountToAprove.toFixed(0)).estimateGas({from: userAddress},function(error, gasAmount){
+        if(!error) {
+          gasEstimate = gasAmount;
+        } else {
+          console.log(error);
+        }
+      });
+      gasPrice = await web3.eth.getGasPrice();
+    }
     let result;
     await tokenContract.methods
       .approve(wrapContractAddress, amountToAprove.toFixed(0))
-      .send({
+      .send(gasEstimate && gasPrice && chain==='POLYGON'? {
+        from: userAddress,
+        gasPrice: web3.utils.toHex(web3.utils.toBN(gasPrice)
+        .mul(web3.utils.toBN(11))
+        .div(web3.utils.toBN(10))),
+        gas: Number(gasEstimate),
+        // value: web3.utils.toWei(amountToAprove.toFixed(0), 'matic'),
+      } : {
         from: userAddress,
       })
       .on('receipt', function (receipt) {
@@ -354,6 +164,7 @@ export const approveToken = async (tokenIn, chain, amount) => {
         };
       })
       .on('error', function (error) {
+        console.log(error);
         result = {
           success: false,
           error: error,
@@ -362,6 +173,7 @@ export const approveToken = async (tokenIn, chain, amount) => {
 
     return result;
   } catch (e) {
+    console.log(e);
     return {
       success: false,
       error: e,
@@ -398,10 +210,30 @@ export const wrap = async (tokenIn, chain, amount, tzAddress) => {
       amountBig.multipliedBy(new BigNum(10).pow(tokenIn.tokenData.DECIMALS)),
     );
     const wrapContract = new web3.eth.Contract(CUSTODIAN_ABI, wrapContractAddress);
+    let gasEstimate = undefined;
+    let gasPrice = undefined;
+    if(chain === 'POLYGON'){
+      await wrapContract.methods
+      .wrapERC20(tokenContractAddress, amountToWrap.toFixed(0), tzAddress).estimateGas({from: userAddress},function(error, gasAmount){
+        if(!error) {
+          gasEstimate = gasAmount;
+        } else {
+          console.log(error);
+        }
+      });
+      gasPrice = await web3.eth.getGasPrice();
+    }
     let result;
     await wrapContract.methods
       .wrapERC20(tokenContractAddress, amountToWrap.toFixed(0), tzAddress)
-      .send({
+      .send(gasEstimate && gasPrice && chain==='POLYGON'? {
+        from: userAddress,
+        gasPrice: web3.utils.toHex(web3.utils.toBN(gasPrice)
+        .mul(web3.utils.toBN(11))
+        .div(web3.utils.toBN(10))),
+        gas: Number(gasEstimate),
+        // value: amountToWrap.toFixed(0),
+      } : {
         from: userAddress,
       })
       .on('receipt', function (receipt) {
@@ -416,7 +248,14 @@ export const wrap = async (tokenIn, chain, amount, tzAddress) => {
           error: error,
         };
       });
-    return result;
+    const customHttpProvider = new ethers.providers.JsonRpcProvider(networks[chain].rpcUrls[0]);
+    const tx = await customHttpProvider.getTransaction(result.transactionHash);
+    const block = await customHttpProvider.getBlock(tx.blockNumber);
+    const timeStamp = new Date(block.timestamp * 1000);
+    return {
+      ...result,
+      timeStamp: timeStamp,
+    };
   } catch (e) {
     return {
       success: false,
@@ -571,9 +410,14 @@ export const unwrap = async (chain, amount, tokenIn) => {
       )
       .send();
     await op.confirmation();
+    const networkSelected = CONFIG.NETWORK;
+    const tzkt = CONFIG.TZKT_NODES[networkSelected];
+    const data = await axios.get(tzkt + '/v1/operations/' + op.opHash);
+    const timeStamp = new Date(data.data[0].timestamp);
     return {
       success: true,
       txHash: op.opHash,
+      timeStamp,
     };
   } catch (e) {
     return {
@@ -647,6 +491,25 @@ export const releaseTokens = async (unwrapData, chain, setMintReleaseSubmitted) 
       unwrapData.destination,
       unwrapData.amount,
     ]);
+    let gasEstimate = undefined;
+    let gasPrice = undefined;
+    if(chain === 'POLYGON'){
+      await wrapContract.methods
+      .execTransaction(
+        unwrapData.token,
+        0,
+        data,
+        unwrapData.id,
+        buildFullSignature(unwrapData.signatures),
+      ).estimateGas({from: userAddress},function(error, gasAmount){
+        if(!error) {
+          gasEstimate = gasAmount;
+        } else {
+          console.log(error);
+        }
+      });
+      gasPrice = await web3.eth.getGasPrice();
+    }
     let result;
 
     await wrapContract.methods
@@ -657,7 +520,14 @@ export const releaseTokens = async (unwrapData, chain, setMintReleaseSubmitted) 
         unwrapData.id,
         buildFullSignature(unwrapData.signatures),
       )
-      .send({
+      .send(gasEstimate && gasPrice && chain==='POLYGON'? {
+        from: userAddress,
+        gasPrice: web3.utils.toHex(web3.utils.toBN(gasPrice)
+        .mul(web3.utils.toBN(11))
+        .div(web3.utils.toBN(10))),
+        gas: Number(gasEstimate),
+        // value: amountToWrap.toFixed(0),
+      } : {
         from: userAddress,
       })
       // eslint-disable-next-line
@@ -869,10 +739,11 @@ export const getCurrentNetwork = async () => {
         networkName = Object.keys(networks).find((key) => networks[key].chainId === chainId);
       else
         networkName = Object.keys(networks).find(
-          (key) => networks[key].chainId === `0x${chainId.toString(16)}`,
+          (key) => networks[key].chainId === `0x${Number(chainId).toString(16)}`,
         );
       return networkName;
     } catch (err) {
+      console.log(err);
       throw new Error(err.message);
     }
   } else {

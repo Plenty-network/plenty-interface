@@ -5,7 +5,7 @@
 An open source interface for PlentyDeFi V2.1 -- a protocol for decentralized exchange of Tezos tokens.
 
 - Website: [Plenty DeFi](https://plentydefi.com/)
-- Twitter: [@PlentyDeFi](https://twitter.com/PlentyDeFi)
+- Twitter: [@PlentyDeFi](https://twitter.com/plenty_network/)
 - Discord: [Plenty](https://discord.gg/9wZ4CuvkuJ)
 - Telegram: [Plenty](https://t.me/PlentyDeFi)
 

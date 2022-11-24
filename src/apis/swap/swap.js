@@ -2004,6 +2004,8 @@ export const getTokenPrices = async () => {
         tokenPrice[x] = tokenPrice[CONFIG.WRAPPED_ASSETS[connectedNetwork][x].REF_TOKEN];
       }
     }
+    tokenPrice['WMATIC.p'] = tokenPrice['MATIC.e'];
+    tokenPrice['WETH.p'] = tokenPrice['WETH.e'];
     tokenPrice['ctez'] = promisesResponse[1].ctezPriceInUSD;
     tokenPrice['uDEFI'] = promisesResponse[2].uDEFIinUSD;
     tokenPrice['agEUR.e'] = promisesResponse[3].agEUReInUSD;

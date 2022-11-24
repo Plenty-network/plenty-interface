@@ -53,7 +53,7 @@ const TransactionHistory = (props) => {
   const sortButtonRef = useRef(null);
   const filterDivisionRef = useRef(null);
   const sortDivisionRef = useRef(null);
-  const delay = useRef(5000);
+  const delay = useRef(10000);
 
   const {
     setTransaction,
@@ -87,6 +87,7 @@ const TransactionHistory = (props) => {
     displayMessage,
     openingFromTransaction,
     setOpeningFromTransaction,
+    setTransactionTime,
   } = props;
 
   const [animationClass, setAnimationClass] = useState(openingFromTransaction ? 'leftToRightFadeInAnimation-4-bridge' : 'rightToLeftFadeInAnimation-4');
@@ -135,13 +136,13 @@ const TransactionHistory = (props) => {
     const prevOperation = operation;
     setFirstTokenAmount(selectedData.firstTokenAmount);
     setSecondTokenAmount(selectedData.secondTokenAmount);
-    const currentFromBridge = bridgesList.find((bridge) => bridge.name === selectedData.fromBridge);
+    const currentFromBridge = bridgesList[selectedData.fromBridge];
     setFromBridge({
       name: currentFromBridge.name,
       image: currentFromBridge.bigIcon,
       buttonImage: currentFromBridge.buttonImage,
     });
-    const currentToBridge = bridgesList.find((bridge) => bridge.name === selectedData.toBridge);
+    const currentToBridge = bridgesList[selectedData.toBridge];
     setToBridge({
       name: currentToBridge.name,
       image: currentToBridge.bigIcon,
@@ -188,6 +189,7 @@ const TransactionHistory = (props) => {
     setMintUnmintOpHash(selectedData.txHash);
     setFinalOpHash(selectedData.txHash);
       setOpeningFromHistory(true);
+    setTransactionTime(selectedData.timestamp);
     if(selectedData.currentProgress !== 3 && selectedData.chain !== metamaskChain) {
       displayMessage({
         type: 'warning',
@@ -287,6 +289,7 @@ const TransactionHistory = (props) => {
 
   // Handle closing of filter and sort components on clicking of outside of them.
   useEffect(() => {
+    setTransactionTime(null);
     function handleClickOutsideDiv(event) {
       if (filterButtonRef.current && filterDivisionRef.current && !filterButtonRef.current.contains(event.target) && !filterDivisionRef.current.contains(event.target)) {
         setShowFilter((prevState) => (prevState ? !prevState : prevState));
@@ -488,6 +491,7 @@ TransactionHistory.propTypes = {
   displayMessage: PropTypes.any,
   openingFromTransaction: PropTypes.any,
   setOpeningFromTransaction: PropTypes.any,
+  setTransactionTime: PropTypes.any,
 };
 
 export default TransactionHistory;

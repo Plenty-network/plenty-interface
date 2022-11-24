@@ -1,0 +1,208 @@
+
+  .twitter-message-wrapper {
+    position: fixed;
+    bottom: 170px;
+    right: 40px;
+    padding: 20px 21px;
+    background: var(--theme-flash-bg);
+    border: 0.5px solid var(--theme-flash-border);
+    box-sizing: border-box;
+    box-shadow: 0px 11px 44px rgba(16, 3, 34, 0.18);
+    width: 406px;
+    min-height: 93px;
+    border-radius: 8px;
+    z-index: 1001;
+  
+    @media screen and (max-width: 991px) {
+      left: 50%;
+      margin-left: -203px;
+      bottom: 125px;
+    }
+  
+    @media screen and (min-width: 320px) and (max-width: 406px) {
+      width: 100vw;
+      left: 0;
+      margin-left: 0;
+    }
+    >span {
+      vertical-align: middle;
+    }
+  }
+  
+  .title-text {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 22px;
+    letter-spacing: 0px;
+    color: var(--theme-floater-text);
+  }
+  
+  .content-text {
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 22px;
+    letter-spacing: 0px;
+    color: #8A94A6;
+    margin-top: 6px;
+    word-wrap: break-word;
+  }
+  
+  .normalText {
+    color: #8A94A6;
+    margin-bottom: 0px;
+  }
+  
+  .linkTwitterText {
+    button > span {
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 22px;
+        letter-spacing: 0px;
+    }
+    color: #1C97E9;
+    margin-bottom: 0px;
+  }
+  
+  .floater-content {
+    margin-left: 12px;
+    width: 300px;
+  }
+  
+  
+  /*Animations for Desktop*/
+  
+  .leftToRightFadeOutAnimationTM { 
+    -webkit-animation: fadeOut 1s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadeOut 1s; /* Firefox < 16 */
+    -ms-animation: fadeOut 1s; /* Internet Explorer */
+    -o-animation: fadeOut 1s; /* Opera < 12.1 */
+    animation: fadeOut 1s;
+  }
+  
+  .rightToLeftFadeInAnimationTM { 
+    -webkit-animation: fadeIn 1s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadeIn 1s; /* Firefox < 16 */
+    -ms-animation: fadeIn 1s; /* Internet Explorer */
+    -o-animation: fadeIn 1s; /* Opera < 12.1 */
+    animation: fadeIn 1s;
+  }
+  
+  
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+      transform: translateX(0px);
+    }
+    to {
+      opacity: 0.2;
+      transform: translateX(450px);
+    }
+  }
+  
+  
+  /* Firefox < 16 */
+  @-moz-keyframes fadeOut {
+    from {
+      opacity: 1;
+      transform: translateX(0px);
+    }
+    to {
+      opacity: 0.2;
+      transform: translateX(450px);
+    }
+  }
+  
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0.2;
+      transform: translateX(350px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0px);
+    }
+  }
+  
+  
+  /* Firefox < 16 */
+  @-moz-keyframes fadeIn {
+    from {
+      opacity: 0.2;
+      transform: translateX(350px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0px);
+    }
+  }
+  
+  
+  /*Animations for Mobile*/
+  
+  .bottomToTopFadeInAnimation {
+    -webkit-animation: fadeInMob 1s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadeInMob 1s; /* Firefox < 16 */
+    -ms-animation: fadeInMob 1s; /* Internet Explorer */
+    -o-animation: fadeInMob 1s; /* Opera < 12.1 */
+    animation: fadeInMob 1s;
+  }
+  
+  .topToBottomFadeOutAnimation {
+    -webkit-animation: fadeOutMob 1s; /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadeOutMob 1s; /* Firefox < 16 */
+    -ms-animation: fadeOutMob 1s; /* Internet Explorer */
+    -o-animation: fadeOutMob 1s; /* Opera < 12.1 */
+    animation: fadeOutMob 1s;
+  }
+  
+  
+  @keyframes fadeInMob {
+    from {
+      opacity: 0.2;
+      transform: translateY(100px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+  }
+  
+  
+  @-moz-keyframes fadeInMob {
+    from {
+      opacity: 0.2;
+      transform: translateY(100px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+  }
+  
+  
+  @keyframes fadeOutMob {
+    from {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+    to {
+      opacity: 0.2;
+      transform: translateY(100px);
+    }
+  }
+  
+  
+  @-moz-keyframes fadeOutMob {
+    from {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+    to {
+      opacity: 0.2;
+      transform: translateY(100px);
+    }
+  }

@@ -3,7 +3,7 @@ import styles from './Transfer.module.scss';
 import { ReactComponent as FeeBigIcon } from '../../assets/images/bridge/new_trans_fee_icon.svg';
 import { ReactComponent as ProcessSuccess } from '../../assets/images/bridge/process_success.svg';
 import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
-import { useEffect } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import CONFIG from '../../config/config';
 import '../../assets/scss/animation.scss';
 import { useDispatch } from 'react-redux';
@@ -12,8 +12,13 @@ import Lottie from 'lottie-react';
 import loader from '../../assets/images/bridge/loaders/loader_big.json';
 import { titleCase } from '../TransactionHistory/helpers';
 import fromExponential from 'from-exponential';
+import { TwitterShareButton, TwitterIcon } from 'react-share';
+import TwitterShareMessage from '../TwitterShareMessage/TwitterShareMessage';
+import { FLASH_MESSAGE_DURATION } from '../../constants/global';
 
 const DoneModal = (props) => {
+  const [showTwitterFlash, setShowTwitterFlash] = useState(false);
+  const tweetRef = useRef(null);
   const {
     transactionFees,
     currentProgress,
@@ -26,8 +31,13 @@ const DoneModal = (props) => {
     finalOpHash,
     openingFromHistory,
     tokenIn,
+    showTwitter,
   } = props;
   const dispatch = useDispatch();
+
+  const handleTwitterFlashClose = useCallback(() => {
+    setShowTwitterFlash(false);
+  }, [showTwitterFlash]);
 
   useEffect(() => {
     if(currentProgress === numberOfSteps.length - 1) {
@@ -40,6 +50,14 @@ const DoneModal = (props) => {
   useEffect(async () => {
     return () => dispatch(setLoader(false));
   }, []);
+
+  useEffect(() => {
+   if(showTwitter) {
+     setTimeout(() => {
+      setShowTwitterFlash(true);
+     }, 3000);
+   }
+  }, [showTwitter]);
 
   return (
     <>
@@ -55,7 +73,7 @@ const DoneModal = (props) => {
                 </span>
               </div>
             </div>
-            <Lottie animationData={loader} loop={true} style={{height: '45px', width: '45px'}} />
+            <Lottie animationData={loader} loop={true} style={{ height: '45px', width: '45px' }} />
           </div>
         ) : (
           <div
@@ -116,30 +134,47 @@ const DoneModal = (props) => {
           </div>
         </div>
         {currentProgress === numberOfSteps.length && (
-          <div
-            className="borderless mt-3"
-            onClick={() =>
-              window.open(
-                `${
-                  operation === 'BRIDGE'
-                    ? openingFromHistory
-                      ? CONFIG.EXPLORER_LINKS[fromBridge.name]
-                      : CONFIG.EXPLORER_LINKS.TEZOS
-                    : openingFromHistory
-                    ? CONFIG.EXPLORER_LINKS.TEZOS
-                    : CONFIG.EXPLORER_LINKS[toBridge.name]
-                }${finalOpHash}`,
-                '_blank',
-              )
-            }
-          >
-            <p className={`mb-1 mt-1 ${styles.discriptionInfo}`} style={{ width: 'max-content' }}>
-              <span>View on explorer</span>
-              <Link className="ml-2 mb-1" />
-            </p>
-          </div>
+          <>
+            <div
+              className="borderless mt-3"
+              onClick={() =>
+                window.open(
+                  `${
+                    operation === 'BRIDGE'
+                      ? openingFromHistory
+                        ? CONFIG.EXPLORER_LINKS[fromBridge.name]
+                        : CONFIG.EXPLORER_LINKS.TEZOS
+                      : openingFromHistory
+                      ? CONFIG.EXPLORER_LINKS.TEZOS
+                      : CONFIG.EXPLORER_LINKS[toBridge.name]
+                  }${finalOpHash}`,
+                  '_blank',
+                )
+              }
+            >
+              <p className={`mb-1 mt-1 ${styles.discriptionInfo}`} style={{ width: 'max-content' }}>
+                <span>View on explorer</span>
+                <Link className="ml-2 mb-1" />
+              </p>
+            </div>
+            <TwitterShareButton url="https://plentydefi.com/bridge" style={{ height: 'auto' }} ref={tweetRef}>
+              <div className="twitter-btn">
+                <p className={`mb-1 mt-1 ${styles.twitterInfo}`} style={{ width: 'max-content' }}>
+                  <span>Share the Joy on Twitter</span>
+                  <TwitterIcon size={24} round={true} className='ml-1'/>
+                </p>
+              </div>
+            </TwitterShareButton>
+          </>
         )}
       </div>
+      <TwitterShareMessage
+        show={showTwitterFlash}
+        title={'Your bridging was done in less than 5 mins'}
+        onClose={handleTwitterFlashClose}
+        duration={FLASH_MESSAGE_DURATION}
+        tweetRef={tweetRef}
+      />
     </>
   );
 };
@@ -156,6 +191,7 @@ DoneModal.propTypes = {
   finalOpHash: PropTypes.any,
   openingFromHistory: PropTypes.any,
   tokenIn: PropTypes.any,
+  showTwitter: PropTypes.any,
 };
 
 export default DoneModal;

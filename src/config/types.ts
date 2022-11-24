@@ -74,6 +74,8 @@ interface IExplorerLinks {
   ETHEREUM: string;
   TEZOS: string;
   RINKEBY: string;
+  MUMBAI: string;
+  POLYGON: string;
 }
 
 type TTokenType = 'FA2' | 'FA1.2' | 'XTZ';
