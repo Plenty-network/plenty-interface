@@ -2005,6 +2005,7 @@ export const getTokenPrices = async () => {
       }
     }
     tokenPrice['WMATIC.p'] = tokenPrice['MATIC.e'];
+    tokenPrice['WETH.p'] = tokenPrice['WETH.e'];
     tokenPrice['ctez'] = promisesResponse[1].ctezPriceInUSD;
     tokenPrice['uDEFI'] = promisesResponse[2].uDEFIinUSD;
     tokenPrice['agEUR.e'] = promisesResponse[3].agEUReInUSD;
