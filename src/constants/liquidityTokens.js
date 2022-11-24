@@ -45,10 +45,16 @@ import usdt_normal from '../assets/images/bridge/tokens/usdt_icon.svg';
 import usdt from '../assets/images/usdt.png';
 import wmaticp from '../assets/images/wmaticP.png';
 
+
 export const liquidityTokens = [
   {
     name: 'WMATIC.p',
     image: wmaticp,
+    new: true,
+  },
+  {
+    name: 'WETH.p',
+    image: weth_normal,
     new: true,
   },
   {
