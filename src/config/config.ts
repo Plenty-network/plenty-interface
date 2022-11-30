@@ -2119,7 +2119,7 @@ const Config: IConfig = {
         DEX_PAIRS: {
           'WMATIC.p': {
             contract: 'KT1WvoCeiWbSMHJLBGXw4q5W1i1U876GqjAe',
-            property: 'token2_pool',
+            property: 'token1_pool',
             liquidityToken: 'WMATIC.p-MATIC.e-LP',
             type: 'veStableAMM',
           },
@@ -2137,7 +2137,7 @@ const Config: IConfig = {
         DEX_PAIRS: {
           'MATIC.e': {
             contract: 'KT1WvoCeiWbSMHJLBGXw4q5W1i1U876GqjAe',
-            property: 'token1_pool',
+            property: 'token2_pool',
             liquidityToken: 'WMATIC.p-MATIC.e-LP',
             type: 'veStableAMM',
           },
@@ -3800,7 +3800,7 @@ const Config: IConfig = {
           },
           'WMATIC.p': {
             contract: 'KT1WvoCeiWbSMHJLBGXw4q5W1i1U876GqjAe',
-            property: 'token2_pool',
+            property: 'token1_pool',
             liquidityToken: 'WMATIC.p-MATIC.e-LP',
             type: 'veStableAMM',
           },
@@ -3980,7 +3980,7 @@ const Config: IConfig = {
         DEX_PAIRS: {
           'MATIC.e': {
             contract: 'KT1WvoCeiWbSMHJLBGXw4q5W1i1U876GqjAe',
-            property: 'token1_pool',
+            property: 'token2_pool',
             liquidityToken: 'WMATIC.p-MATIC.e-LP',
             type: 'veStableAMM',
           },
