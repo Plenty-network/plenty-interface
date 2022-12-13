@@ -41,7 +41,7 @@ const Governance = (props) => {
       props.getResults();
       setVoteEnded(true);
     }
-  }, [date]);
+  }, []);
   useEffect(() => {
     if (props.walletAddress && voteEnded === false) {
       props.getAlreadyVoted(props.walletAddress);
@@ -126,6 +126,7 @@ const Governance = (props) => {
       <InfoModal
         open={showTransactionSubmitModal}
         InfoMessage={'Vote submitted'}
+        theme={props.theme}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
         buttonText={'View on Block Explorer'}
@@ -137,6 +138,7 @@ const Governance = (props) => {
       />
       <Loader
         loading={props.loading}
+        theme={props.theme}
         loaderMessage={loaderMessage}
         content={'Voted Successfully'}
         onBtnClick={
