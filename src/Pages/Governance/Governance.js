@@ -6,7 +6,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Loader from '../../Components/loader';
-import VoteText from '../../Components/VoteText/VoteText';
+import VoteText30 from '../../Components/VoteText/VoteText-3.0';
 import VoteText10 from '../../Components/VoteText/VoteText-1.0';
 import VoteModalResults10 from '../../Components/VoteModal/VoteModalResults-1.0';
 import VoteText20 from '../../Components/VoteText/VoteText-2.0';
@@ -23,18 +23,21 @@ import {
   checkIfAlreadyVoted,
 } from '../../redux/actions/governance/gov.actions';
 import InfoModal from '../../Components/Ui/Modals/InfoModal';
+import VoteModalResultscopy3 from '../../Components/VoteModal/VoteModalResults-3.0';
+import VoteText4 from '../../Components/VoteText/VoteText';
 
 const Governance = (props) => {
   const isMobile = useMediaQuery('(max-width: 991px)');
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [voteEnded, setVoteEnded] = useState(true);
+  const [voteEnded, setVoteEnded] = useState(false);
   const [loaderMessage, setLoaderMessage] = useState({});
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const date = new Date();
+  const endDate = new Date('20/12/2022');
 
   useEffect(() => {
     // ? voting results modal will be displayed, until next proposal comes up,
-    if (date.getDate()) {
+    if (date > endDate) {
       props.getResults();
       setVoteEnded(true);
     }
@@ -78,10 +81,10 @@ const Governance = (props) => {
 
   return (
     <>
-      <Container className={` ${styles.govContainer3}`} fluid>
+      <Container className={` ${styles.govContainer4}`} fluid>
         <Row className={clsx('row justify-content-center', !isMobile && styles.govContainerInner)}>
           <Col xs={20} sm={8} md={10} lg={6} xl={6}>
-            <VoteText
+            <VoteText4
               gov={props.gov}
               loading={props.loading}
               modalData={props.modalData}
@@ -123,6 +126,7 @@ const Governance = (props) => {
       <InfoModal
         open={showTransactionSubmitModal}
         InfoMessage={'Vote submitted'}
+        theme={props.theme}
         onClose={() => setShowTransactionSubmitModal(false)}
         message={'Transaction submitted'}
         buttonText={'View on Block Explorer'}
@@ -134,6 +138,7 @@ const Governance = (props) => {
       />
       <Loader
         loading={props.loading}
+        theme={props.theme}
         loaderMessage={loaderMessage}
         content={'Voted Successfully'}
         onBtnClick={
@@ -143,6 +148,18 @@ const Governance = (props) => {
         }
       />
       <Loader loading={props.loading} loaderMessage={loaderMessage} />
+      {/* static Governance */}
+      <Container className={` ${styles.govContainer3}`} fluid>
+        <Row className={clsx('row justify-content-center', !isMobile && styles.govContainerInner)}>
+          <Col xs={20} sm={8} md={10} lg={6} xl={6}>
+            <VoteText30 />
+          </Col>
+          <Col xs={20} sm={5} md={10} lg={6} xl={5}>
+            {!isMobile && <VoteModalResultscopy3 />}
+          </Col>
+        </Row>
+      </Container>
+      {/* end of static governance */}
       {/* static Governance */}
       <Container className={` ${styles.govContainerr}`} fluid>
         <Row className={clsx('row justify-content-center', !isMobile && styles.govContainerInner)}>
