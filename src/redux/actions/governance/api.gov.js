@@ -41,7 +41,8 @@ export const submitVote = async (voteNumber, dispatchVoteProcessing) => {
 export const getVoteDataApi = async (status) => {
   if (status) {
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    //const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
     const dexContractAddress = CONFIG.GOVERNANCE.address;
 
     const response = await axios.get(
@@ -77,6 +78,7 @@ export const getVoteDataApi = async (status) => {
       nayTokens: nayTokensCount.toFixed(2),
       absTokens: abstainTokensCount.toFixed(2),
     };
+    console.log('ishu', data);
     return {
       success: true,
       data,
@@ -103,25 +105,26 @@ export const checkVote = async (address) => {
   try {
     const userKey = getPackedKey(address);
     const connectedNetwork = CONFIG.NETWORK;
-    const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
+    const rpcNode = localStorage.getItem(RPC_NODE) ?? CONFIG.RPC_NODES[connectedNetwork];
+    //const rpcNode = CONFIG.RPC_NODES[connectedNetwork];
     const dexContractAddress = CONFIG.GOVERNANCE.address;
     const mapId = CONFIG.GOVERNANCE.mapId;
 
     const response = await axios.get(
       `${rpcNode}chains/main/blocks/head/context/big_maps/${mapId}/${userKey}`,
     );
-
     const response1 = await axios.get(
       `${rpcNode}chains/main/blocks/head/context/contracts/${dexContractAddress}/storage`,
     );
     const proposalString = response1.data.args[0].args[1].args[1].bytes;
-
     if (response.data.bytes === proposalString) {
       return true;
     } else {
+      console.log('checking2');
       return false;
     }
   } catch (error) {
+    console.log('checking catch block');
     return false;
   }
 };
