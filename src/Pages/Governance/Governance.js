@@ -33,7 +33,7 @@ const Governance = (props) => {
   const [loaderMessage, setLoaderMessage] = useState({});
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
   const date = new Date();
-  const endDate = new Date('19/12/2022');
+  const endDate = new Date('20/12/2022');
 
   useEffect(() => {
     // ? voting results modal will be displayed, until next proposal comes up,

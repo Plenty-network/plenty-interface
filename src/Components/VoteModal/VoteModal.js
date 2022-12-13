@@ -270,7 +270,7 @@ const VoteModal = (props) => {
           <div className="mt-3">
             <Clock />
             <span className={`ml-2 ${styles.poll}`}>
-              Voting closes on <b>December 19, 2022</b>
+              Voting closes on <b>December 20, 2022</b>
             </span>
           </div>
           <div className={`my-4 ${styles.line} `}></div>
