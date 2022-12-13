@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Table from '../../assets/images/pip2-image.jpeg';
 import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
 import useMediaQuery from '../../hooks/mediaQuery';
-import VoteModalResults from '../VoteModal/VoteModalResults';
+import VoteModalResultscopy3 from '../VoteModal/VoteModalResults-3.0';
 const VoteText30 = () => {
   const isMobile = useMediaQuery('(max-width: 991px)');
 
@@ -20,7 +20,7 @@ const VoteText30 = () => {
             introduce farms that include Tezos native USDT. Reduce rewards of existing farms and
             close farms attached to liquidity pools with low activity.
           </p>
-          {isMobile && <VoteModalResults />}
+          {isMobile && <VoteModalResultscopy3 />}
           {isMobile && <div className={`mt-2 mx-3 ${styles.lineBottom} `}></div>}
         </Row>
 
