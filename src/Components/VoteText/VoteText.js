@@ -2,23 +2,27 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styles from './voteText.module.scss';
 import Row from 'react-bootstrap/Row';
-import Table from '../../assets/images/pip2-image.jpeg';
 import { ReactComponent as Link } from '../../assets/images/linkIcon.svg';
 import useMediaQuery from '../../hooks/mediaQuery';
 import VoteModal from '../VoteModal/VoteModal';
 import VoteModalResults from '../VoteModal/VoteModalResults';
-const VoteText = (props) => {
+const VoteText4 = (props) => {
   const isMobile = useMediaQuery('(max-width: 991px)');
 
   return (
     <div className=" row justify-content-center">
       <div className=" col-24 col-sm-20 col-md-10 col-lg-10 col-xl-10">
         <Row className={styles.firstRow}>
-          <h6 className={styles.proposalHeading}>Proposal #3 • PIP-003</h6>
-          <h2 className={`mt-3 ${styles.govHeading}`}>More flat CFMM farms, including USDT</h2>
+          <h6 className={styles.proposalHeading}>Proposal #4 • PIP-004</h6>
+          <h2 className={`mt-3 ${styles.govHeading}`}>
+            Allocating not-minted supply of PLENTY to a Plenty Network Treasury at Launch
+          </h2>
 
           <p className={`mt-1  ${styles.proposalInfo}`}>
-          Introduce farms that include “.e” tokens from Ethereum and “.p” tokens from Polygon and introduce farms that include Tezos native USDT. Reduce rewards of existing farms and close farms attached to liquidity pools with low activity.
+            The Tezsure team, the team behind Plenty, proposes a DAO treasury for plenty.network.
+            With the introduction of the new veTokenomics and PLY, we propose to utilize unminted
+            PLENTY tokens for a Plenty Ecosystem Growth Treasury, managed by a DAO. Also included in
+            this proposal: an end date for the minting of PLENTY.
           </p>
           {isMobile &&
             (props.voteEnded ? (
@@ -48,119 +52,82 @@ const VoteText = (props) => {
         <Row className={`${styles.secondRow}`}>
           <h4 className={` ${styles.plentyHeading}`}>Background</h4>
           <p className={`mt-1 ${styles.discription}`}>
-          All new CPMM and flat CFMM liquidity pools are compatible with the new vote escrow (“ve”) system of the Plenty Network. The goal is to attract liquidity in trading pairs compatible with the new Plenty Network before launch of the “ve” system.
+            PlentyDeFi.com was originally co-founded by Tezsure & Draper Goren Holm (DGH), back in
+            May 2021, and together the two entities defined very primitive tokenomics. Part of the
+            co-founder agreement the two entities agreed on splitting the work and the PLENTY
+            accumulating in the dev wallet (~10% of total supply) 50/50 between Tezsure and DGH.
           </p>
           <p className={styles.discription}>
-          Being compatible with the new Plenty Network means that before the launch of the new vote escrow (“ve”) system trading fees accumulate in the liquidity pool. After the launch of the new “ve” system trading fees will be added to the attached gauges and are allocated to vePLY NFT voters.
+            PlentyDeFi.com was started as a yield farm and staking experiment on Tezos, back in May
+            2021, to test if we could bring more liquidity to Tezos, especially from Ethereum, by
+            utilizing bridged assets. Following the experiment we launched the first token-to-token
+            decentralized exchange on Tezos.
+          </p>
+          <p className={styles.discription}>
+            In its own time, the experiment was a great success. Plenty’s TVL crossed 50 million,
+            and 100s of millions USD volume was generated through the Plenty smart contracts.
+            However, the PLENTY token was never properly designed in a way that it automates
+            inflation-based incentives to sustain the growth of the Plenty protocol.
+          </p>
+          <p className={styles.discription}>
+            When we acquired the Wrap Protocol from Bender Labs we saw an opportunity to redo our
+            tokenomics, bring an EVM-Tezos bridge into our product suite, and combine both Plenty
+            and Wrap communities into a new vision of the Plenty Network.
+          </p>
+          <p className={styles.discription}>
+            While designing the PLY tokenomics, we concluded that we won’t be able to allocate more
+            than 5% of the PLY tokens for Growth. Ideally this percentage is around 10%.
+          </p>
+          <p className={styles.discription}>
+            We went ahead with a 5% supply for growth (airdrop and partner program) with the goal of
+            bringing more users from other blockchain ecosystems.
           </p>
           <h4 className={` ${styles.plentyHeading}`}>Motivation</h4>
+          <p className={` ${styles.plentyHeading1} w-[100%]`}>PLENTY</p>
           <p className={styles.discription}>
-            Stablecoin liquidity is important for the Tezos ecosystem. Stableswap pairs + farms with Tezos native USDT paired with either of the two leading algorihmic stablecoins on Tezos <em>-kUSD by Kolibri or uUSD by Youves-</em> are pairs that will attract liquidity.
+            The Tezsure team is obligated to send DGH’s share (~5%) of PLENTY tokens to a DGH
+            managed address, to honor the original agreement from May 2021. Tezsure will burn its
+            PLENTY share (~ 5%) of the original PLENTY since there is already a percentage of PLY
+            allocated for the team.
+          </p>
+          <h3 className={`mt-3  ${styles.plentyHeading}`}>PLY</h3>
+          <p className={styles.discription}>
+            With PLY being a new token, and Plenty Network being an entirely new platform, we have
+            to put a lot of effort into educating users from Tezos and other blockchains. This
+            includes onboarding more developers so that they build products like Convex on top of
+            Plenty, and also supporting the growth of the ecosystem by helping other initiatives
+            such as the listing of the tokens on a CEX, market making etc.
           </p>
           <p className={styles.discription}>
-            The stablecoin BUSD.e is the second most liquid stablecoin of the Plenty bridge. The previous proposal, PIP-002, didnt include a BUSD.e farm.
+            There will be a lot of unforeseen circumstances where having a DAO treasury could be
+            overall beneficial for the community. Having seen a proposal on the Youves forum for
+            market making, we can expect a similar scenario.
           </p>
           <p className={styles.discription}>
-            With the launch of the Polygon bridge we can introduce both flat CFMM &amp; CPMM liquidity pools +farms with “.p” tokens.
+            Hence, the need for a Plenty Growth Treasury, and the easiest way to get capital in it
+            is by using unminted PLENTY. We also propose to stop minting new PLENTY from December
+            20th. After the 20th the remaining PLENTY will be minted and sent to a new multsig which
+            will act as the new DAO treasury. This treasury will be managed by veNFT holders.
           </p>
-          <p className={styles.discription}>
-            We would like to continue with the push of ctez liquidity by pairing ctez with most new tokens.
-          </p>
-          <p className={styles.discription}>
-            After conversations with Euro stablecoin teams Lugh (EURL) and Angle Protocol (agEUR) we propose three different liquidity pools + farms, including one stable CFMM + farm between the two euro stablecoins.
-          </p>
-        
-        <div>
-          <div >
-          <h4 className={` ${styles.plentyHeading}`}>new farms</h4>
-            <div>
-              <p className={styles.discription}>
-                <strong>Flat CFMMs</strong>
-              </p>
-              <ul>
-              <li>BUSD.e - USDC.e</li>
-              <li>kUSD - USDT</li>
-              <li>uUSD - USDT</li>
-              <li>uXAU - PAXG.e</li>
-              <li>WMATIC.p - MATIC.e</li>
-              <li>WETH.p - WETH.e</li>
-              </ul>
-            </div>
-            <div>
-              <p className={styles.discription}>
-                <strong>CPMMs</strong>
-              </p>
-              <ul>
-              <li>USDT - CTEZ</li>
-              <li>EURL - CTEZ</li>
-              <li>PAXG.e - CTEZ</li>
-              <li>WETH.p - CTEZ</li>
-              <li>WMATIC.p - CTEZ</li>
-              <li>agEUR.e - USDC.e</li>
-              </ul>
-            </div>
-          </div>
 
           <div>
-          <h4 className={` ${styles.plentyHeading}`}>Farms reducing</h4>
-            <div>
-              <p className={styles.discription}>
-                <strong>Flat CFMMs</strong>
-              </p>
-              <ul>
-              <li>USDT.e - USDC.e</li>
-              </ul>
-            </div>
-            <div>
-              <p className={styles.discription}>
-                <strong>CPMMs</strong>
-              </p>
-              <ul>
-              <li>uUSD - PLENTY</li>
-              <li>kUSD - PLENTY</li>
-              <li>USDtz - PLENTY</li>
-              <li>tzBTC - PLENTY</li>
-              <li>DOGA - CTEZ</li>
-              <li>LINK.e - CTEZ</li>
-              <li>MATIC.e - CTEZ</li>
-              </ul>
-            </div>
-          </div>
-
-          <div>
-          <h4 className={` ${styles.plentyHeading}`}>Farms closing</h4>
-            <div>
-            <ul>
-            <li>KALAM - PLENTY</li>
-            <li>hDAO - PLENTY</li>
-            <li>WRAP - PLENTY</li>
-            <li>ETHtz - PLENTY</li>
-            <li>EURL - USDC.e (EURL preferes pairing with CTEZ)</li>
+            <h4 className={` ${styles.plentyHeading}`}>Specification</h4>
+            <ul className={`mt-1 ${styles.discription}`}>
+              <li>Stop minting date: December 20th</li>
+              <li>Expected launch date zone new system: between December 20th and January 10th</li>
+              <li>
+                Multisig admins mint all the unminted Plenty and send it to a new Multisig
+                controlled –initially– by team members of Tezsure. In the future the multisig
+                members can be changed.
+              </li>
+              <li>
+                Upon plenty.network launch, the new multi-sig converts all the owned PLENTY to PLY.
+              </li>
+              <li>
+                After converting all PLENTY to PLY, the multi-sig will evolve into a Lambda DAO
+                (similar to Kolibri) governed by PLY/veNFTs.
+              </li>
             </ul>
-            </div>
-          </div>
-          </div>
-         <div>
-          <h4 className={` ${styles.plentyHeading}`}>Specification</h4>
-          <p className={`mt-1 ${styles.discription}`}>
-            Deploy Plenty Network compatible CPMM and flat CFMM liquidity pools and temporary farms. Adjust the reward rates of the different farms as proposed below.
-          </p>
-          <div>
-            <img src={Table} className={styles.table} />
-          </div>
-         
-          <h4 className={`mt-3  ${styles.plentyHeading}`}>Vote</h4>
-
-          <p className={` mt-1 ${styles.discription}`}>
-            To be eligible to vote, a user must hold xPLENTY at the time of the deployment of the
-            Plenty Improvement Proposal (PIP).
-          </p>
-
-          <h4 className={`mt-3  ${styles.plentyHeading}`}>Execution</h4>
-
-          <p className={` mt-1 ${styles.discription}`}>
-          The proposal will be implemented on a rolling basis.
-          </p>
           </div>
           <div>
             <h4 className={`mt-2 ${styles.plentyHeading}`}>More information</h4>
@@ -168,7 +135,7 @@ const VoteText = (props) => {
 
           <p className={`mb-1 mt-1 ${styles.discriptionInfo}`}>
             <a
-              href="https://forum.plentydefi.com/t/pip-003-more-flat-cfmm-farms-including-usdt/143"
+              href="https://forum.plentydefi.com/t/proposal-allocating-not-minted-supply-of-plenty-to-a-plenty-network-treasury-at-launch/147/2"
               target="_blank"
               rel="noreferrer"
             >
@@ -193,9 +160,9 @@ const VoteText = (props) => {
     </div>
   );
 };
-export default VoteText;
+export default VoteText4;
 
-VoteText.propTypes = {
+VoteText4.propTypes = {
   voteEnded: PropTypes.any,
   connectWallet: PropTypes.any,
   disconnectWallet: PropTypes.any,
