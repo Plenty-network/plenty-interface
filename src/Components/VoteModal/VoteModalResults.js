@@ -257,12 +257,12 @@ const VoteModalResults = (props) => {
           </span>
           <div className={`mt-3 ${styles.resultsDates}`}>
             <span className={styles.startEndLabel}>Start Date</span>
-            <span className={styles.startEndDate}>July 8, 2022</span>
+            <span className={styles.startEndDate}>December 14, 2022</span>
           </div>
           <div className={`mt-3 ${styles.resultsDates}`}>
             <div className={styles.startEndLabel}>End date</div>
             <div className={styles.startEndDate}>
-              <span>July 16, 2022</span>
+              <span>December 20, 2022</span>
             </div>
           </div>
         </div>

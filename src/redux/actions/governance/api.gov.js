@@ -78,7 +78,6 @@ export const getVoteDataApi = async (status) => {
       nayTokens: nayTokensCount.toFixed(2),
       absTokens: abstainTokensCount.toFixed(2),
     };
-    console.log('ishu', data);
     return {
       success: true,
       data,
@@ -120,11 +119,9 @@ export const checkVote = async (address) => {
     if (response.data.bytes === proposalString) {
       return true;
     } else {
-      console.log('checking2');
       return false;
     }
   } catch (error) {
-    console.log('checking catch block');
     return false;
   }
 };
