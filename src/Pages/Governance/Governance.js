@@ -29,18 +29,14 @@ import VoteText4 from '../../Components/VoteText/VoteText';
 const Governance = (props) => {
   const isMobile = useMediaQuery('(max-width: 991px)');
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [voteEnded, setVoteEnded] = useState(false);
+  const [voteEnded, setVoteEnded] = useState(true);
   const [loaderMessage, setLoaderMessage] = useState({});
   const [showTransactionSubmitModal, setShowTransactionSubmitModal] = useState(false);
-  const date = new Date();
-  const endDate = new Date('20/12/2022');
 
   useEffect(() => {
     // ? voting results modal will be displayed, until next proposal comes up,
-    if (date > endDate) {
-      props.getResults();
-      setVoteEnded(true);
-    }
+    props.getResults();
+    setVoteEnded(true);
   }, []);
   useEffect(() => {
     if (props.walletAddress && voteEnded === false) {

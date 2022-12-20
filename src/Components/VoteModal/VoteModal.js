@@ -12,7 +12,6 @@ import { ReactComponent as Clock } from '../../assets/images/clock.svg';
 const VoteModal = (props) => {
   const [voteSelected, setVoteSelected] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
-  console.log('check');
 
   const handleVoteClick = (value) => {
     if (value && !props.alreadyVoted) {
