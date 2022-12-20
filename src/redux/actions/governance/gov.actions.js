@@ -60,12 +60,10 @@ export const getVoteResults = () => {
 };
 
 export const checkIfAlreadyVoted = (address) => {
-  console.log('ishu', address);
   return (dispatch) => {
     dispatch({ type: actions.FETCH_VOTE });
 
     govApis.checkVote(address).then((res) => {
-      console.log('ishu', res);
       dispatch({
         type: actions.FETCH_ALREADY_VOTED,
         data: res,
