@@ -355,7 +355,7 @@ export const mintTokens = async (wrapData, chain, setMintReleaseSubmitted) => {
     await batchOp.confirmation(1);
 
     const status = await batchOp.status();
-    if (status === "applied") {
+    if (status === 'applied') {
       return {
         success: true,
         transactionHash: batchOp.opHash,
@@ -418,7 +418,7 @@ export const unwrap = async (chain, amount, tokenIn) => {
     await op.confirmation(1);
 
     const status = await op.status();
-    if (status === "applied") {
+    if (status === 'applied') {
       const networkSelected = CONFIG.NETWORK;
       const tzkt = CONFIG.TZKT_NODES[networkSelected];
       const data = await axios.get(tzkt + '/v1/operations/' + op.opHash);
