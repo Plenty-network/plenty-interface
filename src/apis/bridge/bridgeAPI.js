@@ -352,11 +352,17 @@ export const mintTokens = async (wrapData, chain, setMintReleaseSubmitted) => {
 
     const batchOp = await batch.send();
     setMintReleaseSubmitted(true);
-    await batchOp.confirmation();
-    return {
-      success: true,
-      transactionHash: batchOp.opHash,
-    };
+    await batchOp.confirmation(1);
+
+    const status = await batchOp.status();
+    if (status === "applied") {
+      return {
+        success: true,
+        transactionHash: batchOp.opHash,
+      };
+    } else {
+      throw new Error(status);
+    }
   } catch (e) {
     return {
       success: false,
@@ -409,16 +415,23 @@ export const unwrap = async (chain, amount, tokenIn) => {
         userData.address.toLowerCase().substring(2),
       )
       .send();
-    await op.confirmation();
-    const networkSelected = CONFIG.NETWORK;
-    const tzkt = CONFIG.TZKT_NODES[networkSelected];
-    const data = await axios.get(tzkt + '/v1/operations/' + op.opHash);
-    const timeStamp = new Date(data.data[0].timestamp);
-    return {
-      success: true,
-      txHash: op.opHash,
-      timeStamp,
-    };
+    await op.confirmation(1);
+
+    const status = await op.status();
+    if (status === "applied") {
+      const networkSelected = CONFIG.NETWORK;
+      const tzkt = CONFIG.TZKT_NODES[networkSelected];
+      const data = await axios.get(tzkt + '/v1/operations/' + op.opHash);
+      const timeStamp = new Date(data.data[0].timestamp);
+      return {
+        success: true,
+        txHash: op.opHash,
+        timeStamp,
+      };
+    } else {
+      throw new Error(status);
+    }
+    
   } catch (e) {
     return {
       error: e,
