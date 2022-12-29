@@ -18,10 +18,16 @@ import matic_normal from '../assets/images/bridge/tokens/matic_icon.svg';
 
 import wmaticp from '../assets/images/wmaticP.png';
 
+
 export const stableSwapTokens = [
   {
     name: 'WMATIC.p',
     image: wmaticp,
+    new: true,
+  },
+  {
+    name: 'WETH.p',
+    image: weth_normal,
     new: true,
   },
   {

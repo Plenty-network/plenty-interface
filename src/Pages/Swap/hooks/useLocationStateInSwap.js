@@ -7,13 +7,53 @@ import { tokens } from '../../../constants/swapPage';
 export const useLocationStateInSwap = () => {
   const [tokenParams, setTokenParams] = useSearchParams();
   const navigate = useNavigate();
-  const location = useLocation();
-  const [tokenIn, setTokenIn] = useState({
-    name: 'ctez',
-    image: ctez,
-  });
 
-  const [tokenOut, setTokenOut] = useState({});
+  const location = useLocation();
+
+  const [tokenIn, setTokenIn] = useState(
+    location.search.indexOf('=') >= 0
+      ? location.search
+          .slice(
+            location.search.indexOf('=') + 1,
+            location.search.indexOf('&') === -1
+              ? location.search.length
+              : location.search.indexOf('&'),
+          )
+          .toString() === ''
+        ? {}
+        : {
+            name: location.search
+              .slice(
+                location.search.indexOf('=') + 1,
+                location.search.indexOf('&') === -1
+                  ? location.search.length
+                  : location.search.indexOf('&'),
+              )
+              .toString(),
+            image: `/assets/Tokens/${location.search
+              .slice(
+                location.search.indexOf('=') + 1,
+                location.search.indexOf('&') === -1
+                  ? location.search.length
+                  : location.search.indexOf('&'),
+              )
+              .toString()}.png`,
+          }
+      : { name: 'ctez', image: ctez },
+  );
+
+  const [tokenOut, setTokenOut] = useState(
+    location.search.indexOf('=') !== location.search.lastIndexOf('=')
+      ? {
+          name: location.search
+            .slice(location.search.lastIndexOf('=') + 1, location.search.length)
+            .toString(),
+          image: `/assets/Tokens/${location.search
+            .slice(location.search.lastIndexOf('=') + 1, location.search.length)
+            .toString()}.png`,
+        }
+      : {},
+  );
 
   const AMMExists = useMemo(() => {
     return !!config.AMM[config.NETWORK][tokenIn.name].DEX_PAIRS[tokenOut.name];
@@ -41,25 +81,27 @@ export const useLocationStateInSwap = () => {
     }
   };
 
-  useEffect(() => {
-    setTokenParams(
-      {
-        ...(tokenIn.name ? { [paramKeys.a]: tokenIn.name } : {}),
-        ...(tokenParams.get(paramKeys.b) ? { [paramKeys.b]: tokenParams.get(paramKeys.b) } : {}),
-      },
-      { replace: true },
-    );
-  }, [tokenIn]);
+  // useEffect(() => {
+  //   setTokenParams(
+  //     {
+  //       ...(tokenIn.name ? { [paramKeys.a]: tokenIn.name } : {}),
+  //       ...(tokenParams.get(paramKeys.b) ? { [paramKeys.b]: tokenParams.get(paramKeys.b) } : {}),
+  //     },
+  //     { replace: true },
+  //   );
+  // }, [tokenIn]);
 
   useEffect(() => {
     setTokenParams(
       {
-        ...(tokenParams.get(paramKeys.a) ? { [paramKeys.a]: tokenParams.get(paramKeys.a) } : {}),
+        ...(tokenIn.name
+          ? { [paramKeys.a]: tokenIn.name }
+          : { [paramKeys.a]: tokenParams.get(paramKeys.a) }),
         ...(tokenOut.name ? { [paramKeys.b]: tokenOut.name } : {}),
       },
       { replace: true },
     );
-  }, [tokenOut]);
+  }, [tokenIn, tokenOut]);
 
   useEffect(() => {
     const paramKey =
@@ -89,7 +131,7 @@ export const useLocationStateInSwap = () => {
         });
       }
     }
-  }, []);
+  }, [location.search]);
 
   return {
     activeTab,
