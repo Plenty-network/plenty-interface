@@ -1,8 +1,6 @@
 export const HEADER_MODAL = {
-  TRADE: 'trade',
-  EARN: 'earn',
   BRIDGE: 'bridge',
-  VOTE: 'vote',
-  MORE: 'more',
+
+  WRAPPEDASSETS: 'Wrapped assets',
   SETTINGS: 'settings',
 };

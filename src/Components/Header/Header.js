@@ -145,7 +145,7 @@ const Header = (props) => {
                 : { onMouseEnter: () => setHeader('') })}
             >
               {/* {!isMobile && <span className='bridge-new-tag' style={{position: 'absolute', marginLeft: '0px', left: '30%', bottom: '60%'}}>New</span>} */}
-              <Navbar.Brand as={Link} to="/" className="mx-3 mx-sm-0">
+              <Navbar.Brand className="mx-3 mx-sm-0">
                 {props.isGradientBgPage ? (
                   <LogoWhite />
                 ) : props.theme === 'light' ? (
@@ -202,85 +202,20 @@ const Header = (props) => {
                   >
                     <Nav.Link
                       className={clsx(
-                        selectedHeader === HEADER_MODAL.TRADE ? 'menu-item-active' : 'menu-item',
-                        (splitLocation[1] === 'swap' ||
-                          splitLocation[1] === 'Stableswap' ||
-                          splitLocation[1] === 'tokens') &&
-                          'selected-menu-item-active',
-                        'align-self-start align-self-lg-center d-lg-flex align-items-center',
-                      )}
-                      {...(isMobile ? { as: Link, to: '/swap' } : { as: Link, to: '/swap' })}
-                      onMouseEnter={() => setHeader(HEADER_MODAL.TRADE)}
-                      onClick={() => setHeaderMobile(HEADER_MODAL.TRADE)}
-                    >
-                      <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
-                        Trade
-                      </span>
-                      {/* <span
-                        className={clsx('material-icons', 'arrow-header', {
-                          rotate:
-                            selectedHeader === HEADER_MODAL.TRADE && (isMobile ? isExpanded : true),
-                        })}
-                      >
-                        expand_more
-                      </span> */}
-                    </Nav.Link>
-                    {/* {selectedHeader === HEADER_MODAL.TRADE && isMobile && (
-                      <HeaderBottom
-                        selectedHeader={selectedHeader}
-                        isExpanded={isExpanded}
-                        {...props}
-                      />
-                    )} */}
-                    <Nav.Link
-                      className={clsx(
-                        selectedHeader === HEADER_MODAL.EARN ? 'menu-item-active' : 'menu-item',
-                        (splitLocation[1] === 'farms' ||
-                          splitLocation[1] === 'stake' ||
-                          splitLocation[1] === 'liquidity' ||
-                          splitLocation[1] === 'liquidityPositions') &&
-                          'selected-menu-item-active',
+                        selectedHeader === '' ? 'menu-item-active' : 'menu-item',
+                        splitLocation[1] === '' && 'selected-menu-item-active',
                         'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
-                      {...(isMobile ? {} : { as: Link, to: '/liquidity' })}
-                      onMouseEnter={() => setHeader(HEADER_MODAL.EARN)}
-                      onClick={() => setHeaderMobile(HEADER_MODAL.EARN)}
-                    >
-                      <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
-                        Earn
-                      </span>
-                      <span
-                        className={clsx('material-icons', 'arrow-header', {
-                          rotate:
-                            selectedHeader === HEADER_MODAL.EARN && (isMobile ? isExpanded : true),
-                        })}
-                      >
-                        expand_more
-                      </span>
-                    </Nav.Link>
-                    {selectedHeader === HEADER_MODAL.EARN && isMobile && (
-                      <HeaderBottom
-                        selectedHeader={selectedHeader}
-                        isExpanded={isExpanded}
-                        {...props}
-                      />
-                    )}
-                    <Nav.Link
-                      className={clsx(
-                        selectedHeader === HEADER_MODAL.BRIDGE ? 'menu-item-active' : 'menu-item',
-                        splitLocation[1] === 'bridge' && 'selected-menu-item-active',
-                        'align-self-end align-self-lg-center d-lg-flex align-items-center',
-                      )}
-                      {...(isMobile ? {} : { as: Link, to: '/bridge' })}
-                      onMouseEnter={() => setHeader(HEADER_MODAL.BRIDGE)}
-                      onClick={() => setHeaderMobile(HEADER_MODAL.BRIDGE)}
+                      {...(isMobile ? {} : { as: Link, to: '/' })}
+                      onMouseEnter={() => setHeader('')}
+                      onClick={() => setHeaderMobile('')}
                       style={{ position: 'relative' }}
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
                         Bridge
                       </span>
                       {isMobile && <span className="bridge-new-tag">New</span>}
-                      <span
+                      {/* <span
                         className={clsx('material-icons', 'arrow-header', {
                           rotate:
                             selectedHeader === HEADER_MODAL.BRIDGE &&
@@ -288,7 +223,7 @@ const Header = (props) => {
                         })}
                       >
                         expand_more
-                      </span>
+                      </span> */}
                       {!isMobile && (
                         <span
                           className="bridge-new-tag"
@@ -299,71 +234,61 @@ const Header = (props) => {
                       )}
                     </Nav.Link>
 
-                    {selectedHeader === HEADER_MODAL.BRIDGE && isMobile && (
-                      <HeaderBottom
-                        selectedHeader={selectedHeader}
-                        isExpanded={isExpanded}
-                        {...props}
-                      />
-                    )}
-
                     <Nav.Link
                       className={clsx(
-                        selectedHeader === HEADER_MODAL.VOTE ? 'menu-item-active' : 'menu-item',
-                        splitLocation[1] === 'vote' && 'selected-menu-item-active',
+                        selectedHeader === HEADER_MODAL.WRAPPEDASSETS
+                          ? 'menu-item-active'
+                          : 'menu-item',
+                        splitLocation[1] === 'wrappedAssets' && 'selected-menu-item-active',
                         'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
-                      {...(isMobile ? {} : { as: Link, to: '/vote' })}
-                      onMouseEnter={() => setHeader(HEADER_MODAL.VOTE)}
-                      onClick={() => setHeaderMobile(HEADER_MODAL.VOTE)}
+                      {...(isMobile ? {} : { as: Link, to: '/wrappedAssets' })}
+                      onMouseEnter={() => setHeader(HEADER_MODAL.WRAPPEDASSETS)}
+                      onClick={() => setHeaderMobile(HEADER_MODAL.WRAPPEDASSETS)}
                     >
                       <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
-                        Vote
+                        Wrapped assets
                       </span>
-                      <span
+                      {/* <span
                         className={clsx('material-icons', 'arrow-header', {
                           rotate:
-                            selectedHeader === HEADER_MODAL.VOTE && (isMobile ? isExpanded : true),
+                            selectedHeader === HEADER_MODAL.WRAPPEDASSETS &&
+                            (isMobile ? isExpanded : true),
                         })}
                       >
                         expand_more
-                      </span>
+                      </span> */}
                     </Nav.Link>
-                    {selectedHeader === HEADER_MODAL.VOTE && isMobile && (
-                      <HeaderBottom
-                        selectedHeader={selectedHeader}
-                        isExpanded={isExpanded}
-                        {...props}
-                      />
-                    )}
+
                     <Nav.Link
                       className={clsx(
-                        selectedHeader === HEADER_MODAL.MORE ? 'menu-item-active' : 'menu-item',
-
+                        'menu-item',
                         'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
-                      onMouseOver={() => setHeader(HEADER_MODAL.MORE)}
-                      onClick={() => setHeaderMobile(HEADER_MODAL.MORE)}
+                      {...(isMobile
+                        ? {}
+                        : {
+                            as: Link,
+                            to: 'https://analytics.plenty.network/bridgeanalytics',
+                            target: '_blank',
+                          })}
                     >
-                      <span className={clsx(props.isGradientBgPage ? 'text-white' : undefined)}>
-                        More
-                      </span>
-                      <span
-                        className={clsx('material-icons', 'arrow-header', {
-                          rotate:
-                            selectedHeader === HEADER_MODAL.MORE && (isMobile ? isExpanded : true),
-                        })}
-                      >
-                        expand_more
-                      </span>
+                      <>
+                        <span
+                          className={clsx(
+                            props.isGradientBgPage ? 'text-white' : undefined,
+
+                            'analytics',
+                          )}
+                        >
+                          Bridge analytics
+                        </span>
+                        <span className="ml-2 material-icons-round launch-iconAnalytics">
+                          launch
+                        </span>
+                      </>
                     </Nav.Link>
-                    {selectedHeader === HEADER_MODAL.MORE && isMobile && (
-                      <HeaderBottom
-                        selectedHeader={selectedHeader}
-                        isExpanded={isExpanded}
-                        {...props}
-                      />
-                    )}
+
                     {isMobile && (
                       <Nav.Link
                         className={clsx(
@@ -438,7 +363,7 @@ const Header = (props) => {
           </Col>
         </Row>
       </Container>
-      {!isMobile && selectedHeader !== HEADER_MODAL.TRADE && (
+      {!isMobile && selectedHeader === HEADER_MODAL.SETTINGS && (
         <div onMouseLeave={() => setHeader('')}>
           <HeaderBottom
             selectedHeader={selectedHeader}
