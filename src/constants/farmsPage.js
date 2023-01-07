@@ -222,7 +222,7 @@ export const FARMS_CARD_TYPE_LIST = {
     source: 'Plenty LP',
     rewards: '1000 PLENTY / DAY',
     isDualFarm: false,
-    url: '/liquidity/add?tokenA=  EURL&tokenB=ctez',
+    url: '/liquidity/add?tokenA=ctez&tokenB=EURL',
   },
   'WMATIC.p / CTEZ PNLP': {
     image: WMATICpctez,
