@@ -52,6 +52,11 @@ export const tokens = [
     new: true,
   },
   {
+    name: 'WETH.p',
+    image: weth_normal,
+    new: true,
+  },
+  {
     name: 'USDt',
     image: usdt,
     new: true,

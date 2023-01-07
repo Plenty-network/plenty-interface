@@ -2119,7 +2119,7 @@ const Config: IConfig = {
         DEX_PAIRS: {
           'WMATIC.p': {
             contract: 'KT1WvoCeiWbSMHJLBGXw4q5W1i1U876GqjAe',
-            property: 'token2_pool',
+            property: 'token1_pool',
             liquidityToken: 'WMATIC.p-MATIC.e-LP',
             type: 'veStableAMM',
           },
@@ -2137,7 +2137,7 @@ const Config: IConfig = {
         DEX_PAIRS: {
           'MATIC.e': {
             contract: 'KT1WvoCeiWbSMHJLBGXw4q5W1i1U876GqjAe',
-            property: 'token1_pool',
+            property: 'token2_pool',
             liquidityToken: 'WMATIC.p-MATIC.e-LP',
             type: 'veStableAMM',
           },
@@ -3800,7 +3800,7 @@ const Config: IConfig = {
           },
           'WMATIC.p': {
             contract: 'KT1WvoCeiWbSMHJLBGXw4q5W1i1U876GqjAe',
-            property: 'token2_pool',
+            property: 'token1_pool',
             liquidityToken: 'WMATIC.p-MATIC.e-LP',
             type: 'veStableAMM',
           },
@@ -3980,7 +3980,7 @@ const Config: IConfig = {
         DEX_PAIRS: {
           'MATIC.e': {
             contract: 'KT1WvoCeiWbSMHJLBGXw4q5W1i1U876GqjAe',
-            property: 'token1_pool',
+            property: 'token2_pool',
             liquidityToken: 'WMATIC.p-MATIC.e-LP',
             type: 'veStableAMM',
           },
@@ -5552,8 +5552,6 @@ const Config: IConfig = {
             DECIMAL: 18,
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=EURL&tokenB=ctez',
-            message: '😍 New farm',
-            bannerType: 'info',
             isDualFarm: false,
             farmType: 'veAMM',
           },
@@ -5576,8 +5574,6 @@ const Config: IConfig = {
             DECIMAL: 18,
             withdrawalFeeType: 'type2',
             liquidityLink: '/liquidity/add?tokenA=agEUR.e&tokenB=USDC.e',
-            message: '😍 New farm',
-            bannerType: 'info',
             isDualFarm: false,
             farmType: 'veAMM',
           },

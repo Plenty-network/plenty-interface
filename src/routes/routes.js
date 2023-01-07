@@ -145,7 +145,11 @@ const MyRoutes = (props) => {
               path="/vote"
               element={
                 <OtherPages {...otherPageProps}>
-                  <Governance walletAddress={props.userAddress} />
+                  <Governance
+                    walletAddress={props.userAddress}
+                    theme={otherPageProps.theme}
+                    connecthWallet={connectWallet}
+                  />
                 </OtherPages>
               }
             />
