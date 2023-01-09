@@ -203,21 +203,21 @@ hr {
   background-color: var(--theme-tooltip-bg);
   color: var(--theme-tooltip-text);
   position: static;
-  left:auto;
+  left: auto;
   top: auto;
 }
 
-.connect-wallet-tooltip{
+.connect-wallet-tooltip {
   z-index: 9999 !important;
   .tooltip-inner {
     background-color: var(--theme-tooltip-bg);
     color: var(--theme-tooltip-text);
     position: static;
-    left:auto;
+    left: auto;
     top: auto;
   }
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 50%;
     left: 94%;
@@ -230,7 +230,7 @@ hr {
 
 .metamask-wallet-tooltip {
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 96%;
     left: 44%;
@@ -244,7 +244,7 @@ hr {
 .wallet-message-tooltip {
   margin-left: 6.5%;
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 96%;
     left: 17%;
@@ -255,11 +255,11 @@ hr {
   }
 }
 
-.token-output-tooltip{
+.token-output-tooltip {
   z-index: 9999 !important;
   margin-bottom: 6px;
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 96%;
     left: 60%;
@@ -270,13 +270,29 @@ hr {
   }
 }
 
-.bridge-main-component button  {
+.bridge-main-component button {
   height: 54px;
 }
 
-.bridge-main-component button span  {
+.bridge-main-component button span {
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
-  line-height: 21px; 
+  line-height: 21px;
+}
+.deprecated-badge-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--theme-quipuswap-badge-bg);
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+  letter-spacing: -0.4px;
+  color: var(--theme-quipuswap-badge-text);
+  text-align: center;
+  padding: 4px 10px;
 }
