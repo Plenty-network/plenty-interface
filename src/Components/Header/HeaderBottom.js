@@ -48,7 +48,7 @@ const HeaderBottom = (props) => {
   const [customRPC, setCustomRPC] = useState('');
 
   const LOCAL_RPC_NODES = {
-    PLENTY: 'https://mifx20dfsr.windmill.tools/',
+    PLENTY: process.env.REACT_APP_PLENTY_RPC_NODE || 'https://rpc.tzkt.io/mainnet/',
     GIGANODE: 'https://mainnet-tezos.giganode.io/',
     CRYPTONOMIC: 'https://tezos-prod.cryptonomic-infra.tech/',
   };
@@ -63,10 +63,10 @@ const HeaderBottom = (props) => {
     let RPCNodeInLS = localStorage.getItem(RPC_NODE);
 
     if (!RPCNodeInLS) {
-      localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES['CRYPTONOMIC']);
-      props.setNode(LOCAL_RPC_NODES['CRYPTONOMIC']);
-      setCurrentRPC(LOCAL_RPC_NODES['CRYPTONOMIC']);
-      RPCNodeInLS = LOCAL_RPC_NODES['CRYPTONOMIC'];
+      localStorage.setItem(RPC_NODE, LOCAL_RPC_NODES['PLENTY']);
+      props.setNode(LOCAL_RPC_NODES['PLENTY']);
+      setCurrentRPC(LOCAL_RPC_NODES['PLENTY']);
+      RPCNodeInLS = LOCAL_RPC_NODES['PLENTY'];
     }
 
     const valid = await isValidURL(RPCNodeInLS);
