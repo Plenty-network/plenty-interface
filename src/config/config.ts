@@ -10,7 +10,7 @@ const Config: IConfig = {
   },
   RPC_NODES: {
     testnet: 'https://ghostnet.smartpy.io/',
-    mainnet: 'https://mifx20dfsr.windmill.tools/',
+    mainnet: process.env.REACT_APP_PLENTY_RPC_NODE || 'https://rpc.tzkt.io/mainnet/',
   },
   TZKT_NODES: {
     mainnet: 'https://api.tzkt.io',
@@ -1249,7 +1249,6 @@ const Config: IConfig = {
         type: 'FA1.2',
         tokenId: 0,
       },
-
 
       'BUSD.e - USDC.e': {
         address: 'KT1G76qEBDqmAXLCCVg4ZuNbrENsxFe8aECe',
@@ -7193,7 +7192,7 @@ const Config: IConfig = {
     },
     mainnet: {
       ETHEREUM: 'https://bridgemainnetindexer.plentydefi.com/configuration',
-      POLYGON: 'https://polygon-bridge.indexer.plenty.network/v1/configuration'
+      POLYGON: 'https://polygon-bridge.indexer.plenty.network/v1/configuration',
     },
   },
   EXPLORER_LINKS: {
