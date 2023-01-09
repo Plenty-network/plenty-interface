@@ -7,6 +7,18 @@ import config from '../../config/config';
 const LiquidityModal = (props) => {
   const searchTokenEl = useRef(null);
   const [tokensToShow, setTokensToShow] = useState([]);
+  const DEPRECATED_TOKENS_LIQUIDITY = [
+    'wBUSD',
+    'wDAI',
+    'wLINK',
+    'wMATIC',
+    'wUSDC',
+    'wUSDT',
+    'wWBTC',
+    'wWETH',
+
+    'WRAP',
+  ];
 
   const doesPairExist = useCallback(
     (token) => {
@@ -138,6 +150,9 @@ const LiquidityModal = (props) => {
                   {token.name === 'tez' ? 'TEZ' : token.name === 'ctez' ? 'CTEZ' : token.name}
                 </span>
                 {token.new ? <span className="new-badge-icon">New!</span> : null}
+                {DEPRECATED_TOKENS_LIQUIDITY.includes(token.name) ? (
+                  <span className="deprecated-badge-icon">Deprecated!</span>
+                ) : null}
                 {token.extra && (
                   <a
                     className="extra-text"
