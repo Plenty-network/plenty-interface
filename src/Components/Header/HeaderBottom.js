@@ -180,17 +180,25 @@ const HeaderBottom = (props) => {
               <Row>
                 <Col xl={5} lg={6} xs={12}>
                   <div className=" topics gov">
-                    <Link to="/bridge" className="text-decoration-none">
-                      <p className="heading">BRIDGE</p>
+                    <a
+                      href="https://bridge.plenty.network/"
+                      className="text-decoration-none"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <div className="flex flex-row ">
+                        <p className="heading">BRIDGE</p>
+                        <span className="ml-3 material-icons-round launch-icon">launch</span>
+                      </div>
                       <div className="flex   para">
                         <div className="parainside">
                           Transfer your Ethereum assets to Tezos within five minutes.
                         </div>
-                        <div>
+                        {/* <div>
                           <span className=" material-icons-round arrowforward">arrow_forward</span>
-                        </div>
+                        </div> */}
                       </div>
-                    </Link>
+                    </a>
                   </div>
                 </Col>
                 <Col xl={5} lg={6} xs={12}>
@@ -211,7 +219,7 @@ const HeaderBottom = (props) => {
                 <Col xl={5} lg={6} xs={12}>
                   <div className=" topics gov">
                     <a
-                      href="https://analytics.plentydefi.com/"
+                      href="https://analytics.plenty.network/bridgeanalytics"
                       className="text-decoration-none"
                       target="_blank"
                       rel="noopener noreferrer"
