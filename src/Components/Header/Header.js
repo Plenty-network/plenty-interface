@@ -271,7 +271,6 @@ const Header = (props) => {
                         splitLocation[1] === 'bridge' && 'selected-menu-item-active',
                         'align-self-end align-self-lg-center d-lg-flex align-items-center',
                       )}
-                      {...(isMobile ? {} : { as: Link, to: '/bridge' })}
                       onMouseEnter={() => setHeader(HEADER_MODAL.BRIDGE)}
                       onClick={() => setHeaderMobile(HEADER_MODAL.BRIDGE)}
                       style={{ position: 'relative' }}
