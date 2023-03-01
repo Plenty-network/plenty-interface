@@ -24,14 +24,14 @@ const FarmCard = (props) => {
   const tokens = useMemo(() => {
     return props.farmCardData.identifier.split(' - ');
   }, [props.farmCardData.identifier]);
-  const getAPR = () => {
-    try {
-      const apr = values?.APR ?? 0;
-      return numberWithCommas(Math.round(apr));
-    } catch (e) {
-      return 0;
-    }
-  };
+  // const getAPR = () => {
+  //   try {
+  //     const apr = values?.APR ?? 0;
+  //     return numberWithCommas(Math.round(apr));
+  //   } catch (e) {
+  //     return 0;
+  //   }
+  // };
 
   const getAPY = () => {
     const apy = apyCalculate(values?.APR ?? 0);
@@ -207,7 +207,11 @@ const FarmCard = (props) => {
                     onClick={onRoiClick}
                   />
                 )}
-                {values == null ? <span className="shimmer">99999999</span> : `${getAPR(props)}%`}
+                {
+                  values == null ? <span className="shimmer">99999999</span> : '0%'
+
+                  // `${getAPR(props)}%`
+                }
               </p>
             </div>
             <div className={clsx(styles.plentyCardContentInfo, 'flex justify-between')}>

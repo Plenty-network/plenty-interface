@@ -88,8 +88,8 @@ const Stake = (props) => {
                     </div>
                     <div>
                       <p className="xplenty-staking-apr">
-                        {props.xPlentyData.data.APR ? props.xPlentyData.data.APR.toFixed(2) : 0}
-                        {'%'}
+                        {/* {props.xPlentyData.data.APR ? props.xPlentyData.data.APR.toFixed(2) : 0} */}
+                        {'0%'}
                       </p>
                     </div>
                   </div>
