@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { MdChevronRight } from 'react-icons/all';
+// import { MdChevronRight } from 'react-icons/all';
 import fromExponential from 'from-exponential';
 import { Image, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import React, { useMemo, useState } from 'react';
@@ -299,7 +299,7 @@ const SwapDetails = (props) => {
                           ) : (
                             <BracketDark className="router-bracket" />
                           )}
-                          <MdChevronRight className={clsx('router-arrow', 'ml-1')} fontSize={20} />
+                          {/* <MdChevronRight className={clsx('router-arrow', 'ml-1')} fontSize={20} /> */}
                           <span className="router-text">Stable pair</span>
                         </div>
                       </Tooltip>
@@ -348,7 +348,7 @@ const SwapDetails = (props) => {
                           </span>
                         </div>
                       </div>
-                      {swapRoute[idx + 1] && (
+                      {/* {swapRoute[idx + 1] && (
                         <MdChevronRight
                           className={clsx(
                             idx !== 0 && props.stableList[idx - 1] === true
@@ -357,7 +357,7 @@ const SwapDetails = (props) => {
                           )}
                           fontSize={20}
                         />
-                      )}
+                      )} */}
                     </div>
                   ))}
                 </div>
