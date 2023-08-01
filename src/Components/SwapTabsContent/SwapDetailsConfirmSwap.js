@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import fromExponential from 'from-exponential';
-import { MdChevronRight } from 'react-icons/all';
+// import { MdChevronRight } from 'react-icons/all';
 import { Image, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import React, { useMemo, useState } from 'react';
 import { tokens } from '../../constants/swapPage';
@@ -245,11 +245,11 @@ const SwapDetailsConfirmSwap = (props) => {
             </div>
 
             <div className="swap-detail-route-container mt-3">
-              {swapRoute.map((token, idx) => (
+              {swapRoute.map((token) => (
                 <div key={token.name} className="d-flex my-2">
                   <Image src={token.image} height={20} width={20} alt={''} />
                   <span className="ml-1 my-auto">{token.name}</span>
-                  {swapRoute[idx + 1] && <MdChevronRight className="" fontSize={20} />}
+                  {/* {swapRoute[idx + 1] && <MdChevronRight className="" fontSize={20} />} */}
                 </div>
               ))}
             </div>
