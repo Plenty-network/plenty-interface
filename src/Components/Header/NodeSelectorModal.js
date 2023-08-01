@@ -25,7 +25,7 @@ function NodeSelectorModal(props) {
   const [customRPC, setCustomRPC] = useState('');
 
   const LOCAL_RPC_NODES = {
-    PLENTY: 'https://mifx20dfsr.windmill.tools/',
+    PLENTY: 'https://tezosrpc.midl.dev/ak-07k4vkoas2vpla/',
     GIGANODE: 'https://mainnet-tezos.giganode.io/',
     CRYPTONOMIC: 'https://tezos-prod.cryptonomic-infra.tech/',
   };
