@@ -1,9 +1,19 @@
+.banner-light{
+  background-image: url('../../../../assets/images/banner_back_dark.svg');
+}
+.banner-dark{
+  background-image: url('../../../../assets/images/banner_back.svg');
+}
 .banner {
   //height: 48px;
-  background: var(--theme-banner-bg);
+  font-family: "DM Sans",sans-serif;
+  background-repeat: no-repeat;
+width: 100%;
+background-size: cover;
+ 
   text-align: center;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-top: 30px;
+  padding-bottom: 30px;
   z-index: 1111;
   top: 0px;
   position: sticky;
@@ -12,16 +22,19 @@
     padding-top: 8px;
     padding-bottom: 8px;
   }
-  &:hover {
-    background: var(--theme-banner-bg-hover);
-    .banner-close {
-      background: var(--theme-banner-close-bg-hover);
-      color: var(--theme-banner-close-icon-hover);
-    }
-  }
+  // &:hover {
+  //   // background: var(--theme-banner-bg-hover);
+  //   .banner-close {
+  //     background: var(--theme-banner-close-bg-hover);
+  //     color: var(--theme-banner-close-icon-hover);
+  //   }
+  // }
   .banner-middle {
     width: 100%;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .banner-right {
     text-align: right;
@@ -31,13 +44,38 @@
     }
   }
 }
+.try-now-banner{
+  color:  var(--theme-header-heading);
+  font-family: "DM Sans",sans-serif;
+font-size: 20px;
+font-style: normal;
+font-weight: 600;
+line-height: 37%; /* 7.4px */
+  background-color:var(--theme-banner-text);
+ margin-left: 20px;
+  padding: 8px 35px;
+  border-radius: 8px;
+  transition: box-shadow 0.2s ease; 
+  
+}
+
+
+.try-now-banner:hover {
+  box-shadow: 0 7px 11px var(--theme-shadow);
+  background-color: var(--theme-header-selectedBg);
+
+}
 .banner-text {
+  font-family: "DM Sans",sans-serif;
+font-size: 28px;
+font-weight: 600;
+line-height: 34px;
+letter-spacing: 0em;
+
+
   align-items: center;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 18px;
-  letter-spacing: 0em;
+ 
+ 
   color: var(--theme-banner-text);
   margin-right: 12px;
   @media screen and (min-width: 320px) and (max-width: 992px) {
@@ -48,7 +86,7 @@
   .banner-close {
     background: var(--theme-banner-close-bg);
     color: var(--theme-banner-close-icon);
-    padding: 3px;
+    padding: 6px;
     font-size: 15px;
     border-radius: 50%;
     top: 1px;
@@ -476,7 +514,7 @@
   position: fixed;
   z-index: 1112;
   width: 100%;
-  top: 125.5px;
+  top: 178.5px;
   //top: 84.5px;
   @media screen and (min-width: 320px) and (max-width: 992px) {
     padding: 10px 20px;
