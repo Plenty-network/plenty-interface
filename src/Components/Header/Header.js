@@ -115,7 +115,7 @@ const Header = (props) => {
               </span>
               <a
                 className="text-decoration-none"
-                href={'https://plenty.network/'}
+                href={'https://app.plenty.network/'}
                 target="_blank"
                 rel="noreferrer"
               >
