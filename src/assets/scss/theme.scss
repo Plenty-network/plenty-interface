@@ -93,7 +93,7 @@
   --theme-error-bg: rgba(255, 90, 67, 0.05);
   --theme-banner-bg: #f2e9ff;
   --theme-banner-bg-hover: #eadcff;
-  --theme-banner-text: #201c41;
+  --theme-banner-text: #ffffff;
   --theme-confirm-transaction: #4e5d78;
   --theme-confirm-transaction-button-text: #201c41;
   --theme-loader-border-top: rgba(255, 255, 255, 0.2);
@@ -243,6 +243,7 @@
   --theme-bridge-icon-bg: #eee2ff;
   --theme-select-bridge-bg: #ffffff;
   --theme-select-bridge-border: rgba(0, 0, 0, 0.08);
+  --theme-shadow:rgba(27,41,68,0.7)
 }
 :root.dark {
   --theme-primary-1: #ffffff;
@@ -342,7 +343,7 @@
   --theme-error-bg: rgba(255, 90, 67, 0.05);
   --theme-banner-bg: rgba(206, 174, 254, 0.07);
   --theme-banner-bg-hover: rgba(206, 174, 254, 0.18);
-  --theme-banner-text: #ffffff;
+  --theme-banner-text: #000000;
   --theme-confirm-transaction: #b0b7c3;
   --theme-confirm-transaction-button-text: #f9fafa;
   --theme-loader-border: #1c1357;
@@ -370,7 +371,7 @@
   --theme-tooltip-bg: #ffffff;
   --theme-tooltip-text: #0d0831;
   --theme-confirm-transaction-border: rgba(138, 149, 158, 0.4);
-  --theme-banner-close-bg: rgba(126, 134, 158, 0.1);
+  --theme-banner-close-bg: #2d0c5f;
   --theme-banner-close-icon: #ffffff;
   --theme-banner-close-bg-hover: rgba(126, 134, 158, 0.1);
   --theme-banner-close-icon-hover: #ffffff;
@@ -490,6 +491,7 @@
   --theme-bridge-icon-bg: rgba(206, 174, 254, 0.1);
   --theme-select-bridge-bg: rgba(138, 149, 158, 0.05);
   --theme-select-bridge-border: rgba(78, 93, 120, 0.2);
+  --theme-shadow:  rgb(0 0 0 / 72%);
 }
 
 :root.theme-transiton {
