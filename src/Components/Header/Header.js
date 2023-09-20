@@ -5,7 +5,7 @@ import truncateMiddle from 'truncate-middle';
 import { Col, Container, Nav, Navbar, Row, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import clsx from 'clsx';
 import { ReactComponent as Logo } from '../../assets/images/logo.svg';
-import { ReactComponent as BannerArrow } from '../../assets/images/banner-arrow.svg';
+// import { ReactComponent as BannerArrow } from '../../assets/images/banner-arrow.svg';
 import { ReactComponent as LogoWhite } from '../../assets/images/logo-white.svg';
 import { Link, useLocation } from 'react-router-dom';
 import { RPC_NODE } from '../../constants/localStorage';
@@ -105,21 +105,24 @@ const Header = (props) => {
         fluid
       >
         {isBannerOpen && (
-          <div className="banner" onMouseEnter={() => setHeader('')}>
+          <div
+            className={clsx(props.theme === 'dark' ? 'banner-dark' : 'banner-light', 'banner')}
+            onMouseEnter={() => setHeader('')}
+          >
             <div className="banner-middle">
               <span className="banner-text">
-                {isMobile ? 'Check out the new plenty.network' : 'Check out the new plenty.network'}
+                {isMobile ? 'Plenty V3 is live' : 'Plenty V3 is live'}
               </span>
               <a
-                className="bottom-last text-decoration-none"
-                href={'https://plenty.network/'}
+                className="text-decoration-none"
+                href={'https://app.plenty.network/'}
                 target="_blank"
                 rel="noreferrer"
               >
-                <span className="bottom-last" style={{ cursor: 'pointer' }}>
-                  Explore
+                <span className="try-now-banner" style={{ cursor: 'pointer' }}>
+                  Try now
                 </span>
-                <BannerArrow className="ml-2" />
+                {/* <BannerArrow className="ml-2" /> */}
               </a>
             </div>
             <div className="banner-right">
